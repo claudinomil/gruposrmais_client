@@ -3,15 +3,20 @@
 * Gera Pdf para funcionario_acao_1
  */
 function funcionario_acao_1_gerar_pdf() {
-    //funcionario_acao_1_local
-    const funcionario_acao_1_local = document.getElementById('funcionario_acao_1_local').value;
+    //Formulario campos
+    // const funcionario_acao_1_local = document.getElementById('funcionario_acao_1_local').value;
+    // const funcionario_acao_1_dia_horario = document.getElementById('funcionario_acao_1_dia_horario').value;
+
+    const funcionario_acao_1_local_data_horario = document.getElementById('funcionario_acao_1_local_data_horario').value;
+    const funcionario_acao_1_valor = document.getElementById('funcionario_acao_1_valor').value;
 
     //funcionarios_ids
     const funcionariosMarcados = document.querySelectorAll('input[name="funcionario_acao_1_funcionario_id"]:checked');
     const funcionarios_ids = Array.from(funcionariosMarcados).map(checkbox => checkbox.value);
 
-    if (funcionario_acao_1_local == '' || funcionarios_ids.length <= 0) {
-        alert('Escolha o Local e pelo menos 1(um) Funcionário.');
+    // if (funcionario_acao_1_local == '' || funcionario_acao_1_dia_horario == '' || funcionario_acao_1_valor == '' || funcionarios_ids.length <= 0) {
+    if (funcionario_acao_1_local_data_horario == '' || funcionario_acao_1_valor == '' || funcionarios_ids.length <= 0) {
+        alert('Escolha o "Local, Data e Horário", Valor e pelo menos 1(um) Funcionário.');
     } else {
         //URL
         var url_atual = window.location.protocol + '//' + window.location.host + '/';
@@ -46,8 +51,9 @@ function funcionario_acao_1_gerar_pdf() {
                 //Variáveis (Geral)
                 const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
                 const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
-                const funcionario_acao_1_local = document.getElementById('funcionario_acao_1_local').value;
-                const funcionario_acao_1_dias_horarios = document.getElementById('funcionario_acao_1_dias_horarios').value;
+                // const funcionario_acao_1_local = document.getElementById('funcionario_acao_1_local').value;
+                // const funcionario_acao_1_dia_horario = document.getElementById('funcionario_acao_1_dia_horario').value;
+                const funcionario_acao_1_local_data_horario = document.getElementById('funcionario_acao_1_local_data_horario').value;
                 const funcionario_acao_1_valor = document.getElementById('funcionario_acao_1_valor').value;
 
                 //Varrer Funcionários
@@ -93,7 +99,12 @@ function funcionario_acao_1_gerar_pdf() {
                     const contratante_representante = 'seu sócio MARCUS VINICIUS MACHADO DE OLIVEIRA, brasileiro, militar e empresário, casado, portador da carteira de identidade nº 008717697-0, expedida pelo Detran/RJ, inscrita no CPF sob o nº 023.824.687-69';
                     const contratado_nome = funcionarioDado.name;
                     const contratado_cpf = funcionarioDado.cpf;
-                    const contratado_endereco = funcionarioDado.logradouro + ', ' + funcionarioDado.numero + ', ' + funcionarioDado.complemento + ', ' + funcionarioDado.bairro + ', ' + funcionarioDado.localidade + ', ' + funcionarioDado.uf + ', ' + funcionarioDado.cep;
+
+                    var contratado_endereco = '';
+
+                    if (funcionarioDado.cep !== null) {
+                        contratado_endereco = funcionarioDado.logradouro + ', ' + funcionarioDado.numero + ', ' + funcionarioDado.complemento + ', ' + funcionarioDado.bairro + ', ' + funcionarioDado.localidade + ', ' + funcionarioDado.uf + ', ' + funcionarioDado.cep;
+                    }
 
                     var novaMarginTop = 0;
                     var linhasTexto = 0;
@@ -116,24 +127,26 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CONTRATANTE: ${contratante_nome}, devidamente inscrita no CNPJ de nº ${contratante_cnpj}, com sede na ${contratante_endereco}, neste ato representada por seu sócio ${contratante_representante}, doravante denominado CONTRATANTE.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightD;
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightB;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
                     doc.text(texto, marginLeft, novaMarginTop, { maxWidth: textWidth, align: 'justify' });
 
                     //Texto
-                    texto = `CONTRATADO: ${contratado_nome}, inscrito(a) no CPF sob nº ${contratado_cpf}, com endereço em ${contratado_endereco}, doravante denominado CONTRATADO.`;
+                    texto = `CONTRATADO: ${contratado_nome}, inscrito(a) no CPF sob nº ${contratado_cpf}`;
+                    if (contratado_endereco != '') {texto += `, com endereço em ${contratado_endereco}`;}
+                    texto += `, doravante denominado CONTRATADO.`;
 
                     novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -146,7 +159,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -159,7 +172,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(14);
@@ -172,33 +185,46 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
                     doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
+                    // //Texto
+                    // texto = `a) Local da prestação dos serviços: ${funcionario_acao_1_local};`;
+                    //
+                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    // linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    // alturaTexto = linhasTexto.length * lineHeightA;
+                    //
+                    // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+                    //
+                    // doc.setFont('helvetica', 'normal');
+                    // doc.setFontSize(12);
+                    // doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+                    //
+                    // //Texto
+                    // texto = `b) Horário da prestação de serviços: ${funcionario_acao_1_dia_horario};`;
+                    //
+                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    // linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    // alturaTexto = linhasTexto.length * lineHeightA;
+                    //
+                    // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+                    //
+                    // doc.setFont('helvetica', 'normal');
+                    // doc.setFontSize(12);
+                    // doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+
                     //Texto
-                    texto = `a) Local da prestação dos serviços: ${funcionario_acao_1_local};`;
+                    texto = `a) Local, Data e Horário da prestação dos serviços: ${funcionario_acao_1_local_data_horario};`;
 
                     novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
-
-                    doc.setFont('helvetica', 'normal');
-                    doc.setFontSize(12);
-                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
-
-                    //Texto
-                    texto = `b) Horário da prestação de serviços: ${funcionario_acao_1_dias_horarios};`;
-
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
-                    linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
-
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -211,7 +237,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -224,7 +250,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -237,7 +263,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -250,7 +276,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(14);
@@ -263,7 +289,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -276,7 +302,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -289,7 +315,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -302,7 +328,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -315,7 +341,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -328,7 +354,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -341,7 +367,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -354,7 +380,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -367,7 +393,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -380,7 +406,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -393,7 +419,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -406,7 +432,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -419,7 +445,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -432,7 +458,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -445,7 +471,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -458,7 +484,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -471,7 +497,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -484,7 +510,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -497,7 +523,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -510,7 +536,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -523,7 +549,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -536,7 +562,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -549,7 +575,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -562,7 +588,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -575,7 +601,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -588,7 +614,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -601,7 +627,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -614,7 +640,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -627,7 +653,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -640,7 +666,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -653,7 +679,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(14);
@@ -666,7 +692,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -679,7 +705,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -692,7 +718,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -705,7 +731,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -718,7 +744,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -731,7 +757,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -744,7 +770,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -757,7 +783,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(14);
@@ -770,7 +796,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -783,7 +809,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -796,7 +822,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -809,7 +835,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -822,7 +848,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -835,7 +861,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -848,7 +874,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(14);
@@ -861,7 +887,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -874,7 +900,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -887,7 +913,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -900,7 +926,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -913,7 +939,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -926,7 +952,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -939,7 +965,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -952,7 +978,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(14);
@@ -965,7 +991,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -978,7 +1004,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -991,7 +1017,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -1004,7 +1030,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -1017,7 +1043,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -1030,7 +1056,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -1043,7 +1069,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -1056,7 +1082,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(14);
@@ -1069,7 +1095,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -1082,7 +1108,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -1095,7 +1121,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(14);
@@ -1104,11 +1130,11 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `8.1 A CONTRATADA assume integral responsabilidade pelo recolhimento de tributos, contribuições previdenciárias e quaisquer encargos decorrentes da prestação de serviços.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightC;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -1121,7 +1147,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -1134,7 +1160,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -1147,7 +1173,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(14);
@@ -1160,7 +1186,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -1173,7 +1199,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -1186,7 +1212,7 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
@@ -1199,19 +1225,154 @@ function funcionario_acao_1_gerar_pdf() {
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
                     alturaTexto = linhasTexto.length * lineHeightA;
 
-                    if ((novaMarginTop + alturaTexto) > 260) {doc.addPage(); novaMarginTop = marginTop;}
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(12);
                     doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
+                    //Texto
+                    texto = dataExtenso(3, dataServidor(2));
 
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightD;
+                    linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    alturaTexto = linhasTexto.length * lineHeightA;
 
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
+                    //Texto
+                    texto = `______________________________________`;
 
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightC;
+                    linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    alturaTexto = linhasTexto.length * lineHeightA;
 
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+
+                    //Texto
+                    texto = `CONTRATANTE`;
+
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    alturaTexto = linhasTexto.length * lineHeightA;
+
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+
+                    //Texto
+                    texto = `______________________________________`;
+
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightC;
+                    linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    alturaTexto = linhasTexto.length * lineHeightA;
+
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+
+                    //Texto
+                    texto = `CONTRATADO`;
+
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    alturaTexto = linhasTexto.length * lineHeightA;
+
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+
+                    //Texto
+                    texto = `________________________________`;
+
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightC;
+                    linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    alturaTexto = linhasTexto.length * lineHeightA;
+
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+
+                    //Texto
+                    texto = `TESTEMUNHA 1:`;
+
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    alturaTexto = linhasTexto.length * lineHeightA;
+
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+
+                    //Texto
+                    texto = `CPF:`;
+
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    alturaTexto = linhasTexto.length * lineHeightA;
+
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+
+                    //Texto
+                    texto = `________________________________`;
+
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightC;
+                    linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    alturaTexto = linhasTexto.length * lineHeightA;
+
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+
+                    //Texto
+                    texto = `TESTEMUNHA 2:`;
+
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    alturaTexto = linhasTexto.length * lineHeightA;
+
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+
+                    //Texto
+                    texto = `CPF:`;
+
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    alturaTexto = linhasTexto.length * lineHeightA;
+
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
                     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                     //Rodapé''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

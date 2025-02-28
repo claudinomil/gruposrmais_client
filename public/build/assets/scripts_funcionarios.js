@@ -463,7 +463,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     grade += `<tr>`;
                     grade += `  <td>`;
                     grade += `    <div class="form-check">`;
-                    grade += `        <input class="form-check-input" type="checkbox" id="funcionario_acao_1_funcionario_id_${dado.id}" name="funcionario_acao_1_funcionario_id" value="${dado.id}" checked="checked">`;
+                    grade += `        <input class="form-check-input" type="checkbox" id="funcionario_acao_1_funcionario_id_${dado.id}" name="funcionario_acao_1_funcionario_id" value="${dado.id}">`;
                     grade += `    </div>`;
                     grade += `  </td>`;
                     grade += `  <td>${dado.name}</td>`;
