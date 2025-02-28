@@ -4,19 +4,16 @@
  */
 function funcionario_acao_1_gerar_pdf() {
     //Formulario campos
-    // const funcionario_acao_1_local = document.getElementById('funcionario_acao_1_local').value;
-    // const funcionario_acao_1_dia_horario = document.getElementById('funcionario_acao_1_dia_horario').value;
-
-    const funcionario_acao_1_local_data_horario = document.getElementById('funcionario_acao_1_local_data_horario').value;
+    const funcionario_acao_1_local = document.getElementById('funcionario_acao_1_local').value;
+    const funcionario_acao_1_dias_horarios = document.getElementById('funcionario_acao_1_dias_horarios').value;
     const funcionario_acao_1_valor = document.getElementById('funcionario_acao_1_valor').value;
 
     //funcionarios_ids
     const funcionariosMarcados = document.querySelectorAll('input[name="funcionario_acao_1_funcionario_id"]:checked');
     const funcionarios_ids = Array.from(funcionariosMarcados).map(checkbox => checkbox.value);
 
-    // if (funcionario_acao_1_local == '' || funcionario_acao_1_dia_horario == '' || funcionario_acao_1_valor == '' || funcionarios_ids.length <= 0) {
-    if (funcionario_acao_1_local_data_horario == '' || funcionario_acao_1_valor == '' || funcionarios_ids.length <= 0) {
-        alert('Escolha o "Local, Data e Horário", Valor e pelo menos 1(um) Funcionário.');
+    if (funcionario_acao_1_local == '' || funcionario_acao_1_dias_horarios == '' || funcionario_acao_1_valor == '' || funcionarios_ids.length <= 0) {
+        alert('Escolha o Local, Data/Horário, Valor e pelo menos 1(um) Funcionário.');
     } else {
         //URL
         var url_atual = window.location.protocol + '//' + window.location.host + '/';
@@ -51,9 +48,8 @@ function funcionario_acao_1_gerar_pdf() {
                 //Variáveis (Geral)
                 const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
                 const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
-                // const funcionario_acao_1_local = document.getElementById('funcionario_acao_1_local').value;
-                // const funcionario_acao_1_dia_horario = document.getElementById('funcionario_acao_1_dia_horario').value;
-                const funcionario_acao_1_local_data_horario = document.getElementById('funcionario_acao_1_local_data_horario').value;
+                const funcionario_acao_1_local = document.getElementById('funcionario_acao_1_local').value;
+                const funcionario_acao_1_dias_horarios = document.getElementById('funcionario_acao_1_dias_horarios').value;
                 const funcionario_acao_1_valor = document.getElementById('funcionario_acao_1_valor').value;
 
                 //Varrer Funcionários
@@ -75,7 +71,7 @@ function funcionario_acao_1_gerar_pdf() {
                     //
                     // doc.setFontSize(16);
                     // doc.addImage('build/assets/images/image_logo_relatorio.png', 'PNG', topo_image_margin_left, topo_image_margin_top, topo_image_width, topo_image_height);
-                    // doc.text(funcionario_acao_1_local, topo_text_1_margin_left, topo_text_1_margin_top);
+                    // doc.text('Título', topo_text_1_margin_left, topo_text_1_margin_top);
                     // doc.text('Contrato de Prestação de Serviços', topo_text_2_margin_left, topo_text_2_margin_top);
                     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -191,34 +187,21 @@ function funcionario_acao_1_gerar_pdf() {
                     doc.setFontSize(12);
                     doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
-                    // //Texto
-                    // texto = `a) Local da prestação dos serviços: ${funcionario_acao_1_local};`;
-                    //
-                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
-                    // linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    // alturaTexto = linhasTexto.length * lineHeightA;
-                    //
-                    // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
-                    //
-                    // doc.setFont('helvetica', 'normal');
-                    // doc.setFontSize(12);
-                    // doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
-                    //
-                    // //Texto
-                    // texto = `b) Horário da prestação de serviços: ${funcionario_acao_1_dia_horario};`;
-                    //
-                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
-                    // linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    // alturaTexto = linhasTexto.length * lineHeightA;
-                    //
-                    // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
-                    //
-                    // doc.setFont('helvetica', 'normal');
-                    // doc.setFontSize(12);
-                    // doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+                    //Texto
+                    texto = `a) Local da prestação dos serviços: ${funcionario_acao_1_local};`;
+
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    alturaTexto = linhasTexto.length * lineHeightA;
+
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
                     //Texto
-                    texto = `a) Local, Data e Horário da prestação dos serviços: ${funcionario_acao_1_local_data_horario};`;
+                    texto = `b) Horário da prestação de serviços: ${funcionario_acao_1_dias_horarios};`;
 
                     novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);

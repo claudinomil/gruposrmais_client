@@ -397,48 +397,36 @@
                         <div class="row mt-4">
                             <div class="row pt-4">
                                 <h5 class="pb-4 text-primary"><i class="fas fa-user"></i> Informa&ccedil;&otilde;es Gerais</h5>
-
-
-{{--                                <div class="form-group col-12 col-md-4 pb-3">--}}
-{{--                                    <label class="form-label">Local</label>--}}
-{{--                                    <select class="form-control select2" name="funcionario_acao_1_local" id="funcionario_acao_1_local">--}}
-{{--                                        <option value="">Selecione...</option>--}}
-{{--                                        <option value="Sambódromo">Sambódromo</option>--}}
-{{--                                        <option value="Intendente Magalhães">Intendente Magalhães</option>--}}
-{{--                                        <option value="Avenida Chile">Avenida Chile</option>--}}
-{{--                                        <option value="Cinelândia">Cinelândia</option>--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                                <div class="form-group col-12 col-md-4 pb-3">--}}
-{{--                                    <label class="form-label">Dia e Horário</label>--}}
-{{--                                    <select class="form-control select2" name="funcionario_acao_1_dia_horario" id="funcionario_acao_1_dia_horario">--}}
-{{--                                        <option value="">Selecione...</option>--}}
-{{--                                        <option value="Sábado a partir das 7 horas">Sábado a partir das 7 horas</option>--}}
-{{--                                        <option value="Domingo a partir das 7 horas">Domingo a partir das 7 horas</option>--}}
-{{--                                        <option value="Segunda a partir das 7 horas">Segunda a partir das 7 horas</option>--}}
-{{--                                        <option value="Terça a partir das 7 horas">Terça a partir das 7 horas</option>--}}
-{{--                                        <option value="Quarta a partir das 7 horas">Quarta a partir das 7 horas</option>--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-
-
-                                <div class="form-group col-12 col-md-8 pb-3">
-                                    <label class="form-label">Local, Data e Horário</label>
-                                    <select class="form-control select2" name="funcionario_acao_1_local_data_horario" id="funcionario_acao_1_local_data_horario">
+                                <div class="form-group col-12 col-md-4 pb-3">
+                                    <label class="form-label">Local</label>
+                                    <select class="form-control select2" name="funcionario_acao_1_local" id="funcionario_acao_1_local">
                                         <option value="">Selecione...</option>
-                                        <option value="AVENIDA CHILE: 01/03/2025 das 16:00hs às 04:00hs">AVENIDA CHILE: 01/03/2025 das 16:00hs às 04:00hs</option>
-                                        <option value="AVENIDA CHILE: 02/03/2025 das 15:00hs às 03:00hs">AVENIDA CHILE: 02/03/2025 das 15:00hs às 03:00hs</option>
-                                        <option value="AVENIDA CHILE: 03/03/2025 das 15:00hs às 03:00hs">AVENIDA CHILE: 03/03/2025 das 15:00hs às 03:00hs</option>
-                                        <option value="AVENIDA CHILE: 04/03/2025 das 13:00hs as 01:00hs">AVENIDA CHILE: 04/03/2025 das 13:00hs as 01:00hs</option>
-
-                                        <option value="CINELÂNDIA: 01/03/2025 das 15:00hs às 03:00hs">CINELÂNDIA: 01/03/2025 das 15:00hs às 03:00hs</option>
-                                        <option value="CINELÂNDIA: 02/03/2025 das 14:00hs às 02:00hs">CINELÂNDIA: 02/03/2025 das 14:00hs às 02:00hs</option>
-                                        <option value="CINELÂNDIA: 03/03/2025 das 14:00hs às 02:00hs">CINELÂNDIA: 03/03/2025 das 14:00hs às 02:00hs</option>
-                                        <option value="CINELÂNDIA: 04/03/2025 das 14:00hs as 02:00hs">CINELÂNDIA: 04/03/2025 das 14:00hs as 02:00hs</option>
-
-                                        <option value="INTENDENTE MAGALHÃES: 01/03/2025 das 18:00hs às 06:00hs">INTENDENTE MAGALHÃES: 01/03/2025 das 18:00hs às 06:00hs</option>
+                                        <option value="SAMBÓDROMO">SAMBÓDROMO</option>
+                                        <option value="INTENDENTE MAGALHÃES">INTENDENTE MAGALHÃES</option>
+                                        <option value="AVENIDA CHILE">AVENIDA CHILE</option>
+                                        <option value="CINELÂNDIA">CINELÂNDIA</option>
                                     </select>
                                 </div>
+                                <div class="form-group col-12 col-md-4 pb-3">
+                                    <label class="form-label">Dias e Horários</label>
+                                    <input type="text" class="form-control" name="funcionario_acao_1_dias_horarios" id="funcionario_acao_1_dias_horarios">
+                                </div>
+
+
+{{--                                        <option value="">Selecione...</option>--}}
+{{--                                        <option value="AVENIDA CHILE: 01/03/2025 das 16:00hs às 04:00hs">AVENIDA CHILE: 01/03/2025 das 16:00hs às 04:00hs</option>--}}
+{{--                                        <option value="AVENIDA CHILE: 02/03/2025 das 15:00hs às 03:00hs">AVENIDA CHILE: 02/03/2025 das 15:00hs às 03:00hs</option>--}}
+{{--                                        <option value="AVENIDA CHILE: 03/03/2025 das 15:00hs às 03:00hs">AVENIDA CHILE: 03/03/2025 das 15:00hs às 03:00hs</option>--}}
+{{--                                        <option value="AVENIDA CHILE: 04/03/2025 das 13:00hs as 01:00hs">AVENIDA CHILE: 04/03/2025 das 13:00hs as 01:00hs</option>--}}
+
+{{--                                        <option value="CINELÂNDIA: 01/03/2025 das 15:00hs às 03:00hs">CINELÂNDIA: 01/03/2025 das 15:00hs às 03:00hs</option>--}}
+{{--                                        <option value="CINELÂNDIA: 02/03/2025 das 14:00hs às 02:00hs">CINELÂNDIA: 02/03/2025 das 14:00hs às 02:00hs</option>--}}
+{{--                                        <option value="CINELÂNDIA: 03/03/2025 das 14:00hs às 02:00hs">CINELÂNDIA: 03/03/2025 das 14:00hs às 02:00hs</option>--}}
+{{--                                        <option value="CINELÂNDIA: 04/03/2025 das 14:00hs as 02:00hs">CINELÂNDIA: 04/03/2025 das 14:00hs as 02:00hs</option>--}}
+
+{{--                                        <option value="INTENDENTE MAGALHÃES: 01/03/2025 das 18:00hs às 06:00hs">INTENDENTE MAGALHÃES: 01/03/2025 das 18:00hs às 06:00hs</option>--}}
+
+
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">Valor</label>
                                     <input type="text" class="form-control mask_money" name="funcionario_acao_1_valor" id="funcionario_acao_1_valor" value="150.00">
