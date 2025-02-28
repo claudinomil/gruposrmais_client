@@ -1,0 +1,861 @@
+{
+  "resources/assets_template/fonts/Futura Bold Italic font.ttf": {
+    "file": "assets/Futura Bold Italic font-318078f1.ttf",
+    "src": "resources/assets_template/fonts/Futura Bold Italic font.ttf"
+  },
+  "resources/assets_template/fonts/Futura Bold Italic.ttf": {
+    "file": "assets/Futura Bold Italic-ba397763.ttf",
+    "src": "resources/assets_template/fonts/Futura Bold Italic.ttf"
+  },
+  "resources/assets_template/fonts/Futura Bold font.ttf": {
+    "file": "assets/Futura Bold font-74446034.ttf",
+    "src": "resources/assets_template/fonts/Futura Bold font.ttf"
+  },
+  "resources/assets_template/fonts/Futura Bold.ttf": {
+    "file": "assets/Futura Bold-dd088d92.ttf",
+    "src": "resources/assets_template/fonts/Futura Bold.ttf"
+  },
+  "resources/assets_template/fonts/Futura Book Italic font.ttf": {
+    "file": "assets/Futura Book Italic font-8b1bf2a0.ttf",
+    "src": "resources/assets_template/fonts/Futura Book Italic font.ttf"
+  },
+  "resources/assets_template/fonts/Futura Book font.ttf": {
+    "file": "assets/Futura Book font-bf42509f.ttf",
+    "src": "resources/assets_template/fonts/Futura Book font.ttf"
+  },
+  "resources/assets_template/fonts/Futura Book.ttf": {
+    "file": "assets/Futura Book-22847930.ttf",
+    "src": "resources/assets_template/fonts/Futura Book.ttf"
+  },
+  "resources/assets_template/fonts/Futura Condensed Demi.ttf": {
+    "file": "assets/Futura Condensed Demi-86bf4db8.ttf",
+    "src": "resources/assets_template/fonts/Futura Condensed Demi.ttf"
+  },
+  "resources/assets_template/fonts/Futura Condensed Extra Bold Italic.ttf": {
+    "file": "assets/Futura Condensed Extra Bold Italic-5062e7f9.ttf",
+    "src": "resources/assets_template/fonts/Futura Condensed Extra Bold Italic.ttf"
+  },
+  "resources/assets_template/fonts/Futura Condensed Extra Bold.ttf": {
+    "file": "assets/Futura Condensed Extra Bold-4323ab01.ttf",
+    "src": "resources/assets_template/fonts/Futura Condensed Extra Bold.ttf"
+  },
+  "resources/assets_template/fonts/Futura Condensed.ttf": {
+    "file": "assets/Futura Condensed-7cf545b5.ttf",
+    "src": "resources/assets_template/fonts/Futura Condensed.ttf"
+  },
+  "resources/assets_template/fonts/Futura Extra Black font.ttf": {
+    "file": "assets/Futura Extra Black font-c88cfdaf.ttf",
+    "src": "resources/assets_template/fonts/Futura Extra Black font.ttf"
+  },
+  "resources/assets_template/fonts/Futura Extra Bold Oblique Outline.ttf": {
+    "file": "assets/Futura Extra Bold Oblique Outline-4987c788.ttf",
+    "src": "resources/assets_template/fonts/Futura Extra Bold Oblique Outline.ttf"
+  },
+  "resources/assets_template/fonts/Futura Extra Bold Outline.ttf": {
+    "file": "assets/Futura Extra Bold Outline-cd65e538.ttf",
+    "src": "resources/assets_template/fonts/Futura Extra Bold Outline.ttf"
+  },
+  "resources/assets_template/fonts/Futura Extra Bold.ttf": {
+    "file": "assets/Futura Extra Bold-e123fd32.ttf",
+    "src": "resources/assets_template/fonts/Futura Extra Bold.ttf"
+  },
+  "resources/assets_template/fonts/Futura Heavy Italic font.ttf": {
+    "file": "assets/Futura Heavy Italic font-4fd038cf.ttf",
+    "src": "resources/assets_template/fonts/Futura Heavy Italic font.ttf"
+  },
+  "resources/assets_template/fonts/Futura Heavy Oblique.ttf": {
+    "file": "assets/Futura Heavy Oblique-5c3bc1ec.ttf",
+    "src": "resources/assets_template/fonts/Futura Heavy Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura Heavy font.ttf": {
+    "file": "assets/Futura Heavy font-ad46885f.ttf",
+    "src": "resources/assets_template/fonts/Futura Heavy font.ttf"
+  },
+  "resources/assets_template/fonts/Futura Heavy.ttf": {
+    "file": "assets/Futura Heavy-27e1ab13.ttf",
+    "src": "resources/assets_template/fonts/Futura Heavy.ttf"
+  },
+  "resources/assets_template/fonts/Futura Light Italic font.ttf": {
+    "file": "assets/Futura Light Italic font-887113d9.ttf",
+    "src": "resources/assets_template/fonts/Futura Light Italic font.ttf"
+  },
+  "resources/assets_template/fonts/Futura Light font.ttf": {
+    "file": "assets/Futura Light font-bbe71295.ttf",
+    "src": "resources/assets_template/fonts/Futura Light font.ttf"
+  },
+  "resources/assets_template/fonts/Futura Light.ttf": {
+    "file": "assets/Futura Light-65e8cc59.ttf",
+    "src": "resources/assets_template/fonts/Futura Light.ttf"
+  },
+  "resources/assets_template/fonts/Futura Medium Italic font.ttf": {
+    "file": "assets/Futura Medium Italic font-6806cf1b.ttf",
+    "src": "resources/assets_template/fonts/Futura Medium Italic font.ttf"
+  },
+  "resources/assets_template/fonts/Futura Medium.ttf": {
+    "file": "assets/Futura Medium-1409a9bd.ttf",
+    "src": "resources/assets_template/fonts/Futura Medium.ttf"
+  },
+  "resources/assets_template/fonts/Futura Round Bold.ttf": {
+    "file": "assets/Futura Round Bold-720da307.ttf",
+    "src": "resources/assets_template/fonts/Futura Round Bold.ttf"
+  },
+  "resources/assets_template/fonts/Futura Round Demi Italic.ttf": {
+    "file": "assets/Futura Round Demi Italic-10f71d25.ttf",
+    "src": "resources/assets_template/fonts/Futura Round Demi Italic.ttf"
+  },
+  "resources/assets_template/fonts/Futura Round Demi.ttf": {
+    "file": "assets/Futura Round Demi-fa2209ca.ttf",
+    "src": "resources/assets_template/fonts/Futura Round Demi.ttf"
+  },
+  "resources/assets_template/fonts/Futura Round.ttf": {
+    "file": "assets/Futura Round-9706136c.ttf",
+    "src": "resources/assets_template/fonts/Futura Round.ttf"
+  },
+  "resources/assets_template/fonts/Futura SCTOT Book.ttf": {
+    "file": "assets/Futura SCTOT Book-8f0bde77.ttf",
+    "src": "resources/assets_template/fonts/Futura SCTOT Book.ttf"
+  },
+  "resources/assets_template/fonts/Futura SCTOT Light.ttf": {
+    "file": "assets/Futura SCTOT Light-e5983358.ttf",
+    "src": "resources/assets_template/fonts/Futura SCTOT Light.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Bold Condensed Oblique.ttf": {
+    "file": "assets/Futura Std Bold Condensed Oblique-5519a3ca.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Bold Condensed Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Bold Condensed.ttf": {
+    "file": "assets/Futura Std Bold Condensed-ce5bb930.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Bold Condensed.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Bold Oblique.ttf": {
+    "file": "assets/Futura Std Bold Oblique-5f680ac9.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Bold Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Book Oblique.ttf": {
+    "file": "assets/Futura Std Book Oblique-0a2e38ac.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Book Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Book.ttf": {
+    "file": "assets/Futura Std Book-c375fc29.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Book.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Extra Bold Condensed Oblique.ttf": {
+    "file": "assets/Futura Std Extra Bold Condensed Oblique-05ece95a.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Extra Bold Condensed Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Extra Bold Condensed.ttf": {
+    "file": "assets/Futura Std Extra Bold Condensed-36be2116.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Extra Bold Condensed.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Extra Bold Oblique.ttf": {
+    "file": "assets/Futura Std Extra Bold Oblique-5ca08569.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Extra Bold Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Extra Bold.ttf": {
+    "file": "assets/Futura Std Extra Bold-c2df297c.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Extra Bold.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Heavy Oblique.ttf": {
+    "file": "assets/Futura Std Heavy Oblique-2cb98680.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Heavy Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Heavy.ttf": {
+    "file": "assets/Futura Std Heavy-1cdeb623.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Heavy.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Light Condensed Oblique.ttf": {
+    "file": "assets/Futura Std Light Condensed Oblique-5eec8f3c.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Light Condensed Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Light Condensed.ttf": {
+    "file": "assets/Futura Std Light Condensed-f1f0a366.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Light Condensed.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Light Oblique.ttf": {
+    "file": "assets/Futura Std Light Oblique-14b854c3.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Light Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Light.ttf": {
+    "file": "assets/Futura Std Light-6c4d240e.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Light.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Medium Condensed Oblique.ttf": {
+    "file": "assets/Futura Std Medium Condensed Oblique-916cd679.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Medium Condensed Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Medium Condensed.ttf": {
+    "file": "assets/Futura Std Medium Condensed-aaeaa09f.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Medium Condensed.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Medium Oblique.ttf": {
+    "file": "assets/Futura Std Medium Oblique-851b88d1.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Medium Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura Std Medium.ttf": {
+    "file": "assets/Futura Std Medium-797ff5b1.ttf",
+    "src": "resources/assets_template/fonts/Futura Std Medium.ttf"
+  },
+  "resources/assets_template/fonts/Futura TOT Bold Condensed.ttf": {
+    "file": "assets/Futura TOT Bold Condensed-e30ae0ab.ttf",
+    "src": "resources/assets_template/fonts/Futura TOT Bold Condensed.ttf"
+  },
+  "resources/assets_template/fonts/Futura TOT Bold Oblique.ttf": {
+    "file": "assets/Futura TOT Bold Oblique-234f7b3d.ttf",
+    "src": "resources/assets_template/fonts/Futura TOT Bold Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura TOT Book.ttf": {
+    "file": "assets/Futura TOT Book-a79d3dd5.ttf",
+    "src": "resources/assets_template/fonts/Futura TOT Book.ttf"
+  },
+  "resources/assets_template/fonts/Futura TOT Demi Oblique.ttf": {
+    "file": "assets/Futura TOT Demi Oblique-7b62a767.ttf",
+    "src": "resources/assets_template/fonts/Futura TOT Demi Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura TOT Demi.ttf": {
+    "file": "assets/Futura TOT Demi-36c140e9.ttf",
+    "src": "resources/assets_template/fonts/Futura TOT Demi.ttf"
+  },
+  "resources/assets_template/fonts/Futura TOT Extra Bold Condensed Oblique.ttf": {
+    "file": "assets/Futura TOT Extra Bold Condensed Oblique-b122f4eb.ttf",
+    "src": "resources/assets_template/fonts/Futura TOT Extra Bold Condensed Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura TOT Extra Bold Oblique.ttf": {
+    "file": "assets/Futura TOT Extra Bold Oblique-b6229c51.ttf",
+    "src": "resources/assets_template/fonts/Futura TOT Extra Bold Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura TOT Light Condensed Oblique.ttf": {
+    "file": "assets/Futura TOT Light Condensed Oblique-84c16e0a.ttf",
+    "src": "resources/assets_template/fonts/Futura TOT Light Condensed Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura TOT Light Oblique.ttf": {
+    "file": "assets/Futura TOT Light Oblique-3c495e16.ttf",
+    "src": "resources/assets_template/fonts/Futura TOT Light Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura TOT Medium Condensed.ttf": {
+    "file": "assets/Futura TOT Medium Condensed-8095413c.ttf",
+    "src": "resources/assets_template/fonts/Futura TOT Medium Condensed.ttf"
+  },
+  "resources/assets_template/fonts/Futura TOT Medium Oblique.ttf": {
+    "file": "assets/Futura TOT Medium Oblique-bf6b8a94.ttf",
+    "src": "resources/assets_template/fonts/Futura TOT Medium Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura Thin.ttf": {
+    "file": "assets/Futura Thin-b1444d70.ttf",
+    "src": "resources/assets_template/fonts/Futura Thin.ttf"
+  },
+  "resources/assets_template/fonts/Futura URW Extra Bold.ttf": {
+    "file": "assets/Futura URW Extra Bold-251437c6.ttf",
+    "src": "resources/assets_template/fonts/Futura URW Extra Bold.ttf"
+  },
+  "resources/assets_template/fonts/Futura URW Heavy Italic.ttf": {
+    "file": "assets/Futura URW Heavy Italic-d5c6e323.ttf",
+    "src": "resources/assets_template/fonts/Futura URW Heavy Italic.ttf"
+  },
+  "resources/assets_template/fonts/Futura URW Medium.ttf": {
+    "file": "assets/Futura URW Medium-f69dfac6.ttf",
+    "src": "resources/assets_template/fonts/Futura URW Medium.ttf"
+  },
+  "resources/assets_template/fonts/Futura XBlk BT.ttf": {
+    "file": "assets/Futura XBlk BT-6afc73d9.ttf",
+    "src": "resources/assets_template/fonts/Futura XBlk BT.ttf"
+  },
+  "resources/assets_template/fonts/Futura-Condensed-Thin.ttf": {
+    "file": "assets/Futura-Condensed-Thin-08294f14.ttf",
+    "src": "resources/assets_template/fonts/Futura-Condensed-Thin.ttf"
+  },
+  "resources/assets_template/fonts/Futura-CondensedLight-Normal.ttf": {
+    "file": "assets/Futura-CondensedLight-Normal-cb58c67e.ttf",
+    "src": "resources/assets_template/fonts/Futura-CondensedLight-Normal.ttf"
+  },
+  "resources/assets_template/fonts/Futura-CondensedLight.otf": {
+    "file": "assets/Futura-CondensedLight-906615dc.otf",
+    "src": "resources/assets_template/fonts/Futura-CondensedLight.otf"
+  },
+  "resources/assets_template/fonts/Futura-D-OT-Extra-Bold-Shadowed.ttf": {
+    "file": "assets/Futura-D-OT-Extra-Bold-Shadowed-85d23ba6.ttf",
+    "src": "resources/assets_template/fonts/Futura-D-OT-Extra-Bold-Shadowed.ttf"
+  },
+  "resources/assets_template/fonts/Futura-D-OT-Stencil-Black.ttf": {
+    "file": "assets/Futura-D-OT-Stencil-Black-b6fb6c3b.ttf",
+    "src": "resources/assets_template/fonts/Futura-D-OT-Stencil-Black.ttf"
+  },
+  "resources/assets_template/fonts/Futura-D-OT-Stencil-Medium.ttf": {
+    "file": "assets/Futura-D-OT-Stencil-Medium-82b0c2aa.ttf",
+    "src": "resources/assets_template/fonts/Futura-D-OT-Stencil-Medium.ttf"
+  },
+  "resources/assets_template/fonts/Futura-Display-P-OT-Outline.ttf": {
+    "file": "assets/Futura-Display-P-OT-Outline-e533196b.ttf",
+    "src": "resources/assets_template/fonts/Futura-Display-P-OT-Outline.ttf"
+  },
+  "resources/assets_template/fonts/Futura-LH-Extra-Bold.ttf": {
+    "file": "assets/Futura-LH-Extra-Bold-372cd773.ttf",
+    "src": "resources/assets_template/fonts/Futura-LH-Extra-Bold.ttf"
+  },
+  "resources/assets_template/fonts/FuturaBookCTT-Normal.ttf": {
+    "file": "assets/FuturaBookCTT-Normal-40971b77.ttf",
+    "src": "resources/assets_template/fonts/FuturaBookCTT-Normal.ttf"
+  },
+  "resources/assets_template/fonts/FuturaCondensedExtraBoldNormal.ttf": {
+    "file": "assets/FuturaCondensedExtraBoldNormal-8589eac3.ttf",
+    "src": "resources/assets_template/fonts/FuturaCondensedExtraBoldNormal.ttf"
+  },
+  "resources/assets_template/fonts/FuturaCondensedMedium_Oblique.ttf": {
+    "file": "assets/FuturaCondensedMedium_Oblique-2af12f93.ttf",
+    "src": "resources/assets_template/fonts/FuturaCondensedMedium_Oblique.ttf"
+  },
+  "resources/assets_template/fonts/FuturaDemiCTT-Normal.ttf": {
+    "file": "assets/FuturaDemiCTT-Normal-fda667e1.ttf",
+    "src": "resources/assets_template/fonts/FuturaDemiCTT-Normal.ttf"
+  },
+  "resources/assets_template/fonts/FuturaEugenia-Cyrillic.ttf": {
+    "file": "assets/FuturaEugenia-Cyrillic-e8017a3d.ttf",
+    "src": "resources/assets_template/fonts/FuturaEugenia-Cyrillic.ttf"
+  },
+  "resources/assets_template/fonts/FuturaEugeniaCTT.ttf": {
+    "file": "assets/FuturaEugeniaCTT-6873d937.ttf",
+    "src": "resources/assets_template/fonts/FuturaEugeniaCTT.ttf"
+  },
+  "resources/assets_template/fonts/FuturaLight-Light.ttf": {
+    "file": "assets/FuturaLight-Light-454fc2b5.ttf",
+    "src": "resources/assets_template/fonts/FuturaLight-Light.ttf"
+  },
+  "resources/assets_template/fonts/FuturaLightCTT-Normal.ttf": {
+    "file": "assets/FuturaLightCTT-Normal-f2b4b1d4.ttf",
+    "src": "resources/assets_template/fonts/FuturaLightCTT-Normal.ttf"
+  },
+  "resources/assets_template/fonts/FuturaOrto-Bold.ttf": {
+    "file": "assets/FuturaOrto-Bold-1249aff7.ttf",
+    "src": "resources/assets_template/fonts/FuturaOrto-Bold.ttf"
+  },
+  "resources/assets_template/fonts/FuturaOrto.ttf": {
+    "file": "assets/FuturaOrto-6185b918.ttf",
+    "src": "resources/assets_template/fonts/FuturaOrto.ttf"
+  },
+  "resources/assets_template/fonts/FuturaOrtoLt-Light.ttf": {
+    "file": "assets/FuturaOrtoLt-Light-efbcd047.ttf",
+    "src": "resources/assets_template/fonts/FuturaOrtoLt-Light.ttf"
+  },
+  "resources/assets_template/fonts/FuturaOrtoLt-LightItalic.ttf": {
+    "file": "assets/FuturaOrtoLt-LightItalic-7160d7c7.ttf",
+    "src": "resources/assets_template/fonts/FuturaOrtoLt-LightItalic.ttf"
+  },
+  "resources/assets_template/fonts/FuturaOrtoSh-Bold.ttf": {
+    "file": "assets/FuturaOrtoSh-Bold-7e64d66c.ttf",
+    "src": "resources/assets_template/fonts/FuturaOrtoSh-Bold.ttf"
+  },
+  "resources/assets_template/fonts/FuturaRoundTitulSh.ttf": {
+    "file": "assets/FuturaRoundTitulSh-e344a5c7.ttf",
+    "src": "resources/assets_template/fonts/FuturaRoundTitulSh.ttf"
+  },
+  "resources/assets_template/fonts/FuturaStd Bold.ttf": {
+    "file": "assets/FuturaStd Bold-adfc8632.ttf",
+    "src": "resources/assets_template/fonts/FuturaStd Bold.ttf"
+  },
+  "resources/assets_template/fonts/FuturaTLig.ttf": {
+    "file": "assets/FuturaTLig-1f823532.ttf",
+    "src": "resources/assets_template/fonts/FuturaTLig.ttf"
+  },
+  "resources/assets_template/fonts/Futura_Book-Bold.ttf": {
+    "file": "assets/Futura_Book-Bold-d0a84599.ttf",
+    "src": "resources/assets_template/fonts/Futura_Book-Bold.ttf"
+  },
+  "resources/assets_template/fonts/Futura_Book-Normal-Italic.ttf": {
+    "file": "assets/Futura_Book-Normal-Italic-5b012bea.ttf",
+    "src": "resources/assets_template/fonts/Futura_Book-Normal-Italic.ttf"
+  },
+  "resources/assets_template/fonts/Futura_Book-Normal.ttf": {
+    "file": "assets/Futura_Book-Normal-43d0d168.ttf",
+    "src": "resources/assets_template/fonts/Futura_Book-Normal.ttf"
+  },
+  "resources/assets_template/fonts/Futura_Extra_Black-Normal.ttf": {
+    "file": "assets/Futura_Extra_Black-Normal-8c063c6f.ttf",
+    "src": "resources/assets_template/fonts/Futura_Extra_Black-Normal.ttf"
+  },
+  "resources/assets_template/fonts/Futura_ICG.ttf": {
+    "file": "assets/Futura_ICG-c9c2fd9d.ttf",
+    "src": "resources/assets_template/fonts/Futura_ICG.ttf"
+  },
+  "resources/assets_template/fonts/Futura_ICG_BoldOblique.ttf": {
+    "file": "assets/Futura_ICG_BoldOblique-edd15d74.ttf",
+    "src": "resources/assets_template/fonts/Futura_ICG_BoldOblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura_ICG_Book_Oblique.ttf": {
+    "file": "assets/Futura_ICG_Book_Oblique-592a32ab.ttf",
+    "src": "resources/assets_template/fonts/Futura_ICG_Book_Oblique.ttf"
+  },
+  "resources/assets_template/fonts/Futura_ICG_XBold.ttf": {
+    "file": "assets/Futura_ICG_XBold-653a76a8.ttf",
+    "src": "resources/assets_template/fonts/Futura_ICG_XBold.ttf"
+  },
+  "resources/assets_template/fonts/Futura_Stencil_ICG.ttf": {
+    "file": "assets/Futura_Stencil_ICG-29f7819c.ttf",
+    "src": "resources/assets_template/fonts/Futura_Stencil_ICG.ttf"
+  },
+  "resources/assets_template/fonts/boxicons.eot": {
+    "file": "assets/boxicons-802c3564.eot",
+    "src": "resources/assets_template/fonts/boxicons.eot"
+  },
+  "resources/assets_template/fonts/boxicons.svg": {
+    "file": "assets/boxicons-809f57f0.svg",
+    "src": "resources/assets_template/fonts/boxicons.svg"
+  },
+  "resources/assets_template/fonts/boxicons.ttf": {
+    "file": "assets/boxicons-ac7dcf49.ttf",
+    "src": "resources/assets_template/fonts/boxicons.ttf"
+  },
+  "resources/assets_template/fonts/boxicons.woff": {
+    "file": "assets/boxicons-77e1b957.woff",
+    "src": "resources/assets_template/fonts/boxicons.woff"
+  },
+  "resources/assets_template/fonts/boxicons.woff2": {
+    "file": "assets/boxicons-79f14604.woff2",
+    "src": "resources/assets_template/fonts/boxicons.woff2"
+  },
+  "resources/assets_template/fonts/dripicons-v2.eot": {
+    "file": "assets/dripicons-v2-4551d45f.eot",
+    "src": "resources/assets_template/fonts/dripicons-v2.eot"
+  },
+  "resources/assets_template/fonts/dripicons-v2.svg": {
+    "file": "assets/dripicons-v2-2c1ce9e2.svg",
+    "src": "resources/assets_template/fonts/dripicons-v2.svg"
+  },
+  "resources/assets_template/fonts/dripicons-v2.ttf": {
+    "file": "assets/dripicons-v2-d8c798b5.ttf",
+    "src": "resources/assets_template/fonts/dripicons-v2.ttf"
+  },
+  "resources/assets_template/fonts/dripicons-v2.woff": {
+    "file": "assets/dripicons-v2-e87a09ce.woff",
+    "src": "resources/assets_template/fonts/dripicons-v2.woff"
+  },
+  "resources/assets_template/fonts/fa-brands-400.eot": {
+    "file": "assets/fa-brands-400-811e1577.eot",
+    "src": "resources/assets_template/fonts/fa-brands-400.eot"
+  },
+  "resources/assets_template/fonts/fa-brands-400.svg": {
+    "file": "assets/fa-brands-400-02340ba1.svg",
+    "src": "resources/assets_template/fonts/fa-brands-400.svg"
+  },
+  "resources/assets_template/fonts/fa-brands-400.ttf": {
+    "file": "assets/fa-brands-400-a0c14538.ttf",
+    "src": "resources/assets_template/fonts/fa-brands-400.ttf"
+  },
+  "resources/assets_template/fonts/fa-brands-400.woff": {
+    "file": "assets/fa-brands-400-e836c5d5.woff",
+    "src": "resources/assets_template/fonts/fa-brands-400.woff"
+  },
+  "resources/assets_template/fonts/fa-brands-400.woff2": {
+    "file": "assets/fa-brands-400-5d919029.woff2",
+    "src": "resources/assets_template/fonts/fa-brands-400.woff2"
+  },
+  "resources/assets_template/fonts/fa-regular-400.eot": {
+    "file": "assets/fa-regular-400-01f4416f.eot",
+    "src": "resources/assets_template/fonts/fa-regular-400.eot"
+  },
+  "resources/assets_template/fonts/fa-regular-400.svg": {
+    "file": "assets/fa-regular-400-865fd23d.svg",
+    "src": "resources/assets_template/fonts/fa-regular-400.svg"
+  },
+  "resources/assets_template/fonts/fa-regular-400.ttf": {
+    "file": "assets/fa-regular-400-f32b94a2.ttf",
+    "src": "resources/assets_template/fonts/fa-regular-400.ttf"
+  },
+  "resources/assets_template/fonts/fa-regular-400.woff": {
+    "file": "assets/fa-regular-400-8e2d9619.woff",
+    "src": "resources/assets_template/fonts/fa-regular-400.woff"
+  },
+  "resources/assets_template/fonts/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400-6a8c8e9e.woff2",
+    "src": "resources/assets_template/fonts/fa-regular-400.woff2"
+  },
+  "resources/assets_template/fonts/fa-solid-900.eot": {
+    "file": "assets/fa-solid-900-32501727.eot",
+    "src": "resources/assets_template/fonts/fa-solid-900.eot"
+  },
+  "resources/assets_template/fonts/fa-solid-900.svg": {
+    "file": "assets/fa-solid-900-e7685398.svg",
+    "src": "resources/assets_template/fonts/fa-solid-900.svg"
+  },
+  "resources/assets_template/fonts/fa-solid-900.ttf": {
+    "file": "assets/fa-solid-900-231d68ce.ttf",
+    "src": "resources/assets_template/fonts/fa-solid-900.ttf"
+  },
+  "resources/assets_template/fonts/fa-solid-900.woff": {
+    "file": "assets/fa-solid-900-352f8ead.woff",
+    "src": "resources/assets_template/fonts/fa-solid-900.woff"
+  },
+  "resources/assets_template/fonts/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900-7f4d3fd0.woff2",
+    "src": "resources/assets_template/fonts/fa-solid-900.woff2"
+  },
+  "resources/assets_template/fonts/futur.ttf": {
+    "file": "assets/futur-168eed26.ttf",
+    "src": "resources/assets_template/fonts/futur.ttf"
+  },
+  "resources/assets_template/fonts/futura light bt.ttf": {
+    "file": "assets/futura light bt-3a6bbc1a.ttf",
+    "src": "resources/assets_template/fonts/futura light bt.ttf"
+  },
+  "resources/assets_template/fonts/futura medium bt.ttf": {
+    "file": "assets/futura medium bt-d068c3d5.ttf",
+    "src": "resources/assets_template/fonts/futura medium bt.ttf"
+  },
+  "resources/assets_template/fonts/futura medium condensed bt.ttf": {
+    "file": "assets/futura medium condensed bt-2ae5f53e.ttf",
+    "src": "resources/assets_template/fonts/futura medium condensed bt.ttf"
+  },
+  "resources/assets_template/fonts/materialdesignicons-webfont.eot": {
+    "file": "assets/materialdesignicons-webfont-e1ad5120.eot",
+    "src": "resources/assets_template/fonts/materialdesignicons-webfont.eot"
+  },
+  "resources/assets_template/fonts/materialdesignicons-webfont.ttf": {
+    "file": "assets/materialdesignicons-webfont-4045a75f.ttf",
+    "src": "resources/assets_template/fonts/materialdesignicons-webfont.ttf"
+  },
+  "resources/assets_template/fonts/materialdesignicons-webfont.woff": {
+    "file": "assets/materialdesignicons-webfont-7b7ee7a1.woff",
+    "src": "resources/assets_template/fonts/materialdesignicons-webfont.woff"
+  },
+  "resources/assets_template/fonts/materialdesignicons-webfont.woff2": {
+    "file": "assets/materialdesignicons-webfont-34845bb6.woff2",
+    "src": "resources/assets_template/fonts/materialdesignicons-webfont.woff2"
+  },
+  "resources/assets_template/fonts/summernote.eot": {
+    "file": "assets/summernote-edd368ac.eot",
+    "src": "resources/assets_template/fonts/summernote.eot"
+  },
+  "resources/assets_template/fonts/summernote.ttf": {
+    "file": "assets/summernote-2eeca740.ttf",
+    "src": "resources/assets_template/fonts/summernote.ttf"
+  },
+  "resources/assets_template/fonts/summernote.woff": {
+    "file": "assets/summernote-68282f2b.woff",
+    "src": "resources/assets_template/fonts/summernote.woff"
+  },
+  "resources/assets_template/fonts/tt0205m_.ttf": {
+    "file": "assets/tt0205m_-66a77614.ttf",
+    "src": "resources/assets_template/fonts/tt0205m_.ttf"
+  },
+  "resources/assets_template/fonts/unicode.futurab.ttf": {
+    "file": "assets/unicode.futurab-23a62c64.ttf",
+    "src": "resources/assets_template/fonts/unicode.futurab.ttf"
+  },
+  "resources/assets_template/fonts/unicode.futurabb.ttf": {
+    "file": "assets/unicode.futurabb-059f910a.ttf",
+    "src": "resources/assets_template/fonts/unicode.futurabb.ttf"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-4ed993c7.js",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app-b84d8c31.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.js": {
+    "assets": [
+      "assets/materialdesignicons-webfont-e1ad5120.eot",
+      "assets/materialdesignicons-webfont-34845bb6.woff2",
+      "assets/boxicons-802c3564.eot",
+      "assets/boxicons-79f14604.woff2",
+      "assets/boxicons-77e1b957.woff",
+      "assets/boxicons-ac7dcf49.ttf",
+      "assets/boxicons-809f57f0.svg",
+      "assets/fa-brands-400-811e1577.eot",
+      "assets/fa-brands-400-5d919029.woff2",
+      "assets/fa-brands-400-e836c5d5.woff",
+      "assets/fa-brands-400-a0c14538.ttf",
+      "assets/fa-brands-400-02340ba1.svg",
+      "assets/fa-regular-400-01f4416f.eot",
+      "assets/fa-regular-400-6a8c8e9e.woff2",
+      "assets/fa-regular-400-8e2d9619.woff",
+      "assets/fa-regular-400-f32b94a2.ttf",
+      "assets/fa-regular-400-865fd23d.svg",
+      "assets/fa-solid-900-32501727.eot",
+      "assets/fa-solid-900-7f4d3fd0.woff2",
+      "assets/fa-solid-900-352f8ead.woff",
+      "assets/fa-solid-900-231d68ce.ttf",
+      "assets/fa-solid-900-e7685398.svg",
+      "assets/dripicons-v2-4551d45f.eot",
+      "assets/dripicons-v2-e87a09ce.woff",
+      "assets/dripicons-v2-d8c798b5.ttf",
+      "assets/dripicons-v2-2c1ce9e2.svg"
+    ],
+    "css": [
+      "assets/app-b84d8c31.css"
+    ],
+    "file": "assets/app-1e5f23ac.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+    "resources/assets_template/libs/jquery/jquery.min.js": {
+        "file": "assets/jquery.min.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/jquery/jquery.min.js"
+    },
+    "resources/assets_template/libs/bootstrap/bootstrap.min.js": {
+        "file": "assets/bootstrap.min.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/bootstrap/bootstrap.min.js"
+    },
+    "resources/assets_template/libs/jquery-validation/jquery-validation.min.js": {
+        "file": "assets/jquery-validation.min.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/jquery-validation/jquery-validation.min.js"
+    },
+    "resources/assets_template/libs/jquery-validation/jquery-validation-pt-br.js": {
+        "file": "assets/jquery-validation-pt-br.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/jquery-validation/jquery-validation-pt-br.js"
+    },
+    "resources/assets_template/js/jquery-validation-methods.js": {
+        "file": "assets/jquery-validation-methods.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/jquery-validation-methods.js"
+    },
+    "resources/assets_template/libs/metismenu/metismenu.min.js": {
+        "file": "assets/metismenu.min.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/metismenu/metismenu.min.js"
+    },
+    "resources/assets_template/libs/simplebar/simplebar.min.js": {
+        "file": "assets/simplebar.min.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/simplebar/simplebar.min.js"
+    },
+    "resources/assets_template/libs/node-waves/node-waves.min.js": {
+        "file": "assets/node-waves.min.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/node-waves/node-waves.min.js"
+    },
+    "resources/assets_template/libs/sweetalert2/sweetalert2.min.js": {
+        "file": "assets/sweetalert2.min.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/sweetalert2/sweetalert2.min.js"
+    },
+    "resources/assets_template/libs/select2/select2.min.js": {
+        "file": "assets/select2.min.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/select2/select2.min.js"
+    },
+    "resources/assets_template/libs/datatables/datatables.min.js": {
+        "file": "assets/datatables.min.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/datatables/datatables.min.js"
+    },
+    "resources/assets_template/libs/jquery-repeater/jquery-repeater.js": {
+        "file": "assets/jquery-repeater.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/jquery-repeater/jquery-repeater.js"
+    },
+    "resources/assets_template/libs/jszip/jszip.min.js": {
+        "file": "assets/jszip.min.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/jszip/jszip.min.js"
+    },
+    "resources/assets_template/libs/pdfmake/pdfmake.min.js": {
+        "file": "assets/pdfmake.min.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/pdfmake/pdfmake.min.js"
+    },
+    "resources/assets_template/libs/jquery-mask/jquery.mask.min.js": {
+        "file": "assets/jquery.mask.min.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/jquery-mask/jquery.mask.min.js"
+    },
+    "resources/assets_template/js/jquery-masks.js": {
+        "file": "assets/jquery-masks.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/jquery-masks.js"
+    },
+    "resources/assets_template/js/app.min.js": {
+        "file": "assets/app.min.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/app.min.js"
+    },
+    "resources/assets_template/js/main.js": {
+        "file": "assets/main.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/main.js"
+    },
+    "resources/assets_template/js/cruds.js": {
+        "file": "assets/cruds.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/cruds.js"
+    },
+    "resources/assets_template/js/cruds_functions.js": {
+        "file": "assets/cruds_functions.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/cruds_functions.js"
+    },
+    "resources/assets_template/js/functions.js": {
+        "file": "assets/functions.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/functions.js"
+    },
+    "resources/assets_template/js/scripts_template_init.js": {
+        "file": "assets/scripts_template_init.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_template_init.js"
+    },
+    "resources/assets_template/js/scripts_bancos.js": {
+        "file": "assets/scripts_bancos.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_bancos.js"
+    },
+    "resources/assets_template/js/scripts_clientes.js": {
+        "file": "assets/scripts_clientes.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_clientes.js"
+    },
+    "resources/assets_template/js/scripts_empresas.js": {
+        "file": "assets/scripts_empresas.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_empresas.js"
+    },
+    "resources/assets_template/js/scripts_departamentos.js": {
+        "file": "assets/scripts_departamentos.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_departamentos.js"
+    },
+    "resources/assets_template/js/scripts_funcionarios.js": {
+        "file": "assets/scripts_funcionarios.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_funcionarios.js"
+    },
+    "resources/assets_template/js/scripts_fornecedores.js": {
+        "file": "assets/scripts_fornecedores.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_fornecedores.js"
+    },
+    "resources/assets_template/js/scripts_generos.js": {
+        "file": "assets/scripts_generos.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_generos.js"
+    },
+    "resources/assets_template/js/scripts_grupos.js": {
+        "file": "assets/scripts_grupos.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_grupos.js"
+    },
+    "resources/assets_template/js/scripts_identidade_orgaos.js": {
+        "file": "assets/scripts_identidade_orgaos.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_identidade_orgaos.js"
+    },
+    "resources/assets_template/js/scripts_estados_civis.js": {
+        "file": "assets/scripts_estados_civis.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_estados_civis.js"
+    },
+    "resources/assets_template/js/scripts_modulos.js": {
+        "file": "assets/scripts_modulos.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_modulos.js"
+    },
+    "resources/assets_template/js/scripts_nacionalidades.js": {
+        "file": "assets/scripts_nacionalidades.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_nacionalidades.js"
+    },
+    "resources/assets_template/js/scripts_naturalidades.js": {
+        "file": "assets/scripts_naturalidades.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_naturalidades.js"
+    },
+    "resources/assets_template/js/scripts_notificacoes.js": {
+        "file": "assets/scripts_notificacoes.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_notificacoes.js"
+    },
+    "resources/assets_template/js/scripts_funcoes.js": {
+        "file": "assets/scripts_funcoes.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_funcoes.js"
+    },
+    "resources/assets_template/js/scripts_escolaridades.js": {
+        "file": "assets/scripts_escolaridades.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_escolaridades.js"
+    },
+    "resources/assets_template/js/scripts_submodulos.js": {
+        "file": "assets/scripts_submodulos.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_submodulos.js"
+    },
+    "resources/assets_template/js/scripts_ferramentas.js": {
+        "file": "assets/scripts_ferramentas.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_ferramentas.js"
+    },
+    "resources/assets_template/js/scripts_users.js": {
+        "file": "assets/scripts_users.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_users.js"
+    },
+    "resources/assets_template/js/scripts_profiles.js": {
+        "file": "assets/scripts_profiles.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_profiles.js"
+    },
+    "resources/assets_template/js/scripts_servico_tipos.js": {
+        "file": "assets/scripts_servico_tipos.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_servico_tipos.js"
+    },
+    "resources/assets_template/js/scripts_servicos.js": {
+        "file": "assets/scripts_servicos.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_servicos.js"
+    },
+    "resources/assets_template/js/scripts_propostas.js": {
+        "file": "assets/scripts_propostas.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_propostas.js"
+    },
+    "resources/assets_template/js/scripts_visitas_tecnicas.js": {
+        "file": "assets/scripts_visitas_tecnicas.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_visitas_tecnicas.js"
+    },
+    "resources/assets_template/js/scripts_brigadas.js": {
+        "file": "assets/scripts_brigadas.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_brigadas.js"
+    },
+    "resources/assets_template/js/scripts_brigadas_escalas.js": {
+        "file": "assets/scripts_brigadas_escalas.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_brigadas_escalas.js"
+    },
+    "resources/assets_template/js/scripts_brigadas_rondas.js": {
+        "file": "assets/scripts_brigadas_rondas.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_brigadas_rondas.js"
+    },
+    "resources/assets_template/js/scripts_clientes_servicos.js": {
+        "file": "assets/scripts_clientes_servicos.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_clientes_servicos.js"
+    },
+    "resources/assets_template/js/scripts_clientes_servicos_qrcode_brigada_informacoes.js": {
+        "file": "assets/scripts_clientes_servicos_qrcode_brigada_informacoes.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_clientes_servicos_qrcode_brigada_informacoes.js"
+    },
+    "resources/assets_template/js/scripts_clientes_servicos_qrcode_brigada_escalas.js": {
+        "file": "assets/scripts_clientes_servicos_qrcode_brigada_escalas.js",
+        "isEntry": true,
+        "src": "resources/assets_template/js/scripts_clientes_servicos_qrcode_brigada_escalas.js"
+    },
+    "resources/assets_template/libs/jspdf/jspdf.js": {
+        "file": "assets/jspdf.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/jspdf/jspdf.js"
+    },
+    "resources/assets_template/libs/jspdf/jspdf_autotable.js": {
+        "file": "assets/jspdf_autotable.js",
+        "isEntry": true,
+        "src": "resources/assets_template/libs/jspdf/jspdf_autotable.js"
+    }
+}
