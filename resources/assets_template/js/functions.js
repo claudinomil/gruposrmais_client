@@ -1369,11 +1369,39 @@ function funcionario_acao_1_gerar_pdf() {
                     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 });
 
-                //Converter o PDF para uma string de dados
-                const pdfData = doc.output('datauristring');
+                //Gerar o pdf, abrir em uma outra aba e colocar link para download''''''''''''''''''''''''''''''''''''''
+                const pdfBlob = doc.output('blob');
+                const pdfUrl = URL.createObjectURL(pdfBlob);
 
-                //Abra uma nova janela do navegador para visualizar o PDF
-                window.open(pdfData, '_blank');
+                //Tentar abrir em uma nova aba
+                const newTab = window.open(pdfUrl);
+
+                //Adiciona um link abaixo do botão
+                let funcionario_acao_1_botoes = document.getElementById('funcionario_acao_1_botoes');
+
+                //Verifica se já existe um link para evitar duplicação
+                let existingLink = document.getElementById('pdf_download_link');
+                if (existingLink) {
+                    existingLink.href = pdfUrl; // Atualiza o link existente
+                    return;
+                }
+
+                //Cria o link dinamicamente
+                let link = document.createElement('a');
+                link.id = 'pdf_download_link';
+                link.href = pdfUrl;
+                link.download = 'documento.pdf';
+                link.textContent = 'Clique aqui para baixar o PDF';
+
+                //Estiliza o link para ficar vermelho
+                link.style.color = 'red';
+                link.style.textDecoration = 'underline';
+                link.style.display = 'block';
+                link.style.marginTop = '10px';
+
+                //Insere o link logo abaixo do botão
+                funcionario_acao_1_botoes.parentNode.insertBefore(link, funcionario_acao_1_botoes.nextSibling);
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
         }).catch(error => {
             alert('Erro funcionario_acao_1_gerar_pdf: ' + error);

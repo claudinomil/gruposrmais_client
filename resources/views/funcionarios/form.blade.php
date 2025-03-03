@@ -383,7 +383,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="modal-buttons">
+                    <div class="modal-buttons" id="funcionario_acao_1_botoes">
                         @if(\App\Facades\Permissoes::permissao(['edit']))
                             <!-- Botão Gerar PDF's -->
                             <button type="button" class="btn btn-success text-white waves-effect btn-label waves-light " data-bs-toggle="tooltip" data-bs-placement="top" data-bs-target="" data-id="0" title="" data-bs-original-title="Confirmar Operação" id="funcionario_acao_1_gerar_pdfs"><i class="fa fa-save label-icon"></i>Gerar PDF's</button>

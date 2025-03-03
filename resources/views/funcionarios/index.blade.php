@@ -27,12 +27,14 @@
                                     @endif
 
                                     <!-- Ações para serem feitas com Funcionários -->
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Ações com Funcionários <i class="mdi mdi-chevron-down"></i></button>
-                                        <div class="dropdown-menu dropdown-menu-dark">
-                                            <a class="dropdown-item" href="#" id="funcionario_acao_1_dropdown">Contrato Carnaval 2025</a>
+                                    @if(session('se_userLoggedData.empresa_id') == 2)
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Ações com Funcionários <i class="mdi mdi-chevron-down"></i></button>
+                                            <div class="dropdown-menu dropdown-menu-dark">
+                                                <a class="dropdown-item" href="#" id="funcionario_acao_1_dropdown">Contrato Carnaval 2025</a>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endif
                                 </div>
 
                                 <!-- Filtro no Banco -->
