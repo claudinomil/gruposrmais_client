@@ -200,18 +200,18 @@ function funcionario_acao_1_gerar_pdf() {
                     doc.setFontSize(12);
                     doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
-                    //Texto
-                    texto = `b) Horário da prestação de serviços: ${funcionario_acao_1_dias_horarios};`;
-
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
-                    linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
-
-                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
-
-                    doc.setFont('helvetica', 'normal');
-                    doc.setFontSize(12);
-                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+                    // //Texto
+                    // texto = `b) Horário da prestação de serviços: ${funcionario_acao_1_dias_horarios};`;
+                    //
+                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    // linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    // alturaTexto = linhasTexto.length * lineHeightA;
+                    //
+                    // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+                    //
+                    // doc.setFont('helvetica', 'normal');
+                    // doc.setFontSize(12);
+                    // doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
                     //Texto
                     texto = `1.2. A execução dos serviços deverá atender às normas da Lei Federal nº 11.901/2009, bem como às normas da ABNT NBR 14608/2007, que regulamentam a atuação do bombeiro civil.`;
@@ -226,18 +226,18 @@ function funcionario_acao_1_gerar_pdf() {
                     doc.setFontSize(12);
                     doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
-                    //Texto
-                    texto = `1.3. A execução dos serviços deverá atender plenamente ao horário de funcionamento do local da prestação dos serviços. O horário poderá ser ajustado contratualmente, desde que seja preservado o número de 12 horas trabalhadas por 36 horas de descanso, totalizando 36 horas semanais, conforme art. 5º da Lei 11.901/2009.`;
-
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
-                    linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
-
-                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
-
-                    doc.setFont('helvetica', 'normal');
-                    doc.setFontSize(12);
-                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+                    // //Texto
+                    // texto = `1.3. A execução dos serviços deverá atender plenamente ao horário de funcionamento do local da prestação dos serviços. O horário poderá ser ajustado contratualmente, desde que seja preservado o número de 12 horas trabalhadas por 36 horas de descanso, totalizando 36 horas semanais, conforme art. 5º da Lei 11.901/2009.`;
+                    //
+                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    // linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    // alturaTexto = linhasTexto.length * lineHeightA;
+                    //
+                    // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+                    //
+                    // doc.setFont('helvetica', 'normal');
+                    // doc.setFontSize(12);
+                    // doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
                     //Texto
                     texto = `1.4. Fica expressamente pactuado que este contrato é firmado entre partes autônomas e independentes, sem qualquer subordinação ou exclusividade, e sem que se estabeleça qualquer vínculo empregatício entre as partes ou com terceiros contratados pelo CONTRATADO para a execução dos serviços.`;
@@ -798,57 +798,57 @@ function funcionario_acao_1_gerar_pdf() {
                     doc.setFontSize(12);
                     doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
-                    //Texto
-                    texto = `4.3. Em caso de atraso no pagamento, incidirão sobre o valor devido:`;
-
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
-                    linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
-
-                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
-
-                    doc.setFont('helvetica', 'normal');
-                    doc.setFontSize(12);
-                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
-
-                    //Texto
-                    texto = `a) Multa de 2% (dois por cento) sobre o montante em aberto;`;
-
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
-                    linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
-
-                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
-
-                    doc.setFont('helvetica', 'normal');
-                    doc.setFontSize(12);
-                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
-
-                    //Texto
-                    texto = `b) Juros moratórios de 1% ao mês, calculados pro rata die;`;
-
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
-                    linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
-
-                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
-
-                    doc.setFont('helvetica', 'normal');
-                    doc.setFontSize(12);
-                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
-
-                    //Texto
-                    texto = `c) Correção monetária pelo índice IPCA;`;
-
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
-                    linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
-
-                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
-
-                    doc.setFont('helvetica', 'normal');
-                    doc.setFontSize(12);
-                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+                    // //Texto
+                    // texto = `4.3. Em caso de atraso no pagamento, incidirão sobre o valor devido:`;
+                    //
+                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    // linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    // alturaTexto = linhasTexto.length * lineHeightA;
+                    //
+                    // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+                    //
+                    // doc.setFont('helvetica', 'normal');
+                    // doc.setFontSize(12);
+                    // doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+                    //
+                    // //Texto
+                    // texto = `a) Multa de 2% (dois por cento) sobre o montante em aberto;`;
+                    //
+                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    // linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    // alturaTexto = linhasTexto.length * lineHeightA;
+                    //
+                    // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+                    //
+                    // doc.setFont('helvetica', 'normal');
+                    // doc.setFontSize(12);
+                    // doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+                    //
+                    // //Texto
+                    // texto = `b) Juros moratórios de 1% ao mês, calculados pro rata die;`;
+                    //
+                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    // linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    // alturaTexto = linhasTexto.length * lineHeightA;
+                    //
+                    // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+                    //
+                    // doc.setFont('helvetica', 'normal');
+                    // doc.setFontSize(12);
+                    // doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+                    //
+                    // //Texto
+                    // texto = `c) Correção monetária pelo índice IPCA;`;
+                    //
+                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    // linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    // alturaTexto = linhasTexto.length * lineHeightA;
+                    //
+                    // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+                    //
+                    // doc.setFont('helvetica', 'normal');
+                    // doc.setFontSize(12);
+                    // doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
                     //Texto
                     texto = `CLÁUSULA QUINTA - INADIMPLEMENTO`;
