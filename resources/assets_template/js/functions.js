@@ -200,18 +200,18 @@ function funcionario_acao_1_gerar_pdf() {
                     doc.setFontSize(12);
                     doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
-                    // //Texto
-                    // texto = `b) Horário da prestação de serviços: ${funcionario_acao_1_dias_horarios};`;
-                    //
-                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
-                    // linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    // alturaTexto = linhasTexto.length * lineHeightA;
-                    //
-                    // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
-                    //
-                    // doc.setFont('helvetica', 'normal');
-                    // doc.setFontSize(12);
-                    // doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
+                    //Texto
+                    texto = `b) Horário da prestação de serviços: ${funcionario_acao_1_dias_horarios};`;
+
+                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    linhasTexto = doc.splitTextToSize(texto, textWidth);
+                    alturaTexto = linhasTexto.length * lineHeightA;
+
+                    if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
                     //Texto
                     texto = `1.2. A execução dos serviços deverá atender às normas da Lei Federal nº 11.901/2009, bem como às normas da ABNT NBR 14608/2007, que regulamentam a atuação do bombeiro civil.`;
@@ -643,7 +643,7 @@ function funcionario_acao_1_gerar_pdf() {
                     doc.text(texto, marginLeft, novaMarginTop, {maxWidth: textWidth, align: 'justify'});
 
                     //Texto
-                    texto = `h) Estar sempre em condições de auxiliar o CBMRJ, por ocasião de sua chegada, no sentido de fornecer dados gerais sobre a ocorrência, bem como promover o rápido e fácil acesso aos dispositivos de segurança.`;
+                    texto = `h) Estar sempre em condições de auxiliar o CBMERJ, por ocasião de sua chegada, no sentido de fornecer dados gerais sobre a ocorrência, bem como promover o rápido e fácil acesso aos dispositivos de segurança.`;
 
                     novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
