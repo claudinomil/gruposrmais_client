@@ -78,6 +78,17 @@ class Controller extends BaseController
             if (isset($response['content']['sistema_acessos'])) {$this->sistema_acessos = $response['content']['sistema_acessos'];}
             if (isset($response['content']['escala_tipos'])) {$this->escala_tipos = $response['content']['escala_tipos'];}
             if (isset($response['content']['funcionario_acao_1_funcionarios'])) {$this->funcionario_acao_1_funcionarios = $response['content']['funcionario_acao_1_funcionarios'];}
+            if (isset($response['content']['ordem_servico_prioridades'])) {$this->ordem_servico_prioridades = $response['content']['ordem_servico_prioridades'];}
+            if (isset($response['content']['ordem_servico_tipos'])) {$this->ordem_servico_tipos = $response['content']['ordem_servico_tipos'];}
+            if (isset($response['content']['ordem_servico_status'])) {$this->ordem_servico_status = $response['content']['ordem_servico_status'];}
+            if (isset($response['content']['formas_pagamentos'])) {$this->formas_pagamentos = $response['content']['formas_pagamentos'];}
+            if (isset($response['content']['formas_pagamentos_status'])) {$this->formas_pagamentos_status = $response['content']['formas_pagamentos_status'];}
+            if (isset($response['content']['veiculo_categorias'])) {$this->veiculo_categorias = $response['content']['veiculo_categorias'];}
+            if (isset($response['content']['veiculo_combustiveis'])) {$this->veiculo_combustiveis = $response['content']['veiculo_combustiveis'];}
+            if (isset($response['content']['veiculo_marcas'])) {$this->veiculo_marcas = $response['content']['veiculo_marcas'];}
+            if (isset($response['content']['veiculo_modelos'])) {$this->veiculo_modelos = $response['content']['veiculo_modelos'];}
+            if (isset($response['content']['veiculos'])) {$this->veiculos = $response['content']['veiculos'];}
+            if (isset($response['content']['clientes_executivos'])) {$this->clientes_executivos = $response['content']['clientes_executivos'];}
         }
     }
 

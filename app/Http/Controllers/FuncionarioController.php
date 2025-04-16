@@ -260,9 +260,9 @@ class FuncionarioController extends Controller
                     ->addIndexColumn()
                     ->editColumn('foto', function ($row) {
                         $retorno = "<div class='text-center'>";
-                        $retorno .= "<img src='".asset($row['foto'])."' alt='' class='img-thumbnail rounded-circle avatar-sm'>";
+                        $retorno .= "<img src='" . asset($row['foto']) . "' alt='' class='img-thumbnail avatar-sm' id='datatable_foto_funcionario_id_" . $row['id'] . "'>";
                         $retorno .= "<br>";
-                        $retorno .= "<a href='#' data-bs-toggle='modal' data-bs-target='.modal-funcionario' onclick='funcionarioExtraData(".$row['id'].");'><span class='bg-success badge'><i class='bx bx-user font-size-16 align-middle me-1'></i>Perfil</span></a>";
+                        $retorno .= "<a href='#' onclick='funcionarioModalInfo(" . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
                         $retorno .= "</div>";
 
                         return $retorno;
@@ -276,7 +276,7 @@ class FuncionarioController extends Controller
 
                         return $retorno;
                     })
-                    ->addColumn('action', function ($row, Request $request) {
+                    ->addColumn('action', function ($row) {
                         return $this->columnAction($row['id']);
                     })
                     ->rawColumns(['action'])
@@ -436,7 +436,7 @@ class FuncionarioController extends Controller
                 $data = array();
                 $data['empresa_id'] = session('userLogged_empresa_id');
                 $data['funcionario_id'] = $request['upload_documentos_pdfs_funcionario_id'];
-                $data['acao'] = $request['upload_documentos_pdfs_acao'];
+                $data['acao'] = $request['upload_documentos_pdfs_fun_acao'];
                 $data['name'] = $name;
                 $data['descricao'] = $request['fun_documentos_pdfs_descricao'];
                 $data['caminho'] = $pdf;

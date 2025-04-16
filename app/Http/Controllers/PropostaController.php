@@ -44,7 +44,7 @@ class PropostaController extends Controller
                     })
                     ->editColumn('numero_proposta', function ($row) {
                         $retorno = "<div>";
-                        $retorno .= "<a href='propostas/gerar_pdf/proposta/".$row['id']."' target='_blank' title='Visualizar Proposta nº. ".$row['numero_proposta']."\\".$row['ano_proposta']."'><i class='fa fa-file-pdf fa-2x'></i></a>";
+                        $retorno .= "<a href='#' title='Visualizar Proposta nº. ".$row['numero_proposta']."\\".$row['ano_proposta']."' onclick='gerarProposta(".$row['id'].");'><i class='fa fa-file-pdf fa-2x text-danger'></i></a>";
                         $retorno .= "&nbsp;&nbsp;Proposta nº.&nbsp;".$row['numero_proposta']."/".$row['ano_proposta'];
                         $retorno .= "</div>";
 
@@ -246,7 +246,7 @@ class PropostaController extends Controller
                     })
                     ->editColumn('numero_proposta', function ($row) {
                         $retorno = "<div>";
-                        $retorno .= "<a href='propostas/gerar_pdf/proposta/".$row['id']."' target='_blank' title='Visualizar Proposta nº. ".$row['numero_proposta']."\\".$row['ano_proposta']."'><i class='fa fa-file-pdf fa-2x'></i></a>";
+                        $retorno .= "<a href='#' title='Visualizar Proposta nº. ".$row['numero_proposta']."\\".$row['ano_proposta']."' onclick='gerarProposta(".$row['id'].");'><i class='fa fa-file-pdf fa-2x text-danger'></i></a>";
                         $retorno .= "&nbsp;&nbsp;Proposta nº.&nbsp;".$row['numero_proposta']."/".$row['ano_proposta'];
                         $retorno .= "</div>";
 
@@ -262,55 +262,6 @@ class PropostaController extends Controller
             }
         } else {
             return view('propostas.index');
-        }
-    }
-
-    public function gerar_pdf_proposta($id)
-    {
-        //Buscando dados Api_Data() - Registro pelo id
-        $this->responseApi(1, 2, 'propostas', $id, '', '');
-
-        //Registro recebido com sucesso
-        if ($this->code == 2000) {
-            //Preparando Dados para a View''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            //data_proposta
-            if ($this->content['data_proposta'] != '') {$this->content['data_proposta'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_proposta'], 0, 10))->format('d/m/Y');}
-
-            //porcentagem_desconto
-            if ($this->content['porcentagem_desconto'] != '') {
-                $this->content['porcentagem_desconto'] = number_format($this->content['porcentagem_desconto'], 2, ",", ".");
-            } else {
-                $this->content['porcentagem_desconto'] = 0;
-            }
-
-            //valor_desconto
-            if ($this->content['valor_desconto'] != '') {
-                $this->content['valor_desconto'] = number_format($this->content['valor_desconto'], 2, ",", ".");
-            } else {
-                $this->content['valor_desconto'] = 0;
-            }
-
-            //valor_total
-            if ($this->content['valor_total'] != '') {
-                $this->content['valor_total'] = number_format($this->content['valor_total'], 2, ",", ".");
-            } else {
-                $this->content['valor_total'] = 0;
-            }
-            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-            $registro = $this->content;
-
-            $pdf = Pdf::loadView('propostas.proposta', compact('registro'));
-
-            return $pdf->stream('proposta_'.$id);
-        } else if ($this->code == 4040) { //Registro não encontrado
-            $error = $this->message;
-
-            $pdf = Pdf::loadView('propostas.proposta', compact('error'));
-
-            return $pdf->stream('proposta_'.$id);
-        } else {
-            abort(500, 'Erro Interno Client');
         }
     }
 }

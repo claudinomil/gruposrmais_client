@@ -126,19 +126,63 @@ function crudConfiguracao({p_frm_operacao=null, p_fieldsDisabled=null, p_crudFor
 
 //Preencher Formulario
 function crudPreencherFormulario(campo, dados) {
-    if (campo == 'id') {
+    var campo_formulario = campo;
+    var campo_tabela = campo;
+
+    if (campo_tabela == 'id') {
         document.getElementById('registro_id').value = dados['id'];
     } else {
-        var elemento = document.getElementById(campo);
+        //Ajustes'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        if (document.getElementById('crudPrefixPermissaoSubmodulo').value == 'ordens_servicos') {
+            var ost = '';
+
+            if (dados['ordem_servico_tipo_id'] == 1) {ost = 'ost1_';}
+            if (dados['ordem_servico_tipo_id'] == 2) {ost = 'ost2_';}
+            if (dados['ordem_servico_tipo_id'] == 3) {ost = 'ost3_';}
+
+            if (campo_formulario == 'numero_ordem_servico') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'ano_ordem_servico') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'data_abertura') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'hora_abertura') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'data_prevista') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'hora_prevista') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'data_conclusao') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'hora_conclusao') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'data_finalizacao') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'hora_finalizacao') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'ordem_servico_status_id') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'cliente_id') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'cliente_nome') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'cliente_telefone') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'cliente_celular') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'cliente_email') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'cliente_logradouro') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'cliente_bairro') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'cliente_cidade') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'descricao_servico') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'ordem_servico_prioridade_id') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'observacao') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'valor_total') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'valor_total_extenso') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'porcentagem_desconto') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'valor_desconto') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'valor_desconto_extenso') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'forma_pagamento_id') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'forma_pagamento_status_id') {campo_formulario = ost+campo_formulario;}
+            if (campo_formulario == 'forma_pagamento_observacao') {campo_formulario = ost+campo_formulario;}
+        }
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        var elemento = document.getElementById(campo_formulario);
         if (elemento) {
             if (elemento.classList.contains('select2')) {
                 //Incluindo valor no Select e alterando no Select2
-                var select2 = document.getElementById(campo);
-                select2.value = dados[campo];
+                var select2 = document.getElementById(campo_formulario);
+                select2.value = dados[campo_tabela];
                 var event = new Event('change', { bubbles: true });
                 select2.dispatchEvent(event);
             } else {
-                document.getElementById(campo).value = dados[campo];
+                document.getElementById(campo_formulario).value = dados[campo_tabela];
             }
         }
     }
@@ -218,11 +262,10 @@ function crudTable(route, fieldsColumns='', pageLength=5) {
             }
         },
         bDestroy: true,
-        responsive: true,
+        responsive: false,
         lengthChange: true,
         autoWidth: true,
         order: [],
-
         processing: true,
         serverSide: false,
         pageLength: pageLength,
@@ -346,6 +389,82 @@ function crudCreate() {
             if (prefixPermissaoSubmodulo == 'propostas') {
                 limparServicosGrade();
             }
+
+            if (prefixPermissaoSubmodulo == 'ordens_servicos') {
+                //Create divOST2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                ost2_limparServicosGrade();
+
+                //hide div campos Escolher
+                document.getElementById('ost2_ts_divServicoEscolher').style.display = '';
+
+                //Iniciar alguns campos
+                document.getElementById('ost2_ordem_servico_prioridade_id').value = 1;
+                document.getElementById('ost2_forma_pagamento_id').value = 1;
+                document.getElementById('ost2_forma_pagamento_status_id').value = 1;
+
+                //Hide no Informações Gerais
+                document.getElementById('ost2_divOrdemServicoInformacoesGerais').style.display = 'none';
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                //Create divOST3''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                ost3_limparDestinosGrade();
+                ost3_limparVeiculosGrade();
+                ost3_limparClienteExecutivosGrade();
+                ost3_limparEquipesGrade();
+
+                //hide div campos Escolher
+                document.getElementById('ost3_te_divDestinoEscolher').style.display = '';
+                document.getElementById('ost3_te_divVeiculoEscolher').style.display = '';
+                document.getElementById('ost3_te_divClienteExecutivoEscolher').style.display = '';
+                document.getElementById('ost3_te_divEquipeEscolher').style.display = '';
+
+
+                //Iniciar alguns campos
+                document.getElementById('ost3_ordem_servico_prioridade_id').value = 1;
+
+                //Hide no Informações Gerais
+                document.getElementById('ost3_divOrdemServicoInformacoesGerais').style.display = 'none';
+
+                //Grade Serviços (ost3_ts_servico_hiddens e ost3_ts_servico_nome)
+                //Route: servicos/id
+                fetch('servicos/7', {
+                    method: 'GET',
+                    headers: {
+                        'REQUEST-ORIGIN': 'fetch',
+                        'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                }).then(response => {
+                    return response.json();
+                }).then(data => {
+                    var servico = data.success;
+                    var servico_id = servico.id;
+                    var servico_nome = servico.name;
+
+                    //ost3_ts_servico_nome
+                    document.getElementById('ost3_ts_servico_nome').value = servico_nome;
+
+                    //ost3_ts_servico_hiddens
+                    hiddens = "<div id='ost3_ts_servico_hiddens_" + servico_id + "'>";
+                    hiddens += "<input class='servico_item_hiddens' type='hidden' name='ost3_servico_item[]' id='ost3_servico_item' value='1'>";
+                    hiddens += "<input type='hidden' name='ost3_servico_id[]' id='ost3_servico_id' value='"+servico_id+"'>";
+                    hiddens += "<input type='hidden' name='ost3_servico_nome[]' id='ost3_servico_nome' value='"+servico_nome+"'>";
+                    hiddens += "<input type='hidden' name='ost3_responsavel_funcionario_id[]' id='ost3_responsavel_funcionario_id' value=''>";
+                    hiddens += "<input type='hidden' name='ost3_responsavel_funcionario_nome[]' id='ost3_responsavel_funcionario_nome' value=''>";
+                    hiddens += "</div>";
+
+                    //Adicionar hiddens na div
+                    document.getElementById('ost3_ts_servico_hiddens').innerHTML = hiddens;
+                }).catch(error => {
+                    alert('Erro OrdemServicoOST3:'+error);
+                });
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                //Campo: ordem_servico_tipo_id (forçar change)
+                document.getElementById('ordem_servico_tipo_id').dispatchEvent(new Event('change'));
+
+                //Campo: ordem_servico_tipo_id (disabled)
+                document.getElementById('ordem_servico_tipo_id').disabled = false;
+            }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         } else if (data.error_permissao) {
             alertSwal('warning', "Permissão Negada", '', 'true', 2000);
@@ -353,7 +472,7 @@ function crudCreate() {
             alert('Erro interno');
         }
     }).catch(error => {
-        alert('ErroFunctions:', error);
+        alert('ErroFunctions:'+error);
     });
 }
 
@@ -448,14 +567,14 @@ function crudView(registro_id) {
             }
 
             if (prefixPermissaoSubmodulo == 'funcionarios') {
-                //Liberar campos frm_upload_foto
+                //Liberar campos frm_upload_fun_foto
                 document.getElementById('upload_foto_funcionario_id').disabled = false;
                 document.getElementById('upload_foto_funcionario_name').disabled = false;
                 document.getElementById('fun_foto_file').disabled = false;
 
-                //Liberar campos frm_upload_documentos_pdfs
+                //Liberar campos frm_upload_documentos_pdfs_fun
                 document.getElementById('upload_documentos_pdfs_funcionario_id').disabled = false;
-                document.getElementById('upload_documentos_pdfs_acao').disabled = false;
+                document.getElementById('upload_documentos_pdfs_fun_acao').disabled = false;
                 document.getElementById('fun_documentos_pdfs_descricao').disabled = false;
                 document.getElementById('fun_documentos_pdfs_data_documento').disabled = false;
                 document.getElementById('fun_documentos_pdfs_aviso').disabled = false;
@@ -470,6 +589,22 @@ function crudView(registro_id) {
             }
 
             if (prefixPermissaoSubmodulo == 'clientes') {
+                //Liberar campos frm_upload_documentos_pdfs_cli
+                document.getElementById('upload_documentos_pdfs_cliente_id').disabled = false;
+                document.getElementById('upload_documentos_pdfs_cli_acao').disabled = false;
+                document.getElementById('cli_documentos_pdfs_descricao').disabled = false;
+                document.getElementById('cli_documentos_pdfs_data_documento').disabled = false;
+                document.getElementById('cli_documentos_pdfs_aviso').disabled = false;
+                document.getElementById('cli_documentos_pdfs_file').disabled = false;
+
+                //Display divArquivosPdf
+                elemento = document.getElementById('divArquivosPdf');
+                elemento.style.display = 'block';
+
+                //Montando Grade de Documentos PDF
+                clienteModalInfoGradeDocumentosPdf({id_elemento_visualisacao:'divArquivosPdfGrade', btn_visualizar:true, btn_deletar:false});
+
+                //Dados
                 document.getElementById('divProjetoScip').style.display = 'nome';
                 document.getElementById('divLaudoExigencias').style.display = 'nome';
                 document.getElementById('divCertificadoAprovacao').style.display = 'nome';
@@ -607,11 +742,162 @@ function crudView(registro_id) {
                     //Dados para preencher na linha da grade
                     document.getElementById('ts_servico_id').value = item.servico_id;
                     document.getElementById('ts_servico_nome').value = item.servico_nome;
-                    document.getElementById('ts_servico_valor').value = item.servico_valor;
-                    document.getElementById('ts_servico_qtd').value = item.servico_qtd;
+                    document.getElementById('ts_servico_valor').value = float2moeda(item.servico_valor);
+                    document.getElementById('ts_servico_qtd').value = item.servico_quantidade;
 
                     atualizarServicoGrade(1);
                 });
+            }
+
+            if (prefixPermissaoSubmodulo == 'ordens_servicos') {
+                //View divOST2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //Grade Serviços
+                ost2_limparServicosGrade();
+
+                ordem_servico_servicos = data.success['ordem_servico_servicos'];
+
+                ordem_servico_servicos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost2_ts_servico_id').value = item.servico_id;
+                    document.getElementById('ost2_ts_servico_nome').value = item.servico_nome;
+                    document.getElementById('ost2_ts_responsavel_funcionario_id').value = item.responsavel_funcionario_id;
+                    document.getElementById('ost2_ts_responsavel_funcionario_nome').value = item.responsavel_funcionario_nome;
+                    document.getElementById('ost2_ts_servico_valor').value = float2moeda(item.servico_valor);
+                    document.getElementById('ost2_ts_servico_quantidade').value = item.servico_quantidade;
+
+                    ost2_atualizarServicoGrade(1);
+                });
+
+                ost2_atualizarServicoEscolher(0);
+                ost2_atualizarResponsavelFuncionarioEscolher(0);
+
+                document.getElementById('ost2_ts_divServicoEscolher').style.display = 'none';
+
+                //Show no Informações Gerais
+                document.getElementById('ost2_divOrdemServicoInformacoesGerais').style.display = '';
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                //View divOST3''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //Grade Serviços (ost3_ts_servico_hiddens, ost3_ts_servico_nome e ost3_ts_responsavel_funcionario_id)
+                ordem_servico_servicos = data.success['ordem_servico_servicos'];
+
+                ordem_servico_servicos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    var servico_id = item.servico_id;
+                    var servico_nome = item.servico_nome;
+                    var responsavel_funcionario_id = item.responsavel_funcionario_id ?? '';
+                    var responsavel_funcionario_nome = item.responsavel_funcionario_nome ?? '';
+
+                    //ost3_ts_servico_nome
+                    document.getElementById('ost3_ts_servico_nome').value = servico_nome;
+
+                    //ost3_ts_responsavel_funcionario_id
+                    document.getElementById('ost3_ts_responsavel_funcionario_id').value = responsavel_funcionario_id;
+
+                    //ost3_ts_servico_hiddens
+                    var hiddens = "<div id='ost3_ts_servico_hiddens_" + servico_id + "'>";
+                    hiddens += "<input class='servico_item_hiddens' type='hidden' name='ost3_servico_item[]' id='ost3_servico_item' value='1'>";
+                    hiddens += "<input type='hidden' name='ost3_servico_id[]' id='ost3_servico_id' value='"+servico_id+"'>";
+                    hiddens += "<input type='hidden' name='ost3_servico_nome[]' id='ost3_servico_nome' value='"+servico_nome+"'>";
+                    hiddens += "<input type='hidden' name='ost3_responsavel_funcionario_id[]' id='ost3_responsavel_funcionario_id' value='"+responsavel_funcionario_id+"'>";
+                    hiddens += "<input type='hidden' name='ost3_responsavel_funcionario_nome[]' id='ost3_responsavel_funcionario_nome' value='"+responsavel_funcionario_nome+"'>";
+                    hiddens += "</div>";
+
+                    //Adicionar hiddens na div
+                    document.getElementById('ost3_ts_servico_hiddens').innerHTML = hiddens;
+                });
+
+                //Grade Destinos
+                ost3_limparDestinosGrade();
+
+                ordem_servico_destinos = data.success['ordem_servico_destinos'];
+
+                ordem_servico_destinos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost3_te_destino_ordem').value = item.destino_ordem;
+                    document.getElementById('ost3_te_destino_cep').value = item.destino_cep;
+                    document.getElementById('ost3_te_destino_logradouro').value = item.destino_logradouro;
+                    document.getElementById('ost3_te_destino_bairro').value = item.destino_bairro;
+                    document.getElementById('ost3_te_destino_localidade').value = item.destino_localidade;
+                    document.getElementById('ost3_te_destino_uf').value = item.destino_uf;
+                    document.getElementById('ost3_te_destino_numero').value = item.destino_numero;
+                    document.getElementById('ost3_te_destino_complemento').value = item.destino_complemento;
+
+                    ost3_atualizarDestinoGrade(1);
+                });
+
+                ost3_atualizarDestinoEscolher(0);
+
+                document.getElementById('ost3_te_divDestinoEscolher').style.display = 'none';
+
+                //Grade Veículos
+                ost3_limparVeiculosGrade();
+
+                ordem_servico_veiculos = data.success['ordem_servico_veiculos'];
+
+                ordem_servico_veiculos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost3_te_veiculo_id').value = item.veiculo_id;
+                    document.getElementById('ost3_te_veiculo_marca').value = item.veiculo_marca;
+                    document.getElementById('ost3_te_veiculo_modelo').value = item.veiculo_modelo;
+                    document.getElementById('ost3_te_veiculo_placa').value = item.veiculo_placa;
+                    document.getElementById('ost3_te_veiculo_combustivel').value = item.veiculo_combustivel;
+
+                    ost3_atualizarVeiculoGrade(1);
+                });
+
+                ost3_atualizarVeiculoEscolher(0);
+
+                document.getElementById('ost3_te_divVeiculoEscolher').style.display = 'none';
+
+                //Montar combos veiculos
+                ost3_atualizarComboVeiculosClienteExecutivo();
+                ost3_atualizarComboVeiculosEquipe();
+
+                //Grade Executivos
+                ost3_limparClienteExecutivosGrade();
+
+                ordem_servico_executivos = data.success['ordem_servico_executivos'];
+
+                ordem_servico_executivos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost3_te_cliente_executivo_id').value = item.cliente_executivo_id;
+                    document.getElementById('ost3_te_cliente_executivo_nome').value = item.cliente_executivo_nome;
+                    document.getElementById('ost3_te_cliente_executivo_funcao').value = item.cliente_executivo_funcao;
+                    document.getElementById('ost3_te_cliente_executivo_veiculo_id').value = item.cliente_executivo_veiculo_id;
+
+                    ost3_atualizarClienteExecutivoGrade(1);
+                });
+
+                ost3_atualizarClienteExecutivoEscolher(0);
+
+                document.getElementById('ost3_te_divClienteExecutivoEscolher').style.display = 'none';
+
+                //Grade Equipes
+                ost3_limparEquipesGrade();
+
+                ordem_servico_equipes = data.success['ordem_servico_equipes'];
+
+                ordem_servico_equipes.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost3_te_equipe_funcionario_id').value = item.equipe_funcionario_id;
+                    document.getElementById('ost3_te_equipe_funcionario_nome').value = item.equipe_funcionario_nome;
+                    document.getElementById('ost3_te_equipe_funcionario_funcao').value = item.equipe_funcionario_funcao;
+                    document.getElementById('ost3_te_equipe_funcionario_veiculo_id').value = item.equipe_funcionario_veiculo_id;
+
+                    ost3_atualizarEquipeGrade(1);
+                });
+
+                ost3_atualizarEquipeEscolher(0);
+
+                document.getElementById('ost3_te_divEquipeEscolher').style.display = 'none';
+
+                //Show no Informações Gerais
+                document.getElementById('ost3_divOrdemServicoInformacoesGerais').style.display = '';
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                //Campo: ordem_servico_tipo_id (forçar change)
+                document.getElementById('ordem_servico_tipo_id').dispatchEvent(new Event('change'));
             }
 
             if (prefixPermissaoSubmodulo == 'brigadas') {
@@ -649,6 +935,9 @@ function crudView(registro_id) {
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+            //Configuração
+            crudConfiguracao({p_removeMask:true, p_putMask:true});
         } else if (data.error_not_found) {
             //Configuração
             crudConfiguracao({p_removeMask:true, p_putMask:true});
@@ -666,7 +955,7 @@ function crudView(registro_id) {
             alert('Erro interno');
         }
     }).catch(error => {
-        alert('Erro Crud Functions View:', error);
+        alert('Erro Crud Functions View:'+error);
     });
 }
 
@@ -900,11 +1189,165 @@ function crudEdit(registro_id) {
                     //Dados para preencher na linha da grade
                     document.getElementById('ts_servico_id').value = item.servico_id;
                     document.getElementById('ts_servico_nome').value = item.servico_nome;
-                    document.getElementById('ts_servico_valor').value = item.servico_valor;
-                    document.getElementById('ts_servico_qtd').value = item.servico_qtd;
+                    document.getElementById('ts_servico_valor').value = float2moeda(item.servico_valor);
+                    document.getElementById('ts_servico_qtd').value = item.servico_quantidade;
 
                     atualizarServicoGrade(1);
                 });
+            }
+
+            if (prefixPermissaoSubmodulo == 'ordens_servicos') {
+                //Edit divOST2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //Grade Serviços
+                ost2_limparServicosGrade();
+
+                ordem_servico_servicos = data.success['ordem_servico_servicos'];
+
+                ordem_servico_servicos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost2_ts_servico_id').value = item.servico_id;
+                    document.getElementById('ost2_ts_servico_nome').value = item.servico_nome;
+                    document.getElementById('ost2_ts_responsavel_funcionario_id').value = item.responsavel_funcionario_id;
+                    document.getElementById('ost2_ts_responsavel_funcionario_nome').value = item.responsavel_funcionario_nome;
+                    document.getElementById('ost2_ts_servico_valor').value = float2moeda(item.servico_valor);
+                    document.getElementById('ost2_ts_servico_quantidade').value = item.servico_quantidade;
+
+                    ost2_atualizarServicoGrade(1);
+                });
+
+                ost2_atualizarServicoEscolher(0);
+                ost2_atualizarResponsavelFuncionarioEscolher(0);
+
+                document.getElementById('ost2_ts_divServicoEscolher').style.display = '';
+
+                //Show no Informações Gerais
+                document.getElementById('ost2_divOrdemServicoInformacoesGerais').style.display = '';
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                //Edit divOST3''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //Grade Serviços (ost3_ts_servico_hiddens, ost3_ts_servico_nome e ost3_ts_responsavel_funcionario_id)
+                ordem_servico_servicos = data.success['ordem_servico_servicos'];
+
+                ordem_servico_servicos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    var servico_id = item.servico_id;
+                    var servico_nome = item.servico_nome;
+                    var responsavel_funcionario_id = item.responsavel_funcionario_id ?? '';
+                    var responsavel_funcionario_nome = item.responsavel_funcionario_nome ?? '';
+
+                    //ost3_ts_servico_nome
+                    document.getElementById('ost3_ts_servico_nome').value = servico_nome;
+
+                    //ost3_ts_responsavel_funcionario_id
+                    document.getElementById('ost3_ts_responsavel_funcionario_id').value = responsavel_funcionario_id;
+
+                    //ost3_ts_servico_hiddens
+                    var hiddens = "<div id='ost3_ts_servico_hiddens_" + servico_id + "'>";
+                    hiddens += "<input class='servico_item_hiddens' type='hidden' name='ost3_servico_item[]' id='ost3_servico_item' value='1'>";
+                    hiddens += "<input type='hidden' name='ost3_servico_id[]' id='ost3_servico_id' value='"+servico_id+"'>";
+                    hiddens += "<input type='hidden' name='ost3_servico_nome[]' id='ost3_servico_nome' value='"+servico_nome+"'>";
+                    hiddens += "<input type='hidden' name='ost3_responsavel_funcionario_id[]' id='ost3_responsavel_funcionario_id' value='"+responsavel_funcionario_id+"'>";
+                    hiddens += "<input type='hidden' name='ost3_responsavel_funcionario_nome[]' id='ost3_responsavel_funcionario_nome' value='"+responsavel_funcionario_nome+"'>";
+                    hiddens += "</div>";
+
+                    //Adicionar hiddens na div
+                    document.getElementById('ost3_ts_servico_hiddens').innerHTML = hiddens;
+                });
+
+                //Grade Destinos
+                ost3_limparDestinosGrade();
+
+                ordem_servico_destinos = data.success['ordem_servico_destinos'];
+
+                ordem_servico_destinos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost3_te_destino_ordem').value = item.destino_ordem;
+                    document.getElementById('ost3_te_destino_cep').value = item.destino_cep;
+                    document.getElementById('ost3_te_destino_logradouro').value = item.destino_logradouro;
+                    document.getElementById('ost3_te_destino_bairro').value = item.destino_bairro;
+                    document.getElementById('ost3_te_destino_localidade').value = item.destino_localidade;
+                    document.getElementById('ost3_te_destino_uf').value = item.destino_uf;
+                    document.getElementById('ost3_te_destino_numero').value = item.destino_numero;
+                    document.getElementById('ost3_te_destino_complemento').value = item.destino_complemento;
+
+                    ost3_atualizarDestinoGrade(1);
+                });
+
+                ost3_atualizarDestinoEscolher(0);
+
+                document.getElementById('ost3_te_divDestinoEscolher').style.display = '';
+
+                //Grade Veículos
+                ost3_limparVeiculosGrade();
+
+                ordem_servico_veiculos = data.success['ordem_servico_veiculos'];
+
+                ordem_servico_veiculos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost3_te_veiculo_id').value = item.veiculo_id;
+                    document.getElementById('ost3_te_veiculo_marca').value = item.veiculo_marca;
+                    document.getElementById('ost3_te_veiculo_modelo').value = item.veiculo_modelo;
+                    document.getElementById('ost3_te_veiculo_placa').value = item.veiculo_placa;
+                    document.getElementById('ost3_te_veiculo_combustivel').value = item.veiculo_combustivel;
+
+                    ost3_atualizarVeiculoGrade(1);
+                });
+
+                ost3_atualizarVeiculoEscolher(0);
+
+                document.getElementById('ost3_te_divVeiculoEscolher').style.display = '';
+
+                //Montar combos veiculos
+                ost3_atualizarComboVeiculosClienteExecutivo();
+                ost3_atualizarComboVeiculosEquipe();
+
+                //Grade Executivos
+                ost3_limparClienteExecutivosGrade();
+
+                ordem_servico_executivos = data.success['ordem_servico_executivos'];
+
+                ordem_servico_executivos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost3_te_cliente_executivo_id').value = item.cliente_executivo_id;
+                    document.getElementById('ost3_te_cliente_executivo_nome').value = item.cliente_executivo_nome;
+                    document.getElementById('ost3_te_cliente_executivo_funcao').value = item.cliente_executivo_funcao;
+                    document.getElementById('ost3_te_cliente_executivo_veiculo_id').value = item.cliente_executivo_veiculo_id;
+
+                    ost3_atualizarClienteExecutivoGrade(1);
+                });
+
+                ost3_atualizarClienteExecutivoEscolher(0);
+
+                document.getElementById('ost3_te_divClienteExecutivoEscolher').style.display = '';
+
+                //Grade Equipes
+                ost3_limparEquipesGrade();
+
+                ordem_servico_equipes = data.success['ordem_servico_equipes'];
+
+                ordem_servico_equipes.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost3_te_equipe_funcionario_id').value = item.equipe_funcionario_id;
+                    document.getElementById('ost3_te_equipe_funcionario_nome').value = item.equipe_funcionario_nome;
+                    document.getElementById('ost3_te_equipe_funcionario_funcao').value = item.equipe_funcionario_funcao;
+                    document.getElementById('ost3_te_equipe_funcionario_veiculo_id').value = item.equipe_funcionario_veiculo_id;
+
+                    ost3_atualizarEquipeGrade(1);
+                });
+
+                ost3_atualizarEquipeEscolher(0);
+
+                document.getElementById('ost3_te_divEquipeEscolher').style.display = '';
+
+                //Show no Informações Gerais
+                document.getElementById('ost3_divOrdemServicoInformacoesGerais').style.display = '';
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                //Campo: ordem_servico_tipo_id (forçar change)
+                document.getElementById('ordem_servico_tipo_id').dispatchEvent(new Event('change'));
+
+                //Campo: ordem_servico_tipo_id (disabled)
+                document.getElementById('ordem_servico_tipo_id').disabled = true;
             }
 
             if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
@@ -950,6 +1393,9 @@ function crudEdit(registro_id) {
                 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+            //Configuração
+            crudConfiguracao({p_removeMask:true, p_putMask:true});
         } else if (data.error_not_found) {
             //Configuração
             crudConfiguracao({p_removeMask:true, p_putMask:true});
@@ -967,7 +1413,7 @@ function crudEdit(registro_id) {
             alert('Erro interno');
         }
     }).catch(error => {
-        alert('Erro Crud Functions Edit:', error);
+        alert('Erro Crud Functions Edit:'+error);
     });
 }
 
@@ -1029,7 +1475,7 @@ function crudDelete(registro_id) {
                 //Configuração
                 crudConfiguracao({p_removeMask:true, p_putMask:true});
 
-                alert('Erro Crud Functions Delete:', error);
+                alert('Erro Crud Functions Delete:'+error);
             });
 
             //Configuração - Retirar DIV Loading e colocar DIV Botões
@@ -1145,7 +1591,7 @@ function crudConfirmOperation() {
                     //Configuração
                     crudConfiguracao({p_removeMask:true, p_putMask:true});
 
-                    alert('Erro Crud Functions Confirm Operation Create:', error);
+                    alert('Erro Crud Functions Confirm Operation Create: '+error);
                 });
 
                 //Configuração - Retirar DIV Loading e colocar DIV Botões
@@ -1233,7 +1679,7 @@ function crudConfirmOperation() {
                     //Configuração
                     crudConfiguracao({p_removeMask:true, p_putMask:true});
 
-                    alert('Erro Crud Functions Confirm Operation Edit:', error);
+                    alert('Erro Crud Functions Confirm Operation Edit:'+error);
                 });
 
                 //Configuração - Retirar DIV Loading e colocar DIV Botões

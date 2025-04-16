@@ -28,7 +28,7 @@
 
                         @if(\App\Facades\Permissoes::permissao(['list']))
                             <!-- Botão PropostaPDF -->
-                            <x-button-crud op="99" model="3" bgColor="info" textColor="write" class="gerarPdfProposta" title="Proposta em PDF" image="fas fa-file-pdf" label="PDF" />
+                            <x-button-crud op="99" model="3" bgColor="info" textColor="write" title="Proposta em PDF" image="fas fa-file-pdf" label="PDF" onclick="gerarProposta()" />
                         @endif
 
                         <!-- Botão Cancelar Operação -->
@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Cliente</label>
-                                        <select class="select2 form-control" name="cliente_id" id="cliente_id" required="required">
+                                        <select class="form-control" name="cliente_id" id="cliente_id" required="required">
                                             <option value="">Selecione...</option>
 
                                             @foreach ($clientes as $key => $cliente)
@@ -110,7 +110,7 @@
                                     <div class="row col-12">
                                         <div class="form-group col-12 col-md-6 pb-3">
                                             <label class="form-label">Serviço</label>
-                                            <select class="select2 form-control" name="ts_servico_id" id="ts_servico_id">
+                                            <select class="form-control" name="ts_servico_id" id="ts_servico_id">
                                                 <option value="">Selecione...</option>
 
                                                 @foreach ($servicos as $key => $servico)
@@ -131,13 +131,10 @@
                                         <div class="form-group col-12 col-md-2 pb-3">
                                             <label class="form-label">Opções</label>
                                             <div class="row">
-                                                <div class="col-4" id="ts_servico_adicionar_div" style="display: none;">
+                                                <div class="col-6" id="ts_servico_adicionar_div" style="display: none;">
                                                     <x-button-crud op="99" model="1" bgColor="success" textColor="write" id="ts_servico_adicionar" name="ts_servico_adicionar" title="Adicionar Serviço na Grade" image="fas fa-check" />
                                                 </div>
-                                                <div class="col-4" id="ts_servico_atualizar_div" style="display: none;">
-                                                    <x-button-crud op="99" model="1" bgColor="primary" textColor="write" id="ts_servico_atualizar" name="ts_servico_atualizar" title="Atualizar Serviço na Grade" image="fas fa-edit" />
-                                                </div>
-                                                <div class="col-4" id="ts_servico_retirar_div" style="display: none;">
+                                                <div class="col-6" id="ts_servico_retirar_div" style="display: none;">
                                                     <x-button-crud op="99" model="1" bgColor="danger" textColor="write" id="ts_servico_retirar" name="ts_servico_retirar" title="Retirar Serviço da Grade" image="fas fa-trash-alt" />
                                                 </div>
                                             </div>
@@ -259,7 +256,7 @@
 
                     @if(\App\Facades\Permissoes::permissao(['list']))
                         <!-- Botão PropostaPDF -->
-                        <x-button-crud op="99" model="3" bgColor="info" textColor="write" class="gerarPdfProposta" title="Proposta em PDF" image="fas fa-file-pdf" label="PDF" />
+                        <x-button-crud op="99" model="3" bgColor="info" textColor="write" title="Proposta em PDF" image="fas fa-file-pdf" label="PDF" onclick="gerarProposta();" />
                     @endif
 
                     <!-- Botão Cancelar Operação -->

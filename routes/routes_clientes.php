@@ -13,7 +13,11 @@ Route::prefix('clientes')->group(function () {
     Route::delete('/{id}', [ClienteController::class, 'destroy'])->name('clientes.destroy');
     Route::get('/filter/{array_dados}', [ClienteController::class, 'filter'])->name('clientes.filter');
 
-    Route::get('/extradata/{id}', [ClienteController::class, 'extradata']);
+    //Modal clientes_modal_info
+    Route::get('/modalInfo/modal_info/{id}', [ClienteController::class, 'modal_info'])->name('clientes.modal_info');
+    Route::post('/uploadDocumentoPdf/upload_documento_pdf', [ClienteController::class, 'upload_documento_pdf'])->name('clientes.upload_documento_pdf');
+    Route::get('/modalInfo/documentos_pdf/{cliente_id}', [ClienteController::class, 'documentos_pdf'])->name('clientes.documentos_pdf');
+    Route::delete('/modalInfo/deletar_documento_pdf/{cliente_documento_id}', [ClienteController::class, 'deletar_documento_pdf'])->name('clientes.deletar_documento_pdf');
 
     Route::get('/visita_tecnica/{id}', [ClienteController::class, 'visita_tecnica'])->name('clientes.visita_tecnica');
 });

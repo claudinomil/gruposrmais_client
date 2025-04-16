@@ -23,6 +23,9 @@ function validar_frm_clientes() {
                 validacao_ok = false;
                 mensagem += 'CNPJ Inválido.'+'<br>';
             }
+        } else {
+            validacao_ok = false;
+            mensagem += 'CNPJ requerido.'+'<br>';
         }
 
         //Campo: nome_fantasia (não requerido / mínimo de 3 caracteres)
@@ -62,6 +65,9 @@ function validar_frm_clientes() {
                 validacao_ok = false;
                 mensagem += 'CPF Inválido.'+'<br>';
             }
+        } else {
+            validacao_ok = false;
+            mensagem += 'CPF requerido.'+'<br>';
         }
 
         //Campo: identidade_numero (não requerido / somente números)
@@ -83,147 +89,144 @@ function validar_frm_clientes() {
         }
     }
 
-    //PESSOA JURÍDICA ou PESSOA FÍSICA
-    if (document.getElementById('tipo').value == 1 || document.getElementById('tipo').value == 2) {
-        //Campo: name (requerido)
-        if (validacao({op:1, value:document.getElementById('name').value}) === false) {
-            validacao_ok = false;
-            mensagem += 'Nome requerido.'+'<br>';
-        }
-
+    //Campo: name (requerido)
+    if (validacao({op:1, value:document.getElementById('name').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Nome requerido.'+'<br>';
+    } else {
         //Campo: name (mínimo de 3 caracteres)
-        if (validacao({op:2, value:document.getElementById('name').value, minCaracteres:3}) === false) {
+        if (validacao({op: 2, value: document.getElementById('name').value, minCaracteres: 3}) === false) {
             validacao_ok = false;
-            mensagem += 'Nome precisa ter no mínimo 3 caracteres.'+'<br>';
+            mensagem += 'Nome precisa ter no mínimo 3 caracteres.' + '<br>';
+        }
+    }
+
+    //Campo: data_nascimento (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('data_nascimento').value}) === true) {
+        //Campo: data_nascimento (Data Válida)
+        if (validacao({op:8, value:document.getElementById('data_nascimento').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Data Nascimento Inválida.'+'<br>';
+        }
+    }
+
+    //Campo: cep (não requerido / CEP Válido)
+    if (validacao({op:1, value:document.getElementById('cep').value}) === true) {
+        //Campo: cep (CEP Válido)
+        if (validacao({op:9, value:document.getElementById('cep').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'CEP Inválido.'+'<br>';
+        }
+    }
+
+    //Campo: numero (não requerido / somente números)
+    if (validacao({op:1, value:document.getElementById('numero').value}) === true) {
+        //Campo: numero (somente números)
+        if (validacao({op:4, value:document.getElementById('numero').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Número só pode conter dígitos de 0 a 9.'+'<br>';
+        }
+    }
+
+    //Campo: cep_cobranca (não requerido / CEP Válido)
+    if (validacao({op:1, value:document.getElementById('cep_cobranca').value}) === true) {
+        //Campo: cep_cobranca (CEP Válido)
+        if (validacao({op:9, value:document.getElementById('cep_cobranca').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'CEP Cobrança Inválido.'+'<br>';
+        }
+    }
+
+    //Campo: numero_cobranca (não requerido / somente números)
+    if (validacao({op:1, value:document.getElementById('numero_cobranca').value}) === true) {
+        //Campo: numero_cobranca (somente números)
+        if (validacao({op:4, value:document.getElementById('numero_cobranca').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Número Cobrança só pode conter dígitos de 0 a 9.'+'<br>';
+        }
+    }
+
+    //Campo: agencia (não requerido / mínimo de 2 caracteres / somente números)
+    if (validacao({op:1, value:document.getElementById('agencia').value}) === true) {
+        //Campo: agencia (somente números)
+        if (validacao({op:4, value:document.getElementById('agencia').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Agência só pode conter dígitos de 0 a 9.'+'<br>';
         }
 
-        //Campo: data_nascimento (não requerido / Data Válida)
-        if (validacao({op:1, value:document.getElementById('data_nascimento').value}) === true) {
-            //Campo: data_nascimento (Data Válida)
-            if (validacao({op:8, value:document.getElementById('data_nascimento').value}) === false) {
-                validacao_ok = false;
-                mensagem += 'Data Nascimento Inválida.'+'<br>';
-            }
+        //Campo: agencia (mínimo de 2 caracteres)
+        if (validacao({op:2, value:document.getElementById('agencia').value, minCaracteres:2}) === false) {
+            validacao_ok = false;
+            mensagem += 'Agência precisa ter no mínimo 2 caracteres.'+'<br>';
+        }
+    }
+
+    //Campo: conta (não requerido / mínimo de 3 caracteres / somente números)
+    if (validacao({op:1, value:document.getElementById('conta').value}) === true) {
+        //Campo: conta (somente números)
+        if (validacao({op:4, value:document.getElementById('conta').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Conta só pode conter dígitos de 0 a 9.'+'<br>';
         }
 
-        //Campo: cep (não requerido / CEP Válido)
-        if (validacao({op:1, value:document.getElementById('cep').value}) === true) {
-            //Campo: cep (CEP Válido)
-            if (validacao({op:9, value:document.getElementById('cep').value}) === false) {
-                validacao_ok = false;
-                mensagem += 'CEP Inválido.'+'<br>';
-            }
+        //Campo: conta (mínimo de 3 caracteres)
+        if (validacao({op:2, value:document.getElementById('conta').value, minCaracteres:3}) === false) {
+            validacao_ok = false;
+            mensagem += 'Conta precisa ter no mínimo 3 caracteres.'+'<br>';
         }
+    }
 
-        //Campo: numero (não requerido / somente números)
-        if (validacao({op:1, value:document.getElementById('numero').value}) === true) {
-            //Campo: numero (somente números)
-            if (validacao({op:4, value:document.getElementById('numero').value}) === false) {
-                validacao_ok = false;
-                mensagem += 'Número só pode conter dígitos de 0 a 9.'+'<br>';
-            }
+    //Campo: email (não requerido / E-mail Válido)
+    if (validacao({op:1, value:document.getElementById('email').value}) === true) {
+        //Campo: email (E-mail Válido)
+        if (validacao({op:5, value:document.getElementById('email').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'E-mail Inválido.'+'<br>';
         }
+    }
 
-        //Campo: cep_cobranca (não requerido / CEP Válido)
-        if (validacao({op:1, value:document.getElementById('cep_cobranca').value}) === true) {
-            //Campo: cep_cobranca (CEP Válido)
-            if (validacao({op:9, value:document.getElementById('cep_cobranca').value}) === false) {
-                validacao_ok = false;
-                mensagem += 'CEP Cobrança Inválido.'+'<br>';
-            }
+    //Campo: site (não requerido / URL Válida)
+    if (validacao({op:1, value:document.getElementById('site').value}) === true) {
+        //Campo: site (URL Válida)
+        if (validacao({op:10, value:document.getElementById('site').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Site Inválido.'+'<br>';
         }
+    }
 
-        //Campo: numero_cobranca (não requerido / somente números)
-        if (validacao({op:1, value:document.getElementById('numero_cobranca').value}) === true) {
-            //Campo: numero_cobranca (somente números)
-            if (validacao({op:4, value:document.getElementById('numero_cobranca').value}) === false) {
-                validacao_ok = false;
-                mensagem += 'Número Cobrança só pode conter dígitos de 0 a 9.'+'<br>';
-            }
+    //Campo: telefone_1 (não requerido / Telefone Válido)
+    if (validacao({op:1, value:document.getElementById('telefone_1').value}) === true) {
+        //Campo: telefone_1 (Telefone Válido)
+        if (validacao({op:11, value:document.getElementById('telefone_1').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Telefone 1 Inválido.'+'<br>';
         }
+    }
 
-        //Campo: agencia (não requerido / mínimo de 2 caracteres / somente números)
-        if (validacao({op:1, value:document.getElementById('agencia').value}) === true) {
-            //Campo: agencia (somente números)
-            if (validacao({op:4, value:document.getElementById('agencia').value}) === false) {
-                validacao_ok = false;
-                mensagem += 'Agência só pode conter dígitos de 0 a 9.'+'<br>';
-            }
-
-            //Campo: agencia (mínimo de 2 caracteres)
-            if (validacao({op:2, value:document.getElementById('agencia').value, minCaracteres:2}) === false) {
-                validacao_ok = false;
-                mensagem += 'Agência precisa ter no mínimo 2 caracteres.'+'<br>';
-            }
+    //Campo: telefone_2 (não requerido / Telefone Válido)
+    if (validacao({op:1, value:document.getElementById('telefone_2').value}) === true) {
+        //Campo: telefone_2 (Telefone Válido)
+        if (validacao({op:11, value:document.getElementById('telefone_2').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Telefone 2 Inválido.'+'<br>';
         }
+    }
 
-        //Campo: conta (não requerido / mínimo de 3 caracteres / somente números)
-        if (validacao({op:1, value:document.getElementById('conta').value}) === true) {
-            //Campo: conta (somente números)
-            if (validacao({op:4, value:document.getElementById('conta').value}) === false) {
-                validacao_ok = false;
-                mensagem += 'Conta só pode conter dígitos de 0 a 9.'+'<br>';
-            }
-
-            //Campo: conta (mínimo de 3 caracteres)
-            if (validacao({op:2, value:document.getElementById('conta').value, minCaracteres:3}) === false) {
-                validacao_ok = false;
-                mensagem += 'Conta precisa ter no mínimo 3 caracteres.'+'<br>';
-            }
+    //Campo: celular_1 (não requerido / Celular Válido)
+    if (validacao({op:1, value:document.getElementById('celular_1').value}) === true) {
+        //Campo: celular_1 (Celular Válido)
+        if (validacao({op:12, value:document.getElementById('celular_1').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Celular 1 Inválido.'+'<br>';
         }
+    }
 
-        //Campo: email (não requerido / E-mail Válido)
-        if (validacao({op:1, value:document.getElementById('email').value}) === true) {
-            //Campo: email (E-mail Válido)
-            if (validacao({op:5, value:document.getElementById('email').value}) === false) {
-                validacao_ok = false;
-                mensagem += 'E-mail Inválido.'+'<br>';
-            }
-        }
-
-        //Campo: site (não requerido / URL Válida)
-        if (validacao({op:1, value:document.getElementById('site').value}) === true) {
-            //Campo: site (URL Válida)
-            if (validacao({op:10, value:document.getElementById('site').value}) === false) {
-                validacao_ok = false;
-                mensagem += 'Site Inválido.'+'<br>';
-            }
-        }
-
-        //Campo: telefone_1 (não requerido / Telefone Válido)
-        if (validacao({op:1, value:document.getElementById('telefone_1').value}) === true) {
-            //Campo: telefone_1 (Telefone Válido)
-            if (validacao({op:11, value:document.getElementById('telefone_1').value}) === false) {
-                validacao_ok = false;
-                mensagem += 'Telefone 1 Inválido.'+'<br>';
-            }
-        }
-
-        //Campo: telefone_2 (não requerido / Telefone Válido)
-        if (validacao({op:1, value:document.getElementById('telefone_2').value}) === true) {
-            //Campo: telefone_2 (Telefone Válido)
-            if (validacao({op:11, value:document.getElementById('telefone_2').value}) === false) {
-                validacao_ok = false;
-                mensagem += 'Telefone 2 Inválido.'+'<br>';
-            }
-        }
-
-        //Campo: celular_1 (não requerido / Celular Válido)
-        if (validacao({op:1, value:document.getElementById('celular_1').value}) === true) {
-            //Campo: celular_1 (Celular Válido)
-            if (validacao({op:12, value:document.getElementById('celular_1').value}) === false) {
-                validacao_ok = false;
-                mensagem += 'Celular 1 Inválido.'+'<br>';
-            }
-        }
-
-        //Campo: celular_2 (não requerido / Celular Válido)
-        if (validacao({op:1, value:document.getElementById('celular_2').value}) === true) {
-            //Campo: celular_2 (Celular Válido)
-            if (validacao({op:12, value:document.getElementById('celular_2').value}) === false) {
-                validacao_ok = false;
-                mensagem += 'Celular 2 Inválido.'+'<br>';
-            }
+    //Campo: celular_2 (não requerido / Celular Válido)
+    if (validacao({op:1, value:document.getElementById('celular_2').value}) === true) {
+        //Campo: celular_2 (Celular Válido)
+        if (validacao({op:12, value:document.getElementById('celular_2').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Celular 2 Inválido.'+'<br>';
         }
     }
 
@@ -240,7 +243,57 @@ function validar_frm_clientes() {
     return validacao_ok;
 }
 
-$(document).ready(function () {
+function validar_frm_upload_documentos_pdfs() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: upload_documentos_pdfs_cliente_id (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_documentos_pdfs_cliente_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Cliente requerido.'+'<br>';
+    }
+
+    //Campo: upload_documentos_pdfs_cli_acao (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_documentos_pdfs_cli_acao').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Ação do Formulário requerido.'+'<br>';
+    }
+
+    //Campo: cli_documentos_pdfs_descricao (requerido)
+    if (validacao({op:1, value:document.getElementById('cli_documentos_pdfs_descricao').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Descrição documento requerido.'+'<br>';
+    }
+
+    //Campo: cli_documentos_pdfs_data_documento (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('cli_documentos_pdfs_data_documento').value}) === true) {
+        //Campo: cli_documentos_pdfs_data_documento (Data Válida)
+        if (validacao({op:8, value:document.getElementById('cli_documentos_pdfs_data_documento').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Data documento Inválida.'+'<br>';
+        }
+    }
+
+    //Campo: cli_documentos_pdfs_file (arquivo PDF requerido)
+    if (validacao({op:16, id:'cli_documentos_pdfs_file'}) === false) {
+        validacao_ok = false;
+        mensagem += 'Arquivo PDF requerido.'+'<br>';
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+document.addEventListener("DOMContentLoaded", function(event) {
     //Acertar formulário para entrada de dados de pessoa Jurídica e Física
     if ($('#tipo').val() == 1) {
         $('.pessoa_juridica').show();
@@ -255,6 +308,80 @@ $(document).ready(function () {
 
         $('#label_data_nascimento').html('Data Nascimento');
     }
+
+    //Botão: frm_upload_documentos_pdfs_cli_executar''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    document.getElementById('frm_upload_documentos_pdfs_cli_executar').addEventListener('click', function() {
+        //FormData
+        var formulario = document.getElementById('frm_upload_documentos_pdfs_cli');
+        var formData = new FormData(formulario);
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+        //Tratar Botões
+        document.getElementById('frm_upload_documentos_pdfs_cli_executar').style.display = 'block';
+        document.getElementById('frm_upload_documentos_pdfs_cli_incluir').style.display = 'none';
+        document.getElementById('frm_upload_documentos_pdfs_cli_listar').style.display = 'block';
+
+        //Criticando campos
+        if (validar_frm_upload_documentos_pdfs() === false) {return false;}
+
+        //Acessar rota
+        fetch(url_atual+'clientes/uploadDocumentoPdf/upload_documento_pdf', {
+            method: 'POST',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            //Lendo dados
+            if (data.success) {
+                alertSwal('success', 'Clientes', data.success, 'true', 20000);
+            } else if (data.error) {
+                alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+            } else {
+                alert('Erro interno');
+            }
+        }).catch(error => {
+            alert('Erro Clientes Upload Documento PDF: '+error);
+        });
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: frm_upload_documentos_pdfs_cli_listar''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    document.getElementById('frm_upload_documentos_pdfs_cli_listar').addEventListener('click', function() {
+        //Tratar Botões
+        document.getElementById('frm_upload_documentos_pdfs_cli_executar').style.display = 'none';
+        document.getElementById('frm_upload_documentos_pdfs_cli_incluir').style.display = 'block';
+        document.getElementById('frm_upload_documentos_pdfs_cli_listar').style.display = 'none';
+
+        //Tratar Divs
+        document.getElementById('div_frm_upload_documentos_pdfs_cli_executar').style.display = 'none';
+        document.getElementById('div_frm_upload_documentos_pdfs_cli_listar').style.display = 'block';
+        document.getElementById('div_frm_upload_documentos_pdfs_cli_visualisar').style.display = 'none';
+
+        //Dados
+        let cliente_id = document.getElementById('upload_documentos_pdfs_cliente_id').value;
+
+        //Montar Grade
+        clienteModalInfoGradeDocumentosPdf({cliente_id:cliente_id, id_elemento_visualisacao:'div_frm_upload_documentos_pdfs_cli_listar'});
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: frm_upload_documentos_pdfs_cli_incluir'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    document.getElementById('frm_upload_documentos_pdfs_cli_incluir').addEventListener('click', function() {
+        //Tratar Botões
+        document.getElementById('frm_upload_documentos_pdfs_cli_executar').style.display = 'block';
+        document.getElementById('frm_upload_documentos_pdfs_cli_incluir').style.display = 'none';
+        document.getElementById('frm_upload_documentos_pdfs_cli_listar').style.display = 'block';
+
+        //Tratar Divs
+        document.getElementById('div_frm_upload_documentos_pdfs_cli_executar').style.display = 'block';
+        document.getElementById('div_frm_upload_documentos_pdfs_cli_listar').style.display = 'none';
+        document.getElementById('div_frm_upload_documentos_pdfs_cli_visualisar').style.display = 'none';
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
     $('#tipo').change(function(e) {
         if ($('#tipo').val() == 1) {

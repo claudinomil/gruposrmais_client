@@ -24,7 +24,7 @@ class ClienteServicoController extends Controller
 
     public function __construct()
     {
-        $this->middleware('check-permissao:clientes_servicos_list', ['only' => ['index', 'filter', 'extradata', 'cliente_servicos_index']]);
+        $this->middleware('check-permissao:clientes_servicos_list', ['only' => ['index', 'filter', 'cliente_servicos_index']]);
         $this->middleware('check-permissao:clientes_servicos_create', ['only' => ['create', 'store', 'cliente_servicos_store']]);
         $this->middleware('check-permissao:clientes_servicos_show', ['only' => ['show', 'cliente_servicos_show']]);
         $this->middleware('check-permissao:clientes_servicos_edit', ['only' => ['edit', 'update']]);

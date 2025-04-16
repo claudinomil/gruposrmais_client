@@ -26,8 +26,8 @@
                                 <x-button-crud op="3" onclick="crudDelete(0);" />
                         @endif
 
-                        <!-- Botão Extra -->
-                        <x-button-crud op="7" data-bs-target=".modal-cliente" onclick="clienteExtraData();" />
+                        <!-- Botão Info -->
+                        <x-button-crud op="7" onclick="clienteModalInfo();" />
 
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
@@ -270,6 +270,14 @@
                                     </div>
                                 </div>
 
+                                <div class="row pt-4" id="divArquivosPdf" style="display: none;">
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-file-pdf"></i> Arquivos PDF</h5>
+                                    <div class="form-group col-12 col-md-12 pb-3">
+                                        <h4 class="text-center font-size-12">## Grade de Documentos PDF ##</h4>
+                                        <div class="table-responsive" id="divArquivosPdfGrade">Nenhum documento encontrado.</div>
+                                    </div>
+                                </div>
+
                                 <div class="row pt-4 pessoa_juridica">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-clipboard"></i> Classificação (DECRETO Nº 42, DE 17 DE DEZEMBRO DE 2018)</h5>
                                     <div class="form-group col-6 col-md-2 pb-3">
@@ -426,8 +434,8 @@
                             <x-button-crud op="3" onclick="crudDelete(0);" />
                     @endif
 
-                    <!-- Botão Extra -->
-                    <x-button-crud op="7" data-bs-target=".modal-cliente" onclick="clienteExtraData();" />
+                    <!-- Botão Info -->
+                    <x-button-crud op="7" onclick="clienteModalInfo();" />
 
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />

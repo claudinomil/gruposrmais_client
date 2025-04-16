@@ -83,6 +83,15 @@ class Menu
                     //25 : Clientes Serviços
                     if ($submodulo['id'] == 25) {$permitido = false;}
 
+                    //26 : Ordens de Servicos
+                    //if ($submodulo['id'] == 26) {$permitido = false;}
+
+                    //27 : Veículos
+                    //if ($submodulo['id'] == 27) {$permitido = false;}
+
+                    //28 : Clientes Executivos
+                    //if ($submodulo['id'] == 28) {$permitido = false;}
+
                     //3 : Notificações
                     //if ($submodulo['id'] == 3) {$permitido = false;}
 

@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-12 col-md-4 pb-3">
-                                    <label class="form-label">Órdem de Visualização</label>
+                                    <label class="form-label">Ordem de Visualização</label>
                                     <input type="text" class="form-control" id="viewing_order" name="viewing_order" required="required">
                                 </div>
                                 <div class="form-group col-12 col-md-6 pb-3 fieldsViewEdit" style="display: none;">

@@ -35,6 +35,10 @@ class CheckPermissao
         //dd($response->json());   //TRAZER ERRO NA DEPURAÇÃO
 
         if (isset($response['content'])) {
+
+            setcookie('checkPermission', date('H:i:s'), time() + 86400, '/');
+
+
             session(['se_userLoggedData' => $response['content']['userData']]); //Dados do Usuário Logado
             session(['se_userLoggedEmpresas' => $response['content']['userEmpresas']]); //Empresas do Usuário Logado
             session(['se_userLoggedPermissoes' => $response['content']['userPermissoes']]); //Permissões do Usuário Logado

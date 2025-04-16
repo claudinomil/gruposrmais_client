@@ -1,3 +1,398 @@
+//Funções para API Google - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//Funções para API Google - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+/*
+Retorna endereço via CEP
+Ex: const addressOrigem = await getAddressFromCep(cepOrigem);
+*/
+async function getAddressFromCep(cep) {
+    const url = `https://viacep.com.br/ws/${cep}/json/`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data.erro) {
+        return `${data.logradouro}, ${data.bairro}, ${data.localidade}, ${data.uf}, Brasil`;
+    } else {
+        throw new Error(`CEP ${cep} não encontrado`);
+    }
+}
+
+/*
+Retorna coordenadas via endereço
+Ex: const coordsOrigem = await getCoordinatesFromAddress(addressOrigem);
+    coordsOrigem.lat e coordsOrigem.lon
+*/
+async function getCoordinatesFromAddress(address) {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.length > 0) {
+        return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+    } else {
+        throw new Error(`Coordenadas não encontradas para: ${address}`);
+    }
+}
+
+/*
+API Google
+Retorna Distância e Duração entre dois pontos
+*/
+async function pegarDistanciaDuracao(lat1, lon1, lat2, lon2) {
+    const origem = `${lat1},${lon1}`;
+    const destino = `${lat2},${lon2}`;
+    const url = `/build/proxy-directions.php?origem=${origem}&destino=${destino}`; // usando seu proxy PHP
+
+    const resposta = await fetch(url);
+    const dados = await resposta.json();
+
+    if (dados.routes?.length) {
+        const distancia = dados.routes[0].legs[0].distance.text;
+        const duracao = dados.routes[0].legs[0].duration.text;
+        return { distancia, duracao };
+    } else {
+        throw new Error("Não foi possível obter a distância.");
+    }
+}
+
+/*
+API Google
+Retorna a rota entre dois pontos passo a passo
+*/
+async function pegarRotaPassoAPasso(lat1, lon1, lat2, lon2, comHtml = false) {
+    const origem = `${lat1},${lon1}`;
+    const destino = `${lat2},${lon2}`;
+    const url = `/build/proxy-directions.php?origem=${origem}&destino=${destino}`;
+
+    const resposta = await fetch(url);
+    const dados = await resposta.json();
+
+    if (dados.routes?.length) {
+        const passos = dados.routes[0].legs[0].steps;
+
+        const rota = passos.map((step, index) => {
+            let instrucao = step.html_instructions;
+            const distancia = step.distance.text;
+
+            if (!comHtml) {
+                // Substitui <div ...> por \n e remove todas as tags HTML restantes
+                instrucao = instrucao
+                    .replace(/<div[^>]*>/gi, ', ')
+                    .replace(/<\/div>/gi, '')
+                    .replace(/<[^>]+>/g, ''); // Remove o restante das tags HTML
+            }
+
+            return `${index + 1}. ${instrucao.trim()} (${distancia})`;
+        });
+
+        return rota;
+    } else {
+        throw new Error("Não foi possível obter a rota.");
+    }
+}
+
+/*
+API Google
+Retorna Imagem Base64 de dois pontos em um mapa
+*/
+async function gerarMapaBase64(lat1, lon1, lat2, lon2) {
+    const url = `/build/gerar-mapa.php?lat1=${lat1}&lon1=${lon1}&lat2=${lat2}&lon2=${lon2}`;
+    const res = await fetch(url);
+    const dados = await res.json();
+
+    if (dados.status === "ok") {
+        return dados.base64; // isso você pode jogar direto no jsPDF
+    } else {
+        throw new Error("Erro ao gerar imagem base64.");
+    }
+}
+
+/*
+API Google
+Retorna tradução de texto
+*/
+async function traduzirTextoGoogle(texto, idiomaOrigem = 'pt', idiomaDestino = 'en') {
+    const apiKey = 'AIzaSyAvEtoAQmil8RS2Gcl9csltgrVjdbnTHqQ';
+    const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
+    const body = {q: texto, source: idiomaOrigem, target: idiomaDestino, format: 'text'};
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+
+        const data = await response.json();
+
+        if (data.data && data.data.translations && data.data.translations.length > 0) {
+            return data.data.translations[0].translatedText;
+        } else {
+            throw new Error('Tradução não encontrada.');
+        }
+    } catch (erro) {
+        console.error('Erro na tradução:', erro);
+        return null;
+    }
+}
+
+//Distância e Duração
+async function distanciaDuracaoPontos(cepOrigem, cepDestino) {
+    try {
+        //Pegar Endereco dos CEPs
+        const addressOrigem = await getAddressFromCep(cepOrigem);
+        const addressDestino = await getAddressFromCep(cepDestino);
+
+        //Pegar Coordenadas dos Endereços
+        const coordsOrigem = await getCoordinatesFromAddress(addressOrigem);
+        const coordsDestino = await getCoordinatesFromAddress(addressDestino);
+
+        //Pegar distância e duração
+        const distanciaDuracao = await pegarDistanciaDuracao(coordsOrigem.lat, coordsOrigem.lon, coordsDestino.lat, coordsDestino.lon);
+        return distanciaDuracao;
+    } catch (error) {
+        console.error("Erro:", error);
+    }
+}
+
+//Rota Passo-a-Passo
+async function rotaPassoAPasso(cepOrigem, cepDestino) {
+    try {
+        // Pegar Endereco dos CEPs
+        const addressOrigem = await getAddressFromCep(cepOrigem);
+        const addressDestino = await getAddressFromCep(cepDestino);
+
+        // Pegar Coordenadas dos Endereços
+        const coordsOrigem = await getCoordinatesFromAddress(addressOrigem);
+        const coordsDestino = await getCoordinatesFromAddress(addressDestino);
+
+        // Pegar passos da rota e RETORNAR!
+        const rota = await pegarRotaPassoAPasso(coordsOrigem.lat, coordsOrigem.lon, coordsDestino.lat, coordsDestino.lon);
+
+        return rota;
+
+    } catch (error) {
+        console.error("Erro:", error);
+        throw error; // repassa o erro para o .catch de fora, se necessário
+    }
+}
+
+//Gerar imagem Mapa
+async function gerarMapaImagem(cepOrigem, cepDestino) {
+    try {
+        //Pegar Endereco dos CEPs
+        const addressOrigem = await getAddressFromCep(cepOrigem);
+        const addressDestino = await getAddressFromCep(cepDestino);
+
+        //Pegar Coordenadas dos Endereços
+        const coordsOrigem = await getCoordinatesFromAddress(addressOrigem);
+        const coordsDestino = await getCoordinatesFromAddress(addressDestino);
+
+        //Mapa
+        const imagemBase64 = await gerarMapaBase64(coordsOrigem.lat, coordsOrigem.lon, coordsDestino.lat, coordsDestino.lon);
+
+        return imagemBase64;
+    } catch (error) {
+        console.error("Erro:", error);
+    }
+}
+
+
+/*
+//Chamada Distância e Duração
+distanciaDuracaoPontos('20735-130', '22420-040')
+    .then(dado => {
+        console.log('Distância:', dado.distancia);
+        console.log('Duração:', dado.duracao);
+    })
+    .catch(err => {
+        console.error("Erro distanciaDuracaoPontos:", err);
+    });
+
+//Chamada Rota Passo-a-Passo
+rotaPassoAPasso('20735-130', '22420-040')
+    .then(dado => {
+        dado.forEach(instrucao => {
+            console.log('Rota: ', instrucao);
+        });
+    })
+    .catch(err => {
+        console.error("Erro rotaPassoAPasso:", err);
+    });
+
+//Chamada Mapa base64
+gerarMapaImagem('20735-130', '22420-040')
+    .then(dado => {
+        document.getElementById('imagemMapa1').src = dado;
+    })
+    .catch(err => {
+        console.error("Erro gerarMapaImagem:", err);
+    });
+*/
+
+
+//Funções para API Google - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//Funções para API Google - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+//API FOGO CRUZADO''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+const apiFogoCruzadoLogin = async () => {
+    const response = await fetch('https://api-service.fogocruzado.org.br/api/v2/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            email: 'claudinomilhomens@gmail.com',
+            password: 'claudino1971'
+        })
+    });
+
+    if (!response.ok) {
+        alert('Erro apiFogoCruzadoLogin: ', response.status);
+        return null;
+    }
+
+    const data = await response.json();
+
+    return data.data.accessToken;
+};
+
+const apiFogoCruzadoOccurrences = async (token) => {
+    //INFORMAÇÕES DE USO
+    var estado_id_rj = "b112ffbe-17b3-4ad0-8f2a-2038745d1d14";
+
+    var cidade_id_belford_roxo = "88959ad9-b2f5-4a33-a8ec-ceff5a572ca5";
+    var cidade_id_cachoeiras_de_macacu = "9d7b569c-ec84-4908-96ab-3706ec3bfc57";
+    var cidade_id_duque_de_caxias = "2cded3bc-5dfa-425b-a274-5c1a4b8838d5";
+    var cidade_id_guapimirim = "b920f9ed-fa79-4fc0-bc53-ceb14598fa45";
+    var cidade_id_itaborai = "74000596-0e8d-4762-af55-6fba1db74ceb";
+    var cidade_id_itaguai = "e6aa9117-3816-4f42-a7da-1b4b8eef6cdd";
+    var cidade_id_japeri = "dbd21829-f83c-4479-86c8-3f2953021740";
+    var cidade_id_mage = "d4231ca8-3c08-42e2-b877-ad00cc49cecf";
+    var cidade_id_marica = "bd078555-2b04-4e46-a637-e87d70551a04";
+    var cidade_id_mesquita = "5a86d707-02ec-4e09-b497-b000b22f156b";
+    var cidade_id_nilopolis = "2a69c719-bffc-4839-b832-1ac02b9e873f";
+    var cidade_id_niteroi = "07335d05-e371-42fd-a8f0-42853ccf1a0f";
+    var cidade_id_nova_iguacu = "7ab2a9b5-7727-4460-8007-eb58b78cc7c9";
+    var cidade_id_paracambi = "6752c981-6a86-4e34-a484-f8b1e2228393";
+    var cidade_id_queimados = "17d2880a-2295-4a24-a480-96d9fa0d40d4";
+    var cidade_id_rio_bonito = "712f930a-db93-4363-a3c9-9eccc4f12a5f";
+    var cidade_id_rio_de_janeiro = "d1bf56cc-6d85-4e6a-a5f5-0ab3f4074be3";
+    var cidade_id_sao_goncalo = "ab6bc6ed-952f-48f9-ad84-cbfd3dde53ba";
+    var cidade_id_sao_joao_de_meriti = "82f35929-e84c-4842-8181-1dc45a22785f";
+    var cidade_id_seropedica = "7ee9135d-6f6a-4f95-91bb-c3a5021d409a";
+    var cidade_id_tangua = "c46741dc-bdd2-43d0-92fc-f4d95ed61bf1";
+
+    /*
+    EXEMPLOS:
+
+    Filtrando por várias cidades:
+    https://api-service.fogocruzado.org.br/api/v2/occurrences
+    ?order=ASC
+    &page=1
+    &take=20
+    &idState=813ca36b-91e3-4a18-b408-60b27a1942ef
+    &idCities=d79d2347-bd0d-40aa-8dcc-04134cffd988
+    &idCities=e37f7ad7-cd64-4279-946a-8d689b9b934b
+
+    Filtrando por data:
+    https://api-service.fogocruzado.org.br/api/v2/occurrences
+    ?initialdate=2023-01-01
+    &finaldate=2023-07-13
+    &idState=b112ffbe-17b3-4ad0-8f2a-2038745d1d14
+    &typeOccurrence=withVictim
+    */
+
+    var data_inicio = "2025-04-07";
+    var data_final = "2025-04-07";
+
+    var url = "";
+
+    url += "https://api-service.fogocruzado.org.br/api/v2/occurrences";
+    url += "?initialdate="+data_inicio;
+    url += "&finaldate="+data_final;
+    url += "&idState="+estado_id_rj;
+    url += "&idCities="+cidade_id_rio_de_janeiro;
+    url += "&idCities="+cidade_id_niteroi;
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'Authorization': 'Bearer ' + token }
+    });
+
+    if (!response.ok) {
+        alert('Erro apiFogoCruzadoOccurrences: ', response.status);
+        return;
+    }
+
+    return await response.json();
+};
+
+const apiFogoCruzadoMain = async () => {
+    const token = await apiFogoCruzadoLogin();
+
+    if (token) {
+        const ocorrencias = await apiFogoCruzadoOccurrences(token);
+
+        if (ocorrencias.code == 200) {
+            const dados = ocorrencias.data;
+
+            var numOcor = 0;
+
+            dados.forEach(function(item) {
+                numOcor++;
+
+                console.log('OCORRÊNCIA N. : '+numOcor+' XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+                console.log('Endereço: ', item.address);
+                console.log('Vizinhança: ', item.neighborhood.name);
+                if (item.locality) {console.log('Localização: ', item.locality.name);}
+                console.log('Data: ', item.date);
+                console.log('Ação Policial: ', item.policeAction);
+                console.log('Presença do Agente: ', item.agentPresence);
+                console.log('Razão Principal: ', item.contextInfo.mainReason.name);
+                console.log('Unidade Policial: ', item.contextInfo.policeUnit);
+                if (item.clippings) {console.log('Recortes: ', item.clippings.name);}
+
+                if (item.victims) {
+                    let vitimas = item.victims;
+
+                    var numVit = 0;
+
+                    vitimas.forEach(function(vitima) {
+                        numVit++;
+
+                        console.log('VÍTIMA N. : ' + numVit + ' YYYYYYYYYYYYYYYYYYYY');
+                        console.log('Tipo: ', vitima.type);
+                        console.log('Situação: ', vitima.situation);
+                        console.log('Idade: ', vitima.age);
+                        console.log('Gênero: ', vitima.genre.name);
+                        console.log('Raça: ', vitima.race);
+                        console.log('FIM DA VÍTIMA N. : '+numVit+' YYYYYYYYYYYYYYYYYYYY');
+                    });
+                }
+
+                console.log('FIM DA OCORRÊNCIA N. : '+numOcor+' XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+            });
+
+
+            //console.log(ocorrencias);
+
+
+        } else {
+            alert('Erro apiFogoCruzadoMain: ', ocorrencias.msg);
+        }
+    } else {
+        alert('Erro apiFogoCruzadoMain: Token inválido.');
+    }
+};
+
+// apiFogoCruzadoMain();
+//''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+
+
+
+
+
 /*
 * Função para Gerar PDF com a Biblioteca jsPDF
 * Gera Pdf para funcionario_acao_1
@@ -38,10 +433,6 @@ function funcionario_acao_1_gerar_pdf() {
                 //Iniciando jsPDF
                 var doc = new jsPDF({orientation: 'p'});
 
-                //Iniciando Font Futura Light font (Conversor de .ttf para Base 64 : https://codesandbox.io/p/sandbox/font-convert-to-jspdf-jigjo)
-                doc.addFileToVFS('FuturaLightfont.ttf', "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APsAWQADAPsAQAAEAPoAJgADAPkA+AD6AAUA+QD+AAMA+AD6AAMA9wD+AAMA9gD+AAMA9QC7AAMA9AD+AAMA8gD+AAMA8QD+AAMA8ACWAAMA7wDuAEcABQDvAH0AAwDuAEcAAwDtAP4AAwDqAP4AAwDpAP4AAwDoAJYAAwDnAP4AAwDmAPoAAwDlAOQAtgAFAOUAuwADAOQA4wAbAAUA5AC2AAMA4wAbAAMA4gDhAIwABQDiAP4AAwDiAMAABADhAOAAXQAFAOEAjAADAOEAgAAEAOAA3wAuAAUA4ABdAAMA4ABAAAQA3wAuAAMA3gD+AAMA3QC7AAMA3ACaAP4ABQDbANoA/gAFANoA/gADANgA+gADANYAuwADANUA+gADANIA0QAjAAUA0QAjAAMA0AD+AAMAzwD+AAMAzgD+AAMAzQD+AAMAyQD+AAMAyADHACMABQDIAP5B/wADAMcAIwADAMYAxQAaAAUAxgD+AAMAxQAaAAMAxAD+AAMAwwD+AAMAwgDBADIABQDCAP4AAwDBADIAAwDAAP4AAwC/AP4AAwC+AP4AAwC9ALwAjAAFAL0A/gADAL0AwAAEALwAuwBdAAUAvACMAAMAvACAAAQAuwC6AC4ABQC7AF0AAwC7AEAABAC6AC4AAwC5AP4AAwC4AP4AAwC3AP4AAwC2AP4AAwC1AP4AAwC0AP4AAwCxAP4AAwCwAP4AAwCvAP4AAwCuAP4AAwCtAP4AAwCsAKsAJAAFAKwA/gADAKsAJAADAKoA/gADAKkAqABkAAUAqQD+AAMAqABkAAMApwAYAAMApgAYAAMApQCkAIwABQClAP4AAwClAMAABACkAKMAXQAFAKQAjAADAKQAgAAEAKMAogAuAAUAowBdAAMAowBAAAQAogAuAAMAoQD+AAMAoAD+AAMAnwCeAH0ABQCfAP4AAwCeAH0AAwCaAP4AAwCZAJgAGwAFAJkA/gADAJgAGwADAJcAlgBBAAUAlwD+AAMAlgBBAAMAlQD+AAMAlAD+AAMAkwD+AAMAkgAMAAsABQCSAP4AAwCQAP4AAwCPAAwACwAFAI8A/gADAI4AuwADAI0AIQAPAAUAjQD+AAMAjAD+AAMAiwD+AAMAigD+AAMAiQCIABcABUH/AIkAfQADAIgAFwADAIcAlgADAIYA/gADAIUADwADAIUAQAAEAIQAfQADAIMAuwADAIIA/gADAIEANgALAAUAgQD+AAMAgABJAP4ABQB7AP4AAwB6AP4AAwB4AHcA+gAFAHgA/gADAHcA+gADAHYA/gADAHQAOgAIAAUAdAD+AAMAcwD+AAMAcgBxABIABQByAJYAAwBxABIAAwBwAG8AGwAFAHAA+gADAG8AGwADAG4AlgADAG0A/gADAGwAawAVAAUAbACWAAMAawAVAAMAawAFAAQAagD+AAMAaQC7AAMAaABrAAMAZgB9AAMAZAA2AAsABQBkAPoAAwBhAD0AGgAFAGEA/gADAF4AOgAIAAUAXgC7AAMAXQD+AAMAXAD+AAMAWwBaABQABQBbAP4AAwBaABQAAwBVAD0AGgAFAFUA/gADAFQAHgAjAAUAVAD+AAMAUwD+AAMAUgD+AAMAUQD6AAMAUAD+AAMATwA9ABoABQBPAP4AAwBOADYACwAFAE4A/gADAE0AHgAjAAUATQD+AAMATABLABoABQBMAP4AAwBLABoAAwBKADYACwAFAEoA/gADAEkA/gADAEgA/gADAEcANgALAAUARwD+AAMARgA6AAgABQBGAP4AAwBFAP4AAwBEALsAAwBDAH0AAwBCADYACwAFAEIA/gADQf8AQQC7AAMAQAC7AAMAPwD+AAMAPgA9ABoABQA+APoAAwA9ABoAAwA8ADoACAAFADwA/gADADsAOgAIAAUAOwD+AAMAOgAIAAMAOQD+AAMAOAAeACMABQA4AP4AAwA3ADYACwAFADcA/gADADYACwADADUA/gADADQA/gADADMAuwADADIA/gADADEA/gADADAALwB9AAUAMAD+AAMALwAWADIABQAvAH0AAwAuABYAMgAFAC4A/gADAC0A/gADACwA/gADACsAlgADACoAKQAjAAUAKgD6AAMAKQAjAAMAKAAnAH0ABQAoAP4AAwAnAH0AAwAmAP4AAwAlAP4AAwAkAJYAAwAjAPoAAwAiACEADwAFACIA/gADACEADwADACAAHgAjAAUAIAD+AAMAHwAeACMABQAfALsAAwAeACMAAwAdAP4AAwAcABsAMgAFABwA/gADABsAMgADABoA/gADABkA/gADABgAFwB9AAUAGAD+AAMAFwAWADIABQAXAH0AAwAWADIAAwAVAP4AAwAUAP4AAwATAJYAAwASAP4AAwARAPoAAwAQAP4AAwAPALsAAwANAAwACwAFAA0A/gADAAwACwADAAsA/gADAAoACQAMAAUACgD+AAMACQAMAAMACAD+AAMABwD6AAMABgAFAH0ABQAGAP4AAwAFAH1BEwADAAQAlgADAAIAAQAbAAUAAgD+AAMAAQAbAAMAAAD+AAMAAAFkhY0BKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrACsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKx0AAEAHBgUEAwIBACwgELACJUlksEBRWCDIWSEtLLACJUlksEBRWCDIWSEtLCAQByCwAFCwDXkguP//UFgEGwVZsAUcsAMlCLAEJSPhILAAULANeSC4//9QWAQbBVmwBRywAyUI4S0sS1BYILgBFkVEWSEtLLACJUVgRC0sS1NYsAIlsAIlRURZISEtLEVELQAAAAACAGb+lgRmBaQAAwAHACpBDgAEARQAAAAGARQAAQAIAAUAlAACAJUABACUAAAv7PTsMQAQ1OzU7DATESERJSERIWYEAPxzAxv85f6WBw748nIGKQACAKT/7gFcBbQAAwAPAB5ADwIEmQqXAJoQDQIHAQAAEBDU/NTsMQAQ5PT8zDATMxEjFzIWFRQGIyImNTQ2wX5+Pyg0NiYkODUFtPusvDQmJjY4JCY0AAIAZANxAcMFmgADAAcAHUAOBQGcBACbCAADAgYDBAgQ3Ozc7DEAEPQ85DIwAREjESMRIxEBw1azVgWa/dcCKf3XAikAAgCBAAAFpgWuAAMAHwBOQDQbCwCdHQkFFxMPnRkNAgcEFREfHh0cGxoZFxYVFBMSERAPDg0MCwkIBwYFBAMCAQAeChgg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AdoAJAAPAEsAJAARAEsAJAAdACYAJAAeACYAJAA7ACYAJABGACYAJABHACYAJABIACYAJABJACYAJABSACYAJABUACYAJABXACYAJABYACYAJABZACYAJABaACYAJABcACYAJAChACYAJACxACYAJADAACYAJADBACYAJADEAEsAJADFAEsAJAEBACYAJgC0AEsAJgC1AEsAJgC2AEsAJgC3AEsAJgDEAEsAJgDFAEsAKQAP/5AAKQAR/5AAKQA3ACYAKQC0ACYAKQC2ACYAKQDE/7cAKQDF/7cAKgC0ACYAKgC2ACYALQC0ACYALQC2ACYALgC0ACYALgC1ACYALgC2ACYALgC3ACYALgDEAEsALgDFAEsALwAkACYALwBjACYALwDEAEsALwDFAEsAMwAP/0QAMwAR/0QAMwAd/9wAMwAe/9wAMwAk/9wAMwBE/7cAMwBI/7cAMwBR/9wAMwBS/7cAMwBV/9wAMwBW/9wAMwBY/9wAMwBj/9wAMwCg/7cAMwCh/7cAMwCx/7cAMwC0AEsAMwC1AEsAMwC2AEsAMwC3AEsAMwDE/2sAMwDF/2sANADEACYANADFACYANQC1ACYANQC3ACYANQDEAEsANQDFAEsANwAP/7cANwAR/7cANwAd/9wANwAe/9wANwBE/7cANwBG/7cANwBI/7cANwBM/9wANwBS/7cANwBV/9wANwBW/7cANwBY/7cANwBa/7cANwBc/7cANwCg/7cANwCh/7cANwCx/7cANwC0ACYANwC1AEsANwC2ACYANwC3AEsAOQAP/9wAOQAR/9wAOQBE/9wAOQBI/9wAOQBS/9wAOQCg/9wAOQCh/9wAOQCx/9wAOQC0AEsAOQC1AEsAOQC2AEsAOQC3AEsAOgC0ACYAOgC1AEsAOgC2ACYAOgC3AEsAOwAkACYAOwBjACYAOwC1AEsAOwC3AEsAOwDEAEsAOwDFAEsAPAAP/7cAPAAR/7cAPABE/9wAPABI/9wAPABS/9wAPABY/9wAPACg/9wAPACh/9wAPACx/9wAPAC0AEsAPAC1AEsAPAC2AEsAPAC3AEsAPQC0ACYAPQC1ACYAPQC2ACYAPQC3ACYASQAdACYASQAeACYASQC0AHIASQC1AHIASQC2AHIASQC3AHIAVQC0AEsAVQC1AEsAVQC2AEsAVQC3AEsAWQC0AEsAWQC1AEsAWQC2AEsAWQC3AEsAWgC0AEsAWgC1AEsAWgC2AEsAWgC3AEsAXAC0AEsAXAC1AEsAXAC2AEsAXAC3AEsAYwAPAEsAYwARAEsAYwAdACYAYwAeACYAYwA7ACYAYwBGACYAYwBHACYAYwBIACYAYwBJACYAYwBSACYAYwBUACYAYwBXACYAYwBYACYAYwBZACYAYwBaACYAYwBcACYAYwChACYAYwCxACYAYwDAACYAYwDBACYAYwDEAEsAYwDFAEsAYwEBACYAkAC0/7cAkAC2/7cAkADEAHIAkADFAHIAtAAk/7cAtAAt/7cAtAA3AEsAtAA5AEsAtAA6AEsAtAA7AEsAtAA8AEsAtABj/7cAtgAk/7cAtgAt/7cAtgA3AEsAtgA5AEsAtgA6AEsAtgA7AEsAtgA8AEsAtgBj/7cA4gAkACYA4gBjACYA4gDEAEsA4gDFAEsAAQAAAQQAWgAHAEQABAACABAAQAAHAAAIHgC7AAMAAQABAAAAAQABhaXXzF8PPPUAAAgAAAAAAKc4I68AAAAApzgjr/8f/h0IAAe0AAAABgABAAAAAAAAAAEAAAe0/h0AAAgA/x//IQgAAAEAAAAAAAAAAAAAAAAAAAEEAAACPQGQAAMADgVHBMwAAP5KBUcEzAAAAkcAUgJmCAMCCwQIAgIEAwIEAAAAAAAAAAAAAAAAAAAAAEJpdHMAQAAg8AIGFAHsAZoHtAHjAAAAAQAAQgAAyAGNA9UACCAOBbQAAEZ1dHVyYSBMdENuAAAAAAD/////Nv///jM0NUMwMP39QAAAAA==");
-                doc.addFont('FuturaLightfont.ttf', "FuturaLightfont", "normal");
-
                 //Setando Font
                 doc.setFont("helvetica");
 
@@ -58,23 +449,6 @@ function funcionario_acao_1_gerar_pdf() {
                         doc.addPage();
                     }
 
-                    //Topo''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                    // //Configurações
-                    // var topo_image_margin_left = 10;
-                    // var topo_image_margin_top = 10;
-                    // var topo_image_width = 50;
-                    // var topo_image_height = 20;
-                    // var topo_text_1_margin_left = topo_image_width + 20;
-                    // var topo_text_2_margin_left = topo_image_width + 20;
-                    // var topo_text_1_margin_top = topo_image_margin_top + 12;
-                    // var topo_text_2_margin_top = topo_image_margin_top + 20;
-                    //
-                    // doc.setFontSize(16);
-                    // doc.addImage('build/assets/images/image_logo_relatorio.png', 'PNG', topo_image_margin_left, topo_image_margin_top, topo_image_width, topo_image_height);
-                    // doc.text('Título', topo_text_1_margin_left, topo_text_1_margin_top);
-                    // doc.text('Contrato de Prestação de Serviços', topo_text_2_margin_left, topo_text_2_margin_top);
-                    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
                     //Texto Contrato''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                     //Configurações iniciais para texto do Contrato
@@ -82,11 +456,11 @@ function funcionario_acao_1_gerar_pdf() {
                     const marginRight = 190;
                     const marginTop = 20;
                     const textWidth = 170; // Largura máxima para o texto
-                    const lineHeightA = 5;
-                    const lineHeightB = 6;
-                    const lineHeightC = 10;
-                    const lineHeightD = 12;
-                    const lineHeightE = 15;
+                    const spacingBetweenTextsA = 5;
+                    const spacingBetweenTextsB = 6;
+                    const spacingBetweenTextsC = 10;
+                    const spacingBetweenTextsD = 12;
+                    const spacingBetweenTextsE = 15;
 
                     //Dados
                     const contratante_nome = 'CONSULTARIA MAIS COMÉRCIO E SERVIÇOS DE ENGENHARIA E ARQUITETURA LTDA';
@@ -114,7 +488,7 @@ function funcionario_acao_1_gerar_pdf() {
 
                     novaMarginTop = marginTop;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightB;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsB;
 
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(14);
@@ -123,9 +497,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CONTRATANTE: ${contratante_nome}, devidamente inscrita no CNPJ de nº ${contratante_cnpj}, com sede na ${contratante_endereco}, neste ato representada por seu sócio ${contratante_representante}, doravante denominado CONTRATANTE.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightB;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsB;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -138,9 +512,9 @@ function funcionario_acao_1_gerar_pdf() {
                     if (contratado_endereco != '') {texto += `, com endereço em ${contratado_endereco}`;}
                     texto += `, doravante denominado CONTRATADO.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -151,9 +525,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `Têm entre si justo e contratado a prestação de serviços de bombeiro civil, conforme as cláusulas e condições a seguir estabelecidas.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -164,9 +538,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CLÁUSULA PRIMEIRA - DO OBJETO`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightD;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsD;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -177,9 +551,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `1.1. O presente contrato tem por objeto a prestação de serviços de bombeiro civil de forma autônoma, pelo CONTRATADO, compreendendo atividades de prevenção e combate a incêndios, atendimento emergencial de primeiros socorros e controle de pânico, com o fornecimento dos respectivos Equipamentos de Proteção Individual e material de Primeiros Socorros, conforme especificações a seguir:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -190,9 +564,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `a) Local da prestação dos serviços: ${funcionario_acao_1_local};`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -203,9 +577,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `b) Horário da prestação de serviços: ${funcionario_acao_1_dias_horarios};`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -216,9 +590,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `1.2. A execução dos serviços deverá atender às normas da Lei Federal nº 11.901/2009, bem como às normas da ABNT NBR 14608/2007, que regulamentam a atuação do bombeiro civil.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -229,9 +603,9 @@ function funcionario_acao_1_gerar_pdf() {
                     // //Texto
                     // texto = `1.3. A execução dos serviços deverá atender plenamente ao horário de funcionamento do local da prestação dos serviços. O horário poderá ser ajustado contratualmente, desde que seja preservado o número de 12 horas trabalhadas por 36 horas de descanso, totalizando 36 horas semanais, conforme art. 5º da Lei 11.901/2009.`;
                     //
-                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    // novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     // linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    // alturaTexto = linhasTexto.length * lineHeightA;
+                    // alturaTexto = linhasTexto.length * spacingBetweenTextsA;
                     //
                     // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
                     //
@@ -242,9 +616,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `1.4. Fica expressamente pactuado que este contrato é firmado entre partes autônomas e independentes, sem qualquer subordinação ou exclusividade, e sem que se estabeleça qualquer vínculo empregatício entre as partes ou com terceiros contratados pelo CONTRATADO para a execução dos serviços.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -255,9 +629,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CLÁUSULA SEGUNDA - OBRIGAÇÕES DO CONTRATADO:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightD;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsD;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -268,9 +642,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `2.1. O CONTRATADO obriga-se a:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -281,9 +655,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `a) Executar os serviços com zelo, pontualidade e profissionalismo;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -294,9 +668,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `b) Utilizar uniforme adequado e manter-se devidamente equipado com EPIs;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -307,9 +681,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `c) Manter sigilo absoluto sobre quaisquer informações internas do local vigiado;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -320,9 +694,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `d) Comunicar ao CONTRATANTE sobre quaisquer irregularidades ou necessidades de adequação em segurança.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -333,9 +707,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `2.2. Os serviços a serem executados pelo CONTRATADO compreendem ações de prevenção e de emergência, descritos a seguir:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -346,9 +720,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `2.2.1. Ações de Prevenção:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -359,9 +733,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `a) Identificar e avaliar os riscos existentes;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -372,9 +746,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `b) Elaborar relatório das irregularidades encontradas nos sistemas preventivos com apresentação de eventuais sugestões para melhoria das condições de segurança;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -385,9 +759,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `c) Conhecer, em profundidade, a técnica e tática para utilização dos equipamentos e sistemas de extinção de incêndio: mangueiras, extintores, chuveiros automáticos e CO2;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -398,9 +772,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `d) Conhecer a localização dos alarmes, extintores, caixas de incêndio, bem como, a ligação do conjunto de bombas de pressurização da rede de hidrantes;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -411,9 +785,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `e) Inspecionar periodicamente os equipamentos de proteção contra incêndio e de rotas de fuga, comunicando ao fiscal do contrato, com a maior brevidade possível, as anormalidades detectadas;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -424,9 +798,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `f) Executar ronda(s) diária(s) conforme a orientação recebida da CONTRATANTE, verificando todas as dependências das instalações, adotando os cuidados e providências necessários para o perfeito desempenho das funções e manutenção da ordem nas instalações;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -437,9 +811,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `g) Analisar com rapidez a situação e empregar os meios disponíveis para debelar um incêndio;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -450,9 +824,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `h) Investigar a origem de qualquer anormalidade na edificação que seja indício de princípio de incêndio;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -463,9 +837,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `i) Comunicar à CONTRATANTE, toda ocorrência anormal que verificar;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -476,9 +850,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `j) Apresentar à CONTRATANTE, relatório formal das irregularidades encontradas, com propostas e medidas corretivas adequadas;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -489,9 +863,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `k) Testar periodicamente os equipamentos de combate a incêndio e afins;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -502,9 +876,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `l) Avaliar e acompanhar as atividades de risco;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -515,9 +889,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `m) Estar sempre em condições de auxiliar o CBMERJ, por ocasião de sua chegada, no sentido de fornecer dados gerais sobre o edifício e o evento, bem como, promover o rápido e fácil acesso aos dispositivos de segurança;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -528,9 +902,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `n) Efetuar rondas diárias e esporádicas em todas as instalações dos edifícios para verificar a existência de possíveis problemas que possam representar eventuais riscos de incêndio.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -541,9 +915,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `2.2.2. Ações de Emergência:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -554,9 +928,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `a) Identificar e avaliar a situação;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -567,9 +941,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `b) Acionar imediatamente o CBMERJ;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -580,9 +954,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `c) Verificar a transmissão do alarme e auxiliar no abandono da edificação;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -593,9 +967,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `d) Combater os incêndios em sua fase inicial, de forma que possam ser controlados por meio de materiais e equipamentos colocados pela CONTRATANTE a disposição da CONTRATADO;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -606,9 +980,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `e) Atuar no controle de pânico;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -619,9 +993,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `f) Prestar os primeiros socorros a feridos;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -632,9 +1006,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `g) Interromper o fornecimento de energia elétrica quando da ocorrência de sinistro;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -645,9 +1019,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `h) Estar sempre em condições de auxiliar o CBMERJ, por ocasião de sua chegada, no sentido de fornecer dados gerais sobre a ocorrência, bem como promover o rápido e fácil acesso aos dispositivos de segurança.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -658,9 +1032,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CLÁUSULA TERCEIRA - OBRIGAÇÕES DO CONTRATANTE`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightD;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsD;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -671,9 +1045,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `3.1. O CONTRATANTE obriga-se a:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -684,9 +1058,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `a) Disponibilizar ao CONTRATADO as informações necessárias para o desempenho de suas funções;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -697,9 +1071,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `b) Fornecer acesso a um espaço adequado para guarda de equipamentos e descanso, se aplicável;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -710,9 +1084,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `c) Efetuar o pagamento dos honorários conforme estipulado neste contrato;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -723,9 +1097,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `d) Cumprir as normas de segurança aplicáveis ao local onde os serviços serão prestados.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -736,9 +1110,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `e) Exercer a fiscalização dos serviços por técnicos especialmente designados.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -749,9 +1123,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `f) Indicar instalações sanitárias, para uso do CONTRATADO;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -762,9 +1136,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CLÁUSULA QUARTA - REMUNERAÇÃO E CONDIÇÕES DE PAGAMENTO`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightD;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsD;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -775,9 +1149,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `4.1. Pela prestação dos serviços, o CONTRATANTE pagará ao CONTRATADO o valor de R$ ${funcionario_acao_1_valor}, a ser pago diariamente.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -788,9 +1162,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `4.2. O pagamento será realizado via transferência bancária, PIX ou dinheiro.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -801,9 +1175,9 @@ function funcionario_acao_1_gerar_pdf() {
                     // //Texto
                     // texto = `4.3. Em caso de atraso no pagamento, incidirão sobre o valor devido:`;
                     //
-                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    // novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     // linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    // alturaTexto = linhasTexto.length * lineHeightA;
+                    // alturaTexto = linhasTexto.length * spacingBetweenTextsA;
                     //
                     // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
                     //
@@ -814,9 +1188,9 @@ function funcionario_acao_1_gerar_pdf() {
                     // //Texto
                     // texto = `a) Multa de 2% (dois por cento) sobre o montante em aberto;`;
                     //
-                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    // novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     // linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    // alturaTexto = linhasTexto.length * lineHeightA;
+                    // alturaTexto = linhasTexto.length * spacingBetweenTextsA;
                     //
                     // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
                     //
@@ -827,9 +1201,9 @@ function funcionario_acao_1_gerar_pdf() {
                     // //Texto
                     // texto = `b) Juros moratórios de 1% ao mês, calculados pro rata die;`;
                     //
-                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    // novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     // linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    // alturaTexto = linhasTexto.length * lineHeightA;
+                    // alturaTexto = linhasTexto.length * spacingBetweenTextsA;
                     //
                     // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
                     //
@@ -840,9 +1214,9 @@ function funcionario_acao_1_gerar_pdf() {
                     // //Texto
                     // texto = `c) Correção monetária pelo índice IPCA;`;
                     //
-                    // novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    // novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     // linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    // alturaTexto = linhasTexto.length * lineHeightA;
+                    // alturaTexto = linhasTexto.length * spacingBetweenTextsA;
                     //
                     // if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
                     //
@@ -853,9 +1227,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CLÁUSULA QUINTA - INADIMPLEMENTO`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightD;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsD;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -866,9 +1240,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `5.1. Caso o CONTRATANTE não efetue o pagamento no prazo acordado, o CONTRATADO poderá:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -879,9 +1253,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `a) Aplicar as penalidades previstas na cláusula 4.3;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -892,9 +1266,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `b) Suspender a prestação dos serviços até a regularização do pagamento;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -905,9 +1279,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `c) Rescindir o contrato, mediante notificação formal, caso o atraso seja superior a 15 (quinze) dias.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -918,9 +1292,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `5.2. Caso o CONTRATADO não cumpra suas funções de forma adequada ou falte sem justificativa, o CONTRATANTE poderá:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -931,9 +1305,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `a) Aplicar descontos proporcionais sobre os dias não trabalhados;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -944,9 +1318,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `b) Rescindir o contrato de imediato, sem aviso prévio.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -957,9 +1331,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CLÁUSULA SEXTA - DURAÇÃO E RESCISÃO`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightD;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsD;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -970,9 +1344,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `6.1. O presente contrato terá vigência de [prazo: ex. 6 meses, 12 meses], a contar da data de assinatura, podendo ser prorrogado por acordo mútuo.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -983,9 +1357,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `6.2. O contrato poderá ser rescindido:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -996,9 +1370,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `a) Por mútuo acordo entre as partes;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1009,9 +1383,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `b) Pela inadimplência do CONTRATANTE por mais de 15 dias;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1022,9 +1396,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `c) Pelo descumprimento das obrigações estipuladas neste contrato;`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1035,9 +1409,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `d) Por falta grave do CONTRATADO, como negligência, abandono do posto ou conduta inadequada.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1048,9 +1422,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `6.3. Em caso de rescisão sem justa causa, a parte que der causa deverá comunicar a outra com 15 (quinze) dias de antecedência.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1061,9 +1435,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CLÁUSULA SÉTIMA - RESPONSABILIDADE E SEGURANÇA`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightD;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsD;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1074,9 +1448,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `7.1. O CONTRATADO será responsável civil e criminalmente por qualquer ato de negligência ou imprudência que ocasione danos ao CONTRATANTE ou a terceiros.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1087,9 +1461,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `7.2. O CONTRATANTE se compromete a fornecer um ambiente seguro e adequado para o desempenho das funções do CONTRATADO`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1100,9 +1474,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CLÁUSULA OITAVA - DAS RESPONSABILIDADES FISCAIS E PREVIDENCIÁRIAS`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightD;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsD;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1113,9 +1487,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `8.1 A CONTRATADA assume integral responsabilidade pelo recolhimento de tributos, contribuições previdenciárias e quaisquer encargos decorrentes da prestação de serviços.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightC;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsC;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1126,9 +1500,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `8.2. A CONTRATANTE está isenta de qualquer responsabilidade em relação a vínculos trabalhistas, previdenciários, ou fiscais da CONTRATADA ou de seus empregados e/ou colaboradores, ficando a cargo exclusivo da CONTRATADA todas as providências necessárias para cumprimento dessas obrigações.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1139,9 +1513,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `8.3. A CONTRATADA obriga-se a isentar e indenizar a CONTRATANTE em caso de qualquer reclamação trabalhista, previdenciária ou fiscal promovida por terceiros contratados pelo CONTRATADO que venha a resultar em condenação ou ônus financeiro para a CONTRATANTE.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1152,9 +1526,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CLÁUSULA NONA -  DISPOSIÇÕES GERAIS`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightD;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsD;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1165,9 +1539,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `9.1. O presente contrato não gera vínculo empregatício, sendo o CONTRATADO um profissional autônomo, responsável por todas as suas obrigações previdenciárias e fiscais.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1178,9 +1552,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `9.2. Qualquer alteração neste contrato deverá ser realizada mediante aditivo contratual, assinado por ambas as partes.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1191,9 +1565,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `9.3. As partes elegem o foro da Comarca da Capital do Estado do Rio de Janeiro, para dirimir eventuais litígios decorrentes deste contrato.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1204,9 +1578,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `E, por estarem justas e contratadas, as partes assinam o presente contrato em duas vias de igual teor e forma, na presença de duas testemunhas.`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1217,9 +1591,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = dataExtenso(3, dataServidor(2));
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightD;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsD;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1230,9 +1604,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `______________________________________`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightC;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsC;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1243,9 +1617,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CONTRATANTE`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1256,9 +1630,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `______________________________________`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightC;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsC;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1269,9 +1643,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CONTRATADO`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1282,9 +1656,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `________________________________`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightC;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsC;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1295,9 +1669,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `TESTEMUNHA 1:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1308,9 +1682,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CPF:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1321,9 +1695,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `________________________________`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightC;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsC;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1334,9 +1708,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `TESTEMUNHA 2:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1347,9 +1721,9 @@ function funcionario_acao_1_gerar_pdf() {
                     //Texto
                     texto = `CPF:`;
 
-                    novaMarginTop = novaMarginTop + alturaTexto + lineHeightA;
+                    novaMarginTop = novaMarginTop + alturaTexto + spacingBetweenTextsA;
                     linhasTexto = doc.splitTextToSize(texto, textWidth);
-                    alturaTexto = linhasTexto.length * lineHeightA;
+                    alturaTexto = linhasTexto.length * spacingBetweenTextsA;
 
                     if ((novaMarginTop + alturaTexto) > 270) {doc.addPage(); novaMarginTop = marginTop;}
 
@@ -1430,6 +1804,7 @@ function funcionario_acao_1_gerar_pdf() {
 * @PARAM op=14 : PASEP Válido
 * @PARAM op=15 : Carteira Trabalho Válido
 * @PARAM op=16 : Campo FILE com arquivo PDF (enviar id do elemento)
+* @PARAM op=17 : Hora Válida
  */
 function validacao({op=0, value='', minCaracteres=0, maxCaracteres=0, id=''}) {
     var regex;
@@ -1683,6 +2058,19 @@ function validacao({op=0, value='', minCaracteres=0, maxCaracteres=0, id=''}) {
 
         return true;
     }
+
+    //Hora Válida
+    if (op == 17) {
+        //Expressão regular para verificar o formato da hora (HH:mm:ss)
+        regex = /^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
+
+        //Verificando
+        if (regex.test(value) === true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 //Código para Acessar Câmera Frontal e Traseira - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1751,99 +2139,6 @@ function stopCameraTraseira() {
 }
 //Código para Acessar Câmera Frontal e Traseira - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Código para Acessar Câmera Frontal e Traseira - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-function clienteExtraData(id='') {
-    //Limpando dados
-    $('.jsonCliente').html('');
-
-    //Verificar se mandou id ou se veio do registro_id
-    if (id == '') {id = $('#registro_id').val();}
-
-    //URL
-    var url_atual = window.location.protocol+'//'+window.location.host+'/';
-
-    //Ajax
-    $.ajax({
-        processing: true,
-        serverSide: true,
-        type: "GET",
-        url: url_atual+"clientes/extradata/"+id,
-        data: {},
-        datatype: "json",
-        success: function (response) {
-            //Lendo json
-            let json = JSON.parse(response);
-
-            //Lendo dados cliente
-            let cliente = json.cliente;
-
-            //Passando dados cliente
-            $('.jsonClienteName').html(cliente.name);
-
-            if (cliente.status == '1') {nameStatus = 'Ativo';}
-            if (cliente.status == '2') {nameStatus = 'Inativo';}
-            $('.jsonClienteStatus').html(nameStatus);
-
-            if (cliente.tipo == '1') {
-                $('.jsonClienteTipo').html('Pessoa Jurídica');
-                $('.labelClienteCnpjCpf').html('CNPJ');
-                $('.jsonClienteCnpj').html(aplicarMascaraJs(cliente.cnpj, '##.###.###/####-##'));
-            }
-
-            if (cliente.tipo == '2') {
-                $('.jsonClienteTipo').html('Pessoa Física');
-                $('.labelClienteCnpjCpf').html('CPF');
-                $('.jsonClienteCpf').html(aplicarMascaraJs(cliente.cpf, '###.###.###-##'));
-            }
-
-            //Informações Gerais
-            $('.jsonClienteClientePrincipal').html(cliente.principalClienteName);
-            $('.jsonClienteEmail').html(cliente.email);
-
-            if (cliente.telefone_1 != '' && cliente.telefone_1 !== null) {$('.jsonClienteContatoTelefone1').html(aplicarMascaraJs(cliente.telefone_1, '(##) #####-####'));}
-            if (cliente.telefone_2 != '' && cliente.telefone_2 !== null) {$('.jsonClienteContatoTelefone2').html(aplicarMascaraJs(cliente.telefone_2, '(##) #####-####'));}
-            if (cliente.celular_1 != '' && cliente.celular_1 !== null) {$('.jsonClienteContatoCelular1').html(aplicarMascaraJs(cliente.celular_1, '(##) #####-####'));}
-            if (cliente.celular_2 != '' && cliente.celular_2 !== null) {$('.jsonClienteContatoCelular2').html(aplicarMascaraJs(cliente.celular_2, '(##) #####-####'));}
-
-            //Lendo dados servicos''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            let cliente_servicos = json.cliente_servicos;
-
-            var tbodyServicos = '';
-
-            //Passando dados servicos (Tabela)
-            var row = 0;
-
-            function montarTable(item) {
-                row++;
-
-                statusName = item.status;
-                servicoName = item.servicoName;
-
-                tbodyServicos += "<tr>";
-                tbodyServicos += "<th scope='row'>" + row + "</th>";
-                tbodyServicos += "<td>" + statusName + "</td>";
-                tbodyServicos += "<td>" + servicoName + "</td>";
-                tbodyServicos += "</tr>";
-            }
-
-            cliente_servicos.forEach(montarTable);
-
-            //Destruindo e iniciando (Simulando um Refresh)
-            $('.class-datatable-2').DataTable().destroy();
-            $('.jsonClienteServicosTable').html(tbodyServicos);
-
-            configurarDataTable(2);
-
-            //Alterar tamanho do input Pesquisar da tabela
-            $('.dataTables_filter .fildFilterTable').attr('style',  'width:150px');
-            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        },
-        complete: function () {},
-        error: function (response) {
-            alert('ERROR: '+response);
-        }
-    });
-}
 
 function fornecedorExtraData(id='') {
     //Limpando dados
@@ -2004,14 +2299,14 @@ function funcionarioModalInfo(id='') {
         tab_fun_dados_mi_fun_carteira_trabalho.innerHTML = funcionario.carteira_trabalho;
 
         //Upload Foto
-        const tab_foto_upload_foto_funcionario_id = document.querySelector('#funcionario_modal_info #tab_foto #upload_foto_funcionario_id');
-        const tab_foto_upload_foto_funcionario_name = document.querySelector('#funcionario_modal_info #tab_foto #upload_foto_funcionario_name');
+        const tab_fun_foto_upload_foto_funcionario_id = document.querySelector('#funcionario_modal_info #tab_fun_foto #upload_foto_funcionario_id');
+        const tab_fun_foto_upload_foto_funcionario_name = document.querySelector('#funcionario_modal_info #tab_fun_foto #upload_foto_funcionario_name');
 
-        tab_foto_upload_foto_funcionario_id.value = funcionario.id;
-        tab_foto_upload_foto_funcionario_name.value = funcionario.name;
+        tab_fun_foto_upload_foto_funcionario_id.value = funcionario.id;
+        tab_fun_foto_upload_foto_funcionario_name.value = funcionario.name;
 
         //Upload Documento PDF
-        const tab_documento_pdf_upload_documentos_pdfs_funcionario_id = document.querySelector('#funcionario_modal_info #tab_documentos_pdfs #upload_documentos_pdfs_funcionario_id');
+        const tab_documento_pdf_upload_documentos_pdfs_funcionario_id = document.querySelector('#funcionario_modal_info #tab_fun_documentos_pdfs #upload_documentos_pdfs_funcionario_id');
 
         tab_documento_pdf_upload_documentos_pdfs_funcionario_id.value = funcionario.id;
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -2147,7 +2442,7 @@ function funcionarioModalInfoDeletarDocumentoPdf(funcionario_documento_id) {
                     let funcionario_id = document.getElementById('upload_documentos_pdfs_funcionario_id').value;
 
                     //Montar Grade
-                    funcionarioModalInfoGradeDocumentosPdf({funcionario_id:funcionario_id, id_elemento_visualisacao:'div_frm_upload_documentos_pdfs_listar'});
+                    funcionarioModalInfoGradeDocumentosPdf({funcionario_id:funcionario_id, id_elemento_visualisacao:'div_frm_upload_documentos_pdfs_fun_listar'});
                 } else if (data.error) {
                     alertSwal('error', 'Funcionários', data.error, 'true', 2000);
                 } else if (data.error_permissao) {
@@ -2162,16 +2457,221 @@ function funcionarioModalInfoDeletarDocumentoPdf(funcionario_documento_id) {
     });
 }
 
+//Busca dados e monta o modal para o submódulo clientes
+function clienteModalInfo(id='') {
+    if (id == '') {id = document.getElementById('registro_id').value;}
 
+    //Abrir Modal
+    new bootstrap.Modal(document.getElementById('cliente_modal_info')).show();
 
+    //Limpando dados
+    let elementos = document.querySelectorAll('.clearClass');
+    elementos.forEach(elemento => {elemento.src = ''; elemento.innerHTML = '';});
 
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
 
+    //Acessar rota
+    fetch(url_atual+'clientes/modalInfo/modal_info/'+id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        //Lendo json
+        let json = data;
 
+        //Lendo dados cliente
+        let cliente = json.cliente;
 
+        //Acertos
+        if (cliente.status == 1) {var status = 'ATIVO';}
+        if (cliente.status == 2) {var status = 'INATIVO';}
 
+        if (cliente.tipo == 1) {
+            var tipo = 'PESSOA JURÍDICA';
+            var cpf_cnpj = cliente.cnpj;
+        }
+        if (cliente.tipo == 2) {
+            var tipo = 'PESSOA FÍSICA';
+            var cpf_cnpj = cliente.cpf;
+        }
 
+        //Passando dados cliente'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Header
+        const header_mi_cli_nome = document.querySelector('#cliente_modal_info #header #mi_cli_nome');
+        const header_mi_cli_email = document.querySelector('#cliente_modal_info #header #mi_cli_email');
 
+        header_mi_cli_nome.innerHTML = cliente.name;
+        header_mi_cli_email.innerHTML = cliente.email;
 
+        //Tab Dados
+        const tab_cli_dados_mi_cli_status = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_status');
+        const tab_cli_dados_mi_cli_tipo = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_tipo');
+        const tab_cli_dados_mi_cli_cpf_cnpj = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_cpf_cnpj');
+        const tab_cli_dados_mi_cli_nome = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_nome');
+        const tab_cli_dados_mi_cli_telefones = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_telefones');
+        const tab_cli_dados_mi_cli_celulares = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_celulares');
+        const tab_cli_dados_mi_cli_data_nascimento = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_data_nascimento');
+
+        tab_cli_dados_mi_cli_status.innerHTML = status;
+        tab_cli_dados_mi_cli_tipo.innerHTML = tipo;
+        tab_cli_dados_mi_cli_cpf_cnpj.innerHTML = cpf_cnpj;
+        tab_cli_dados_mi_cli_nome.innerHTML = cliente.name;
+        tab_cli_dados_mi_cli_telefones.innerHTML = formatarTelCel(1, cliente.telefone_1)+'  '+formatarTelCel(1, cliente.telefone_2);
+        tab_cli_dados_mi_cli_celulares.innerHTML = formatarTelCel(2, cliente.celular_1)+'  '+formatarTelCel(2, cliente.celular_2);
+        tab_cli_dados_mi_cli_data_nascimento.innerHTML = formatarData(2, cliente.data_admissao);
+
+        //Upload Documento PDF
+        const tab_documento_pdf_upload_documentos_pdfs_cliente_id = document.querySelector('#cliente_modal_info #tab_cli_documentos_pdfs #upload_documentos_pdfs_cliente_id');
+
+        tab_documento_pdf_upload_documentos_pdfs_cliente_id.value = cliente.id;
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    }).catch(error => {
+        alert('Erro clienteModalInfo: ', error);
+    });
+}
+
+//Busca dados e monta grade de documentos pdfs do submódulo clientes
+function clienteModalInfoGradeDocumentosPdf({cliente_id='', id_elemento_visualisacao='', btn_visualizar=true, btn_deletar=true}) {
+    if (id_elemento_visualisacao == '') {return false;}
+    if (cliente_id == '') {cliente_id = document.getElementById('registro_id').value;}
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'clientes/modalInfo/documentos_pdf/'+cliente_id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        //Lendo json
+        let documentos = data;
+
+        //Grade
+        let grade = '';
+
+        //Montar Grade
+        if (documentos.length > 0) {
+            grade += '<table class="table">';
+            grade += '  <thead>';
+            grade += '      <tr>';
+            grade += '          <th scope="col">#</th>';
+            grade += '          <th scope="col">Descrição</th>';
+            grade += '          <th scope="col">Data</th>';
+            grade += '          <th scope="col">Aviso</th>';
+
+            if (btn_visualizar === true || btn_deletar === true) {
+                grade += '          <th scope="col">Ações</th>';
+            }
+
+            grade += '      </tr>';
+            grade += '  </thead>';
+            grade += '  <tbody>';
+
+            //Varrer
+            let ln = 0;
+            documentos.forEach(dado => {
+                ln++;
+
+                //Aviso
+                let aviso_texto = '';
+
+                if (dado.aviso == 0) {aviso_texto = 'Nenhum Aviso';}
+                if (dado.aviso == 1) {aviso_texto = 'Avisar a cada 1 mês';}
+                if (dado.aviso == 2) {aviso_texto = 'Avisar a cada 3 meses';}
+                if (dado.aviso == 3) {aviso_texto = 'Avisar a cada 6 meses';}
+                if (dado.aviso == 4) {aviso_texto = 'Avisar a cada 1 ano';}
+                if (dado.aviso == 5) {aviso_texto = 'Avisar a cada 3 anos';}
+                if (dado.aviso == 6) {aviso_texto = 'Avisar a cada 6 anos';}
+
+                //Ações
+                let acoes = '';
+
+                acoes += '<div class="row">';
+
+                if (btn_visualizar === true || btn_deletar === true) {
+                    if (btn_visualizar === true) {
+                        acoes += '  <div class="col-6">';
+                        acoes += '      <button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Documento" onclick="window.open(\'' + dado.caminho + '\', \'_blank\');"><i class="fa fa-file-pdf font-size-18"></i></button>';
+                        acoes += '  </div>';
+                    }
+
+                    if (btn_deletar === true) {
+                        acoes += '  <div class="col-6">';
+                        acoes += '      <button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Documento" onclick="clienteModalInfoDeletarDocumentoPdf(' + dado.id + ');"><i class="fa fa-trash-alt font-size-18"></i></button>';
+                        acoes += '  </div>';
+                    }
+                }
+
+                acoes += '</div>';
+
+                //TR
+                grade += '<tr>';
+                grade += '  <th scope="row">'+ln+'</th>';
+                grade += '  <td>'+dado.descricao+'</td>';
+                grade += '  <td>'+formatarData(2, dado.data_documento)+'</td>';
+                grade += '  <td>'+aviso_texto+'</td>';
+
+                if (btn_visualizar === true || btn_deletar === true) {
+                    grade += '  <td>'+acoes+'</td>';
+                }
+
+                grade += '</tr>';
+            });
+
+            grade += '  </tbody>';
+            grade += '</table>';
+        } else {
+            grade = 'Nenhum documento encontrado.';
+        }
+
+        //Retornar Grade
+        document.getElementById(id_elemento_visualisacao).innerHTML = grade;
+    }).catch(error => {
+        alert('Erro clienteModalInfoGradeDocumentosPdf: '+error);
+    });
+}
+
+//Função para deletar documento da grade
+function clienteModalInfoDeletarDocumentoPdf(cliente_documento_id) {
+    //Confirmação de Delete
+    alertSwalConfirmacao(function (confirmed) {
+        if (confirmed) {
+            var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+            //Acessar rota
+            fetch(url_atual+'clientes/modalInfo/deletar_documento_pdf/'+cliente_documento_id, {
+                method: 'DELETE',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                //Lendo dados
+                if (data.success) {
+                    alertSwal('success', 'Clientes', data.success, 'true', 2000);
+
+                    //Dados
+                    let cliente_id = document.getElementById('upload_documentos_pdfs_cliente_id').value;
+
+                    //Montar Grade
+                    clienteModalInfoGradeDocumentosPdf({cliente_id:cliente_id, id_elemento_visualisacao:'div_frm_upload_documentos_pdfs_cli_listar'});
+                } else if (data.error) {
+                    alertSwal('error', 'Clientes', data.error, 'true', 2000);
+                } else if (data.error_permissao) {
+                    alertSwal('warning', "Permissão Negada", '', 'true', 2000);
+                } else {
+                    alert('Erro interno');
+                }
+            }).catch(error => {
+                alert('Erro clienteModalInfoDeletarDocumentoPdf:'+error);
+            });
+        }
+    });
+}
 
 function notificacaoLerData(id) {
     //Buscar dados do Registro
@@ -2701,175 +3201,6 @@ function aplicarMascaraJs(value, pattern) {
     const v = value.toString();
     return pattern.replace(/#/g, () => v[i++] || '');
 }
-
-//Funções para o Submódulo Propostas - INÍCIO'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//Funções para o Submódulo Propostas - INÍCIO'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-//Atualiza/Limpa os dados do Serviço escolhido para grade
-//operacao = 0 : Limpar
-//operacao = 1 : Adicionar
-//operacao = 2 : Atualizar
-//operacao = 3 : Retirar
-function atualizarServicoEscolher(operacao, servico_id='', servico_nome='', servico_valor='', servico_qtd='') {
-    if (operacao == 0) {
-        //campos
-        $('#ts_servico_id').val(servico_id);
-        $('#select2-ts_servico_id-container').html(servico_nome);
-        $('#ts_servico_nome').val(servico_nome);
-        $('#ts_servico_valor').val(servico_valor);
-        $('#ts_servico_qtd').val(servico_qtd);
-
-        //botoes
-        $('#ts_servico_adicionar_div').hide();
-        $('#ts_servico_atualizar_div').hide();
-        $('#ts_servico_retirar_div').hide();
-    }
-
-    if (operacao == 1) {
-        //campos
-        $('#ts_servico_nome').val(servico_nome);
-        $('#ts_servico_valor').val(servico_valor);
-        $('#ts_servico_qtd').val(servico_qtd);
-
-        //botoes
-        $('#ts_servico_adicionar_div').show();
-        $('#ts_servico_atualizar_div').hide();
-        $('#ts_servico_retirar_div').hide();
-    }
-
-    if (operacao == 2) {
-        //campos
-        $('#ts_servico_id').val(servico_id);
-        $('#select2-ts_servico_id-container').html(servico_nome);
-        $('#ts_servico_nome').val(servico_nome);
-        $('#ts_servico_valor').val(servico_valor);
-        $('#ts_servico_qtd').val(servico_qtd);
-
-        //botoes
-        $('#ts_servico_adicionar_div').hide();
-        $('#ts_servico_atualizar_div').hide();
-        $('#ts_servico_retirar_div').show();
-    }
-}
-
-//Atualizar a Grade de Serviço
-//operacao = 0 : Somente atualiza os valores
-//operacao = 1 : Adicionar
-//operacao = 2 : Atualizar
-//operacao = 3 : Retirar
-function atualizarServicoGrade(operacao) {
-    if (operacao == 1) {
-        //Dados para preenchera linha da grade
-        servico_id = $('#ts_servico_id').val();
-        servico_nome = $('#ts_servico_nome').val();
-        servico_valor = $('#ts_servico_valor').val();
-        servico_qtd = $('#ts_servico_qtd').val();
-        servico_valor_total = servico_qtd * moeda2float(servico_valor);
-        servico_valor_total = float2moeda(servico_valor_total);
-
-        //Montar Linha
-        var linha;
-
-        linha = "<tr class='ts_servico_linha' id='ts_servico_linha_" + servico_id + "' data-id='" + servico_id + "' style='cursor: pointer'>";
-        linha += "  <td class='text-center ts_servico_item' data-id='" + servico_id + "'></td>";
-        linha += "  <td id='ts_servico_nome_td_" + servico_id + "'>" + servico_nome + "</td>";
-        linha += "  <td id='ts_servico_valor_td_" + servico_id + "' class='text-end'>R$ " + servico_valor + "</td>";
-        linha += "  <td id='ts_servico_qtd_td_" + servico_id + "' class='text-center'>" + servico_qtd + "</td>";
-        linha += "  <td class='text-end ts_servico_valor_total'>R$ " + servico_valor_total + "</td>";
-        linha += "</tr>";
-
-        //Adicionar linha na grade
-        $('#ts_servico_grade').append(linha);
-
-        //Montar campos hidden
-        var hiddens;
-
-        hiddens = "<div id='ts_servico_hiddens_" + servico_id + "'>";
-        hiddens += "<input class='servico_item_hiddens' type='hidden' name='servico_item[]' id='servico_item' value=''>";
-        hiddens += "<input type='hidden' name='servico_id[]' id='servico_id' value='"+servico_id+"'>";
-        hiddens += "<input type='hidden' name='servico_nome[]' id='servico_nome' value='"+servico_nome+"'>";
-        hiddens += "<input type='hidden' name='servico_valor[]' id='servico_valor' value='"+moeda2float(servico_valor)+"'>";
-        hiddens += "<input type='hidden' name='servico_quantidade[]' id='servico_quantidade' value='"+servico_qtd+"'>";
-        hiddens += "<input type='hidden' name='servico_valor_total[]' id='servico_valor_total' value='"+moeda2float(servico_valor_total)+"'>";
-        hiddens += "</div>";
-
-        //Adicionar hiddens na div
-        $('#ts_servico_hiddens').append(hiddens);
-    }
-
-    if (operacao == 3) {
-        //Dados
-        servico_id = $('#ts_servico_id').val();
-
-        //Remover linha da grade
-        $('#ts_servico_linha_'+servico_id).remove();
-
-        //Remover campos hiddens
-        $('#ts_servico_hiddens_'+servico_id).remove();
-    }
-
-    //Atualizando numeração das linhas da coluna Item
-    ln = 0;
-    $('.ts_servico_item').each(function( index ) {
-        ln++;
-        $(this).html(ln);
-    });
-
-    //Atualizando numeração das divs da coluna Item dos campos hiddens
-    ln = 0;
-    $('.servico_item_hiddens').each(function( index ) {
-        ln++;
-        $(this).val(ln);
-    });
-
-    //Atualizando Valor Global
-    var valor_global = 0;
-    var valor_total = 0;
-    $('.ts_servico_valor_total').each(function() {
-        valor_total = $(this).html();
-        valor_total = valor_total.substring(3);
-        valor_total = moeda2float(valor_total);
-
-        valor_global = valor_global + valor_total;
-    });
-
-    $('#ts_servico_valor_global').html('R$ '+float2moeda(valor_global));
-
-    //Atualizar Valor Total da Proposta
-    atualizarValorTotalProposta(valor_global);
-}
-
-//Limpar a Grade de Serviço
-function limparServicosGrade() {
-    //Limpando Serviços da grade
-    $('#ts_servico_grade').html('');
-
-    //Limpando campos hiddens
-    $('#ts_servico_hiddens').html('');
-
-    //Atualizar Valor Total da Proposta
-    atualizarValorTotalProposta(0);
-}
-
-//Atualizar o Valor Total da Proposta
-function atualizarValorTotalProposta(valor_global) {
-    var porcentagem_desconto = $('#porcentagem_desconto').val();
-
-    if (porcentagem_desconto ==  '') {
-        porcentagem_desconto = 0;
-        $('#porcentagem_desconto').val(porcentagem_desconto);
-    }
-
-    var valor_desconto = ((valor_global * porcentagem_desconto) / 100);
-
-    $('#valor_desconto').val(float2moeda(valor_desconto));
-    $('#valor_desconto_extenso').val(valorExtenso(valor_desconto));
-
-    $('#valor_total').val(float2moeda(valor_global - valor_desconto));
-    $('#valor_total_extenso').val(valorExtenso(valor_global - valor_desconto));
-}
-//Funções para o Submódulo Propostas - FIM''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//Funções para o Submódulo Propostas - FIM''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 //Funções para o Submódulo Clientes - INÍCIO''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Funções para o Submódulo Clientes - INÍCIO''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -3782,6 +4113,17 @@ function layoutTirarExcluirFotoTraseira(op) {
 //Funções para o QRCode Brigada Escalas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Funções para o QRCode Brigada Escalas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i].trim();
+        if (cookie.startsWith(name + '=')) {
+            return decodeURIComponent(cookie.substring(name.length + 1));
+        }
+    }
+    return null;
+}
+
 //Funções para Api ViaCep Para rodar em formulario sem REPEATER (Inicio)''''''''''''''''''''''''''''''''''''''''''''''''
 
 /*
@@ -3789,7 +4131,7 @@ function layoutTirarExcluirFotoTraseira(op) {
 * @PARAM op=2 : Entrada 2003-02-01   Saída 01/02/2003
  */
 function formatarData(op, data) {
-    if (data === null || data == '') {return '';}
+    if (data === null || data == '' || data === undefined) {return '';}
 
     if (op == 1) {
         var dia = data.substring(0, 2);

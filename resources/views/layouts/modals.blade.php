@@ -259,105 +259,266 @@
         </div>
     </div>
 
-    <!-- Modal para mostrar Foto e Transações do Cliente -->
-    <div class="modal fade modal-cliente" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content" style="background-color: var(--bs-body-bg);">
+    <!-- Funcionario Modal Info -->
+    <div id="funcionario_modal_info" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-xl-5">
-
-                            <!-- Principal -->
-                            <div class="card" style="min-height: 200px;">
-                                <div class="bg-success">
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <div class="text-white p-3">
-                                                <h5 class="text-white">Cliente</h5>
-                                                <p class="jsonCliente jsonClienteName"></p>
-                                            </div>
-                                        </div>
-                                        <div class="col-4 align-self-end">
-                                            <x-button-crud op="99" model="1" class="btn-close float-end px-1 py-1" data-bs-dismiss="modal" aria-label="Close" />
-                                            <img src="{{ asset('build/assets/images/cliente-img.png') }}" alt="" class="img-fluid">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body pt-0">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="pt-4">
-                                                <div class="row">
-                                                    <div class="col-3">
-                                                        <h5 class="font-size-15">Status</h5>
-                                                        <p class="text-muted mb-0 text-truncate jsonCliente jsonClienteStatus"></p>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <h5 class="font-size-15">Tipo</h5>
-                                                        <p class="text-muted mb-0 text-truncate jsonCliente jsonClienteTipo"></p>
-                                                    </div>
-                                                    <div class="col-5">
-                                                        <h5 class="font-size-15 labelClienteCnpjCpf">CNPJ/CPF</h5>
-                                                        <p class="text-muted mb-0 text-truncate jsonCliente jsonClienteCnpj"></p>
-                                                        <p class="text-muted mb-0 text-truncate jsonCliente jsonClienteCpf"></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Informações Pessoais -->
-                            <div class="card font-size-11" style="min-height: 250px;">
-                                <div class="card-body">
-                                    <h4 class="card-title mb-4">Informações Gerais</h4>
-                                    <div class="table-responsive">
-                                        <table class="table table-nowrap mb-0">
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">Cliente Principal :</th>
-                                                    <td class="jsonCliente jsonClienteClientePrincipal"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Email :</th>
-                                                    <td class="jsonCliente jsonClienteEmail"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Contato :</th>
-                                                    <td>
-                                                        <span class="jsonCliente jsonClienteContatoTelefone1"></span>
-                                                        <span class="jsonCliente jsonClienteContatoTelefone2"></span>
-                                                        <span class="jsonCliente jsonClienteContatoCelular1"></span>
-                                                        <span class="jsonCliente jsonClienteContatoCelular2"></span>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                    <!-- Header -->
+                    <div class="row" id="header">
+                        <div class="col-md-4 text-center">
+                            <img class="img-thumbnail avatar-xl clearClass" src="" data-holder-rendered="true" id="mi_fun_foto">
                         </div>
+                        <div class="col-md-8">
+                            <div class="col-12 font-size-14 text-primary p-1 clearClass" id="mi_fun_nome"></div>
+                            <div class="col-12 font-size-12 text-secondary p-1 clearClass" style="margin-top: -10px;" id="mi_fun_funcao"></div>
+                            <div class="col-12 font-size-10 text-secondary p-1 clearClass" style="margin-top: -10px;" id="mi_fun_email"></div>
+                            <div class="col-12 font-size-14 text-success p-1 clearClass" id="mi_fun_departamento"></div>
+                        </div>
+                        <hr>
+                    </div>
 
-                        <div class="col-xl-7">
-                            <!-- Tabela -->
-                            <div class="card" style="min-height: 475px;">
-                                <div class="card-body">
-                                    <h5 class="card-title text-success mb-4">Serviços</h5>
-                                    <div class="/*table-responsive*/">
-                                        <table class="table /*table-nowrap*/ table-hover mb-0 class-datatable-2 font-size-11">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Status</th>
-                                                    <th scope="col">Serviço</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="jsonCliente jsonClienteServicosTable"></tbody>
-                                        </table>
-                                    </div>
+                    <!-- Navegação tabs -->
+                    <div class="row" style="margin-top: -12px;">
+                        <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#tab_fun_dados" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-book"></i></span>
+                                    <span class="d-none d-sm-block">Dados</span>
+                                </a>
+                            </li>
+
+                            @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#tab_fun_foto" role="tab">
+                                        <span class="d-block d-sm-none"><i class="fas fa-address-card"></i></span>
+                                        <span class="d-none d-sm-block">Foto</span>
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#tab_fun_documentos_pdfs" role="tab">
+                                        <span class="d-block d-sm-none"><i class="fas fa-docker"></i></span>
+                                        <span class="d-none d-sm-block">Documentos PDF's</span>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content p-3 text-muted">
+                            <div class="tab-pane active" id="tab_fun_dados" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">CPF</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_cpf"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Departamento</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_departamento"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Função</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_funcao"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Nome</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_nome"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Telefone(s)</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_telefones"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Celular(s)</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_celulares"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Data Admissão</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_data_admissao"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Data Demissão</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_data_demissao"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">PIS</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_pis"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">PASEP</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_pasep"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Carteira Trabalho</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_carteira_trabalho"></div>
                                 </div>
                             </div>
+
+                            @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                <div class="tab-pane" id="tab_fun_foto" role="tabpanel">
+                                    <form enctype="multipart/form-data" id="frm_upload_fun_foto">
+                                        <input type="hidden" id="upload_foto_funcionario_id" name="upload_foto_funcionario_id" value="">
+                                        <input type="hidden" id="upload_foto_funcionario_name" name="upload_foto_funcionario_name" value="">
+
+                                        <div class="form-group col-12 py-2">
+                                            <button type="button" class="btn btn-sm btn-success" id="frm_upload_fun_foto_executar">Confirmar Upload</button>
+                                        </div>
+                                        <div class="form-group col-12 pt-2">
+                                            <label class="form-label mb-0 ps-1 small">Foto</label>
+                                            <input type="file" class="form-control form-control-sm" name="fun_foto_file" id="fun_foto_file">
+                                        </div>
+                                    </form>
+                                </div>
+                            @endif
+
+                            @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                <div class="tab-pane" id="tab_fun_documentos_pdfs" role="tabpanel">
+                                    <form enctype="multipart/form-data" id="frm_upload_documentos_pdfs_fun">
+                                        <input type="hidden" id="upload_documentos_pdfs_funcionario_id" name="upload_documentos_pdfs_funcionario_id" value="">
+
+                                        <!-- Ação do Formulário: 1(create) 2(edit) 3(update) 4(delete) -->
+                                        <input type="hidden" id="upload_documentos_pdfs_fun_acao" name="upload_documentos_pdfs_fun_acao" value="1">
+
+                                        <div class="form-group col-12 d-flex gap-3 py-2">
+                                            <button type="button" class="btn btn-sm btn-success" id="frm_upload_documentos_pdfs_fun_executar" name="frm_upload_documentos_pdfs_fun_executar">Executar Ação</button>
+                                            <button type="button" class="btn btn-sm btn-warning" id="frm_upload_documentos_pdfs_fun_incluir" name="frm_upload_documentos_pdfs_fun_incluir" style="display: none;">Incluir Documento</button>
+                                            <button type="button" class="btn btn-sm btn-warning" id="frm_upload_documentos_pdfs_fun_listar" name="frm_upload_documentos_pdfs_fun_listar">Listar Documento(s)</button>
+                                        </div>
+                                        <div class="row" id="div_frm_upload_documentos_pdfs_fun_executar">
+                                            <div class="form-group col-12 pt-2">
+                                                <label class="form-label mb-0 ps-1 small">Descrição</label>
+                                                <input type="text" class="form-control" name="fun_documentos_pdfs_descricao" id="fun_documentos_pdfs_descricao" placeholder="Descrição do Documento PDF">
+                                            </div>
+                                            <div class="form-group col-12 col-md-6 pt-2">
+                                                <label class="form-label mb-0 ps-1 small">Data Documento</label>
+                                                <input type="text" class="form-control mask_date" name="fun_documentos_pdfs_data_documento" id="fun_documentos_pdfs_data_documento" placeholder="Data do Documento PDF">
+                                            </div>
+                                            <div class="form-group col-12 col-md-6 pt-2">
+                                                <label class="form-label mb-0 ps-1 small">Aviso</label>
+                                                <select class="form-select" name="fun_documentos_pdfs_aviso" id="fun_documentos_pdfs_aviso">
+                                                    <option value="0">Nenhum Aviso</option>
+                                                    <option value="1">Avisar a cada 1 mês</option>
+                                                    <option value="2">Avisar a cada 3 meses</option>
+                                                    <option value="3">Avisar a cada 6 meses</option>
+                                                    <option value="4">Avisar a cada 1 ano</option>
+                                                    <option value="5">Avisar a cada 3 anos</option>
+                                                    <option value="6">Avisar a cada 6 anos</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-12 pt-2">
+                                                <label class="form-label mb-0 ps-1 small">Documento</label>
+                                                <input type="file" class="form-control form-control-sm" name="fun_documentos_pdfs_file" id="fun_documentos_pdfs_file">
+                                            </div>
+                                        </div>
+                                        <div class="row" id="div_frm_upload_documentos_pdfs_fun_listar" style="display: none;"></div>
+                                        <div class="row" id="div_frm_upload_documentos_pdfs_fun_visualisar" style="display: none;">VISUALISAR</div>
+                                    </form>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cliente Modal Info -->
+    <div id="cliente_modal_info" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <!-- Header -->
+                    <div class="row" id="header">
+                        <div class="col-md-12">
+                            <div class="col-12 font-size-14 text-primary p-1 clearClass" id="mi_cli_nome"></div>
+                            <div class="col-12 font-size-10 text-secondary p-1 clearClass" style="margin-top: -10px;" id="mi_cli_email"></div>
+                        </div>
+                        <hr>
+                    </div>
+
+                    <!-- Navegação tabs -->
+                    <div class="row" style="margin-top: -12px;">
+                        <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#tab_cli_dados" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-book"></i></span>
+                                    <span class="d-none d-sm-block">Dados</span>
+                                </a>
+                            </li>
+
+                            @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#tab_cli_documentos_pdfs" role="tab">
+                                        <span class="d-block d-sm-none"><i class="fas fa-docker"></i></span>
+                                        <span class="d-none d-sm-block">Documentos PDF's</span>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content p-3 text-muted">
+                            <div class="tab-pane active" id="tab_cli_dados" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Status</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_cli_status"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Tipo</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_cli_tipo"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">CPF/CNPJ</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_cli_cpf_cnpj"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Nome</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_cli_nome"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Telefone(s)</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_cli_telefones"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Celular(s)</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_cli_celulares"></div>
+
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Data Nascimento</div>
+                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_cli_data_nascimento"></div>
+                                </div>
+                            </div>
+
+                            @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                                <div class="tab-pane" id="tab_cli_documentos_pdfs" role="tabpanel">
+                                    <form enctype="multipart/form-data" id="frm_upload_documentos_pdfs_cli">
+                                        <input type="hidden" id="upload_documentos_pdfs_cliente_id" name="upload_documentos_pdfs_cliente_id" value="">
+
+                                        <!-- Ação do Formulário: 1(create) 2(edit) 3(update) 4(delete) -->
+                                        <input type="hidden" id="upload_documentos_pdfs_cli_acao" name="upload_documentos_pdfs_cli_acao" value="1">
+
+                                        <div class="form-group col-12 d-flex gap-3 py-2">
+                                            <button type="button" class="btn btn-sm btn-success" id="frm_upload_documentos_pdfs_cli_executar" name="frm_upload_documentos_pdfs_cli_executar">Executar Ação</button>
+                                            <button type="button" class="btn btn-sm btn-warning" id="frm_upload_documentos_pdfs_cli_incluir" name="frm_upload_documentos_pdfs_cli_incluir" style="display: none;">Incluir Documento</button>
+                                            <button type="button" class="btn btn-sm btn-warning" id="frm_upload_documentos_pdfs_cli_listar" name="frm_upload_documentos_pdfs_cli_listar">Listar Documento(s)</button>
+                                        </div>
+                                        <div class="row" id="div_frm_upload_documentos_pdfs_cli_executar">
+                                            <div class="form-group col-12 pt-2">
+                                                <label class="form-label mb-0 ps-1 small">Descrição</label>
+                                                <input type="text" class="form-control" name="cli_documentos_pdfs_descricao" id="cli_documentos_pdfs_descricao" placeholder="Descrição do Documento PDF">
+                                            </div>
+                                            <div class="form-group col-12 col-md-6 pt-2">
+                                                <label class="form-label mb-0 ps-1 small">Data Documento</label>
+                                                <input type="text" class="form-control mask_date" name="cli_documentos_pdfs_data_documento" id="cli_documentos_pdfs_data_documento" placeholder="Data do Documento PDF">
+                                            </div>
+                                            <div class="form-group col-12 col-md-6 pt-2">
+                                                <label class="form-label mb-0 ps-1 small">Aviso</label>
+                                                <select class="form-select" name="cli_documentos_pdfs_aviso" id="cli_documentos_pdfs_aviso">
+                                                    <option value="0">Nenhum Aviso</option>
+                                                    <option value="1">Avisar a cada 1 mês</option>
+                                                    <option value="2">Avisar a cada 3 meses</option>
+                                                    <option value="3">Avisar a cada 6 meses</option>
+                                                    <option value="4">Avisar a cada 1 ano</option>
+                                                    <option value="5">Avisar a cada 3 anos</option>
+                                                    <option value="6">Avisar a cada 6 anos</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-12 pt-2">
+                                                <label class="form-label mb-0 ps-1 small">Documento</label>
+                                                <input type="file" class="form-control form-control-sm" name="cli_documentos_pdfs_file" id="cli_documentos_pdfs_file">
+                                            </div>
+                                        </div>
+                                        <div class="row" id="div_frm_upload_documentos_pdfs_cli_listar" style="display: none;"></div>
+                                        <div class="row" id="div_frm_upload_documentos_pdfs_cli_visualisar" style="display: none;">VISUALISAR</div>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -464,161 +625,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Funcionario Modal Info -->
-    <div id="funcionario_modal_info" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <!-- Header -->
-                    <div class="row" id="header">
-                        <div class="col-md-4 text-center">
-                            <img class="img-thumbnail avatar-xl clearClass" src="" data-holder-rendered="true" id="mi_fun_foto">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="col-12 font-size-14 text-primary p-1 clearClass" id="mi_fun_nome"></div>
-                            <div class="col-12 font-size-12 text-secondary p-1 clearClass" style="margin-top: -10px;" id="mi_fun_funcao"></div>
-                            <div class="col-12 font-size-10 text-secondary p-1 clearClass" style="margin-top: -10px;" id="mi_fun_email"></div>
-                            <div class="col-12 font-size-14 text-success p-1 clearClass" id="mi_fun_departamento"></div>
-                        </div>
-                        <hr>
-                    </div>
-
-                    <!-- Navegação tabs -->
-                    <div class="row" style="margin-top: -12px;">
-                        <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#tab_fun_dados" role="tab">
-                                    <span class="d-block d-sm-none"><i class="fas fa-book"></i></span>
-                                    <span class="d-none d-sm-block">Dados</span>
-                                </a>
-                            </li>
-
-                            @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
-                                <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#tab_foto" role="tab">
-                                        <span class="d-block d-sm-none"><i class="fas fa-address-card"></i></span>
-                                        <span class="d-none d-sm-block">Foto</span>
-                                    </a>
-                                </li>
-                            @endif
-
-                            @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
-                                <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#tab_documentos_pdfs" role="tab">
-                                        <span class="d-block d-sm-none"><i class="fas fa-docker"></i></span>
-                                        <span class="d-none d-sm-block">Documentos PDF's</span>
-                                    </a>
-                                </li>
-                            @endif
-                        </ul>
-
-                        <!-- Tab panes -->
-                        <div class="tab-content p-3 text-muted">
-                            <div class="tab-pane active" id="tab_fun_dados" role="tabpanel">
-                                <div class="row">
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">CPF</div>
-                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_cpf"></div>
-
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Departamento</div>
-                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_departamento"></div>
-
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Função</div>
-                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_funcao"></div>
-
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Nome</div>
-                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_nome"></div>
-
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Telefone(s)</div>
-                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_telefones"></div>
-
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Celular(s)</div>
-                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_celulares"></div>
-
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Data Admissão</div>
-                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_data_admissao"></div>
-
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Data Demissão</div>
-                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_data_demissao"></div>
-
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">PIS</div>
-                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_pis"></div>
-
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">PASEP</div>
-                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_pasep"></div>
-
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Carteira Trabalho</div>
-                                    <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_carteira_trabalho"></div>
-                                </div>
-                            </div>
-
-                            @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
-                                <div class="tab-pane" id="tab_foto" role="tabpanel">
-                                    <form enctype="multipart/form-data" id="frm_upload_foto">
-                                        <input type="hidden" id="upload_foto_funcionario_id" name="upload_foto_funcionario_id" value="">
-                                        <input type="hidden" id="upload_foto_funcionario_name" name="upload_foto_funcionario_name" value="">
-
-                                        <div class="form-group col-12 py-2">
-                                            <button type="button" class="btn btn-sm btn-success" id="frm_upload_foto_executar">Confirmar Upload</button>
-                                        </div>
-                                        <div class="form-group col-12 pt-2">
-                                            <label class="form-label mb-0 ps-1 small">Foto</label>
-                                            <input type="file" class="form-control form-control-sm" name="fun_foto_file" id="fun_foto_file">
-                                        </div>
-                                    </form>
-                                </div>
-                            @endif
-
-                            @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
-                                <div class="tab-pane" id="tab_documentos_pdfs" role="tabpanel">
-                                    <form enctype="multipart/form-data" id="frm_upload_documentos_pdfs">
-                                        <input type="hidden" id="upload_documentos_pdfs_funcionario_id" name="upload_documentos_pdfs_funcionario_id" value="">
-
-                                        <!-- Ação do Formulário: 1(create) 2(edit) 3(update) 4(delete) -->
-                                        <input type="hidden" id="upload_documentos_pdfs_acao" name="upload_documentos_pdfs_acao" value="1">
-
-                                        <div class="form-group col-12 d-flex gap-3 py-2">
-                                            <button type="button" class="btn btn-sm btn-success" id="frm_upload_documentos_pdfs_executar" name="frm_upload_documentos_pdfs_executar">Executar Ação</button>
-                                            <button type="button" class="btn btn-sm btn-warning" id="frm_upload_documentos_pdfs_incluir" name="frm_upload_documentos_pdfs_incluir" style="display: none;">Incluir Documento</button>
-                                            <button type="button" class="btn btn-sm btn-warning" id="frm_upload_documentos_pdfs_listar" name="frm_upload_documentos_pdfs_listar">Listar Documento(s)</button>
-                                        </div>
-                                        <div class="row" id="div_frm_upload_documentos_pdfs_executar">
-                                            <div class="form-group col-12 pt-2">
-                                                <label class="form-label mb-0 ps-1 small">Descrição</label>
-                                                <input type="text" class="form-control" name="fun_documentos_pdfs_descricao" id="fun_documentos_pdfs_descricao" placeholder="Descrição do Documento PDF">
-                                            </div>
-                                            <div class="form-group col-12 col-md-6 pt-2">
-                                                <label class="form-label mb-0 ps-1 small">Data Documento</label>
-                                                <input type="text" class="form-control mask_date" name="fun_documentos_pdfs_data_documento" id="fun_documentos_pdfs_data_documento" placeholder="Data do Documento PDF">
-                                            </div>
-                                            <div class="form-group col-12 col-md-6 pt-2">
-                                                <label class="form-label mb-0 ps-1 small">Aviso</label>
-                                                <select class="form-select" name="fun_documentos_pdfs_aviso" id="fun_documentos_pdfs_aviso">
-                                                    <option value="0">Nenhum Aviso</option>
-                                                    <option value="1">Avisar a cada 1 mês</option>
-                                                    <option value="2">Avisar a cada 3 meses</option>
-                                                    <option value="3">Avisar a cada 6 meses</option>
-                                                    <option value="4">Avisar a cada 1 ano</option>
-                                                    <option value="5">Avisar a cada 3 anos</option>
-                                                    <option value="6">Avisar a cada 6 anos</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-12 pt-2">
-                                                <label class="form-label mb-0 ps-1 small">Documento</label>
-                                                <input type="file" class="form-control form-control-sm" name="fun_documentos_pdfs_file" id="fun_documentos_pdfs_file">
-                                            </div>
-                                        </div>
-                                        <div class="row" id="div_frm_upload_documentos_pdfs_listar" style="display: none;"></div>
-                                        <div class="row" id="div_frm_upload_documentos_pdfs_visualisar" style="display: none;">VISUALISAR</div>
-                                    </form>
-                                </div>
-                            @endif
                         </div>
                     </div>
                 </div>
