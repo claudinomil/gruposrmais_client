@@ -4,7 +4,7 @@ $lon1 = $_GET['lon1'];
 $lat2 = $_GET['lat2'];
 $lon2 = $_GET['lon2'];
 
-$apiKey = 'AIzaSyARmoDmjUAPxUg4J5Ztuq1ceSqZK6i3WbM';
+$apiKey = env('API_GOOGLE_KEY');
 
 // Obter rota da Directions API
 $directionsUrl = "https://maps.googleapis.com/maps/api/directions/json?origin={$lat1},{$lon1}&destination={$lat2},{$lon2}&key={$apiKey}&language=pt&mode=driving";

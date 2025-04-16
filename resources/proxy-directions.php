@@ -4,7 +4,8 @@
 
 $origem = $_GET['origem'];
 $destino = $_GET['destino'];
-$apiKey = 'AIzaSyARmoDmjUAPxUg4J5Ztuq1ceSqZK6i3WbM';
+
+$apiKey = env('API_GOOGLE_KEY');
 
 $url = "https://maps.googleapis.com/maps/api/directions/json?origin=$origem&destination=$destino&key=$apiKey&language=pt&mode=driving";
 
