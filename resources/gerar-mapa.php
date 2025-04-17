@@ -1,10 +1,13 @@
 <?php
+
+session_start();
+
 $lat1 = $_GET['lat1'];
 $lon1 = $_GET['lon1'];
 $lat2 = $_GET['lat2'];
 $lon2 = $_GET['lon2'];
 
-$apiKey = env('API_GOOGLE_KEY');
+$apiKey = $_SESSION['api_google_key'];
 
 // Obter rota da Directions API
 $directionsUrl = "https://maps.googleapis.com/maps/api/directions/json?origin={$lat1},{$lon1}&destination={$lat2},{$lon2}&key={$apiKey}&language=pt&mode=driving";

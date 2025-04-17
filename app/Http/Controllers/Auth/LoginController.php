@@ -63,6 +63,10 @@ class LoginController extends Controller
             //Gravar access_token em ums session
             session(['access_token' => $response['data']['access_token']]);
 
+            //Gravar API GOOGLE KEY
+            session_start();
+            $_SESSION['api_google_key'] = 'AIzaSyARmoDmjUAPxUg4J5Ztuq1ceSqZK6i3WbM';
+
             //Ver de onde está acessando 'access_device' (mobile, tablet, desktop)
             SuporteFacade::setUserAcessDevice();
 
