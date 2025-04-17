@@ -112,6 +112,8 @@ API Google
 Retorna tradução de texto
 */
 async function traduzirTextoGoogle(texto, idiomaOrigem = 'pt', idiomaDestino = 'en') {
+    if (texto == '' || texto === null) {return '';}
+
     const apiKey = 'AIzaSyAvEtoAQmil8RS2Gcl9csltgrVjdbnTHqQ';
     const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
     const body = {q: texto, source: idiomaOrigem, target: idiomaDestino, format: 'text'};

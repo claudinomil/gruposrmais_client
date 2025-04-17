@@ -459,11 +459,18 @@ function crudCreate() {
                 });
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                //Campo: ordem_servico_tipo_id (forçar change)
+                //Campo: ordem_servico_tipo_id''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //forçar change
                 document.getElementById('ordem_servico_tipo_id').dispatchEvent(new Event('change'));
 
-                //Campo: ordem_servico_tipo_id (disabled)
-                document.getElementById('ordem_servico_tipo_id').disabled = false;
+                //options
+                const select = document.getElementById('ordem_servico_tipo_id');
+
+                //Ativar todas as opções
+                Array.from(select.options).forEach(option => {
+                    option.disabled = false;
+                });
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         } else if (data.error_permissao) {
@@ -1343,11 +1350,23 @@ function crudEdit(registro_id) {
                 document.getElementById('ost3_divOrdemServicoInformacoesGerais').style.display = '';
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                //Campo: ordem_servico_tipo_id (forçar change)
+                //Campo: ordem_servico_tipo_id''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //forçar change
                 document.getElementById('ordem_servico_tipo_id').dispatchEvent(new Event('change'));
 
-                //Campo: ordem_servico_tipo_id (disabled)
-                document.getElementById('ordem_servico_tipo_id').disabled = true;
+                //options
+                const select = document.getElementById('ordem_servico_tipo_id');
+                const valorPermitido = data.success.ordem_servico_tipo_id;
+
+                //Desativa todas as opções, exceto a permitida
+                Array.from(select.options).forEach(option => {
+                    if (parseInt(option.value) !== parseInt(valorPermitido)) {
+                        option.disabled = true;
+                    } else {
+                        option.disabled = false;
+                    }
+                });
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
             if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
