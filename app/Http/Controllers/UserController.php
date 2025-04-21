@@ -28,7 +28,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('check-permissao:users_list', ['only' => ['index', 'filter']]);
+        $this->middleware('check-permissao:users_list', ['only' => ['index', 'filter', 'escolher_empresa']]);
         $this->middleware('check-permissao:users_create', ['only' => ['create', 'store']]);
         $this->middleware('check-permissao:users_show', ['only' => ['show']]);
         $this->middleware('check-permissao:users_edit', ['only' => ['edit', 'update']]);

@@ -6,8 +6,10 @@ use App\Facades\ApiData;
 use App\Facades\Breadcrumb;
 use App\Facades\Permissoes;
 use Closure;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use function Symfony\Component\HttpFoundation\getCookies;
 
 class CheckPermissao
 {
@@ -18,7 +20,17 @@ class CheckPermissao
      */
     public function handle(Request $request, Closure $next, $permissoes)
     {
-        //Buscando dados do Usuário e Permissões de acesso para todo o Sistema''''''''''''''''''''''''''''''''''''''''''
+
+
+
+        setcookie('check_permissao_qtd', $_COOKIE['check_permissao_qtd']+1);
+        $microtime = microtime(true);
+        $datetime = DateTime::createFromFormat('U.u', $microtime);
+        $t1 = $datetime->format("H:i:s.u");
+
+
+
+        //Buscando dados do Usuário e Permissões de acesso para o Sistema'''''''''''''''''''''''''''''''''''''''''''''''
         //Submodulo (Usado para comparação na busca na API do Submódulo que o Usuário entrou)
         $searchSubmodulo = substr($request->route()->getPrefix(), 1);
 
@@ -103,6 +115,15 @@ class CheckPermissao
             'crudFieldsFormSubmodulo' => $crudFieldsFormSubmodulo
         ]);
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+
+        $microtime = microtime(true);
+        $datetime = DateTime::createFromFormat('U.u', $microtime);
+        $t2 = $datetime->format("H:i:s.u");
+        setcookie('check_permissao_tempo', "{$resultado['segundos']}.{$resultado['milissegundos']}");
+
+
 
         //Retornando
         return $next($request);

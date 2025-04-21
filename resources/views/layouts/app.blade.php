@@ -86,5 +86,5 @@
         @include('layouts.scripts')
 {{--        @include('layouts.scripts-ajax')--}}
         @include('layouts.scripts-profile')
-    </body>
+        </body>
 </html>

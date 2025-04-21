@@ -13,24 +13,25 @@ async function getAddressFromCep(cep) {
     if (!data.erro) {
         return `${data.logradouro}, ${data.bairro}, ${data.localidade}, ${data.uf}, Brasil`;
     } else {
-        throw new Error(`CEP ${cep} não encontrado`);
+        console.log(`CEP ${cep} não encontrado`);
     }
 }
 
 /*
+API Google
 Retorna coordenadas via endereço
-Ex: const coordsOrigem = await getCoordinatesFromAddress(addressOrigem);
-    coordsOrigem.lat e coordsOrigem.lon
 */
 async function getCoordinatesFromAddress(address) {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`;
+    const apiKey = 'AIzaSyARmoDmjUAPxUg4J5Ztuq1ceSqZK6i3WbM';
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
     const response = await fetch(url);
     const data = await response.json();
 
-    if (data.length > 0) {
-        return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+    if (data.status === "OK" && data.results.length > 0) {
+        const location = data.results[0].geometry.location;
+        return { lat: location.lat, lon: location.lng };
     } else {
-        throw new Error(`Coordenadas não encontradas para: ${address}`);
+        console.log(`Coordenadas não encontradas para: ${address}`);
     }
 }
 
@@ -51,7 +52,7 @@ async function pegarDistanciaDuracao(lat1, lon1, lat2, lon2) {
         const duracao = dados.routes[0].legs[0].duration.text;
         return { distancia, duracao };
     } else {
-        throw new Error("Não foi possível obter a distância.");
+        console.log("Não foi possível obter a distância.");
     }
 }
 
@@ -87,7 +88,7 @@ async function pegarRotaPassoAPasso(lat1, lon1, lat2, lon2, comHtml = false) {
 
         return rota;
     } else {
-        throw new Error("Não foi possível obter a rota.");
+        console.log("Não foi possível obter a rota.");
     }
 }
 
@@ -103,7 +104,7 @@ async function gerarMapaBase64(lat1, lon1, lat2, lon2) {
     if (dados.status === "ok") {
         return dados.base64; // isso você pode jogar direto no jsPDF
     } else {
-        throw new Error("Erro ao gerar imagem base64.");
+        console.log("Erro ao gerar imagem base64.");
     }
 }
 
@@ -130,7 +131,7 @@ async function traduzirTextoGoogle(texto, idiomaOrigem = 'pt', idiomaDestino = '
         if (data.data && data.data.translations && data.data.translations.length > 0) {
             return data.data.translations[0].translatedText;
         } else {
-            throw new Error('Tradução não encontrada.');
+            console.log('Tradução não encontrada.');
         }
     } catch (erro) {
         console.error('Erro na tradução:', erro);
