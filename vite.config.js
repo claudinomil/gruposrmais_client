@@ -113,15 +113,16 @@ export default defineConfig({
                 {src: 'resources/assets_template/images/proposta_logo_crea.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/proposta_logo_gruposrmais.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/proposta_logo_inmetro.png', dest: 'assets/images'},
-                {src: 'resources/assets_template/images/ordem_servico_topo.png', dest: 'assets/images'},
-                {src: 'resources/assets_template/images/ordem_servico_rodape.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/image_logo_email.png', dest: 'assets/images'},
+
+                {src: 'resources/assets_template/images/ordem_servico_topo.png', dest: 'assets/images'},
+                {src: 'resources/assets_template/images/ordem_servico_topo_cliente_2.png', dest: 'assets/images'},
+
+                {src: 'resources/assets_template/images/ordem_servico_rodape.png', dest: 'assets/images'},
+                {src: 'resources/assets_template/images/ordem_servico_rodape_cliente_2.png', dest: 'assets/images'},
 
                 {src: 'resources/assets_template/images/proposta_topo.jpg', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/proposta_rodape.jpg', dest: 'assets/images'},
-
-                {src: 'resources/assets_template/images/ordem_servico_topo.jpg', dest: 'assets/images'},
-                {src: 'resources/assets_template/images/ordem_servico_rodape.jpg', dest: 'assets/images'},
 
                 {src: 'resources/assets_template/images/pictograma_1.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/pictograma_2.png', dest: 'assets/images'},

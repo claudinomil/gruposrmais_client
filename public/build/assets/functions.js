@@ -4378,3 +4378,12 @@ function pesquisacep_repeater(indice) {
     }
 };
 //Funções para Api ViaCep Para rodar em formulario com REPEATER (Fim)'''''''''''''''''''''''''''''''''''''''''''''''''''
+
+async function arquivoExiste(caminho) {
+    try {
+        const response = await fetch(caminho, { method: 'HEAD' });
+        return response.ok; // true se 200 OK, false se 404 Not Found ou outro erro
+    } catch (error) {
+        return false;
+    }
+}
