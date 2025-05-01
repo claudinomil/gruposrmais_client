@@ -320,6 +320,12 @@ function crudCreate() {
                 //Desabilitar/Habilitar opções de Create/Edit
                 elementos = document.getElementsByClassName('tdCreateEdit');
                 elementos.forEach(function(elemento) {elemento.style.display = 'block';});
+
+                //Relatorios - desmarcar checkbox
+                var elementos = document.querySelectorAll('.grupo_relatorios');
+                elementos.forEach(function(elemento) {
+                    elemento.checked = false;
+                });
             }
 
             if (prefixPermissaoSubmodulo == 'users') {
@@ -554,6 +560,19 @@ function crudView(registro_id) {
                         elemento.checked = true;
                     });
                 }
+
+                //Relatorios
+                //desmarcar checkbox
+                var elementos = document.querySelectorAll('.grupo_relatorios');
+                elementos.forEach(function(elemento) {
+                    elemento.checked = false;
+                });
+
+                //marcar checkbox
+                var relatorios = data.success['relatorios'];
+                relatorios.forEach(function(item) {
+                    document.getElementById('relatorio_' + item['relatorio_id']).checked = true;
+                });
             }
 
             if (prefixPermissaoSubmodulo == 'ferramentas') {
@@ -1028,6 +1047,19 @@ function crudEdit(registro_id) {
                         elemento.checked = true;
                     });
                 }
+
+                //Relatorios
+                //desmarcar checkbox
+                var elementos = document.querySelectorAll('.grupo_relatorios');
+                elementos.forEach(function(elemento) {
+                    elemento.checked = false;
+                });
+
+                //marcar checkbox
+                var relatorios = data.success['relatorios'];
+                relatorios.forEach(function(item) {
+                    document.getElementById('relatorio_' + item['relatorio_id']).checked = true;
+                });
             }
 
             if (prefixPermissaoSubmodulo == 'users') {

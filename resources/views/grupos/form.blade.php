@@ -178,6 +178,26 @@
                                     </table>
                                 </div>
                             </div>
+
+                            <div class="row mt-4">
+                                <div class="form-group col-12 col-md-6 pb-3">
+                                    <label class="form-label text-success pb-3">Relatórios</label>
+
+                                    @foreach ($relatorios as $relatorio)
+                                        @php
+                                            $descricao = '';
+                                            if ($relatorio['descricao'] != '') {$descricao = ' ('.$relatorio['descricao'].')';}
+                                        @endphp
+
+                                        <div class="col-12">
+                                            <div class="form-check form-checkbox-outline form-check-success mb-3">
+                                                <input class="form-check-input grupo_relatorios" type="checkbox" id="relatorio_{{ $relatorio['id'] }}" name="relatorio_{{ $relatorio['id'] }}" value="{{ $relatorio['id'] }}">
+                                                <label class="form-check-label" for="relatorio_{{ $relatorio['id'] }}">{{ $relatorio['relatorio_agrupamento'].' - '.$relatorio['name'].$descricao }}</label>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
                         </fieldset>
                     </form>
                 </div>

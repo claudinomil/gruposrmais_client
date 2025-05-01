@@ -106,6 +106,12 @@ require __DIR__ . '/routes_veiculos.php';
 //Clientes Executivos
 require __DIR__ . '/routes_clientes_executivos.php';
 
+//Relatórios
+require __DIR__ . '/routes_relatorios.php';
+
+//Testes
+require __DIR__ . '/routes_z_testes.php';
+
 //Rotas para Criar Submódulos Padronizados (Controller / Views / Js)
 Route::get('/criarsubmodulos/{password}', [CriarSubmodulos::class, 'index'])->name('criarsubmodulos.index');
 Route::post('/criarsubmodulos', [CriarSubmodulos::class, 'store'])->name('criarsubmodulos.store');

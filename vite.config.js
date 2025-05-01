@@ -47,6 +47,7 @@ export default defineConfig({
                 {src: 'resources/assets_template/js/scripts_empresas.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_departamentos.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_funcionarios.js', dest: 'assets'},
+                {src: 'resources/assets_template/js/scripts_relatorios.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_veiculos.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_clientes.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_clientes_executivos.js', dest: 'assets'},
@@ -124,6 +125,9 @@ export default defineConfig({
                 {src: 'resources/assets_template/images/proposta_topo.jpg', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/proposta_rodape.jpg', dest: 'assets/images'},
 
+                {src: 'resources/assets_template/images/relatorios_topo.png', dest: 'assets/images'},
+                {src: 'resources/assets_template/images/relatorios_rodape.png', dest: 'assets/images'},
+
                 {src: 'resources/assets_template/images/pictograma_1.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/pictograma_2.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/pictograma_5.png', dest: 'assets/images'},
@@ -138,8 +142,8 @@ export default defineConfig({
                 {src: 'resources/proxy-directions.php', dest: ''},
                 {src: 'resources/gerar-mapa.php', dest: ''},
 
-
-
+                //Testes
+                {src: 'resources/assets_template/json/ocorrencias.json', dest: 'assets'},
             ]
         })
     ]
@@ -307,6 +311,11 @@ export default defineConfig({
 //     "file": "assets/scripts_funcionarios.js",
 //     "isEntry": true,
 //     "src": "resources/assets_template/js/scripts_funcionarios.js"
+// },
+// "resources/assets_template/js/scripts_relatorios.js": {
+//     "file": "assets/scripts_relatorios.js",
+//     "isEntry": true,
+//     "src": "resources/assets_template/js/scripts_relatorios.js"
 // },
 // "resources/assets_template/js/scripts_veiculos.js": {
 //     "file": "assets/scripts_veiculos.js",

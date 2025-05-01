@@ -1,0 +1,16 @@
+[
+    {
+        "tipo": "Empresa",
+        "descricao": "GRUPO SRMAIS",
+        "latitude": -22.9191,
+        "longitude": -43.2125,
+        "icone": "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+    },
+    {
+        "tipo": "Residência",
+        "descricao": "Claudino Mil",
+        "latitude": -22.8985,
+        "longitude": -43.2789,
+        "icone": "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+    }
+]
