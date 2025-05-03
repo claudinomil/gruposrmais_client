@@ -90,6 +90,7 @@ class Controller extends BaseController
             if (isset($response['content']['veiculos'])) {$this->veiculos = $response['content']['veiculos'];}
             if (isset($response['content']['clientes_executivos'])) {$this->clientes_executivos = $response['content']['clientes_executivos'];}
             if (isset($response['content']['relatorios'])) {$this->relatorios = $response['content']['relatorios'];}
+            if (isset($response['content']['mapas_pontos_tipos'])) {$this->mapas_pontos_tipos = $response['content']['mapas_pontos_tipos'];}
         }
     }
 

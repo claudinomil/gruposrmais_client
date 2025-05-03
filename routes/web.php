@@ -109,6 +109,9 @@ require __DIR__ . '/routes_clientes_executivos.php';
 //Relatórios
 require __DIR__ . '/routes_relatorios.php';
 
+//Mapas
+require __DIR__ . '/routes_mapas.php';
+
 //Testes
 require __DIR__ . '/routes_z_testes.php';
 

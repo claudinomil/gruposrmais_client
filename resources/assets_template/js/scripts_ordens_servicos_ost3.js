@@ -479,7 +479,7 @@ function ost3_atualizarDestinoEscolher(operacao, destino_ordem='', destino_cep='
 //operacao = 1 : Adicionar
 //operacao = 2 : Atualizar
 //operacao = 3 : Retirar
-function ost3_atualizarDestinoGrade(operacao) {
+function ost3_atualizarDestinoGrade(operacao, data_destino_datas_horas=[]) {
     if (operacao == 1) {
         //Dados para preenchera linha da grade
         var destino_ordem = document.getElementById('ost3_te_destino_ordem').value;
@@ -541,6 +541,8 @@ function ost3_atualizarDestinoGrade(operacao) {
         let hiddenFields = document.getElementById('ost3_te_destino_hiddens_' + destino_ordem);
         if (hiddenFields) hiddenFields.remove();
     }
+
+    ost3_atualizarDestinoDatasHorasGrade(data_destino_datas_horas);
 }
 
 //Limpar a Grade de Destinos
@@ -628,6 +630,120 @@ function ost3_ordenarTabelaDestinos(colunaIndex) {
 }
 //Grade de Destinos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Grade de Destinos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+//Grade de Destinos Datas e Horas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//Grade de Destinos Datas e Horas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+//Atualizar a Grade de Destinos Datas e Horas
+function ost3_atualizarDestinoDatasHorasGrade(data_destino_datas_horas) {
+    //Verificando se tem dados para colocar na grade'''''''''''''''''''''''''''''''''''''''''''
+    var destino_data_agendada = [];
+    var destino_hora_agendada = [];
+    var destino_data_inicio = [];
+    var destino_hora_inicio = [];
+    var destino_data_termino = [];
+    var destino_hora_termino = [];
+
+    for (let i = 1; i <= 5; i++) {
+        if (data_destino_datas_horas.lenhgt == 0) {
+            if (document.getElementById('ost3_destino_destino_ordem_' + i)) {
+                var destino_ordem = document.getElementById('ost3_te_destino_ordem_td_' + i).innerHTML;
+
+                destino_data_agendada[i] = '';
+                destino_hora_agendada[i] = '';
+                destino_data_inicio[i] = '';
+                destino_hora_inicio[i] = '';
+                destino_data_termino[i] = '';
+                destino_hora_termino[i] = '';
+
+                if (document.getElementById('ost3_destino_data_agendada_' + destino_ordem)) {destino_data_agendada[i] = document.getElementById('ost3_destino_data_agendada_' + destino_ordem).value;}
+                if (document.getElementById('ost3_destino_hora_agendada_' + destino_ordem)) {destino_hora_agendada[i] = document.getElementById('ost3_destino_hora_agendada_' + destino_ordem).value;}
+                if (document.getElementById('ost3_destino_data_inicio_' + destino_ordem)) {destino_data_inicio[i] = document.getElementById('ost3_destino_data_inicio_' + destino_ordem).value;}
+                if (document.getElementById('ost3_destino_hora_inicio_' + destino_ordem)) {destino_hora_inicio[i] = document.getElementById('ost3_destino_hora_inicio_' + destino_ordem).value;}
+                if (document.getElementById('ost3_destino_data_termino_' + destino_ordem)) {destino_data_termino[i] = document.getElementById('ost3_destino_data_termino_' + destino_ordem).value;}
+                if (document.getElementById('ost3_destino_hora_termino_' + destino_ordem)) {destino_hora_termino[i] = document.getElementById('ost3_destino_hora_termino_' + destino_ordem).value;}
+            }
+        } else {
+            if (document.getElementById('frm_operacao').value == 'view' || document.getElementById('frm_operacao').value == 'edit') {
+                data_destino_datas_horas.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    destino_data_agendada[item.destino_ordem] = formatarData(2, item.destino_data_agendada);
+                    destino_hora_agendada[item.destino_ordem] = item.destino_hora_agendada;
+                    destino_data_inicio[item.destino_ordem] = formatarData(2, item.destino_data_inicio);
+                    destino_hora_inicio[item.destino_ordem] = item.destino_hora_inicio;
+                    destino_data_termino[item.destino_ordem] = formatarData(2, item.destino_data_termino);
+                    destino_hora_termino[item.destino_ordem] = item.destino_hora_termino;
+                });
+            }
+        }
+    }
+    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Limpar
+    ost3_limparDestinosDatasHorasGrade();
+
+    //Criar
+    for(i=1; i<=5; i++) {
+        if (document.getElementById('ost3_te_destino_ordem_td_'+i)) {
+            //Destino ordem
+            var destino_ordem = document.getElementById('ost3_te_destino_ordem_td_'+i).innerHTML;
+
+            //Readonly
+            var x_readonly = '';
+            if (document.getElementById('frm_operacao').value == 'view') {x_readonly = 'readonly';}
+
+            //Montar Linha
+            var linha;
+
+            linha = "<tr class='ost3_te_destino_datas_horas_linha' id='ost3_te_destino_datas_horas_linha_" + i + "' data-id='" + i + "' style='cursor: pointer'>";
+            linha += "  <td><input type='text' class='form-control text-center' id='ost3_destino_destino_ordem_"+destino_ordem+"' name='ost3_destino_destino_ordem_"+destino_ordem+"' value='"+destino_ordem+"' readonly></td>";
+            linha += "  <td><input type='text' class='form-control mask_date' id='ost3_destino_data_agendada_"+destino_ordem+"' name='ost3_destino_data_agendada_"+destino_ordem+"' value='"+destino_data_agendada[i]+"' "+x_readonly+"></td>";
+            linha += "  <td><input type='text' class='form-control mask_time' id='ost3_destino_hora_agendada_"+destino_ordem+"' name='ost3_destino_hora_agendada_"+destino_ordem+"' value='"+destino_hora_agendada[i]+"' "+x_readonly+"></td>";
+            linha += "  <td><input type='text' class='form-control mask_date' id='ost3_destino_data_inicio_"+destino_ordem+"' name='ost3_destino_data_inicio_"+destino_ordem+"' value='"+destino_data_inicio[i]+"' "+x_readonly+"></td>";
+            linha += "  <td><input type='text' class='form-control mask_time' id='ost3_destino_hora_inicio_"+destino_ordem+"' name='ost3_destino_hora_inicio_"+destino_ordem+"' value='"+destino_hora_inicio[i]+"' "+x_readonly+"></td>";
+            linha += "  <td><input type='text' class='form-control mask_date' id='ost3_destino_data_termino_"+destino_ordem+"' name='ost3_destino_data_termino_"+destino_ordem+"' value='"+destino_data_termino[i]+"' "+x_readonly+"></td>";
+            linha += "  <td><input type='text' class='form-control mask_time' id='ost3_destino_hora_termino_"+destino_ordem+"' name='ost3_destino_hora_termino_"+destino_ordem+"' value='"+destino_hora_termino[i]+"' "+x_readonly+"></td>";
+            linha += "</tr>";
+
+            //Adicionar linha na grade
+            document.getElementById('ost3_te_destino_datas_horas_grade').insertAdjacentHTML('beforeend', linha);
+
+            //Ordenar Tabela Destinos Datas Horas
+            ost3_ordenarTabelaDestinosDatasHoras(0);
+
+            removeMask();
+            putMask();
+        }
+    }
+}
+
+//Limpar a Grade de Destinos Datas e Horas
+function ost3_limparDestinosDatasHorasGrade() {
+    //Limpando Destinos Datas e Horas da grade
+    document.getElementById('ost3_te_destino_datas_horas_grade').innerHTML = '';
+}
+
+function ost3_ordenarTabelaDestinosDatasHoras(colunaIndex) {
+    let tbody = document.getElementById('ost3_te_destino_datas_horas_grade');
+    let linhas = Array.from(tbody.querySelectorAll("tr"));
+
+    linhas.sort((a, b) => {
+        let valueA = a.cells[colunaIndex].textContent.trim();
+        let valueB = b.cells[colunaIndex].textContent.trim();
+
+        // Converter para número se possível
+        if (!isNaN(valueA) && !isNaN(valueB)) {
+            return Number(valueA) - Number(valueB);
+        }
+
+        return valueA.localeCompare(valueB);
+    });
+
+    // Reinsere as linhas ordenadas na tabela
+    linhas.forEach(linha => tbody.appendChild(linha));
+}
+//Grade de Destinos Datas e Horas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//Grade de Destinos Datas e Horas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 //Grade de Veículos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Grade de Veículos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

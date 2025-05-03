@@ -348,6 +348,18 @@ function crudCreate() {
                 elementos.forEach(function(elemento) {elemento.style.display = 'block';});
             }
 
+            if (prefixPermissaoSubmodulo == 'mapas') {
+                //Colocar data infinita
+                document.getElementById('data_inicio').value = '01/01/1900';
+                document.getElementById('data_fim').value = '31/12/2500';
+
+                //Esconder botão buscar icones
+                elementos = document.getElementsByClassName('buscarIcones');
+                elementos.forEach(function(elemento) {elemento.style.display = 'block';});
+
+                document.getElementById('iconView').src = '';
+            }
+
             if (prefixPermissaoSubmodulo == 'funcionarios') {
                 //Display divArquivosPdf
                 elemento = document.getElementById('divArquivosPdf');
@@ -590,6 +602,15 @@ function crudView(registro_id) {
                 elementos.forEach(function(elemento) {elemento.style.display = 'none';});
 
                 document.getElementById('fieldUserName').value = data.success['userName'];
+            }
+
+            if (prefixPermissaoSubmodulo == 'mapas') {
+                //Esconder botão buscar icones
+                elementos = document.getElementsByClassName('buscarIcones');
+                elementos.forEach(function(elemento) {elemento.style.display = 'none';});
+
+                document.getElementById('iconView').src = [];
+                document.getElementById('iconView').src = 'build/assets/images/icones/mapas/'+data.success['icone'];
             }
 
             if (prefixPermissaoSubmodulo == 'funcionarios') {
@@ -849,7 +870,7 @@ function crudView(registro_id) {
                     document.getElementById('ost3_te_destino_numero').value = item.destino_numero;
                     document.getElementById('ost3_te_destino_complemento').value = item.destino_complemento;
 
-                    ost3_atualizarDestinoGrade(1);
+                    ost3_atualizarDestinoGrade(1, ordem_servico_destinos);
                 });
 
                 ost3_atualizarDestinoEscolher(0);
@@ -1118,6 +1139,15 @@ function crudEdit(registro_id) {
                 document.getElementById('fieldUserName').value = data.success['userName'];
             }
 
+            if (prefixPermissaoSubmodulo == 'mapas') {
+                //Esconder botão buscar icones
+                elementos = document.getElementsByClassName('buscarIcones');
+                elementos.forEach(function(elemento) {elemento.style.display = 'block';});
+
+                document.getElementById('iconView').src = '';
+                document.getElementById('iconView').src = 'build/assets/images/icones/mapas/'+data.success['icone'];
+            }
+
             if (prefixPermissaoSubmodulo == 'funcionarios') {
                 //Display divArquivosPdf
                 elemento = document.getElementById('divArquivosPdf');
@@ -1309,7 +1339,7 @@ function crudEdit(registro_id) {
                     document.getElementById('ost3_te_destino_numero').value = item.destino_numero;
                     document.getElementById('ost3_te_destino_complemento').value = item.destino_complemento;
 
-                    ost3_atualizarDestinoGrade(1);
+                    ost3_atualizarDestinoGrade(1, ordem_servico_destinos);
                 });
 
                 ost3_atualizarDestinoEscolher(0);

@@ -20,6 +20,8 @@
     </head>
     <body>
         <div id="map"></div>
+        <button onclick="captureMap()">Capturar imagem</button>
+
         <script>
             async function initMap() {
             	const response = await fetch('/build/assets/ocorrencias.json');
@@ -41,6 +43,15 @@
                         title: `${o.tipo}: ${o.descricao}`,
                         icon: o.icone // usa diretamente do JSON
             		});
+            	});
+            }
+
+            function captureMap() {
+            	html2canvas(document.getElementById("map")).then(canvas => {
+            		const link = document.createElement("a");
+            		link.download = "mapa_ocorrencias.png";
+            		link.href = canvas.toDataURL();
+            		link.click();
             	});
             }
 

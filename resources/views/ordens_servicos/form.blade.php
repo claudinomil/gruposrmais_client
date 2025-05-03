@@ -516,6 +516,28 @@
                                     <div id="ost3_te_destino_hiddens"></div>
                                 </div>
 
+                                <!-- Destinos (Datas e Horas) -->
+                                <!-- Destinos (Datas e Horas) -->
+                                <div class="row pt-4">
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-table"></i> Destinos (Datas e Horas)</h5>
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead class="table-light">
+                                            <tr>
+                                                <th class="text-center">DESTINO</th>
+                                                <th>DATA AGENDADA</th>
+                                                <th>HORA AGENDADA</th>
+                                                <th>DATA INÍCIO</th>
+                                                <th>HORA INÍCIO</th>
+                                                <th>DATA TÉRMINO</th>
+                                                <th>HORA TÉRMINO</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="ost3_te_destino_datas_horas_grade"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
                                 <!-- Veículos -->
                                 <!-- Veículos -->
                                 <div class="row pt-4">
