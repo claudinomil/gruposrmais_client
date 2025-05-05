@@ -81,16 +81,28 @@ async function visualizar_mapa_1_gerar_mapa() {
         //Buscando Pontos
         const res = await fetch(url_atual + 'mapas/visualizar_mapa_1/ddd/xxx', {method: 'GET', headers: {'REQUEST-ORIGIN': 'fetch'}});
         const ocorrencias = await res.json();
-console.log(ocorrencias);
+
         //Filtrar ocorrências com base nos pontosTiposSelecionados
         const ocorrenciasFiltradas = ocorrencias.filter(o => pontosTiposSelecionados.includes(String(o.mapa_ponto_tipo_id)));
-        console.log(ocorrenciasFiltradas);
+
+        //Pontos iniciais e centro do mapa
+        const lagoa = { lat: -22.970722, lng: -43.219185 };
+        const rocinha = { lat: -22.988558, lng: -43.239077 };
+
         //Gerar Mapa com pontos
         const map = new google.maps.Map(document.getElementById('visualizar_mapa_1_mapa'), {
-            zoom: 11,
-            center: { lat: -22.9068, lng: -43.1729 }
+            zoom: 14,
+            center: lagoa
         });
 
+        const directionsService = new google.maps.DirectionsService();
+        const directionsRenderer = new google.maps.DirectionsRenderer({
+            map: map,
+            suppressMarkers: true,
+            preserveViewport: true // <-- ESSENCIAL para manter o centro definido
+        });
+
+        //Marcadores do Banco de Dados
         ocorrenciasFiltradas.forEach(o => {
             new google.maps.Marker({
                 position: { lat: Number(o.latitude), lng: Number(o.longitude) },
@@ -100,82 +112,61 @@ console.log(ocorrencias);
             });
         });
 
+        //Marcador da Lagoa
+        const markerA = new google.maps.Marker({
+            position: lagoa,
+            map: map,
+            title: "Lagoa Rodrigo de Freitas"
+        });
+
+        //Marcador da Rocinha
+        const markerB = new google.maps.Marker({
+            position: rocinha,
+            map: map,
+            title: "Rocinha"
+        });
+
+        const infoWindowA = new google.maps.InfoWindow();
+        const infoWindowB = new google.maps.InfoWindow();
+
+        directionsService.route({
+            origin: lagoa,
+            destination: rocinha,
+            travelMode: google.maps.TravelMode.DRIVING
+        }, function (response, status) {
+            if (status === "OK") {
+                directionsRenderer.setDirections(response);
+
+                const route = response.routes[0];
+                const leg = route.legs[0];
+
+                // // Ajusta os limites do mapa para a rota
+                // const bounds = new google.maps.LatLngBounds();
+                // leg.steps.forEach(step => {
+                //     bounds.extend(step.start_location);
+                //     bounds.extend(step.end_location);
+                // });
+                // map.fitBounds(bounds);
+
+                // InfoWindows com tempo/distância
+                const texto = `<strong>Distância:</strong> ${leg.distance.text}<br><strong>Duração:</strong> ${leg.duration.text}`;
+
+                infoWindowA.setContent(`<strong>Lagoa x Rocinha</strong><br>${texto}`);
+                infoWindowB.setContent(`<strong>Lagoa x Rocinha</strong><br>${texto}`);
+
+                // Evento de hover para mostrar popups
+                markerA.addListener("mouseover", () => infoWindowA.open(map, markerA));
+                markerA.addListener("mouseout", () => infoWindowA.close());
+
+                markerB.addListener("mouseover", () => infoWindowB.open(map, markerB));
+                markerB.addListener("mouseout", () => infoWindowB.close());
+            } else {
+                alert("Falha ao traçar a rota: " + status);
+            }
+        });
     } catch (error) {
         console.error('Erro ao carregar ocorrências:', error);
     }
-
-
-
-//     //Acessar rota
-//     fetch(url_atual + 'mapas/visualizar_mapa_1/ddd/xxx', {
-//         method: 'GET',
-//         headers: {'REQUEST-ORIGIN': 'fetch'}
-//     }).then(response => {
-//         return response.json();
-//     }).then(data => {
-//         //Lendo json
-//         let dados = data;
-//
-//         //Dados
-//         if (dados.length <= 0) {
-//             //grade = 'Nenhum dado encontrado para o mapa.';
-//         } else {
-//             //Varrer
-//             dados.forEach((dado, index) => {
-//             });
-//         }
-//
-//
-//
-//
-//
-//
-//             const response = `[
-//     {
-//         "tipo": "Empresa",
-//         "descricao": "GRUPO SRMAIS",
-//         "latitude": -22.9191,
-//         "longitude": -43.2125,
-//         "icone": "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-//     },
-//     {
-//         "tipo": "Residência",
-//         "descricao": "Claudino Mil",
-//         "latitude": -22.8985,
-//         "longitude": -43.2789,
-//         "icone": "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-//     }
-// ]`;
-//             const ocorrencias = JSON.parse(response);
-//
-//             const map = new google.maps.Map(document.getElementById('visualizar_mapa_1_mapa'), {
-//                 zoom: 11,
-//                 center: { lat: -22.9068, lng: -43.1729 }
-//             });
-//
-//             ocorrencias.forEach(o => {
-//                 new google.maps.Marker({
-//                     position: { lat: o.latitude, lng: o.longitude },
-//                     map: map,
-//                     title: `${o.tipo}: ${o.descricao}`,
-//                     icon: o.icone // usa diretamente do JSON
-//                 });
-//             });
-//     }).catch(error => {
-//         alert('Erro visualizar_mapa_1_gerar_mapa: ' + error);
-//     });
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {

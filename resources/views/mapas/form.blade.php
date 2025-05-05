@@ -194,6 +194,7 @@
                             <i class="fa fa-arrow-left label-icon"></i> Cancelar
                         </button>
                     </div>
+                    <div id="info-box">Carregando rota...</div>
                     <div class="col-12 col-md-12 mt-3" style="height: 600px; margin-bottom: 1rem;" id="visualizar_mapa_1_mapa"></div>
                 </div>
             </div>
