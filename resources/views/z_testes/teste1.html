@@ -24,38 +24,118 @@
 
         <script>
             async function initMap() {
-            	const response = await fetch('/build/assets/ocorrencias.json');
-            	const ocorrencias = await response.json();
+				const response = await fetch('/build/assets/comunidades.json');
+				const comunidades = await response.json();
 
-            	const map = new google.maps.Map(document.getElementById("map"), {
-            		zoom: 11,
-                    center: { lat: -22.9068, lng: -43.1729 }
-            	});
+				const map = new google.maps.Map(document.getElementById("map"), {
+					zoom: 11,
+					center: { lat: -22.9068, lng: -43.1729 }
+				});
 
-            	ocorrencias.forEach(o => {
-            		const iconUrl = o.tipo === "Obra" ? "https://maps.google.com/mapfiles/ms/icons/orange-dot.png" :
-                        o.tipo === "Ocorrência Policial" ? "https://maps.google.com/mapfiles/ms/icons/blue-dot.png" :
-                            "https://maps.google.com/mapfiles/ms/icons/red-dot.png";
+				comunidades.forEach(comunidade => {
+					const nome = comunidade.attributes.nome;
+					const complexo = comunidade.attributes.complexo;
+					const bairro = comunidade.attributes.bairro;
 
-            		new google.maps.Marker({
-                        position: { lat: o.latitude, lng: o.longitude },
-                        map: map,
-                        title: `${o.tipo}: ${o.descricao}`,
-                        icon: o.icone // usa diretamente do JSON
-            		});
-            	});
+					const rings = comunidade.geometry.rings;
+
+					//Formatar as coordenadas no formato { lat, lng }
+                    const paths = rings.map(ring =>
+                        ring.map(coord => ({
+                            lat: coord[1],
+                            lng: coord[0]
+                        }))
+                    );
+
+                    desenharPoligonos(paths, nome, complexo, bairro, map);
+				});
             }
 
-            function captureMap() {
-            	html2canvas(document.getElementById("map")).then(canvas => {
-            		const link = document.createElement("a");
-            		link.download = "mapa_ocorrencias.png";
-            		link.href = canvas.toDataURL();
-            		link.click();
-            	});
-            }
+            function desenharPoligonos(paths, nome='', complexo='', bairro='', map) {
+				const infoWindow = new google.maps.InfoWindow();
 
-            window.onload = initMap;
+				paths.forEach((path) => {
+					const polygon = new google.maps.Polygon({
+						paths: path,
+						strokeColor: "#FF0000",
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: "#FF0000",
+						fillOpacity: 0.35
+					});
+
+					polygon.setMap(map);
+
+					polygon.addListener("mouseover", (e) => {
+						var content = `<div style="display: flex; justify-content: space-between; align-items: center; min-width: 200px; margin-top: -2px;">
+                                            <strong style="font-size: 14px;">${nome}</strong>
+                                        </div>
+                                        <div style="margin-top: 4px;">
+                                            <br>
+                                            <b>Complexo:</b> ${complexo}<br><br>
+                                            <b>Bairro:</b> ${bairro}
+                                        </div>`;
+
+						//var inf = 'Nome: '+nome+'\n'+'Complexo: '+complexo+'\n'+'Bairro: '+bairro;
+
+                        infoWindow.setContent(content);
+						infoWindow.setPosition(e.latLng);
+						infoWindow.open(map);
+					});
+
+					polygon.addListener("mouseout", () => {
+						infoWindow.close();
+					});
+				});
+			}
+
+			function captureMap() {
+				html2canvas(document.getElementById("map")).then(canvas => {
+					const link = document.createElement("a");
+					link.download = "mapa_ocorrencias.png";
+					link.href = canvas.toDataURL();
+					link.click();
+				});
+			}
+
+			window.onload = initMap;
+
+
+			// async function initMap() {
+            // 	const response = await fetch('/build/assets/comunidades.json');
+            // 	const ocorrencias = await response.json();
+            //
+            // 	const map = new google.maps.Map(document.getElementById("map"), {
+            // 		zoom: 11,
+            //         center: { lat: -22.9068, lng: -43.1729 }
+            // 	});
+            //
+            // 	ocorrencias.forEach(o => {
+            // 		const iconUrl = o.tipo === "Obra" ? "https://maps.google.com/mapfiles/ms/icons/orange-dot.png" :
+            //             o.tipo === "Ocorrência Policial" ? "https://maps.google.com/mapfiles/ms/icons/blue-dot.png" :
+            //                 "https://maps.google.com/mapfiles/ms/icons/red-dot.png";
+            //
+            // 		new google.maps.Marker({
+            //             position: { lat: o.latitude, lng: o.longitude },
+            //             map: map,
+            //             title: `${o.tipo}: ${o.descricao}`,
+            //             icon: o.icone // usa diretamente do JSON
+            // 		});
+            // 	});
+            // }
+            //
+            // function captureMap() {
+            // 	html2canvas(document.getElementById("map")).then(canvas => {
+            // 		const link = document.createElement("a");
+            // 		link.download = "mapa_ocorrencias.png";
+            // 		link.href = canvas.toDataURL();
+            // 		link.click();
+            // 	});
+            // }
+            //
+            // window.onload = initMap;
+
+
         </script>
     </body>
 </html>

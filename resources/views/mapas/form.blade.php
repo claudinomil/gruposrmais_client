@@ -180,12 +180,19 @@
                                             <label class="form-check-label ms-1" for="{{ $mapa_ponto_tipo['name'] }}">{{ $mapa_ponto_tipo['name'] }}</label>
                                         </div>
                                     @endforeach
+
+                                    <hr>
+
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input checkPontoTipo" type="checkbox" id="comunidades" value="99">
+                                        <label class="form-check-label ms-1" for="comunidades">Comunidades</label>
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Botão Gerar Mapa -->
                             <button type="button" class="btn btn-success text-white waves-effect btn-label waves-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Confirmar Operação" id="visualizar_mapa_1_gerar_mapa">
-                                <i class="fa fa-map label-icon"></i> Gerar Mapa
+                                <i class="fa fa-map label-icon"></i> Atualizar Mapa
                             </button>
                         @endif
 
@@ -194,7 +201,6 @@
                             <i class="fa fa-arrow-left label-icon"></i> Cancelar
                         </button>
                     </div>
-                    <div id="info-box">Carregando rota...</div>
                     <div class="col-12 col-md-12 mt-3" style="height: 600px; margin-bottom: 1rem;" id="visualizar_mapa_1_mapa"></div>
                 </div>
             </div>

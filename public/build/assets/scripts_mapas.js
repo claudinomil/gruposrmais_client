@@ -164,6 +164,71 @@ async function visualizar_mapa_1_gerar_mapa() {
                 alert("Falha ao traçar a rota: " + status);
             }
         });
+
+        //Poligonos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        const comunidadesChecked = document.getElementById('comunidades').checked;
+
+        if (comunidadesChecked) {
+            const response = await fetch('/build/assets/comunidades.json');
+            const comunidades = await response.json();
+
+            comunidades.forEach(comunidade => {
+                const nome = comunidade.attributes.nome;
+                const complexo = comunidade.attributes.complexo;
+                const bairro = comunidade.attributes.bairro;
+
+                const rings = comunidade.geometry.rings;
+
+                //Formatar as coordenadas no formato { lat, lng }
+                const paths = rings.map(ring =>
+                    ring.map(coord => ({
+                        lat: coord[1],
+                        lng: coord[0]
+                    }))
+                );
+
+                desenharPoligonos(paths, nome, complexo, bairro, map);
+            });
+
+            function desenharPoligonos(paths, nome = '', complexo = '', bairro = '', map) {
+                const infoWindow = new google.maps.InfoWindow();
+
+                paths.forEach((path) => {
+                    const polygon = new google.maps.Polygon({
+                        paths: path,
+                        strokeColor: "#FF0000",
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: "#FF0000",
+                        fillOpacity: 0.35
+                    });
+
+                    polygon.setMap(map);
+
+                    polygon.addListener("mouseover", (e) => {
+                        var content = `<div style="display: flex; justify-content: space-between; align-items: center; min-width: 200px; margin-top: -2px;">
+                                                <strong style="font-size: 14px;">${nome}</strong>
+                                            </div>
+                                            <div style="margin-top: 4px;">
+                                                <br>
+                                                <b>Complexo:</b> ${complexo}<br><br>
+                                                <b>Bairro:</b> ${bairro}
+                                            </div>`;
+
+                        //var inf = 'Nome: '+nome+'\n'+'Complexo: '+complexo+'\n'+'Bairro: '+bairro;
+
+                        infoWindow.setContent(content);
+                        infoWindow.setPosition(e.latLng);
+                        infoWindow.open(map);
+                    });
+
+                    polygon.addListener("mouseout", () => {
+                        infoWindow.close();
+                    });
+                });
+            }
+        }
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     } catch (error) {
         console.error('Erro ao carregar ocorrências:', error);
     }

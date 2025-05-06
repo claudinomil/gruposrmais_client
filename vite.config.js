@@ -24,7 +24,6 @@ export default defineConfig({
                 {src: 'resources/assets_template/libs/bootstrap/bootstrap.min.js', dest: 'assets'},
                 {src: 'resources/assets_template/libs/jquery-validation/jquery-validation.min.js', dest: 'assets'},
                 {src: 'resources/assets_template/libs/jquery-validation/jquery-validation-pt-br.js', dest: 'assets'},
-                {src: 'resources/assets_template/js/jquery-validation-methods.js', dest: 'assets'},
                 {src: 'resources/assets_template/libs/metismenu/metismenu.min.js', dest: 'assets'},
                 {src: 'resources/assets_template/libs/simplebar/simplebar.min.js', dest: 'assets'},
                 {src: 'resources/assets_template/libs/node-waves/node-waves.min.js', dest: 'assets'},
@@ -35,10 +34,11 @@ export default defineConfig({
                 {src: 'resources/assets_template/libs/jszip/jszip.min.js', dest: 'assets'},
                 {src: 'resources/assets_template/libs/pdfmake/pdfmake.min.js', dest: 'assets'},
                 {src: 'resources/assets_template/libs/jquery-mask/jquery.mask.min.js', dest: 'assets'},
+
+                {src: 'resources/assets_template/js/jquery-validation-methods.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/jquery-masks.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/app.min.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/main.js', dest: 'assets'},
-
                 {src: 'resources/assets_template/js/cruds.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/cruds_functions.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/functions.js', dest: 'assets'},
@@ -147,7 +147,10 @@ export default defineConfig({
                 {src: 'resources/assets_template/json/ocorrencias.json', dest: 'assets'},
 
                 //Ícones Mapas
-                {src: 'resources/assets_template/images/icones/mapas/*.png', dest: 'assets/images/icones/mapas'}
+                {src: 'resources/assets_template/images/icones/mapas/*.png', dest: 'assets/images/icones/mapas'},
+
+                //Comunidades para montar pilígonos no Mapa
+                {src: 'resources/assets_template/json/comunidades.json', dest: 'assets'}
             ]
         })
     ]
