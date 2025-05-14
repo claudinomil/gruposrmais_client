@@ -112,6 +112,9 @@ async function visualizar_mapa_1_gerar_mapa() {
             });
         });
 
+        /***************
+        Rota entre a Lagoa e Rocinha - Cel Vinicius mandou retirar
+
         //Marcador da Lagoa
         const markerA = new google.maps.Marker({
             position: lagoa,
@@ -140,15 +143,7 @@ async function visualizar_mapa_1_gerar_mapa() {
                 const route = response.routes[0];
                 const leg = route.legs[0];
 
-                // // Ajusta os limites do mapa para a rota
-                // const bounds = new google.maps.LatLngBounds();
-                // leg.steps.forEach(step => {
-                //     bounds.extend(step.start_location);
-                //     bounds.extend(step.end_location);
-                // });
-                // map.fitBounds(bounds);
-
-                // InfoWindows com tempo/distância
+                //InfoWindows com tempo/distância
                 const texto = `<strong>Distância:</strong> ${leg.distance.text}<br><strong>Duração:</strong> ${leg.duration.text}`;
 
                 infoWindowA.setContent(`<strong>Lagoa x Rocinha</strong><br>${texto}`);
@@ -164,6 +159,7 @@ async function visualizar_mapa_1_gerar_mapa() {
                 alert("Falha ao traçar a rota: " + status);
             }
         });
+        ****************/
 
         //Poligonos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         const comunidadesChecked = document.getElementById('comunidades').checked;

@@ -2209,7 +2209,7 @@ async function ost3_gerarPDF(ordem_servico_id=0, traducao='pt') {
         await inserirLinha({x_spacingBetweenTexts:spacingBetweenTexts3, x_marginLeft:15, x_marginTop:novaMarginTop-5, x_tamanho:195, x_espessura:0.7});
 
         //Texto
-        texto = 'DATA: '+formatarData(2, data.success.data_prevista);
+        texto = 'DATA: '+data.success.data_prevista;
         if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
         await inserirTexto({x_texto:texto, x_spacingBetweenTexts:spacingBetweenTexts2, x_fontSize:11});
 
@@ -2751,9 +2751,18 @@ async function ost3_gerarPDF(ordem_servico_id=0, traducao='pt') {
             const destino = destinos[i + 1];
 
             if (origem && destino) {
+                //Buscar destino de/para
+                var complemento_1 = '';
+                var complemento_2 = '';
+                ordem_servico_destinos.forEach(function (des) {
+                    if (des.destino_ordem == i + 1) {complemento_1 = des.destino_complemento}
+                    if (des.destino_ordem == i + 2) {complemento_2 = des.destino_complemento}
+                });
+
                 //Texto
                 numeroTitulo++;
-                texto = ' '+numeroTitulo + `. DO DESTINO ${i + 1} para o ${i + 2}:`;
+                //texto = ' '+numeroTitulo + `. DO DESTINO ${i + 1} para o ${i + 2}:`;
+                texto = ' '+numeroTitulo + `. DO DESTINO: ${complemento_1} para ${complemento_2}:`;
                 if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
                 await inserirTexto({ x_texto: '', x_spacingBetweenTexts: spacingBetweenTexts5 });
                 await inserirTexto({ x_texto: texto, x_spacingBetweenTexts: spacingBetweenTexts4, x_fontSize: 11, x_subtitulo: 'subtitulo', x_fundo:true});
