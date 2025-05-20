@@ -48,6 +48,7 @@ export default defineConfig({
                 {src: 'resources/assets_template/js/scripts_departamentos.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_funcionarios.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_mapas.js', dest: 'assets'},
+                {src: 'resources/assets_template/js/scripts_mapas_pontos_interesse.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_relatorios.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_veiculos.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_clientes.js', dest: 'assets'},
@@ -323,6 +324,11 @@ export default defineConfig({
 //     "file": "assets/scripts_mapas.js",
 //     "isEntry": true,
 //     "src": "resources/assets_template/js/scripts_mapas.js"
+// },
+// "resources/assets_template/js/scripts_mapas_pontos_interesse.js": {
+//     "file": "assets/scripts_mapas_pontos_interesse.js",
+//     "isEntry": true,
+//     "src": "resources/assets_template/js/scripts_mapas_pontos_interesse.js"
 // },
 // "resources/assets_template/js/scripts_relatorios.js": {
 //     "file": "assets/scripts_relatorios.js",

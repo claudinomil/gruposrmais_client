@@ -23,6 +23,7 @@ Retorna coordenadas via endereço
 */
 async function getCoordinatesFromAddress(address) {
     const apiKey = 'AIzaSyARmoDmjUAPxUg4J5Ztuq1ceSqZK6i3WbM';
+
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
     const response = await fetch(url);
     const data = await response.json();

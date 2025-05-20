@@ -12,6 +12,4 @@ Route::prefix('mapas')->group(function () {
     Route::post('/{id}', [MapaController::class, 'update'])->name('mapas.update');
     Route::delete('/{id}', [MapaController::class, 'destroy'])->name('mapas.destroy');
     Route::get('/filter/{array_dados}', [MapaController::class, 'filter'])->name('mapas.filter');
-
-    Route::get('visualizar_mapa_1/{data_inicio}/{data_fim}', [MapaController::class, 'visualizar_mapa_1'])->name('mapas.visualizar_mapa_1');
 });

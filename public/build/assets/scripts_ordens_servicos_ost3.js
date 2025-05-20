@@ -375,6 +375,57 @@ function ost3_validar_frm_ordens_servicos() {
         mensagem += 'Escolha pelo menos um destino.' + '<br>';
     }
 
+    //Grade de Destinos (Datas e Horas)
+    for(i=1; i<=qtd_linhas_grade_destinos; i++) {
+        //Campo: ost3_destino_data_agendada_i (não requerido)
+        if (validacao({op: 1, value: document.getElementById('ost3_destino_data_agendada_'+i).value}) === true) {
+            if (validacao({op: 8, value: document.getElementById('ost3_destino_data_agendada_'+i).value}) === false) {
+                validacao_ok = false;
+                mensagem += 'Data agendamento ('+i+') inválida.' + '<br>';
+            }
+        }
+
+        //Campo: ost3_destino_hora_agendada_i (não requerido)
+        if (validacao({op: 1, value: document.getElementById('ost3_destino_hora_agendada_'+i).value}) === true) {
+            if (validacao({op: 17, value: document.getElementById('ost3_destino_hora_agendada_'+i).value}) === false) {
+                validacao_ok = false;
+                mensagem += 'Hora agendamento ('+i+') inválida.' + '<br>';
+            }
+        }
+
+        //Campo: ost3_destino_data_inicio_i (não requerido)
+        if (validacao({op: 1, value: document.getElementById('ost3_destino_data_inicio_'+i).value}) === true) {
+            if (validacao({op: 8, value: document.getElementById('ost3_destino_data_inicio_'+i).value}) === false) {
+                validacao_ok = false;
+                mensagem += 'Data início ('+i+') inválida.' + '<br>';
+            }
+        }
+
+        //Campo: ost3_destino_hora_inicio_i (não requerido)
+        if (validacao({op: 1, value: document.getElementById('ost3_destino_hora_inicio_'+i).value}) === true) {
+            if (validacao({op: 17, value: document.getElementById('ost3_destino_hora_inicio_'+i).value}) === false) {
+                validacao_ok = false;
+                mensagem += 'Hora início ('+i+') inválida.' + '<br>';
+            }
+        }
+
+        //Campo: ost3_destino_data_termino_i (não requerido)
+        if (validacao({op: 1, value: document.getElementById('ost3_destino_data_termino_'+i).value}) === true) {
+            if (validacao({op: 8, value: document.getElementById('ost3_destino_data_termino_'+i).value}) === false) {
+                validacao_ok = false;
+                mensagem += 'Data término ('+i+') inválida.' + '<br>';
+            }
+        }
+
+        //Campo: ost3_destino_hora_termino_i (não requerido)
+        if (validacao({op: 1, value: document.getElementById('ost3_destino_hora_termino_'+i).value}) === true) {
+            if (validacao({op: 17, value: document.getElementById('ost3_destino_hora_termino_'+i).value}) === false) {
+                validacao_ok = false;
+                mensagem += 'Hora término ('+i+') inválida.' + '<br>';
+            }
+        }
+    }
+
     //Grade de Veículos
     var qtd_linhas_grade_veiculos = 0;
     document.querySelectorAll("input[name='ost3_veiculo_id[]']").forEach((element) => {
@@ -644,7 +695,7 @@ function ost3_atualizarDestinoDatasHorasGrade(data_destino_datas_horas) {
     var destino_data_termino = [];
     var destino_hora_termino = [];
 
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 10; i++) {
         if (data_destino_datas_horas.lenhgt == 0) {
             if (document.getElementById('ost3_destino_destino_ordem_' + i)) {
                 var destino_ordem = document.getElementById('ost3_te_destino_ordem_td_' + i).innerHTML;
@@ -683,7 +734,7 @@ function ost3_atualizarDestinoDatasHorasGrade(data_destino_datas_horas) {
     ost3_limparDestinosDatasHorasGrade();
 
     //Criar
-    for(i=1; i<=5; i++) {
+    for(i=1; i<=10; i++) {
         if (document.getElementById('ost3_te_destino_ordem_td_'+i)) {
             //Destino ordem
             var destino_ordem = document.getElementById('ost3_te_destino_ordem_td_'+i).innerHTML;

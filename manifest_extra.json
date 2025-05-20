@@ -163,6 +163,11 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_mapas.js"
 },
+"resources/assets_template/js/scripts_mapas_pontos_interesse.js": {
+"file": "assets/scripts_mapas_pontos_interesse.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_mapas_pontos_interesse.js"
+},
 "resources/assets_template/js/scripts_relatorios.js": {
 "file": "assets/scripts_relatorios.js",
 "isEntry": true,

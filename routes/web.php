@@ -112,6 +112,9 @@ require __DIR__ . '/routes_relatorios.php';
 //Mapas
 require __DIR__ . '/routes_mapas.php';
 
+//Mapas Pontos Interesse
+require __DIR__ . '/routes_mapas_pontos_interesse.php';
+
 //Testes
 require __DIR__ . '/routes_z_testes.php';
 
