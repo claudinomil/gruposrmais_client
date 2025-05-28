@@ -16,6 +16,7 @@ class MapaController extends Controller
 
     //Dados Auxiliares
     public $mapas_pontos_tipos;
+    public $ordens_servicos;
 
     public function __construct()
     {
@@ -56,7 +57,8 @@ class MapaController extends Controller
             $this->responseApi(2, 10, 'mapas/auxiliary/tables/'.$empresa_id, '', '', '');
 
             return view('mapas.index', [
-                'mapas_pontos_tipos' => $this->mapas_pontos_tipos
+                'mapas_pontos_tipos' => $this->mapas_pontos_tipos,
+                'ordens_servicos' => $this->ordens_servicos
             ]);
         }
     }
@@ -203,6 +205,38 @@ class MapaController extends Controller
             }
         } else {
             return view('mapas.index');
+        }
+    }
+
+    public function ordem_servico_destinos($ordem_servico_id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Lista de Registros
+            $this->responseApi(1, 10, 'mapas/ordem_servico_destinos/'.$ordem_servico_id, '', '', '');
+
+            //Dados recebidos com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            } else {
+                abort(500, 'Erro Interno Mapa');
+            }
+        }
+    }
+
+    public function buscar_pontos_interesse($query)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Lista de Registros
+            $this->responseApi(1, 10, 'mapas/buscar_pontos_interesse/'.$query, '', '', '');
+
+            //Dados recebidos com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            } else {
+                abort(500, 'Erro Interno Mapa');
+            }
         }
     }
 }

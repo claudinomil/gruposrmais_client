@@ -57,6 +57,7 @@ export default defineConfig({
                 {src: 'resources/assets_template/js/scripts_ordens_servicos_ost1.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_ordens_servicos_ost2.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_ordens_servicos_ost3.js', dest: 'assets'},
+                {src: 'resources/assets_template/js/scripts_relatorios_exaustoes.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_fornecedores.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_generos.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_grupos.js', dest: 'assets'},
@@ -304,6 +305,11 @@ export default defineConfig({
 //     "file": "assets/scripts_ordens_servicos_ost3.js",
 //     "isEntry": true,
 //     "src": "resources/assets_template/js/scripts_ordens_servicos_ost3.js"
+// },
+// "resources/assets_template/js/scripts_relatorios_exaustoes.js": {
+//     "file": "assets/scripts_relatorios_exaustoes.js",
+//     "isEntry": true,
+//     "src": "resources/assets_template/js/scripts_relatorios_exaustoes.js"
 // },
 // "resources/assets_template/js/scripts_empresas.js": {
 //     "file": "assets/scripts_empresas.js",

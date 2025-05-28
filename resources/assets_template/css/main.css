@@ -1441,3 +1441,31 @@ A VERTICAL event
 body[data-layout-mode="dark"] .bg-dark {
     background-color: #3d4240 !important;
 }
+
+/*Mudar cor dos Menus e Submenus Ativos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''*/
+/*Deixando tudo branco*/
+#sidebar-menu li,
+#sidebar-menu li i,
+#sidebar-menu li a,
+#sidebar-menu li span {
+    color: #ffffff !important;
+}
+
+/*Menu*/
+#sidebar-menu li .mm-active span {
+    color: #FFAC31 !important;
+}
+
+#sidebar-menu li .mm-active i {
+    color: #FFAC31 !important;
+}
+
+/*Submenu*/
+#sidebar-menu li .mm-active .active {
+    color: #FFAC31 !important;
+}
+
+#sidebar-menu li .mm-active .active i {
+    color: #FFAC31 !important;
+}
+/*''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''*/

@@ -46,7 +46,7 @@ class ApiData
             if ($type == 6) {$response = $httpHeaders->delete($submodulo.'/destroy/'.$id.'/'.$empresa_id);}
 
             //Logout
-            if ($type == 7) {$response = $httpHeaders->post('users/logout');}
+            if ($type == 7) {$response = $httpHeaders->post('auth/logout');}
 
             //Dashboard
             if ($type == 8) {$response = $httpHeaders->get($submodulo.'/index/'.$id.'/'.$empresa_id);}

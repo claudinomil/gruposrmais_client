@@ -81,8 +81,10 @@
                                         <select class="form-control" name="grupo_id_{{$empresa['id']}}" id="grupo_id_{{$empresa['id']}}">
                                             <option value="">Selecione...</option>
 
-                                            @foreach ($grupos as $key => $grupo)
-                                                <option value="{{ $grupo['id'] }}">{{ $grupo['name'] }}</option>
+                                            @foreach ($grupos as $grupo)
+                                                @if($grupo['empresa_id'] == $empresa['id'])
+                                                    <option value="{{ $grupo['id'] }}">{{ $grupo['name'] }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>

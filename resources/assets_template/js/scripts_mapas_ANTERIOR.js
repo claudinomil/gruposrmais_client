@@ -6,43 +6,43 @@ let mapPontos = []; //Array de Pontos (usado para limpar o mapa)
 let mapRotas = []; //Array de Rotas (usado para limpar o mapa)
 let mapPoligonosComunidades = []; //Array de Polígonos (usado para limpar o mapa)
 
-// async function instanciarMapa(centroLat = 0, centroLng = 0) {
-//     try {
-//         const mapaContainer = document.getElementById('mp_mapa');
-//
-//         // Se já existe um mapa, remove e limpa o container
-//         if (map) {
-//             google.maps.event.clearInstanceListeners(map);
-//             map = null;
-//             mapaContainer.innerHTML = ''; // limpa conteúdo
-//         }
-//
-//         //Centro do Mapa
-//         let centro_mapa = { lat: -22.970722, lng: -43.219185 }; // Lagoa Rodrigo de Freitas
-//         if (centroLat !== 0 && centroLng !== 0) {
-//             centro_mapa = { lat: centroLat, lng: centroLng };
-//         }
-//
-//         //Gerar Mapa vazio
-//         map = new google.maps.Map(mapaContainer, {
-//             zoom: 14,
-//             center: centro_mapa,
-//             styles: [
-//                 { featureType: "poi", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.attraction", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.park", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.school", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.place_of_worship", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.medical", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.business", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.government", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.sports_complex", elementType: "all", stylers: [{ visibility: "off" }] },
-//             ]
-//         });
-//     } catch (error) {
-//         alert('Erro ao carregar Mapa: ' + error);
-//     }
-// }
+async function instanciarMapa(centroLat = 0, centroLng = 0) {
+    try {
+        const mapaContainer = document.getElementById('mp_mapa');
+
+        // Se já existe um mapa, remove e limpa o container
+        if (map) {
+            google.maps.event.clearInstanceListeners(map);
+            map = null;
+            mapaContainer.innerHTML = ''; // limpa conteúdo
+        }
+
+        //Centro do Mapa
+        let centro_mapa = { lat: -22.970722, lng: -43.219185 }; // Lagoa Rodrigo de Freitas
+        if (centroLat !== 0 && centroLng !== 0) {
+            centro_mapa = { lat: centroLat, lng: centroLng };
+        }
+
+        //Gerar Mapa vazio
+        map = new google.maps.Map(mapaContainer, {
+            zoom: 14,
+            center: centro_mapa,
+            styles: [
+                { featureType: "poi", elementType: "all", stylers: [{ visibility: "off" }] },
+                { featureType: "poi.attraction", elementType: "all", stylers: [{ visibility: "off" }] },
+                { featureType: "poi.park", elementType: "all", stylers: [{ visibility: "off" }] },
+                { featureType: "poi.school", elementType: "all", stylers: [{ visibility: "off" }] },
+                { featureType: "poi.place_of_worship", elementType: "all", stylers: [{ visibility: "off" }] },
+                { featureType: "poi.medical", elementType: "all", stylers: [{ visibility: "off" }] },
+                { featureType: "poi.business", elementType: "all", stylers: [{ visibility: "off" }] },
+                { featureType: "poi.government", elementType: "all", stylers: [{ visibility: "off" }] },
+                { featureType: "poi.sports_complex", elementType: "all", stylers: [{ visibility: "off" }] },
+            ]
+        });
+    } catch (error) {
+        alert('Erro ao carregar Mapa: ' + error);
+    }
+}
 
 async function instanciarMapa(centroLat=0, centroLng=0) {
     try {

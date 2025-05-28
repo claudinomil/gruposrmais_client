@@ -490,6 +490,11 @@ function crudCreate() {
                 });
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
+
+            if (prefixPermissaoSubmodulo == 'relatorios_exaustoes') {
+                //Hide no Informações Gerais
+                document.getElementById('divRelatorioExaustaoInformacoesGerais').style.display = 'none';
+            }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         } else if (data.error_permissao) {
             alertSwal('warning', "Permissão Negada", '', 'true', 2000);
@@ -945,6 +950,11 @@ function crudView(registro_id) {
 
                 //Campo: ordem_servico_tipo_id (forçar change)
                 document.getElementById('ordem_servico_tipo_id').dispatchEvent(new Event('change'));
+            }
+
+            if (prefixPermissaoSubmodulo == 'relatorios_exaustoes') {
+                //Show no Informações Gerais
+                document.getElementById('divRelatorioExaustaoInformacoesGerais').style.display = '';
             }
 
             if (prefixPermissaoSubmodulo == 'brigadas') {
@@ -1429,6 +1439,11 @@ function crudEdit(registro_id) {
                     }
                 });
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            }
+
+            if (prefixPermissaoSubmodulo == 'relatorios_exaustoes') {
+                //Show no Informações Gerais
+                document.getElementById('divRelatorioExaustaoInformacoesGerais').style.display = '';
             }
 
             if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {

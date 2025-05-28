@@ -173,7 +173,7 @@
     "src": "resources/css/app.css"
   },
   "resources/js/app.css": {
-    "file": "assets/app-b84d8c31.css",
+    "file": "assets/app-6685e1d1.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
@@ -206,9 +206,9 @@
       "assets/dripicons-v2-2c1ce9e2.svg"
     ],
     "css": [
-      "assets/app-b84d8c31.css"
+      "assets/app-6685e1d1.css"
     ],
-    "file": "assets/app-17079305.js",
+    "file": "assets/app-1e7bf12d.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
@@ -357,6 +357,11 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_ordens_servicos_ost3.js"
 },
+ "resources/assets_template/js/scripts_relatorios_exaustoes.js": {
+     "file": "assets/scripts_relatorios_exaustoes.js",
+     "isEntry": true,
+     "src": "resources/assets_template/js/scripts_relatorios_exaustoes.js"
+ },
 "resources/assets_template/js/scripts_empresas.js": {
 "file": "assets/scripts_empresas.js",
 "isEntry": true,

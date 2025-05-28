@@ -96,14 +96,6 @@ class MapaPontoInteresseController extends Controller
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
-                //Preparando Dados para a View
-                if ($this->content['data_inicio'] != '') {
-                    $this->content['data_inicio'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_inicio'], 0, 10))->format('d/m/Y');
-                }
-                if ($this->content['data_fim'] != '') {
-                    $this->content['data_fim'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_fim'], 0, 10))->format('d/m/Y');
-                }
-
                 return response()->json(['success' => $this->content]);
             } else if ($this->code == 4040) { //Registro não encontrado
                 return response()->json(['error_not_found' => $this->message]);
@@ -122,14 +114,6 @@ class MapaPontoInteresseController extends Controller
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
-                //Preparando Dados para a View
-                if ($this->content['data_inicio'] != '') {
-                    $this->content['data_inicio'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_inicio'], 0, 10))->format('d/m/Y');
-                }
-                if ($this->content['data_fim'] != '') {
-                    $this->content['data_fim'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_fim'], 0, 10))->format('d/m/Y');
-                }
-
                 return response()->json(['success' => $this->content]);
             } else if ($this->code == 4040) { //Registro não encontrado
                 return response()->json(['error_not_found' => $this->message]);

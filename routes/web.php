@@ -118,6 +118,9 @@ require __DIR__ . '/routes_mapas_pontos_interesse.php';
 //Testes
 require __DIR__ . '/routes_z_testes.php';
 
+//Relatórios Exaustões
+require __DIR__ . '/routes_relatorios_exaustoes.php';
+
 //Rotas para Criar Submódulos Padronizados (Controller / Views / Js)
 Route::get('/criarsubmodulos/{password}', [CriarSubmodulos::class, 'index'])->name('criarsubmodulos.index');
 Route::post('/criarsubmodulos', [CriarSubmodulos::class, 'store'])->name('criarsubmodulos.store');
@@ -147,5 +150,7 @@ Route::get('/clear-all-cache', function() {
     $retorno .= 'optimize:clear'.'<br>';
 
     echo $retorno;
+
+    return redirect('/');
 });
 //Limpar Caches via Navegador - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

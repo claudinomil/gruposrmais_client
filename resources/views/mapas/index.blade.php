@@ -36,94 +36,108 @@
     <!-- OffCanvas -->
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
-            <!-- Dropdown -->
-            <div class="dropdown col-10">
-                <a href="#" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" onclick="mp_config_ofcanvas(3);">Opções para o Mapa <i class="mdi mdi-chevron-down"></i></a>
-                <div class="dropdown-menu p-2">
-                    @foreach ($mapas_pontos_tipos as $mapa_ponto_tipo)
-                        <div class="form-check mb-1">
-                            <input class="form-check-input" type="checkbox" id="mapa_ponto_tipo_{{ $mapa_ponto_tipo['id'] }}" onclick="mp_pontos_interesse({{ $mapa_ponto_tipo['id'] }});">
-                            <label class="form-check-label ms-1 small" for="mapa_ponto_tipo_{{ $mapa_ponto_tipo['id'] }}">POI's Sistema ({{ $mapa_ponto_tipo['name'] }})</label>
-                        </div>
-                    @endforeach
-
-                    <!-- POIs Google attraction -->
-                    <hr />
-                    <div class="form-check mb-1">
-                        <input class="form-check-input" type="checkbox" id="pois_google_attraction" onclick="mp_mapa_POIs_google();">
-                        <label class="form-check-label ms-1 small" for="pois_google_">POI's Google (Attraction)</label>
-                    </div>
-
-                    <!-- POIs Google park -->
-                    <div class="form-check mb-1">
-                        <input class="form-check-input" type="checkbox" id="pois_google_park" onclick="mp_mapa_POIs_google();">
-                        <label class="form-check-label ms-1 small" for="pois_google_park">POI's Google (Park)</label>
-                    </div>
-
-                    <!-- POIs Google school -->
-                    <div class="form-check mb-1">
-                        <input class="form-check-input" type="checkbox" id="pois_google_school" onclick="mp_mapa_POIs_google();">
-                        <label class="form-check-label ms-1 small" for="pois_google_school">POI's Google (School)</label>
-                    </div>
-
-                    <!-- POIs Google place_of_worship -->
-                    <div class="form-check mb-1">
-                        <input class="form-check-input" type="checkbox" id="pois_google_place_of_worship" onclick="mp_mapa_POIs_google();">
-                        <label class="form-check-label ms-1 small" for="pois_google_">POI's Google (Place of Worship)</label>
-                    </div>
-
-                    <!-- POIs Google medical -->
-                    <div class="form-check mb-1">
-                        <input class="form-check-input" type="checkbox" id="pois_google_medical" onclick="mp_mapa_POIs_google();">
-                        <label class="form-check-label ms-1 small" for="pois_google_medical">POI's Google (Medical)</label>
-                    </div>
-
-                    <!-- POIs Google business -->
-                    <div class="form-check mb-1">
-                        <input class="form-check-input" type="checkbox" id="pois_google_business" onclick="mp_mapa_POIs_google();">
-                        <label class="form-check-label ms-1 small" for="pois_google_business">POI's Google (Business)</label>
-                    </div>
-
-                    <!-- POIs Google government -->
-                    <div class="form-check mb-1">
-                        <input class="form-check-input" type="checkbox" id="pois_google_government" onclick="mp_mapa_POIs_google();">
-                        <label class="form-check-label ms-1 small" for="pois_google_government">POI's Google (Government)</label>
-                    </div>
-
-                    <!-- POIs Google sports_complex -->
-                    <div class="form-check mb-1">
-                        <input class="form-check-input" type="checkbox" id="pois_google_sports_complex" onclick="mp_mapa_POIs_google();">
-                        <label class="form-check-label ms-1 small" for="pois_google_sports_complex">POI's Google (Sports Complex)</label>
-                    </div>
-
-                    <!-- Comunidades Polígonos -->
-                    <hr />
-                    <div class="form-check mb-1">
-                        <input class="form-check-input" type="checkbox" id="comunidades" onclick="mp_mapa_comunidades();">
-                        <label class="form-check-label ms-1 small" for="comunidades">Comunidades (Polígonos)</label>
-                    </div>
-
-                    <hr />
-                    <a href="#" class="dropdown-item small text-primary ps-1" onclick="mp_config_ofcanvas(1);">
-                        <i class="fa fa-map-marker me-1 font-size-14"></i> Inserir Ponto Personalizado
-                    </a>
-                    <a href="#" class="dropdown-item small text-success ps-1" onclick="mp_config_ofcanvas(2);">
-                        <i class="fa fa-route me-1 font-size-14"></i> Inserir Rota
-                    </a>
-                </div>
-            </div>
-
+            <h3 class="col-11">Montar Mapa</h3>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <!-- Pontos Personalizados -->
-            <div class="col-12" id="div_ponto_personalizado" style="display: none;">
-                <form id="form_ponto_personalizado">
-                    <input type="hidden" id="ponto_id" name="ponto_id">
+            <div class="row g-2">
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-primary btn-sm dropdown-toggle w-100" data-bs-toggle="dropdown" aria-expanded="false">POIs Sistema Individual <i class="mdi mdi-chevron-down"></i></a>
+                    <div class="dropdown-menu p-2">
+                        <div class="mb-2">
+                            <input type="text" id="input-poi-search" class="form-control form-control-sm" placeholder="Buscar POIs..." oninput="pontoInteresseIndividualAutocomplete(this.value)">
+                            <div id="autocomplete-pois" class="list-group mt-1"></div>
+                        </div>
+                    </div>
+                </div>
 
-                    <div class="row mt-2">
-                        <div class="col-12 col-md-12 mb-4">
-                            <button type="submit" class="btn btn-success btn-sm col-12">Salvar Ponto Personalizado</button>
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-info btn-sm dropdown-toggle w-100" data-bs-toggle="dropdown" aria-expanded="false">POIs Sistema Grupo <i class="mdi mdi-chevron-down"></i></a>
+                    <div class="dropdown-menu p-2">
+                        @foreach ($mapas_pontos_tipos as $mapa_ponto_tipo)
+                            <a href="#" class="dropdown-item small text-info ps-1" onclick="mapItensPontosInteresseGrupo({{ $mapa_ponto_tipo['id'] }});">
+                                <i class="fa fa-map-marked me-1 font-size-14"></i> POI's Sistema ({{ $mapa_ponto_tipo['name'] }})
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-success btn-sm dropdown-toggle w-100" data-bs-toggle="dropdown" aria-expanded="false">POIs Google Grupo <i class="mdi mdi-chevron-down"></i></a>
+                    <div class="dropdown-menu p-2">
+                        <!-- POIs Google attraction -->
+                        <a href="#" class="dropdown-item small text-success ps-1" onclick="mapItensPontosGoogle('poi.attraction');">
+                            <i class="fa fa-star me-1 font-size-14"></i> POI's Google (Attraction)
+                        </a>
+
+                        <!-- POIs Google park -->
+                        <a href="#" class="dropdown-item small text-success ps-1" onclick="mapItensPontosGoogle('poi.park');">
+                            <i class="fa fa-star me-1 font-size-14"></i> POI's Google (Park)
+                        </a>
+
+                        <!-- POIs Google school -->
+                        <a href="#" class="dropdown-item small text-success ps-1" onclick="mapItensPontosGoogle('poi.school');">
+                            <i class="fa fa-star me-1 font-size-14"></i> POI's Google (School)
+                        </a>
+
+                        <!-- POIs Google place_of_worship -->
+                        <a href="#" class="dropdown-item small text-success ps-1" onclick="mapItensPontosGoogle('poi.place_of_worship');">
+                            <i class="fa fa-star me-1 font-size-14"></i> POI's Google (Place of Worship)
+                        </a>
+
+                        <!-- POIs Google medical -->
+                        <a href="#" class="dropdown-item small text-success ps-1" onclick="mapItensPontosGoogle('poi.medical');">
+                            <i class="fa fa-star me-1 font-size-14"></i> POI's Google (Medical)
+                        </a>
+
+                        <!-- POIs Google business -->
+                        <a href="#" class="dropdown-item small text-success ps-1" onclick="mapItensPontosGoogle('poi.business');">
+                            <i class="fa fa-star me-1 font-size-14"></i> POI's Google (Business)
+                        </a>
+
+                        <!-- POIs Google government -->
+                        <a href="#" class="dropdown-item small text-success ps-1" onclick="mapItensPontosGoogle('poi.government');">
+                            <i class="fa fa-star me-1 font-size-14"></i> POI's Google (Government)
+                        </a>
+
+                        <!-- POIs Google sports_complex -->
+                        <a href="#" class="dropdown-item small text-success ps-1" onclick="mapItensPontosGoogle('poi.sports_complex');">
+                            <i class="fa fa-star me-1 font-size-14"></i> POI's Google (Sports Complex)
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-warning btn-sm dropdown-toggle w-100" data-bs-toggle="dropdown" aria-expanded="false">Outros Itens <i class="mdi mdi-chevron-down"></i></a>
+                    <div class="dropdown-menu p-2">
+                        <a href="#" class="dropdown-item small text-warning ps-1" onclick="mapItensPoligonosComunidades();">
+                            <i class="fa fa-draw-polygon me-1 font-size-14"></i> Comunidades (Polígonos)
+                        </a>
+                        <a href="#" class="dropdown-item small text-warning ps-1" onclick="configOfcanvas(1);">
+                            <i class="fa fa-map-marker me-1 font-size-14"></i> Pontos Personalizados
+                        </a>
+                        <a href="#" class="dropdown-item small text-warning ps-1" onclick="configOfcanvas(2);">
+                            <i class="fa fa-route me-1 font-size-14"></i> Rotas Personalizadas
+                        </a>
+                        <a href="#" class="dropdown-item small text-warning ps-1" onclick="configOfcanvas(3);">
+                            <i class="fa fa-map-marked-alt me-1 font-size-14"></i> Rotas Órdem Serviço
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <!-- Pontos Personalizados - Início -->
+            <!-- Pontos Personalizados - Início -->
+            <div class="col-12 py-3 bg-light rounded-1 p-1" id="div_ponto_personalizado" style="display: none;">
+                <form id="form_ponto_personalizado">
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-4">
+                            <button type="submit" class="btn btn-outline-success btn-sm w-100">Salvar Ponto</button>
+                        </div>
+                        <div class="col-12 col-md-6 mb-4">
+                            <button type="button" class="btn btn-outline-warning btn-sm w-100" onclick="configOfcanvas();">Fechar</button>
                         </div>
                         <div class="col-12 col-md-6 mb-2">
                             <label for="mapa_ponto_tipo_id" class="form-label">Ponto Tipo</label>
@@ -138,12 +152,10 @@
                             <label for="name" class="form-label">Nome</label>
                             <input type="text" class="form-control form-control-sm" id="name" name="name" required>
                         </div>
-
                         <div class="col-12 mb-2">
                             <label for="descricao" class="form-label">Descrição</label>
                             <input type="text" class="form-control form-control-sm" id="descricao" name="descricao">
                         </div>
-
                         <div class="col-12 col-md-6 mb-2">
                             <label for="latitude" class="form-label">Latitude</label>
                             <input type="text" class="form-control form-control-sm" id="latitude" name="latitude" required>
@@ -152,7 +164,6 @@
                             <label for="longitude" class="form-label">Longitude</label>
                             <input type="text" class="form-control form-control-sm" id="longitude" name="longitude" required>
                         </div>
-
                         <div class="col-12 col-md-6 mb-2">
                             <label class="form-label">
                                 Ícone&nbsp;&nbsp;
@@ -172,72 +183,87 @@
                     </div>
                 </form>
             </div>
+            <!-- Pontos Personalizados - Fim -->
+            <!-- Pontos Personalizados - Fim -->
 
-            <!-- Rotas Personalizadas -->
-            <div class="col-12" id="div_rota_personalizada" style="display: none;">
+            <!-- Rotas Personalizadas - Início -->
+            <!-- Rotas Personalizadas - Início -->
+            <div class="col-12 py-3 bg-light p-1" id="div_rota_personalizada" style="display: none;">
                 <form id="form_rota_personalizada">
-                    <input type="hidden" id="rota_id" name="rota_id">
-
-                    <div class="row mt-2">
-                        <div class="col-12 col-md-12 mb-4">
-                            <button type="submit" class="btn btn-success btn-sm col-12">Salvar Rota Personalizada</button>
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-4">
+                            <button type="submit" class="btn btn-outline-success btn-sm w-100">Salvar Rota</button>
+                        </div>
+                        <div class="col-12 col-md-6 mb-4">
+                            <button type="button" class="btn btn-outline-warning btn-sm w-100" onclick="configOfcanvas();">Fechar</button>
+                        </div>
+                        <div class="col-12 col-md-6 mb-2">
+                            <label for="rota_name" class="form-label">Nome</label>
+                            <input type="text" class="form-control form-control-sm" id="rota_name" name="rota_name" required>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <label for="rota_descricao" class="form-label">Descrição</label>
+                            <input type="text" class="form-control form-control-sm" id="rota_descricao" name="rota_descricao">
                         </div>
                         <div class="col-12 col-md-4 mb-2">
                             <label for="cep_origem" class="form-label">CEP Origem</label>
                             <input type="text" class="form-control form-control-sm mask_cep" id="cep_origem" name="cep_origem" required>
                         </div>
-                        <div class="col-12 col-md-4 mb-2">
+                        <div class="col-12 col-md-5 mb-2">
                             <label for="numero_origem" class="form-label">Número Origem</label>
                             <input type="text" class="form-control form-control-sm" id="numero_origem" name="numero_origem">
-                        </div>
-                        <div class="col-12 col-md-4 mb-2">
-                            <label for="complemento_origem" class="form-label">Compl. Origem</label>
-                            <input type="text" class="form-control form-control-sm" id="complemento_origem" name="complemento_origem">
                         </div>
                         <div class="col-12 col-md-4 mb-2">
                             <label for="cep_destino" class="form-label">CEP Destino</label>
                             <input type="text" class="form-control form-control-sm mask_cep" id="cep_destino" name="cep_destino" required>
                         </div>
-                        <div class="col-12 col-md-4 mb-2">
+                        <div class="col-12 col-md-5 mb-2">
                             <label for="numero_destino" class="form-label">Número Destino</label>
                             <input type="text" class="form-control form-control-sm" id="numero_destino" name="numero_destino">
-                        </div>
-                        <div class="col-12 col-md-4 mb-2">
-                            <label for="complemento_destino" class="form-label">Compl. Destino</label>
-                            <input type="text" class="form-control form-control-sm" id="complemento_destino" name="complemento_destino">
                         </div>
                     </div>
                 </form>
             </div>
+            <!-- Rotas Personalizadas - Fim -->
+            <!-- Rotas Personalizadas - Fim -->
 
-            <!-- Grade de Pontos Personalizados -->
-            <div class="col-12 pb-3" id="grade_ponto_personalizado" style="display: none;">
-                <h6 class="text-primary">Pontos Personalizados</h6>
-                <table class="table table-sm table-striped align-middle mb-2 small" id="tabelaPontos">
-                    <thead class="table-light">
-                    <tr>
-                        <th scope="col">Tipo/Nome</th>
-                        <th scope="col" class="text-center text-end">Ações</th>
-                    </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+            <!-- Rotas Ordem de Serviço - Início -->
+            <!-- Rotas Ordem de Serviço - Início -->
+            <div class="col-12 py-3 bg-light p-1" id="div_rota_ordem_servico" style="display: none;">
+                <form id="form_rota_ordem_servico">
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-12 mb-2">
+                            <label for="ordem_servico_id" class="form-label">Órdem Serviço</label>
+                            <select class="form-select form-select-sm" name="ordem_servico_id" id="ordem_servico_id" required>
+                                <option value="">Selecione...</option>
+                                @foreach ($ordens_servicos as $ordem_servico)
+                                    <option value="{{ $ordem_servico['id'] }}">{{ 'Ordem Serviço nº. '.$ordem_servico['numero_ordem_servico'].'/'.$ordem_servico['ano_ordem_servico'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </form>
             </div>
+            <!-- Rotas Ordem de Serviço - Fim -->
+            <!-- Rotas Ordem de Serviço - Fim -->
 
-            <!-- Grade de Rotas Personalizadas -->
-            <div class="col-12 pb-3" id="grade_rota_personalizada" style="display: none;">
-                <h6 class="text-primary">Rotas Personalizadas</h6>
-                <table class="table table-sm table-striped align-middle mb-2 small" id="tabelaRotas">
+            <!-- Grade de Itens - Início -->
+            <!-- Grade de Itens - Início -->
+            <div class="col-12 py-3">
+                <h6 class="text-primary">Grade de Itens no Mapa</h6>
+                <table class="table table-sm table-striped align-middle mb-2 small" id="map_itens_tabela">
                     <thead class="table-light">
                     <tr>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Nome</th>
+                        <th scope="col">Item</th>
+                        {{--                        <th scope="col">Nome</th>--}}
                         <th scope="col" class="text-center">Ações</th>
                     </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
             </div>
+            <!-- Grade de Itens - Fim -->
+            <!-- Grade de Itens - Fim -->
         </div>
     </div>
 

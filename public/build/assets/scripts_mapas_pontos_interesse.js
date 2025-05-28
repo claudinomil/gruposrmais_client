@@ -14,30 +14,6 @@ function validar_frm_mapas_pontos_interesse() {
         mensagem += 'Nome requerido.'+'<br>';
     }
 
-    //Campo: data_inicio (requerido)
-    if (validacao({op:1, value:document.getElementById('data_inicio').value}) === false) {
-        validacao_ok = false;
-        mensagem += 'Data início requerido.'+'<br>';
-    } else {
-        //Campo: data_inicio (Data Válida)
-        if (validacao({op: 8, value: document.getElementById('data_inicio').value}) === false) {
-            validacao_ok = false;
-            mensagem += 'Data início Inválida.' + '<br>';
-        }
-    }
-
-    //Campo: data_fim (requerido)
-    if (validacao({op:1, value:document.getElementById('data_fim').value}) === false) {
-        validacao_ok = false;
-        mensagem += 'Data fim requerido.'+'<br>';
-    } else {
-        //Campo: data_fim (Data Válida)
-        if (validacao({op: 8, value: document.getElementById('data_fim').value}) === false) {
-            validacao_ok = false;
-            mensagem += 'Data fim Inválida.' + '<br>';
-        }
-    }
-
     //Campo: latitude (requerido)
     if (validacao({op:1, value:document.getElementById('latitude').value}) === false) {
         validacao_ok = false;

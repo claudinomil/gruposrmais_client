@@ -66,14 +66,6 @@
                                     <input type="text" class="form-control" id="descricao" name="descricao">
                                 </div>
                                 <div class="form-group col-12 col-md-2 pb-3">
-                                    <label class="form-label">Data início</label>
-                                    <input type="text" class="form-control mask_date" id="data_inicio" name="data_inicio" required="required">
-                                </div>
-                                <div class="form-group col-12 col-md-2 pb-3">
-                                    <label class="form-label">Data fim</label>
-                                    <input type="text" class="form-control mask_date" id="data_fim" name="data_fim" required="required">
-                                </div>
-                                <div class="form-group col-12 col-md-2 pb-3">
                                     <label class="form-label">Latitude</label>
                                     <input type="text" class="form-control" id="latitude" name="latitude" required="required">
                                 </div>
