@@ -2,47 +2,20 @@
 var url_atual = window.location.protocol + '//' + window.location.host + '/';
 let map; //Armazena o Mapa
 let mapItens = []; //Array de Itens do Mapa
-let mapPontos = []; //Array de Pontos (usado para limpar o mapa)
-let mapRotas = []; //Array de Rotas (usado para limpar o mapa)
-let mapPoligonosComunidades = []; //Array de Polígonos (usado para limpar o mapa)
 
-// async function instanciarMapa(centroLat = 0, centroLng = 0) {
-//     try {
-//         const mapaContainer = document.getElementById('mp_mapa');
-//
-//         // Se já existe um mapa, remove e limpa o container
-//         if (map) {
-//             google.maps.event.clearInstanceListeners(map);
-//             map = null;
-//             mapaContainer.innerHTML = ''; // limpa conteúdo
-//         }
-//
-//         //Centro do Mapa
-//         let centro_mapa = { lat: -22.970722, lng: -43.219185 }; // Lagoa Rodrigo de Freitas
-//         if (centroLat !== 0 && centroLng !== 0) {
-//             centro_mapa = { lat: centroLat, lng: centroLng };
-//         }
-//
-//         //Gerar Mapa vazio
-//         map = new google.maps.Map(mapaContainer, {
-//             zoom: 14,
-//             center: centro_mapa,
-//             styles: [
-//                 { featureType: "poi", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.attraction", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.park", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.school", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.place_of_worship", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.medical", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.business", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.government", elementType: "all", stylers: [{ visibility: "off" }] },
-//                 { featureType: "poi.sports_complex", elementType: "all", stylers: [{ visibility: "off" }] },
-//             ]
-//         });
-//     } catch (error) {
-//         alert('Erro ao carregar Mapa: ' + error);
-//     }
-// }
+//Cores para Itens
+const mapItensCores = [
+    '#FF0000', // Vermelho
+    '#00FF00', // Verde
+    '#0000FF', // Azul
+    '#FFFF00', // Amarelo
+    '#FF00FF', // Magenta
+    '#00FFFF', // Ciano
+    '#FFA500', // Laranja
+    '#800080', // Roxo
+    '#008000', // Verde escuro
+    '#000000'  // Preto
+];
 
 async function instanciarMapa(centroLat=0, centroLng=0) {
     try {
@@ -208,8 +181,6 @@ function pontoInteresseIndividualAutocomplete(termo) {
     container.innerHTML = '';  // limpa os resultados anteriores
 
     if (termo.length < 4) return;  // só busca com 4 ou mais caracteres
-
-    var url_atual = window.location.protocol + '//' + window.location.host + '/';
 
     fetch(url_atual + 'mapas/buscar_pontos_interesse/' + termo, {
         method: 'GET',
@@ -584,14 +555,98 @@ document.getElementById('form_rota_personalizada').addEventListener('submit', as
 
     form.reset();
 });
+//Rota Personalizada - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//Rota Personalizada - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-function mapItensRotaPersonalizadaCor() {
-    const cor = coresRotasFixas[corRotaIndex % coresRotasFixas.length];
-    corRotaIndex++;
-    return cor;
+//Rotas Ordens de Serviços - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//Rotas Ordens de Serviços - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function mapItensRotaOrdemServico(dado) {
+    try {
+        //Rota Ordem Servico
+        let map_item_id = '66666'+dado.indice;
+        let map_item = 'Rota Órdem Serviço';
+
+        const item = {
+            map_item_id: map_item_id,
+            map_item: map_item,
+            id: null,
+            mapa_id: null,
+            item_tipo_id: 6,
+            mapa_ponto_tipo_id: null,
+            mapa_ponto_tipo: null,
+            ordem_servico_id: null,
+            item_name: dado.rota_name ?? null,
+            item_descricao: dado.rota_descricao ?? null,
+            google_grupo: null,
+            latitude: null,
+            longitude: null,
+            icone: null,
+            origem_cep: dado.cep_origem ?? null,
+            origem_numero: dado.numero_origem ?? null,
+            origem_complemento: null,
+            origem_logradouro: null,
+            origem_bairro: null,
+            origem_localidade: null,
+            origem_uf: null,
+            destino_cep: dado.cep_destino ?? null,
+            destino_numero: dado.numero_destino ?? null,
+            destino_complemento: null,
+            destino_logradouro: null,
+            destino_bairro: null,
+            destino_localidade: null,
+            destino_uf: null
+        };
+
+        await mapItensEditar(item);
+        await mapItensPopularMapa();
+        await mapItensGrade();
+        configOfcanvas();
+    } catch (error) {
+        alert('Erro ao carregar:'+error);
+    }
 }
-//Rota Personalizada - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//Rota Personalizada - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+async function mapItensBuscarDestinosOrdemServico(ordem_servico_id = 0) {
+    if (ordem_servico_id == 0) return false;
+
+    try {
+        const res = await fetch(url_atual + 'mapas/ordem_servico_destinos/' + ordem_servico_id, {
+            method: 'GET',
+            headers: { 'REQUEST-ORIGIN': 'fetch' }
+        });
+
+        const json = await res.json();
+        const ordemServicoDestinos = json.success;
+
+        ordemServicoDestinos.sort((a, b) => Number(a.destino_ordem) - Number(b.destino_ordem));
+
+        for (let i = 0; i < ordemServicoDestinos.length - 1; i++) {
+            const origem = ordemServicoDestinos[i];
+            const destino = ordemServicoDestinos[i + 1];
+
+            const origemDescricao = `${origem.destino_logradouro}, ${origem.destino_numero}`;
+            const destinoDescricao = `${destino.destino_logradouro}, ${destino.destino_numero}`;
+
+            let indice = i+1;
+
+            const dado = {
+                indice: indice,
+                rota_name: 'Destino '+indice,
+                rota_descricao: origemDescricao + ' x ' + destinoDescricao,
+                cep_origem: origem.destino_cep,
+                numero_origem: origem.destino_numero,
+                cep_destino: destino.destino_cep,
+                numero_destino: destino.destino_numero
+            };
+
+            mapItensRotaOrdemServico(dado);
+        }
+    } catch (error) {
+        alert('Erro ao carregar: ' + error);
+    }
+}
+//Rotas Ordens de Serviços - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//Rotas Ordens de Serviços - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 //Polígonos Comunidades - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Polígonos Comunidades - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -640,43 +695,6 @@ async function mapItensPoligonosComunidades() {
         alert('Erro ao carregar:'+error);
     }
 }
-
-function mapItensPoligonosComunidadesDesenhar(paths, nome = '', complexo = '', bairro = '', map) {
-    const infoWindow = new google.maps.InfoWindow();
-
-    paths.forEach((path) => {
-        const polygon = new google.maps.Polygon({
-            paths: path,
-            strokeColor: "#FF0000",
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: "#FF0000",
-            fillOpacity: 0.35
-        });
-
-        polygon.setMap(map);
-
-        mapPoligonosComunidades.push(polygon); // <--- Adiciona no array
-
-        polygon.addListener("mouseover", (e) => {
-            var content = `<div style="display: flex; justify-content: space-between; align-items: center; min-width: 200px; margin-top: -2px;">
-                                <strong style="font-size: 14px;">${nome}</strong>
-                            </div>
-                            <div style="margin-top: 4px;">
-                                <br>
-                                <b>Complexo:</b> ${complexo}<br><br>
-                                <b>Bairro:</b> ${bairro}
-                            </div>`;
-            infoWindow.setContent(content);
-            infoWindow.setPosition(e.latLng);
-            infoWindow.open(map);
-        });
-
-        polygon.addListener("mouseout", () => {
-            infoWindow.close();
-        });
-    });
-}
 //Polígonos Comunidades - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Polígonos Comunidades - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -701,7 +719,7 @@ function mapItensGrade() {
             if (item.item_tipo_id == 3) {itemTexto = item.map_item+'<br>'+item.mapa_ponto_tipo+'<br>'+item.item_name;}
             if (item.item_tipo_id == 4) {itemTexto = item.map_item+'<br>'+'POI: '+item.google_grupo;}
             if (item.item_tipo_id == 5) {itemTexto = item.map_item+'<br>'+item.item_name;}
-            if (item.item_tipo_id == 6) {itemTexto = item.map_item+'<br>'+item.item_name;}
+            if (item.item_tipo_id == 6) {itemTexto = item.map_item+'<br>'+item.item_name+'<br>'+item.item_descricao;}
             if (item.item_tipo_id == 7) {itemTexto = item.map_item+'<br>'+item.item_name;}
 
             const tr = document.createElement('tr');
@@ -711,15 +729,15 @@ function mapItensGrade() {
                 <td class="text-end">`;
 
             //Somente pontos podem ser centralizados no Mapa
-            if (item.item_tipo_id == 1 || item.item_tipo_id == 2 || item.item_tipo_id == 3) {
+            if (item.item_tipo_id == 1 || item.item_tipo_id == 2 || item.item_tipo_id == 3 || item.item_tipo_id == 5 || item.item_tipo_id == 6 || item.item_tipo_id == 7) {
                 htmlTr += `
-                    <button class="btn btn-sm btn-outline-primary me-1" title="Ver no mapa" onclick="mapItensPontoCentralizar('${item.map_item_id}')">
+                    <button class="btn btn-sm btn-outline-primary me-1" title="Ver no mapa" onclick="mapItensCentralizar(${item.item_tipo_id}, '${item.map_item_id}')">
                         <i class="fas fa-map-marker-alt"></i>
                     </button>`;
             }
 
             htmlTr += `
-                    <button class="btn btn-sm btn-outline-danger" title="Excluir" onclick="mapItensRemover(${item.item_tipo_id}, '${item.map_item_id}')">
+                    <button class="btn btn-sm btn-outline-danger" title="Excluir" onclick="mapItensRemover('${item.map_item_id}')">
                         <i class="fas fa-trash-alt"></i>
                     </button>`;
 
@@ -734,135 +752,75 @@ function mapItensGrade() {
     }
 }
 
-function mapItensPontoCentralizar(map_item_id) {
-    const marker = mapPontos.find(m => m.map_item_id == map_item_id);
-    if (!marker) return;
-
-    //Centraliza no ponto
-    map.panTo(marker.getPosition());
-    map.setZoom(14);
-
-    // Opcional: abrir InfoWindow
-    const infoWindow = new google.maps.InfoWindow({
-        content: `<strong>${marker.title}</strong>`
-    });
-
-    infoWindow.open(map, marker);
-}
-
-async function mapItensRemover(item_tipo_id, map_item_id) {
+function mapItensCentralizar(item_tipo_id, map_item_id) {
     /*
-        * item_tipo_id
-        * 1 : POI Sistema Individual
-        * 2 : POI Sistema Grupo
-        * 3 : Ponto Personalizado
-        * 4 : POI Google Grupo
-        * 5 : Rota Personalizada
-        * 6 : Rotas Órdem Serviço
-        * 7 : Polígonos Comunidades
+    * item_tipo_id
+    * 1 : POI Sistema Individual
+    * 2 : POI Sistema Grupo
+    * 3 : Ponto Personalizado
+    * 4 : POI Google Grupo
+    * 5 : Rota Personalizada
+    * 6 : Rotas Órdem Serviço
+    * 7 : Polígonos Comunidades
     */
 
-    //Removendo Pontos (Precisa retirar do array mapPontos para depois retirar do array mapItens)
+    //Centralizar Ponto
     if (item_tipo_id == 1 || item_tipo_id == 2 || item_tipo_id == 3) {
-        const index = mapPontos.findIndex(m => m.map_item_id == map_item_id);
+        const ponto = mapItens.find(d => d.map_item_id === map_item_id);
 
-        if (index !== -1) {
-            //Remove do MapMarkers
-            mapPontos[index].setMap(null);
-            mapPontos.splice(index, 1);
-
-            //Remover do Array mapItens
-            const item = {
-                map_item_id: map_item_id
-            };
-
-            await mapItensEditar(item, true);
-            await mapItensPopularMapa();
-            await mapItensGrade();
-            configOfcanvas();
+        if (ponto && ponto.marker) {
+            map.setCenter(ponto.marker.getPosition());
         }
     }
 
-    //Removendo POIs Google e Polígonos Comunidades (Basta retirar do array mapItens)
-    if (item_tipo_id == 4 || item_tipo_id == 5 || item_tipo_id == 7) {
-        //Remover do Array mapItens
-        const item = {
-            map_item_id: map_item_id
-        };
+    //Centralizar Rota
+    if (item_tipo_id == 5 || item_tipo_id == 6) {
+        const dado = mapItens.find(d => d.map_item_id === map_item_id);
 
-        await mapItensEditar(item, true);
-        await mapItensPopularMapa();
-        await mapItensGrade();
-        configOfcanvas();
-    }
-}
-
-function mapItensRotaCentralizar(id) {
-    const rota = mapRotas.find(r => r.id == id);
-    if (!rota || !rota.directionsRenderer) return;
-    rota.directionsRenderer.setMap(map);
-    map.setZoom(14);
-}
-
-async function mapItensRotaRemover(map_item_id) {
-    const index = mapRotas.findIndex(m => m.map_item_id == map_item_id);
-
-    if (index !== -1) {
-        //Remove do MapRotas
-        mapRotas[index].setMap(null);
-        mapRotas.splice(index, 1);
-
-        //Remover do Array mapItens
-        const item = {
-            map_item_id: map_item_id
-        };
-
-        await mapItensEditar(item, true);
-        await mapItensPopularMapa();
-        await mapItensGrade();
-        configOfcanvas();
-    }
-}
-
-function mapItensLimparMapa() {
-    //Limpar Pontos
-    mapPontos.forEach(marker => marker.setMap(null));
-    mapPontos = [];
-
-    //Limpar Rotas
-    mapRotas.forEach(rota => {
-        if (rota.directionsRenderer) {
-            rota.directionsRenderer.setMap(null);
+        if (dado && dado.rota && dado.rota.result) {
+            const bounds = dado.rota.result.routes[0].bounds;
+            map.fitBounds(bounds);
         }
-    });
-    mapRotas = [];
+    }
 
-    // mapRotas.forEach(polyline => polyline.setMap(null));
-    // mapRotas = [];
-    //
+    //Centralizar Polígono Comunidade
+    if (item_tipo_id == 7) {
+        const dado = mapItens.find(d => d.map_item_id === map_item_id);
 
-    //Limpar Google POIs
-    const estilos = [
-        { featureType: "poi", elementType: "all", stylers: [{ visibility: "off" }] }, //Pontos de interesse em geral
-        { featureType: "poi.attraction", elementType: "all", stylers: [{ visibility: "off" }] }, //Pontos turísticos
-        { featureType: "poi.park", elementType: "all", stylers: [{ visibility: "off" }] }, //Parques e áreas verdes
-        { featureType: "poi.school", elementType: "all", stylers: [{ visibility: "off" }] }, //Escolas e universidades
-        { featureType: "poi.place_of_worship", elementType: "all", stylers: [{ visibility: "off" }] }, //Igrejas, templos, mesquitas, etc.
-        { featureType: "poi.medical", elementType: "all", stylers: [{ visibility: "off" }] }, //Hospitais, clínicas, postos de saúde
-        { featureType: "poi.business", elementType: "all", stylers: [{ visibility: "off" }] }, //Estabelecimentos comerciais
-        { featureType: "poi.government", elementType: "all", stylers: [{ visibility: "off" }] }, //Prédios e órgãos do governo
-        { featureType: "poi.sports_complex", elementType: "all", stylers: [{ visibility: "off" }] }, //Áreas esportivas (estádios, quadras, etc.)
-    ];
+        if (dado && dado.item_tipo_id === 7 && dado.comunidades) {
+            const bounds = new google.maps.LatLngBounds();
 
-    map.setOptions({ styles: estilos });
+            dado.comunidades.forEach(com => {
+                const paths = com.polygon.getPath(); // retorna MVCArray
 
-    //Limpar Polígonos Comunidades
-    mapPoligonosComunidades.forEach(polygon => polygon.setMap(null));
-    mapPoligonosComunidades = [];
+                paths.forEach((latlng) => {
+                    bounds.extend(latlng);
+                });
+            });
+
+            map.fitBounds(bounds);
+        }
+    }
+}
+
+async function mapItensRemover(map_item_id) {
+    //Remover do Array mapItens
+    const item = {
+        map_item_id: map_item_id
+    };
+
+    await mapItensEditar(item, true);
+    await mapItensPopularMapa();
+    await mapItensGrade();
+    configOfcanvas();
+}
+
+async function mapItensLimparMapa() {
+    await instanciarMapa();
 }
 
 async function mapItensPopularMapa() {
-    mapItensLimparMapa();
+    await mapItensLimparMapa();
 
     /*
     * item_tipo_id
@@ -884,7 +842,9 @@ async function mapItensPopularMapa() {
         });
 
         marker.map_item_id = dado.map_item_id;
-        mapPontos.push(marker);
+
+        //Anexando o marker no próprio dado
+        dado.marker = marker;
     });
 
     //item_tipo_id: 4
@@ -924,8 +884,9 @@ async function mapItensPopularMapa() {
 
     map.setOptions({ styles: estilos });
 
-    //item_tipo_id: 5
-    for (const dado of mapItens.filter(dado => dado.item_tipo_id === 5)) {
+    //item_tipo_id: 5, 6
+    let corIndex = 0;
+    for (const dado of mapItens.filter(dado => [5, 6].includes(dado.item_tipo_id))) {
         let cepOrigem = dado.origem_cep;
         let numeroOrigem = dado.origem_numero;
         let cepDestino = dado.destino_cep;
@@ -934,24 +895,24 @@ async function mapItensPopularMapa() {
         let origem = `${cepOrigem}, ${numeroOrigem}`;
         let destino = `${cepDestino}, ${numeroDestino}`;
 
-        mapRotas.push({
-            id: dado.map_item_id,
+        //Guarda os dados diretamente no dado
+        dado.rota = {
             origem,
             destino,
             cepOrigem,
             cepDestino,
-            directionsRenderer: null
-        });
+            directionsRenderer: null,
+            result: null,
+            cor: mapItensCores[corIndex]  // Guarda a cor também, se quiser
+        };
 
-        //Desenha a rota no mapa''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         const directionsService = new google.maps.DirectionsService();
-        //const corLinha = mapItensRotaPersonalizadaCor(); // Pega a próxima cor da lista
 
         const directionsRenderer = new google.maps.DirectionsRenderer({
             map: map,
-            suppressMarkers: false, // Suprime os ícones padrão
+            suppressMarkers: false,
             polylineOptions: {
-                //strokeColor: corLinha,
+                strokeColor: mapItensCores[corIndex],   // Aplica a cor!
                 strokeOpacity: 0.8,
                 strokeWeight: 5
             }
@@ -963,58 +924,19 @@ async function mapItensPopularMapa() {
             travelMode: google.maps.TravelMode.DRIVING
         }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
-
-
-                // //Gerando icone da cor da rota'''''''''''''''''''''''''''''''''
-                // const leg = result.routes[0].legs[0];
-                //
-                // //Ícone SVG com a cor da linha
-                // const svgIcon = {
-                //     path: google.maps.SymbolPath.CIRCLE,
-                //     scale: 8,
-                //     //fillColor: corLinha,
-                //     fillOpacity: 1,
-                //     strokeWeight: 1,
-                //     strokeColor: '#000'
-                // };
-                //
-                // //Criar marcador de origem
-                // const marcadorOrigem = new google.maps.Marker({
-                //     position: leg.start_location,
-                //     map: map,
-                //     title: 'Origem',
-                //     icon: svgIcon
-                // });
-                //
-                // //Criar marcador de destino
-                // const marcadorDestino = new google.maps.Marker({
-                //     position: leg.end_location,
-                //     map: map,
-                //     title: 'Destino',
-                //     icon: svgIcon
-                // });
-                // //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
                 directionsRenderer.setDirections(result);
-
-                const rota = mapRotas.find(r => r.id == dado.map_item_id);
-                if (rota) {
-                    rota.directionsRenderer = directionsRenderer;
-                }
-
-                // const rota = mapRotas.find(r => r.map_item_id == dado.map_item_id);
-                // if (rota) {
-                //     rota.directionsRenderer = directionsRenderer;
-                //     //rota.cor = corLinha; // (opcional) salva a cor junto
-                // }
-
-
-
+                // Guarda o renderer e resultado dentro do dado
+                dado.rota.directionsRenderer = directionsRenderer;
+                dado.rota.result = result;
             } else {
                 alert('Erro ao traçar rota: ' + status);
             }
         });
-        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        corIndex++;
+        if (corIndex >= mapItensCores.length) {
+            corIndex = 0;  // Opcional: reinicia se acabar as cores
+        }
     }
 
     //item_tipo_id: 7
@@ -1022,7 +944,7 @@ async function mapItensPopularMapa() {
         const response = await fetch('/build/assets/comunidades.json');
         const comunidades = await response.json();
 
-        var comunidade_marker2_id = 0;
+        dado.comunidades = []; //Cria uma propriedade para armazenar os polígonos relacionados
 
         comunidades.forEach(comunidade => {
             const nome = comunidade.attributes.nome;
@@ -1038,39 +960,48 @@ async function mapItensPopularMapa() {
                 }))
             );
 
-            //Desenha o polígono
-            mapItensPoligonosComunidadesDesenhar(paths, nome, complexo, bairro, map);
+            //Desenha o polígono diretamente aqui
+            const infoWindow = new google.maps.InfoWindow();
 
-            //Calcula centroide (usando o primeiro ring) para colocar icone nas comunidades'''''''''
-            /*
-            const coords = paths[0]; // normalmente o primeiro ring é o perímetro
-            let latSum = 0;
-            let lngSum = 0;
+            paths.forEach((path) => {
+                const polygon = new google.maps.Polygon({
+                    paths: path,
+                    strokeColor: "#FF0000",
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: "#FF0000",
+                    fillOpacity: 0.35
+                });
 
-            coords.forEach(coord => {
-                latSum += coord.lat;
-                lngSum += coord.lng;
+                polygon.setMap(map);
+
+                // ✅ Guarda tudo no próprio dado
+                dado.comunidades.push({
+                    nome,
+                    complexo,
+                    bairro,
+                    polygon,
+                    infoWindow
+                });
+
+                polygon.addListener("mouseover", (e) => {
+                    const content = `<div style="display: flex; justify-content: space-between; align-items: center; min-width: 200px; margin-top: -2px;">
+                                    <strong style="font-size: 14px;">${nome}</strong>
+                                </div>
+                                <div style="margin-top: 4px;">
+                                    <br>
+                                    <b>Complexo:</b> ${complexo}<br><br>
+                                    <b>Bairro:</b> ${bairro}
+                                </div>`;
+                    infoWindow.setContent(content);
+                    infoWindow.setPosition(e.latLng);
+                    infoWindow.open(map);
+                });
+
+                polygon.addListener("mouseout", () => {
+                    infoWindow.close();
+                });
             });
-
-            const centroide = {
-                lat: latSum / coords.length,
-                lng: lngSum / coords.length
-            };
-
-            //Adiciona marcador no centroide
-            const marker2 = new google.maps.Marker({
-                position: centroide,
-                map: map,
-                title: nome,
-                icon: '/build/assets/images/icones/mapas/atencao_amarelo.png' // opcional: ícone personalizado
-            });
-
-            comunidade_marker2_id++;
-
-            marker2.map_item_id = '77777'+comunidade_marker2_id;
-            mapPontos.push(marker2);
-            */
-            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         });
     }
 }
@@ -1088,98 +1019,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     //Combobox: ordem_servico_id''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     document.getElementById('ordem_servico_id').addEventListener('change', function () {
-        //Buscar Destinos da Órddem de Serviço
-        mp_buscar_destinos_ordem_servico(this.value);
+        mapItensBuscarDestinosOrdemServico(this.value);
     });
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 });
 
 
 
-
-
-
-
-
-// async function mp_mapa_comunidades() {
-//     if (!map) {return false;}
-//
-//     try {
-//         const comunidadesChecked = document.getElementById('comunidades').checked;
-//
-//         if (comunidadesChecked) {
-//             const response = await fetch('/build/assets/comunidades.json');
-//             const comunidades = await response.json();
-//
-//             comunidades.forEach(comunidade => {
-//                 const nome = comunidade.attributes.nome;
-//                 const complexo = comunidade.attributes.complexo;
-//                 const bairro = comunidade.attributes.bairro;
-//
-//                 const rings = comunidade.geometry.rings;
-//
-//                 //Formatar as coordenadas no formato { lat, lng }
-//                 const paths = rings.map(ring =>
-//                     ring.map(coord => ({
-//                         lat: coord[1],
-//                         lng: coord[0]
-//                     }))
-//                 );
-//
-//                 mapItensPoligonosComunidadesDesenhar(paths, nome, complexo, bairro, map);
-//             });
-//         } else {
-//             mp_mapa_comunidades_remover();
-//         }
-//     } catch (error) {
-//         alert('Erro ao carregar:'+error);
-//     }
-// }
-//
-// function mapItensPoligonosComunidadesDesenhar(paths, nome = '', complexo = '', bairro = '', map) {
-//     const infoWindow = new google.maps.InfoWindow();
-//
-//     paths.forEach((path) => {
-//         const polygon = new google.maps.Polygon({
-//             paths: path,
-//             strokeColor: "#FF0000",
-//             strokeOpacity: 0.8,
-//             strokeWeight: 2,
-//             fillColor: "#FF0000",
-//             fillOpacity: 0.35
-//         });
-//
-//         polygon.setMap(map);
-//         mapPoligonosComunidades.push(polygon); // <--- Adiciona no array
-//
-//         polygon.addListener("mouseover", (e) => {
-//             var content = `<div style="display: flex; justify-content: space-between; align-items: center; min-width: 200px; margin-top: -2px;">
-//                                 <strong style="font-size: 14px;">${nome}</strong>
-//                             </div>
-//                             <div style="margin-top: 4px;">
-//                                 <br>
-//                                 <b>Complexo:</b> ${complexo}<br><br>
-//                                 <b>Bairro:</b> ${bairro}
-//                             </div>`;
-//             infoWindow.setContent(content);
-//             infoWindow.setPosition(e.latLng);
-//             infoWindow.open(map);
-//         });
-//
-//         polygon.addListener("mouseout", () => {
-//             infoWindow.close();
-//         });
-//     });
-// }
-//
-// function mp_mapa_comunidades_remover() {
-//     mapPoligonosComunidades.forEach(polygon => {
-//         polygon.setMap(null); // Remove do mapa
-//     });
-//
-//     mapPoligonosComunidades = []; // Limpa o array
-// }
-//
 // function mp_mapa_POIs_google() {
 //     /*
 //      * poi: Pontos de interesse em geral
@@ -1259,7 +1105,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //
 // async function mp_visualizar(id=0) {
 //     //URL
-//     var url_atual = window.location.protocol + '//' + window.location.host + '/';
 //
 //     try {
 //         //Buscando Pontos
@@ -1369,44 +1214,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //
 //                 mapItensPoligonosComunidadesDesenhar(paths, nome, complexo, bairro, map);
 //             });
-//
-//             function mapItensPoligonosComunidadesDesenhar(paths, nome = '', complexo = '', bairro = '', map) {
-//                 const infoWindow = new google.maps.InfoWindow();
-//
-//                 paths.forEach((path) => {
-//                     const polygon = new google.maps.Polygon({
-//                         paths: path,
-//                         strokeColor: "#FF0000",
-//                         strokeOpacity: 0.8,
-//                         strokeWeight: 2,
-//                         fillColor: "#FF0000",
-//                         fillOpacity: 0.35
-//                     });
-//
-//                     polygon.setMap(map);
-//
-//                     polygon.addListener("mouseover", (e) => {
-//                         var content = `<div style="display: flex; justify-content: space-between; align-items: center; min-width: 200px; margin-top: -2px;">
-//                                                 <strong style="font-size: 14px;">${nome}</strong>
-//                                             </div>
-//                                             <div style="margin-top: 4px;">
-//                                                 <br>
-//                                                 <b>Complexo:</b> ${complexo}<br><br>
-//                                                 <b>Bairro:</b> ${bairro}
-//                                             </div>`;
-//
-//                         //var inf = 'Nome: '+nome+'\n'+'Complexo: '+complexo+'\n'+'Bairro: '+bairro;
-//
-//                         infoWindow.setContent(content);
-//                         infoWindow.setPosition(e.latLng);
-//                         infoWindow.open(map);
-//                     });
-//
-//                     polygon.addListener("mouseout", () => {
-//                         infoWindow.close();
-//                     });
-//                 });
-//             }
 //         }
 //         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //     } catch (error) {
@@ -1643,11 +1450,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 // //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //
 // //Rotas Ordem Serviço'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-// async function mp_buscar_destinos_ordem_servico(ordem_servico_id = 0) {
+// async function mapItensBuscarDestinosOrdemServico(ordem_servico_id = 0) {
 //     if (ordem_servico_id == 0) return false;
 //
 //     try {
-//         var url_atual = window.location.protocol + '//' + window.location.host + '/';
 //
 //         const res = await fetch(url_atual + 'mapas/ordem_servico_destinos/' + ordem_servico_id, {
 //             method: 'GET',
@@ -1816,7 +1622,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //     if (termo.length < 4) return;  // só busca com 3 ou mais caracteres
 //
 //     //URL
-//     var url_atual = window.location.protocol + '//' + window.location.host + '/';
 //
 //     fetch(url_atual + 'mapas/buscar_pontos_interesse/'+termo, {method: 'GET', headers: {'REQUEST-ORIGIN': 'fetch'}})
 //         .then(response => response.json())
@@ -1866,7 +1671,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //     //Combobox: ordem_servico_id''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //     document.getElementById('ordem_servico_id').addEventListener('change', function () {
 //         //Buscar Destinos da Órddem de Serviço
-//         mp_buscar_destinos_ordem_servico(this.value);
+//         mapItensBuscarDestinosOrdemServico(this.value);
 //     });
 //     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // });
@@ -1881,7 +1686,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //
 // async function visualizar_mapa_1_gerar_mapa_APAGAR() {
 //     //URL
-//     var url_atual = window.location.protocol + '//' + window.location.host + '/';
 //
 //     try {
 //         //Pegar pontos tipos marcados
