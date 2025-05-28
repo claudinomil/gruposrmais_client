@@ -276,11 +276,11 @@
                     <div class="row">
                         <div class="form-group col-6 pb-3">
                             <label class="form-label">Data início</label>
-                            <input type="text" class="form-control form-control-sm mask_date" name="modal_relatorio6_data_inicio" id="modal_relatorio6_data_inicio" value="{{ date('dd/mm/Y') }}">
+                            <input type="text" class="form-control form-control-sm mask_date" name="modal_relatorio6_data_inicio" id="modal_relatorio6_data_inicio" value="{{ date('d/m/Y') }}">
                         </div>
                         <div class="form-group col-6 pb-3">
                             <label class="form-label">Data fim</label>
-                            <input type="text" class="form-control form-control-sm mask_date" name="modal_relatorio6_data_fim" id="modal_relatorio6_data_fim" value="{{ date('dd/mm/Y') }}">
+                            <input type="text" class="form-control form-control-sm mask_date" name="modal_relatorio6_data_fim" id="modal_relatorio6_data_fim" value="{{ date('d/m/Y') }}">
                         </div>
                         <div class="form-group col-12 pb-3">
                             <label class="form-label">Cidade</label>
