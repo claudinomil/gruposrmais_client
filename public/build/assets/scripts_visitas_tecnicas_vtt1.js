@@ -1,329 +1,341 @@
-function validar_frm_relatorios_exaustoes() {
+function vtt1_validar_frm_visitas_tecnicas() {
     var validacao_ok = true;
     var mensagem = '';
 
-    //Se diferente de inclusão validar campos relatorio_exaustao_status_id, datas e horas''''''''''''''''''''''''''''''''''''
+    //Campo: visita_tecnica_tipo_id (requerido)
+    if (validacao({op:1, value:document.getElementById('visita_tecnica_tipo_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Tipo requerido.'+'<br>';
+    } else {
+        //Campo: visita_tecnica_tipo_id (deve ser um número)
+        if (validacao({op:4, value: document.getElementById('visita_tecnica_tipo_id').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Tipo deve ser escolhido.' + '<br>';
+        }
+    }
+
+    //Se diferente de inclusão validar campos vtt1_visita_tecnica_status_id, datas e horas''''''''''''''''''''''''''''''''''''
     if (document.getElementById('frm_operacao').value != 'create') {
-        //Campo: relatorio_exaustao_status_id
-        if (validacao({op: 1, value: document.getElementById('relatorio_exaustao_status_id').value}) === false) {
+        //Campo: vtt1_visita_tecnica_status_id
+        if (validacao({op: 1, value: document.getElementById('vtt1_visita_tecnica_status_id').value}) === false) {
             validacao_ok = false;
             mensagem += 'Status requerido.' + '<br>';
         } else {
-            //Campo: relatorio_exaustao_status_id (deve ser um número)
-            if (validacao({op: 4, value: document.getElementById('relatorio_exaustao_status_id').value}) === false) {
+            //Campo: vtt1_visita_tecnica_status_id (deve ser um número)
+            if (validacao({op: 4, value: document.getElementById('vtt1_visita_tecnica_status_id').value}) === false) {
                 validacao_ok = false;
                 mensagem += 'Status deve ser escolhido.' + '<br>';
             } else {
-                var status_id = document.getElementById('relatorio_exaustao_status_id').value;
+                var status_id = document.getElementById('vtt1_visita_tecnica_status_id').value;
 
                 if (status_id == 1) {  //ABERTA
-                    //Campo: data_abertura (requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_abertura').value}) === false) {
+                    //Campo: vtt1_data_abertura (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_abertura').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Data abertura requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 8, value: document.getElementById('data_abertura').value}) === false) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_abertura').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data abertura inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_abertura (requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_abertura').value}) === false) {
+                    //Campo: vtt1_hora_abertura (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_abertura').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Hora abertura requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 17, value: document.getElementById('hora_abertura').value}) === false) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_abertura').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora abertura inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: data_prevista (requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_prevista').value}) === false) {
+                    //Campo: vtt1_data_prevista (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_prevista').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Data prevista requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 8, value: document.getElementById('data_prevista').value}) === false) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_prevista').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data prevista inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_prevista (requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_prevista').value}) === false) {
+                    //Campo: vtt1_hora_prevista (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_prevista').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Hora prevista requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 17, value: document.getElementById('hora_prevista').value}) === false) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_prevista').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora prevista inválida.' + '<br>';
                         }
                     }
                 } else if (status_id == 2) {  //EM ANDAMENTO
-                    //Campo: data_abertura (requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_abertura').value}) === false) {
+                    //Campo: vtt1_data_abertura (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_abertura').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Data abertura requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 8, value: document.getElementById('data_abertura').value}) === false) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_abertura').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data abertura inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_abertura (requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_abertura').value}) === false) {
+                    //Campo: vtt1_hora_abertura (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_abertura').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Hora abertura requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 17, value: document.getElementById('hora_abertura').value}) === false) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_abertura').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora abertura inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: data_prevista (requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_prevista').value}) === false) {
+                    //Campo: vtt1_data_prevista (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_prevista').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Data prevista requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 8, value: document.getElementById('data_prevista').value}) === false) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_prevista').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data prevista inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_prevista (requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_prevista').value}) === false) {
+                    //Campo: vtt1_hora_prevista (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_prevista').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Hora prevista requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 17, value: document.getElementById('hora_prevista').value}) === false) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_prevista').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora prevista inválida.' + '<br>';
                         }
                     }
                 } else if (status_id == 3) {  //CONCLUÍDA
-                    //Campo: data_abertura (requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_abertura').value}) === false) {
+                    //Campo: vtt1_data_abertura (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_abertura').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Data abertura requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 8, value: document.getElementById('data_abertura').value}) === false) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_abertura').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data abertura inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_abertura (requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_abertura').value}) === false) {
+                    //Campo: vtt1_hora_abertura (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_abertura').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Hora abertura requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 17, value: document.getElementById('hora_abertura').value}) === false) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_abertura').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora abertura inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: data_prevista (requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_prevista').value}) === false) {
+                    //Campo: vtt1_data_prevista (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_prevista').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Data prevista requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 8, value: document.getElementById('data_prevista').value}) === false) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_prevista').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data prevista inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_prevista (requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_prevista').value}) === false) {
+                    //Campo: vtt1_hora_prevista (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_prevista').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Hora prevista requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 17, value: document.getElementById('hora_prevista').value}) === false) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_prevista').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora prevista inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: data_conclusao (requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_conclusao').value}) === false) {
+                    //Campo: vtt1_data_conclusao (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_conclusao').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Data conclusão requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 8, value: document.getElementById('data_conclusao').value}) === false) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_conclusao').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data conclusão inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_conclusao (requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_conclusao').value}) === false) {
+                    //Campo: vtt1_hora_conclusao (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_conclusao').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Hora conclusão requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 17, value: document.getElementById('hora_conclusao').value}) === false) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_conclusao').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora conclusão inválida.' + '<br>';
                         }
                     }
                 } else if (status_id == 4) {  //FINALIZADA
-                    //Campo: data_abertura (requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_abertura').value}) === false) {
+                    //Campo: vtt1_data_abertura (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_abertura').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Data abertura requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 8, value: document.getElementById('data_abertura').value}) === false) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_abertura').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data abertura inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_abertura (requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_abertura').value}) === false) {
+                    //Campo: vtt1_hora_abertura (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_abertura').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Hora abertura requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 17, value: document.getElementById('hora_abertura').value}) === false) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_abertura').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora abertura inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: data_prevista (requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_prevista').value}) === false) {
+                    //Campo: vtt1_data_prevista (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_prevista').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Data prevista requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 8, value: document.getElementById('data_prevista').value}) === false) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_prevista').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data prevista inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_prevista (requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_prevista').value}) === false) {
+                    //Campo: vtt1_hora_prevista (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_prevista').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Hora prevista requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 17, value: document.getElementById('hora_prevista').value}) === false) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_prevista').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora prevista inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: data_conclusao (requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_conclusao').value}) === false) {
+                    //Campo: vtt1_data_conclusao (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_conclusao').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Data conclusão requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 8, value: document.getElementById('data_conclusao').value}) === false) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_conclusao').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data conclusão inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_conclusao (requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_conclusao').value}) === false) {
+                    //Campo: vtt1_hora_conclusao (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_conclusao').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Hora conclusão requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 17, value: document.getElementById('hora_conclusao').value}) === false) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_conclusao').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora conclusão inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: data_finalizacao (requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_finalizacao').value}) === false) {
+                    //Campo: vtt1_data_finalizacao (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_finalizacao').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Data finalização requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 8, value: document.getElementById('data_finalizacao').value}) === false) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_finalizacao').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data finalização inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_finalizacao (requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_finalizacao').value}) === false) {
+                    //Campo: vtt1_hora_finalizacao (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_finalizacao').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Hora finalização requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 17, value: document.getElementById('hora_finalizacao').value}) === false) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_finalizacao').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora finalização inválida.' + '<br>';
                         }
                     }
                 } else if (status_id == 4) {  //CANCELADA
-                    //Campo: data_abertura (requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_abertura').value}) === false) {
+                    //Campo: vtt1_data_abertura (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_abertura').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Data abertura requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 8, value: document.getElementById('data_abertura').value}) === false) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_abertura').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data abertura inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_abertura (requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_abertura').value}) === false) {
+                    //Campo: vtt1_hora_abertura (requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_abertura').value}) === false) {
                         validacao_ok = false;
                         mensagem += 'Hora abertura requerido.' + '<br>';
                     } else {
-                        if (validacao({op: 17, value: document.getElementById('hora_abertura').value}) === false) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_abertura').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora abertura inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: data_prevista (não requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_prevista').value}) === true) {
-                        if (validacao({op: 8, value: document.getElementById('data_prevista').value}) === false) {
+                    //Campo: vtt1_data_prevista (não requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_prevista').value}) === true) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_prevista').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data prevista inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_prevista (não requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_prevista').value}) === true) {
-                        if (validacao({op: 17, value: document.getElementById('hora_prevista').value}) === false) {
+                    //Campo: vtt1_hora_prevista (não requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_prevista').value}) === true) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_prevista').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora prevista inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: data_conclusao (não requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_conclusao').value}) === true) {
-                        if (validacao({op: 8, value: document.getElementById('data_conclusao').value}) === false) {
+                    //Campo: vtt1_data_conclusao (não requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_conclusao').value}) === true) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_conclusao').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data conclusão inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_conclusao (não requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_conclusao').value}) === true) {
-                        if (validacao({op: 17, value: document.getElementById('hora_conclusao').value}) === false) {
+                    //Campo: vtt1_hora_conclusao (não requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_conclusao').value}) === true) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_conclusao').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora conclusão inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: data_finalizacao (não requerido)
-                    if (validacao({op: 1, value: document.getElementById('data_finalizacao').value}) === true) {
-                        if (validacao({op: 8, value: document.getElementById('data_finalizacao').value}) === false) {
+                    //Campo: vtt1_data_finalizacao (não requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_data_finalizacao').value}) === true) {
+                        if (validacao({op: 8, value: document.getElementById('vtt1_data_finalizacao').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Data finalização inválida.' + '<br>';
                         }
                     }
 
-                    //Campo: hora_finalizacao (não requerido)
-                    if (validacao({op: 1, value: document.getElementById('hora_finalizacao').value}) === true) {
-                        if (validacao({op: 17, value: document.getElementById('hora_finalizacao').value}) === false) {
+                    //Campo: vtt1_hora_finalizacao (não requerido)
+                    if (validacao({op: 1, value: document.getElementById('vtt1_hora_finalizacao').value}) === true) {
+                        if (validacao({op: 17, value: document.getElementById('vtt1_hora_finalizacao').value}) === false) {
                             validacao_ok = false;
                             mensagem += 'Hora finalização inválida.' + '<br>';
                         }
@@ -334,16 +346,27 @@ function validar_frm_relatorios_exaustoes() {
     }
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-    //Campo: cliente_id (requerido)
-    if (validacao({op:1, value:document.getElementById('cliente_id').value}) === false) {
+    //Campo: vtt1_cliente_id (requerido)
+    if (validacao({op:1, value:document.getElementById('vtt1_cliente_id').value}) === false) {
         validacao_ok = false;
         mensagem += 'Cliente requerido.' + '<br>';
     } else {
-        //Campo: cliente_id (deve ser um número)
-        if (validacao({op:4, value: document.getElementById('cliente_id').value}) === false) {
+        //Campo: vtt1_cliente_id (deve ser um número)
+        if (validacao({op:4, value: document.getElementById('vtt1_cliente_id').value}) === false) {
             validacao_ok = false;
             mensagem += 'Cliente deve ser escolhido.' + '<br>';
         }
+    }
+
+    //Grade de Equipes
+    var qtd_linhas_grade_equipe_funcionarios = 0;
+    document.querySelectorAll("input[name='vtt1_equipe_funcionario_id[]']").forEach((element) => {
+        qtd_linhas_grade_equipe_funcionarios++;
+    });
+
+    if (qtd_linhas_grade_equipe_funcionarios == 0) {
+        validacao_ok = false;
+        mensagem += 'Escolha pelo menos um funcionário.' + '<br>';
     }
 
     //Mensagem
@@ -359,10 +382,10 @@ function validar_frm_relatorios_exaustoes() {
     return validacao_ok;
 }
 
-async function relatorio_exaustao_gerar_pdf(relatorio_exaustao_id=0, traducao='pt') {
+async function vtt1_visita_tecnica_gerar_pdf(visita_tecnica_id=0, traducao='pt') {
     try {
         document.getElementById('loadingAviso').style.display = 'block';
-        await gerarPDF(relatorio_exaustao_id, traducao);
+        await vtt1_gerarPDF(visita_tecnica_id, traducao);
     } catch (e) {
         alert("Erro ao gerar PDF: " + e.message);
     } finally {
@@ -370,9 +393,9 @@ async function relatorio_exaustao_gerar_pdf(relatorio_exaustao_id=0, traducao='p
     }
 }
 
-async function gerarPDF(relatorio_exaustao_id=0, traducao='pt') {
-    //Acessar rota relatorios_exaustoes
-    let response = await fetch('relatorios_exaustoes/' + relatorio_exaustao_id, {
+async function vtt1_gerarPDF(visita_tecnica_id=0, traducao='pt') {
+    //Acessar rota visitas_tecnicas
+    let response = await fetch('visitas_tecnicas/' + visita_tecnica_id, {
         method: 'GET',
         headers: { 'REQUEST-ORIGIN': 'fetch' }
     });
@@ -404,18 +427,18 @@ async function gerarPDF(relatorio_exaustao_id=0, traducao='pt') {
         const spacingBetweenTexts8 = 8; //Espaçamento entre dois textos
         const spacingBetweenTexts10 = 10; //Espaçamento entre dois textos
         const cliente_id = data.success.cliente_id; //cliente_id para ser usado nas funções internas
-        var pageTopo = 'build/assets/images/relatorio_exaustao_topo.png';
-        var pageRodape = 'build/assets/images/relatorio_exaustao_rodape.png';
+        var pageTopo = 'build/assets/images/visita_tecnica_topo.png';
+        var pageRodape = 'build/assets/images/visita_tecnica_rodape.png';
 
         //Verificar se existe topo e rodapé para cliente''''''''''''''''''''''''''''''''''''''''''''''''''''''
         var url_atual = window.location.protocol + '//' + window.location.host + '/';
 
-        await arquivoExiste(url_atual+'/build/assets/images/relatorio_exaustao_topo_cliente_'+cliente_id+'.png').then(existe => {
-            if (existe) {pageTopo = 'build/assets/images/relatorio_exaustao_topo_cliente_'+cliente_id+'.png';}
+        await arquivoExiste(url_atual+'/build/assets/images/visita_tecnica_topo_cliente_'+cliente_id+'.png').then(existe => {
+            if (existe) {pageTopo = 'build/assets/images/visita_tecnica_topo_cliente_'+cliente_id+'.png';}
         });
 
-        await arquivoExiste(url_atual+'/build/assets/images/relatorio_exaustao_rodape_cliente_'+cliente_id+'.png').then(existe => {
-            if (existe) {pageRodape = 'build/assets/images/relatorio_exaustao_rodape_cliente_'+cliente_id+'.png';}
+        await arquivoExiste(url_atual+'/build/assets/images/visita_tecnica_rodape_cliente_'+cliente_id+'.png').then(existe => {
+            if (existe) {pageRodape = 'build/assets/images/visita_tecnica_rodape_cliente_'+cliente_id+'.png';}
         });
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -563,7 +586,7 @@ async function gerarPDF(relatorio_exaustao_id=0, traducao='pt') {
         await inserirTexto({x_texto:texto, x_spacingBetweenTexts:spacingBetweenTexts4, x_marginTop:marginTop, x_fontSize:12, x_fontStyle:'bold', x_align:'right'});
 
         //Texto
-        texto = ' Ordem Serviço nº. '+data.success.numero_relatorio_exaustao+'/'+data.success.ano_relatorio_exaustao+'.';
+        texto = ' Visita Técnica nº. '+data.success.numero_visita_tecnica+'/'+data.success.ano_visita_tecnica+'.';
         if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
         await inserirTexto({x_texto:texto, x_spacingBetweenTexts:spacingBetweenTexts4, x_fontSize:12, x_align:'lef', x_fundo:true});
 
@@ -580,111 +603,6 @@ async function gerarPDF(relatorio_exaustao_id=0, traducao='pt') {
         if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
         await inserirTexto({x_texto:texto, x_spacingBetweenTexts:spacingBetweenTexts3, x_fontSize:11});
 
-        //Linha
-        await inserirLinha({x_spacingBetweenTexts:spacingBetweenTexts1, x_marginLeft:15, x_marginTop:novaMarginTop-5, x_tamanho:195, x_espessura:0.7});
-
-        //Tabela Serviços - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        //Tabela Serviços - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        //Texto
-        numeroTitulo++;
-        texto = ' '+numeroTitulo+'. DOS SERVIÇOS:';
-        if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
-        await inserirTexto({x_texto:'', x_spacingBetweenTexts:spacingBetweenTexts3});
-        await inserirTexto({x_texto:texto, x_spacingBetweenTexts:spacingBetweenTexts4, x_fontSize:11, x_subtitulo:'subtitulo', x_fundo:true});
-
-        var tabelaHTML = `<table>
-                            <thead>
-                                <tr>
-                                    <th>&nbsp;<b>ITEM</b>&nbsp;</th>
-                                    <th>&nbsp;<b>SERVIÇO</b>&nbsp;</th>
-                                    <th>&nbsp;<b>RESPONSÁVEL</b>&nbsp;</th>
-                                </tr>
-                            </thead>
-                        <tbody>`;
-
-        var qtdLinhasTabela = 1;
-
-        relatorio_exaustao_servicos = data.success.relatorio_exaustao_servicos;
-
-        relatorio_exaustao_servicos.forEach(function (dado) {
-            //Dados para preencher na linha da grade
-            servico_item = dado.servico_item;
-            servico_nome = dado.servico_nome;
-            responsavel_funcionario_nome = dado.responsavel_funcionario_nome;
-
-            tabelaHTML += `<tr>
-                            <td>${servico_item ? servico_item : ''}</td>
-                            <td>${servico_nome ? servico_nome : ''}</td>
-                            <td>${responsavel_funcionario_nome ? responsavel_funcionario_nome : ''}</td>
-                        </tr>`;
-
-            qtdLinhasTabela++;
-        });
-
-        tabelaHTML += `</tbody>
-                    </table>`;
-
-        qtdLinhasTabela++;
-        qtdLinhasTabela++;
-
-        //Criando um elemento temporário para converter a string em HTML real
-        var div = document.createElement('div');
-        if (traducao == 'en') {tabelaHTML = await traduzirTextoGoogle(tabelaHTML);}
-        div.innerHTML = tabelaHTML;
-        var tabela = div.querySelector('table');
-
-        //Converte a tabela para PDF usando autoTable
-        doc.autoTable({
-            html: tabela, // Usa a tabela do HTML
-            startY: novaMarginTop, // Define onde começa a tabela no PDF
-            useCss: true, // Permite que os estilos CSS sejam considerados
-            styles: {
-                fontStyle: "normal",
-                fontSize: 8,
-                textColor: [0, 0, 0], // Cor do texto preto
-                lineColor: [121, 130, 156], // Cor da borda cinza escuro (#79829c)
-                lineWidth: 0.2, // Espessura da borda
-            },
-            headStyles: {
-                fontStyle: "bold",
-                fontSize: 8,
-                fillColor: ['#F2CEED'], // Cor do cabeçalho #00FEFF (Ciano)
-                textColor: [0, 0, 0], // Texto preto
-            },
-            alternateRowStyles: {
-                fillColor: [255, 255, 255], // Cor de fundo alternada para as linhas
-            },
-            columnStyles: {
-                0: { halign: "center" }, // Coluna ITEM centralizada
-                1: { halign: "left" }, // Coluna DESCRIÇÃO alinhada à esquerda
-                2: { halign: "left" }, // Coluna RESPONSAVEL alinhada à esquerda
-            },
-            didParseCell: function (data) {
-                //Força padding em cada célula
-                data.cell.styles.cellPadding = 2;
-            },
-            margin: { top: 50 },
-        });
-
-        //Nova margem topo para depois da tabela
-        novaMarginTop = novaMarginTop + (qtdLinhasTabela*6.3) + 5;
-        //Tabela Serviços - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        //Tabela Serviços - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-        if (data.success.ordemServicoPrioridadeName !== null && data.success.ordemServicoPrioridadeName !== undefined && data.success.ordemServicoPrioridadeName !== '') {
-            //Texto
-            texto = 'Prioridade: '+data.success.ordemServicoPrioridadeName;
-            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
-            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:spacingBetweenTexts3, x_fontSize:11, x_align:'justify', x_fontStyle:'normal'});
-        }
-
-        if (data.success.descricao_servico !== null && data.success.descricao_servico !== undefined && data.success.descricao_servico !== '') {
-            //Texto
-            texto = 'Descrição: '+data.success.descricao_servico;
-            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
-            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:spacingBetweenTexts3, x_fontSize:11, x_align:'justify', x_fontStyle:'normal'});
-        }
-
         if (data.success.observacao !== null && data.success.observacao !== undefined && data.success.observacao !== '') {
             //Texto
             texto = 'Observação: '+data.success.observacao;
@@ -700,7 +618,7 @@ async function gerarPDF(relatorio_exaustao_id=0, traducao='pt') {
         const newTab = window.open(pdfUrl);
 
         //Adiciona um link abaixo do botão
-        let frm_relatorios_exaustoes = document.getElementById('frm_relatorios_exaustoes');
+        let frm_visitas_tecnicas = document.getElementById('frm_visitas_tecnicas');
 
         //Verifica se já existe um link para evitar duplicação
         let existingLink = document.getElementById('pdf_download_link');
@@ -723,7 +641,7 @@ async function gerarPDF(relatorio_exaustao_id=0, traducao='pt') {
         link.style.marginTop = '10px';
 
         //Insere o link logo abaixo do botão
-        frm_relatorios_exaustoes.parentNode.insertBefore(link, frm_relatorios_exaustoes.nextSibling);
+        frm_visitas_tecnicas.parentNode.insertBefore(link, frm_visitas_tecnicas.nextSibling);
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         //Gravando pdf - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -733,21 +651,21 @@ async function gerarPDF(relatorio_exaustao_id=0, traducao='pt') {
 
 document.addEventListener('DOMContentLoaded', function(event) {
     //Buscar dados do Cliente escolhido
-    document.getElementById('cliente_id').addEventListener('change', function() {
-        if (document.getElementById('cliente_id').value == '') {
+    document.getElementById('vtt1_cliente_id').addEventListener('change', function() {
+        if (document.getElementById('vtt1_cliente_id').value == '') {
             //Inputs
-            document.getElementById('cliente_nome').value = '';
-            document.getElementById('cliente_telefone').value = '';
-            document.getElementById('cliente_celular').value = '';
-            document.getElementById('cliente_email').value = '';
-            document.getElementById('cliente_logradouro').value = '';
-            document.getElementById('cliente_bairro').value = '';
-            document.getElementById('cliente_cidade').value = '';
+            document.getElementById('vtt1_cliente_nome').value = '';
+            document.getElementById('vtt1_cliente_telefone').value = '';
+            document.getElementById('vtt1_cliente_celular').value = '';
+            document.getElementById('vtt1_cliente_email').value = '';
+            document.getElementById('vtt1_cliente_logradouro').value = '';
+            document.getElementById('vtt1_cliente_bairro').value = '';
+            document.getElementById('vtt1_cliente_cidade').value = '';
         } else {
-            var cliente_id = document.getElementById('cliente_id').value;
+            var vtt1_cliente_id = document.getElementById('vtt1_cliente_id').value;
 
             //Route: clientes/id
-            fetch('clientes/'+cliente_id, {
+            fetch('clientes/'+vtt1_cliente_id, {
                 method: 'GET',
                 headers: {
                     'REQUEST-ORIGIN': 'fetch',
@@ -789,15 +707,15 @@ document.addEventListener('DOMContentLoaded', function(event) {
                 }
 
                 //Inputs
-                document.getElementById('cliente_nome').value = cliente.name;
-                document.getElementById('cliente_telefone').value = telefone;
-                document.getElementById('cliente_celular').value = celular;
-                document.getElementById('cliente_email').value = cliente.email;
-                document.getElementById('cliente_logradouro').value = cliente.logradouro;
-                document.getElementById('cliente_bairro').value = cliente.bairro;
-                document.getElementById('cliente_cidade').value = cliente.localidade;
+                document.getElementById('vtt1_cliente_nome').value = cliente.name;
+                document.getElementById('vtt1_cliente_telefone').value = telefone;
+                document.getElementById('vtt1_cliente_celular').value = celular;
+                document.getElementById('vtt1_cliente_email').value = cliente.email;
+                document.getElementById('vtt1_cliente_logradouro').value = cliente.logradouro;
+                document.getElementById('vtt1_cliente_bairro').value = cliente.bairro;
+                document.getElementById('vtt1_cliente_cidade').value = cliente.localidade;
             }).catch(error => {
-                alert('Erro OrdensServicos:'+error);
+                alert('Erro VisitasTecnicas:'+error);
             });
 
 

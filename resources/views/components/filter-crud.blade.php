@@ -31,7 +31,7 @@
                 </select>
 
                 <!-- Dado para Pesquisar-->
-                <input type="text" id="filter_crud_dado_pesquisar" name="filter_crud_dado_pesquisar" class="form-control font-size-11" title="Dado Pesquisar" placeholder="Dado" style="min-width: 25% !important;" />
+                <input type="text" id="filter_crud_dado_pesquisar" name="filter_crud_dado_pesquisar" class="form-control font-size-11" title="Dado Pesquisar" placeholder="Dado" style="min-width: 20% !important;" />
 
                 <!-- Botões -->
                 <button type="button" class="btn btn-success float-end" name="filter_crud_botao_executar" title="Executar Filtro(s)" onclick="crudFilterExecutar();"><i class="fa fa-filter"></i></button>

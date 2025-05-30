@@ -666,101 +666,103 @@
     </div>
 
     <!-- Modal para mostrar Informações Visita Técnica -->
-    <div class="modal fade modal-visita-tecnica" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content" style="background-color: var(--bs-body-bg);">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-xl-5">
+{{--    <div class="modal fade modal-visita-tecnica" tabindex="-1" role="dialog" aria-hidden="true">--}}
+{{--        <div class="modal-dialog modal-xl">--}}
+{{--            <div class="modal-content" style="background-color: var(--bs-body-bg);">--}}
+{{--                <div class="modal-body">--}}
+{{--                    <div class="row">--}}
+{{--                        <div class="col-xl-5">--}}
 
-                            <!-- Card -->
-                            <div class="card overflow-hidden">
-                                <div class="bg-danger">
-                                    <div class="row">
-                                        <div class="col-7">
-                                            <div class="text-white p-3">
-                                                <h5 class="text-white">Extra</h5>
-                                                <p>Visita Técnica do Sistema</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-5 align-self-end">
-                                            <x-button-crud op="99" model="1" class="btn-close float-end px-1 py-1" data-bs-dismiss="modal" aria-label="Close" />
-                                            <img src="{{ asset('build/assets/images/visita_tecnica-img.png') }}" alt="" class="img-fluid">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body pt-0">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <h5 class="font-size-15 text-truncate jsonVisitaTecnicaName"></h5>
-                                            <p class="text-muted mb-0 text-truncate jsonVisitaTecnicaFuncao"></p>
-                                        </div>
+{{--                            <!-- Card -->--}}
+{{--                            <div class="card overflow-hidden">--}}
+{{--                                <div class="bg-danger">--}}
+{{--                                    <div class="row">--}}
+{{--                                        <div class="col-7">--}}
+{{--                                            <div class="text-white p-3">--}}
+{{--                                                <h5 class="text-white">Extra</h5>--}}
+{{--                                                <p>Visita Técnica do Sistema</p>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col-5 align-self-end">--}}
+{{--                                            <x-button-crud op="99" model="1" class="btn-close float-end px-1 py-1" data-bs-dismiss="modal" aria-label="Close" />--}}
+{{--                                            <img src="{{ asset('build/assets/images/visita_tecnica-img.png') }}" alt="" class="img-fluid">--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <div class="card-body pt-0">--}}
+{{--                                    <div class="row">--}}
+{{--                                        <div class="col-sm-4">--}}
+{{--                                            <h5 class="font-size-15 text-truncate jsonVisitaTecnicaName"></h5>--}}
+{{--                                            <p class="text-muted mb-0 text-truncate jsonVisitaTecnicaFuncao"></p>--}}
+{{--                                        </div>--}}
 
-                                        <div class="col-sm-8">
-                                            <div class="pt-4">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h5 class="font-size-15">Escolaridade</h5>
-                                                        <p class="text-muted mb-0 text-truncate jsonVisitaTecnicaEscolaridade"></p>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <h5 class="font-size-15">Gênero</h5>
-                                                        <p class="text-muted mb-0 text-truncate jsonVisitaTecnicaGenero"></p>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-4 mt-4 px-0">&nbsp;</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+{{--                                        <div class="col-sm-8">--}}
+{{--                                            <div class="pt-4">--}}
+{{--                                                <div class="row">--}}
+{{--                                                    <div class="col-6">--}}
+{{--                                                        <h5 class="font-size-15">Escolaridade</h5>--}}
+{{--                                                        <p class="text-muted mb-0 text-truncate jsonVisitaTecnicaEscolaridade"></p>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="col-6">--}}
+{{--                                                        <h5 class="font-size-15">Gênero</h5>--}}
+{{--                                                        <p class="text-muted mb-0 text-truncate jsonVisitaTecnicaGenero"></p>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                                <div class="row">--}}
+{{--                                                    <div class="col-4 mt-4 px-0">&nbsp;</div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                            <!-- Informações Pessoais -->
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title mb-4">Informações Pessoais</h4>
-                                    <div class="table-responsive">
-                                        <table class="table table-nowrap mb-0">
-                                            <tbody>
-                                            <tr>
-                                                <th scope="row">Name :</th>
-                                                <td class="jsonVisitaTecnicaName"></td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">E-mail :</th>
-                                                <td class="jsonVisitaTecnicaEmail"></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+{{--                            <!-- Informações Pessoais -->--}}
+{{--                            <div class="card">--}}
+{{--                                <div class="card-body">--}}
+{{--                                    <h4 class="card-title mb-4">Informações Pessoais</h4>--}}
+{{--                                    <div class="table-responsive">--}}
+{{--                                        <table class="table table-nowrap mb-0">--}}
+{{--                                            <tbody>--}}
+{{--                                            <tr>--}}
+{{--                                                <th scope="row">Name :</th>--}}
+{{--                                                <td class="jsonVisitaTecnicaName"></td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <th scope="row">E-mail :</th>--}}
+{{--                                                <td class="jsonVisitaTecnicaEmail"></td>--}}
+{{--                                            </tr>--}}
+{{--                                            </tbody>--}}
+{{--                                        </table>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                        </div>
+{{--                        </div>--}}
 
-                        <div class="col-xl-7">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title mb-4">Transações</h4>
-                                    <div class="table-responsive">
-                                        <table class="table table-nowrap table-hover mb-0 class-datatable-2 font-size-11">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Operação</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody class="jsonVisitaTecnicaTransacoesTable"></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{{--                        <div class="col-xl-7">--}}
+{{--                            <div class="card">--}}
+{{--                                <div class="card-body">--}}
+{{--                                    <h4 class="card-title mb-4">Transações</h4>--}}
+{{--                                    <div class="table-responsive">--}}
+{{--                                        <table class="table table-nowrap table-hover mb-0 class-datatable-2 font-size-11">--}}
+{{--                                            <thead>--}}
+{{--                                            <tr>--}}
+{{--                                                <th scope="col">#</th>--}}
+{{--                                                <th scope="col">Operação</th>--}}
+{{--                                            </tr>--}}
+{{--                                            </thead>--}}
+{{--                                            <tbody class="jsonVisitaTecnicaTransacoesTable"></tbody>--}}
+{{--                                        </table>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
+
 </div>

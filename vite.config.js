@@ -57,7 +57,6 @@ export default defineConfig({
                 {src: 'resources/assets_template/js/scripts_ordens_servicos_ost1.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_ordens_servicos_ost2.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_ordens_servicos_ost3.js', dest: 'assets'},
-                {src: 'resources/assets_template/js/scripts_relatorios_exaustoes.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_fornecedores.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_generos.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_grupos.js', dest: 'assets'},
@@ -77,6 +76,8 @@ export default defineConfig({
                 {src: 'resources/assets_template/js/scripts_servicos.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_propostas.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_visitas_tecnicas.js', dest: 'assets'},
+                {src: 'resources/assets_template/js/scripts_visitas_tecnicas_vtt1.js', dest: 'assets'},
+                {src: 'resources/assets_template/js/scripts_visitas_tecnicas_vtt2.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_brigadas.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_brigadas_escalas.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_brigadas_rondas.js', dest: 'assets'},
@@ -306,11 +307,6 @@ export default defineConfig({
 //     "isEntry": true,
 //     "src": "resources/assets_template/js/scripts_ordens_servicos_ost3.js"
 // },
-// "resources/assets_template/js/scripts_relatorios_exaustoes.js": {
-//     "file": "assets/scripts_relatorios_exaustoes.js",
-//     "isEntry": true,
-//     "src": "resources/assets_template/js/scripts_relatorios_exaustoes.js"
-// },
 // "resources/assets_template/js/scripts_empresas.js": {
 //     "file": "assets/scripts_empresas.js",
 //     "isEntry": true,
@@ -440,6 +436,16 @@ export default defineConfig({
 //     "file": "assets/scripts_visitas_tecnicas.js",
 //     "isEntry": true,
 //     "src": "resources/assets_template/js/scripts_visitas_tecnicas.js"
+// },
+// "resources/assets_template/js/scripts_visitas_tecnicas_ost1.js": {
+//     "file": "assets/scripts_visitas_tecnicas_ost1.js",
+//     "isEntry": true,
+//     "src": "resources/assets_template/js/scripts_visitas_tecnicas_ost1.js"
+// },
+// "resources/assets_template/js/scripts_visitas_tecnicas_ost2.js": {
+//     "file": "assets/scripts_visitas_tecnicas_ost2.js",
+//     "isEntry": true,
+//     "src": "resources/assets_template/js/scripts_visitas_tecnicas_ost2.js"
 // },
 // "resources/assets_template/js/scripts_brigadas.js": {
 //     "file": "assets/scripts_brigadas.js",

@@ -171,6 +171,33 @@ function crudPreencherFormulario(campo, dados) {
             if (campo_formulario == 'forma_pagamento_status_id') {campo_formulario = ost+campo_formulario;}
             if (campo_formulario == 'forma_pagamento_observacao') {campo_formulario = ost+campo_formulario;}
         }
+
+        if (document.getElementById('crudPrefixPermissaoSubmodulo').value == 'visitas_tecnicas') {
+            var vtt = '';
+
+            if (dados['ordem_servico_tipo_id'] == 1) {vtt = 'vtt1_';}
+            if (dados['ordem_servico_tipo_id'] == 2) {vtt = 'vtt2_';}
+
+            if (campo_formulario == 'numero_visita_tecnica') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'ano_visita_tecnica') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'data_abertura') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'hora_abertura') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'data_prevista') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'hora_prevista') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'data_conclusao') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'hora_conclusao') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'data_finalizacao') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'hora_finalizacao') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'visita_tecnica_status_id') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'cliente_id') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'cliente_nome') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'cliente_telefone') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'cliente_celular') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'cliente_email') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'cliente_logradouro') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'cliente_bairro') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'cliente_cidade') {campo_formulario = vtt+campo_formulario;}
+        }
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         var elemento = document.getElementById(campo_formulario);
@@ -491,9 +518,29 @@ function crudCreate() {
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
-            if (prefixPermissaoSubmodulo == 'relatorios_exaustoes') {
+            if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
+                //Create divVTT1''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 //Hide no Informações Gerais
-                document.getElementById('divRelatorioExaustaoInformacoesGerais').style.display = 'none';
+                document.getElementById('vtt1_divVisitaTecnicaInformacoesGerais').style.display = 'none';
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                //Create divVTT2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //Hide no Informações Gerais
+                document.getElementById('vtt2_divVisitaTecnicaInformacoesGerais').style.display = 'none';
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                //Campo: visita_tecnica_tipo_id'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //forçar change
+                document.getElementById('visita_tecnica_tipo_id').dispatchEvent(new Event('change'));
+
+                //options
+                const select = document.getElementById('visita_tecnica_tipo_id');
+
+                //Ativar todas as opções
+                Array.from(select.options).forEach(option => {
+                    option.disabled = false;
+                });
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         } else if (data.error_permissao) {
@@ -952,45 +999,54 @@ function crudView(registro_id) {
                 document.getElementById('ordem_servico_tipo_id').dispatchEvent(new Event('change'));
             }
 
-            if (prefixPermissaoSubmodulo == 'relatorios_exaustoes') {
+            if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
+                //View divVTT1''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 //Show no Informações Gerais
-                document.getElementById('divRelatorioExaustaoInformacoesGerais').style.display = '';
+                document.getElementById('vtt1_divVisitaTecnicaInformacoesGerais').style.display = '';
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                //View divVTT2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                //Campo: ordem_servico_tipo_id (forçar change)
+                document.getElementById('ordem_servico_tipo_id').dispatchEvent(new Event('change'));
             }
 
             if (prefixPermissaoSubmodulo == 'brigadas') {
                 bi_preencherFormulario(data.success);
             }
 
-            if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
-                //Verificar botões''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                //Se servico_status_id for igual a 1(EXECUTADO) : Somente Visualização
-                if (data.success.clientes_servicos_servico.servico_status_id == 1) {
-                    document.getElementById('crudAlterarRegistro').style.display = 'none';
-                } else {
-                    document.getElementById('crudAlterarRegistro').style.display = 'block';
-                }
-                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            // if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
+            //     //Verificar botões''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            //     //Se servico_status_id for igual a 1(EXECUTADO) : Somente Visualização
+            //     if (data.success.clientes_servicos_servico.servico_status_id == 1) {
+            //         document.getElementById('crudAlterarRegistro').style.display = 'none';
+            //     } else {
+            //         document.getElementById('crudAlterarRegistro').style.display = 'block';
+            //     }
+            //     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            //
+            //     vt_configurarFormulario(data.success);
+            //     vt_preencherFormulario(data.success);
+            //
+            //     //Alert para marcar Serviço como Finalizado'''''''''''''''''''''''''''''''''''
+            //     document.getElementById('hrServicoExecutado').style.display = 'none';
+            //     document.getElementById('spanServicoExecutado').style.display = 'none';
+            //
+            //     document.getElementById('executado_data').value = data.success.executado_data;
+            //     document.getElementById('executado_user_funcionario').value = data.success.executado_user_funcionario;
+            //     document.getElementById('executado_user_id').value = data.success.executado_user_id;
+            //
+            //     if (data.success.executado_data == '' || data.success.executado_data === null) {
+            //         document.getElementById('servico_executado').checked = false;
+            //         document.getElementById('labelServicoExecutado').innerHTML = 'Visita não Finalizada';
+            //     } else {
+            //         document.getElementById('servico_executado').checked = true;
+            //         document.getElementById('labelServicoExecutado').innerHTML = 'Visita Finalizada';
+            //     }
+            //     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            // }
 
-                vt_configurarFormulario(data.success);
-                vt_preencherFormulario(data.success);
-
-                //Alert para marcar Serviço como Finalizado'''''''''''''''''''''''''''''''''''
-                document.getElementById('hrServicoExecutado').style.display = 'none';
-                document.getElementById('spanServicoExecutado').style.display = 'none';
-
-                document.getElementById('executado_data').value = data.success.executado_data;
-                document.getElementById('executado_user_funcionario').value = data.success.executado_user_funcionario;
-                document.getElementById('executado_user_id').value = data.success.executado_user_id;
-
-                if (data.success.executado_data == '' || data.success.executado_data === null) {
-                    document.getElementById('servico_executado').checked = false;
-                    document.getElementById('labelServicoExecutado').innerHTML = 'Visita não Finalizada';
-                } else {
-                    document.getElementById('servico_executado').checked = true;
-                    document.getElementById('labelServicoExecutado').innerHTML = 'Visita Finalizada';
-                }
-                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             //Configuração
@@ -1441,53 +1497,80 @@ function crudEdit(registro_id) {
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
-            if (prefixPermissaoSubmodulo == 'relatorios_exaustoes') {
-                //Show no Informações Gerais
-                document.getElementById('divRelatorioExaustaoInformacoesGerais').style.display = '';
-            }
-
             if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
-                vt_configurarFormulario(data.success);
+                //Edit divVTT1''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //Show no Informações Gerais
+                document.getElementById('vtt1_divVisitaTecnicaInformacoesGerais').style.display = '';
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                if (!vt_preencherFormulario(data.success)) {
-                    //Configuração
-                    crudConfiguracao({p_crudTable:'show', p_crudForm:'hide'});
-                }
+                //Edit divVTT2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //Show no Informações Gerais
+                document.getElementById('vtt2_divVisitaTecnicaInformacoesGerais').style.display = '';
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                //Alert para marcar Serviço como Finalizado''''''''''''''''''''''''''
-                document.getElementById('hrServicoExecutado').style.display = 'none';
-                document.getElementById('spanServicoExecutado').style.display = 'none';
+                //Campo: visita_tecnica_tipo_id'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //forçar change
+                document.getElementById('visita_tecnica_tipo_id').dispatchEvent(new Event('change'));
 
-                document.getElementById('executado_data').disabled = true;
-                document.getElementById('executado_data').readOnly = false;
+                //options
+                const select = document.getElementById('visita_tecnica_tipo_id');
+                const valorPermitido = data.success.visita_tecnica_tipo_id;
 
-                document.getElementById('executado_user_funcionario').disabled = true;
-                document.getElementById('executado_user_funcionario').readOnly = false;
-
-                document.getElementById('executado_user_id').disabled = true;
-                document.getElementById('executado_user_id').readOnly = false;
-
-                if (data.success.executado_data == '' || data.success.executado_data === null) {
-                    document.getElementById('executado_data').value = data.success.dados_servico_executado.executado_data;
-                    document.getElementById('executado_user_funcionario').value = data.success.dados_servico_executado.executado_user_funcionario;
-                    document.getElementById('executado_user_id').value = data.success.dados_servico_executado.executado_user_id;
-
-                    document.getElementById('servico_executado').checked = false;
-                    document.getElementById('labelServicoExecutado').innerHTML = 'Visita não Finalizada';
-
-                    document.getElementById('hrServicoExecutado').style.display = 'block';
-                    document.getElementById('spanServicoExecutado').style.display = 'block';
-                    document.getElementById('spanServicoExecutado').innerHTML = 'Ao verificar as Medidas de Segurança finalize a Visita aqui e confirme.';
-                } else {
-                    document.getElementById('executado_data').value = data.success.executado_data;
-                    document.getElementById('executado_user_funcionario').value = data.success.executado_user_funcionario;
-                    document.getElementById('executado_user_id').value = data.success.executado_user_id;
-
-                    document.getElementById('servico_executado').checked = true;
-                    document.getElementById('labelServicoExecutado').innerHTML = 'Visita Finalizada';
-                }
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //Desativa todas as opções, exceto a permitida
+                Array.from(select.options).forEach(option => {
+                    if (parseInt(option.value) !== parseInt(valorPermitido)) {
+                        option.disabled = true;
+                    } else {
+                        option.disabled = false;
+                    }
+                });
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
+
+            // if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
+            //     vt_configurarFormulario(data.success);
+            //
+            //     if (!vt_preencherFormulario(data.success)) {
+            //         //Configuração
+            //         crudConfiguracao({p_crudTable:'show', p_crudForm:'hide'});
+            //     }
+            //
+            //     //Alert para marcar Serviço como Finalizado''''''''''''''''''''''''''
+            //     document.getElementById('hrServicoExecutado').style.display = 'none';
+            //     document.getElementById('spanServicoExecutado').style.display = 'none';
+            //
+            //     document.getElementById('executado_data').disabled = true;
+            //     document.getElementById('executado_data').readOnly = false;
+            //
+            //     document.getElementById('executado_user_funcionario').disabled = true;
+            //     document.getElementById('executado_user_funcionario').readOnly = false;
+            //
+            //     document.getElementById('executado_user_id').disabled = true;
+            //     document.getElementById('executado_user_id').readOnly = false;
+            //
+            //     if (data.success.executado_data == '' || data.success.executado_data === null) {
+            //         document.getElementById('executado_data').value = data.success.dados_servico_executado.executado_data;
+            //         document.getElementById('executado_user_funcionario').value = data.success.dados_servico_executado.executado_user_funcionario;
+            //         document.getElementById('executado_user_id').value = data.success.dados_servico_executado.executado_user_id;
+            //
+            //         document.getElementById('servico_executado').checked = false;
+            //         document.getElementById('labelServicoExecutado').innerHTML = 'Visita não Finalizada';
+            //
+            //         document.getElementById('hrServicoExecutado').style.display = 'block';
+            //         document.getElementById('spanServicoExecutado').style.display = 'block';
+            //         document.getElementById('spanServicoExecutado').innerHTML = 'Ao verificar as Medidas de Segurança finalize a Visita aqui e confirme.';
+            //     } else {
+            //         document.getElementById('executado_data').value = data.success.executado_data;
+            //         document.getElementById('executado_user_funcionario').value = data.success.executado_user_funcionario;
+            //         document.getElementById('executado_user_id').value = data.success.executado_user_id;
+            //
+            //         document.getElementById('servico_executado').checked = true;
+            //         document.getElementById('labelServicoExecutado').innerHTML = 'Visita Finalizada';
+            //     }
+            //     //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            // }
+
+
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             //Configuração

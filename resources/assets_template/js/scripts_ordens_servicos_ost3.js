@@ -2409,6 +2409,10 @@ async function ost3_gerarPDF(ordem_servico_id=0, traducao='pt') {
 
         ordem_servico_destinos = data.success.ordem_servico_destinos;
 
+        //Ordenar
+        ordem_servico_destinos.sort(function(a, b) {return a.destino_ordem - b.destino_ordem;});
+
+        //Varrer
         ordem_servico_destinos.forEach(function (dado) {
             //Dados para preencher na linha da grade
             destino_ordem = dado.destino_ordem;

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title') Visita Técnica @endsection
+@section('title') Visitas Técnicas @endsection
 
 @section('css')
 @endsection
@@ -21,7 +21,27 @@
                         <div class="col-12">
                             <div class="row">
                                 <!-- Botões -->
-                                <div class="col-12 col-md-6 pb-2">&nbsp;</div>
+                                <div class="col-12 col-md-6 pb-2">
+                                    @if (\App\Facades\Permissoes::permissao(['create']))
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <select class="form-select" name="cliente_id" id="cliente_id">
+                                                    <option value="">Escolha o Cliente...</option>
+                                                    @foreach ($clientes as $cliente)
+                                                        <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Executar Visita Técnica"><i class="bx bx-plus"></i></button>
+                                                <div class="dropdown-menu dropdown-menu-end" id="visita_tecnica_dropdown">
+                                                    <a class="dropdown-item small" href="#" data-visita_tecnica_tipo_id="1">Visita Técnica Exaustão</a>
+                                                    <a class="dropdown-item small" href="#" data-visita_tecnica_tipo_id="2">Visita Técnica Incêndio</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
 
                                 <!-- Filtro no Banco -->
                                 <div class="col-12 col-md-6 float-end">
@@ -31,7 +51,7 @@
 
                                     @php
                                         $selectCampoPesquisar = [
-                                        ['value' => 'clientes.name', 'descricao' => 'Cliente']
+                                        ['value' => 'clientes.name', 'descricao' => 'Nome']
                                         ];
                                     @endphp
 
@@ -42,16 +62,20 @@
                     </div>
 
                     <!-- Tabela (Componente Blade) -->
-                    <x-table-crud-ajax :numCols="6" :colsNames="['Status', 'Cliente', 'Responsável', 'Data Início', 'Data Execução', 'Ações']" />
+                    <x-table-crud-ajax :numCols="3" :colsNames="['Visita Técnica', 'Cliente', 'Ações']" />
                     <input type="hidden" id="crudPrefixPermissaoSubmodulo" name="crudPrefixPermissaoSubmodulo" value="{{$se_prefixPermissaoSubmodulo}}">
                     <input type="hidden" id="crudNameSubmodulo" name="crudNameSubmodulo" value="{{$se_nameSubmodulo}}">
                     <input type="hidden" id="crudNameFormSubmodulo" name="crudNameFormSubmodulo" value="{{$se_nameFormSubmodulo}}">
                     <input type="hidden" id="crudFieldsFormSubmodulo" name="crudFieldsFormSubmodulo" value="{{$crudFieldsFormSubmodulo}}">
-                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="servicoStatusName,clienteName,funcionarioName,data_inicio,executado_data,action">
+                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="visita_tecnica,clienteName,action">
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<div id="loadingAviso" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); color: white; font-size: 20px; text-align: center; padding-top: 20%; z-index: 9999;">
+    Gerando PDF, por favor aguarde...
 </div>
 
 <!-- Modal -->
@@ -59,8 +83,18 @@
 @endsection
 
 @section('script')
+    <!-- Incluir a CDN do jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
     <!-- scripts_visitas_tecnicas.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_visitas_tecnicas.js')}}"></script>
+
+    <!-- scripts_visitas_tecnicas_vtt1.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_visitas_tecnicas_vtt1.js')}}"></script>
+
+    <!-- scripts_visitas_tecnicas_vtt2.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_visitas_tecnicas_vtt2.js')}}"></script>
 @endsection
 
 @section('script-bottom')

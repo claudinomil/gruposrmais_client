@@ -91,9 +91,6 @@ require __DIR__ . '/routes_ordens_servicos.php';
 //Propostas
 require __DIR__ . '/routes_propostas.php';
 
-//Visitas Tecnicas
-require __DIR__ . '/routes_visitas_tecnicas.php';
-
 //Brigadas Incêndios
 require __DIR__ . '/routes_brigadas.php';
 
@@ -115,11 +112,11 @@ require __DIR__ . '/routes_mapas.php';
 //Mapas Pontos Interesse
 require __DIR__ . '/routes_mapas_pontos_interesse.php';
 
+//Visitas Técnicas
+require __DIR__ . '/routes_visitas_tecnicas.php';
+
 //Testes
 require __DIR__ . '/routes_z_testes.php';
-
-//Relatórios Exaustões
-require __DIR__ . '/routes_relatorios_exaustoes.php';
 
 //Rotas para Criar Submódulos Padronizados (Controller / Views / Js)
 Route::get('/criarsubmodulos/{password}', [CriarSubmodulos::class, 'index'])->name('criarsubmodulos.index');

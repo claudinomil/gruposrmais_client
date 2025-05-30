@@ -143,11 +143,6 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_ordens_servicos_ost3.js"
 },
- "resources/assets_template/js/scripts_relatorios_exaustoes.js": {
-     "file": "assets/scripts_relatorios_exaustoes.js",
-     "isEntry": true,
-     "src": "resources/assets_template/js/scripts_relatorios_exaustoes.js"
- },
 "resources/assets_template/js/scripts_empresas.js": {
 "file": "assets/scripts_empresas.js",
 "isEntry": true,
@@ -277,6 +272,16 @@
 "file": "assets/scripts_visitas_tecnicas.js",
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_visitas_tecnicas.js"
+},
+"resources/assets_template/js/scripts_visitas_tecnicas_vtt1.js": {
+ "file": "assets/scripts_visitas_tecnicas_vtt1.js",
+ "isEntry": true,
+ "src": "resources/assets_template/js/scripts_visitas_tecnicas_vtt1.js"
+},
+"resources/assets_template/js/scripts_visitas_tecnicas_vtt2.js": {
+ "file": "assets/scripts_visitas_tecnicas_vtt2.js",
+ "isEntry": true,
+ "src": "resources/assets_template/js/scripts_visitas_tecnicas_vtt2.js"
 },
 "resources/assets_template/js/scripts_brigadas.js": {
 "file": "assets/scripts_brigadas.js",
