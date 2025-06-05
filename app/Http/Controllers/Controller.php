@@ -76,6 +76,7 @@ class Controller extends BaseController
             if (isset($response['content']['seguranca_medidas'])) {$this->seguranca_medidas = $response['content']['seguranca_medidas'];}
             if (isset($response['content']['visita_tecnica_status'])) {$this->visita_tecnica_status = $response['content']['visita_tecnica_status'];}
             if (isset($response['content']['visita_tecnica_tipos'])) {$this->visita_tecnica_tipos = $response['content']['visita_tecnica_tipos'];}
+            if (isset($response['content']['visitas_tecnicas_dados'])) {$this->visitas_tecnicas_dados = $response['content']['visitas_tecnicas_dados'];}
             if (isset($response['content']['sistema_acessos'])) {$this->sistema_acessos = $response['content']['sistema_acessos'];}
             if (isset($response['content']['escala_tipos'])) {$this->escala_tipos = $response['content']['escala_tipos'];}
             if (isset($response['content']['funcionario_acao_1_funcionarios'])) {$this->funcionario_acao_1_funcionarios = $response['content']['funcionario_acao_1_funcionarios'];}

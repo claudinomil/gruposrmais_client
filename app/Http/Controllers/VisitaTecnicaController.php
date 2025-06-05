@@ -19,6 +19,7 @@ class VisitaTecnicaController extends Controller
     public $funcionarios;
     public $visita_tecnica_tipos;
     public $visita_tecnica_status;
+    public $visitas_tecnicas_dados;
 
     public function __construct()
     {
@@ -81,7 +82,8 @@ class VisitaTecnicaController extends Controller
                 'clientes' => $this->clientes,
                 'funcionarios' => $this->funcionarios,
                 'visita_tecnica_tipos' => $this->visita_tecnica_tipos,
-                'visita_tecnica_status' => $this->visita_tecnica_status
+                'visita_tecnica_status' => $this->visita_tecnica_status,
+                'visitas_tecnicas_dados' => $this->visitas_tecnicas_dados
             ]);
         }
     }
@@ -130,7 +132,7 @@ class VisitaTecnicaController extends Controller
 
             //Registro criado com sucesso
             if ($this->code == 2010) {
-                return response()->json(['success' => $this->message, 'cliente_id' => $this->content['id']]);
+                return response()->json(['success' => $this->message, 'visita_tecnica_id' => $this->content['id']]);
             } else if ($this->code == 2020) { //Falha na validação dos dados
                 return response()->json(['error_validation' => $this->validation]);
             } else if ($this->code == 2040) {

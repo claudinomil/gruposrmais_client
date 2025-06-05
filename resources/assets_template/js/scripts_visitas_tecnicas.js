@@ -11,10 +11,46 @@ function gerar_visita_tecnica(visita_tecnica_id=0, visita_tecnica_tipo_id=0, tra
     if (visita_tecnica_tipo_id == 2) {vtt2_visita_tecnica_gerar_pdf(visita_tecnica_id, traducao);}
 }
 
+async function executarVisitaTecnica(visita_tecnica_tipo_id, cliente_id) {
+    try {
+        const response = await fetch('visitas_tecnicas/' + visita_tecnica_tipo_id + '/' + cliente_id, {
+            method: 'POST',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            return data.visita_tecnica_id;
+        } else if (data.error_validation) {
+            let message = '<div class="pt-3">';
+            const validations = data.error_validation;
+
+            for (const chave in validations) {
+                message += '<div class="col-12 text-start font-size-12"><b>></b> ' + validations[chave] + '</div>';
+            }
+            message += '</div>';
+
+            alertSwal('warning', "Validação", message, 'true', 20000);
+        } else if (data.error_permissao) {
+            alertSwal('warning', "Permissão Negada", '', 'true', 2000);
+        } else if (data.error) {
+            alertSwal('warning', 'Visitas Técnicas', data.error, 'true', 20000);
+        } else {
+            alert('Erro interno');
+        }
+    } catch (error) {
+        alert('Erro Visita Técnica: ' + error);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function(event) {
     //Executar Visita Técnica - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     //Executar Visita Técnica - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    document.getElementById('visita_tecnica_dropdown').addEventListener('click', function(e) {
+    document.getElementById('visita_tecnica_dropdown').addEventListener('click', async function(e) {
         e.preventDefault();
 
         const target = e.target.closest('a');
@@ -63,39 +99,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-            //Acessar rota para inclusão''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            fetch('visitas_tecnicas/'+visita_tecnica_tipo_id+'/'+cliente_id, {
-                method: 'POST',
-                headers: {
-                    'REQUEST-ORIGIN': 'fetch',
-                    'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                //Lendo dados
-                if (data.success) {
-                    crudEdit(data.cliente_id)
-                } else if (data.error_validation) {
-                    //Montar mensage de erro de Validação
-                    message = '<div class="pt-3">';
-                    var validations = data.error_validation;
-                    for (const chave in validations) {
-                        message += '<div class="col-12 text-start font-size-12"><b>></b> ' + validations[chave] + '</div>';
-                    }
-                    message += '</div>';
+            //Incluir Visita Técnica''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            const visita_tecnica_id = await executarVisitaTecnica(visita_tecnica_tipo_id, cliente_id);
 
-                    alertSwal('warning', "Validação", message, 'true', 20000);
-                } else if (data.error_permissao) {
-                    alertSwal('warning', "Permissão Negada", '', 'true', 2000);
-                } else if (data.error) {
-                    alertSwal('warning', 'Visitas Técnicas', data.error, 'true', 20000);
-                } else {
-                    alert('Erro interno');
-                }
-            }).catch(error => {
-                alert('Erro Visita Técnica: '+error);
-            });
+            await crudTable('visitas_tecnicas');
+            await crudEdit(visita_tecnica_id);
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         }
     });
@@ -115,4 +123,5 @@ document.addEventListener('DOMContentLoaded', function(event) {
             const div_vtt2 = document.getElementById('divVTT2').style.display = '';
         }
     });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 });

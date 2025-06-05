@@ -270,6 +270,113 @@
                                     </div>
                                 </div>
 
+                                <div class="row pt-4">
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-house-user"></i> Documentos Exigidos</h5>
+
+                                    <div class="col-12 col-md-4 pb-3 pessoa_juridica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_cbmerj_projeto_scip" name="doc_cbmerj_projeto_scip">
+                                            <label class="form-check-label small" for="doc_cbmerj_projeto_scip">Projeto SCIP</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_juridica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_cbmerj_laudo_exigencias" name="doc_cbmerj_laudo_exigencias">
+                                            <label class="form-check-label small" for="doc_cbmerj_laudo_exigencias">Laudo de Exigências</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_juridica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_cbmerj_certificado_aprovacao" name="doc_cbmerj_certificado_aprovacao">
+                                            <label class="form-check-label small" for="doc_cbmerj_certificado_aprovacao">Certificado de Aprovação</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_juridica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_cbmerj_certificado_aprovacao_simplificado" name="doc_cbmerj_certificado_aprovacao_simplificado">
+                                            <label class="form-check-label small" for="doc_cbmerj_certificado_aprovacao_simplificado">Certificado de Aprovação Simplificado</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_juridica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_cbmerj_certificado_aprovacao_assistido" name="doc_cbmerj_certificado_aprovacao_assistido">
+                                            <label class="form-check-label small" for="doc_cbmerj_certificado_aprovacao_assistido">Certificado de Aprovação Assistido</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_juridica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_pj_cnpj" name="doc_pj_cnpj">
+                                            <label class="form-check-label small" for="doc_pj_cnpj">CNPJ</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_juridica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_pj_representante_legal" name="doc_pj_representante_legal">
+                                            <label class="form-check-label small" for="doc_pj_representante_legal">Representante Legal</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_juridica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_pj_contrato_social" name="doc_pj_contrato_social">
+                                            <label class="form-check-label small" for="doc_pj_contrato_social">Contrato Social</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_juridica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_pj_rgi" name="doc_pj_rgi">
+                                            <label class="form-check-label small" for="doc_pj_rgi">RGI</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_juridica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_pj_contrato_locacao" name="doc_pj_contrato_locacao">
+                                            <label class="form-check-label small" for="doc_pj_contrato_locacao">Contrato Locação</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_fisica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_pf_cpf" name="doc_pf_cpf">
+                                            <label class="form-check-label small" for="doc_pf_cpf">CPF</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_fisica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_pf_representante_legal" name="doc_pf_representante_legal">
+                                            <label class="form-check-label small" for="doc_pf_representante_legal">Representante Legal</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_fisica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_pf_contrato_social" name="doc_pf_contrato_social">
+                                            <label class="form-check-label small" for="doc_pf_contrato_social">Contrato Social</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_fisica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_pf_rgi" name="doc_pf_rgi">
+                                            <label class="form-check-label small" for="doc_pf_rgi">RGI</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_fisica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_pf_contrato_locacao" name="doc_pf_contrato_locacao">
+                                            <label class="form-check-label small" for="doc_pf_contrato_locacao">Contrato Locação</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_juridica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_vt_memoria_descritiva" name="doc_vt_memoria_descritiva">
+                                            <label class="form-check-label small" for="doc_vt_memoria_descritiva">Memória Descritiva</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 pb-3 pessoa_juridica">
+                                        <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
+                                            <input class="form-check-input" type="checkbox" id="doc_vt_certificado_funcionamento" name="doc_vt_certificado_funcionamento">
+                                            <label class="form-check-label small" for="doc_vt_certificado_funcionamento">Certificado Funcionamento</label>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="row pt-4" id="divArquivosPdf" style="display: none;">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-file-pdf"></i> Arquivos PDF</h5>
                                     <div class="form-group col-12 col-md-12 pb-3">
@@ -341,40 +448,6 @@
                                     <div class="form-group col-12 col-md-5 pb-3">
                                         <label class="form-label">Descrição</label>
                                         <input type="text" class="form-control" id="descricao" name="descricao" readonly>
-                                    </div>
-
-                                    <div class="row pt-3">
-                                        <h6 class="pb-3 text-success"><i class="fa fa-list"></i> Documentos</h6>
-                                        <div class="col-12 col-md-4 pb-3" id="divProjetoScip">
-                                            <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
-                                                <input class="form-check-input" type="checkbox" id="projeto_scip" name="projeto_scip">
-                                                <label class="form-check-label" for="projeto_scip">Projeto SCIP</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 pb-3" id="divLaudoExigencias">
-                                            <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
-                                                <input class="form-check-input" type="checkbox" id="laudo_exigencias" name="laudo_exigencias">
-                                                <label class="form-check-label" for="laudo_exigencias">Laudo de Exigências</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 pb-3" id="divCertificadoAprovacao">
-                                            <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
-                                                <input class="form-check-input" type="checkbox" id="certificado_aprovacao" name="certificado_aprovacao">
-                                                <label class="form-check-label" for="certificado_aprovacao">Certificado de Aprovação</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 pb-3" id="divCertificadoAprovacaoSimplificado">
-                                            <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
-                                                <input class="form-check-input" type="checkbox" id="certificado_aprovacao_simplificado" name="certificado_aprovacao_simplificado">
-                                                <label class="form-check-label" for="certificado_aprovacao_simplificado">Certificado de Aprovação Simplificado</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 pb-3" id="divCertificadoAprovacaoAssistido">
-                                            <div class="form-check form-switch mb-3 ps-5 alert alert-primary">
-                                                <input class="form-check-input" type="checkbox" id="certificado_aprovacao_assistido" name="certificado_aprovacao_assistido">
-                                                <label class="form-check-label" for="certificado_aprovacao_assistido">Certificado de Aprovação Assistido</label>
-                                            </div>
-                                        </div>
                                     </div>
 
                                     @for($pavimento=1; $pavimento<=50; $pavimento++)

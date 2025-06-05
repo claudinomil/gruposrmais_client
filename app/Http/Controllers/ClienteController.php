@@ -107,11 +107,23 @@ class ClienteController extends Controller
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Acerto Request
-            if (isset($request['projeto_scip'])) {$request['projeto_scip'] = 1;} else {$request['projeto_scip'] = 0;}
-            if (isset($request['laudo_exigencias'])) {$request['laudo_exigencias'] = 1;} else {$request['laudo_exigencias'] = 0;}
-            if (isset($request['certificado_aprovacao'])) {$request['certificado_aprovacao'] = 1;} else {$request['certificado_aprovacao'] = 0;}
-            if (isset($request['certificado_aprovacao_simplificado'])) {$request['certificado_aprovacao_simplificado'] = 1;} else {$request['certificado_aprovacao_simplificado'] = 0;}
-            if (isset($request['certificado_aprovacao_assistido'])) {$request['certificado_aprovacao_assistido'] = 1;} else {$request['certificado_aprovacao_assistido'] = 0;}
+            if (isset($request['doc_cbmerj_projeto_scip'])) {$request['doc_cbmerj_projeto_scip'] = 1;} else {$request['doc_cbmerj_projeto_scip'] = 0;}
+            if (isset($request['doc_cbmerj_laudo_exigencias'])) {$request['doc_cbmerj_laudo_exigencias'] = 1;} else {$request['doc_cbmerj_laudo_exigencias'] = 0;}
+            if (isset($request['doc_cbmerj_certificado_aprovacao'])) {$request['doc_cbmerj_certificado_aprovacao'] = 1;} else {$request['doc_cbmerj_certificado_aprovacao'] = 0;}
+            if (isset($request['doc_cbmerj_certificado_aprovacao_simplificado'])) {$request['doc_cbmerj_certificado_aprovacao_simplificado'] = 1;} else {$request['doc_cbmerj_certificado_aprovacao_simplificado'] = 0;}
+            if (isset($request['doc_cbmerj_certificado_aprovacao_assistido'])) {$request['doc_cbmerj_certificado_aprovacao_assistido'] = 1;} else {$request['doc_cbmerj_certificado_aprovacao_assistido'] = 0;}
+            if (isset($request['doc_pj_cnpj'])) {$request['doc_pj_cnpj'] = 1;} else {$request['doc_pj_cnpj'] = 0;}
+            if (isset($request['doc_pj_representante_legal'])) {$request['doc_pj_representante_legal'] = 1;} else {$request['doc_pj_representante_legal'] = 0;}
+            if (isset($request['doc_pj_contrato_social'])) {$request['doc_pj_contrato_social'] = 1;} else {$request['doc_pj_contrato_social'] = 0;}
+            if (isset($request['doc_pj_rgi'])) {$request['doc_pj_rgi'] = 1;} else {$request['doc_pj_rgi'] = 0;}
+            if (isset($request['doc_pj_contrato_locacao'])) {$request['doc_pj_contrato_locacao'] = 1;} else {$request['doc_pj_contrato_locacao'] = 0;}
+            if (isset($request['doc_pf_cpf'])) {$request['doc_pf_cpf'] = 1;} else {$request['doc_pf_cpf'] = 0;}
+            if (isset($request['doc_pf_representante_legal'])) {$request['doc_pf_representante_legal'] = 1;} else {$request['doc_pf_representante_legal'] = 0;}
+            if (isset($request['doc_pf_contrato_social'])) {$request['doc_pf_contrato_social'] = 1;} else {$request['doc_pf_contrato_social'] = 0;}
+            if (isset($request['doc_pf_rgi'])) {$request['doc_pf_rgi'] = 1;} else {$request['doc_pf_rgi'] = 0;}
+            if (isset($request['doc_pf_contrato_locacao'])) {$request['doc_pf_contrato_locacao'] = 1;} else {$request['doc_pf_contrato_locacao'] = 0;}
+            if (isset($request['doc_vt_memoria_descritiva'])) {$request['doc_vt_memoria_descritiva'] = 1;} else {$request['doc_vt_memoria_descritiva'] = 0;}
+            if (isset($request['doc_vt_certificado_funcionamento'])) {$request['doc_vt_certificado_funcionamento'] = 1;} else {$request['doc_vt_certificado_funcionamento'] = 0;}
 
             //Buscando dados Api_Data() - Incluir Registro
             $this->responseApi(1, 4, 'clientes', '', '', $request->all());
@@ -184,11 +196,23 @@ class ClienteController extends Controller
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Acerto Request
-            if (isset($request['projeto_scip'])) {$request['projeto_scip'] = 1;} else {$request['projeto_scip'] = 0;}
-            if (isset($request['laudo_exigencias'])) {$request['laudo_exigencias'] = 1;} else {$request['laudo_exigencias'] = 0;}
-            if (isset($request['certificado_aprovacao'])) {$request['certificado_aprovacao'] = 1;} else {$request['certificado_aprovacao'] = 0;}
-            if (isset($request['certificado_aprovacao_simplificado'])) {$request['certificado_aprovacao_simplificado'] = 1;} else {$request['certificado_aprovacao_simplificado'] = 0;}
-            if (isset($request['certificado_aprovacao_assistido'])) {$request['certificado_aprovacao_assistido'] = 1;} else {$request['certificado_aprovacao_assistido'] = 0;}
+            if (isset($request['doc_cbmerj_projeto_scip'])) {$request['doc_cbmerj_projeto_scip'] = 1;} else {$request['doc_cbmerj_projeto_scip'] = 0;}
+            if (isset($request['doc_cbmerj_laudo_exigencias'])) {$request['doc_cbmerj_laudo_exigencias'] = 1;} else {$request['doc_cbmerj_laudo_exigencias'] = 0;}
+            if (isset($request['doc_cbmerj_certificado_aprovacao'])) {$request['doc_cbmerj_certificado_aprovacao'] = 1;} else {$request['doc_cbmerj_certificado_aprovacao'] = 0;}
+            if (isset($request['doc_cbmerj_certificado_aprovacao_simplificado'])) {$request['doc_cbmerj_certificado_aprovacao_simplificado'] = 1;} else {$request['doc_cbmerj_certificado_aprovacao_simplificado'] = 0;}
+            if (isset($request['doc_cbmerj_certificado_aprovacao_assistido'])) {$request['doc_cbmerj_certificado_aprovacao_assistido'] = 1;} else {$request['doc_cbmerj_certificado_aprovacao_assistido'] = 0;}
+            if (isset($request['doc_pj_cnpj'])) {$request['doc_pj_cnpj'] = 1;} else {$request['doc_pj_cnpj'] = 0;}
+            if (isset($request['doc_pj_representante_legal'])) {$request['doc_pj_representante_legal'] = 1;} else {$request['doc_pj_representante_legal'] = 0;}
+            if (isset($request['doc_pj_contrato_social'])) {$request['doc_pj_contrato_social'] = 1;} else {$request['doc_pj_contrato_social'] = 0;}
+            if (isset($request['doc_pj_rgi'])) {$request['doc_pj_rgi'] = 1;} else {$request['doc_pj_rgi'] = 0;}
+            if (isset($request['doc_pj_contrato_locacao'])) {$request['doc_pj_contrato_locacao'] = 1;} else {$request['doc_pj_contrato_locacao'] = 0;}
+            if (isset($request['doc_pf_cpf'])) {$request['doc_pf_cpf'] = 1;} else {$request['doc_pf_cpf'] = 0;}
+            if (isset($request['doc_pf_representante_legal'])) {$request['doc_pf_representante_legal'] = 1;} else {$request['doc_pf_representante_legal'] = 0;}
+            if (isset($request['doc_pf_contrato_social'])) {$request['doc_pf_contrato_social'] = 1;} else {$request['doc_pf_contrato_social'] = 0;}
+            if (isset($request['doc_pf_rgi'])) {$request['doc_pf_rgi'] = 1;} else {$request['doc_pf_rgi'] = 0;}
+            if (isset($request['doc_pf_contrato_locacao'])) {$request['doc_pf_contrato_locacao'] = 1;} else {$request['doc_pf_contrato_locacao'] = 0;}
+            if (isset($request['doc_vt_memoria_descritiva'])) {$request['doc_vt_memoria_descritiva'] = 1;} else {$request['doc_vt_memoria_descritiva'] = 0;}
+            if (isset($request['doc_vt_certificado_funcionamento'])) {$request['doc_vt_certificado_funcionamento'] = 1;} else {$request['doc_vt_certificado_funcionamento'] = 0;}
 
             //Buscando dados Api_Data() - Alterar Registro
             $this->responseApi(1, 5, 'clientes', $id, '', $request->all());
@@ -336,6 +360,7 @@ class ClienteController extends Controller
                 $data['cliente_id'] = $request['upload_documentos_pdfs_cliente_id'];
                 $data['acao'] = $request['upload_documentos_pdfs_cli_acao'];
                 $data['name'] = $name;
+                $data['documento'] = $request['cli_documentos_pdfs_documento'];
                 $data['descricao'] = $request['cli_documentos_pdfs_descricao'];
                 $data['caminho'] = $pdf;
                 $data['data_documento'] = $request['cli_documentos_pdfs_data_documento'];

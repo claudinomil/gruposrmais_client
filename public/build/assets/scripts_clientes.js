@@ -259,6 +259,12 @@ function validar_frm_upload_documentos_pdfs() {
         mensagem += 'Ação do Formulário requerido.'+'<br>';
     }
 
+    //Campo: cli_documentos_pdfs_documento (requerido)
+    if (validacao({op:1, value:document.getElementById('cli_documentos_pdfs_documento').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Documento requerido.'+'<br>';
+    }
+
     //Campo: cli_documentos_pdfs_descricao (requerido)
     if (validacao({op:1, value:document.getElementById('cli_documentos_pdfs_descricao').value}) === false) {
         validacao_ok = false;
@@ -293,6 +299,278 @@ function validar_frm_upload_documentos_pdfs() {
     return validacao_ok;
 }
 
+//Busca dados e monta o modal para o submódulo clientes
+function clienteModalInfo(id='') {
+    if (id == '') {id = document.getElementById('registro_id').value;}
+
+    //Abrir Modal
+    new bootstrap.Modal(document.getElementById('cliente_modal_info')).show();
+
+    //Limpando dados
+    let elementos = document.querySelectorAll('.clearClass');
+    elementos.forEach(elemento => {elemento.src = ''; elemento.innerHTML = '';});
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'clientes/modalInfo/modal_info/'+id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        //Lendo json
+        let json = data;
+
+        //Lendo dados cliente
+        let cliente = json.cliente;
+
+        //Acertos
+        if (cliente.status == 1) {var status = 'ATIVO';}
+        if (cliente.status == 2) {var status = 'INATIVO';}
+
+        if (cliente.tipo == 1) {
+            var tipo = 'PESSOA JURÍDICA';
+            var cpf_cnpj = cliente.cnpj;
+
+            //Campo data_nascimento
+            document.getElementById('div_cli_dados_data').innerHTML = 'Data Abertura';
+        }
+        if (cliente.tipo == 2) {
+            var tipo = 'PESSOA FÍSICA';
+            var cpf_cnpj = cliente.cpf;
+
+            //Campo data_nascimento
+            document.getElementById('div_cli_dados_data').innerHTML = 'Data Nascimento';
+        }
+
+        //Campo cli_documentos_pdfs_documento'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        const selectDocumento = document.getElementById('cli_documentos_pdfs_documento');
+        const options = selectDocumento.querySelectorAll('option');
+
+        options.forEach(option => {
+            //Sempre mostrar a primeira opção (placeholder)
+            if (option.value === '') {
+                option.style.display = 'block';
+                return;
+            }
+
+            if (cliente.tipo == 1 && option.classList.contains('pessoa_juridica')) {
+                option.style.display = 'block';
+            } else if (cliente.tipo == 2 && option.classList.contains('pessoa_fisica')) {
+                option.style.display = 'block';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+
+        //Resetar o valor selecionado sempre que mudar o tipo
+        selectDocumento.value = '';
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Passando dados cliente'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Header
+        const header_mi_cli_nome = document.querySelector('#cliente_modal_info #header #mi_cli_nome');
+        const header_mi_cli_email = document.querySelector('#cliente_modal_info #header #mi_cli_email');
+
+        header_mi_cli_nome.innerHTML = cliente.name;
+        header_mi_cli_email.innerHTML = cliente.email;
+
+        //Tab Dados
+        const tab_cli_dados_mi_cli_status = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_status');
+        const tab_cli_dados_mi_cli_tipo = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_tipo');
+        const tab_cli_dados_mi_cli_cpf_cnpj = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_cpf_cnpj');
+        const tab_cli_dados_mi_cli_nome = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_nome');
+        const tab_cli_dados_mi_cli_telefones = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_telefones');
+        const tab_cli_dados_mi_cli_celulares = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_celulares');
+        const tab_cli_dados_mi_cli_data_nascimento = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_data_nascimento');
+
+        tab_cli_dados_mi_cli_status.innerHTML = status;
+        tab_cli_dados_mi_cli_tipo.innerHTML = tipo;
+        tab_cli_dados_mi_cli_cpf_cnpj.innerHTML = cpf_cnpj;
+        tab_cli_dados_mi_cli_nome.innerHTML = cliente.name;
+        tab_cli_dados_mi_cli_telefones.innerHTML = formatarTelCel(1, cliente.telefone_1)+'  '+formatarTelCel(1, cliente.telefone_2);
+        tab_cli_dados_mi_cli_celulares.innerHTML = formatarTelCel(2, cliente.celular_1)+'  '+formatarTelCel(2, cliente.celular_2);
+        tab_cli_dados_mi_cli_data_nascimento.innerHTML = formatarData(2, cliente.data_nascimento);
+
+        //Upload Documento PDF
+        const tab_documento_pdf_upload_documentos_pdfs_cliente_id = document.querySelector('#cliente_modal_info #tab_cli_documentos_upload #upload_documentos_pdfs_cliente_id');
+
+        tab_documento_pdf_upload_documentos_pdfs_cliente_id.value = cliente.id;
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Montando Grade de Documentos PDF
+        clienteModalInfoGradeDocumentosPdf({cliente_id:cliente.id, id_elemento_visualisacao:'cli_documentos_grade', btn_visualizar:true, btn_deletar:true});
+    }).catch(error => {
+        alert('Erro clienteModalInfo: ', error);
+    });
+}
+
+//Busca dados e monta grade de documentos pdfs do submódulo clientes
+function clienteModalInfoGradeDocumentosPdf({cliente_id='', id_elemento_visualisacao='', btn_visualizar=true, btn_deletar=true}) {
+    if (id_elemento_visualisacao == '') {return false;}
+    if (cliente_id == '') {cliente_id = document.getElementById('registro_id').value;}
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'clientes/modalInfo/documentos_pdf/'+cliente_id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        //Lendo json
+        let documentos = data;
+
+        //Grade
+        let grade = '';
+
+        //Montar Grade
+        if (documentos.length > 0) {
+            grade += '<table class="table">';
+            grade += '  <thead>';
+            grade += '      <tr>';
+            grade += '          <th scope="col">#</th>';
+            grade += '          <th scope="col">Documento</th>';
+            grade += '          <th scope="col">Descrição</th>';
+            grade += '          <th scope="col">Data</th>';
+            grade += '          <th scope="col">Aviso</th>';
+
+            if (btn_visualizar === true || btn_deletar === true) {
+                grade += '          <th scope="col">Ações</th>';
+            }
+
+            grade += '      </tr>';
+            grade += '  </thead>';
+            grade += '  <tbody>';
+
+            //Varrer
+            let ln = 0;
+            documentos.forEach(dado => {
+                ln++;
+
+                //Documento
+                let documento_texto = '';
+
+                if (dado.documento == 1) {documento_texto = 'Projeto SCIP';}
+                if (dado.documento == 2) {documento_texto = 'Laudo Exigências';}
+                if (dado.documento == 3) {documento_texto = 'Certificado Aprovação';}
+                if (dado.documento == 4) {documento_texto = 'Certificado Aprovação Simplificado';}
+                if (dado.documento == 5) {documento_texto = 'Certificado Aprovação Assistido';}
+                if (dado.documento == 6) {documento_texto = 'CNPJ';}
+                if (dado.documento == 7) {documento_texto = 'Representante Legal';}
+                if (dado.documento == 8) {documento_texto = 'Contrato Social';}
+                if (dado.documento == 9) {documento_texto = 'RGI';}
+                if (dado.documento == 10) {documento_texto = 'Contrato Locação';}
+                if (dado.documento == 11) {documento_texto = 'CPF';}
+                if (dado.documento == 12) {documento_texto = 'Representante Legal';}
+                if (dado.documento == 13) {documento_texto = 'Contrato Social';}
+                if (dado.documento == 14) {documento_texto = 'RGI';}
+                if (dado.documento == 15) {documento_texto = 'Contrato Locação';}
+                if (dado.documento == 16) {documento_texto = 'Memória Descritiva';}
+                if (dado.documento == 17) {documento_texto = 'Certificado Funcionamento';}
+
+                //Aviso
+                let aviso_texto = '';
+
+                if (dado.aviso == 0) {aviso_texto = 'Nenhum Aviso';}
+                if (dado.aviso == 1) {aviso_texto = 'Avisar a cada 1 mês';}
+                if (dado.aviso == 2) {aviso_texto = 'Avisar a cada 3 meses';}
+                if (dado.aviso == 3) {aviso_texto = 'Avisar a cada 6 meses';}
+                if (dado.aviso == 4) {aviso_texto = 'Avisar a cada 1 ano';}
+                if (dado.aviso == 5) {aviso_texto = 'Avisar a cada 3 anos';}
+                if (dado.aviso == 6) {aviso_texto = 'Avisar a cada 6 anos';}
+
+                //Ações
+                let acoes = '';
+
+                acoes += '<div class="row">';
+
+                if (btn_visualizar === true || btn_deletar === true) {
+                    if (btn_visualizar === true) {
+                        acoes += '  <div class="col-6">';
+                        acoes += '      <button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Documento" onclick="window.open(\'' + dado.caminho + '\', \'_blank\');"><i class="fa fa-file-pdf font-size-18"></i></button>';
+                        acoes += '  </div>';
+                    }
+
+                    if (btn_deletar === true) {
+                        acoes += '  <div class="col-6">';
+                        acoes += '      <button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Documento" onclick="clienteModalInfoDeletarDocumentoPdf(' + dado.id + ');"><i class="fa fa-trash-alt font-size-18"></i></button>';
+                        acoes += '  </div>';
+                    }
+                }
+
+                acoes += '</div>';
+
+                //TR
+                grade += '<tr>';
+                grade += '  <th scope="row">'+ln+'</th>';
+                grade += '  <td>'+documento_texto+'</td>';
+                grade += '  <td>'+dado.descricao+'</td>';
+                grade += '  <td>'+formatarData(2, dado.data_documento)+'</td>';
+                grade += '  <td>'+aviso_texto+'</td>';
+
+                if (btn_visualizar === true || btn_deletar === true) {
+                    grade += '  <td>'+acoes+'</td>';
+                }
+
+                grade += '</tr>';
+            });
+
+            grade += '  </tbody>';
+            grade += '</table>';
+        } else {
+            grade = 'Nenhum documento encontrado.';
+        }
+
+        //Retornar Grade
+        document.getElementById(id_elemento_visualisacao).innerHTML = grade;
+    }).catch(error => {
+        alert('Erro clienteModalInfoGradeDocumentosPdf: '+error);
+    });
+}
+
+//Função para deletar documento da grade
+function clienteModalInfoDeletarDocumentoPdf(cliente_documento_id) {
+    //Confirmação de Delete
+    alertSwalConfirmacao(function (confirmed) {
+        if (confirmed) {
+            var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+            //Acessar rota
+            fetch(url_atual+'clientes/modalInfo/deletar_documento_pdf/'+cliente_documento_id, {
+                method: 'DELETE',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                //Lendo dados
+                if (data.success) {
+                    alertSwal('success', 'Clientes', data.success, 'true', 2000);
+
+                    //Dados
+                    let cliente_id = document.getElementById('upload_documentos_pdfs_cliente_id').value;
+
+                    //Montar Grade
+                    clienteModalInfoGradeDocumentosPdf({cliente_id:cliente_id, id_elemento_visualisacao:'cli_documentos_grade'});
+                } else if (data.error) {
+                    alertSwal('error', 'Clientes', data.error, 'true', 2000);
+                } else if (data.error_permissao) {
+                    alertSwal('warning', "Permissão Negada", '', 'true', 2000);
+                } else {
+                    alert('Erro interno');
+                }
+            }).catch(error => {
+                alert('Erro clienteModalInfoDeletarDocumentoPdf:'+error);
+            });
+        }
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function(event) {
     //Acertar formulário para entrada de dados de pessoa Jurídica e Física
     if ($('#tipo').val() == 1) {
@@ -315,11 +593,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var formulario = document.getElementById('frm_upload_documentos_pdfs_cli');
         var formData = new FormData(formulario);
         var url_atual = window.location.protocol+'//'+window.location.host+'/';
+        var upload_documentos_pdfs_cliente_id = document.getElementById('upload_documentos_pdfs_cliente_id').value;
 
         //Tratar Botões
         document.getElementById('frm_upload_documentos_pdfs_cli_executar').style.display = 'block';
-        document.getElementById('frm_upload_documentos_pdfs_cli_incluir').style.display = 'none';
-        document.getElementById('frm_upload_documentos_pdfs_cli_listar').style.display = 'block';
 
         //Criticando campos
         if (validar_frm_upload_documentos_pdfs() === false) {return false;}
@@ -337,6 +614,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }).then(data => {
             //Lendo dados
             if (data.success) {
+                //Montando Grade de Documentos PDF
+                clienteModalInfoGradeDocumentosPdf({cliente_id:upload_documentos_pdfs_cliente_id, id_elemento_visualisacao:'cli_documentos_grade', btn_visualizar:true, btn_deletar:true});
+
+                formulario.reset();
+
                 alertSwal('success', 'Clientes', data.success, 'true', 20000);
             } else if (data.error) {
                 alertSwal('warning', 'Clientes', data.error, 'true', 20000);
@@ -346,40 +628,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }).catch(error => {
             alert('Erro Clientes Upload Documento PDF: '+error);
         });
-    });
-    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    //Botão: frm_upload_documentos_pdfs_cli_listar''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    document.getElementById('frm_upload_documentos_pdfs_cli_listar').addEventListener('click', function() {
-        //Tratar Botões
-        document.getElementById('frm_upload_documentos_pdfs_cli_executar').style.display = 'none';
-        document.getElementById('frm_upload_documentos_pdfs_cli_incluir').style.display = 'block';
-        document.getElementById('frm_upload_documentos_pdfs_cli_listar').style.display = 'none';
-
-        //Tratar Divs
-        document.getElementById('div_frm_upload_documentos_pdfs_cli_executar').style.display = 'none';
-        document.getElementById('div_frm_upload_documentos_pdfs_cli_listar').style.display = 'block';
-        document.getElementById('div_frm_upload_documentos_pdfs_cli_visualisar').style.display = 'none';
-
-        //Dados
-        let cliente_id = document.getElementById('upload_documentos_pdfs_cliente_id').value;
-
-        //Montar Grade
-        clienteModalInfoGradeDocumentosPdf({cliente_id:cliente_id, id_elemento_visualisacao:'div_frm_upload_documentos_pdfs_cli_listar'});
-    });
-    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    //Botão: frm_upload_documentos_pdfs_cli_incluir'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    document.getElementById('frm_upload_documentos_pdfs_cli_incluir').addEventListener('click', function() {
-        //Tratar Botões
-        document.getElementById('frm_upload_documentos_pdfs_cli_executar').style.display = 'block';
-        document.getElementById('frm_upload_documentos_pdfs_cli_incluir').style.display = 'none';
-        document.getElementById('frm_upload_documentos_pdfs_cli_listar').style.display = 'block';
-
-        //Tratar Divs
-        document.getElementById('div_frm_upload_documentos_pdfs_cli_executar').style.display = 'block';
-        document.getElementById('div_frm_upload_documentos_pdfs_cli_listar').style.display = 'none';
-        document.getElementById('div_frm_upload_documentos_pdfs_cli_visualisar').style.display = 'none';
     });
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 

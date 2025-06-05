@@ -52,7 +52,7 @@
                             <input type="hidden" id="frm_operacao" name="frm_operacao">
                             <input type="hidden" id="registro_id" name="registro_id">
 
-                            <div class="row pt-4">
+                            <div class="row pt-4" id="divVisitaTecnicaTipo">
                                 <h5 class="pb-4 text-primary"><i class="fas fa-list"></i> Tipo da Visita Técnica</h5>
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">Tipo</label>
@@ -68,7 +68,7 @@
                             <!-- VISITA TECNICA TIPO 1 - INÍCIO-------------------------------------------------------->
                             <!-- VISITA TECNICA TIPO 1 - INÍCIO-------------------------------------------------------->
                             <div class="row mt-4" id="divVTT1">
-                                <div class="row pt-4" id="vtt1_divVisitaTecnicaInformacoesGerais">
+                                <div class="row pt-4" id="vtt1_divInformacoesGerais">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-list"></i> Informações Gerais</h5>
                                     <div class="form-group col-12 col-md-2 pb-3">
                                         <label class="form-label">Status</label>
@@ -120,8 +120,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Cliente -->
-                                <!-- Cliente -->
                                 <div class="row pt-4" id="vtt1_divClientes">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-table"></i> Cliente</h5>
                                     <div class="form-group col-12 col-md-4 pb-3">
@@ -162,6 +160,127 @@
                                         <label class="form-label">Cidade</label>
                                         <input type="text" class="form-control text-uppercase" id="vtt1_cliente_cidade" name="vtt1_cliente_cidade" readonly>
                                     </div>
+                                </div>
+
+                                <div class="row pt-3" id="vtt1_divExecutar">
+                                    <div class="text-success font-size-18">Visita Técnica de Exaustão <span class="text-dark font-size-14" id="vtt1_divExecutarCliente"></span></div>
+                                </div>
+
+                                <div class="row pt-4" id="vtt1_divPerguntas">
+
+
+
+{{--                                    <h5 class="text-primary"><i class="fas fa-question"></i> Responda as Perguntas</h5>--}}
+
+
+{{--                                    @php--}}
+{{--                                        $contadorTitulo = 0;--}}
+{{--                                        $contadorSubtitulo = 0;--}}
+{{--                                        $contadorPergunta = 0;--}}
+{{--                                        $tituloAtual = null;--}}
+{{--                                        $subtituloAtual = null;--}}
+{{--                                    @endphp--}}
+
+{{--                                    @foreach($visitas_tecnicas_dados as $dado)--}}
+{{--                                        <div class="row pb-3">--}}
+
+{{--                                        @if($dado['titulo'] !== $tituloAtual)--}}
+{{--                                            @php--}}
+{{--                                                $contadorTitulo++;--}}
+{{--                                                $contadorSubtitulo = 0;--}}
+{{--                                                $contadorPergunta = 0;--}}
+{{--                                                $tituloAtual = $dado['titulo'];--}}
+{{--                                                $subtituloAtual = null;--}}
+{{--                                            @endphp--}}
+
+{{--                                                <div class="col-12 py-4"><strong>{{ $contadorTitulo }}. {{ $dado['titulo'] }}</strong></div>--}}
+{{--                                        @endif--}}
+
+{{--                                        @if(!empty($dado['subtitulo']))--}}
+{{--                                            @if($dado['subtitulo'] !== $subtituloAtual)--}}
+{{--                                                @php--}}
+{{--                                                    $contadorSubtitulo++;--}}
+{{--                                                    $contadorPergunta = 1;--}}
+{{--                                                    $subtituloAtual = $dado['subtitulo'];--}}
+{{--                                                @endphp--}}
+
+{{--                                                <div class="col-12 ps-3 py-4"><strong>{{ chr(64 + $contadorSubtitulo) }}. {{ $dado['subtitulo'] }}</strong></div>--}}
+{{--                                            @else--}}
+{{--                                                @php--}}
+{{--                                                    $contadorPergunta++;--}}
+{{--                                                @endphp--}}
+{{--                                            @endif--}}
+
+{{--                                            <div class="row col-12 bg-light ms-3 py-2">--}}
+{{--                                                <div class="col-12 col-md-7">{{ $contadorTitulo }}.{{ chr(64 + $contadorSubtitulo) }}.{{ $contadorPergunta }}. {{ $dado['pergunta'] }}</div>--}}
+{{--                                        @else--}}
+{{--                                            @php--}}
+{{--                                                $contadorPergunta++;--}}
+{{--                                            @endphp--}}
+
+{{--                                            <div class="row col-12 bg-light ms-3 py-2">--}}
+{{--                                                <div class="col-12 col-md-7">{{ $contadorTitulo }}.{{ $contadorPergunta }}. {{ $dado['pergunta'] }}</div>--}}
+{{--                                        @endif--}}
+
+{{--                                                <div class="row col-12 col-md-5">--}}
+{{--                                                    <div class="form-check-success col-3">--}}
+{{--                                                        <input class="form-check-input" type="radio" name="vtt1_resposta_{{ $dado['id'] }}_1" id="vtt1_resposta_{{ $dado['id'] }}_1">--}}
+{{--                                                        <label class="form-check-label" for="vtt1_resposta_{{ $dado['id'] }}_1">Sim</label>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="form-check-danger col-3">--}}
+{{--                                                        <input class="form-check-input" type="radio" name="vtt1_resposta_{{ $dado['id'] }}_2" id="vtt1_resposta_{{ $dado['id'] }}_2">--}}
+{{--                                                        <label class="form-check-label" for="vtt1_resposta_{{ $dado['id'] }}_2">Não</label>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="form-check-warning col-3">--}}
+{{--                                                        <input class="form-check-input" type="radio" name="vtt1_resposta_{{ $dado['id'] }}_3" id="vtt1_resposta_{{ $dado['id'] }}_3">--}}
+{{--                                                        <label class="form-check-label" for="vtt1_resposta_{{ $dado['id'] }}_3">NI</label>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="d-flex col-3 px-0 justify-content-end">--}}
+{{--                                                        <a href="#" title="Observação" onclick="vtt1_abrirModalObservacao({{ $dado['id'] }})" id="vtt1_linkModalObservacao_{{ $dado['id'] }}"><i class="bx bx-detail text-success font-size-18 me-3"></i></a>--}}
+{{--                                                        <a href="#" title="Fotografia" onclick="vtt1_abrirModalFotografia({{ $dado['id'] }})" id="vtt1_linkModalFotografia_{{ $dado['id'] }}"><i class="bx bxs-photo-album text-primary font-size-18"></i></a>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+
+{{--                                                <div class="row" id="vtt1_divObservacaoFotografia_{{ $dado['id'] }}" style="display: none;">--}}
+{{--                                                    <hr />--}}
+{{--                                                    <div class="col-12 col-md-6 text-success" id="vtt1_divObservacao_{{ $dado['id'] }}">--}}
+{{--                                                        <b>Observação</b>--}}
+{{--                                                        <br>--}}
+{{--                                                        <div class="col-12 text-black justify-content-start" id="vtt1_divObservacaoTexto_{{ $dado['id'] }}"></div>--}}
+{{--                                                        <input type="hidden" id="vtt1_observacao_texto_{{ $dado['id'] }}" name="vtt1_observacao_texto_{{ $dado['id'] }}">--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="col-12 col-md-6 text-primary" id="vtt1_divFotografia_{{ $dado['id'] }}">--}}
+{{--                                                        <b>Fotografia</b>--}}
+{{--                                                        <br>--}}
+{{--                                                        <div class="col-12 d-flex flex-wrap text-black" id="vtt1_divFotografiaFotos_{{ $dado['id'] }}">--}}
+{{--                                                            <div class="m-2 d-inline-block text-center position-relative">--}}
+{{--                                                                <button type="button" class="btn btn-sm btn-success position-absolute top-0 start-0 visualizar-foto" style="display: none;">👁</button>--}}
+{{--                                                                <img src="" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover; display: none;">--}}
+{{--                                                                <input type="hidden" name="vtt1_fotografia_{{ $dado['id'] }}_1" id="vtt1_fotografia_{{ $dado['id'] }}_1" value="">--}}
+{{--                                                                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remover-foto" style="display: none;">&times;</button>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="m-2 d-inline-block text-center position-relative">--}}
+{{--                                                                <button type="button" class="btn btn-sm btn-success position-absolute top-0 start-0 visualizar-foto" style="display: none;">👁</button>--}}
+{{--                                                                <img src="" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover; display: none;">--}}
+{{--                                                                <input type="hidden" name="vtt1_fotografia_{{ $dado['id'] }}_2" id="vtt1_fotografia_{{ $dado['id'] }}_2" value="">--}}
+{{--                                                                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remover-foto" style="display: none;">&times;</button>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="m-2 d-inline-block text-center position-relative">--}}
+{{--                                                                <button type="button" class="btn btn-sm btn-success position-absolute top-0 start-0 visualizar-foto" style="display: none;">👁</button>--}}
+{{--                                                                <img src="" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover; display: none;">--}}
+{{--                                                                <input type="hidden" name="vtt1_fotografia_{{ $dado['id'] }}_3" id="vtt1_fotografia_{{ $dado['id'] }}_3" value="">--}}
+{{--                                                                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remover-foto" style="display: none;">&times;</button>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    @endforeach--}}
+
+
+
+
                                 </div>
                             </div>
                             <!-- VISITA TECNICA TIPO 1 - FIM----------------------------------------------------------->
@@ -208,6 +327,66 @@
                     <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal observação -->
+    <div class="modal fade" id="vtt1_modalObservacao" tabindex="-1" role="dialog" aria-labelledby="vtt1_modalObservacaoTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="vtt1_modalObservacaoTitle">Observação</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <textarea id="vtt1_modal_observacao_texto" name="vtt1_modal_observacao_texto"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="vtt1_observacaoAnexar();">Anexar <i class="fab fa-telegram-plane ms-1"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal fotografia -->
+    <div class="modal fade" id="modalFotografia" tabindex="-1" role="dialog" aria-labelledby="modalFotografiaTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalFotografiaTitle">Fotografia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="file" id="modalFotografiaFile" accept="image/*" style="display: none;"
+                           @if (session('access_device') == 'mobile' || session('access_device') == 'tablet') capture="environment" @endif>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+                    @if (session('access_device') == 'mobile' || session('access_device') == 'tablet')
+                        <button type="button" id="modalFotografiaAnexar" class="btn btn-primary mt-2">Tirar Foto <i class="bx bxs-photo-album ms-1"></i></button>
+                    @elseif (session('access_device') == 'desktop')
+                        <button type="button" id="modalFotografiaAnexar" class="btn btn-primary mt-2">Anexar Foto <i class="bx bxs-photo-album ms-1"></i></button>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal visualizar Foto -->
+    <div class="modal fade" id="modalVisualizarImagem" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <img id="modalVisualizarImagemSrc" src="" class="img-fluid" alt="Imagem">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>

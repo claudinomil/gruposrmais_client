@@ -440,12 +440,19 @@
 
                             @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
                                 <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#tab_cli_documentos_pdfs" role="tab">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#tab_cli_documentos_upload" role="tab">
                                         <span class="d-block d-sm-none"><i class="fas fa-docker"></i></span>
-                                        <span class="d-none d-sm-block">Documentos PDF's</span>
+                                        <span class="d-none d-sm-block">Incluir Documento</span>
                                     </a>
                                 </li>
                             @endif
+
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#tab_cli_documentos_pdfs" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-docker"></i></span>
+                                    <span class="d-none d-sm-block">Documentos</span>
+                                </a>
+                            </li>
                         </ul>
 
                         <!-- Tab panes -->
@@ -470,13 +477,13 @@
                                     <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Celular(s)</div>
                                     <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_cli_celulares"></div>
 
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Data Nascimento</div>
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary" id="div_cli_dados_data">Data Nascimento</div>
                                     <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_cli_data_nascimento"></div>
                                 </div>
                             </div>
 
                             @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
-                                <div class="tab-pane" id="tab_cli_documentos_pdfs" role="tabpanel">
+                                <div class="tab-pane" id="tab_cli_documentos_upload" role="tabpanel">
                                     <form enctype="multipart/form-data" id="frm_upload_documentos_pdfs_cli">
                                         <input type="hidden" id="upload_documentos_pdfs_cliente_id" name="upload_documentos_pdfs_cliente_id" value="">
 
@@ -485,21 +492,42 @@
 
                                         <div class="form-group col-12 d-flex gap-3 py-2">
                                             <button type="button" class="btn btn-sm btn-success" id="frm_upload_documentos_pdfs_cli_executar" name="frm_upload_documentos_pdfs_cli_executar">Executar Ação</button>
-                                            <button type="button" class="btn btn-sm btn-warning" id="frm_upload_documentos_pdfs_cli_incluir" name="frm_upload_documentos_pdfs_cli_incluir" style="display: none;">Incluir Documento</button>
-                                            <button type="button" class="btn btn-sm btn-warning" id="frm_upload_documentos_pdfs_cli_listar" name="frm_upload_documentos_pdfs_cli_listar">Listar Documento(s)</button>
                                         </div>
                                         <div class="row" id="div_frm_upload_documentos_pdfs_cli_executar">
-                                            <div class="form-group col-12 pt-2">
+                                            <div class="form-group col-12 col-md-6 pt-2">
+                                                <label class="form-label mb-0 ps-1 small">Documento</label>
+                                                <select class="form-select form-select-sm" name="cli_documentos_pdfs_documento" id="cli_documentos_pdfs_documento">
+                                                    <option value="">Selecione...</option>
+                                                    <option class="pessoa_juridica" value="1">Projeto SCIP</option>
+                                                    <option class="pessoa_juridica" value="2">Laudo Exigências</option>
+                                                    <option class="pessoa_juridica" value="3">Certificado Aprovação</option>
+                                                    <option class="pessoa_juridica" value="4">Certificado Aprovação Simplificado</option>
+                                                    <option class="pessoa_juridica" value="5">Certificado Aprovação Assistido</option>
+                                                    <option class="pessoa_juridica" value="6">CNPJ</option>
+                                                    <option class="pessoa_juridica" value="7">Representante Legal</option>
+                                                    <option class="pessoa_juridica" value="8">Contrato Social</option>
+                                                    <option class="pessoa_juridica" value="9">RGI</option>
+                                                    <option class="pessoa_juridica" value="10">Contrato Locação</option>
+                                                    <option class="pessoa_fisica" value="11">CPF</option>
+                                                    <option class="pessoa_fisica" value="12">Representante Legal</option>
+                                                    <option class="pessoa_fisica" value="13">Contrato Social</option>
+                                                    <option class="pessoa_fisica" value="14">RGI</option>
+                                                    <option class="pessoa_fisica" value="15">Contrato Locação</option>
+                                                    <option class="pessoa_juridica" value="16">Memória Descritiva</option>
+                                                    <option class="pessoa_juridica" value="17">Certificado Funcionamento</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-12 col-md-6 pt-2">
                                                 <label class="form-label mb-0 ps-1 small">Descrição</label>
-                                                <input type="text" class="form-control" name="cli_documentos_pdfs_descricao" id="cli_documentos_pdfs_descricao" placeholder="Descrição do Documento PDF">
+                                                <input type="text" class="form-control form-control-sm" name="cli_documentos_pdfs_descricao" id="cli_documentos_pdfs_descricao" placeholder="Descrição do Documento PDF">
                                             </div>
                                             <div class="form-group col-12 col-md-6 pt-2">
                                                 <label class="form-label mb-0 ps-1 small">Data Documento</label>
-                                                <input type="text" class="form-control mask_date" name="cli_documentos_pdfs_data_documento" id="cli_documentos_pdfs_data_documento" placeholder="Data do Documento PDF">
+                                                <input type="text" class="form-control form-control-sm mask_date" name="cli_documentos_pdfs_data_documento" id="cli_documentos_pdfs_data_documento" placeholder="Data do Documento PDF">
                                             </div>
                                             <div class="form-group col-12 col-md-6 pt-2">
                                                 <label class="form-label mb-0 ps-1 small">Aviso</label>
-                                                <select class="form-select" name="cli_documentos_pdfs_aviso" id="cli_documentos_pdfs_aviso">
+                                                <select class="form-select form-select-sm" name="cli_documentos_pdfs_aviso" id="cli_documentos_pdfs_aviso">
                                                     <option value="0">Nenhum Aviso</option>
                                                     <option value="1">Avisar a cada 1 mês</option>
                                                     <option value="2">Avisar a cada 3 meses</option>
@@ -514,11 +542,13 @@
                                                 <input type="file" class="form-control form-control-sm" name="cli_documentos_pdfs_file" id="cli_documentos_pdfs_file">
                                             </div>
                                         </div>
-                                        <div class="row" id="div_frm_upload_documentos_pdfs_cli_listar" style="display: none;"></div>
-                                        <div class="row" id="div_frm_upload_documentos_pdfs_cli_visualisar" style="display: none;">VISUALISAR</div>
                                     </form>
                                 </div>
                             @endif
+
+                            <div class="tab-pane" id="tab_cli_documentos_pdfs" role="tabpanel">
+                                <div class="table-responsive" id="cli_documentos_grade">Nenhum documento encontrado.</div>
+                            </div>
                         </div>
                     </div>
                 </div>

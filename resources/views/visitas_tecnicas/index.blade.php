@@ -35,8 +35,8 @@
                                             <div class="col-2">
                                                 <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Executar Visita Técnica"><i class="bx bx-plus"></i></button>
                                                 <div class="dropdown-menu dropdown-menu-end" id="visita_tecnica_dropdown">
-                                                    <a class="dropdown-item small" href="#" data-visita_tecnica_tipo_id="1">Visita Técnica Exaustão</a>
-                                                    <a class="dropdown-item small" href="#" data-visita_tecnica_tipo_id="2">Visita Técnica Incêndio</a>
+                                                    <a class="dropdown-item small text-success" href="#" data-visita_tecnica_tipo_id="1">Executar Visita Técnica de Exaustão</a>
+                                                    <a class="dropdown-item small text-primary" href="#" data-visita_tecnica_tipo_id="2">Executar Visita Técnica de Incêndio</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -83,6 +83,9 @@
 @endsection
 
 @section('script')
+    <!-- TinyMCE -->
+    <script src="{{ asset('build/assets/tinymce/tinymce.min.js') }}"></script>
+
     <!-- Incluir a CDN do jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>

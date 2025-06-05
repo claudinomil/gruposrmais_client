@@ -175,8 +175,8 @@ function crudPreencherFormulario(campo, dados) {
         if (document.getElementById('crudPrefixPermissaoSubmodulo').value == 'visitas_tecnicas') {
             var vtt = '';
 
-            if (dados['ordem_servico_tipo_id'] == 1) {vtt = 'vtt1_';}
-            if (dados['ordem_servico_tipo_id'] == 2) {vtt = 'vtt2_';}
+            if (dados['visita_tecnica_tipo_id'] == 1) {vtt = 'vtt1_';}
+            if (dados['visita_tecnica_tipo_id'] == 2) {vtt = 'vtt2_';}
 
             if (campo_formulario == 'numero_visita_tecnica') {campo_formulario = vtt+campo_formulario;}
             if (campo_formulario == 'ano_visita_tecnica') {campo_formulario = vtt+campo_formulario;}
@@ -253,7 +253,7 @@ function crudLimparFormulario(nomeFormulario) {
 }
 
 //Montartabela
-function crudTable(route, fieldsColumns='', pageLength=5) {
+async function crudTable(route, fieldsColumns='', pageLength=5) {
     if (fieldsColumns == '') {
         let crudFieldsColumnsTable = document.getElementById('crudFieldsColumnsTable').value;
         let camposColunasTabelas = crudFieldsColumnsTable.split(',');
@@ -394,17 +394,23 @@ function crudCreate() {
             }
 
             if (prefixPermissaoSubmodulo == 'clientes') {
-                document.getElementById('divProjetoScip').style.display = 'block';
-                document.getElementById('divLaudoExigencias').style.display = 'block';
-                document.getElementById('divCertificadoAprovacao').style.display = 'block';
-                document.getElementById('divCertificadoAprovacaoSimplificado').style.display = 'block';
-                document.getElementById('divCertificadoAprovacaoAssistido').style.display = 'block';
-
-                document.getElementById('projeto_scip').checked = false;
-                document.getElementById('laudo_exigencias').checked = false;
-                document.getElementById('certificado_aprovacao').checked = false;
-                document.getElementById('certificado_aprovacao_simplificado').checked = false;
-                document.getElementById('certificado_aprovacao_assistido').checked = false;
+                document.getElementById('doc_cbmerj_projeto_scip').checked = false;
+                document.getElementById('doc_cbmerj_laudo_exigencias').checked = false;
+                document.getElementById('doc_cbmerj_certificado_aprovacao').checked = false;
+                document.getElementById('doc_cbmerj_certificado_aprovacao_simplificado').checked = false;
+                document.getElementById('doc_cbmerj_certificado_aprovacao_assistido').checked = false;
+                document.getElementById('doc_pj_cnpj').checked = false;
+                document.getElementById('doc_pj_representante_legal').checked = false;
+                document.getElementById('doc_pj_contrato_social').checked = false;
+                document.getElementById('doc_pj_rgi').checked = false;
+                document.getElementById('doc_pj_contrato_locacao').checked = false;
+                document.getElementById('doc_pf_cpf').checked = false;
+                document.getElementById('doc_pf_representante_legal').checked = false;
+                document.getElementById('doc_pf_contrato_social').checked = false;
+                document.getElementById('doc_pf_rgi').checked = false;
+                document.getElementById('doc_pf_contrato_locacao').checked = false;
+                document.getElementById('doc_vt_memoria_descritiva').checked = false;
+                document.getElementById('doc_vt_certificado_funcionamento').checked = false;
 
                 //Deixar todos os checkbox de Medidas de Segurança'''''''''''''''''''
                 elementos = document.getElementsByClassName('divSegurancaMedida');
@@ -518,30 +524,7 @@ function crudCreate() {
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
-            if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
-                //Create divVTT1''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                //Hide no Informações Gerais
-                document.getElementById('vtt1_divVisitaTecnicaInformacoesGerais').style.display = 'none';
-                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                //Create divVTT2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                //Hide no Informações Gerais
-                document.getElementById('vtt2_divVisitaTecnicaInformacoesGerais').style.display = 'none';
-                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                //Campo: visita_tecnica_tipo_id'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                //forçar change
-                document.getElementById('visita_tecnica_tipo_id').dispatchEvent(new Event('change'));
-
-                //options
-                const select = document.getElementById('visita_tecnica_tipo_id');
-
-                //Ativar todas as opções
-                Array.from(select.options).forEach(option => {
-                    option.disabled = false;
-                });
-                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            }
+            if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {}
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         } else if (data.error_permissao) {
             alertSwal('warning', "Permissão Negada", '', 'true', 2000);
@@ -691,6 +674,7 @@ function crudView(registro_id) {
                 //Liberar campos frm_upload_documentos_pdfs_cli
                 document.getElementById('upload_documentos_pdfs_cliente_id').disabled = false;
                 document.getElementById('upload_documentos_pdfs_cli_acao').disabled = false;
+                document.getElementById('cli_documentos_pdfs_documento').disabled = false;
                 document.getElementById('cli_documentos_pdfs_descricao').disabled = false;
                 document.getElementById('cli_documentos_pdfs_data_documento').disabled = false;
                 document.getElementById('cli_documentos_pdfs_aviso').disabled = false;
@@ -704,38 +688,41 @@ function crudView(registro_id) {
                 clienteModalInfoGradeDocumentosPdf({id_elemento_visualisacao:'divArquivosPdfGrade', btn_visualizar:true, btn_deletar:false});
 
                 //Dados
-                document.getElementById('divProjetoScip').style.display = 'nome';
-                document.getElementById('divLaudoExigencias').style.display = 'nome';
-                document.getElementById('divCertificadoAprovacao').style.display = 'nome';
-                document.getElementById('divCertificadoAprovacaoSimplificado').style.display = 'nome';
-                document.getElementById('divCertificadoAprovacaoAssistido').style.display = 'nome';
+                document.getElementById('doc_cbmerj_projeto_scip').checked = false;
+                document.getElementById('doc_cbmerj_laudo_exigencias').checked = false;
+                document.getElementById('doc_cbmerj_certificado_aprovacao').checked = false;
+                document.getElementById('doc_cbmerj_certificado_aprovacao_simplificado').checked = false;
+                document.getElementById('doc_cbmerj_certificado_aprovacao_assistido').checked = false;
+                document.getElementById('doc_pj_cnpj').checked = false;
+                document.getElementById('doc_pj_representante_legal').checked = false;
+                document.getElementById('doc_pj_contrato_social').checked = false;
+                document.getElementById('doc_pj_rgi').checked = false;
+                document.getElementById('doc_pj_contrato_locacao').checked = false;
+                document.getElementById('doc_pf_cpf').checked = false;
+                document.getElementById('doc_pf_representante_legal').checked = false;
+                document.getElementById('doc_pf_contrato_social').checked = false;
+                document.getElementById('doc_pf_rgi').checked = false;
+                document.getElementById('doc_pf_contrato_locacao').checked = false;
+                document.getElementById('doc_vt_memoria_descritiva').checked = false;
+                document.getElementById('doc_vt_certificado_funcionamento').checked = false;
 
-                document.getElementById('projeto_scip').checked = false;
-                document.getElementById('laudo_exigencias').checked = false;
-                document.getElementById('certificado_aprovacao').checked = false;
-                document.getElementById('certificado_aprovacao_simplificado').checked = false;
-                document.getElementById('certificado_aprovacao_assistido').checked = false;
-
-                if (data.success['projeto_scip'] == 1) {
-                    document.getElementById('projeto_scip').checked = true;
-                    document.getElementById('divProjetoScip').style.display = 'block';
-                }
-                if (data.success['laudo_exigencias'] == 1) {
-                    document.getElementById('laudo_exigencias').checked = true;
-                    document.getElementById('divLaudoExigencias').style.display = 'block';
-                }
-                if (data.success['certificado_aprovacao'] == 1) {
-                    document.getElementById('certificado_aprovacao').checked = true;
-                    document.getElementById('divCertificadoAprovacao').style.display = 'block';
-                }
-                if (data.success['certificado_aprovacao_simplificado'] == 1) {
-                    document.getElementById('certificado_aprovacao_simplificado').checked = true;
-                    document.getElementById('divCertificadoAprovacaoSimplificado').style.display = 'block';
-                }
-                if (data.success['certificado_aprovacao_assistido'] == 1) {
-                    document.getElementById('certificado_aprovacao_assistido').checked = true;
-                    document.getElementById('divCertificadoAprovacaoAssistido').style.display = 'block';
-                }
+                if (data.success['doc_cbmerj_projeto_scip'] == 1) {document.getElementById('doc_cbmerj_projeto_scip').checked = true;}
+                if (data.success['doc_cbmerj_laudo_exigencias'] == 1) {document.getElementById('doc_cbmerj_laudo_exigencias').checked = true;}
+                if (data.success['doc_cbmerj_certificado_aprovacao'] == 1) {document.getElementById('doc_cbmerj_certificado_aprovacao').checked = true;}
+                if (data.success['doc_cbmerj_certificado_aprovacao_simplificado'] == 1) {document.getElementById('doc_cbmerj_certificado_aprovacao_simplificado').checked = true;}
+                if (data.success['doc_cbmerj_certificado_aprovacao_assistido'] == 1) {document.getElementById('doc_cbmerj_certificado_aprovacao_assistido').checked = true;}
+                if (data.success['doc_pj_cnpj'] == 1) {document.getElementById('doc_pj_cnpj').checked = true;}
+                if (data.success['doc_pj_representante_legal'] == 1) {document.getElementById('doc_pj_representante_legal').checked = true;}
+                if (data.success['doc_pj_contrato_social'] == 1) {document.getElementById('doc_pj_contrato_social').checked = true;}
+                if (data.success['doc_pj_rgi'] == 1) {document.getElementById('doc_pj_rgi').checked = true;}
+                if (data.success['doc_pj_contrato_locacao'] == 1) {document.getElementById('doc_pj_contrato_locacao').checked = true;}
+                if (data.success['doc_pf_cpf'] == 1) {document.getElementById('doc_pf_cpf').checked = true;}
+                if (data.success['doc_pf_representante_legal'] == 1) {document.getElementById('doc_pf_representante_legal').checked = true;}
+                if (data.success['doc_pf_contrato_social'] == 1) {document.getElementById('doc_pf_contrato_social').checked = true;}
+                if (data.success['doc_pf_rgi'] == 1) {document.getElementById('doc_pf_rgi').checked = true;}
+                if (data.success['doc_pf_contrato_locacao'] == 1) {document.getElementById('doc_pf_contrato_locacao').checked = true;}
+                if (data.success['doc_vt_memoria_descritiva'] == 1) {document.getElementById('doc_vt_memoria_descritiva').checked = true;}
+                if (data.success['doc_vt_certificado_funcionamento'] == 1) {document.getElementById('doc_vt_certificado_funcionamento').checked = true;}
 
                 //Hide em todos os checkbox de Medidas de Segurança''''''''''''''''''
                 elementos = document.getElementsByClassName('divSegurancaMedida');
@@ -1001,15 +988,20 @@ function crudView(registro_id) {
 
             if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
                 //View divVTT1''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                //Show no Informações Gerais
-                document.getElementById('vtt1_divVisitaTecnicaInformacoesGerais').style.display = '';
+                if (document.getElementById('visita_tecnica_tipo_id').value == 1) {
+                    //Show e Hide
+                    document.getElementById('divVisitaTecnicaTipo').style.display = '';
+                    document.getElementById('vtt1_divExecutar').style.display = 'none';
+                    document.getElementById('vtt1_divInformacoesGerais').style.display = '';
+                    document.getElementById('vtt1_divClientes').style.display = '';
+                }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 //View divVTT2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                //Campo: ordem_servico_tipo_id (forçar change)
-                document.getElementById('ordem_servico_tipo_id').dispatchEvent(new Event('change'));
+                //Campo: visita_tecnica_tipo_id (forçar change)
+                document.getElementById('visita_tecnica_tipo_id').dispatchEvent(new Event('change'));
             }
 
             if (prefixPermissaoSubmodulo == 'brigadas') {
@@ -1073,7 +1065,7 @@ function crudView(registro_id) {
 }
 
 //Edit
-function crudEdit(registro_id) {
+async function crudEdit(registro_id) {
     //Variáveis
     if (registro_id == 0) {registro_id = document.getElementById('registro_id').value;}
     let prefixPermissaoSubmodulo = document.getElementById('crudPrefixPermissaoSubmodulo').value;
@@ -1221,33 +1213,41 @@ function crudEdit(registro_id) {
             }
 
             if (prefixPermissaoSubmodulo == 'clientes') {
-                document.getElementById('divProjetoScip').style.display = 'block';
-                document.getElementById('divLaudoExigencias').style.display = 'block';
-                document.getElementById('divCertificadoAprovacao').style.display = 'block';
-                document.getElementById('divCertificadoAprovacaoSimplificado').style.display = 'block';
-                document.getElementById('divCertificadoAprovacaoAssistido').style.display = 'block';
+                document.getElementById('doc_cbmerj_projeto_scip').checked = false;
+                document.getElementById('doc_cbmerj_laudo_exigencias').checked = false;
+                document.getElementById('doc_cbmerj_certificado_aprovacao').checked = false;
+                document.getElementById('doc_cbmerj_certificado_aprovacao_simplificado').checked = false;
+                document.getElementById('doc_cbmerj_certificado_aprovacao_assistido').checked = false;
+                document.getElementById('doc_pj_cnpj').checked = false;
+                document.getElementById('doc_pj_representante_legal').checked = false;
+                document.getElementById('doc_pj_contrato_social').checked = false;
+                document.getElementById('doc_pj_rgi').checked = false;
+                document.getElementById('doc_pj_contrato_locacao').checked = false;
+                document.getElementById('doc_pf_cpf').checked = false;
+                document.getElementById('doc_pf_representante_legal').checked = false;
+                document.getElementById('doc_pf_contrato_social').checked = false;
+                document.getElementById('doc_pf_rgi').checked = false;
+                document.getElementById('doc_pf_contrato_locacao').checked = false;
+                document.getElementById('doc_vt_memoria_descritiva').checked = false;
+                document.getElementById('doc_vt_certificado_funcionamento').checked = false;
 
-                document.getElementById('projeto_scip').checked = false;
-                document.getElementById('laudo_exigencias').checked = false;
-                document.getElementById('certificado_aprovacao').checked = false;
-                document.getElementById('certificado_aprovacao_simplificado').checked = false;
-                document.getElementById('certificado_aprovacao_assistido').checked = false;
-
-                if (data.success['projeto_scip'] == 1) {
-                    document.getElementById('projeto_scip').checked = true;
-                }
-                if (data.success['laudo_exigencias'] == 1) {
-                    document.getElementById('laudo_exigencias').checked = true;
-                }
-                if (data.success['certificado_aprovacao'] == 1) {
-                    document.getElementById('certificado_aprovacao').checked = true;
-                }
-                if (data.success['certificado_aprovacao_simplificado'] == 1) {
-                    document.getElementById('certificado_aprovacao_simplificado').checked = true;
-                }
-                if (data.success['certificado_aprovacao_assistido'] == 1) {
-                    document.getElementById('certificado_aprovacao_assistido').checked = true;
-                }
+                if (data.success['doc_cbmerj_projeto_scip'] == 1) {document.getElementById('doc_cbmerj_projeto_scip').checked = true;}
+                if (data.success['doc_cbmerj_laudo_exigencias'] == 1) {document.getElementById('doc_cbmerj_laudo_exigencias').checked = true;}
+                if (data.success['doc_cbmerj_certificado_aprovacao'] == 1) {document.getElementById('doc_cbmerj_certificado_aprovacao').checked = true;}
+                if (data.success['doc_cbmerj_certificado_aprovacao_simplificado'] == 1) {document.getElementById('doc_cbmerj_certificado_aprovacao_simplificado').checked = true;}
+                if (data.success['doc_cbmerj_certificado_aprovacao_assistido'] == 1) {document.getElementById('doc_cbmerj_certificado_aprovacao_assistido').checked = true;}
+                if (data.success['doc_pj_cnpj'] == 1) {document.getElementById('doc_pj_cnpj').checked = true;}
+                if (data.success['doc_pj_representante_legal'] == 1) {document.getElementById('doc_pj_representante_legal').checked = true;}
+                if (data.success['doc_pj_contrato_social'] == 1) {document.getElementById('doc_pj_contrato_social').checked = true;}
+                if (data.success['doc_pj_rgi'] == 1) {document.getElementById('doc_pj_rgi').checked = true;}
+                if (data.success['doc_pj_contrato_locacao'] == 1) {document.getElementById('doc_pj_contrato_locacao').checked = true;}
+                if (data.success['doc_pf_cpf'] == 1) {document.getElementById('doc_pf_cpf').checked = true;}
+                if (data.success['doc_pf_representante_legal'] == 1) {document.getElementById('doc_pf_representante_legal').checked = true;}
+                if (data.success['doc_pf_contrato_social'] == 1) {document.getElementById('doc_pf_contrato_social').checked = true;}
+                if (data.success['doc_pf_rgi'] == 1) {document.getElementById('doc_pf_rgi').checked = true;}
+                if (data.success['doc_pf_contrato_locacao'] == 1) {document.getElementById('doc_pf_contrato_locacao').checked = true;}
+                if (data.success['doc_vt_memoria_descritiva'] == 1) {document.getElementById('doc_vt_memoria_descritiva').checked = true;}
+                if (data.success['doc_vt_certificado_funcionamento'] == 1) {document.getElementById('doc_vt_certificado_funcionamento').checked = true;}
 
                 //Hide em todos os checkbox de Medidas de Segurança''''''''''''''''''
                 elementos = document.getElementsByClassName('divSegurancaMedida');
@@ -1499,32 +1499,26 @@ function crudEdit(registro_id) {
 
             if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
                 //Edit divVTT1''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                //Show no Informações Gerais
-                document.getElementById('vtt1_divVisitaTecnicaInformacoesGerais').style.display = '';
+                if (document.getElementById('visita_tecnica_tipo_id').value == 1) {
+                    //Show e Hide
+                    document.getElementById('divVisitaTecnicaTipo').style.display = 'none';
+                    document.getElementById('vtt1_divExecutar').style.display = '';
+                    document.getElementById('vtt1_divInformacoesGerais').style.display = 'none';
+                    document.getElementById('vtt1_divClientes').style.display = 'none';
+
+                    document.getElementById('vtt1_divExecutarCliente').innerHTML = '('+data.success.clienteName+')';
+
+                    //Montar Perguntas
+                    const htmlPerguntas = vtt1_gerarHtmlPerguntas(data.success.visitas_tecnicas_dados);
+                    document.getElementById('vtt1_divPerguntas').innerHTML = htmlPerguntas;
+                }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 //Edit divVTT2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                //Show no Informações Gerais
-                document.getElementById('vtt2_divVisitaTecnicaInformacoesGerais').style.display = '';
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                //Campo: visita_tecnica_tipo_id'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                //forçar change
+                //Campo: visita_tecnica_tipo_id (forçar change)
                 document.getElementById('visita_tecnica_tipo_id').dispatchEvent(new Event('change'));
-
-                //options
-                const select = document.getElementById('visita_tecnica_tipo_id');
-                const valorPermitido = data.success.visita_tecnica_tipo_id;
-
-                //Desativa todas as opções, exceto a permitida
-                Array.from(select.options).forEach(option => {
-                    if (parseInt(option.value) !== parseInt(valorPermitido)) {
-                        option.disabled = true;
-                    } else {
-                        option.disabled = false;
-                    }
-                });
-                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
             // if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
