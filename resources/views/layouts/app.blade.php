@@ -74,12 +74,12 @@
 			sessionStorage.setItem("is_visited_mode", "{{session('se_userLoggedData.layout_mode')}}");
 
 			//Style
-            @if(session('access_device') == 'desktop')
+{{--            @if(session('access_device') == 'desktop')--}}
 			sessionStorage.setItem("is_visited_style", "{{session('se_userLoggedData.layout_style')}}");
-            @else
+{{--            @else--}}
 			//se for acesso pelo mobile forçar menu superior
-			sessionStorage.setItem("is_visited_style", "layout_style_horizontal_boxed_width");
-            @endif
+			// sessionStorage.setItem("is_visited_style", "layout_style_horizontal_boxed_width");
+{{--            @endif--}}
         </script>
 
         <!-- javascript -->
