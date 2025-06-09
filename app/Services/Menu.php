@@ -75,7 +75,7 @@ class Menu
                     if ($submodulo['id'] == 21) {$permitido = false;}
 
                     //22 : Visitas Técnicas
-                    //if ($submodulo['id'] == 22) {$permitido = false;}
+                    if ($submodulo['id'] == 22) {$permitido = false;}
 
                     //23 : Brigadas Incêndios
                     if ($submodulo['id'] == 23) {$permitido = false;}
