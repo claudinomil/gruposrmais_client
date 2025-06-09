@@ -412,20 +412,20 @@ function vtt1_abrirModalFotografia(visita_tecnica_dado_id) {
 
 function vtt1_observacaoEnviar() {
     if (tinymce.get('vtt1_modal_observacao_texto').getContent() == '') {
-        alert('Digite uma observação.');
-    } else {
-        document.getElementById('vtt1_divObservacaoTexto_'+visitaTecnicaDadoId).innerHTML = tinymce.get('vtt1_modal_observacao_texto').getContent();
-        document.getElementById('vtt1_observacao_texto_'+visitaTecnicaDadoId).value = tinymce.get('vtt1_modal_observacao_texto').getContent();
-
-        //Show classObservacaoFotografia
-        vtt1_observacaoFotografiaShow();
-
-        //Fechar Modal
-        bootstrap.Modal.getInstance(document.getElementById('vtt1_modalObservacao')).hide();
-
-        //Salvar
-        vtt1_salvarDadosPergunta();
+        if (!confirm('Tem certeza que deseja enviar uma Observação vazia?')) return;
     }
+
+    document.getElementById('vtt1_divObservacaoTexto_'+visitaTecnicaDadoId).innerHTML = tinymce.get('vtt1_modal_observacao_texto').getContent();
+    document.getElementById('vtt1_observacao_texto_'+visitaTecnicaDadoId).value = tinymce.get('vtt1_modal_observacao_texto').getContent();
+
+    //Show classObservacaoFotografia
+    vtt1_observacaoFotografiaShow();
+
+    //Fechar Modal
+    bootstrap.Modal.getInstance(document.getElementById('vtt1_modalObservacao')).hide();
+
+    //Salvar
+    vtt1_salvarDadosPergunta();
 }
 
 function vtt1_fotografiaEnviar() {
@@ -644,18 +644,6 @@ function vtt1_salvarDadosPergunta(visita_tecnica_dado_id=0) {
     var fotografia_2 = document.getElementById('vtt1_fotografia_'+visitaTecnicaDadoId+'_2').value;
     var fotografia_3 = document.getElementById('vtt1_fotografia_'+visitaTecnicaDadoId+'_3').value;
 
-    //vtt1_btnSalvar_'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    const linkSalvar = document.getElementById('vtt1_btnSalvar_'+visitaTecnicaDadoId);
-    const iconeSalvar = linkSalvar.querySelector("i");
-
-    //Habilitando
-    iconeSalvar.classList.remove("bxs-check-circle", "text-success");
-    iconeSalvar.classList.add("bxs-save", "text-danger");
-    linkSalvar.style.pointerEvents = "auto"; //permite clique
-    linkSalvar.style.opacity = "1"; //visual normal
-    linkSalvar.title = "Salvar dados";
-    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
     //Montar dados e Salvar na tabela'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     let payload = {resposta, observacao, fotografia_1, fotografia_2, fotografia_3};
 
@@ -673,14 +661,7 @@ function vtt1_salvarDadosPergunta(visita_tecnica_dado_id=0) {
     }).then(data => {
         //Lendo dados
         if (data.success) {
-            //vtt1_btnSalvar_'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            //Desabilitando
-            iconeSalvar.classList.remove("bxs-save", "text-danger");
-            iconeSalvar.classList.add("bxs-check-square", "text-success");
-            linkSalvar.style.pointerEvents = "none"; //bloqueia clique
-            linkSalvar.style.opacity = "0.5"; //visual esmaecido
-            linkSalvar.title = "Salvo";
-            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
         } else if (data.error) {
             alertSwal('warning', 'Visitas Técnicas', data.error, 'true', 20000);
         } else {
@@ -837,19 +818,14 @@ function vtt1_gerarHtmlPerguntas(visitas_tecnicas_dados) {
         if (operacao != 'view') {
             html += `<hr class="d-block my-2">
                     <div class="col-12 d-flex justify-content-center justify-content-xl-end">
-                        <div class="col-4 text-center">
+                        <div class="col-6 text-center">
                             <a href="#" onclick="vtt1_abrirModalObservacao(${dado.id})" title="Anexar Observação" id="vtt1_btnObservacao_${dado.id}">
                                 <i class="bx bx-detail text-success font-size-18"></i>
                             </a>
                         </div>
-                        <div class="col-4 text-center">
+                        <div class="col-6 text-center">
                             <a href="#" onclick="vtt1_abrirModalFotografia(${dado.id})" title="Anexar Fotografia" id="vtt1_btnFotografia_${dado.id}">
                                 <i class="bx bxs-photo-album text-primary font-size-18"></i>
-                            </a>
-                        </div>
-                        <div class="col-4 text-center">
-                            <a href="#" onclick="vtt1_salvarDadosPergunta(${dado.id})" title="Salvar dados" id="vtt1_btnSalvar_${dado.id}">
-                                <i class="bx bxs-save text-danger font-size-18"></i>
                             </a>
                         </div>
                     </div>
