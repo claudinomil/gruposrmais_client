@@ -1,5 +1,4 @@
 let visitaTecnicaDadoId = 0; //Id da Pergunta que está sendo manipulada na tabela visitas_tecnicas_dados
-let scrollPos = 0; //Controle da posição da tela por baixo dos modais
 
 function vtt1_validar_frm_visitas_tecnicas() {
     var validacao_ok = true;
@@ -390,150 +389,323 @@ function vtt1_abrirModalObservacao(visita_tecnica_dado_id) {
 
     visitaTecnicaDadoId = visita_tecnica_dado_id;
 
-    tinymce.get('vtt1_modal_observacao_texto').setContent('');
+    tinymce.get('vtt1_modal_observacao_texto').setContent(document.getElementById('vtt1_observacao_texto_'+visitaTecnicaDadoId).value);
 
     new bootstrap.Modal(document.getElementById('vtt1_modalObservacao')).show();
 
     //Posicionar elemento no topo
-    const elemento = document.getElementById('vtt1_linkModalObservacao_'+visita_tecnica_dado_id);
-    const posicao = elemento.getBoundingClientRect().top + window.pageYOffset;
-    window.scrollTo({
-        top: posicao - 100,  // 100px acima do elemento
-        behavior: 'smooth'   // rolagem suave
-    });
+    vtt1_posicionarPergunta();
 }
 
 function vtt1_abrirModalFotografia(visita_tecnica_dado_id) {
     event.preventDefault();
 
-    let visitaTecnicaDadoId = visita_tecnica_dado_id;
+    visitaTecnicaDadoId = visita_tecnica_dado_id;
 
-    const modalFotografia = new bootstrap.Modal(document.getElementById('modalFotografia'));
-    const btnAnexarFoto = document.getElementById('modalFotografiaAnexar');
-    const fileInput = document.getElementById('modalFotografiaFile');
-    const fotoContainers = document.querySelectorAll('#vtt1_divFotografiaFotos_' + visitaTecnicaDadoId + ' .m-2');
+    document.getElementById('vtt1_modalFotografiaFile').value = '';
 
-    const linkTarget = document.getElementById('vtt1_linkModalFotografia_' + visita_tecnica_dado_id);
-    if (linkTarget) {
-        const rect = linkTarget.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const offset = 20;
+    new bootstrap.Modal(document.getElementById('vtt1_modalFotografia')).show();
 
-        const targetPosition = rect.top + scrollTop;
-
-        window.scrollTo({
-            top: targetPosition - offset,
-            behavior: 'smooth'
-        });
-    }
-
-    function atualizarVisibilidadeBotao() {
-        const preenchidos = Array.from(fotoContainers).filter(container => {
-            const input = container.querySelector('input[type="hidden"]');
-            return input && input.value;
-        }).length;
-
-        btnAnexarFoto.style.display = preenchidos >= 3 ? 'none' : 'inline-block';
-    }
-
-    btnAnexarFoto.onclick = () => fileInput.click();
-
-    fileInput.onchange = function() {
-        if (fileInput.files.length > 0) {
-            const file = fileInput.files[0];
-
-            let slot = null;
-            fotoContainers.forEach(container => {
-                const input = container.querySelector('input[type="hidden"]');
-                if (input && !input.value && !slot) {
-                    slot = container;
-                }
-            });
-
-            if (!slot) {
-                alert('Limite máximo de 3 fotos atingido!');
-                return;
-            }
-
-            const img = slot.querySelector('img');
-            const input = slot.querySelector('input[type="hidden"]');
-            const btnRemover = slot.querySelector('button.remover-foto');
-            const btnVisualizar = slot.querySelector('button.visualizar-foto');
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const base64 = e.target.result;
-
-                if (img) {
-                    img.src = base64;
-                    img.style.display = 'block';
-                }
-
-                if (input) {
-                    input.value = base64;
-                }
-
-                if (btnRemover) {
-                    btnRemover.style.display = 'block';
-                    btnRemover.onclick = function() {
-                        if (confirm('Tem certeza que deseja remover esta foto?')) {
-                            if (img) {
-                                img.src = '';
-                                img.style.display = 'none';
-                            }
-                            if (input) input.value = '';
-                            btnRemover.style.display = 'none';
-                            if (btnVisualizar) btnVisualizar.style.display = 'none';
-                            atualizarVisibilidadeBotao();
-                        }
-                    };
-                }
-
-                if (btnVisualizar) {
-                    btnVisualizar.style.display = 'block';
-                    btnVisualizar.onclick = function() {
-                        const modalVis = new bootstrap.Modal(document.getElementById('modalVisualizarImagem'));
-                        const imgVis = document.getElementById('modalVisualizarImagemSrc');
-                        imgVis.src = base64;
-                        modalVis.show();
-                    };
-                }
-
-                atualizarVisibilidadeBotao();
-
-                vtt1_observacaoFotografiaShow();
-
-                modalFotografia.hide();
-            };
-
-            reader.readAsDataURL(file);
-        }
-    };
-
-    atualizarVisibilidadeBotao();
-
-    modalFotografia.show();
-
-    const elemento = document.getElementById('vtt1_linkModalFotografia_' + visita_tecnica_dado_id);
-    const posicao = elemento.getBoundingClientRect().top + window.pageYOffset;
-    window.scrollTo({
-        top: posicao - 100,
-        behavior: 'smooth'
-    });
+    //Posicionar elemento no topo
+    vtt1_posicionarPergunta();
 }
 
-function vtt1_observacaoAnexar() {
+function vtt1_observacaoEnviar() {
     if (tinymce.get('vtt1_modal_observacao_texto').getContent() == '') {
         alert('Digite uma observação.');
     } else {
         document.getElementById('vtt1_divObservacaoTexto_'+visitaTecnicaDadoId).innerHTML = tinymce.get('vtt1_modal_observacao_texto').getContent();
         document.getElementById('vtt1_observacao_texto_'+visitaTecnicaDadoId).value = tinymce.get('vtt1_modal_observacao_texto').getContent();
 
+        //Show classObservacaoFotografia
         vtt1_observacaoFotografiaShow();
 
         //Fechar Modal
         bootstrap.Modal.getInstance(document.getElementById('vtt1_modalObservacao')).hide();
+
+        //Salvar
+        vtt1_salvarDadosPergunta();
     }
+}
+
+function vtt1_fotografiaEnviar() {
+    const fileInput = document.getElementById('vtt1_modalFotografiaFile');
+    const files = fileInput.files;
+
+    if (files.length === 0) {
+        alert('Nenhuma imagem selecionada.');
+        return;
+    }
+
+    const file = files[0];
+
+    //Encontra o próximo slot livre
+    const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
+    const fotoContainers = container.querySelectorAll('.container-foto');
+
+    let slotLivre = null;
+
+    for (let i = 0; i < fotoContainers.length; i++) {
+        const inputHidden = fotoContainers[i].querySelector('input[type="hidden"]');
+        if (!inputHidden.value) {
+            slotLivre = i + 1; // slots começam em 1
+            break;
+        }
+    }
+
+    if (!slotLivre) {
+        alert('Todos os slots estão preenchidos.');
+        return;
+    }
+
+    //Upload Fotografia
+    const formData = new FormData();
+    formData.append('foto', file);
+
+    fetch('visitas_tecnicas/pergunta/uploadFotografia/'+visitaTecnicaDadoId+'/'+slotLivre, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: formData
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                vtt1_fotografiaInserir(data.path);
+            } else {
+                alert('Erro ao enviar imagem.');
+            }
+
+            //Limpa o input para permitir selecionar o mesmo arquivo novamente
+            fileInput.value = '';
+
+            //Show classObservacaoFotografia
+            vtt1_observacaoFotografiaShow();
+
+            //Fechar Modal
+            bootstrap.Modal.getInstance(document.getElementById('vtt1_modalFotografia')).hide();
+        })
+        .catch(() => alert('Erro na comunicação com o servidor xxx.'));
+}
+
+function vtt1_fotografiaEnviarDireto(input) {
+    const files = input.files;
+
+    if (files.length === 0) {
+        alert('Nenhuma imagem capturada.');
+        return;
+    }
+
+    const file = files[0];
+
+    // Mesmo processo de slots
+    const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
+    const fotoContainers = container.querySelectorAll('.container-foto');
+
+    let slotLivre = null;
+
+    for (let i = 0; i < fotoContainers.length; i++) {
+        const inputHidden = fotoContainers[i].querySelector('input[type="hidden"]');
+        if (!inputHidden.value) {
+            slotLivre = i + 1;
+            break;
+        }
+    }
+
+    if (!slotLivre) {
+        alert('Todos os slots estão preenchidos.');
+        return;
+    }
+
+    // Upload
+    const formData = new FormData();
+    formData.append('foto', file);
+
+    fetch('visitas_tecnicas/pergunta/uploadFotografia/' + visitaTecnicaDadoId + '/' + slotLivre, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: formData
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                vtt1_fotografiaInserir(data.path);
+                vtt1_observacaoFotografiaShow();
+            } else {
+                alert('Erro ao enviar imagem.');
+            }
+
+            input.value = ''; // Limpar para poder tirar novamente
+        })
+        .catch(() => alert('Erro na comunicação com o servidor.'));
+}
+
+function vtt1_fotografiaInserir(imagemUrl) {
+    const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
+    if (!container) return;
+
+    for (let i = 1; i <= 3; i++) {
+        const img = document.getElementById(`vtt1_img_${visitaTecnicaDadoId}_${i}`);
+        const inputHidden = document.getElementById(`vtt1_fotografia_${visitaTecnicaDadoId}_${i}`);
+
+        if (inputHidden && !inputHidden.value) {
+            img.src = imagemUrl;
+            inputHidden.value = imagemUrl;
+
+            const containerDiv = img.closest('.container-foto');
+            containerDiv.style.display = 'block';
+            containerDiv.querySelector('.img-foto').style.display = 'block';
+            containerDiv.querySelector('.visualizar-foto').style.display = 'block';
+            containerDiv.querySelector('.remover-foto').style.display = 'block';
+
+            break;
+        }
+    }
+
+    //Salvar
+    vtt1_salvarDadosPergunta();
+}
+
+function vtt1_removerFotografia(button) {
+    const visita_tecnica_dado_id = button.dataset.visita_tecnica_dado_id;
+    const slot = button.dataset.slot;
+
+    visitaTecnicaDadoId = visita_tecnica_dado_id;
+
+    fetch(`visitas_tecnicas/pergunta/removerFotografia/${visita_tecnica_dado_id}/${slot}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        }
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const img = document.getElementById(`vtt1_img_${visita_tecnica_dado_id}_${slot}`);
+                const input = document.getElementById(`vtt1_fotografia_${visita_tecnica_dado_id}_${slot}`);
+
+                img.src = '';
+                input.value = '';
+
+                const container = button.closest('.container-foto');
+                container.style.display = 'none';
+                container.querySelector('.img-foto').style.display = 'none';
+                container.querySelector('.visualizar-foto').style.display = 'none';
+                container.querySelector('.remover-foto').style.display = 'none';
+
+                //Salvar
+                vtt1_salvarDadosPergunta();
+            } else {
+                alert('Erro ao remover imagem.');
+            }
+        })
+        .catch(() => alert('Erro na comunicação com o servidor yyy.'));
+}
+
+function vtt1_visualizarFotografia(button) {
+    const visita_tecnica_dado_id = button.dataset.visita_tecnica_dado_id;
+    const slot = button.dataset.slot;
+
+    visitaTecnicaDadoId = visita_tecnica_dado_id;
+
+    const img = document.getElementById(`vtt1_img_${visita_tecnica_dado_id}_${slot}`);
+    const imgUrl = img.src;
+
+    const modalImg = document.getElementById('modalVisualizarImagemSrc');
+    modalImg.src = imgUrl;
+
+    const bootstrapModal = new bootstrap.Modal(document.getElementById('modalVisualizarImagem'));
+    bootstrapModal.show();
+}
+
+function vtt1_salvarDadosPergunta(visita_tecnica_dado_id=0) {
+    //Mostrar vtt1_divBloqueio para bloquear interações
+    document.getElementById('vtt1_divBloqueio').style.display = 'block';
+
+    //visitaTecnicaDadoId
+    if (visita_tecnica_dado_id != 0) {visitaTecnicaDadoId = visita_tecnica_dado_id;}
+
+    //Verificar Resposta
+    var resposta = 0;
+
+    if (document.getElementById('vtt1_resposta_'+visitaTecnicaDadoId+'_1').checked) {resposta = 1;}
+    if (document.getElementById('vtt1_resposta_'+visitaTecnicaDadoId+'_2').checked) {resposta = 2;}
+    if (document.getElementById('vtt1_resposta_'+visitaTecnicaDadoId+'_3').checked) {resposta = 3;}
+
+    //Verificar Observação
+    var observacao = document.getElementById('vtt1_observacao_texto_'+visitaTecnicaDadoId).value;
+
+    //Verificar Fotografias
+    var fotografia_1 = document.getElementById('vtt1_fotografia_'+visitaTecnicaDadoId+'_1').value;
+    var fotografia_2 = document.getElementById('vtt1_fotografia_'+visitaTecnicaDadoId+'_2').value;
+    var fotografia_3 = document.getElementById('vtt1_fotografia_'+visitaTecnicaDadoId+'_3').value;
+
+    //vtt1_btnSalvar_'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    const linkSalvar = document.getElementById('vtt1_btnSalvar_'+visitaTecnicaDadoId);
+    const iconeSalvar = linkSalvar.querySelector("i");
+
+    //Habilitando
+    iconeSalvar.classList.remove("bxs-check-circle", "text-success");
+    iconeSalvar.classList.add("bxs-save", "text-danger");
+    linkSalvar.style.pointerEvents = "auto"; //permite clique
+    linkSalvar.style.opacity = "1"; //visual normal
+    linkSalvar.title = "Salvar dados";
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Montar dados e Salvar na tabela'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    let payload = {resposta, observacao, fotografia_1, fotografia_2, fotografia_3};
+
+    //Acessar rota
+    fetch('visitas_tecnicas/pergunta/updatePergunta/'+visitaTecnicaDadoId, {
+        method: 'POST',
+        headers: {
+            'REQUEST-ORIGIN': 'fetch',
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify(payload)
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        //Lendo dados
+        if (data.success) {
+            //vtt1_btnSalvar_'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            //Desabilitando
+            iconeSalvar.classList.remove("bxs-save", "text-danger");
+            iconeSalvar.classList.add("bxs-check-square", "text-success");
+            linkSalvar.style.pointerEvents = "none"; //bloqueia clique
+            linkSalvar.style.opacity = "0.5"; //visual esmaecido
+            linkSalvar.title = "Salvo";
+            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        } else if (data.error) {
+            alertSwal('warning', 'Visitas Técnicas', data.error, 'true', 20000);
+        } else {
+            alert('Erro interno');
+        }
+    }).catch(error => {
+        alert('Erro vtt1_salvarDadosPergunta: '+error);
+    }).finally(() => {
+        //Oculta vtt1_divBloqueio independentemente do resultado
+        document.getElementById('vtt1_divBloqueio').style.display = 'none';
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Posiciona no topo
+    vtt1_posicionarPergunta();
+}
+
+function vtt1_posicionarPergunta() {
+    //Posicionar elemento no topo
+    const elemento = document.getElementById('vtt1_divPergunta_' + visitaTecnicaDadoId);
+    const posicao = elemento.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({
+        top: posicao - 100,  // 100px acima do elemento
+        behavior: 'smooth'   // rolagem suave
+    });
 }
 
 function vtt1_observacaoFotografiaShow() {
@@ -563,7 +735,50 @@ function vtt1_gerarHtmlPerguntas(visitas_tecnicas_dados) {
     let tituloAtual = null;
     let subtituloAtual = null;
 
+    let operacao = document.getElementById('frm_operacao').value;
+
     visitas_tecnicas_dados.forEach(dado => {
+        //Resposta''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        var campo_resposta_1 = '';
+        var campo_resposta_2 = '';
+        var campo_resposta_3 = '';
+
+        if (dado.resposta == 1) {campo_resposta_1 = 'checked';}
+        if (dado.resposta == 2) {campo_resposta_2 = 'checked';}
+        if (dado.resposta == 3) {campo_resposta_3 = 'checked';}
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Resposta Disabled'''''''''''''''''''''''''''''''''''''''''''''''
+        var campo_resposta_disabled = '';
+
+        if (operacao == 'view') {var campo_resposta_disabled = 'disabled';}
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Observaçao''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        var campo_observacao = '';
+
+        if (dado.observacao !== null) {campo_observacao = dado.observacao;}
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Fotografia''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        var campo_fotografia_1 = '';
+        var campo_fotografia_2 = '';
+        var campo_fotografia_3 = '';
+
+        if (dado.fotografia_1 !== null) {campo_fotografia_1 = dado.fotografia_1;}
+        if (dado.fotografia_2 !== null) {campo_fotografia_2 = dado.fotografia_2;}
+        if (dado.fotografia_3 !== null) {campo_fotografia_3 = dado.fotografia_3;}
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Verificar se deixa aberto a vtt1_divObservacaoFotografia_'''''''
+        var vtt1_divObservacaoFotografia_display = '';
+
+        if (campo_observacao == '' && campo_fotografia_1 == '' && campo_fotografia_2 == '' && campo_fotografia_3 == '') {
+            var vtt1_divObservacaoFotografia_display = 'none';
+        }
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Html
         html += '<div class="row pb-3">';
 
         if (dado.titulo !== tituloAtual) {
@@ -595,54 +810,96 @@ function vtt1_gerarHtmlPerguntas(visitas_tecnicas_dados) {
             contadorPergunta++;
 
             html += `
-                <div class="row col-12 bg-light ms-3 py-2">
+                <div class="row col-12 bg-light ms-3 py-2 px-0" id="vtt1_divPergunta_${dado.id}">
                     <div class="col-12 col-md-7">${contadorTitulo}.${contadorPergunta}. ${dado.pergunta}</div>
             `;
         }
 
         html += `
-            <div class="row col-12 col-md-5">
-                <div class="form-check-success col-3">
-                    <input class="form-check-input" type="radio" name="vtt1_resposta_${dado.id}_1" id="vtt1_resposta_${dado.id}_1">
-                    <label class="form-check-label" for="vtt1_resposta_${dado.id}_1">Sim</label>
+            <div class="col-12 col-md-5">
+                <hr class="d-block d-md-none my-2">
+                <div class="row col-12 d-flex justify-content-center justify-content-xl-end">
+                    <div class="form-check-success col-4 text-center">
+                        <input class="form-check-input" type="radio" onclick="vtt1_salvarDadosPergunta(${dado.id})" name="vtt1_resposta_${dado.id}" id="vtt1_resposta_${dado.id}_1" ${campo_resposta_1} ${campo_resposta_disabled}>
+                        <label class="form-check-label" for="vtt1_resposta_${dado.id}_1">Sim</label>
+                    </div>
+                    <div class="form-check-success col-4 text-center">
+                        <input class="form-check-input" type="radio" onclick="vtt1_salvarDadosPergunta(${dado.id})" name="vtt1_resposta_${dado.id}" id="vtt1_resposta_${dado.id}_2" ${campo_resposta_2} ${campo_resposta_disabled}>
+                        <label class="form-check-label" for="vtt1_resposta_${dado.id}_2">Não</label>
+                    </div>
+                    <div class="form-check-success col-4 text-center">
+                        <input class="form-check-input" type="radio" onclick="vtt1_salvarDadosPergunta(${dado.id})" name="vtt1_resposta_${dado.id}" id="vtt1_resposta_${dado.id}_3" ${campo_resposta_3} ${campo_resposta_disabled}>
+                        <label class="form-check-label" for="vtt1_resposta_${dado.id}_3">NI</label>
+                    </div>
                 </div>
-                <div class="form-check-danger col-3">
-                    <input class="form-check-input" type="radio" name="vtt1_resposta_${dado.id}_2" id="vtt1_resposta_${dado.id}_2">
-                    <label class="form-check-label" for="vtt1_resposta_${dado.id}_2">Não</label>
-                </div>
-                <div class="form-check-warning col-3">
-                    <input class="form-check-input" type="radio" name="vtt1_resposta_${dado.id}_3" id="vtt1_resposta_${dado.id}_3">
-                    <label class="form-check-label" for="vtt1_resposta_${dado.id}_3">NI</label>
-                </div>
-                <div class="d-flex col-3 px-0 justify-content-end">
-                    <a href="#" title="Observação" onclick="vtt1_abrirModalObservacao(${dado.id})" id="vtt1_linkModalObservacao_${dado.id}">
-                        <i class="bx bx-detail text-success font-size-18 me-3"></i>
-                    </a>
-                    <a href="#" title="Fotografia" onclick="vtt1_abrirModalFotografia(${dado.id})" id="vtt1_linkModalFotografia_${dado.id}">
-                        <i class="bx bxs-photo-album text-primary font-size-18"></i>
-                    </a>
-                </div>
+        `;
+
+        if (operacao != 'view') {
+            html += `<hr class="d-block my-2">
+                    <div class="col-12 d-flex justify-content-center justify-content-xl-end">
+                        <div class="col-4 text-center">
+                            <a href="#" onclick="vtt1_abrirModalObservacao(${dado.id})" title="Anexar Observação" id="vtt1_btnObservacao_${dado.id}">
+                                <i class="bx bx-detail text-success font-size-18"></i>
+                            </a>
+                        </div>
+                        <div class="col-4 text-center">
+                            <a href="#" onclick="vtt1_abrirModalFotografia(${dado.id})" title="Anexar Fotografia" id="vtt1_btnFotografia_${dado.id}">
+                                <i class="bx bxs-photo-album text-primary font-size-18"></i>
+                            </a>
+                        </div>
+                        <div class="col-4 text-center">
+                            <a href="#" onclick="vtt1_salvarDadosPergunta(${dado.id})" title="Salvar dados" id="vtt1_btnSalvar_${dado.id}">
+                                <i class="bx bxs-save text-danger font-size-18"></i>
+                            </a>
+                        </div>
+                    </div>
+            `;
+        }
+
+        html += `
             </div>
 
-            <div class="row classObservacaoFotografia" id="vtt1_divObservacaoFotografia_${dado.id}" data-visita_tecnica_dado_id="${dado.id}" style="display: none;">
-                <hr />
-                <div class="col-12 col-md-6 text-success" id="vtt1_divObservacao_${dado.id}">
-                    <b>Observação</b><br>
-                    <div class="col-12 text-black justify-content-start" id="vtt1_divObservacaoTexto_${dado.id}"></div>
-                    <input type="hidden" id="vtt1_observacao_texto_${dado.id}" name="vtt1_observacao_texto_${dado.id}">
+            <div class="row classObservacaoFotografia" id="vtt1_divObservacaoFotografia_${dado.id}" data-visita_tecnica_dado_id="${dado.id}" style="display: ${vtt1_divObservacaoFotografia_display};">
+                <hr class="ms-3" />
+                <div class="col-12 col-md-7 text-success">
+                    Observação<br>
+                    <div class="col-12 text-black justify-content-start" id="vtt1_divObservacaoTexto_${dado.id}"> ${campo_observacao}</div>
+                    <textarea id="vtt1_observacao_texto_${dado.id}" name="vtt1_observacao_texto_${dado.id}" style="display: none;">${campo_observacao}</textarea>
                 </div>
-                <div class="col-12 col-md-6 text-primary" id="vtt1_divFotografia_${dado.id}">
-                    <b>Fotografia</b><br>
+                <div class="col-12 col-md-5 text-primary">
+                    Fotografia(s)<br>
                     <div class="col-12 d-flex flex-wrap text-black" id="vtt1_divFotografiaFotos_${dado.id}">
         `;
 
         for (let i = 1; i <= 3; i++) {
+            //Dados e acertos'''''''''''''''''''''''''''''''''''''''''''''
+            var campo_fotografia = '';
+            var display_fotografia = '';
+
+            if (i == 1) {campo_fotografia = campo_fotografia_1;}
+            if (i == 2) {campo_fotografia = campo_fotografia_2;}
+            if (i == 3) {campo_fotografia = campo_fotografia_3;}
+
+            if (campo_fotografia == '') {
+                display_fotografia = 'display: none;';
+            }
+            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+            //html
             html += `
-                <div class="m-2 d-inline-block text-center position-relative">
-                    <button type="button" class="btn btn-sm btn-success position-absolute top-0 start-0 visualizar-foto" style="display: none;">👁</button>
-                    <img src="" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover; display: none;">
-                    <input type="hidden" name="vtt1_fotografia_${dado.id}_${i}" id="vtt1_fotografia_${dado.id}_${i}" value="">
-                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remover-foto" style="display: none;">&times;</button>
+                <div class="m-2 d-inline-block text-center position-relative container-foto" style="${display_fotografia}">
+                    <button type="button" class="btn btn-sm btn-success position-absolute top-0 start-0 p-0 px-1 visualizar-foto" style="${display_fotografia}" data-visita_tecnica_dado_id="${dado.id}" data-slot="${i}"><i class="fas fa-search"></i></button>
+                    <img src="${campo_fotografia}" class="img-thumbnail img-foto" style="width: 70px; height: 70px; object-fit: cover; ${display_fotografia}" name="vtt1_img_${dado.id}_${i}" id="vtt1_img_${dado.id}_${i}">
+                    <input type="hidden" name="vtt1_fotografia_${dado.id}_${i}" id="vtt1_fotografia_${dado.id}_${i}" value="${campo_fotografia}">
+            `;
+
+            if (operacao != 'view') {
+                html += `
+                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 p-0 px-1 remover-foto" style="${display_fotografia}" data-visita_tecnica_dado_id="${dado.id}" data-slot="${i}"><i class="fas fa-times"></i></button>
+                `;
+            }
+
+            html += `
                 </div>
             `;
         }
@@ -669,6 +926,23 @@ document.addEventListener('DOMContentLoaded', function(event) {
         menubar: 'edit view insert format table'
     });
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botões para visualizar e remover fotografia'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    document.addEventListener('click', function (e) {
+        const btnRemover = e.target.closest('.remover-foto');
+        if (btnRemover) {
+            if (!confirm('Tem certeza que deseja remover esta fotografia?')) return;
+
+            vtt1_removerFotografia(btnRemover);
+            return; // para não disparar outros handlers acidentalmente
+        }
+
+        const btnVisualizar = e.target.closest('.visualizar-foto');
+        if (btnVisualizar) {
+            vtt1_visualizarFotografia(btnVisualizar);
+        }
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 });
 
 
@@ -680,343 +954,229 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 
 
-// async function vtt1_visita_tecnica_gerar_pdf(visita_tecnica_id=0, traducao='pt') {
-//     try {
-//         document.getElementById('loadingAviso').style.display = 'block';
-//         await vtt1_gerarPDF(visita_tecnica_id, traducao);
-//     } catch (e) {
-//         alert("Erro ao gerar PDF: " + e.message);
-//     } finally {
-//         document.getElementById('loadingAviso').style.display = 'none';
-//     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function vtt1_abrirModalFotografia(visita_tecnica_dado_id) {
+//     event.preventDefault();
+//
+//     visitaTecnicaDadoId = visita_tecnica_dado_id;
+//
+//     document.getElementById('vtt1_modalFotografiaFile').value = '';
+//
+//     new bootstrap.Modal(document.getElementById('vtt1_modalFotografia')).show();
+//
+//     //Posicionar elemento no topo
+//     vtt1_posicionarPergunta();
 // }
 //
-// async function vtt1_gerarPDF(visita_tecnica_id=0, traducao='pt') {
-//     //Acessar rota visitas_tecnicas
-//     let response = await fetch('visitas_tecnicas/' + visita_tecnica_id, {
-//         method: 'GET',
-//         headers: { 'REQUEST-ORIGIN': 'fetch' }
-//     });
+// function vtt1_fotografiaEnviar() {
+//     const fileInput = document.getElementById('vtt1_modalFotografiaFile');
+//     const files = fileInput.files;
 //
-//     let data = await response.json();
+//     if (files.length === 0) {
+//         alert('Nenhuma imagem selecionada.');
+//         return;
+//     }
 //
-//     //Lendo dados
-//     if (data.success) {
-//         //Configurações - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//         //Configurações - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//         //Jspdf
-//         if (!window.jsPDF) window.jsPDF = window.jspdf.jsPDF;
+//     const file = files[0];
 //
-//         //Iniciando jsPDF
-//         var doc = new jsPDF({orientation: 'p'});
+//     //Encontra o próximo slot livre
+//     const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
+//     const fotoContainers = container.querySelectorAll('.container-foto');
 //
-//         //Variáveis (Geral)
-//         const pageHeight = doc.internal.pageSize.getHeight();
-//         const pageWidth = doc.internal.pageSize.getWidth();
-//         const marginLeft = 15; //Margem esquerda padrão
-//         const marginTop = 50; //Margem topo inicial
-//         const textWidth = 180; //Tamanho máximo da linha
-//         const spacingBetweenTexts1 = 1; //Espaçamento entre dois textos
-//         const spacingBetweenTexts2 = 2; //Espaçamento entre dois textos
-//         const spacingBetweenTexts3 = 3; //Espaçamento entre dois textos
-//         const spacingBetweenTexts4 = 4; //Espaçamento entre dois textos
-//         const spacingBetweenTexts5 = 5; //Espaçamento entre dois textos
-//         const spacingBetweenTexts6 = 6; //Espaçamento entre dois textos
-//         const spacingBetweenTexts8 = 8; //Espaçamento entre dois textos
-//         const spacingBetweenTexts10 = 10; //Espaçamento entre dois textos
-//         const cliente_id = data.success.cliente_id; //cliente_id para ser usado nas funções internas
-//         var pageTopo = 'build/assets/images/visita_tecnica_topo.png';
-//         var pageRodape = 'build/assets/images/visita_tecnica_rodape.png';
+//     let slotLivre = null;
 //
-//         //Verificar se existe topo e rodapé para cliente''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//         var url_atual = window.location.protocol + '//' + window.location.host + '/';
-//
-//         await arquivoExiste(url_atual+'/build/assets/images/visita_tecnica_topo_cliente_'+cliente_id+'.png').then(existe => {
-//             if (existe) {pageTopo = 'build/assets/images/visita_tecnica_topo_cliente_'+cliente_id+'.png';}
-//         });
-//
-//         await arquivoExiste(url_atual+'/build/assets/images/visita_tecnica_rodape_cliente_'+cliente_id+'.png').then(existe => {
-//             if (existe) {pageRodape = 'build/assets/images/visita_tecnica_rodape_cliente_'+cliente_id+'.png';}
-//         });
-//         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//
-//         //Variáveis
-//         var novaMarginTop = 0; //Nova margem topo
-//         var linhasTexto = 0; //Qtd de linhas do texto
-//         var alturaTexto = 0; //Altura do texto
-//
-//         var texto = '';
-//         var numeroTitulo = 0; //Número dos Títulos do PDF
-//         //Configurações - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//         //Configurações - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//
-//         //Funções internas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//         //Funções internas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//         async function adicionarCabecalhoRodape(topo, rodape) {
-//             doc.addImage(topo, 'PNG', 15, 10, pageWidth - 30, 30);
-//             doc.addImage(rodape, 'PNG', 15, pageHeight - 30, pageWidth - 20, 20);
+//     for (let i = 0; i < fotoContainers.length; i++) {
+//         const inputHidden = fotoContainers[i].querySelector('input[type="hidden"]');
+//         if (!inputHidden.value) {
+//             slotLivre = i + 1; // slots começam em 1
+//             break;
 //         }
+//     }
 //
-//         //Função para implementar texto no pdf
-//         //@PARAM x_align : 'left' // Pode ser 'left', 'right', 'center' ou 'justify'
-//         //@PARAM x_fontStyle : 'normal', 'bold', 'italic' ou 'bolditalic'
-//         //@PARAM x_subtitulo : Se for um Título ou Subtítulo que precisa ficar junto do texto posterior então envia algo para não ficar vazio (irá fazer o cálculo diferente de fim de página)
-//         async function inserirTexto({x_texto = '', x_spacingBetweenTexts = spacingBetweenTexts3, x_marginLeft = marginLeft, x_marginTop = novaMarginTop, x_font = 1, x_fontStyle = 'normal', x_fontSize = 12, x_align = 'left', x_subtitulo = '', x_atualizarNovaMarginTop = true, x_fundo = false, x_fundo_cor = 1}) {
-//             let linhasTexto = doc.splitTextToSize(x_texto, textWidth);
-//             let alturaTexto = linhasTexto.length * x_spacingBetweenTexts;
+//     if (!slotLivre) {
+//         alert('Todos os slots estão preenchidos.');
+//         return;
+//     }
 //
-//             //Verifica se o texto cabe na página, senão cria uma nova
-//             let espacoFimPagina = 45;
-//             if (x_subtitulo != '') {espacoFimPagina = 65;}
-//             if ((x_marginTop + alturaTexto) > (pageHeight - espacoFimPagina)) {
-//                 await novaPagina();
-//                 x_marginTop = novaMarginTop; // Reinicia a margem após nova página
-//             }
+//     //Upload Fotografia
+//     const formData = new FormData();
+//     formData.append('foto', file);
 //
-//             // Define a fonte conforme o parâmetro recebido
-//             switch (x_font) {
-//                 case 1:
-//                     doc.setFont('helvetica', x_fontStyle);
-//                     break;
-//                 case 2:
-//                     doc.setFont('times', x_fontStyle);
-//                     break;
-//                 case 3:
-//                     doc.setFont('courier', x_fontStyle);
-//                     break;
-//                 default:
-//                     doc.setFont('helvetica', x_fontStyle);
-//             }
-//
-//             doc.setFontSize(x_fontSize);
-//
-//             //Alinhamento texto
-//             let posX = x_marginLeft; // Padrão: alinhado à esquerda
-//
-//             if (x_align === 'right') {
-//                 posX = pageWidth - x_marginLeft - doc.getTextWidth(x_texto);
-//             } else if (x_align === 'center') {
-//                 posX = (pageWidth - doc.getTextWidth(x_texto)) / 2;
-//             }
-//
-//             //Fundo
-//             if (x_fundo === true) {
-//                 if (x_fundo_cor == 1) {doc.setFillColor('#d2d3d4');}
-//                 if (x_fundo_cor == 2) {doc.setFillColor('#9eeaf7');}
-//
-//                 doc.rect(marginLeft, x_marginTop - 5, textWidth, alturaTexto + 3, 'F');
-//             }
-//
-//             //Inserir x_texto
-//             if (x_align === 'justify') {
-//                 doc.text(x_texto, posX, x_marginTop, {maxWidth: textWidth, align: 'justify'});
+//     fetch('visitas_tecnicas/pergunta/uploadFotografia/'+visitaTecnicaDadoId+'/'+slotLivre, {
+//         method: 'POST',
+//         headers: {
+//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+//         },
+//         body: formData
+//     })
+//         .then(res => res.json())
+//         .then(data => {
+//             if (data.success) {
+//                 vtt1_fotografiaInserir(data.path);
 //             } else {
-//                 doc.text(x_texto, posX, x_marginTop);
+//                 alert('Erro ao enviar imagem.');
 //             }
 //
-//             x_marginTop += x_spacingBetweenTexts; // Ajusta a posição para a próxima linha
+//             //Limpa o input para permitir selecionar o mesmo arquivo novamente
+//             fileInput.value = '';
 //
-//             // Atualiza a margem superior para o próximo bloco de texto
-//             if (x_atualizarNovaMarginTop === true) {
-//                 novaMarginTop = x_marginTop + alturaTexto + x_spacingBetweenTexts;
-//             }
-//         }
+//             //Show classObservacaoFotografia
+//             vtt1_observacaoFotografiaShow();
 //
-//         async function inserirLinha({x_spacingBetweenTexts = spacingBetweenTexts3, x_marginLeft = marginLeft, x_marginTop = novaMarginTop, x_tamanho = 195, x_espessura = 0.5}) {
-//             let alturaTexto = x_espessura * x_spacingBetweenTexts;
-//
-//             //Verifica se o texto cabe na página, senão cria uma nova
-//             let espacoFimPagina = 65;
-//             if ((x_marginTop + alturaTexto) > (pageHeight - espacoFimPagina)) {
-//                 await novaPagina();
-//                 x_marginTop = novaMarginTop; // Reinicia a margem após nova página
-//             }
-//
-//             doc.setLineWidth(x_espessura);
-//             doc.line(x_marginLeft, x_marginTop, x_tamanho, x_marginTop);
-//
-//             x_marginTop += x_spacingBetweenTexts; // Ajusta a posição para a próxima linha
-//
-//             novaMarginTop = x_marginTop + alturaTexto + x_spacingBetweenTexts;
-//         }
-//
-//         //Inserir Mapa
-//         async function inserirMapa(doc, imagemBase64, largura, altura) {
-//             //Verifica se cabe na página, senão cria uma nova
-//             let espacoFimPagina = 50;
-//             if ((novaMarginTop + altura) > (pageHeight - espacoFimPagina)) {
-//                 await novaPagina();
-//             }
-//
-//             //Texto
-//             texto = numeroTitulo+'.4 Mapa da Rota';
-//             if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
-//             await inserirTexto({ x_texto: texto, x_spacingBetweenTexts: spacingBetweenTexts3, x_fontSize: 11, x_align: 'justify', x_fontStyle: 'bold' });
-//
-//             doc.addImage(imagemBase64, 'JPEG', 15, novaMarginTop, largura, altura);
-//
-//             // Atualiza a margem superior para o próximo bloco de texto
-//             novaMarginTop += altura;
-//         }
-//
-//         async function novaPagina() {
-//             doc.addPage();
-//             novaMarginTop = marginTop;
-//
-//             await adicionarCabecalhoRodape(pageTopo, pageRodape);
-//         }
-//         //Funções internas - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//         //Funções internas - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//
-//         //Gravando pdf - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//         //Gravando pdf - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//         //Cabeçalho e rodapé
-//         await adicionarCabecalhoRodape(pageTopo, pageRodape);
-//
-//         //Texto
-//         texto = ' SISTEMA SEGOA';
-//         if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
-//         await inserirTexto({x_texto:texto, x_spacingBetweenTexts:spacingBetweenTexts4, x_marginTop:marginTop, x_fontSize:12, x_fontStyle:'bold', x_align:'left', x_fundo:true, x_fundo_cor:2});
-//
-//         //Texto
-//         texto = 'SEGURANÇA E PREVENÇÃO ';
-//         if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
-//         await inserirTexto({x_texto:texto, x_spacingBetweenTexts:spacingBetweenTexts4, x_marginTop:marginTop, x_fontSize:12, x_fontStyle:'bold', x_align:'right'});
-//
-//         //Texto
-//         texto = ' Visita Técnica nº. '+data.success.numero_visita_tecnica+'/'+data.success.ano_visita_tecnica+'.';
-//         if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
-//         await inserirTexto({x_texto:texto, x_spacingBetweenTexts:spacingBetweenTexts4, x_fontSize:12, x_align:'lef', x_fundo:true});
-//
-//         //Linha
-//         await inserirLinha({x_spacingBetweenTexts:spacingBetweenTexts3, x_marginLeft:15, x_marginTop:novaMarginTop-5, x_tamanho:195, x_espessura:0.7});
-//
-//         //Texto
-//         texto = 'DATA: '+data.success.data_prevista;
-//         if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
-//         await inserirTexto({x_texto:texto, x_spacingBetweenTexts:spacingBetweenTexts2, x_fontSize:11});
-//
-//         //Texto
-//         texto = 'CLIENTE: '+data.success.cliente_nome;
-//         if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
-//         await inserirTexto({x_texto:texto, x_spacingBetweenTexts:spacingBetweenTexts3, x_fontSize:11});
-//
-//         if (data.success.observacao !== null && data.success.observacao !== undefined && data.success.observacao !== '') {
-//             //Texto
-//             texto = 'Observação: '+data.success.observacao;
-//             if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
-//             await inserirTexto({x_texto:texto, x_spacingBetweenTexts:spacingBetweenTexts3, x_fontSize:11, x_align:'justify', x_fontStyle:'normal'});
-//         }
-//
-//         //Gerar o pdf, abrir em uma outra aba e colocar link para download''''''''''''''''''''''''''
-//         const pdfBlob = doc.output('blob');
-//         const pdfUrl = URL.createObjectURL(pdfBlob);
-//
-//         //Tentar abrir em uma nova aba
-//         const newTab = window.open(pdfUrl);
-//
-//         //Adiciona um link abaixo do botão
-//         let frm_visitas_tecnicas = document.getElementById('frm_visitas_tecnicas');
-//
-//         //Verifica se já existe um link para evitar duplicação
-//         let existingLink = document.getElementById('pdf_download_link');
-//         if (existingLink) {
-//             existingLink.href = pdfUrl; // Atualiza o link existente
-//             return;
-//         }
-//
-//         //Cria o link dinamicamente
-//         let link = document.createElement('a');
-//         link.id = 'pdf_download_link';
-//         link.href = pdfUrl;
-//         link.download = 'documento.pdf';
-//         link.textContent = 'Clique aqui para baixar o PDF';
-//
-//         //Estiliza o link para ficar vermelho
-//         link.style.color = 'red';
-//         link.style.textDecoration = 'underline';
-//         link.style.display = 'block';
-//         link.style.marginTop = '10px';
-//
-//         //Insere o link logo abaixo do botão
-//         frm_visitas_tecnicas.parentNode.insertBefore(link, frm_visitas_tecnicas.nextSibling);
-//         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//
-//         //Gravando pdf - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//         //Gravando pdf - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//     }
+//             //Fechar Modal
+//             bootstrap.Modal.getInstance(document.getElementById('vtt1_modalFotografia')).hide();
+//         })
+//         .catch(() => alert('Erro na comunicação com o servidor.'));
 // }
 //
-// document.addEventListener('DOMContentLoaded', function(event) {
-//     //Buscar dados do Cliente escolhido
-//     document.getElementById('vtt1_cliente_id').addEventListener('change', function() {
-//         if (document.getElementById('vtt1_cliente_id').value == '') {
-//             //Inputs
-//             document.getElementById('vtt1_cliente_nome').value = '';
-//             document.getElementById('vtt1_cliente_telefone').value = '';
-//             document.getElementById('vtt1_cliente_celular').value = '';
-//             document.getElementById('vtt1_cliente_email').value = '';
-//             document.getElementById('vtt1_cliente_logradouro').value = '';
-//             document.getElementById('vtt1_cliente_bairro').value = '';
-//             document.getElementById('vtt1_cliente_cidade').value = '';
-//         } else {
-//             var vtt1_cliente_id = document.getElementById('vtt1_cliente_id').value;
+// function vtt1_fotografiaInserir(imagemUrl) {
+//     const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
+//     if (!container) return;
 //
-//             //Route: clientes/id
-//             fetch('clientes/'+vtt1_cliente_id, {
-//                 method: 'GET',
-//                 headers: {
-//                     'REQUEST-ORIGIN': 'fetch',
-//                     'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-//                 }
-//             }).then(response => {
-//                 return response.json();
-//             }).then(data => {
-//                 var cliente = data.success;
+//     for (let i = 1; i <= 3; i++) {
+//         const img = document.getElementById(`vtt1_img_${visitaTecnicaDadoId}_${i}`);
+//         const inputHidden = document.getElementById(`vtt1_fotografia_${visitaTecnicaDadoId}_${i}`);
 //
-//                 //Telefone
-//                 var telefone = '';
-//                 if (cliente.telefone_1 !== '' && cliente.telefone_1 !== null) {
-//                     telefone = cliente.telefone_1;
-//                 } else {
-//                     if (cliente.telefone_2 !== '' && cliente.telefone_2 !== null) {
-//                         telefone = cliente.telefone_2;
-//                     }
-//                 }
+//         if (inputHidden && !inputHidden.value) {
+//             img.src = imagemUrl;
+//             inputHidden.value = imagemUrl;
 //
-//                 if (telefone != '') {
-//                     telefone = telefone.replace(/\D/g, ""); // Remove tudo que não for número
-//                     telefone = telefone.replace(/^(\d{2})(\d{4})(\d{4})$/, "($1) $2-$3");
-//                 }
+//             const containerDiv = img.closest('.container-foto');
+//             containerDiv.style.display = 'block';
+//             containerDiv.querySelector('.img-foto').style.display = 'block';
+//             containerDiv.querySelector('.visualizar-foto').style.display = 'block';
+//             containerDiv.querySelector('.remover-foto').style.display = 'block';
 //
-//                 //Celular
-//                 var celular = '';
-//                 if (cliente.celular_1 !== '' && cliente.celular_1 !== null) {
-//                     celular = cliente.celular_1;
-//                 } else {
-//                     if (cliente.celular_2 !== '' && cliente.celular_2 !== null) {
-//                         celular = cliente.celular_2;
-//                     }
-//                 }
-//
-//                 if (celular != '') {
-//                     celular = celular.replace(/\D/g, ""); // Remove tudo que não for número
-//                     celular = celular.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
-//                 }
-//
-//                 //Inputs
-//                 document.getElementById('vtt1_cliente_nome').value = cliente.name;
-//                 document.getElementById('vtt1_cliente_telefone').value = telefone;
-//                 document.getElementById('vtt1_cliente_celular').value = celular;
-//                 document.getElementById('vtt1_cliente_email').value = cliente.email;
-//                 document.getElementById('vtt1_cliente_logradouro').value = cliente.logradouro;
-//                 document.getElementById('vtt1_cliente_bairro').value = cliente.bairro;
-//                 document.getElementById('vtt1_cliente_cidade').value = cliente.localidade;
-//             }).catch(error => {
-//                 alert('Erro VisitasTecnicas:'+error);
-//             });
-//
-//
+//             break;
 //         }
-//     });
-// });
+//     }
+//
+//     //Salvar
+//     vtt1_salvarDadosPergunta();
+// }
+//
+// <div class="modal fade" id="vtt1_modalFotografia" tabindex="-1" role="dialog" aria-labelledby="vtt1_modalFotografiaTitle" aria-hidden="true">
+//     <div class="modal-dialog modal-dialog-centered" role="document">
+//     <div class="modal-content">
+//     <div class="modal-header">
+//     <h5 class="modal-title" id="vtt1_modalFotografiaTitle">Fotografia</h5>
+//     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+//     </div>
+//     <div class="modal-body">
+//     <input type="file" id="vtt1_modalFotografiaFile" accept="image/*">
+//     </div>
+//     <div class="modal-footer">
+//     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+//     <button type="button" class="btn btn-primary" onclick="vtt1_fotografiaEnviar();">Enviar <i class="fab fa-telegram-plane ms-1"></i></button>
+// </div>
+// </div>
+// </div>
+// </div>
+//
+// A função vtt1_abrirModalFotografia: abre um modal "vtt1_modalFotografia" para buscar uma fotografia no proprio PC, com um input file;
+//
+// A função vtt1_fotografiaEnviar: pega a imagem do input file faz upload para a pasta "build/assets/images/visitas_tecnicas" e depois de confirmado o upload chama a função vtt1_fotografiaInserir;
+//
+// A função vtt1_fotografiaInserir: insere a imagem em um slot vazio;
+//
+// Agora preciso que ao abrir o modal "vtt1_modalFotografia" para buscar a imagem no PC, sirva tambem se o usuário estiver no celular para buscar no armazenamento do celular e que tambem coloque um botão ao lado do input file para tirar foto e fazer os outros procedimentos, colocar no slot e fazer upload.

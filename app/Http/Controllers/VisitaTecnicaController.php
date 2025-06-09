@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class VisitaTecnicaController extends Controller
 {
@@ -329,5 +331,64 @@ class VisitaTecnicaController extends Controller
         } else {
             return view('visitas_tecnicas.index');
         }
+    }
+
+    public function updatePergunta(Request $request, $visita_tecnica_dado_id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            $request['resposta'];
+            $request['observacao'];
+            $request['fotografia_1'];
+            $request['fotografia_2'];
+            $request['fotografia_3'];
+
+            //Buscando dados Api_Data() - Alterar Registro
+            $this->responseApi(1, 11, 'visitas_tecnicas/pergunta/updatePergunta/'.$visita_tecnica_dado_id, '', '', $request->all());
+
+            //Registro alterado com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->message]);
+            } else if ($this->code == 2040) {
+                return response()->json(['error' => $this->message]);
+            } else {
+                abort(500, 'Erro Interno Client');
+            }
+        }
+    }
+
+    public function uploadFotografia(Request $request, $visita_tecnica_dado_id, $slot)
+    {
+        $request->validate([
+            'foto' => 'required|image|max:5120'
+        ]);
+
+        $file = $request->file('foto');
+        $nomeArquivo = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_fotografia_{$slot}.".$file->getClientOriginalExtension();
+        $caminho = "build/assets/images/visitas_tecnicas/$nomeArquivo";
+
+        // Salva o arquivo (use public_path() pois você não está usando Storage)
+        $file->move(public_path('build/assets/images/visitas_tecnicas'), $nomeArquivo);
+
+        //Return
+        return response()->json(['success' => true, 'path' => asset($caminho)]);
+    }
+
+    public function removerFotografia(Request $request, $visita_tecnica_dado_id, $slot)
+    {
+        $caminho = 'build/assets/images/visitas_tecnicas/';
+
+        $nomeArquivo1 = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_fotografia_{$slot}.jpg";
+        $nomeArquivo2 = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_fotografia_{$slot}.jpeg";
+        $nomeArquivo3 = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_fotografia_{$slot}.png";
+        $nomeArquivo4 = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_fotografia_{$slot}.gif";
+
+        //Remove o arquivo do disco, se existir
+        if ($caminho.$nomeArquivo1 && file_exists(public_path($caminho.$nomeArquivo1))) {@unlink(public_path($caminho.$nomeArquivo1));}
+        if ($caminho.$nomeArquivo2 && file_exists(public_path($caminho.$nomeArquivo2))) {@unlink(public_path($caminho.$nomeArquivo2));}
+        if ($caminho.$nomeArquivo3 && file_exists(public_path($caminho.$nomeArquivo3))) {@unlink(public_path($caminho.$nomeArquivo3));}
+        if ($caminho.$nomeArquivo4 && file_exists(public_path($caminho.$nomeArquivo4))) {@unlink(public_path($caminho.$nomeArquivo4));}
+
+        return response()->json(['success' => true, 'xxxx' => $nomeArquivo1]);
     }
 }

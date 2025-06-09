@@ -994,6 +994,13 @@ function crudView(registro_id) {
                     document.getElementById('vtt1_divExecutar').style.display = 'none';
                     document.getElementById('vtt1_divInformacoesGerais').style.display = '';
                     document.getElementById('vtt1_divClientes').style.display = '';
+
+                    //Visita Técnica Dados
+                    var visitas_tecnicas_dados = data.success['visitas_tecnicas_dados'];
+
+                    //Montar Perguntas
+                    const htmlPerguntas = vtt1_gerarHtmlPerguntas(visitas_tecnicas_dados);
+                    document.getElementById('vtt1_divPerguntas').innerHTML = htmlPerguntas;
                 }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -1508,8 +1515,11 @@ async function crudEdit(registro_id) {
 
                     document.getElementById('vtt1_divExecutarCliente').innerHTML = '('+data.success.clienteName+')';
 
+                    //Visita Técnica Dados
+                    var visitas_tecnicas_dados = data.success['visitas_tecnicas_dados'];
+
                     //Montar Perguntas
-                    const htmlPerguntas = vtt1_gerarHtmlPerguntas(data.success.visitas_tecnicas_dados);
+                    const htmlPerguntas = vtt1_gerarHtmlPerguntas(visitas_tecnicas_dados);
                     document.getElementById('vtt1_divPerguntas').innerHTML = htmlPerguntas;
                 }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
