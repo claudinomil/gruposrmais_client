@@ -675,7 +675,6 @@ function crudView(registro_id) {
                 document.getElementById('upload_documentos_pdfs_cliente_id').disabled = false;
                 document.getElementById('upload_documentos_pdfs_cli_acao').disabled = false;
                 document.getElementById('cli_documentos_pdfs_documento').disabled = false;
-                document.getElementById('cli_documentos_pdfs_descricao').disabled = false;
                 document.getElementById('cli_documentos_pdfs_data_documento').disabled = false;
                 document.getElementById('cli_documentos_pdfs_aviso').disabled = false;
                 document.getElementById('cli_documentos_pdfs_file').disabled = false;

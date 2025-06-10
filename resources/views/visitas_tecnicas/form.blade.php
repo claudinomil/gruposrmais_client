@@ -259,7 +259,7 @@
                         <!-- Opção tirar foto -->
                         <div class="col-6 d-flex justify-content-end">
                             <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('vtt1_modalCameraFile').click();">Tirar Foto <i class="fas fa-camera ms-1"></i></button>
-                            <input type="file" id="vtt1_modalCameraFile" accept="image/*" capture="environment" style="display:none;" onchange="vtt1_fotografiaEnviarDireto(this)">
+                            <input type="file" id="vtt1_modalCameraFile" accept="image/*" capture="environment" style="display:none;" onchange="vtt1_fotografiaEnviar(this)">
                         </div>
                     </div>
                 </div>

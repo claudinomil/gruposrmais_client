@@ -428,8 +428,8 @@ function vtt1_observacaoEnviar() {
     vtt1_salvarDadosPergunta();
 }
 
-function vtt1_fotografiaEnviar() {
-    const fileInput = document.getElementById('vtt1_modalFotografiaFile');
+function vtt1_fotografiaEnviar(fileInput) {
+    //const fileInput = document.getElementById('vtt1_modalFotografiaFile');
     const files = fileInput.files;
 
     if (files.length === 0) {
@@ -489,59 +489,59 @@ function vtt1_fotografiaEnviar() {
         .catch(() => alert('Erro na comunicação com o servidor xxx.'));
 }
 
-function vtt1_fotografiaEnviarDireto(input) {
-    const files = input.files;
-
-    if (files.length === 0) {
-        alert('Nenhuma imagem capturada.');
-        return;
-    }
-
-    const file = files[0];
-
-    // Mesmo processo de slots
-    const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
-    const fotoContainers = container.querySelectorAll('.container-foto');
-
-    let slotLivre = null;
-
-    for (let i = 0; i < fotoContainers.length; i++) {
-        const inputHidden = fotoContainers[i].querySelector('input[type="hidden"]');
-        if (!inputHidden.value) {
-            slotLivre = i + 1;
-            break;
-        }
-    }
-
-    if (!slotLivre) {
-        alert('Todos os slots estão preenchidos.');
-        return;
-    }
-
-    // Upload
-    const formData = new FormData();
-    formData.append('foto', file);
-
-    fetch('visitas_tecnicas/pergunta/uploadFotografia/' + visitaTecnicaDadoId + '/' + slotLivre, {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: formData
-    })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                vtt1_fotografiaInserir(data.path);
-                vtt1_observacaoFotografiaShow();
-            } else {
-                alert('Erro ao enviar imagem.');
-            }
-
-            input.value = ''; // Limpar para poder tirar novamente
-        })
-        .catch(() => alert('Erro na comunicação com o servidor.'));
-}
+// function vtt1_fotografiaEnviarDireto(input) {
+//     const files = input.files;
+//
+//     if (files.length === 0) {
+//         alert('Nenhuma imagem capturada.');
+//         return;
+//     }
+//
+//     const file = files[0];
+//
+//     // Mesmo processo de slots
+//     const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
+//     const fotoContainers = container.querySelectorAll('.container-foto');
+//
+//     let slotLivre = null;
+//
+//     for (let i = 0; i < fotoContainers.length; i++) {
+//         const inputHidden = fotoContainers[i].querySelector('input[type="hidden"]');
+//         if (!inputHidden.value) {
+//             slotLivre = i + 1;
+//             break;
+//         }
+//     }
+//
+//     if (!slotLivre) {
+//         alert('Todos os slots estão preenchidos.');
+//         return;
+//     }
+//
+//     // Upload
+//     const formData = new FormData();
+//     formData.append('foto', file);
+//
+//     fetch('visitas_tecnicas/pergunta/uploadFotografia/' + visitaTecnicaDadoId + '/' + slotLivre, {
+//         method: 'POST',
+//         headers: {
+//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+//         },
+//         body: formData
+//     })
+//         .then(res => res.json())
+//         .then(data => {
+//             if (data.success) {
+//                 vtt1_fotografiaInserir(data.path);
+//                 vtt1_observacaoFotografiaShow();
+//             } else {
+//                 alert('Erro ao enviar imagem.');
+//             }
+//
+//             input.value = ''; // Limpar para poder tirar novamente
+//         })
+//         .catch(() => alert('Erro na comunicação com o servidor.'));
+// }
 
 function vtt1_fotografiaInserir(imagemUrl) {
     const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);

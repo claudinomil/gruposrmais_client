@@ -361,7 +361,6 @@ class ClienteController extends Controller
                 $data['acao'] = $request['upload_documentos_pdfs_cli_acao'];
                 $data['name'] = $name;
                 $data['documento'] = $request['cli_documentos_pdfs_documento'];
-                $data['descricao'] = $request['cli_documentos_pdfs_descricao'];
                 $data['caminho'] = $pdf;
                 $data['data_documento'] = $request['cli_documentos_pdfs_data_documento'];
                 $data['aviso'] = $request['cli_documentos_pdfs_aviso'];

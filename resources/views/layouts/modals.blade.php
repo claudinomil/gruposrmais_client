@@ -518,10 +518,6 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-12 col-md-6 pt-2">
-                                                <label class="form-label mb-0 ps-1 small">Descrição</label>
-                                                <input type="text" class="form-control form-control-sm" name="cli_documentos_pdfs_descricao" id="cli_documentos_pdfs_descricao" placeholder="Descrição do Documento PDF">
-                                            </div>
-                                            <div class="form-group col-12 col-md-6 pt-2">
                                                 <label class="form-label mb-0 ps-1 small">Data Documento</label>
                                                 <input type="text" class="form-control form-control-sm mask_date" name="cli_documentos_pdfs_data_documento" id="cli_documentos_pdfs_data_documento" placeholder="Data do Documento PDF">
                                             </div>
@@ -537,7 +533,7 @@
                                                     <option value="6">Avisar a cada 6 anos</option>
                                                 </select>
                                             </div>
-                                            <div class="form-group col-12 pt-2">
+                                            <div class="form-group col-12 col-md-6 pt-2">
                                                 <label class="form-label mb-0 ps-1 small">Documento</label>
                                                 <input type="file" class="form-control form-control-sm" name="cli_documentos_pdfs_file" id="cli_documentos_pdfs_file">
                                             </div>

@@ -265,12 +265,6 @@ function validar_frm_upload_documentos_pdfs() {
         mensagem += 'Documento requerido.'+'<br>';
     }
 
-    //Campo: cli_documentos_pdfs_descricao (requerido)
-    if (validacao({op:1, value:document.getElementById('cli_documentos_pdfs_descricao').value}) === false) {
-        validacao_ok = false;
-        mensagem += 'Descrição documento requerido.'+'<br>';
-    }
-
     //Campo: cli_documentos_pdfs_data_documento (não requerido / Data Válida)
     if (validacao({op:1, value:document.getElementById('cli_documentos_pdfs_data_documento').value}) === true) {
         //Campo: cli_documentos_pdfs_data_documento (Data Válida)
@@ -433,7 +427,6 @@ function clienteModalInfoGradeDocumentosPdf({cliente_id='', id_elemento_visualis
             grade += '      <tr>';
             grade += '          <th scope="col">#</th>';
             grade += '          <th scope="col">Documento</th>';
-            grade += '          <th scope="col">Descrição</th>';
             grade += '          <th scope="col">Data</th>';
             grade += '          <th scope="col">Aviso</th>';
 
@@ -507,7 +500,6 @@ function clienteModalInfoGradeDocumentosPdf({cliente_id='', id_elemento_visualis
                 grade += '<tr>';
                 grade += '  <th scope="row">'+ln+'</th>';
                 grade += '  <td>'+documento_texto+'</td>';
-                grade += '  <td>'+dado.descricao+'</td>';
                 grade += '  <td>'+formatarData(2, dado.data_documento)+'</td>';
                 grade += '  <td>'+aviso_texto+'</td>';
 
