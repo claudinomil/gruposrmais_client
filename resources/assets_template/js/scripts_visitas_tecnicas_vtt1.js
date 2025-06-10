@@ -436,6 +436,7 @@ function vtt1_fotografiaEnviar(fileInput) {
         return;
     }
 
+    //Pega a imagem e reduz o tamanho'''''''''''''''''''''''''''''''''''''''''''
     const file = files[0];
     const maxDim = 1024; // tamanho máximo da largura/altura
 
@@ -475,6 +476,7 @@ function vtt1_fotografiaEnviar(fileInput) {
         img.src = event.target.result;
     };
     reader.readAsDataURL(file);
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
     function uploadFoto(blob) {
         // Encontra o próximo slot livre
@@ -522,64 +524,6 @@ function vtt1_fotografiaEnviar(fileInput) {
             .catch(() => alert('Erro na comunicação com o servidor.'));
     }
 }
-
-// function vtt1_fotografiaEnviar(fileInput) {
-//     const files = fileInput.files;
-//
-//     if (files.length === 0) {
-//         alert('Nenhuma imagem selecionada.');
-//         return;
-//     }
-//
-//     const file = files[0];
-//
-//     //Encontra o próximo slot livre
-//     const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
-//     const fotoContainers = container.querySelectorAll('.container-foto');
-//
-//     let slotLivre = null;
-//
-//     for (let i = 0; i < fotoContainers.length; i++) {
-//         const inputHidden = fotoContainers[i].querySelector('input[type="hidden"]');
-//         if (!inputHidden.value) {
-//             slotLivre = i + 1; // slots começam em 1
-//             break;
-//         }
-//     }
-//
-//     if (!slotLivre) {
-//         alert('Todos os slots estão preenchidos.');
-//         return;
-//     }
-//
-//     //Upload Fotografia
-//     const formData = new FormData();
-//     formData.append('foto', file);
-//
-//     fetch('visitas_tecnicas/pergunta/uploadFotografia/'+visitaTecnicaDadoId+'/'+slotLivre, {
-//         method: 'POST',
-//         headers: {
-//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-//         },
-//         body: formData
-//     })
-//         .then(res => res.json())
-//         .then(data => {
-//             if (data.success) {
-//                 vtt1_fotografiaInserir(data.path);
-//                 vtt1_observacaoFotografiaShow();
-//             } else {
-//                 alert('Erro ao enviar imagem.');
-//             }
-//
-//             //Limpa o input para permitir selecionar o mesmo arquivo novamente
-//             fileInput.value = '';
-//
-//             //Fechar Modal
-//             bootstrap.Modal.getInstance(document.getElementById('vtt1_modalFotografia')).hide();
-//         })
-//         .catch(() => alert('Erro na comunicação com o servidor hhh.'));
-// }
 
 function vtt1_fotografiaInserir(imagemUrl) {
     const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
