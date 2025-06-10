@@ -428,103 +428,6 @@ function vtt1_observacaoEnviar() {
     vtt1_salvarDadosPergunta(visitaTecnicaDadoId);
 }
 
-// function vtt1_fotografiaEnviar(fileInput) {
-//     const files = fileInput.files;
-//
-//     if (files.length === 0) {
-//         alert('Nenhuma imagem selecionada.');
-//         return;
-//     }
-//
-//     //Pega a imagem e reduz o tamanho'''''''''''''''''''''''''''''''''''''''''''
-//     const file = files[0];
-//     const maxDim = 1024; // tamanho máximo da largura/altura
-//
-//     const reader = new FileReader();
-//     reader.onload = function(event) {
-//         const img = new Image();
-//         img.onload = function() {
-//             // Calcula nova largura e altura mantendo proporção
-//             let width = img.width;
-//             let height = img.height;
-//
-//             if (width > height) {
-//                 if (width > maxDim) {
-//                     height = Math.round(height * (maxDim / width));
-//                     width = maxDim;
-//                 }
-//             } else {
-//                 if (height > maxDim) {
-//                     width = Math.round(width * (maxDim / height));
-//                     height = maxDim;
-//                 }
-//             }
-//
-//             // Cria canvas e desenha a imagem redimensionada
-//             const canvas = document.createElement('canvas');
-//             canvas.width = width;
-//             canvas.height = height;
-//             const ctx = canvas.getContext('2d');
-//             ctx.drawImage(img, 0, 0, width, height);
-//
-//             // Converte canvas para Blob (image/jpeg com qualidade 0.8)
-//             canvas.toBlob(function(blob) {
-//                 // Aqui blob é o arquivo redimensionado que você vai enviar
-//                 uploadFoto(blob);
-//             }, 'image/jpeg', 0.8);
-//         };
-//         img.src = event.target.result;
-//     };
-//     reader.readAsDataURL(file);
-//     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//
-//     function uploadFoto(blob) {
-//         // Encontra o próximo slot livre
-//         const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
-//         const fotoContainers = container.querySelectorAll('.container-foto');
-//
-//         let slotLivre = null;
-//         for (let i = 0; i < fotoContainers.length; i++) {
-//             const inputHidden = fotoContainers[i].querySelector('input[type="hidden"]');
-//             if (!inputHidden.value) {
-//                 slotLivre = i + 1;
-//                 break;
-//             }
-//         }
-//
-//         if (!slotLivre) {
-//             alert('Todos os slots estão preenchidos.');
-//             return;
-//         }
-//
-//         // Envia o Blob no FormData
-//         const formData = new FormData();
-//         formData.append('foto', blob, 'foto.jpg'); // pode passar nome opcional
-//
-//         fetch('visitas_tecnicas/pergunta/uploadFotografia/' + visitaTecnicaDadoId + '/' + slotLivre, {
-//             method: 'POST',
-//             headers: {
-//                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-//             },
-//             body: formData
-//         })
-//             .then(res => res.json())
-//             .then(data => {
-//                 if (data.success) {
-//                     vtt1_fotografiaInserir(data.path);
-//                     vtt1_observacaoFotografiaShow();
-//                 } else {
-//                     alert('Erro ao enviar imagem.');
-//                 }
-//
-//                 //Limpa input e fecha modal
-//                 fileInput.value = '';
-//                 bootstrap.Modal.getInstance(document.getElementById('vtt1_modalFotografia')).hide();
-//             })
-//             .catch(() => alert('Erro na comunicação com o servidor.'));
-//     }
-// }
-
 function vtt1_fotografiaEnviar(fileInput) {
     const files = fileInput.files;
 
@@ -533,54 +436,93 @@ function vtt1_fotografiaEnviar(fileInput) {
         return;
     }
 
+    //Pega a imagem e reduz o tamanho'''''''''''''''''''''''''''''''''''''''''''
     const file = files[0];
+    const maxDim = 1024; // tamanho máximo da largura/altura
 
-    //Encontra o próximo slot livre
-    const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
-    const fotoContainers = container.querySelectorAll('.container-foto');
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+            // Calcula nova largura e altura mantendo proporção
+            let width = img.width;
+            let height = img.height;
 
-    let slotLivre = null;
-
-    for (let i = 0; i < fotoContainers.length; i++) {
-        const inputHidden = fotoContainers[i].querySelector('input[type="hidden"]');
-        if (!inputHidden.value) {
-            slotLivre = i + 1; // slots começam em 1
-            break;
-        }
-    }
-
-    if (!slotLivre) {
-        alert('Todos os slots estão preenchidos.');
-        return;
-    }
-
-    //Upload Fotografia
-    const formData = new FormData();
-    formData.append('foto', file);
-
-    fetch('visitas_tecnicas/pergunta/uploadFotografia/'+visitaTecnicaDadoId+'/'+slotLivre, {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: formData
-    })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                vtt1_fotografiaInserir(data.path);
-                vtt1_observacaoFotografiaShow();
+            if (width > height) {
+                if (width > maxDim) {
+                    height = Math.round(height * (maxDim / width));
+                    width = maxDim;
+                }
             } else {
-                alert('Erro ao enviar imagem.');
+                if (height > maxDim) {
+                    width = Math.round(width * (maxDim / height));
+                    height = maxDim;
+                }
             }
 
-            //Limpa o input para permitir selecionar o mesmo arquivo novamente
-            fileInput.value = '';
+            // Cria canvas e desenha a imagem redimensionada
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
 
-            //Fechar Modal
-            bootstrap.Modal.getInstance(document.getElementById('vtt1_modalFotografia')).hide();
+            // Converte canvas para Blob (image/jpeg com qualidade 0.8)
+            canvas.toBlob(function(blob) {
+                // Aqui blob é o arquivo redimensionado que você vai enviar
+                uploadFoto(blob);
+            }, 'image/jpeg', 0.8);
+        };
+        img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    function uploadFoto(blob) {
+        // Encontra o próximo slot livre
+        const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
+        const fotoContainers = container.querySelectorAll('.container-foto');
+
+        let slotLivre = null;
+        for (let i = 0; i < fotoContainers.length; i++) {
+            const inputHidden = fotoContainers[i].querySelector('input[type="hidden"]');
+            if (!inputHidden.value) {
+                slotLivre = i + 1;
+                break;
+            }
+        }
+
+        if (!slotLivre) {
+            alert('Todos os slots estão preenchidos.');
+            return;
+        }
+
+        // Envia o Blob no FormData
+        const formData = new FormData();
+        formData.append('foto', blob, 'foto.jpg'); // pode passar nome opcional
+
+        fetch('visitas_tecnicas/pergunta/uploadFotografia/' + visitaTecnicaDadoId + '/' + slotLivre, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: formData
         })
-        .catch(() => alert('Erro na comunicação com o servidor hhh.'));
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    vtt1_fotografiaInserir(data.path);
+                    vtt1_observacaoFotografiaShow();
+                } else {
+                    alert('Erro ao enviar imagem.');
+                }
+
+                //Limpa input e fecha modal
+                fileInput.value = '';
+                bootstrap.Modal.getInstance(document.getElementById('vtt1_modalFotografia')).hide();
+            })
+            .catch(() => alert('Erro na comunicação com o servidor.'));
+    }
 }
 
 function vtt1_fotografiaInserir(imagemUrl) {
