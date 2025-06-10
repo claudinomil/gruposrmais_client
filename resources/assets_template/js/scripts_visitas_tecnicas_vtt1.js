@@ -473,6 +473,7 @@ function vtt1_fotografiaEnviar(fileInput) {
         .then(data => {
             if (data.success) {
                 vtt1_fotografiaInserir(data.path);
+                vtt1_observacaoFotografiaShow();
             } else {
                 alert('Erro ao enviar imagem.');
             }
@@ -480,13 +481,10 @@ function vtt1_fotografiaEnviar(fileInput) {
             //Limpa o input para permitir selecionar o mesmo arquivo novamente
             fileInput.value = '';
 
-            //Show classObservacaoFotografia
-            vtt1_observacaoFotografiaShow();
-
             //Fechar Modal
             bootstrap.Modal.getInstance(document.getElementById('vtt1_modalFotografia')).hide();
         })
-        .catch(() => alert('Erro na comunicação com o servidor xxx.'));
+        .catch(() => alert('Erro na comunicação com o servidor hhh.'));
 }
 
 // function vtt1_fotografiaEnviarDireto(input) {
