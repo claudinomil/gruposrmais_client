@@ -65,7 +65,7 @@ class ButtonCrud extends Component
                 $this->image = "bx bx-plus ".$imageClass;
             }
 
-            $this->class = "btn btn-success text-white pb-2 ".$modelClass." ".$this->class;
+            $this->class = "btn btn-success text-white pb-4 ".$modelClass." ".$this->class;
         }
 
         //Botão Alterar Registro (CRUD)
@@ -78,7 +78,7 @@ class ButtonCrud extends Component
                 $this->image = "fas fa-pencil-alt ".$imageClass;
             }
 
-            $this->class = "btn btn-primary text-white pb-2 ".$modelClass." ".$this->class;
+            $this->class = "btn btn-primary text-white pb-4 ".$modelClass." ".$this->class;
         }
 
         //Botão Excluir Registro (CRUD)
@@ -91,7 +91,7 @@ class ButtonCrud extends Component
                 $this->image = "fa fa-trash-alt ".$imageClass;
             }
 
-            $this->class = "btn btn-danger text-white pb-2 ".$modelClass." ".$this->class;
+            $this->class = "btn btn-danger text-white pb-4 ".$modelClass." ".$this->class;
         }
 
         //Botão Cancelar Operação (CRUD)
@@ -104,7 +104,7 @@ class ButtonCrud extends Component
                 $this->image = "fa fa-arrow-left ".$imageClass;
             }
 
-            $this->class = "btn btn-secondary text-white pb-2 ".$modelClass." ".$this->class;
+            $this->class = "btn btn-secondary text-white pb-4 ".$modelClass." ".$this->class;
         }
 
         //Botão Confirmar Operação (CRUD)
@@ -117,7 +117,7 @@ class ButtonCrud extends Component
                 $this->image = "fa fa-save ".$imageClass;
             }
 
-            $this->class = "btn btn-success text-white pb-2 ".$modelClass." ".$this->class;
+            $this->class = "btn btn-success text-white pb-4 ".$modelClass." ".$this->class;
         }
 
         //Botão Pesquisar no Banco (CRUD) - min
@@ -125,7 +125,7 @@ class ButtonCrud extends Component
             $this->title = 'Pesquisar no Banco de Dados';
             $this->image = "fa fa-arrow-right";
             $this->label = "";
-            $this->class = "btn btn-success text-white text-center pb-2 ".$this->class;
+            $this->class = "btn btn-success text-white text-center pb-4 ".$this->class;
         }
 
         //Botão Info (CRUD)
@@ -141,7 +141,7 @@ class ButtonCrud extends Component
                 $this->image = "bx bx-photo-album ".$imageClass;
             }
 
-            $this->class = "btn btn-warning text-white pb-2 ".$modelClass." ".$this->class;
+            $this->class = "btn btn-warning text-white pb-4 ".$modelClass." ".$this->class;
         }
 
         //Botão Customizado
