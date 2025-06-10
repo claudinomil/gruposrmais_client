@@ -158,7 +158,7 @@ class ButtonCrud extends Component
             }
 
             //Class
-            $this->class = "btn ".$this->bgColor." ".$this->textColor." ".$modelClass." ".$this->class;
+            $this->class = "btn mb-2 ".$this->bgColor." ".$this->textColor." ".$modelClass." ".$this->class;
         }
 
         //Return View
