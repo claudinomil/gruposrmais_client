@@ -111,6 +111,18 @@ class FuncionarioController extends Controller
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Acerto Request
+            if (isset($request['doenca_diabetes'])) {$request['doenca_diabetes'] = 1;} else {$request['doenca_diabetes'] = 0;}
+            if (isset($request['doenca_hipertensao'])) {$request['doenca_hipertensao'] = 1;} else {$request['doenca_hipertensao'] = 0;}
+            if (isset($request['doenca_asma'])) {$request['doenca_asma'] = 1;} else {$request['doenca_asma'] = 0;}
+            if (isset($request['doenca_renal'])) {$request['doenca_renal'] = 1;} else {$request['doenca_renal'] = 0;}
+            if (isset($request['doenca_cardiaca'])) {$request['doenca_cardiaca'] = 1;} else {$request['doenca_cardiaca'] = 0;}
+            if (isset($request['doenca_familia_diabetes'])) {$request['doenca_familia_diabetes'] = 1;} else {$request['doenca_familia_diabetes'] = 0;}
+            if (isset($request['doenca_familia_hipertensao'])) {$request['doenca_familia_hipertensao'] = 1;} else {$request['doenca_familia_hipertensao'] = 0;}
+            if (isset($request['doenca_familia_epilepsia'])) {$request['doenca_familia_epilepsia'] = 1;} else {$request['doenca_familia_epilepsia'] = 0;}
+            if (isset($request['doenca_familia_cardiaca'])) {$request['doenca_familia_cardiaca'] = 1;} else {$request['doenca_familia_cardiaca'] = 0;}
+            if (isset($request['doenca_familia_cancer'])) {$request['doenca_familia_cancer'] = 1;} else {$request['doenca_familia_cancer'] = 0;}
+
             //Buscando dados Api_Data() - Incluir Registro
             $this->responseApi(1, 4, 'funcionarios', '', '', $request->all());
 
@@ -211,6 +223,18 @@ class FuncionarioController extends Controller
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Acerto Request
+            if (isset($request['doenca_diabetes'])) {$request['doenca_diabetes'] = 1;} else {$request['doenca_diabetes'] = 0;}
+            if (isset($request['doenca_hipertensao'])) {$request['doenca_hipertensao'] = 1;} else {$request['doenca_hipertensao'] = 0;}
+            if (isset($request['doenca_asma'])) {$request['doenca_asma'] = 1;} else {$request['doenca_asma'] = 0;}
+            if (isset($request['doenca_renal'])) {$request['doenca_renal'] = 1;} else {$request['doenca_renal'] = 0;}
+            if (isset($request['doenca_cardiaca'])) {$request['doenca_cardiaca'] = 1;} else {$request['doenca_cardiaca'] = 0;}
+            if (isset($request['doenca_familia_diabetes'])) {$request['doenca_familia_diabetes'] = 1;} else {$request['doenca_familia_diabetes'] = 0;}
+            if (isset($request['doenca_familia_hipertensao'])) {$request['doenca_familia_hipertensao'] = 1;} else {$request['doenca_familia_hipertensao'] = 0;}
+            if (isset($request['doenca_familia_epilepsia'])) {$request['doenca_familia_epilepsia'] = 1;} else {$request['doenca_familia_epilepsia'] = 0;}
+            if (isset($request['doenca_familia_cardiaca'])) {$request['doenca_familia_cardiaca'] = 1;} else {$request['doenca_familia_cardiaca'] = 0;}
+            if (isset($request['doenca_familia_cancer'])) {$request['doenca_familia_cancer'] = 1;} else {$request['doenca_familia_cancer'] = 0;}
+
             //Buscando dados Api_Data() - Alterar Registro
             $this->responseApi(1, 5, 'funcionarios', $id, '', $request->all());
 
@@ -536,6 +560,27 @@ class FuncionarioController extends Controller
                 echo 'Registros não encontrados.';
             } else {
                 echo 'Erro Interno Documentos Pdf.';
+            }
+        }
+    }
+
+    public function cartoes_emergenciais_dados($ids)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //pegando o empresa_id
+            $empresa_id = session('userLogged_empresa_id');
+
+            //Buscando dados Api_Data() - Lista de Registros
+            $this->responseApi(1, 10, 'funcionarios/cartoes_emergenciais/dados/'.$empresa_id.'/'.$ids, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            } else if ($this->code == 2040) {
+                return response()->json(['error' => $this->message]);
+            } else {
+                abort(500, 'Erro Interno Client');
             }
         }
     }

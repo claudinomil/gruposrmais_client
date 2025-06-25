@@ -20,6 +20,9 @@ Route::prefix('funcionarios')->group(function () {
     Route::get('/modalInfo/documentos_pdf/{funcionario_id}', [FuncionarioController::class, 'documentos_pdf'])->name('funcionarios.documentos_pdf');
     Route::delete('/modalInfo/deletar_documento_pdf/{funcionario_documento_id}', [FuncionarioController::class, 'deletar_documento_pdf'])->name('funcionarios.deletar_documento_pdf');
 
+    //Dados para Cartões Emergenciais
+    Route::get('/cartoes_emergenciais/dados/{ids}', [FuncionarioController::class, 'cartoes_emergenciais_dados'])->name('funcionarios.cartoes_emergenciais_dados');
+
     //Ação: funcionario_acao_1
     Route::get('/funcionarioAcao1/funcionario_acao_1_grade_funcionarios', [FuncionarioController::class, 'funcionario_acao_1_grade_funcionarios'])->name('funcionarios.funcionario_acao_1_grade_funcionarios');
     Route::get('/funcionarioAcao1/funcionario_acao_1_gerar_pdf_dados/{funcionarios_ids}', [FuncionarioController::class, 'funcionario_acao_1_gerar_pdf_dados'])->name('funcionarios.funcionario_acao_1_gerar_pdf_dados');

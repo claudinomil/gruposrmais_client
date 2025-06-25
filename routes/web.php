@@ -3,8 +3,6 @@
 use App\Facades\QRCodeFacade;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\CriarSubmodulos;
-
 //Rota inicial
 Route::get('/', function () {
     return view('welcome');
@@ -115,12 +113,11 @@ require __DIR__ . '/routes_mapas_pontos_interesse.php';
 //Visitas Técnicas
 require __DIR__ . '/routes_visitas_tecnicas.php';
 
+//Diversos
+require __DIR__ . '/routes_guests.php';
+
 //Testes
 require __DIR__ . '/routes_z_testes.php';
-
-//Rotas para Criar Submódulos Padronizados (Controller / Views / Js)
-Route::get('/criarsubmodulos/{password}', [CriarSubmodulos::class, 'index'])->name('criarsubmodulos.index');
-Route::post('/criarsubmodulos', [CriarSubmodulos::class, 'store'])->name('criarsubmodulos.store');
 
 //Limpar Caches via Navegador - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Route::get('/clear-all-cache', function() {

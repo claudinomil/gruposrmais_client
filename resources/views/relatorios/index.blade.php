@@ -326,18 +326,60 @@
             </div>
         </div>
     </div>
-</div>
 
-<div id="loadingAviso" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); color: white; font-size: 20px; text-align: center; padding-top: 20%; z-index: 9999;">
-    Gerando PDF, por favor aguarde...
+    <!-- Modal Relatorio 7 -->
+    <div class="modal fade bs-example-modal-sm" id="modal_relatorio7" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_relatorio7_titulo">Xxxxxxxxxxxx</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-12 pb-3">
+                            <label class="form-label">Executivos</label>
+                            <select class="form-select form-select-sm" name="modal_relatorio7_clientes_executivos_ids[]" id="modal_relatorio7_clientes_executivos_ids" multiple>
+                                @foreach ($clientes_executivos as $cliente_executivo)
+                                    <option value="{{$cliente_executivo['id']}}">{{$cliente_executivo['executivo_nome']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-12 pb-3">
+                            <label class="form-label">Funcionários</label>
+                            <select class="form-select form-select-sm" name="modal_relatorio7_funcionarios_ids[]" id="modal_relatorio7_funcionarios_ids" multiple>
+                                @foreach ($funcionarios as $funcionario)
+                                    <option value="{{$funcionario['id']}}">{{$funcionario['name']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12 text-end">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio7_cancelar">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="relatorio7(2)">Gerar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
 @endsection
 
 @section('script')
-    <!-- jsPDF e AutoTable -->
+    <!-- jsPDF -->
     <script type="text/javascript" src="{{ Vite::asset('resources/assets_template/libs/jspdf/jspdf.js') }}"></script>
     <script type="text/javascript" src="{{ Vite::asset('resources/assets_template/libs/jspdf/jspdf_autotable.js') }}"></script>
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- jsPDF e AutoTable -->
+{{--    <script type="text/javascript" src="{{ Vite::asset('resources/assets_template/libs/jspdf/jspdf.js') }}"></script>--}}
+{{--    <script type="text/javascript" src="{{ Vite::asset('resources/assets_template/libs/jspdf/jspdf_autotable.js') }}"></script>--}}
 
     <!-- scripts_relatorios.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_relatorios.js')}}"></script>

@@ -623,6 +623,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+    //Link: link_copiar_endereco''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    document.getElementById('link_copiar_endereco').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        //Endereço
+        document.getElementById('cep_cobranca').value = document.getElementById('cep').value;
+        document.getElementById('numero_cobranca').value = document.getElementById('numero').value;
+        document.getElementById('complemento_cobranca').value = document.getElementById('complemento').value;
+        document.getElementById('logradouro_cobranca').value = document.getElementById('logradouro').value;
+        document.getElementById('bairro_cobranca').value = document.getElementById('bairro').value;
+        document.getElementById('localidade_cobranca').value = document.getElementById('localidade').value;
+        document.getElementById('uf_cobranca').value = document.getElementById('uf').value;
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     $('#tipo').change(function(e) {
         if ($('#tipo').val() == 1) {
             $('.pessoa_juridica').show();

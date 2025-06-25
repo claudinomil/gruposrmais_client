@@ -1271,12 +1271,21 @@ function ost3_atualizarComboVeiculosEquipe() {
 
 async function ost3_ordem_servico_gerar_pdf(ordem_servico_id=0, traducao='pt') {
     try {
-        document.getElementById('loadingAviso').style.display = 'block';
+        //Aviso Temporário na tela'''''''''''''''''''''''''''''''''''''''''''''''''''''
+        var loadingAvisoTmp = document.getElementById('loading-aviso-tmp');
+        loadingAvisoTmp.innerHTML = 'Processando, por favor aguarde...';
+        loadingAvisoTmp.style.display = 'block';
+        //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
         await ost3_gerarPDF(ordem_servico_id, traducao);
     } catch (e) {
         alert("Erro ao gerar PDF: " + e.message);
     } finally {
-        document.getElementById('loadingAviso').style.display = 'none';
+        //Aviso Temporário na tela'''''''''''''''''''''''''''''''''''''''''''''''''''''
+        var loadingAvisoTmp = document.getElementById('loading-aviso-tmp');
+        loadingAvisoTmp.innerHTML = '';
+        loadingAvisoTmp.style.display = 'none';
+        //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     }
 }
 

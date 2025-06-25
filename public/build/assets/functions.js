@@ -2439,230 +2439,6 @@ function fornecedorExtraData(id='') {
     });
 }
 
-//Busca dados e monta o modal para o submódulo funcionarios
-function funcionarioModalInfo(id='') {
-    if (id == '') {id = document.getElementById('registro_id').value;}
-
-    //Abrir Modal
-    new bootstrap.Modal(document.getElementById('funcionario_modal_info')).show();
-
-    //Limpando dados
-    let elementos = document.querySelectorAll('.clearClass');
-    elementos.forEach(elemento => {elemento.src = ''; elemento.innerHTML = '';});
-
-    var url_atual = window.location.protocol+'//'+window.location.host+'/';
-
-    //Acessar rota
-    fetch(url_atual+'funcionarios/modalInfo/modal_info/'+id, {
-        method: 'GET',
-        headers: {'REQUEST-ORIGIN': 'fetch'}
-    }).then(response => {
-        return response.json();
-    }).then(data => {
-        //Lendo json
-        let json = data;
-
-        //Lendo dados funcionario
-        let funcionario = json.funcionario;
-
-        //Passando dados funcionario'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        //Header
-        const header_mi_fun_foto = document.querySelector('#funcionario_modal_info #header #mi_fun_foto');
-        const header_mi_fun_nome = document.querySelector('#funcionario_modal_info #header #mi_fun_nome');
-        const header_mi_fun_funcao = document.querySelector('#funcionario_modal_info #header #mi_fun_funcao');
-        const header_mi_fun_email = document.querySelector('#funcionario_modal_info #header #mi_fun_email');
-        const header_mi_fun_departamento = document.querySelector('#funcionario_modal_info #header #mi_fun_departamento');
-
-        header_mi_fun_foto.src = url_atual+funcionario.foto;
-        header_mi_fun_nome.innerHTML = funcionario.name;
-        header_mi_fun_funcao.innerHTML = funcionario.funcaoName;
-        header_mi_fun_email.innerHTML = funcionario.email;
-        header_mi_fun_departamento.innerHTML = funcionario.departamentoName;
-
-        //Tab Dados
-        const tab_fun_dados_mi_fun_cpf = document.querySelector('#funcionario_modal_info #tab_fun_dados #mi_fun_cpf');
-        const tab_fun_dados_mi_fun_departamento = document.querySelector('#funcionario_modal_info #tab_fun_dados #mi_fun_departamento');
-        const tab_fun_dados_mi_fun_funcao = document.querySelector('#funcionario_modal_info #tab_fun_dados #mi_fun_funcao');
-        const tab_fun_dados_mi_fun_nome = document.querySelector('#funcionario_modal_info #tab_fun_dados #mi_fun_nome');
-        const tab_fun_dados_mi_fun_telefones = document.querySelector('#funcionario_modal_info #tab_fun_dados #mi_fun_telefones');
-        const tab_fun_dados_mi_fun_celulares = document.querySelector('#funcionario_modal_info #tab_fun_dados #mi_fun_celulares');
-        const tab_fun_dados_mi_fun_data_admissao = document.querySelector('#funcionario_modal_info #tab_fun_dados #mi_fun_data_admissao');
-        const tab_fun_dados_mi_fun_data_demissao = document.querySelector('#funcionario_modal_info #tab_fun_dados #mi_fun_data_demissao');
-        const tab_fun_dados_mi_fun_pis = document.querySelector('#funcionario_modal_info #tab_fun_dados #mi_fun_pis');
-        const tab_fun_dados_mi_fun_pasep = document.querySelector('#funcionario_modal_info #tab_fun_dados #mi_fun_pasep');
-        const tab_fun_dados_mi_fun_carteira_trabalho = document.querySelector('#funcionario_modal_info #tab_fun_dados #mi_fun_carteira_trabalho');
-
-        tab_fun_dados_mi_fun_cpf.innerHTML = funcionario.cpf;
-        tab_fun_dados_mi_fun_departamento.innerHTML = funcionario.departamentoName;
-        tab_fun_dados_mi_fun_funcao.innerHTML = funcionario.funcaoName;
-        tab_fun_dados_mi_fun_nome.innerHTML = funcionario.name;
-        tab_fun_dados_mi_fun_telefones.innerHTML = formatarTelCel(1, funcionario.telefone_1)+'  '+formatarTelCel(1, funcionario.telefone_2);
-        tab_fun_dados_mi_fun_celulares.innerHTML = formatarTelCel(2, funcionario.celular_1)+'  '+formatarTelCel(2, funcionario.celular_2);
-        tab_fun_dados_mi_fun_data_admissao.innerHTML = formatarData(2, funcionario.data_admissao);
-        tab_fun_dados_mi_fun_data_demissao.innerHTML = formatarData(2, funcionario.data_demissao);
-        tab_fun_dados_mi_fun_pis.innerHTML = funcionario.pis;
-        tab_fun_dados_mi_fun_pasep.innerHTML = funcionario.pasep;
-        tab_fun_dados_mi_fun_carteira_trabalho.innerHTML = funcionario.carteira_trabalho;
-
-        //Upload Foto
-        const tab_fun_foto_upload_foto_funcionario_id = document.querySelector('#funcionario_modal_info #tab_fun_foto #upload_foto_funcionario_id');
-        const tab_fun_foto_upload_foto_funcionario_name = document.querySelector('#funcionario_modal_info #tab_fun_foto #upload_foto_funcionario_name');
-
-        tab_fun_foto_upload_foto_funcionario_id.value = funcionario.id;
-        tab_fun_foto_upload_foto_funcionario_name.value = funcionario.name;
-
-        //Upload Documento PDF
-        const tab_documento_pdf_upload_documentos_pdfs_funcionario_id = document.querySelector('#funcionario_modal_info #tab_fun_documentos_pdfs #upload_documentos_pdfs_funcionario_id');
-
-        tab_documento_pdf_upload_documentos_pdfs_funcionario_id.value = funcionario.id;
-        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    }).catch(error => {
-        alert('Erro funcionarioModalInfo: ', error);
-    });
-}
-
-//Busca dados e monta grade de documentos pdfs do submódulo funcionários
-function funcionarioModalInfoGradeDocumentosPdf({funcionario_id='', id_elemento_visualisacao='', btn_visualizar=true, btn_deletar=true}) {
-    if (id_elemento_visualisacao == '') {return false;}
-    if (funcionario_id == '') {funcionario_id = document.getElementById('registro_id').value;}
-
-    var url_atual = window.location.protocol+'//'+window.location.host+'/';
-
-    //Acessar rota
-    fetch(url_atual+'funcionarios/modalInfo/documentos_pdf/'+funcionario_id, {
-        method: 'GET',
-        headers: {'REQUEST-ORIGIN': 'fetch'}
-    }).then(response => {
-        return response.json();
-    }).then(data => {
-        //Lendo json
-        let documentos = data;
-
-        //Grade
-        let grade = '';
-
-        //Montar Grade
-        if (documentos.length > 0) {
-            grade += '<table class="table">';
-            grade += '  <thead>';
-            grade += '      <tr>';
-            grade += '          <th scope="col">#</th>';
-            grade += '          <th scope="col">Descrição</th>';
-            grade += '          <th scope="col">Data</th>';
-            grade += '          <th scope="col">Aviso</th>';
-
-            if (btn_visualizar === true || btn_deletar === true) {
-                grade += '          <th scope="col">Ações</th>';
-            }
-
-            grade += '      </tr>';
-            grade += '  </thead>';
-            grade += '  <tbody>';
-
-            //Varrer
-            let ln = 0;
-            documentos.forEach(dado => {
-                ln++;
-
-                //Aviso
-                let aviso_texto = '';
-
-                if (dado.aviso == 0) {aviso_texto = 'Nenhum Aviso';}
-                if (dado.aviso == 1) {aviso_texto = 'Avisar a cada 1 mês';}
-                if (dado.aviso == 2) {aviso_texto = 'Avisar a cada 3 meses';}
-                if (dado.aviso == 3) {aviso_texto = 'Avisar a cada 6 meses';}
-                if (dado.aviso == 4) {aviso_texto = 'Avisar a cada 1 ano';}
-                if (dado.aviso == 5) {aviso_texto = 'Avisar a cada 3 anos';}
-                if (dado.aviso == 6) {aviso_texto = 'Avisar a cada 6 anos';}
-
-                //Ações
-                let acoes = '';
-
-                acoes += '<div class="row">';
-
-                if (btn_visualizar === true || btn_deletar === true) {
-                    if (btn_visualizar === true) {
-                        acoes += '  <div class="col-6">';
-                        acoes += '      <button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Documento" onclick="window.open(\'' + dado.caminho + '\', \'_blank\');"><i class="fa fa-file-pdf font-size-18"></i></button>';
-                        acoes += '  </div>';
-                    }
-
-                    if (btn_deletar === true) {
-                        acoes += '  <div class="col-6">';
-                        acoes += '      <button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Documento" onclick="funcionarioModalInfoDeletarDocumentoPdf(' + dado.id + ');"><i class="fa fa-trash-alt font-size-18"></i></button>';
-                        acoes += '  </div>';
-                    }
-                }
-
-                acoes += '</div>';
-
-                //TR
-                grade += '<tr>';
-                grade += '  <th scope="row">'+ln+'</th>';
-                grade += '  <td>'+dado.descricao+'</td>';
-                grade += '  <td>'+formatarData(2, dado.data_documento)+'</td>';
-                grade += '  <td>'+aviso_texto+'</td>';
-
-                if (btn_visualizar === true || btn_deletar === true) {
-                    grade += '  <td>'+acoes+'</td>';
-                }
-
-                grade += '</tr>';
-            });
-
-            grade += '  </tbody>';
-            grade += '</table>';
-        } else {
-            grade = 'Nenhum documento encontrado.';
-        }
-
-        //Retornar Grade
-        document.getElementById(id_elemento_visualisacao).innerHTML = grade;
-    }).catch(error => {
-        alert('Erro funcionarioModalInfoGradeDocumentosPdf: '+error);
-    });
-}
-
-//Função para deletar documento da grade
-function funcionarioModalInfoDeletarDocumentoPdf(funcionario_documento_id) {
-    //Confirmação de Delete
-    alertSwalConfirmacao(function (confirmed) {
-        if (confirmed) {
-            var url_atual = window.location.protocol+'//'+window.location.host+'/';
-
-            //Acessar rota
-            fetch(url_atual+'funcionarios/modalInfo/deletar_documento_pdf/'+funcionario_documento_id, {
-                method: 'DELETE',
-                headers: {
-                    'REQUEST-ORIGIN': 'fetch',
-                    'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                //Lendo dados
-                if (data.success) {
-                    alertSwal('success', 'Funcionários', data.success, 'true', 2000);
-
-                    //Dados
-                    let funcionario_id = document.getElementById('upload_documentos_pdfs_funcionario_id').value;
-
-                    //Montar Grade
-                    funcionarioModalInfoGradeDocumentosPdf({funcionario_id:funcionario_id, id_elemento_visualisacao:'div_frm_upload_documentos_pdfs_fun_listar'});
-                } else if (data.error) {
-                    alertSwal('error', 'Funcionários', data.error, 'true', 2000);
-                } else if (data.error_permissao) {
-                    alertSwal('warning', "Permissão Negada", '', 'true', 2000);
-                } else {
-                    alert('Erro interno');
-                }
-            }).catch(error => {
-                alert('Erro funcionarioModalInfoDeletarDocumentoPdf:'+error);
-            });
-        }
-    });
-}
-
 function notificacaoLerData(id) {
     //Buscar dados do Registro
     $.get("notificacoes/"+id, function (data) {
@@ -4374,3 +4150,380 @@ async function arquivoExiste(caminho) {
         return false;
     }
 }
+
+
+//Fuções para gerar Cartões de Emergência - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//Fuções para gerar Cartões de Emergência - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+/*
+* @PARAM op : 1(Clientes Executivos)  2(Funcionarios)
+* @PARAM ids : um ou vários ids do Cliente Executivo ou Funcionários
+* @PARAM gerar : 1(Um registro para mostrar no Modal Info)  2(Um ou vários registros para mostrar em aba diferente do navegador)
+* @PARAM divId : Div para visualização do Pdf com gerar=1
+ */
+async function cartaoEmergencialGerarPDF(op = 0, ids = 0, gerar = 2, traducao = 'pt', divId = '') {
+    //Crítica
+    if (op == 0) return;
+    if (ids == 0) return;
+    if (gerar == 1 && divId == '') return;
+
+    //Configurações - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    //Configurações - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    //Iniciando
+    const { jsPDF } = window.jspdf;
+
+    //Variáveis (Geral)
+    let doc;
+    const larguraCartao = 85.60;
+    const alturaCartao = 53.98;
+    const espacamento = 10;
+    let larguraPagina, margem, xEsquerda, xDireita, yTop;
+
+    //ids
+    let strIds = String(ids);
+    let arrIds = strIds.split(',');
+    let qtdIds = arrIds.length;
+
+    var pageTopo = 'build/assets/images/relatorios_topo.png';
+    var pageRodape = 'build/assets/images/relatorios_rodape.png';
+
+    //Gerar 1
+    if (gerar === 1 && qtdIds == 1) {
+        doc = new jsPDF({ orientation: "landscape", unit: "mm", format: [larguraCartao, alturaCartao] });
+        larguraPagina = larguraCartao;
+        margem = 0;
+        xEsquerda = margem;
+        xDireita = larguraPagina - margem - larguraCartao;
+        yTop = 0;
+    }
+
+    //Gerar 2
+    if (gerar === 2) {
+        doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+        larguraPagina = 210;
+        alturaPagina = 297;
+        margem = 15;
+        xEsquerda = margem;
+        xDireita = larguraPagina - margem - larguraCartao;
+        yTop = 50;
+
+        var relatorio_parametros = '';
+        if (op == 1) {relatorio_parametros = 'Clientes Executivos';}
+        if (op == 2) {relatorio_parametros = 'Funcionarios';}
+    }
+
+    if (!doc) return;
+    //Configurações - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    //Configurações - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Funções internas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    //Funções internas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    async function inserirCabecalho() {
+        //Linha 1'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Texto 1
+        texto = 'SISTEMA SAC';
+        if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+        texto = ' '+texto;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(12);
+        doc.setFillColor('#9eeaf7');
+        doc.rect(15, yTop - 6, larguraPagina - 30, 8, 'F');
+        doc.text(texto, 15, yTop);
+
+        //Texto 2
+        texto = 'ADMINISTRAÇÃO E CONTROLE';
+        if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+        texto = texto+' ';
+        var posX = larguraPagina - 15 - doc.getTextWidth(texto);
+        doc.text(texto, posX, yTop);
+
+        yTop = yTop + 12;
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Linha 2'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Texto 1
+        texto = 'Parâmetros: '+relatorio_parametros;
+        if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+        texto = ' '+texto;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(12);
+        doc.setFillColor('#d2d3d4');
+        doc.rect(15, yTop - 6, larguraPagina - 30, 8, 'F');
+        doc.text(texto, 15, yTop);
+
+        //Texto 2
+        texto = dataServidor(2)+' às '+horaServidor(1);
+        if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+        texto = texto+' ';
+        var posX = larguraPagina - 15 - doc.getTextWidth(texto);
+        doc.text(texto, posX, yTop);
+
+        yTop = yTop + 12;
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Linha 3'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Texto 1
+        texto = 'CARTÕES EMERGENCIAIS';
+        if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+        texto = ' '+texto;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(12);
+        doc.setFillColor('#d2d3d4');
+        doc.rect(15, yTop - 6, larguraPagina - 30, 8, 'F');
+        doc.text(texto, 15, yTop);
+
+        yTop = yTop + 15;
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    }
+
+    async function adicionarCabecalhoRodape(topo, rodape) {
+        doc.addImage(topo, 'PNG', 15, 10, larguraPagina - 30, 30);
+        doc.addImage(rodape, 'PNG', 15, alturaPagina - 30, larguraPagina - 20, 20);
+    }
+
+    async function novaPagina() {
+        doc.addPage();
+        yTop = 50;
+
+        await adicionarCabecalhoRodape(pageTopo, pageRodape);
+    }
+    //Funções internas - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    //Funções internas - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Gerando PDF - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    //Gerando PDF - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    try {
+        //Aviso Temporário na tela'''''''''''''''''''''''''''''''''''''''''''''''''''''
+        var loadingAvisoTmp = document.getElementById('loading-aviso-tmp');
+        loadingAvisoTmp.innerHTML = 'Processando, por favor aguarde...';
+        loadingAvisoTmp.style.display = 'block';
+        //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Dados
+        const pessoas = await cartaoEmergencialDados(op, ids);
+        var registro = 0;
+
+        for (const pessoa of pessoas) {
+            registro++;
+
+            //QRCode
+            var qrCodeUrl = 'http://192.168.0.207/gruposrmais-client/public/'; //window.location.protocol+'//'+window.location.host+'/';
+            if (op == 1) {qrCodeUrl += 'guests/validar_cartao_emergencial/clientes_executivos/'+pessoa.id;}
+            if (op == 2) {qrCodeUrl += 'guests/validar_cartao_emergencial/funcionarios/'+pessoa.id;}
+
+            const qrBase64 = await cartaoEmergencialGerarQRCodeBase64(qrCodeUrl);
+
+            //Fotografia
+            pessoa.fotoBase64 = await cartaoEmergencialCarregarImagem(pessoa.fotoBase64);
+
+            if (gerar === 1) {
+                await cartaoEmergencialDesenhar(doc, xEsquerda, yTop, pessoa, qrBase64, traducao);
+            }
+
+            if (gerar === 2) {
+                //Cabeçalho e rodapé
+                if (registro == 1) {
+                    await adicionarCabecalhoRodape(pageTopo, pageRodape);
+
+                    inserirCabecalho();
+                }
+
+                await cartaoEmergencialDesenhar(doc, xEsquerda, yTop, pessoa, qrBase64, 'pt');
+                await cartaoEmergencialDesenhar(doc, xDireita, yTop, pessoa, qrBase64, 'en');
+
+                yTop += alturaCartao + espacamento;
+
+                if (yTop + alturaCartao > 270) {
+                    if (registro < pessoas.length) {
+                        novaPagina();
+                    }
+                }
+            }
+        }
+
+        //Gerar 1
+        if (gerar === 1) {
+            // Usar pdfjsLib global carregado via <script>
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+            const blob = doc.output("blob");
+            const url = URL.createObjectURL(blob);
+
+            const pdf = await pdfjsLib.getDocument(url).promise;
+            const page = await pdf.getPage(1);
+
+            const viewport = page.getViewport({ scale: 3 });
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+
+            await page.render({ canvasContext: context, viewport }).promise;
+
+            const imgDataUrl = canvas.toDataURL('image/png');
+
+            const div = document.getElementById(divId);
+            if (!div) {
+                console.warn(`Div com id "${divId}" não encontrada.`);
+                return;
+            }
+
+            div.innerHTML = ''; // limpa conteúdo
+
+            const img = document.createElement('img');
+            img.src = imgDataUrl;
+            img.style.maxWidth = '100%';
+
+            div.appendChild(img);
+
+            URL.revokeObjectURL(url);
+        }
+
+        //Gerar 2
+        if (gerar === 2) {
+            const pdfUrl = doc.output('bloburl');
+            window.open(pdfUrl, '_blank');
+        }
+    } catch (e) {
+        alert("Erro ao gerar PDF: " + e.message);
+    } finally {
+        //Aviso Temporário na tela'''''''''''''''''''''''''''''''''''''''''''''''''''''
+        var loadingAvisoTmp = document.getElementById('loading-aviso-tmp');
+        loadingAvisoTmp.innerHTML = '';
+        loadingAvisoTmp.style.display = 'none';
+        //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    }
+    //Gerando PDF - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    //Gerando PDF - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+}
+
+async function cartaoEmergencialDados(op, ids) {
+    //Clientes Executivos
+    if (op == 1) {
+        const resposta = await fetch('/clientes_executivos/cartoes_emergenciais/dados/'+ids, {
+            method: 'GET',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        });
+
+        const dados = await resposta.json();
+
+        if (dados.success) {
+            var clientes_executivos = dados.success;
+
+            //monta o array no formato usado no PDF
+            return clientes_executivos.map(pessoa => ({
+                id: pessoa.id,
+                nome: pessoa.executivo_nome,
+                genero: pessoa.generoName,
+                nascimento: pessoa.data_nascimento,
+                fotoBase64: pessoa.foto
+            }));
+        } else {
+            return [];
+        }
+    }
+
+    //Funcionarios
+    if (op == 2) {
+        const resposta = await fetch('/funcionarios/cartoes_emergenciais/dados/'+ids, {
+            method: 'GET',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        });
+
+        const dados = await resposta.json();
+
+        if (dados.success) {
+            var funcionarios = dados.success;
+
+            //monta o array no formato usado no PDF
+            return funcionarios.map(pessoa => ({
+                id: pessoa.id,
+                nome: pessoa.name,
+                genero: pessoa.generoName,
+                nascimento: pessoa.data_nascimento,
+                fotoBase64: pessoa.foto
+            }));
+        } else {
+            return [];
+        }
+    }
+}
+
+// Desenha 1 cartão
+async function cartaoEmergencialDesenhar(doc, x, y, pessoa, qrBase64, traducao) {
+    async function inserirTexto({texto, marginLeft, marginTop, align = 'left', fontSize = 12}) {
+        doc.setFontSize(fontSize);
+        doc.text(texto, marginLeft, marginTop, { align: align });
+    }
+
+    const largura = 85.60;
+    const altura = 53.98;
+
+    //doc.setDrawColor(567);
+    doc.setLineWidth(0.5);
+    doc.roundedRect(x, y, largura, altura, 1, 1);
+
+    var titulo = 'CARTÃO DE EMERGÊNCIA';
+    if (traducao == 'en') {titulo = await traduzirTextoGoogle(titulo);}
+    await inserirTexto({texto:titulo, marginLeft:x + largura / 2, marginTop:y + 6, align:'center', fontSize:10});
+
+    doc.addImage(pessoa.fotoBase64, "JPEG", x + 3, y + 10, 20, 25);
+    doc.addImage(qrBase64, "PNG", x + largura - 23, y + 29, 20, 20); // QR à direita inferior
+
+
+    var nome = pessoa.nome;
+    await inserirTexto({texto:nome, marginLeft:x + 26, marginTop:y + 16, align:'left', fontSize:8});
+
+    var genero = 'Genero: '+pessoa.genero;
+    if (traducao == 'en') {genero = await traduzirTextoGoogle(genero);}
+    await inserirTexto({texto:genero, marginLeft:x + 26, marginTop:y + 22 + 5, align:'left', fontSize:8});
+
+    var nascimento = 'Nascimento: '+pessoa.nascimento;
+    if (traducao == 'en') {nascimento = await traduzirTextoGoogle(nascimento);}
+    await inserirTexto({texto:nascimento, marginLeft:x + 26, marginTop:y + 22 + 10, align:'left', fontSize:8});
+}
+
+// Gera QR Code e retorna como base64
+function cartaoEmergencialGerarQRCodeBase64(texto) {
+    return new Promise(resolve => {
+        const container = document.getElementById("qrcode-container-tmp");
+        container.innerHTML = "";
+
+        // Força modo canvas, desativa renderização em imagem
+        const qr = new QRCode(container, {
+            text: texto,
+            width: 100,
+            height: 100,
+            correctLevel: QRCode.CorrectLevel.H,
+            useSVG: false
+        });
+
+        // Aguarda o QR ser renderizado e captura o canvas
+        setTimeout(() => {
+            const canvas = container.querySelector("canvas");
+            if (!canvas) {
+                console.error("QR code não gerado como canvas.");
+                resolve(""); // ou lançar erro
+                return;
+            }
+            resolve(canvas.toDataURL("image/png"));
+        }, 200); // tempo suficiente para renderizar
+    });
+}
+
+async function cartaoEmergencialCarregarImagem(url) {
+    const blob = await fetch(url).then(r => r.blob());
+    return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
+    });
+}
+//Fuções para gerar Cartões de Emergência - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//Fuções para gerar Cartões de Emergência - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

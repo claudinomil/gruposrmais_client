@@ -327,6 +327,113 @@ function relatorio6(op=1, relatorio_name='') {
     }
 }
 
+function relatorio7(op=1, relatorio_name='') {
+    if (op == 1) {
+        //Título Modal
+        document.getElementById('modal_relatorio7_titulo').innerHTML = relatorio_name;
+
+        //Abrir Modal
+        new bootstrap.Modal(document.getElementById('modal_relatorio7')).show();
+    } else {
+        //Validar campos do modal'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        var validacao_ok = true;
+        var mensagem = '';
+
+        //Campo: modal_relatorio7_clientes_executivos_ids && modal_relatorio7_funcionarios_ids (requerido)
+        if (validacao({op:1, value:document.getElementById('modal_relatorio7_clientes_executivos_ids').value}) === false && validacao({op:1, value:document.getElementById('modal_relatorio7_funcionarios_ids').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Escolha Clientes Executivos ou Funcionários.'+'<br>';
+        }
+
+        //Mensagem
+        if (validacao_ok === false) {
+            var texto = '<div class="pt-3">';
+            texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+            texto += '</div>';
+
+            alertSwal('warning', 'Validação', texto, 'true', 5000);
+            return;
+        }
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Clientes Executivos escolhidos
+        var select = document.getElementById('modal_relatorio7_clientes_executivos_ids');
+        var clientes_executivos = Array.from(select.selectedOptions).map(option => option.value);
+        if (clientes_executivos != '') {cartaoEmergencialGerarPDF(1, clientes_executivos, 2);}
+
+        //Funcionários escolhidos
+        var select = document.getElementById('modal_relatorio7_funcionarios_ids');
+        var funcionarios = Array.from(select.selectedOptions).map(option => option.value);
+        if (funcionarios != '') {cartaoEmergencialGerarPDF(2, funcionarios, 2);}
+
+        //Fechar Modal
+        document.getElementById('modal_relatorio7_cancelar').click();
+    }
+}
+
+// function relatorio7(op=1, relatorio_name='') {
+//     if (op == 1) {
+//         //Título Modal
+//         document.getElementById('modal_relatorio7_titulo').innerHTML = relatorio_name;
+//
+//         //Abrir Modal
+//         new bootstrap.Modal(document.getElementById('modal_relatorio7')).show();
+//     } else {
+//         //URL
+//         var url = window.location.protocol+'//'+window.location.host+'/';
+//
+//         return new Promise(function(resolve, reject) {
+//             //Validar campos do modal'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//             var validacao_ok = true;
+//             var mensagem = '';
+//
+//             //Campo: modal_relatorio7_clientes_executivos_ids && modal_relatorio7_funcionarios_ids (requerido)
+//             if (validacao({op:1, value:document.getElementById('modal_relatorio7_clientes_executivos_ids').value}) === false && validacao({op:1, value:document.getElementById('modal_relatorio7_funcionarios_ids').value}) === false) {
+//                 validacao_ok = false;
+//                 mensagem += 'Escolha Clientes Executivos ou Funcionários.'+'<br>';
+//             }
+//
+//             //Mensagem
+//             if (validacao_ok === false) {
+//                 var texto = '<div class="pt-3">';
+//                 texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+//                 texto += '</div>';
+//
+//                 alertSwal('warning', 'Validação', texto, 'true', 5000);
+//
+//                 return;
+//             }
+//             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//
+//             //Clientes Executivos escolhidos
+//             var select = document.getElementById('modal_relatorio7_clientes_executivos_ids');
+//             var clientes_executivos = Array.from(select.selectedOptions).map(option => option.value);
+//             if (clientes_executivos == '') {clientes_executivos = 'xxx';}
+//
+//             //Funcionários escolhidos
+//             var select = document.getElementById('modal_relatorio7_funcionarios_ids');
+//             var funcionarios = Array.from(select.selectedOptions).map(option => option.value);
+//             if (funcionarios == '') {funcionarios = 'xxx';}
+//
+//             //Dados
+//             $.get(url+'relatorios/relatorio7/'+clientes_executivos+'/'+funcionarios, function (data) {
+//                 if (data.success) {
+//                     resolve(data.success);
+//                 } else {
+//                     alert(data.error);
+//                     resolve([]);
+//                 }
+//             });
+//         }).then(function (data) {
+//             //Gerar PDF
+//             gerarPDFRelatorio({x_relatorio:6, x_dados:data});
+//
+//             //Fechar Modal
+//             document.getElementById('modal_relatorio7_cancelar').click();
+//         });
+//     }
+// }
+
 async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
     //Return
     if (x_relatorio == 0) {return;}
@@ -473,7 +580,11 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
     //Gerando PDF - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     //Gerando PDF - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     try {
-        document.getElementById('loadingAviso').style.display = 'block';
+        //Aviso Temporário na tela'''''''''''''''''''''''''''''''''''''''''''''''''''''
+        var loadingAvisoTmp = document.getElementById('loading-aviso-tmp');
+        loadingAvisoTmp.innerHTML = 'Processando, por favor aguarde...';
+        loadingAvisoTmp.style.display = 'block';
+        //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         //Relatório 1 - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         //Relatório 1 - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1254,65 +1365,6 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
                     }
                 }
             }
-
-
-            // dados_api.forEach(async function(item) {
-            //     numOcor++;
-            //
-            //
-            //     if (item.locality) {
-            //         //Texto
-            //         texto = 'Localização: '+item.locality.name;
-            //         if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
-            //         texto = ' '+texto;
-            //         await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_fontSize:12, x_fontStyle:'bold', x_fundo:true});
-            //     }
-            //
-            //
-            //
-            //     /*
-            //     console.log('OCORRÊNCIA N. : '+numOcor+' XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-            //     console.log('Endereço: ', item.address);
-            //     console.log('Vizinhança: ', item.neighborhood.name);
-            //     if (item.locality) {console.log('Localização: ', item.locality.name);}
-            //     console.log('Data: ', item.date);
-            //     console.log('Ação Policial: ', item.policeAction);
-            //     console.log('Presença do Agente: ', item.agentPresence);
-            //     console.log('Razão Principal: ', item.contextInfo.mainReason.name);
-            //     console.log('Unidade Policial: ', item.contextInfo.policeUnit);
-            //     if (item.clippings) {console.log('Recortes: ', item.clippings.name);}
-            //
-            //     if (item.victims) {
-            //         let vitimas = item.victims;
-            //
-            //         var numVit = 0;
-            //
-            //         vitimas.forEach(function(vitima) {
-            //             numVit++;
-            //
-            //             console.log('VÍTIMA N. : ' + numVit + ' YYYYYYYYYYYYYYYYYYYY');
-            //             console.log('Tipo: ', vitima.type);
-            //             console.log('Situação: ', vitima.situation);
-            //             console.log('Idade: ', vitima.age);
-            //             console.log('Gênero: ', vitima.genre.name);
-            //             console.log('Raça: ', vitima.race);
-            //             console.log('FIM DA VÍTIMA N. : '+numVit+' YYYYYYYYYYYYYYYYYYYY');
-            //         });
-            //     }
-            //
-            //     console.log('FIM DA OCORRÊNCIA N. : '+numOcor+' XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-            //     */
-            //
-            //
-            // });
-
-
-
-
-
-
-
-
         }
         //Relatório 6 - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         //Relatório 6 - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1357,7 +1409,11 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
     } catch (e) {
         alert("Erro ao gerar PDF: " + e.message);
     } finally {
-        document.getElementById('loadingAviso').style.display = 'none';
+        //Aviso Temporário na tela'''''''''''''''''''''''''''''''''''''''''''''''''''''
+        var loadingAvisoTmp = document.getElementById('loading-aviso-tmp');
+        loadingAvisoTmp.innerHTML = '';
+        loadingAvisoTmp.style.display = 'none';
+        //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     }
     //Gerando PDF - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     //Gerando PDF - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1365,4 +1421,11 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
 
 document.addEventListener("DOMContentLoaded", function(event) {
     relatorios();
+
+    //<select> select2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    $('#modal_relatorio7_clientes_executivos_ids, #modal_relatorio7_funcionarios_ids').select2({
+        dropdownParent: $('#modal_relatorio7'),
+        width: '100%'
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 });

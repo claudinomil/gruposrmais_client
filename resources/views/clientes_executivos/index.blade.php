@@ -46,12 +46,12 @@
                     </div>
 
                     <!-- Tabela (Componente Blade) -->
-                    <x-table-crud-ajax :numCols="4" :colsNames="['Cliente', 'Nome', 'Função', 'Ações']" />
+                    <x-table-crud-ajax :numCols="4" :colsNames="['#', 'Cliente', 'Nome', 'Função', 'Ações']" />
                     <input type="hidden" id="crudPrefixPermissaoSubmodulo" name="crudPrefixPermissaoSubmodulo" value="{{$se_prefixPermissaoSubmodulo}}">
                     <input type="hidden" id="crudNameSubmodulo" name="crudNameSubmodulo" value="{{$se_nameSubmodulo}}">
                     <input type="hidden" id="crudNameFormSubmodulo" name="crudNameFormSubmodulo" value="{{$se_nameFormSubmodulo}}">
                     <input type="hidden" id="crudFieldsFormSubmodulo" name="crudFieldsFormSubmodulo" value="{{$crudFieldsFormSubmodulo}}">
-                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="clienteName,executivo_nome,executivo_funcao,action">
+                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="foto,clienteName,executivo_nome,executivo_funcao,action">
                 </div>
             </div>
         </div>
@@ -63,6 +63,16 @@
 @endsection
 
 @section('script')
+    <!-- jsPDF -->
+    <script type="text/javascript" src="{{ Vite::asset('resources/assets_template/libs/jspdf/jspdf.js') }}"></script>
+    <script type="text/javascript" src="{{ Vite::asset('resources/assets_template/libs/jspdf/jspdf_autotable.js') }}"></script>
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
     <!-- scripts_clientes_executivos.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_clientes_executivos.js')}}"></script>
 @endsection

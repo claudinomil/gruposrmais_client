@@ -142,29 +142,6 @@
                                 </div>
 
                                 <div class="row pt-4">
-                                    <h5 class="pb-4 text-primary"><i class="fas fa-landmark"></i> Dados Bancários</h5>
-                                    <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Banco</label>
-                                        <select class="form-control select2" name="banco_id" id="banco_id">
-                                            <option value="">Selecione...</option>
-
-                                            @foreach ($bancos as $key => $banco)
-                                                <option value="{{ $banco['id'] }}">{{ $banco['name'] }}</option>
-                                            @endforeach
-
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Agência</label>
-                                        <input type="text" class="form-control" id="agencia" name="agencia">
-                                    </div>
-                                    <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Conta</label>
-                                        <input type="text" class="form-control" id="conta" name="conta">
-                                    </div>
-                                </div>
-
-                                <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-paste"></i> Documentos</h5>
                                     <div class="form-group col-12 col-md-3 pb-3 pessoa_fisica">
                                         <label class="form-label">Identidade (Órgão)</label>
@@ -239,7 +216,8 @@
                                 </div>
 
                                 <div class="row pt-4">
-                                    <h5 class="pb-4 text-primary"><i class="fas fa-house-user"></i> Endereço Cobrança</h5>
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-house-user"></i> Endereço Cobrança&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="text-success font-size-10" id="link_copiar_endereco">:: Copiar do Endereço</a></h5>
+
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">CEP</label>
                                         <input type="text" class="form-control mask_cep" id="cep_cobranca" name="cep_cobranca" onblur="pesquisacep_cobranca(this.value);">

@@ -88,6 +88,7 @@ export default defineConfig({
                 {src: 'resources/assets_template/libs/jspdf/jspdf_autotable.js', dest: 'assets'},
                 {src: 'resources/assets_template/images/clientes/cliente-0.png', dest: 'assets/images/clientes'},
                 {src: 'resources/assets_template/images/fornecedores/fornecedor-0.png', dest: 'assets/images/fornecedores'},
+                {src: 'resources/assets_template/images/clientes_executivos/cliente_executivo-0.png', dest: 'assets/images/clientes_executivos'},
                 {src: 'resources/assets_template/images/funcionarios/funcionario-0.png', dest: 'assets/images/funcionarios'},
                 {src: 'resources/assets_template/images/users/avatar-0.png', dest: 'assets/images/users'},
                 {src: 'resources/assets_template/images/visitas_tecnicas/visita-tecnica-0.png', dest: 'assets/images/visitas_tecnicas'},
@@ -141,6 +142,7 @@ export default defineConfig({
                 {src: 'resources/assets_template/pdfs/clientes/pdf.pdf', dest: 'assets/pdfs/clientes'},
                 {src: 'resources/assets_template/pdfs/visitas_tecnicas/pdf.pdf', dest: 'assets/pdfs/visitas_tecnicas'},
                 {src: 'resources/assets_template/pdfs/funcionarios/pdf.pdf', dest: 'assets/pdfs/funcionarios'},
+                {src: 'resources/assets_template/pdfs/clientes_executivos/pdf.pdf', dest: 'assets/pdfs/clientes_executivos'},
 
                 {src: 'resources/assets_template/qrcodes/clientes_servicos/qrcode.pdf', dest: 'assets/qrcodes/clientes_servicos'},
 

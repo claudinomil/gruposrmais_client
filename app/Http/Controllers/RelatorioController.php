@@ -29,12 +29,16 @@ class RelatorioController extends Controller
             $users = $this->content['users'];
             $submodulos = $this->content['submodulos'];
             $operacoes = $this->content['operacoes'];
+            $clientes_executivos = $this->content['clientes_executivos'];
+            $funcionarios = $this->content['funcionarios'];
         } else {
             $grupos = [];
             $situacoes = [];
             $users = [];
             $submodulos = [];
             $operacoes = [];
+            $clientes_executivos = [];
+            $funcionarios = [];
         }
 
         return view('relatorios.index', [
@@ -42,7 +46,9 @@ class RelatorioController extends Controller
             'situacoes' => $situacoes,
             'users' => $users,
             'submodulos' => $submodulos,
-            'operacoes' => $operacoes
+            'operacoes' => $operacoes,
+            'clientes_executivos' => $clientes_executivos,
+            'funcionarios' => $funcionarios
         ]);
     }
 
