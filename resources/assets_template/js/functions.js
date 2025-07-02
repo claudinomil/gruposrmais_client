@@ -4151,7 +4151,6 @@ async function arquivoExiste(caminho) {
     }
 }
 
-
 //Fuções para gerar Cartões de Emergência - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Fuções para gerar Cartões de Emergência - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -4306,18 +4305,29 @@ async function cartaoEmergencialGerarPDF(op = 0, ids = 0, gerar = 2, traducao = 
         for (const pessoa of pessoas) {
             registro++;
 
-            //QRCode
-            var qrCodeUrl = 'http://192.168.0.207/gruposrmais-client/public/'; //window.location.protocol+'//'+window.location.host+'/';
-            if (op == 1) {qrCodeUrl += 'guests/validar_cartao_emergencial/clientes_executivos/'+pessoa.id;}
-            if (op == 2) {qrCodeUrl += 'guests/validar_cartao_emergencial/funcionarios/'+pessoa.id;}
+            //QRCode caminho PNG
+            var qrCodePngCaminho = '';
+            var qrCodePngCaminhoPt = '';
+            var qrCodePngCaminhoEn = '';
 
-            const qrBase64 = await cartaoEmergencialGerarQRCodeBase64(qrCodeUrl);
-
-            //Fotografia
-            pessoa.fotoBase64 = await cartaoEmergencialCarregarImagem(pessoa.fotoBase64);
+            if (op == 1) {
+                qrCodePngCaminhoPt = 'build/assets/qrcodes/clientes_executivos/qrcode_cartao_emergencial_pt_'+pessoa.id+'.png';
+                qrCodePngCaminhoEn = 'build/assets/qrcodes/clientes_executivos/qrcode_cartao_emergencial_en_'+pessoa.id+'.png';
+            }
+            if (op == 2) {
+                qrCodePngCaminhoPt = 'build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_pt_'+pessoa.id+'.png';
+                qrCodePngCaminhoEn = 'build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_en_'+pessoa.id+'.png';
+            }
 
             if (gerar === 1) {
-                await cartaoEmergencialDesenhar(doc, xEsquerda, yTop, pessoa, qrBase64, traducao);
+                if (traducao == 'pt') {
+                    qrCodePngCaminho = 'build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_pt_' + pessoa.id + '.png';
+                }
+                if (traducao == 'en') {
+                    qrCodePngCaminho = 'build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_en_'+pessoa.id+'.png';
+                }
+
+                await cartaoEmergencialDesenhar(doc, xEsquerda, yTop, pessoa, qrCodePngCaminho, traducao);
             }
 
             if (gerar === 2) {
@@ -4328,8 +4338,8 @@ async function cartaoEmergencialGerarPDF(op = 0, ids = 0, gerar = 2, traducao = 
                     inserirCabecalho();
                 }
 
-                await cartaoEmergencialDesenhar(doc, xEsquerda, yTop, pessoa, qrBase64, 'pt');
-                await cartaoEmergencialDesenhar(doc, xDireita, yTop, pessoa, qrBase64, 'en');
+                await cartaoEmergencialDesenhar(doc, xEsquerda, yTop, pessoa, qrCodePngCaminhoPt, 'pt');
+                await cartaoEmergencialDesenhar(doc, xDireita, yTop, pessoa, qrCodePngCaminhoEn, 'en');
 
                 yTop += alturaCartao + espacamento;
 
@@ -4419,7 +4429,15 @@ async function cartaoEmergencialDados(op, ids) {
                 nome: pessoa.executivo_nome,
                 genero: pessoa.generoName,
                 nascimento: pessoa.data_nascimento,
-                fotoBase64: pessoa.foto
+                foto: pessoa.foto,
+                contato_1_nome: pessoa.contato_1_nome,
+                contato_1_parentesco: pessoa.contato_1_parentesco,
+                contato_1_telefone: pessoa.contato_1_telefone,
+                contato_1_celular: pessoa.contato_1_celular,
+                contato_2_nome: pessoa.contato_2_nome,
+                contato_2_parentesco: pessoa.contato_2_parentesco,
+                contato_2_telefone: pessoa.contato_2_telefone,
+                contato_2_celular: pessoa.contato_2_celular
             }));
         } else {
             return [];
@@ -4447,7 +4465,15 @@ async function cartaoEmergencialDados(op, ids) {
                 nome: pessoa.name,
                 genero: pessoa.generoName,
                 nascimento: pessoa.data_nascimento,
-                fotoBase64: pessoa.foto
+                foto: pessoa.foto,
+                contato_1_nome: pessoa.contato_1_nome,
+                contato_1_parentesco: pessoa.contato_1_parentesco,
+                contato_1_telefone: pessoa.contato_1_telefone,
+                contato_1_celular: pessoa.contato_1_celular,
+                contato_2_nome: pessoa.contato_2_nome,
+                contato_2_parentesco: pessoa.contato_2_parentesco,
+                contato_2_telefone: pessoa.contato_2_telefone,
+                contato_2_celular: pessoa.contato_2_celular
             }));
         } else {
             return [];
@@ -4456,74 +4482,163 @@ async function cartaoEmergencialDados(op, ids) {
 }
 
 // Desenha 1 cartão
-async function cartaoEmergencialDesenhar(doc, x, y, pessoa, qrBase64, traducao) {
-    async function inserirTexto({texto, marginLeft, marginTop, align = 'left', fontSize = 12}) {
-        doc.setFontSize(fontSize);
-        doc.text(texto, marginLeft, marginTop, { align: align });
-    }
+async function cartaoEmergencialDesenhar(doc, x, y, pessoa, qrCodePngCaminho, traducao) {
+    //URL
+    var url_atual = window.location.protocol + '//' + window.location.host + '/';
 
     const largura = 85.60;
     const altura = 53.98;
 
-    //doc.setDrawColor(567);
+    // Cabeçalho azul
+    doc.setFillColor('#c0f0f7'); // azul claro
+    doc.rect(x, y, largura, 10, 'F');
+
+    // Logo (esquerda)
+    const logo = 'build/assets/images/cartao_emergencial_cnooc.png';
+    doc.addImage(logo, 'PNG', x + 2, y + 1.5, 10, 7);
+
+    // Título
+    doc.setFontSize(10);
+    doc.setTextColor('#ce0000');
+
+    if (traducao == 'pt') {
+        doc.text("CARTÃO DE EMERGÊNCIA", x + largura / 2, y + 6.5, { align: 'center' });
+    } else {
+        doc.text("EMERGENCY CARD", x + largura / 2, y + 6.5, { align: 'center' });
+    }
+
+    // Ícone médico (direita)
+    const icone = 'build/assets/images/emergencia.png';
+    doc.addImage(icone, 'PNG', x + largura - 11, y + 1.5, 7, 7);
+
+    // Foto
+    var caminhoFoto = 'build/assets/images/funcionarios/funcionario-0.png';
+    await arquivoExiste(url_atual+pessoa.foto).then(existe => {
+        if (existe) {caminhoFoto = pessoa.foto;}
+    });
+
+    const base64 = await carregarImagemComoBase64(caminhoFoto);
+    const imagemCorrigida = await corrigirRotacaoImagem(base64);
+    doc.addImage(imagemCorrigida, "JPEG", x + 3, y + 12, 20, 20);
+
+    // QR Code (ao lado direito da foto)
+    doc.addImage(qrCodePngCaminho, "PNG", x + largura - 23, y + 12, 20, 20);
+
+    // Nome
+    doc.setTextColor('#000000');
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
+    doc.text(pessoa.nome, x + 26, y + 15, { maxWidth: 36 });
+
+    // Informações
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+
+    const genero = traducao === 'en' ? await traduzirTextoGoogle('Gender: ' + pessoa.genero) : 'Gênero: ' + pessoa.genero;
+    const nascimento = traducao === 'en' ? await traduzirTextoGoogle('Date of Birth: ' + pessoa.nascimento) : 'Nascimento: ' + pessoa.nascimento;
+
+    const larguraTextoMax = 36; // limita a largura para não passar sob o QR
+
+    doc.text(genero, x + 26, y + 26, { maxWidth: larguraTextoMax });
+    doc.text(nascimento, x + 26, y + 30, { maxWidth: larguraTextoMax });
+
+    // Contato de emergência (embaixo)
+    var contato_1 = '';
+    var contato_2 = '';
+
+    if (pessoa.contato_1_nome) contato_1 = pessoa.contato_1_nome;
+    if (pessoa.contato_1_parentesco) contato_1 += (contato_1 ? ' / ' : '') + pessoa.contato_1_parentesco;
+    if (pessoa.contato_1_telefone)   contato_1 += (contato_1 ? ' / ' : '') + pessoa.contato_1_telefone;
+    if (pessoa.contato_1_celular)    contato_1 += (contato_1 ? ' / ' : '') + pessoa.contato_1_celular;
+
+    if (pessoa.contato_2_nome) contato_2 = pessoa.contato_2_nome;
+    if (pessoa.contato_2_parentesco) contato_2 += (contato_2 ? ' / ' : '') + pessoa.contato_2_parentesco;
+    if (pessoa.contato_2_telefone)   contato_2 += (contato_2 ? ' / ' : '') + pessoa.contato_2_telefone;
+    if (pessoa.contato_2_celular)    contato_2 += (contato_2 ? ' / ' : '') + pessoa.contato_2_celular;
+
+    if (contato_1 != '' || contato_2 != '') {
+        doc.setTextColor('#ce0000');
+        doc.setFontSize(7);
+        doc.text(traducao === 'en' ? "Emergency Contacts:" : "Contatos de Emergência:", x + 3, y + altura - 15);
+
+        doc.setTextColor('#000000');
+        doc.setFontSize(6);
+
+        if (contato_1 != '') {doc.text(contato_1, x + 3, y + altura - 10);}
+        if (contato_2 != '') {doc.text(contato_2, x + 3, y + altura - 5);}
+    }
+
+    // Borda azul
+    doc.setDrawColor('#c0f0f7');
     doc.setLineWidth(0.5);
-    doc.roundedRect(x, y, largura, altura, 1, 1);
-
-    var titulo = 'CARTÃO DE EMERGÊNCIA';
-    if (traducao == 'en') {titulo = await traduzirTextoGoogle(titulo);}
-    await inserirTexto({texto:titulo, marginLeft:x + largura / 2, marginTop:y + 6, align:'center', fontSize:10});
-
-    doc.addImage(pessoa.fotoBase64, "JPEG", x + 3, y + 10, 20, 25);
-    doc.addImage(qrBase64, "PNG", x + largura - 23, y + 29, 20, 20); // QR à direita inferior
-
-
-    var nome = pessoa.nome;
-    await inserirTexto({texto:nome, marginLeft:x + 26, marginTop:y + 16, align:'left', fontSize:8});
-
-    var genero = 'Genero: '+pessoa.genero;
-    if (traducao == 'en') {genero = await traduzirTextoGoogle(genero);}
-    await inserirTexto({texto:genero, marginLeft:x + 26, marginTop:y + 22 + 5, align:'left', fontSize:8});
-
-    var nascimento = 'Nascimento: '+pessoa.nascimento;
-    if (traducao == 'en') {nascimento = await traduzirTextoGoogle(nascimento);}
-    await inserirTexto({texto:nascimento, marginLeft:x + 26, marginTop:y + 22 + 10, align:'left', fontSize:8});
-}
-
-// Gera QR Code e retorna como base64
-function cartaoEmergencialGerarQRCodeBase64(texto) {
-    return new Promise(resolve => {
-        const container = document.getElementById("qrcode-container-tmp");
-        container.innerHTML = "";
-
-        // Força modo canvas, desativa renderização em imagem
-        const qr = new QRCode(container, {
-            text: texto,
-            width: 100,
-            height: 100,
-            correctLevel: QRCode.CorrectLevel.H,
-            useSVG: false
-        });
-
-        // Aguarda o QR ser renderizado e captura o canvas
-        setTimeout(() => {
-            const canvas = container.querySelector("canvas");
-            if (!canvas) {
-                console.error("QR code não gerado como canvas.");
-                resolve(""); // ou lançar erro
-                return;
-            }
-            resolve(canvas.toDataURL("image/png"));
-        }, 200); // tempo suficiente para renderizar
-    });
-}
-
-async function cartaoEmergencialCarregarImagem(url) {
-    const blob = await fetch(url).then(r => r.blob());
-    return new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.readAsDataURL(blob);
-    });
+    //doc.roundedRect(x, y, largura, altura, 2, 2);
+    doc.rect(x, y, largura, altura);
 }
 //Fuções para gerar Cartões de Emergência - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Fuções para gerar Cartões de Emergência - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+//Corrigir rotação da Foto para apresentação visual - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//Corrigir rotação da Foto para apresentação visual - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+function carregarImagemComoBase64(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.onload = function () {
+            const canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            resolve(canvas.toDataURL("image/jpeg"));
+        };
+        img.onerror = reject;
+        img.src = url;
+    });
+}
+
+function corrigirRotacaoImagem(base64Image) {
+    return new Promise((resolve, reject) => {
+        try {
+            const exif = window.piexif;
+            const binary = atob(base64Image.split(',')[1]);
+            const exifObj = exif.load(binary);
+            const orientation = exifObj['0th'][exif.ImageIFD.Orientation] || 1;
+
+            const img = new Image();
+            img.onload = function () {
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+
+                let width = img.width;
+                let height = img.height;
+
+                if (orientation > 4) {
+                    canvas.width = height;
+                    canvas.height = width;
+                } else {
+                    canvas.width = width;
+                    canvas.height = height;
+                }
+
+                switch (orientation) {
+                    case 2: ctx.transform(-1, 0, 0, 1, width, 0); break;
+                    case 3: ctx.transform(-1, 0, 0, -1, width, height); break;
+                    case 4: ctx.transform(1, 0, 0, -1, 0, height); break;
+                    case 5: ctx.transform(0, 1, 1, 0, 0, 0); break;
+                    case 6: ctx.transform(0, 1, -1, 0, height, 0); break;
+                    case 7: ctx.transform(0, -1, -1, 0, height, width); break;
+                    case 8: ctx.transform(0, -1, 1, 0, 0, width); break;
+                }
+
+                ctx.drawImage(img, 0, 0);
+                resolve(canvas.toDataURL("image/jpeg"));
+            };
+            img.onerror = reject;
+            img.src = base64Image;
+        } catch (e) {
+            resolve(base64Image); // se erro, usa a imagem original
+        }
+    });
+}
+//Corrigir rotação da Foto para apresentação visual - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//Corrigir rotação da Foto para apresentação visual - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

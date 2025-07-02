@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\SuporteFacade;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -26,6 +27,7 @@ class FuncionarioController extends Controller
     public $departamentos;
     public $funcoes;
     public $bancos;
+    public $documentos;
 
     public function __construct()
     {
@@ -77,6 +79,9 @@ class FuncionarioController extends Controller
                 abort(500, 'Erro Interno Funcionário');
             }
         } else {
+            //Gerar QRCode Cartões Emergenciais
+            SuporteFacade::setGerarQRCodesCartoesEmergenciais();
+
             //pegando o empresa_id
             $empresa_id = session('userLogged_empresa_id');
 
@@ -95,6 +100,7 @@ class FuncionarioController extends Controller
                 'departamentos' => $this->departamentos,
                 'funcoes' => $this->funcoes,
                 'bancos' => $this->bancos,
+                'documentos' => $this->documentos
             ]);
         }
     }
@@ -464,6 +470,7 @@ class FuncionarioController extends Controller
                 $data['name'] = $name;
                 $data['descricao'] = $request['fun_documentos_pdfs_descricao'];
                 $data['caminho'] = $pdf;
+                $data['documento_id'] = $request['fun_documentos_pdfs_documento_id'];
                 $data['data_documento'] = $request['fun_documentos_pdfs_data_documento'];
                 $data['aviso'] = $request['fun_documentos_pdfs_aviso'];
 

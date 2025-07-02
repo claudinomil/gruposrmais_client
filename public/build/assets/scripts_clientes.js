@@ -259,8 +259,8 @@ function validar_frm_upload_documentos_pdfs() {
         mensagem += 'Ação do Formulário requerido.'+'<br>';
     }
 
-    //Campo: cli_documentos_pdfs_documento (requerido)
-    if (validacao({op:1, value:document.getElementById('cli_documentos_pdfs_documento').value}) === false) {
+    //Campo: cli_documentos_pdfs_documento_id (requerido)
+    if (validacao({op:1, value:document.getElementById('cli_documentos_pdfs_documento_id').value}) === false) {
         validacao_ok = false;
         mensagem += 'Documento requerido.'+'<br>';
     }
@@ -338,8 +338,8 @@ function clienteModalInfo(id='') {
             document.getElementById('div_cli_dados_data').innerHTML = 'Data Nascimento';
         }
 
-        //Campo cli_documentos_pdfs_documento'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        const selectDocumento = document.getElementById('cli_documentos_pdfs_documento');
+        //Campo cli_documentos_pdfs_documento_id'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        const selectDocumento = document.getElementById('cli_documentos_pdfs_documento_id');
         const options = selectDocumento.querySelectorAll('option');
 
         options.forEach(option => {
@@ -415,17 +415,16 @@ function clienteModalInfoGradeDocumentosPdf({cliente_id='', id_elemento_visualis
         return response.json();
     }).then(data => {
         //Lendo json
-        let documentos = data;
+        let clientes_documentos = data.clientes_documentos;
 
         //Grade
         let grade = '';
 
         //Montar Grade
-        if (documentos.length > 0) {
-            grade += '<table class="table">';
+        if (clientes_documentos.length > 0) {
+            grade += '<table class="table table-striped table-bordered overflow-hidden">';
             grade += '  <thead>';
             grade += '      <tr>';
-            grade += '          <th scope="col">#</th>';
             grade += '          <th scope="col">Documento</th>';
             grade += '          <th scope="col">Data</th>';
             grade += '          <th scope="col">Aviso</th>';
@@ -439,30 +438,9 @@ function clienteModalInfoGradeDocumentosPdf({cliente_id='', id_elemento_visualis
             grade += '  <tbody>';
 
             //Varrer
-            let ln = 0;
-            documentos.forEach(dado => {
-                ln++;
-
+            clientes_documentos.forEach(dado => {
                 //Documento
-                let documento_texto = '';
-
-                if (dado.documento == 1) {documento_texto = 'Projeto SCIP';}
-                if (dado.documento == 2) {documento_texto = 'Laudo Exigências';}
-                if (dado.documento == 3) {documento_texto = 'Certificado Aprovação';}
-                if (dado.documento == 4) {documento_texto = 'Certificado Aprovação Simplificado';}
-                if (dado.documento == 5) {documento_texto = 'Certificado Aprovação Assistido';}
-                if (dado.documento == 6) {documento_texto = 'CNPJ';}
-                if (dado.documento == 7) {documento_texto = 'Representante Legal';}
-                if (dado.documento == 8) {documento_texto = 'Contrato Social';}
-                if (dado.documento == 9) {documento_texto = 'RGI';}
-                if (dado.documento == 10) {documento_texto = 'Contrato Locação';}
-                if (dado.documento == 11) {documento_texto = 'CPF';}
-                if (dado.documento == 12) {documento_texto = 'Representante Legal';}
-                if (dado.documento == 13) {documento_texto = 'Contrato Social';}
-                if (dado.documento == 14) {documento_texto = 'RGI';}
-                if (dado.documento == 15) {documento_texto = 'Contrato Locação';}
-                if (dado.documento == 16) {documento_texto = 'Memória Descritiva';}
-                if (dado.documento == 17) {documento_texto = 'Certificado Funcionamento';}
+                let documentoName = dado.documentoName;
 
                 //Aviso
                 let aviso_texto = '';
@@ -497,9 +475,8 @@ function clienteModalInfoGradeDocumentosPdf({cliente_id='', id_elemento_visualis
                 acoes += '</div>';
 
                 //TR
-                grade += '<tr>';
-                grade += '  <th scope="row">'+ln+'</th>';
-                grade += '  <td>'+documento_texto+'</td>';
+                grade += '<tr class="documento_fonte_'+dado.documento_fonte_id+'">';
+                grade += '  <td>'+documentoName+'</td>';
                 grade += '  <td>'+formatarData(2, dado.data_documento)+'</td>';
                 grade += '  <td>'+aviso_texto+'</td>';
 
@@ -518,8 +495,53 @@ function clienteModalInfoGradeDocumentosPdf({cliente_id='', id_elemento_visualis
 
         //Retornar Grade
         document.getElementById(id_elemento_visualisacao).innerHTML = grade;
+
+        //Colocar Botões para filtro dos documentos quanto a Fonte
+        var documentoFonteFiltro = '';
+        var idPrimeiroFiltro = 0; // Guardar um id para depois que a grade for mostrada executar o primeiro Filtro)
+        if (grade != 'Nenhum documento encontrado.') {
+            //Lendo json
+            let documento_fontes = data.documento_fontes;
+
+            documentoFonteFiltro += '<div class="row my-2 d-flex">';
+
+            //Varrer
+            documento_fontes.forEach(dado => {
+                let documento_fonte_id = dado.id;
+                let documento_fonte_name = dado.name;
+                let qtd_registros = clientes_documentos.filter(reg => reg.documento_fonte_id === documento_fonte_id);
+
+                if (qtd_registros.length > 0) {
+                    if (idPrimeiroFiltro == 0) {idPrimeiroFiltro = documento_fonte_id;}
+
+                    documentoFonteFiltro += `   <div class="col-4 flex-fill text-center">`;
+                    documentoFonteFiltro += `       <button type="button" class="btn btn-outline-success text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Filtar Documentos" onclick="clienteModalInfoGradeDocumentosPdfFiltrar(${documento_fonte_id});">${documento_fonte_name} (${qtd_registros.length})</button>`;
+                    documentoFonteFiltro += `   </div>`;
+                }
+            });
+
+            documentoFonteFiltro += '</div>';
+        }
+
+        //Retornar Documento Filtro (Botões)
+        document.getElementById(id_elemento_visualisacao).insertAdjacentHTML('afterbegin', documentoFonteFiltro);
+
+        //Primeiro Filtro
+        clienteModalInfoGradeDocumentosPdfFiltrar(idPrimeiroFiltro);
     }).catch(error => {
         alert('Erro clienteModalInfoGradeDocumentosPdf: '+error);
+    });
+}
+
+function clienteModalInfoGradeDocumentosPdfFiltrar(documento_fonte_id) {
+    const todasLinhas = document.querySelectorAll("#cli_documentos_grade table tbody tr");
+
+    todasLinhas.forEach(linha => {
+        if (linha.classList.contains(`documento_fonte_${documento_fonte_id}`)) {
+            linha.style.display = '';
+        } else {
+            linha.style.display = 'none';
+        }
     });
 }
 

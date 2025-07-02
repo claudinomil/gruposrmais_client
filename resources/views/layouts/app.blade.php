@@ -87,9 +87,6 @@
 {{--        @include('layouts.scripts-ajax')--}}
         @include('layouts.scripts-profile')
 
-        <!-- Área escondida para gerar QR temporariamente -->
-        <div id="qrcode-container-tmp" style="display:none;"></div>
-
         <!-- Área escondida para aviso na tela temporariamente -->
         <div id="loading-aviso-tmp" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); color: white; font-size: 20px; text-align: center; padding-top: 20%; z-index: 9999;">&nbsp;</div>
     </body>

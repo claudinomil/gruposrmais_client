@@ -93,6 +93,8 @@ export default defineConfig({
                 {src: 'resources/assets_template/images/users/avatar-0.png', dest: 'assets/images/users'},
                 {src: 'resources/assets_template/images/visitas_tecnicas/visita-tecnica-0.png', dest: 'assets/images/visitas_tecnicas'},
 
+                {src: 'resources/assets_template/images/cartao_emergencial_cnooc.png', dest: 'assets/images'},
+
                 {src: 'resources/assets_template/images/cliente-img.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/proposta-img.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/visita_tecnica-img.png', dest: 'assets/images'},
@@ -110,6 +112,7 @@ export default defineConfig({
                 {src: 'resources/assets_template/images/image_logo_login.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/image_logo_qrcode.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/image_logo_relatorio.png', dest: 'assets/images'},
+                {src: 'resources/assets_template/images/image_logo.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/megamenu-img.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/profile-img.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/welcome_logo.png', dest: 'assets/images'},
@@ -121,6 +124,8 @@ export default defineConfig({
                 {src: 'resources/assets_template/images/proposta_logo_gruposrmais.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/proposta_logo_inmetro.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/image_logo_email.png', dest: 'assets/images'},
+
+                {src: 'resources/assets_template/images/emergencia.png', dest: 'assets/images'},
 
                 {src: 'resources/assets_template/images/ordem_servico_topo.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/ordem_servico_topo_cliente_2.png', dest: 'assets/images'},
@@ -145,6 +150,8 @@ export default defineConfig({
                 {src: 'resources/assets_template/pdfs/clientes_executivos/pdf.pdf', dest: 'assets/pdfs/clientes_executivos'},
 
                 {src: 'resources/assets_template/qrcodes/clientes_servicos/qrcode.pdf', dest: 'assets/qrcodes/clientes_servicos'},
+                {src: 'resources/assets_template/qrcodes/clientes_executivos/qrcode.pdf', dest: 'assets/qrcodes/clientes_executivos'},
+                {src: 'resources/assets_template/qrcodes/funcionarios/qrcode.pdf', dest: 'assets/qrcodes/funcionarios'},
 
                 {src: 'resources/proxy-directions.php', dest: ''},
                 {src: 'resources/gerar-mapa.php', dest: ''},

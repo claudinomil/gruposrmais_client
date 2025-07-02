@@ -56,7 +56,7 @@ class QRCodeService
      */
     public function label($text='', $cor1=0, $cor2=0, $cor3=0, $align=2)
     {
-        if ($text == '') {$text = env('APP_NAME');}
+        //if ($text == '') {$text = env('APP_NAME');}
 
         if ($align == 1) {
             $align = new LabelAlignmentLeft();

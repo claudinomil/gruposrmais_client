@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\SuporteFacade;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -62,6 +63,9 @@ class ClienteExecutivoController extends Controller
                 abort(500, 'Erro Interno Client');
             }
         } else {
+            //Gerar QRCode Cartões Emergenciais
+            SuporteFacade::setGerarQRCodesCartoesEmergenciais();
+
             //pegando o empresa_id
             $empresa_id = session('userLogged_empresa_id');
 

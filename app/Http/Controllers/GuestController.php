@@ -12,7 +12,7 @@ class GuestController extends Controller
     public $validation;
     public $content;
 
-    public function validar_cartao_emergencial($submodulo, $id)
+    public function validar_cartao_emergencial($submodulo, $traducao, $id)
     {
         //Buscando dados Api_Data() - Registro pelo id
         $this->responseApi(1, 10, 'guests/validar_cartao_emergencial/'.$submodulo.'/'.$id, '', '', '');
@@ -26,6 +26,7 @@ class GuestController extends Controller
 
             //Retorno
             return view('guests.validar_cartao_emergencial', [
+                'traducao' => $traducao,
                 'content' => $this->content
             ]);
         } else if ($this->code == 2040) {

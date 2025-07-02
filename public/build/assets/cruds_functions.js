@@ -409,24 +409,6 @@ function crudCreate() {
             if (prefixPermissaoSubmodulo == 'clientes') {
                 document.getElementById('link_copiar_endereco').style.display = '';
 
-                document.getElementById('doc_cbmerj_projeto_scip').checked = false;
-                document.getElementById('doc_cbmerj_laudo_exigencias').checked = false;
-                document.getElementById('doc_cbmerj_certificado_aprovacao').checked = false;
-                document.getElementById('doc_cbmerj_certificado_aprovacao_simplificado').checked = false;
-                document.getElementById('doc_cbmerj_certificado_aprovacao_assistido').checked = false;
-                document.getElementById('doc_pj_cnpj').checked = false;
-                document.getElementById('doc_pj_representante_legal').checked = false;
-                document.getElementById('doc_pj_contrato_social').checked = false;
-                document.getElementById('doc_pj_rgi').checked = false;
-                document.getElementById('doc_pj_contrato_locacao').checked = false;
-                document.getElementById('doc_pf_cpf').checked = false;
-                document.getElementById('doc_pf_representante_legal').checked = false;
-                document.getElementById('doc_pf_contrato_social').checked = false;
-                document.getElementById('doc_pf_rgi').checked = false;
-                document.getElementById('doc_pf_contrato_locacao').checked = false;
-                document.getElementById('doc_vt_memoria_descritiva').checked = false;
-                document.getElementById('doc_vt_certificado_funcionamento').checked = false;
-
                 //Deixar todos os checkbox de Medidas de Segurança'''''''''''''''''''
                 elementos = document.getElementsByClassName('divSegurancaMedida');
                 elementos.forEach(function(elemento) {elemento.style.display = 'block';});
@@ -730,7 +712,7 @@ function crudView(registro_id) {
                 //Liberar campos frm_upload_documentos_pdfs_cli
                 document.getElementById('upload_documentos_pdfs_cliente_id').disabled = false;
                 document.getElementById('upload_documentos_pdfs_cli_acao').disabled = false;
-                document.getElementById('cli_documentos_pdfs_documento').disabled = false;
+                document.getElementById('cli_documentos_pdfs_documento_id').disabled = false;
                 document.getElementById('cli_documentos_pdfs_data_documento').disabled = false;
                 document.getElementById('cli_documentos_pdfs_aviso').disabled = false;
                 document.getElementById('cli_documentos_pdfs_file').disabled = false;
@@ -741,43 +723,6 @@ function crudView(registro_id) {
 
                 //Montando Grade de Documentos PDF
                 clienteModalInfoGradeDocumentosPdf({id_elemento_visualisacao:'divArquivosPdfGrade', btn_visualizar:true, btn_deletar:false});
-
-                //Dados
-                document.getElementById('doc_cbmerj_projeto_scip').checked = false;
-                document.getElementById('doc_cbmerj_laudo_exigencias').checked = false;
-                document.getElementById('doc_cbmerj_certificado_aprovacao').checked = false;
-                document.getElementById('doc_cbmerj_certificado_aprovacao_simplificado').checked = false;
-                document.getElementById('doc_cbmerj_certificado_aprovacao_assistido').checked = false;
-                document.getElementById('doc_pj_cnpj').checked = false;
-                document.getElementById('doc_pj_representante_legal').checked = false;
-                document.getElementById('doc_pj_contrato_social').checked = false;
-                document.getElementById('doc_pj_rgi').checked = false;
-                document.getElementById('doc_pj_contrato_locacao').checked = false;
-                document.getElementById('doc_pf_cpf').checked = false;
-                document.getElementById('doc_pf_representante_legal').checked = false;
-                document.getElementById('doc_pf_contrato_social').checked = false;
-                document.getElementById('doc_pf_rgi').checked = false;
-                document.getElementById('doc_pf_contrato_locacao').checked = false;
-                document.getElementById('doc_vt_memoria_descritiva').checked = false;
-                document.getElementById('doc_vt_certificado_funcionamento').checked = false;
-
-                if (data.success['doc_cbmerj_projeto_scip'] == 1) {document.getElementById('doc_cbmerj_projeto_scip').checked = true;}
-                if (data.success['doc_cbmerj_laudo_exigencias'] == 1) {document.getElementById('doc_cbmerj_laudo_exigencias').checked = true;}
-                if (data.success['doc_cbmerj_certificado_aprovacao'] == 1) {document.getElementById('doc_cbmerj_certificado_aprovacao').checked = true;}
-                if (data.success['doc_cbmerj_certificado_aprovacao_simplificado'] == 1) {document.getElementById('doc_cbmerj_certificado_aprovacao_simplificado').checked = true;}
-                if (data.success['doc_cbmerj_certificado_aprovacao_assistido'] == 1) {document.getElementById('doc_cbmerj_certificado_aprovacao_assistido').checked = true;}
-                if (data.success['doc_pj_cnpj'] == 1) {document.getElementById('doc_pj_cnpj').checked = true;}
-                if (data.success['doc_pj_representante_legal'] == 1) {document.getElementById('doc_pj_representante_legal').checked = true;}
-                if (data.success['doc_pj_contrato_social'] == 1) {document.getElementById('doc_pj_contrato_social').checked = true;}
-                if (data.success['doc_pj_rgi'] == 1) {document.getElementById('doc_pj_rgi').checked = true;}
-                if (data.success['doc_pj_contrato_locacao'] == 1) {document.getElementById('doc_pj_contrato_locacao').checked = true;}
-                if (data.success['doc_pf_cpf'] == 1) {document.getElementById('doc_pf_cpf').checked = true;}
-                if (data.success['doc_pf_representante_legal'] == 1) {document.getElementById('doc_pf_representante_legal').checked = true;}
-                if (data.success['doc_pf_contrato_social'] == 1) {document.getElementById('doc_pf_contrato_social').checked = true;}
-                if (data.success['doc_pf_rgi'] == 1) {document.getElementById('doc_pf_rgi').checked = true;}
-                if (data.success['doc_pf_contrato_locacao'] == 1) {document.getElementById('doc_pf_contrato_locacao').checked = true;}
-                if (data.success['doc_vt_memoria_descritiva'] == 1) {document.getElementById('doc_vt_memoria_descritiva').checked = true;}
-                if (data.success['doc_vt_certificado_funcionamento'] == 1) {document.getElementById('doc_vt_certificado_funcionamento').checked = true;}
 
                 //Hide em todos os checkbox de Medidas de Segurança''''''''''''''''''
                 elementos = document.getElementsByClassName('divSegurancaMedida');
@@ -1326,42 +1271,6 @@ async function crudEdit(registro_id) {
 
             if (prefixPermissaoSubmodulo == 'clientes') {
                 document.getElementById('link_copiar_endereco').style.display = '';
-
-                document.getElementById('doc_cbmerj_projeto_scip').checked = false;
-                document.getElementById('doc_cbmerj_laudo_exigencias').checked = false;
-                document.getElementById('doc_cbmerj_certificado_aprovacao').checked = false;
-                document.getElementById('doc_cbmerj_certificado_aprovacao_simplificado').checked = false;
-                document.getElementById('doc_cbmerj_certificado_aprovacao_assistido').checked = false;
-                document.getElementById('doc_pj_cnpj').checked = false;
-                document.getElementById('doc_pj_representante_legal').checked = false;
-                document.getElementById('doc_pj_contrato_social').checked = false;
-                document.getElementById('doc_pj_rgi').checked = false;
-                document.getElementById('doc_pj_contrato_locacao').checked = false;
-                document.getElementById('doc_pf_cpf').checked = false;
-                document.getElementById('doc_pf_representante_legal').checked = false;
-                document.getElementById('doc_pf_contrato_social').checked = false;
-                document.getElementById('doc_pf_rgi').checked = false;
-                document.getElementById('doc_pf_contrato_locacao').checked = false;
-                document.getElementById('doc_vt_memoria_descritiva').checked = false;
-                document.getElementById('doc_vt_certificado_funcionamento').checked = false;
-
-                if (data.success['doc_cbmerj_projeto_scip'] == 1) {document.getElementById('doc_cbmerj_projeto_scip').checked = true;}
-                if (data.success['doc_cbmerj_laudo_exigencias'] == 1) {document.getElementById('doc_cbmerj_laudo_exigencias').checked = true;}
-                if (data.success['doc_cbmerj_certificado_aprovacao'] == 1) {document.getElementById('doc_cbmerj_certificado_aprovacao').checked = true;}
-                if (data.success['doc_cbmerj_certificado_aprovacao_simplificado'] == 1) {document.getElementById('doc_cbmerj_certificado_aprovacao_simplificado').checked = true;}
-                if (data.success['doc_cbmerj_certificado_aprovacao_assistido'] == 1) {document.getElementById('doc_cbmerj_certificado_aprovacao_assistido').checked = true;}
-                if (data.success['doc_pj_cnpj'] == 1) {document.getElementById('doc_pj_cnpj').checked = true;}
-                if (data.success['doc_pj_representante_legal'] == 1) {document.getElementById('doc_pj_representante_legal').checked = true;}
-                if (data.success['doc_pj_contrato_social'] == 1) {document.getElementById('doc_pj_contrato_social').checked = true;}
-                if (data.success['doc_pj_rgi'] == 1) {document.getElementById('doc_pj_rgi').checked = true;}
-                if (data.success['doc_pj_contrato_locacao'] == 1) {document.getElementById('doc_pj_contrato_locacao').checked = true;}
-                if (data.success['doc_pf_cpf'] == 1) {document.getElementById('doc_pf_cpf').checked = true;}
-                if (data.success['doc_pf_representante_legal'] == 1) {document.getElementById('doc_pf_representante_legal').checked = true;}
-                if (data.success['doc_pf_contrato_social'] == 1) {document.getElementById('doc_pf_contrato_social').checked = true;}
-                if (data.success['doc_pf_rgi'] == 1) {document.getElementById('doc_pf_rgi').checked = true;}
-                if (data.success['doc_pf_contrato_locacao'] == 1) {document.getElementById('doc_pf_contrato_locacao').checked = true;}
-                if (data.success['doc_vt_memoria_descritiva'] == 1) {document.getElementById('doc_vt_memoria_descritiva').checked = true;}
-                if (data.success['doc_vt_certificado_funcionamento'] == 1) {document.getElementById('doc_vt_certificado_funcionamento').checked = true;}
 
                 //Hide em todos os checkbox de Medidas de Segurança''''''''''''''''''
                 elementos = document.getElementsByClassName('divSegurancaMedida');
