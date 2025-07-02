@@ -4321,10 +4321,20 @@ async function cartaoEmergencialGerarPDF(op = 0, ids = 0, gerar = 2, traducao = 
 
             if (gerar === 1) {
                 if (traducao == 'pt') {
-                    qrCodePngCaminho = 'build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_pt_' + pessoa.id + '.png';
+                    if (op == 1) {
+                        qrCodePngCaminho = 'build/assets/qrcodes/clientes_executivos/qrcode_cartao_emergencial_pt_' + pessoa.id + '.png';
+                    }
+                    if (op == 2) {
+                        qrCodePngCaminho = 'build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_pt_' + pessoa.id + '.png';
+                    }
                 }
                 if (traducao == 'en') {
-                    qrCodePngCaminho = 'build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_en_'+pessoa.id+'.png';
+                    if (op == 1) {
+                        qrCodePngCaminho = 'build/assets/qrcodes/clientes_executivos/qrcode_cartao_emergencial_en_'+pessoa.id+'.png';
+                    }
+                    if (op == 2) {
+                        qrCodePngCaminho = 'build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_en_'+pessoa.id+'.png';
+                    }
                 }
 
                 await cartaoEmergencialDesenhar(doc, xEsquerda, yTop, pessoa, qrCodePngCaminho, traducao);
