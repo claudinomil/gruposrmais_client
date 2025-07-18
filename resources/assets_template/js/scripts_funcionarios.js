@@ -38,6 +38,18 @@ function validar_frm_funcionarios() {
         mensagem += 'Nome precisa ter no mínimo 3 caracteres.'+'<br>';
     }
 
+    //Campo: nome_profissional (requerido)
+    if (validacao({op:1, value:document.getElementById('nome_profissional').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Nome Profissional requerido.'+'<br>';
+    }
+
+    //Campo: nome_profissional (mínimo de 3 caracteres)
+    if (validacao({op:2, value:document.getElementById('nome_profissional').value, minCaracteres:3}) === false) {
+        validacao_ok = false;
+        mensagem += 'Nome Profissional precisa ter no mínimo 3 caracteres.'+'<br>';
+    }
+
     //Campo: data_nascimento (requerido)
     if (validacao({op:1, value:document.getElementById('data_nascimento').value}) === false) {
         validacao_ok = false;
@@ -231,46 +243,40 @@ function validar_frm_funcionarios() {
     return validacao_ok;
 }
 
-function validar_frm_upload_documentos_pdfs() {
+function validar_frm_upload_documentos() {
     var validacao_ok = true;
     var mensagem = '';
 
 
-    //Campo: upload_documentos_pdfs_funcionario_id (requerido)
-    if (validacao({op:1, value:document.getElementById('upload_documentos_pdfs_funcionario_id').value}) === false) {
+    //Campo: upload_documentos_funcionario_id (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_documentos_funcionario_id').value}) === false) {
         validacao_ok = false;
         mensagem += 'Funcionário requerido.'+'<br>';
     }
 
-    //Campo: upload_documentos_pdfs_fun_acao (requerido)
-    if (validacao({op:1, value:document.getElementById('upload_documentos_pdfs_fun_acao').value}) === false) {
+    //Campo: upload_documentos_fun_acao (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_documentos_fun_acao').value}) === false) {
         validacao_ok = false;
         mensagem += 'Ação do Formulário requerido.'+'<br>';
     }
 
-    //Campo: fun_documentos_pdfs_documento_id (requerido)
-    if (validacao({op:1, value:document.getElementById('fun_documentos_pdfs_documento_id').value}) === false) {
+    //Campo: fun_documentos_documento_id (requerido)
+    if (validacao({op:1, value:document.getElementById('fun_documentos_documento_id').value}) === false) {
         validacao_ok = false;
         mensagem += 'Documento requerido.'+'<br>';
     }
 
-    // //Campo: fun_documentos_pdfs_descricao (requerido)
-    // if (validacao({op:1, value:document.getElementById('fun_documentos_pdfs_descricao').value}) === false) {
-    //     validacao_ok = false;
-    //     mensagem += 'Descrição documento requerido.'+'<br>';
-    // }
-
-    //Campo: fun_documentos_pdfs_data_documento (não requerido / Data Válida)
-    if (validacao({op:1, value:document.getElementById('fun_documentos_pdfs_data_documento').value}) === true) {
-        //Campo: fun_documentos_pdfs_data_documento (Data Válida)
-        if (validacao({op:8, value:document.getElementById('fun_documentos_pdfs_data_documento').value}) === false) {
+    //Campo: fun_documentos_data_documento (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('fun_documentos_data_documento').value}) === true) {
+        //Campo: fun_documentos_data_documento (Data Válida)
+        if (validacao({op:8, value:document.getElementById('fun_documentos_data_documento').value}) === false) {
             validacao_ok = false;
             mensagem += 'Data documento Inválida.'+'<br>';
         }
     }
 
-    //Campo: fun_documentos_pdfs_file (arquivo PDF requerido)
-    if (validacao({op:16, id:'fun_documentos_pdfs_file'}) === false) {
+    //Campo: fun_documentos_file (arquivo PDF requerido)
+    if (validacao({op:16, id:'fun_documentos_file'}) === false) {
         validacao_ok = false;
         mensagem += 'Arquivo PDF requerido.'+'<br>';
     }
@@ -365,27 +371,26 @@ function funcionarioModalInfo(id='') {
         tab_fun_foto_upload_foto_funcionario_name.value = funcionario.name;
 
         //Upload Documento PDF
-        const tab_documento_pdf_upload_documentos_pdfs_funcionario_id = document.querySelector('#funcionario_modal_info #tab_fun_documentos_upload #upload_documentos_pdfs_funcionario_id');
+        const tab_documento_upload_documentos_funcionario_id = document.querySelector('#funcionario_modal_info #tab_fun_documentos_upload #upload_documentos_funcionario_id');
 
-        tab_documento_pdf_upload_documentos_pdfs_funcionario_id.value = funcionario.id;
+        tab_documento_upload_documentos_funcionario_id.value = funcionario.id;
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         //Montando Grade de Documentos PDF
-        funcionarioModalInfoGradeDocumentosPdf({funcionario_id:funcionario.id, id_elemento_visualisacao:'fun_documentos_grade', btn_visualizar:true, btn_deletar:true});
+        funcionarioModalInfoGradeDocumentosPdf({funcionario_id:funcionario.id, btn_visualizar:true, btn_deletar:true});
     }).catch(error => {
         alert('Erro funcionarioModalInfo: '+error);
     });
 }
 
 //Busca dados e monta grade de documentos pdfs do submódulo funcionarios
-function funcionarioModalInfoGradeDocumentosPdf({funcionario_id='', id_elemento_visualisacao='', btn_visualizar=true, btn_deletar=true}) {
-    if (id_elemento_visualisacao == '') {return false;}
+function funcionarioModalInfoGradeDocumentosPdf({funcionario_id='', btn_visualizar=true, btn_deletar=true}) {
     if (funcionario_id == '') {funcionario_id = document.getElementById('registro_id').value;}
 
     var url_atual = window.location.protocol+'//'+window.location.host+'/';
 
     //Acessar rota
-    fetch(url_atual+'funcionarios/modalInfo/documentos_pdf/'+funcionario_id, {
+    fetch(url_atual+'funcionarios/modalInfo/documentos/'+funcionario_id, {
         method: 'GET',
         headers: {'REQUEST-ORIGIN': 'fetch'}
     }).then(response => {
@@ -471,7 +476,7 @@ function funcionarioModalInfoGradeDocumentosPdf({funcionario_id='', id_elemento_
         }
 
         //Retornar Grade
-        document.getElementById(id_elemento_visualisacao).innerHTML = grade;
+        document.getElementById('fun_documentos_grade').innerHTML = grade;
 
         //Colocar Botões para filtro dos documentos quanto a Fonte
         var documentoFonteFiltro = '';
@@ -501,7 +506,7 @@ function funcionarioModalInfoGradeDocumentosPdf({funcionario_id='', id_elemento_
         }
 
         //Retornar Documento Filtro (Botões)
-        document.getElementById(id_elemento_visualisacao).insertAdjacentHTML('afterbegin', documentoFonteFiltro);
+        document.getElementById('fun_documentos_grade').insertAdjacentHTML('afterbegin', documentoFonteFiltro);
 
         //Primeiro Filtro
         funcionarioModalInfoGradeDocumentosPdfFiltrar(idPrimeiroFiltro);
@@ -522,108 +527,6 @@ function funcionarioModalInfoGradeDocumentosPdfFiltrar(documento_fonte_id) {
     });
 }
 
-// //Busca dados e monta grade de documentos pdfs do submódulo funcionários
-// function funcionarioModalInfoGradeDocumentosPdf({funcionario_id='', id_elemento_visualisacao='', btn_visualizar=true, btn_deletar=true}) {
-//     if (id_elemento_visualisacao == '') {return false;}
-//     if (funcionario_id == '') {funcionario_id = document.getElementById('registro_id').value;}
-//
-//     var url_atual = window.location.protocol+'//'+window.location.host+'/';
-//
-//     //Acessar rota
-//     fetch(url_atual+'funcionarios/modalInfo/documentos_pdf/'+funcionario_id, {
-//         method: 'GET',
-//         headers: {'REQUEST-ORIGIN': 'fetch'}
-//     }).then(response => {
-//         return response.json();
-//     }).then(data => {
-//         //Lendo json
-//         let documentos = data;
-//
-//         //Grade
-//         let grade = '';
-//
-//         //Montar Grade
-//         if (documentos.length > 0) {
-//             grade += '<table class="table">';
-//             grade += '  <thead>';
-//             grade += '      <tr>';
-//             grade += '          <th scope="col">#</th>';
-//             grade += '          <th scope="col">Descrição</th>';
-//             grade += '          <th scope="col">Data</th>';
-//             grade += '          <th scope="col">Aviso</th>';
-//
-//             if (btn_visualizar === true || btn_deletar === true) {
-//                 grade += '          <th scope="col">Ações</th>';
-//             }
-//
-//             grade += '      </tr>';
-//             grade += '  </thead>';
-//             grade += '  <tbody>';
-//
-//             //Varrer
-//             let ln = 0;
-//             documentos.forEach(dado => {
-//                 ln++;
-//
-//                 //Aviso
-//                 let aviso_texto = '';
-//
-//                 if (dado.aviso == 0) {aviso_texto = 'Nenhum Aviso';}
-//                 if (dado.aviso == 1) {aviso_texto = 'Avisar a cada 1 mês';}
-//                 if (dado.aviso == 2) {aviso_texto = 'Avisar a cada 3 meses';}
-//                 if (dado.aviso == 3) {aviso_texto = 'Avisar a cada 6 meses';}
-//                 if (dado.aviso == 4) {aviso_texto = 'Avisar a cada 1 ano';}
-//                 if (dado.aviso == 5) {aviso_texto = 'Avisar a cada 3 anos';}
-//                 if (dado.aviso == 6) {aviso_texto = 'Avisar a cada 6 anos';}
-//
-//                 //Ações
-//                 let acoes = '';
-//
-//                 acoes += '<div class="row">';
-//
-//                 if (btn_visualizar === true || btn_deletar === true) {
-//                     if (btn_visualizar === true) {
-//                         acoes += '  <div class="col-6">';
-//                         acoes += '      <button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Documento" onclick="window.open(\'' + dado.caminho + '\', \'_blank\');"><i class="fa fa-file-pdf font-size-18"></i></button>';
-//                         acoes += '  </div>';
-//                     }
-//
-//                     if (btn_deletar === true) {
-//                         acoes += '  <div class="col-6">';
-//                         acoes += '      <button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Documento" onclick="funcionarioModalInfoDeletarDocumentoPdf(' + dado.id + ');"><i class="fa fa-trash-alt font-size-18"></i></button>';
-//                         acoes += '  </div>';
-//                     }
-//                 }
-//
-//                 acoes += '</div>';
-//
-//                 //TR
-//                 grade += '<tr>';
-//                 grade += '  <th scope="row">'+ln+'</th>';
-//                 grade += '  <td>'+dado.descricao+'</td>';
-//                 grade += '  <td>'+formatarData(2, dado.data_documento)+'</td>';
-//                 grade += '  <td>'+aviso_texto+'</td>';
-//
-//                 if (btn_visualizar === true || btn_deletar === true) {
-//                     grade += '  <td>'+acoes+'</td>';
-//                 }
-//
-//                 grade += '</tr>';
-//             });
-//
-//             grade += '  </tbody>';
-//             grade += '</table>';
-//         } else {
-//             grade = 'Nenhum documento encontrado.';
-//         }
-//
-//         //Retornar Grade
-//         document.getElementById(id_elemento_visualisacao).innerHTML = grade;
-//     }).catch(error => {
-//         alert('Erro funcionarioModalInfoGradeDocumentosPdf: '+error);
-//     });
-// }
-
 //Função para deletar documento da grade
 function funcionarioModalInfoDeletarDocumentoPdf(funcionario_documento_id) {
     //Confirmação de Delete
@@ -632,7 +535,7 @@ function funcionarioModalInfoDeletarDocumentoPdf(funcionario_documento_id) {
             var url_atual = window.location.protocol+'//'+window.location.host+'/';
 
             //Acessar rota
-            fetch(url_atual+'funcionarios/modalInfo/deletar_documento_pdf/'+funcionario_documento_id, {
+            fetch(url_atual+'funcionarios/modalInfo/deletar_documento/'+funcionario_documento_id, {
                 method: 'DELETE',
                 headers: {
                     'REQUEST-ORIGIN': 'fetch',
@@ -646,10 +549,10 @@ function funcionarioModalInfoDeletarDocumentoPdf(funcionario_documento_id) {
                     alertSwal('success', 'Funcionários', data.success, 'true', 2000);
 
                     //Dados
-                    let funcionario_id = document.getElementById('upload_documentos_pdfs_funcionario_id').value;
+                    let funcionario_id = document.getElementById('upload_documentos_funcionario_id').value;
 
                     //Montar Grade
-                    funcionarioModalInfoGradeDocumentosPdf({funcionario_id:funcionario_id, id_elemento_visualisacao:'fun_documentos_grade'});
+                    funcionarioModalInfoGradeDocumentosPdf({funcionario_id:funcionario_id});
                 } else if (data.error) {
                     alertSwal('error', 'Funcionários', data.error, 'true', 2000);
                 } else if (data.error_permissao) {
@@ -729,22 +632,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-    //Botão: frm_upload_documentos_pdfs_fun_executar''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    document.getElementById('frm_upload_documentos_pdfs_fun_executar').addEventListener('click', function() {
+    //Botão: frm_upload_documentos_fun_executar''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    document.getElementById('frm_upload_documentos_fun_executar').addEventListener('click', function() {
         //FormData
-        var formulario = document.getElementById('frm_upload_documentos_pdfs_fun');
+        var formulario = document.getElementById('frm_upload_documentos_fun');
         var formData = new FormData(formulario);
         var url_atual = window.location.protocol+'//'+window.location.host+'/';
-        var upload_documentos_pdfs_funcionario_id = document.getElementById('upload_documentos_pdfs_funcionario_id').value;
+        var upload_documentos_funcionario_id = document.getElementById('upload_documentos_funcionario_id').value;
 
         //Tratar Botões
-        document.getElementById('frm_upload_documentos_pdfs_fun_executar').style.display = 'block';
+        document.getElementById('frm_upload_documentos_fun_executar').style.display = 'block';
 
         //Criticando campos
-        if (validar_frm_upload_documentos_pdfs() === false) {return false;}
+        if (validar_frm_upload_documentos() === false) {return false;}
 
         //Acessar rota
-        fetch(url_atual+'funcionarios/uploadDocumentoPdf/upload_documento_pdf', {
+        fetch(url_atual+'funcionarios/uploadDocumento/upload_documento', {
             method: 'POST',
             headers: {
                 'REQUEST-ORIGIN': 'fetch',
@@ -757,7 +660,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             //Lendo dados
             if (data.success) {
                 //Montando Grade de Documentos PDF
-                funcionarioModalInfoGradeDocumentosPdf({funcionario_id:upload_documentos_pdfs_funcionario_id, id_elemento_visualisacao:'fun_documentos_grade', btn_visualizar:true, btn_deletar:true});
+                funcionarioModalInfoGradeDocumentosPdf({funcionario_id:upload_documentos_funcionario_id, btn_visualizar:true, btn_deletar:true});
 
                 formulario.reset();
 

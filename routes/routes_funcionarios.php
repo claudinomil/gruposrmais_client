@@ -16,9 +16,9 @@ Route::prefix('funcionarios')->group(function () {
     //Modal funcionarios_modal_info
     Route::get('/modalInfo/modal_info/{id}', [FuncionarioController::class, 'modal_info'])->name('funcionarios.modal_info');
     Route::post('/uploadFoto/upload_foto', [FuncionarioController::class, 'upload_foto'])->name('funcionarios.upload_foto');
-    Route::post('/uploadDocumentoPdf/upload_documento_pdf', [FuncionarioController::class, 'upload_documento_pdf'])->name('funcionarios.upload_documento_pdf');
-    Route::get('/modalInfo/documentos_pdf/{funcionario_id}', [FuncionarioController::class, 'documentos_pdf'])->name('funcionarios.documentos_pdf');
-    Route::delete('/modalInfo/deletar_documento_pdf/{funcionario_documento_id}', [FuncionarioController::class, 'deletar_documento_pdf'])->name('funcionarios.deletar_documento_pdf');
+    Route::post('/uploadDocumento/upload_documento', [FuncionarioController::class, 'upload_documento'])->name('funcionarios.upload_documento');
+    Route::get('/modalInfo/documentos/{funcionario_id}', [FuncionarioController::class, 'documentos'])->name('funcionarios.documentos');
+    Route::delete('/modalInfo/deletar_documento/{funcionario_documento_id}', [FuncionarioController::class, 'deletar_documento'])->name('funcionarios.deletar_documento');
 
     //Dados para Cartões Emergenciais
     Route::get('/cartoes_emergenciais/dados/{ids}', [FuncionarioController::class, 'cartoes_emergenciais_dados'])->name('funcionarios.cartoes_emergenciais_dados');

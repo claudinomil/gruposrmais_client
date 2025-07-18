@@ -55,16 +55,12 @@ class Controller extends BaseController
             if (isset($response['content']['groupo_permissoes'])) {$this->groupo_permissoes = $response['content']['groupo_permissoes'];}
             if (isset($response['content']['modulos'])) {$this->modulos = $response['content']['modulos'];}
             if (isset($response['content']['submodulos'])) {$this->submodulos = $response['content']['submodulos'];}
-            if (isset($response['content']['notificacoes'])) {$this->notificacoes = $response['content']['notificacoes'];}
-            if (isset($response['content']['notificacoes_lidas'])) {$this->notificacoes_lidas = $response['content']['notificacoes_lidas'];}
             if (isset($response['content']['operacoes'])) {$this->operacoes = $response['content']['operacoes'];}
             if (isset($response['content']['permissoes'])) {$this->permissoes = $response['content']['permissoes'];}
             if (isset($response['content']['situacoes'])) {$this->situacoes = $response['content']['situacoes'];}
-            if (isset($response['content']['ferramentas'])) {$this->ferramentas = $response['content']['ferramentas'];}
             if (isset($response['content']['estados'])) {$this->estados = $response['content']['estados'];}
             if (isset($response['content']['transacoes'])) {$this->transacoes = $response['content']['transacoes'];}
             if (isset($response['content']['users'])) {$this->users = $response['content']['users'];}
-            if (isset($response['content']['principal_clientes'])) {$this->principal_clientes = $response['content']['principal_clientes'];}
             if (isset($response['content']['clientes'])) {$this->clientes = $response['content']['clientes'];}
             if (isset($response['content']['responsavel_funcionarios'])) {$this->responsavel_funcionarios = $response['content']['responsavel_funcionarios'];}
             if (isset($response['content']['contratacao_tipos'])) {$this->contratacao_tipos = $response['content']['contratacao_tipos'];}

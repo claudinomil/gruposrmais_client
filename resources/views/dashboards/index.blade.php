@@ -98,17 +98,45 @@
                                 </div>
                             </div>
                             <div class="table-responsive mt-4">
+                                <h4>Contratações:</h4>
+                                <table class="table align-middle table-nowrap">
+                                    <tbody>
+
+                                    @foreach($content['dashboardsFuncionariosContratacoes'] as $contratacao)
+                                        @php
+                                        if ($content['dashboardsFuncionariosQtd'] != 0) {
+                                            $percentual = ($contratacao['qtd'] / $content['dashboardsFuncionariosQtd']) * 100;
+                                        } else {
+                                            $percentual = 0;
+                                        }
+                                        @endphp
+
+                                        <tr>
+                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{$contratacao['name']}}</p></td>
+                                            <td class="text-end" style="width: 25%"><h5 class="mb-0">{{$contratacao['qtd']}}</h5></td>
+                                            <td class="px-0" style="width: 30%">
+                                                <div class="progress bg-transparent progress-sm">
+                                                    <div class="progress-bar bg-primary rounded" role="progressbar" style="width: {{number_format($percentual, 2, '.', '')}}%" aria-valuenow="{{number_format($percentual, 2, '.', '')}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                            <td class="px-0" style="width: 15%"><span class="float-end">{{number_format($percentual, 2, '.', '')}}%</span></td>
+                                        </tr>
+                                    @endforeach
+
+                                    </tbody>
+                                </table>
+
                                 <h4>Funções:</h4>
                                 <table class="table align-middle table-nowrap">
                                     <tbody>
 
                                     @foreach($content['dashboardsFuncionariosFuncoes'] as $funcao)
                                         @php
-                                        if ($content['dashboardsFuncionariosQtd'] != 0) {
-                                            $percentual = ($funcao['qtd'] / $content['dashboardsFuncionariosQtd']) * 100;
-                                        } else {
-                                            $percentual = 0;
-                                        }
+                                            if ($content['dashboardsFuncionariosQtd'] != 0) {
+                                                $percentual = ($funcao['qtd'] / $content['dashboardsFuncionariosQtd']) * 100;
+                                            } else {
+                                                $percentual = 0;
+                                            }
                                         @endphp
 
                                         <tr>

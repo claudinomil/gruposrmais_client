@@ -20,6 +20,18 @@ function validar_frm_clientes_executivos() {
         mensagem += 'Executivo Função requerido.'+'<br>';
     }
 
+    //Campo: nome_profissional (requerido)
+    if (validacao({op:1, value:document.getElementById('nome_profissional').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Nome Profissional requerido.'+'<br>';
+    }
+
+    //Campo: nome_profissional (mínimo de 3 caracteres)
+    if (validacao({op:2, value:document.getElementById('nome_profissional').value, minCaracteres:3}) === false) {
+        validacao_ok = false;
+        mensagem += 'Nome Profissional precisa ter no mínimo 3 caracteres.'+'<br>';
+    }
+
     //Campo: data_nascimento (Data Válida)
     if (validacao({op:8, value:document.getElementById('data_nascimento').value}) === false) {
         validacao_ok = false;
@@ -102,40 +114,40 @@ function validar_frm_clientes_executivos() {
     return validacao_ok;
 }
 
-function validar_frm_upload_documentos_pdfs() {
+function validar_frm_upload_documentos() {
     var validacao_ok = true;
     var mensagem = '';
 
 
-    //Campo: upload_documentos_pdfs_cliente_executivo_id (requerido)
-    if (validacao({op:1, value:document.getElementById('upload_documentos_pdfs_cliente_executivo_id').value}) === false) {
+    //Campo: upload_documentos_cliente_executivo_id (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_documentos_cliente_executivo_id').value}) === false) {
         validacao_ok = false;
         mensagem += 'Cliente Executivo requerido.'+'<br>';
     }
 
-    //Campo: upload_documentos_pdfs_cex_acao (requerido)
-    if (validacao({op:1, value:document.getElementById('upload_documentos_pdfs_cex_acao').value}) === false) {
+    //Campo: upload_documentos_cex_acao (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_documentos_cex_acao').value}) === false) {
         validacao_ok = false;
         mensagem += 'Ação do Formulário requerido.'+'<br>';
     }
 
-    //Campo: cex_documentos_pdfs_descricao (requerido)
-    if (validacao({op:1, value:document.getElementById('cex_documentos_pdfs_descricao').value}) === false) {
+    //Campo: cex_documentos_descricao (requerido)
+    if (validacao({op:1, value:document.getElementById('cex_documentos_descricao').value}) === false) {
         validacao_ok = false;
         mensagem += 'Descrição documento requerido.'+'<br>';
     }
 
-    //Campo: cex_documentos_pdfs_data_documento (não requerido / Data Válida)
-    if (validacao({op:1, value:document.getElementById('cex_documentos_pdfs_data_documento').value}) === true) {
-        //Campo: cex_documentos_pdfs_data_documento (Data Válida)
-        if (validacao({op:8, value:document.getElementById('cex_documentos_pdfs_data_documento').value}) === false) {
+    //Campo: cex_documentos_data_documento (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('cex_documentos_data_documento').value}) === true) {
+        //Campo: cex_documentos_data_documento (Data Válida)
+        if (validacao({op:8, value:document.getElementById('cex_documentos_data_documento').value}) === false) {
             validacao_ok = false;
             mensagem += 'Data documento Inválida.'+'<br>';
         }
     }
 
-    //Campo: cex_documentos_pdfs_file (arquivo PDF requerido)
-    if (validacao({op:16, id:'cex_documentos_pdfs_file'}) === false) {
+    //Campo: cex_documentos_file (arquivo PDF requerido)
+    if (validacao({op:16, id:'cex_documentos_file'}) === false) {
         validacao_ok = false;
         mensagem += 'Arquivo PDF requerido.'+'<br>';
     }
@@ -214,27 +226,26 @@ function clienteExecutivoModalInfo(id='') {
         tab_cex_foto_upload_foto_cliente_executivo_name.value = cliente_executivo.executivo_nome;
 
         //Upload Documento PDF
-        const tab_documento_pdf_upload_documentos_pdfs_cliente_executivo_id = document.querySelector('#cliente_executivo_modal_info #tab_cex_documentos_upload #upload_documentos_pdfs_cliente_executivo_id');
+        const tab_documento_upload_documentos_cliente_executivo_id = document.querySelector('#cliente_executivo_modal_info #tab_cex_documentos_upload #upload_documentos_cliente_executivo_id');
 
-        tab_documento_pdf_upload_documentos_pdfs_cliente_executivo_id.value = cliente_executivo.id;
+        tab_documento_upload_documentos_cliente_executivo_id.value = cliente_executivo.id;
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         //Montando Grade de Documentos PDF
-        clienteExecutivoModalInfoGradeDocumentosPdf({cliente_executivo_id:cliente_executivo.id, id_elemento_visualisacao:'cex_documentos_grade', btn_visualizar:true, btn_deletar:true});
+        clienteExecutivoModalInfoGradeDocumentosPdf({cliente_executivo_id:cliente_executivo.id, btn_visualizar:true, btn_deletar:true});
     }).catch(error => {
         alert('Erro clienteExecutivoModalInfo: '+error);
     });
 }
 
 //Busca dados e monta grade de documentos pdfs do submódulo Clientes Executivos
-function clienteExecutivoModalInfoGradeDocumentosPdf({cliente_executivo_id='', id_elemento_visualisacao='', btn_visualizar=true, btn_deletar=true}) {
-    if (id_elemento_visualisacao == '') {return false;}
+function clienteExecutivoModalInfoGradeDocumentosPdf({cliente_executivo_id='', btn_visualizar=true, btn_deletar=true}) {
     if (cliente_executivo_id == '') {cliente_executivo_id = document.getElementById('registro_id').value;}
 
     var url_atual = window.location.protocol+'//'+window.location.host+'/';
 
     //Acessar rota
-    fetch(url_atual+'clientes_executivos/modalInfo/documentos_pdf/'+cliente_executivo_id, {
+    fetch(url_atual+'clientes_executivos/modalInfo/documentos/'+cliente_executivo_id, {
         method: 'GET',
         headers: {'REQUEST-ORIGIN': 'fetch'}
     }).then(response => {
@@ -322,7 +333,7 @@ function clienteExecutivoModalInfoGradeDocumentosPdf({cliente_executivo_id='', i
         }
 
         //Retornar Grade
-        document.getElementById(id_elemento_visualisacao).innerHTML = grade;
+        document.getElementById('cex_documentos_grade').innerHTML = grade;
     }).catch(error => {
         alert('Erro clienteExecutivoModalInfoGradeDocumentosPdf: '+error);
     });
@@ -336,7 +347,7 @@ function clienteExecutivoModalInfoDeletarDocumentoPdf(cliente_executivo_document
             var url_atual = window.location.protocol+'//'+window.location.host+'/';
 
             //Acessar rota
-            fetch(url_atual+'clientes_executivos/modalInfo/deletar_documento_pdf/'+cliente_executivo_documento_id, {
+            fetch(url_atual+'clientes_executivos/modalInfo/deletar_documento/'+cliente_executivo_documento_id, {
                 method: 'DELETE',
                 headers: {
                     'REQUEST-ORIGIN': 'fetch',
@@ -350,10 +361,10 @@ function clienteExecutivoModalInfoDeletarDocumentoPdf(cliente_executivo_document
                     alertSwal('success', 'Clientes Executivos', data.success, 'true', 2000);
 
                     //Dados
-                    let cliente_executivo_id = document.getElementById('upload_documentos_pdfs_cliente_executivo_id').value;
+                    let cliente_executivo_id = document.getElementById('upload_documentos_cliente_executivo_id').value;
 
                     //Montar Grade
-                    clienteExecutivoModalInfoGradeDocumentosPdf({cliente_executivo_id:cliente_executivo_id, id_elemento_visualisacao:'cex_documentos_grade'});
+                    clienteExecutivoModalInfoGradeDocumentosPdf({cliente_executivo_id:cliente_executivo_id});
                 } else if (data.error) {
                     alertSwal('error', 'Clientes Executivos', data.error, 'true', 2000);
                 } else if (data.error_permissao) {
@@ -413,22 +424,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-    //Botão: frm_upload_documentos_pdfs_cex_executar''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    document.getElementById('frm_upload_documentos_pdfs_cex_executar').addEventListener('click', function() {
+    //Botão: frm_upload_documentos_cex_executar''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    document.getElementById('frm_upload_documentos_cex_executar').addEventListener('click', function() {
         //FormData
-        var formulario = document.getElementById('frm_upload_documentos_pdfs_cex');
+        var formulario = document.getElementById('frm_upload_documentos_cex');
         var formData = new FormData(formulario);
         var url_atual = window.location.protocol+'//'+window.location.host+'/';
-        var upload_documentos_pdfs_cliente_executivo_id = document.getElementById('upload_documentos_pdfs_cliente_executivo_id').value;
+        var upload_documentos_cliente_executivo_id = document.getElementById('upload_documentos_cliente_executivo_id').value;
 
         //Tratar Botões
-        document.getElementById('frm_upload_documentos_pdfs_cex_executar').style.display = 'block';
+        document.getElementById('frm_upload_documentos_cex_executar').style.display = 'block';
 
         //Criticando campos
-        if (validar_frm_upload_documentos_pdfs() === false) {return false;}
+        if (validar_frm_upload_documentos() === false) {return false;}
 
         //Acessar rota
-        fetch(url_atual+'clientes_executivos/uploadDocumentoPdf/upload_documento_pdf', {
+        fetch(url_atual+'clientes_executivos/uploadDocumento/upload_documento', {
             method: 'POST',
             headers: {
                 'REQUEST-ORIGIN': 'fetch',
@@ -441,7 +452,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             //Lendo dados
             if (data.success) {
                 //Montando Grade de Documentos PDF
-                clienteExecutivoModalInfoGradeDocumentosPdf({cliente_executivo_id:upload_documentos_pdfs_cliente_executivo_id, id_elemento_visualisacao:'cex_documentos_grade', btn_visualizar:true, btn_deletar:true});
+                clienteExecutivoModalInfoGradeDocumentosPdf({cliente_executivo_id:upload_documentos_cliente_executivo_id, btn_visualizar:true, btn_deletar:true});
 
                 formulario.reset();
 

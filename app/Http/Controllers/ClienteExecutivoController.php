@@ -24,10 +24,10 @@ class ClienteExecutivoController extends Controller
 
     public function __construct()
     {
-        $this->middleware('check-permissao:list', ['only' => ['index', 'filter', 'modal_info', 'documentos_pdf']]);
+        $this->middleware('check-permissao:list', ['only' => ['index', 'filter', 'modal_info', 'documentos']]);
         $this->middleware('check-permissao:create', ['only' => ['create', 'store']]);
         $this->middleware('check-permissao:show', ['only' => ['show']]);
-        $this->middleware('check-permissao:edit', ['only' => ['edit', 'update', 'upload_foto', 'upload_documento_pdf']]);
+        $this->middleware('check-permissao:edit', ['only' => ['edit', 'update', 'upload_foto', 'upload_documento']]);
         $this->middleware('check-permissao:destroy', ['only' => ['destroy']]);
     }
 
@@ -377,7 +377,7 @@ class ClienteExecutivoController extends Controller
         }
     }
 
-    public function upload_documento_pdf(Request $request)
+    public function upload_documento(Request $request)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
@@ -385,16 +385,16 @@ class ClienteExecutivoController extends Controller
             $error = false;
 
             //Verificando e fazendo Upload do PDF
-            if ($request->hasFile('cex_documentos_pdfs_file')) {
+            if ($request->hasFile('cex_documentos_file')) {
                 //cliente_executivo_id
-                $id = $request['upload_documentos_pdfs_cliente_executivo_id'];
+                $id = $request['upload_documentos_cliente_executivo_id'];
 
                 //buscar dados formulario
-                $arquivo_tmp = $_FILES["cex_documentos_pdfs_file"]["tmp_name"];
-                $arquivo_real = $_FILES["cex_documentos_pdfs_file"]["name"];
+                $arquivo_tmp = $_FILES["cex_documentos_file"]["tmp_name"];
+                $arquivo_real = $_FILES["cex_documentos_file"]["name"];
                 $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
-                $arquivo_type = $_FILES["cex_documentos_pdfs_file"]["type"];
-                $arquivo_size = $_FILES['cex_documentos_pdfs_file']['size'];
+                $arquivo_type = $_FILES["cex_documentos_file"]["type"];
+                $arquivo_size = $_FILES['cex_documentos_file']['size'];
 
                 if ($arquivo_type == 'application/pdf') {
                     if (copy($arquivo_tmp, "build/assets/pdfs/clientes_executivos/$arquivo_real")) {
@@ -423,16 +423,16 @@ class ClienteExecutivoController extends Controller
                 //Salvar Dados na tabela clientes_executivos_documentos
                 $data = array();
                 $data['empresa_id'] = session('userLogged_empresa_id');
-                $data['cliente_executivo_id'] = $request['upload_documentos_pdfs_cliente_executivo_id'];
-                $data['acao'] = $request['upload_documentos_pdfs_cex_acao'];
+                $data['cliente_executivo_id'] = $request['upload_documentos_cliente_executivo_id'];
+                $data['acao'] = $request['upload_documentos_cex_acao'];
                 $data['name'] = $name;
-                $data['descricao'] = $request['cex_documentos_pdfs_descricao'];
+                $data['descricao'] = $request['cex_documentos_descricao'];
                 $data['caminho'] = $pdf;
-                $data['data_documento'] = $request['cex_documentos_pdfs_data_documento'];
-                $data['aviso'] = $request['cex_documentos_pdfs_aviso'];
+                $data['data_documento'] = $request['cex_documentos_data_documento'];
+                $data['aviso'] = $request['cex_documentos_aviso'];
 
                 //Buscando dados Api_Data() - Atualizar Registro
-                $this->responseApi(1, 12, 'clientes_executivos/uploadDocumentoPdf/upload_documento_pdf', '', '', $data);
+                $this->responseApi(1, 12, 'clientes_executivos/uploadDocumento/upload_documento', '', '', $data);
 
                 //Registro recebido com sucesso
                 if ($this->code == 2000) {
@@ -448,12 +448,12 @@ class ClienteExecutivoController extends Controller
         }
     }
 
-    public function documentos_pdf($cliente_executivo_id)
+    public function documentos($cliente_executivo_id)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data() - Registro pelo id
-            $this->responseApi(1, 10, 'clientes_executivos/modalInfo/documentos_pdf/' . $cliente_executivo_id, '', '', '');
+            $this->responseApi(1, 10, 'clientes_executivos/modalInfo/documentos/' . $cliente_executivo_id, '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
@@ -466,10 +466,10 @@ class ClienteExecutivoController extends Controller
         }
     }
 
-    public function deletar_documento_pdf($cliente_executivo_documento_id)
+    public function deletar_documento($cliente_executivo_documento_id)
     {
         //Buscando dados Api_Data() - Deletar Registro
-        $this->responseApi(1, 6, 'clientes_executivos/modalInfo/deletar_documento_pdf', $cliente_executivo_documento_id, '', '');
+        $this->responseApi(1, 6, 'clientes_executivos/modalInfo/deletar_documento', $cliente_executivo_documento_id, '', '');
 
         //Registro deletado com sucesso
         if ($this->code == 2000) {

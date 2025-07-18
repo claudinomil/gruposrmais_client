@@ -63,8 +63,40 @@ function configurarDataTable(op) {
             order: []
         });
     }
-}
 
+    if (op == 3) {
+        $('.class-datatable-3').DataTable({
+            language: {
+                pageLength: {
+                    '-1': 'Mostrar todos os registros',
+                    '_': 'Mostrar %d registros'
+                },
+                lengthMenu: 'Exibir _MENU_ resultados por página',
+                emptyTable: 'Nenhum registro encontrado',
+                info: 'Mostrando de _START_ até _END_ de _TOTAL_ registros',
+                infoEmpty: 'Mostrando 0 até 0 de 0 registros',
+                infoFiltered: '(Filtrados de _MAX_ registros)',
+                infoThousands: '.',
+                loadingRecords: 'Carregando...',
+                processing: 'Processando...',
+                zeroRecords: 'Nenhum registro encontrado',
+                search: 'Pesquisar',
+                paginate: {
+                    next: 'Próximo',
+                    previous: 'Anterior',
+                    first: 'Primeiro',
+                    last: 'Último'
+                }
+            },
+            bDestroy: true,
+            responsive: true,
+            pageLength: 5,
+            lengthChange: true,
+            autoWidth: false,
+            order: []
+        });
+    }
+}
 
 function showTooltips() {
     $('[data-bs-toggle="tooltip"]').tooltip({ boundary: 'window' });

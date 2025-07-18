@@ -53,6 +53,12 @@
                         </div>
                     </div>
 
+
+
+                    <input type="hidden" id="user_email" value="{{ session('se_userLoggedData.email') }}">
+
+
+
                     <!-- Tabela (Componente Blade) -->
                     <x-table-crud-ajax :numCols="4" :colsNames="['#', 'Nome', 'Nascimento', 'Ações']" />
                     <input type="hidden" id="crudPrefixPermissaoSubmodulo" name="crudPrefixPermissaoSubmodulo" value="{{$se_prefixPermissaoSubmodulo}}">

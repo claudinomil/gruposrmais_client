@@ -312,6 +312,11 @@
 "isEntry": true,
 "src": "resources/assets_template/js/cruds_functions.js"
 },
+"resources/assets_template/js/administrador.js": {
+"file": "assets/administrador.js",
+"isEntry": true,
+"src": "resources/assets_template/js/administrador.js"
+},
 "resources/assets_template/js/functions.js": {
 "file": "assets/functions.js",
 "isEntry": true,
@@ -432,11 +437,6 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_naturalidades.js"
 },
-"resources/assets_template/js/scripts_notificacoes.js": {
-"file": "assets/scripts_notificacoes.js",
-"isEntry": true,
-"src": "resources/assets_template/js/scripts_notificacoes.js"
-},
 "resources/assets_template/js/scripts_funcoes.js": {
 "file": "assets/scripts_funcoes.js",
 "isEntry": true,
@@ -451,11 +451,6 @@
 "file": "assets/scripts_submodulos.js",
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_submodulos.js"
-},
-"resources/assets_template/js/scripts_ferramentas.js": {
-"file": "assets/scripts_ferramentas.js",
-"isEntry": true,
-"src": "resources/assets_template/js/scripts_ferramentas.js"
 },
 "resources/assets_template/js/scripts_users.js": {
 "file": "assets/scripts_users.js",

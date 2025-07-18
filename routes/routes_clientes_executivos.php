@@ -16,9 +16,9 @@ Route::prefix('clientes_executivos')->group(function () {
     //Modal clientes_executivos_modal_info
     Route::get('/modalInfo/modal_info/{id}', [ClienteExecutivoController::class, 'modal_info'])->name('clientes_executivos.modal_info');
     Route::post('/uploadFoto/upload_foto', [ClienteExecutivoController::class, 'upload_foto'])->name('clientes_executivos.upload_foto');
-    Route::post('/uploadDocumentoPdf/upload_documento_pdf', [ClienteExecutivoController::class, 'upload_documento_pdf'])->name('clientes_executivos.upload_documento_pdf');
-    Route::get('/modalInfo/documentos_pdf/{cliente_executivo_id}', [ClienteExecutivoController::class, 'documentos_pdf'])->name('clientes_executivos.documentos_pdf');
-    Route::delete('/modalInfo/deletar_documento_pdf/{cliente_executivo_documento_id}', [ClienteExecutivoController::class, 'deletar_documento_pdf'])->name('clientes_executivos.deletar_documento_pdf');
+    Route::post('/uploadDocumento/upload_documento', [ClienteExecutivoController::class, 'upload_documento'])->name('clientes_executivos.upload_documento');
+    Route::get('/modalInfo/documentos/{cliente_executivo_id}', [ClienteExecutivoController::class, 'documentos'])->name('clientes_executivos.documentos');
+    Route::delete('/modalInfo/deletar_documento/{cliente_executivo_documento_id}', [ClienteExecutivoController::class, 'deletar_documento'])->name('clientes_executivos.deletar_documento');
 
     //Dados para Cartões Emergenciais
     Route::get('/cartoes_emergenciais/dados/{ids}', [ClienteExecutivoController::class, 'cartoes_emergenciais_dados'])->name('clientes_executivos.cartoes_emergenciais_dados');

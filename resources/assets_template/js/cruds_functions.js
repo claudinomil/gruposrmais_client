@@ -327,14 +327,6 @@ function crudCreate() {
             crudConfiguracao({p_frm_operacao:'create', p_fieldsDisabled:false, p_crudFormButtons1:'show', p_crudFormButtons2:'hide', p_crudTable:'hide', p_crudForm:'show', p_removeMask:true, p_putMask:true});
 
             //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            if (prefixPermissaoSubmodulo == 'notificacoes') {
-                elementos = document.getElementsByClassName('fieldsViewEdit');
-                elementos.forEach(function(elemento) {elemento.style.display = 'none';});
-
-                elementos = document.getElementsByClassName('fieldsCreate');
-                elementos.forEach(function(elemento) {elemento.style.display = 'block';});
-            }
-
             if (prefixPermissaoSubmodulo == 'grupos') {
                 elementos = document.getElementsByClassName('markUnmarkAll');
                 elementos.forEach(function(elemento) {elemento.style.display = 'block';});
@@ -361,20 +353,6 @@ function crudCreate() {
                 document.getElementById('funcionario_id').disabled = false;
             }
 
-            if (prefixPermissaoSubmodulo == 'ferramentas') {
-                //Esconder botão buscar icones
-                elementos = document.getElementsByClassName('buscarIcones');
-                elementos.forEach(function(elemento) {elemento.style.display = 'block';});
-
-                document.getElementById('iconView').classList = [];
-
-                elementos = document.getElementsByClassName('fieldsViewEdit');
-                elementos.forEach(function(elemento) {elemento.style.display = 'none';});
-
-                elementos = document.getElementsByClassName('fieldsCreate');
-                elementos.forEach(function(elemento) {elemento.style.display = 'block';});
-            }
-
             if (prefixPermissaoSubmodulo == 'mapas') {
                 //Colocar data infinita
                 document.getElementById('data_inicio').value = '01/01/1900';
@@ -388,10 +366,6 @@ function crudCreate() {
             }
 
             if (prefixPermissaoSubmodulo == 'funcionarios') {
-                //Display divArquivosPdf
-                elemento = document.getElementById('divArquivosPdf');
-                elemento.style.display = 'none';
-
                 //Doenças e Doenças Família'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 document.getElementById('doenca_diabetes').checked = false;
                 document.getElementById('doenca_hipertensao').checked = false;
@@ -582,25 +556,6 @@ function crudView(registro_id) {
             });
 
             //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            if (prefixPermissaoSubmodulo == 'notificacoes') {
-                elementos = document.getElementsByClassName('fieldsViewEdit');
-                elementos.forEach(function(elemento) {elemento.style.display = 'block';});
-
-                elementos = document.getElementsByClassName('fieldsCreate');
-                elementos.forEach(function(elemento) {elemento.style.display = 'none';});
-
-                //fieldDate / fieldTime / fieldUserName
-                document.getElementById('fieldDate').value = data.success['date'];
-                document.getElementById('fieldTime').value = data.success['time'];
-                document.getElementById('fieldUserName').value = data.success['userName'];
-
-                //Marcar notificação como lida
-                fetch('notificacoes/readingNotificacoes/' + registro_id, {
-                    method: 'GET',
-                    headers: {'REQUEST-ORIGIN': 'fetch'}
-                });
-            }
-
             if (prefixPermissaoSubmodulo == 'grupos') {
                 elementos = document.getElementsByClassName('markUnmarkAll');
                 elementos.forEach(function(elemento) {elemento.style.display = 'block';});
@@ -634,23 +589,6 @@ function crudView(registro_id) {
                 });
             }
 
-            if (prefixPermissaoSubmodulo == 'ferramentas') {
-                //Esconder botão buscar icones
-                elementos = document.getElementsByClassName('buscarIcones');
-                elementos.forEach(function(elemento) {elemento.style.display = 'none';});
-
-                document.getElementById('iconView').classList = [];
-                document.getElementById('iconView').className = data.success['icon'];
-
-                elementos = document.getElementsByClassName('fieldsViewEdit');
-                elementos.forEach(function(elemento) {elemento.style.display = 'block';});
-
-                elementos = document.getElementsByClassName('fieldsCreate');
-                elementos.forEach(function(elemento) {elemento.style.display = 'none';});
-
-                document.getElementById('fieldUserName').value = data.success['userName'];
-            }
-
             if (prefixPermissaoSubmodulo == 'mapas') {
                 //Esconder botão buscar icones
                 elementos = document.getElementsByClassName('buscarIcones');
@@ -666,20 +604,13 @@ function crudView(registro_id) {
                 document.getElementById('upload_foto_funcionario_name').disabled = false;
                 document.getElementById('fun_foto_file').disabled = false;
 
-                //Liberar campos frm_upload_documentos_pdfs_fun
-                document.getElementById('upload_documentos_pdfs_funcionario_id').disabled = false;
-                document.getElementById('upload_documentos_pdfs_fun_acao').disabled = false;
-                document.getElementById('fun_documentos_pdfs_descricao').disabled = false;
-                document.getElementById('fun_documentos_pdfs_data_documento').disabled = false;
-                document.getElementById('fun_documentos_pdfs_aviso').disabled = false;
-                document.getElementById('fun_documentos_pdfs_file').disabled = false;
-
-                //Display divArquivosPdf
-                elemento = document.getElementById('divArquivosPdf');
-                elemento.style.display = 'block';
-
-                //Montando Grade de Documentos PDF
-                funcionarioModalInfoGradeDocumentosPdf({id_elemento_visualisacao:'divArquivosPdfGrade', btn_visualizar:true, btn_deletar:false});
+                //Liberar campos frm_upload_documentos_fun
+                document.getElementById('upload_documentos_funcionario_id').disabled = false;
+                document.getElementById('upload_documentos_fun_acao').disabled = false;
+                document.getElementById('fun_documentos_data_documento').disabled = false;
+                document.getElementById('fun_documentos_aviso').disabled = false;
+                document.getElementById('fun_documentos_file').disabled = false;
+                document.getElementById('fun_documentos_documento_id').disabled = false;
 
                 //Doenças e Doenças Família'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 document.getElementById('doenca_diabetes').checked = false;
@@ -709,20 +640,13 @@ function crudView(registro_id) {
             if (prefixPermissaoSubmodulo == 'clientes') {
                 document.getElementById('link_copiar_endereco').style.display = 'none';
 
-                //Liberar campos frm_upload_documentos_pdfs_cli
-                document.getElementById('upload_documentos_pdfs_cliente_id').disabled = false;
-                document.getElementById('upload_documentos_pdfs_cli_acao').disabled = false;
-                document.getElementById('cli_documentos_pdfs_documento_id').disabled = false;
-                document.getElementById('cli_documentos_pdfs_data_documento').disabled = false;
-                document.getElementById('cli_documentos_pdfs_aviso').disabled = false;
-                document.getElementById('cli_documentos_pdfs_file').disabled = false;
-
-                //Display divArquivosPdf
-                elemento = document.getElementById('divArquivosPdf');
-                elemento.style.display = 'block';
-
-                //Montando Grade de Documentos PDF
-                clienteModalInfoGradeDocumentosPdf({id_elemento_visualisacao:'divArquivosPdfGrade', btn_visualizar:true, btn_deletar:false});
+                //Liberar campos frm_upload_documentos_cli
+                document.getElementById('upload_documentos_cliente_id').disabled = false;
+                document.getElementById('upload_documentos_cli_acao').disabled = false;
+                document.getElementById('cli_documentos_documento_id').disabled = false;
+                document.getElementById('cli_documentos_data_documento').disabled = false;
+                document.getElementById('cli_documentos_aviso').disabled = false;
+                document.getElementById('cli_documentos_file').disabled = false;
 
                 //Hide em todos os checkbox de Medidas de Segurança''''''''''''''''''
                 elementos = document.getElementsByClassName('divSegurancaMedida');
@@ -1128,19 +1052,6 @@ async function crudEdit(registro_id) {
             });
 
             //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            if (prefixPermissaoSubmodulo == 'notificacoes') {
-                elementos = document.getElementsByClassName('fieldsViewEdit');
-                elementos.forEach(function(elemento) {elemento.style.display = 'block';});
-
-                elementos = document.getElementsByClassName('fieldsCreate');
-                elementos.forEach(function(elemento) {elemento.style.display = 'none';});
-
-                //fieldDate / fieldTime / fieldUserName
-                document.getElementById('fieldDate').value = data.success['date'];
-                document.getElementById('fieldTime').value = data.success['time'];
-                document.getElementById('fieldUserName').value = data.success['userName'];
-            }
-
             if (prefixPermissaoSubmodulo == 'grupos') {
                 elementos = document.getElementsByClassName('markUnmarkAll');
                 elementos.forEach(function(elemento) {elemento.style.display = 'block';});
@@ -1213,23 +1124,6 @@ async function crudEdit(registro_id) {
                 });
             }
 
-            if (prefixPermissaoSubmodulo == 'ferramentas') {
-                //Esconder botão buscar icones
-                elementos = document.getElementsByClassName('buscarIcones');
-                elementos.forEach(function(elemento) {elemento.style.display = 'block';});
-
-                document.getElementById('iconView').classList = [];
-                document.getElementById('iconView').className = data.success['icon'];
-
-                elementos = document.getElementsByClassName('fieldsViewEdit');
-                elementos.forEach(function(elemento) {elemento.style.display = 'block';});
-
-                elementos = document.getElementsByClassName('fieldsCreate');
-                elementos.forEach(function(elemento) {elemento.style.display = 'none';});
-
-                document.getElementById('fieldUserName').value = data.success['userName'];
-            }
-
             if (prefixPermissaoSubmodulo == 'mapas') {
                 //Esconder botão buscar icones
                 elementos = document.getElementsByClassName('buscarIcones');
@@ -1240,10 +1134,6 @@ async function crudEdit(registro_id) {
             }
 
             if (prefixPermissaoSubmodulo == 'funcionarios') {
-                //Display divArquivosPdf
-                elemento = document.getElementById('divArquivosPdf');
-                elemento.style.display = 'none';
-
                 //Doenças e Doenças Família'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 document.getElementById('doenca_diabetes').checked = false;
                 document.getElementById('doenca_hipertensao').checked = false;

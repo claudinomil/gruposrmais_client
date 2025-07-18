@@ -63,7 +63,7 @@ class Menu
                     //if ($submodulo['id'] == 17) {$permitido = false;}
 
                     //18 : Fornecedores
-                    if ($submodulo['id'] == 18) {$permitido = false;}
+                    //if ($submodulo['id'] == 18) {$permitido = false;}
 
                     //19 : Usuários Perfil
                     //if ($submodulo['id'] == 19) {$permitido = false;}
@@ -91,12 +91,6 @@ class Menu
 
                     //28 : Clientes Executivos
                     //if ($submodulo['id'] == 28) {$permitido = false;}
-
-                    //3 : Notificações
-                    //if ($submodulo['id'] == 3) {$permitido = false;}
-
-                    //5 : Ferramentas
-                    //if ($submodulo['id'] == 5) {$permitido = false;}
 
                     //6 : Bancos
                     //if ($submodulo['id'] == 6) {$permitido = false;}

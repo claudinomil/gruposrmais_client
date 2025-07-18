@@ -28,13 +28,14 @@ class FuncionarioController extends Controller
     public $funcoes;
     public $bancos;
     public $documentos;
+    public $clientes;
 
     public function __construct()
     {
-        $this->middleware('check-permissao:list', ['only' => ['index', 'filter', 'modal_info', 'documentos_pdf']]);
+        $this->middleware('check-permissao:list', ['only' => ['index', 'filter', 'modal_info', 'documentos']]);
         $this->middleware('check-permissao:create', ['only' => ['create', 'store']]);
         $this->middleware('check-permissao:show', ['only' => ['show']]);
-        $this->middleware('check-permissao:edit', ['only' => ['edit', 'update', 'upload_foto', 'upload_documento_pdf']]);
+        $this->middleware('check-permissao:edit', ['only' => ['edit', 'update', 'upload_foto', 'upload_documento']]);
         $this->middleware('check-permissao:destroy', ['only' => ['destroy']]);
     }
 
@@ -100,7 +101,8 @@ class FuncionarioController extends Controller
                 'departamentos' => $this->departamentos,
                 'funcoes' => $this->funcoes,
                 'bancos' => $this->bancos,
-                'documentos' => $this->documentos
+                'documentos' => $this->documentos,
+                'clientes' => $this->clientes
             ]);
         }
     }
@@ -419,7 +421,7 @@ class FuncionarioController extends Controller
         }
     }
 
-    public function upload_documento_pdf(Request $request)
+    public function upload_documento(Request $request)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
@@ -427,16 +429,16 @@ class FuncionarioController extends Controller
             $error = false;
 
             //Verificando e fazendo Upload do PDF
-            if ($request->hasFile('fun_documentos_pdfs_file')) {
+            if ($request->hasFile('fun_documentos_file')) {
                 //funcionario_id
-                $id = $request['upload_documentos_pdfs_funcionario_id'];
+                $id = $request['upload_documentos_funcionario_id'];
 
                 //buscar dados formulario
-                $arquivo_tmp = $_FILES["fun_documentos_pdfs_file"]["tmp_name"];
-                $arquivo_real = $_FILES["fun_documentos_pdfs_file"]["name"];
+                $arquivo_tmp = $_FILES["fun_documentos_file"]["tmp_name"];
+                $arquivo_real = $_FILES["fun_documentos_file"]["name"];
                 $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
-                $arquivo_type = $_FILES["fun_documentos_pdfs_file"]["type"];
-                $arquivo_size = $_FILES['fun_documentos_pdfs_file']['size'];
+                $arquivo_type = $_FILES["fun_documentos_file"]["type"];
+                $arquivo_size = $_FILES['fun_documentos_file']['size'];
 
                 if ($arquivo_type == 'application/pdf') {
                     if (copy($arquivo_tmp, "build/assets/pdfs/funcionarios/$arquivo_real")) {
@@ -465,17 +467,16 @@ class FuncionarioController extends Controller
                 //Salvar Dados na tabela funcionarios_documentos
                 $data = array();
                 $data['empresa_id'] = session('userLogged_empresa_id');
-                $data['funcionario_id'] = $request['upload_documentos_pdfs_funcionario_id'];
-                $data['acao'] = $request['upload_documentos_pdfs_fun_acao'];
+                $data['funcionario_id'] = $request['upload_documentos_funcionario_id'];
+                $data['acao'] = $request['upload_documentos_fun_acao'];
                 $data['name'] = $name;
-                $data['descricao'] = $request['fun_documentos_pdfs_descricao'];
                 $data['caminho'] = $pdf;
-                $data['documento_id'] = $request['fun_documentos_pdfs_documento_id'];
-                $data['data_documento'] = $request['fun_documentos_pdfs_data_documento'];
-                $data['aviso'] = $request['fun_documentos_pdfs_aviso'];
+                $data['documento_id'] = $request['fun_documentos_documento_id'];
+                $data['data_documento'] = $request['fun_documentos_data_documento'];
+                $data['aviso'] = $request['fun_documentos_aviso'];
 
                 //Buscando dados Api_Data() - Atualizar Registro
-                $this->responseApi(1, 12, 'funcionarios/uploadDocumentoPdf/upload_documento_pdf', '', '', $data);
+                $this->responseApi(1, 12, 'funcionarios/uploadDocumento/upload_documento', '', '', $data);
 
                 //Registro recebido com sucesso
                 if ($this->code == 2000) {
@@ -491,12 +492,12 @@ class FuncionarioController extends Controller
         }
     }
 
-    public function documentos_pdf($funcionario_id)
+    public function documentos($funcionario_id)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data() - Registro pelo id
-            $this->responseApi(1, 10, 'funcionarios/modalInfo/documentos_pdf/' . $funcionario_id, '', '', '');
+            $this->responseApi(1, 10, 'funcionarios/modalInfo/documentos/' . $funcionario_id, '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
@@ -509,10 +510,10 @@ class FuncionarioController extends Controller
         }
     }
 
-    public function deletar_documento_pdf($funcionario_documento_id)
+    public function deletar_documento($funcionario_documento_id)
     {
         //Buscando dados Api_Data() - Deletar Registro
-        $this->responseApi(1, 6, 'funcionarios/modalInfo/deletar_documento_pdf', $funcionario_documento_id, '', '');
+        $this->responseApi(1, 6, 'funcionarios/modalInfo/deletar_documento', $funcionario_documento_id, '', '');
 
         //Registro deletado com sucesso
         if ($this->code == 2000) {

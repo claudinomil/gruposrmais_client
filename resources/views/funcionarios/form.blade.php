@@ -69,6 +69,16 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">Tomador de Serviço</label>
+                                        <select class="select2 form-control" name="tomador_servico_cliente_id" id="tomador_servico_cliente_id">
+                                            <option value="">Selecione...</option>
+
+                                            @foreach ($clientes as $cliente)
+                                                <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Departamento</label>
                                         <select class="form-control select2" name="departamento_id" id="departamento_id">
                                             <option value="">Selecione...</option>
@@ -93,6 +103,10 @@
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Nome</label>
                                         <input type="text" class="form-control text-uppercase" id="name" name="name" required="required">
+                                    </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">Nome Profissional</label>
+                                        <input type="text" class="form-control text-uppercase" id="nome_profissional" name="nome_profissional" required="required">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Nascimento</label>
@@ -521,21 +535,6 @@
                                             <option value="SIM">SIM</option>
                                             <option value="NÃO">NÃO</option>
                                         </select>
-                                    </div>
-                                    <div class="row pt-4" id="divArquivosPdf" style="display: none;">
-                                        <h5 class="pb-4 text-primary"><i class="fas fa-file-pdf"></i> Arquivos PDF</h5>
-                                        <div class="form-group col-12 col-md-12 pb-3">
-                                            <h4 class="text-center font-size-12">## Grade de Documentos PDF ##</h4>
-                                            <div class="table-responsive" id="divArquivosPdfGrade">Nenhum documento encontrado.</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row pt-4" id="divArquivosPdf" style="display: none;">
-                                    <h5 class="pb-4 text-primary"><i class="fas fa-file-pdf"></i> Arquivos PDF</h5>
-                                    <div class="form-group col-12 col-md-12 pb-3">
-                                        <h4 class="text-center font-size-12">## Grade de Documentos PDF ##</h4>
-                                        <div class="table-responsive" id="divArquivosPdfGrade">Nenhum documento encontrado.</div>
                                     </div>
                                 </div>
                             </div>

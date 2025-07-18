@@ -8,6 +8,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Administrador
+require __DIR__.'/routes_administrador.php';
+
 //Rotas de auth
 require __DIR__.'/routes_auth.php';
 
@@ -19,12 +22,6 @@ require __DIR__ . '/routes_empresas.php';
 
 //Emails
 require __DIR__ . '/routes_emails.php';
-
-//Tools
-require __DIR__ . '/routes_ferramentas.php';
-
-//Notificacoes
-require __DIR__ . '/routes_notificacoes.php';
 
 //Transacoes
 require __DIR__ . '/routes_transacoes.php';

@@ -28,19 +28,11 @@
             <div class="d-none d-lg-block ms-2">&nbsp;</div>
         </div>
         <div class="d-flex">
-            @if (\App\Facades\Permissoes::permissao(['ferramentas_list']))
-                @include('layouts.ferramentas')
-            @endif
-
             <div class="dropdown d-none d-lg-inline-block ms-1">
                 <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">
                     <i class="bx bx-fullscreen"></i>
                 </button>
             </div>
-
-            @if (\App\Facades\Permissoes::permissao(['notificacoes_list']))
-                @include('layouts.notificacoes')
-            @endif
 
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

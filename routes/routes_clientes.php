@@ -15,9 +15,9 @@ Route::prefix('clientes')->group(function () {
 
     //Modal clientes_modal_info
     Route::get('/modalInfo/modal_info/{id}', [ClienteController::class, 'modal_info'])->name('clientes.modal_info');
-    Route::post('/uploadDocumentoPdf/upload_documento_pdf', [ClienteController::class, 'upload_documento_pdf'])->name('clientes.upload_documento_pdf');
-    Route::get('/modalInfo/documentos_pdf/{cliente_id}', [ClienteController::class, 'documentos_pdf'])->name('clientes.documentos_pdf');
-    Route::delete('/modalInfo/deletar_documento_pdf/{cliente_documento_id}', [ClienteController::class, 'deletar_documento_pdf'])->name('clientes.deletar_documento_pdf');
+    Route::post('/uploadDocumento/upload_documento', [ClienteController::class, 'upload_documento'])->name('clientes.upload_documento');
+    Route::get('/modalInfo/documentos/{cliente_id}', [ClienteController::class, 'documentos'])->name('clientes.documentos');
+    Route::delete('/modalInfo/deletar_documento/{cliente_documento_id}', [ClienteController::class, 'deletar_documento'])->name('clientes.deletar_documento');
 
     Route::get('/visita_tecnica/{id}', [ClienteController::class, 'visita_tecnica'])->name('clientes.visita_tecnica');
 });

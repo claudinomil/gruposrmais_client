@@ -27,7 +27,7 @@
                         @endif
 
                         <!-- Botão Info -->
-                        <x-button-crud op="7" onclick="clienteModalInfo();" />
+                        <x-button-crud op="7" onclick="clienteModalInfoControle(1);" />
 
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
@@ -105,8 +105,19 @@
                                         <select class="select2 form-control" name="principal_cliente_id" id="principal_cliente_id">
                                             <option value="">Selecione...</option>
 
-                                            @foreach ($principal_clientes as $key => $principal_cliente)
-                                                <option value="{{ $principal_cliente['id'] }}">{{ $principal_cliente['name'] }}</option>
+                                            @foreach ($clientes as $key => $cliente)
+                                                <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">Cliente Rede</label>
+                                        <select class="select2 form-control" name="rede_cliente_id" id="rede_cliente_id">
+                                            <option value="">Selecione...</option>
+
+                                            @foreach ($clientes as $key => $cliente)
+                                                <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
                                             @endforeach
 
                                         </select>
@@ -248,14 +259,6 @@
                                     </div>
                                 </div>
 
-                                <div class="row pt-4" id="divArquivosPdf" style="display: none;">
-                                    <h5 class="pb-4 text-primary"><i class="fas fa-file-pdf"></i> Arquivos PDF</h5>
-                                    <div class="form-group col-12 col-md-12 pb-3">
-                                        <h4 class="text-center font-size-12">## Grade de Documentos PDF ##</h4>
-                                        <div class="table-responsive" id="divArquivosPdfGrade">Nenhum documento encontrado.</div>
-                                    </div>
-                                </div>
-
                                 <div class="row pt-4 pessoa_juridica">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-clipboard"></i> Classificação (DECRETO Nº 42, DE 17 DE DEZEMBRO DE 2018)</h5>
                                     <div class="form-group col-6 col-md-2 pb-3">
@@ -379,7 +382,7 @@
                     @endif
 
                     <!-- Botão Info -->
-                    <x-button-crud op="7" onclick="clienteModalInfo();" />
+                    <x-button-crud op="7" onclick="clienteModalInfoControle(1);" />
 
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />

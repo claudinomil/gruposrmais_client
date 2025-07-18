@@ -133,6 +133,7 @@ async function traduzirTextoGoogle(texto, idiomaOrigem = 'pt', idiomaDestino = '
             return data.data.translations[0].translatedText;
         } else {
             console.log('Tradução não encontrada.');
+            return texto;
         }
     } catch (erro) {
         console.error('Erro na tradução:', erro);
@@ -200,41 +201,6 @@ async function gerarMapaImagem(cepOrigem, cepDestino) {
         console.error("Erro:", error);
     }
 }
-
-
-/*
-//Chamada Distância e Duração
-distanciaDuracaoPontos('20735-130', '22420-040')
-    .then(dado => {
-        console.log('Distância:', dado.distancia);
-        console.log('Duração:', dado.duracao);
-    })
-    .catch(err => {
-        console.error("Erro distanciaDuracaoPontos:", err);
-    });
-
-//Chamada Rota Passo-a-Passo
-rotaPassoAPasso('20735-130', '22420-040')
-    .then(dado => {
-        dado.forEach(instrucao => {
-            console.log('Rota: ', instrucao);
-        });
-    })
-    .catch(err => {
-        console.error("Erro rotaPassoAPasso:", err);
-    });
-
-//Chamada Mapa base64
-gerarMapaImagem('20735-130', '22420-040')
-    .then(dado => {
-        document.getElementById('imagemMapa1').src = dado;
-    })
-    .catch(err => {
-        console.error("Erro gerarMapaImagem:", err);
-    });
-*/
-
-
 //Funções para API Google - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Funções para API Google - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -328,52 +294,6 @@ const apiFogoCruzadoOccurrences = async (token, data_inicio, data_fim, cidade_id
     }
 
     return await response.json();
-
-
-
-
-    // var numOcor = 0;
-    //
-    // dados.forEach(function(item) {
-    //     numOcor++;
-    //
-    //     console.log('OCORRÊNCIA N. : '+numOcor+' XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-    //     console.log('Endereço: ', item.address);
-    //     console.log('Vizinhança: ', item.neighborhood.name);
-    //     if (item.locality) {console.log('Localização: ', item.locality.name);}
-    //     console.log('Data: ', item.date);
-    //     console.log('Ação Policial: ', item.policeAction);
-    //     console.log('Presença do Agente: ', item.agentPresence);
-    //     console.log('Razão Principal: ', item.contextInfo.mainReason.name);
-    //     console.log('Unidade Policial: ', item.contextInfo.policeUnit);
-    //     if (item.clippings) {console.log('Recortes: ', item.clippings.name);}
-    //
-    //     if (item.victims) {
-    //         let vitimas = item.victims;
-    //
-    //         var numVit = 0;
-    //
-    //         vitimas.forEach(function(vitima) {
-    //             numVit++;
-    //
-    //             console.log('VÍTIMA N. : ' + numVit + ' YYYYYYYYYYYYYYYYYYYY');
-    //             console.log('Tipo: ', vitima.type);
-    //             console.log('Situação: ', vitima.situation);
-    //             console.log('Idade: ', vitima.age);
-    //             console.log('Gênero: ', vitima.genre.name);
-    //             console.log('Raça: ', vitima.race);
-    //             console.log('FIM DA VÍTIMA N. : '+numVit+' YYYYYYYYYYYYYYYYYYYY');
-    //         });
-    //     }
-    //
-    //     console.log('FIM DA OCORRÊNCIA N. : '+numOcor+' XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-    // });
-    //
-    //
-    // //console.log(ocorrencias);
-
-
-
 };
 
 const apiFogoCruzadoMain = async (data_inicio, data_fim, cidade_id) => {
@@ -2439,23 +2359,6 @@ function fornecedorExtraData(id='') {
     });
 }
 
-function notificacaoLerData(id) {
-    //Buscar dados do Registro
-    $.get("notificacoes/"+id, function (data) {
-        //Lendo dados
-        if (data.success) {
-            $('.jsonNotificacaoLerTitulo').html(data.success.title);
-            $('.jsonNotificacaoLerNotificacao').html(data.success.notificacao);
-        } else if (data.error_not_found) {
-            alertSwal('warning', "Registro não encontrado", '', 'true', 2000);
-        } else if (data.error_permissao) {
-            alertSwal('warning', "Permissão Negada", '', 'true', 2000);
-        } else {
-            alert('Erro interno');
-        }
-    });
-}
-
 //Marcar permissão -list quando escolher qualquer outra
 function checkedPermissaoTable(opClick, submodulo_id) {
     //opClick = 1 : Clicou em todos_listar
@@ -3916,9 +3819,23 @@ function formatarData(op, data) {
     }
 }
 
+function capitalizarFrase(frase) {
+    return frase
+        .toLowerCase()
+        .split(' ')
+        .map(palavra => {
+            return palavra.length > 2
+                ? palavra.charAt(0).toUpperCase() + palavra.slice(1)
+                : palavra;
+        })
+        .join(' ');
+}
+
 /*
 * @PARAM op=1 : Entrada 2135523524   Saída (21) 3552-3524
 * @PARAM op=2 : Entrada 21964210128   Saída (21) 96421-0128
+* @PARAM op=3 : Entrada 2135523524   Saída 21 3552-3524
+* @PARAM op=4 : Entrada 21964210128   Saída 21 96421-0128
  */
 function formatarTelCel(op, numero) {
     if (numero === null || numero == '') {return '';}
@@ -3934,6 +3851,14 @@ function formatarTelCel(op, numero) {
 
     if (op == 2) {
         return '('+numero.substring(0, 2)+') '+numero.substring(2, 7)+'-'+numero.substring(7, 11);
+    }
+
+    if (op == 3) {
+        return ''+numero.substring(0, 2)+' '+numero.substring(2, 6)+'-'+numero.substring(6, 10);
+    }
+
+    if (op == 4) {
+        return ''+numero.substring(0, 2)+' '+numero.substring(2, 7)+'-'+numero.substring(7, 11);
     }
 }
 
@@ -4505,10 +4430,11 @@ async function cartaoEmergencialDesenhar(doc, x, y, pessoa, qrCodePngCaminho, tr
 
     // Logo (esquerda)
     const logo = 'build/assets/images/cartao_emergencial_cnooc.png';
-    doc.addImage(logo, 'PNG', x + 2, y + 1.5, 10, 7);
+    doc.addImage(logo, 'PNG', x + 2, y + 1.5, 20, 7);
 
     // Título
-    doc.setFontSize(10);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
     doc.setTextColor('#ce0000');
 
     if (traducao == 'pt') {
@@ -4529,53 +4455,73 @@ async function cartaoEmergencialDesenhar(doc, x, y, pessoa, qrCodePngCaminho, tr
 
     const base64 = await carregarImagemComoBase64(caminhoFoto);
     const imagemCorrigida = await corrigirRotacaoImagem(base64);
-    doc.addImage(imagemCorrigida, "JPEG", x + 3, y + 12, 20, 20);
+    doc.addImage(imagemCorrigida, "JPEG", x + 3, y + 12, 25, 27);
 
     // QR Code (ao lado direito da foto)
-    doc.addImage(qrCodePngCaminho, "PNG", x + largura - 23, y + 12, 20, 20);
+    doc.addImage(qrCodePngCaminho, "PNG", x + largura - 25, y + 12, 24, 24);
 
     // Nome
     doc.setTextColor('#000000');
-    doc.setFontSize(7);
+    doc.setFontSize(8);
     doc.setFont('helvetica', 'bold');
-    doc.text(pessoa.nome, x + 26, y + 15, { maxWidth: 36 });
+    doc.text(pessoa.nome, x + 30, y + 15, { maxWidth: 30 });
 
     // Informações
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7);
 
-    const genero = traducao === 'en' ? await traduzirTextoGoogle('Gender: ' + pessoa.genero) : 'Gênero: ' + pessoa.genero;
-    const nascimento = traducao === 'en' ? await traduzirTextoGoogle('Date of Birth: ' + pessoa.nascimento) : 'Nascimento: ' + pessoa.nascimento;
+    const genero_tit = traducao === 'en' ? 'Gender:' : 'Gênero:';
+    const genero = traducao === 'en' ? await traduzirTextoGoogle(capitalizarFrase(pessoa.genero)) : capitalizarFrase(pessoa.genero);
+    const nascimento_tit = traducao === 'en' ? 'Date of Birth:' : 'Data de Nascimento:';
+    const nascimento = traducao === 'en' ? pessoa.nascimento : formatarData(2, pessoa.nascimento);
 
-    const larguraTextoMax = 36; // limita a largura para não passar sob o QR
+    const larguraTextoMax = 30; // limita a largura para não passar sob o QR
 
-    doc.text(genero, x + 26, y + 26, { maxWidth: larguraTextoMax });
-    doc.text(nascimento, x + 26, y + 30, { maxWidth: larguraTextoMax });
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor('#545454');
+    doc.text(genero_tit, x + 30, y + 24, { maxWidth: larguraTextoMax });
+
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor('#000000');
+    doc.text(genero, x + 30, y + 28, { maxWidth: larguraTextoMax });
+
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor('#545454');
+    doc.text(nascimento_tit, x + 30, y + 34, { maxWidth: larguraTextoMax });
+
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor('#000000');
+    doc.text(nascimento, x + 30, y + 38, { maxWidth: larguraTextoMax });
 
     // Contato de emergência (embaixo)
     var contato_1 = '';
     var contato_2 = '';
 
-    if (pessoa.contato_1_nome) contato_1 = pessoa.contato_1_nome;
-    if (pessoa.contato_1_parentesco) contato_1 += (contato_1 ? ' / ' : '') + pessoa.contato_1_parentesco;
-    if (pessoa.contato_1_telefone)   contato_1 += (contato_1 ? ' / ' : '') + pessoa.contato_1_telefone;
-    if (pessoa.contato_1_celular)    contato_1 += (contato_1 ? ' / ' : '') + pessoa.contato_1_celular;
+    if (pessoa.contato_1_nome) {contato_1 = capitalizarFrase(pessoa.contato_1_nome);}
+    if (pessoa.contato_1_parentesco) {contato_1 += '  '+'('+capitalizarFrase(pessoa.contato_1_parentesco)+')';}
+    if (pessoa.contato_1_telefone) {contato_1 += '  '+'+55 '+formatarTelCel(3, pessoa.contato_1_telefone);}
+    if (pessoa.contato_1_celular) {contato_1 += '  '+'+55 '+formatarTelCel(3, pessoa.contato_1_celular);}
 
-    if (pessoa.contato_2_nome) contato_2 = pessoa.contato_2_nome;
-    if (pessoa.contato_2_parentesco) contato_2 += (contato_2 ? ' / ' : '') + pessoa.contato_2_parentesco;
-    if (pessoa.contato_2_telefone)   contato_2 += (contato_2 ? ' / ' : '') + pessoa.contato_2_telefone;
-    if (pessoa.contato_2_celular)    contato_2 += (contato_2 ? ' / ' : '') + pessoa.contato_2_celular;
+    if (pessoa.contato_2_nome) {contato_2 = capitalizarFrase(pessoa.contato_2_nome);}
+    if (pessoa.contato_2_parentesco) {contato_2 += '  '+'('+capitalizarFrase(pessoa.contato_2_parentesco)+')';}
+    if (pessoa.contato_2_telefone) {contato_2 += '  '+'+55 '+formatarTelCel(3, pessoa.contato_2_telefone);}
+    if (pessoa.contato_2_celular) {contato_2 += '  '+'+55 '+formatarTelCel(3, pessoa.contato_2_celular);}
 
     if (contato_1 != '' || contato_2 != '') {
-        doc.setTextColor('#ce0000');
         doc.setFontSize(7);
-        doc.text(traducao === 'en' ? "Emergency Contacts:" : "Contatos de Emergência:", x + 3, y + altura - 15);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor('#545454');
+        doc.text(traducao === 'en' ? "EMERGENCY CONTACTS:" : "CONTATOS DE EMERGÊNCIA:", x + 3, y + altura - 11);
 
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'normal');
         doc.setTextColor('#000000');
-        doc.setFontSize(6);
-
-        if (contato_1 != '') {doc.text(contato_1, x + 3, y + altura - 10);}
-        if (contato_2 != '') {doc.text(contato_2, x + 3, y + altura - 5);}
+        if (contato_1 != '') {doc.text(contato_1, x + 3, y + altura - 7);}
+        if (contato_2 != '') {doc.text(contato_2, x + 3, y + altura - 3);}
     }
 
     // Borda azul

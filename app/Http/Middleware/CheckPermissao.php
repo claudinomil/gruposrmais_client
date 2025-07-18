@@ -43,8 +43,6 @@ class CheckPermissao
                 session(['se_userLoggedPermissoes' => $response['content']['userPermissoes']]); //Permissões do Usuário Logado
                 session(['se_userLoggedMenuModulos' => $response['content']['menuModulos']]); //Módulos Menu
                 session(['se_userLoggedMenuSubmodulos' => $response['content']['menuSubmodulos']]); //Submódulos Menu
-                session(['se_userLoggedFerramentas' => $response['content']['ferramentas']]); //Ferramentas
-                session(['se_userLoggedUnreadNotificacoes' => $response['content']['notificacoes']]); //Notificações não lidas pelo Usuário logado
                 session(['se_prefixPermissaoSubmodulo' => $response['content']['prefixPermissaoSubmodulo'][0]['prefix_permissao']]); //Variavel prefix_permissao do Submodulo
                 session(['se_nameSubmodulo' => $response['content']['nameSubmodulo'][0]['name']]); //Variavel name do Submodulo
                 session(['se_nameFormSubmodulo' => 'frm_' . session('se_prefixPermissaoSubmodulo')]); //Variavel name do Formulário

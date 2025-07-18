@@ -127,44 +127,6 @@ class RelatorioController extends Controller
         }
     }
 
-    public function relatorio4(Request $request, $data, $title, $notificacao, $user_id, $idioma)
-    {
-        //Requisição Ajax
-        if ($request->ajax()) {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
-            //Buscando dados Api_Data() - Dados
-            $this->responseApi(1, 10, 'relatorios/relatorio4/' . $empresa_id . '/' . $data . '/' . $title . '/' . $notificacao . '/' . $user_id . '/' . $idioma, '', '', '');
-
-            //Dados recebidos com sucesso
-            if ($this->code == 2000) {
-                return response()->json(['success' => $this->content]);
-            } else {
-                return response()->json(['error' => 'Erro Interno Relatórios']);
-            }
-        }
-    }
-
-    public function relatorio5(Request $request, $name, $descricao, $url, $user_id, $idioma)
-    {
-        //Requisição Ajax
-        if ($request->ajax()) {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
-            //Buscando dados Api_Data() - Dados
-            $this->responseApi(1, 10, 'relatorios/relatorio5/' . $empresa_id . '/' . $name . '/' . $descricao . '/' . $url . '/' . $user_id . '/' . $idioma, '', '', '');
-
-            //Dados recebidos com sucesso
-            if ($this->code == 2000) {
-                return response()->json(['success' => $this->content]);
-            } else {
-                return response()->json(['error' => 'Erro Interno Relatórios']);
-            }
-        }
-    }
-
     public function relatorio6(Request $request, $data_inicio, $data_fim, $cidade_id, $cidade, $idioma)
     {
         //Requisição Ajax

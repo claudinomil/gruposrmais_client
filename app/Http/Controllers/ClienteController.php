@@ -16,7 +16,7 @@ class ClienteController extends Controller
     public $content;
 
     //Dados Auxiliares
-    public $principal_clientes;
+    public $clientes;
     public $generos;
     public $bancos;
     public $identidade_orgaos;
@@ -48,7 +48,7 @@ class ClienteController extends Controller
                     ->addIndexColumn()
                     ->editColumn('perfil', function ($row) {
                         $retorno = "<div class='text-center'>";
-                        $retorno .= "<a href='#' onclick='clienteModalInfo(" . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
+                        $retorno .= "<a href='#' onclick='clienteModalInfoControle(1, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
                         $retorno .= "</div>";
 
                         return $retorno;
@@ -83,7 +83,7 @@ class ClienteController extends Controller
             //chamar view
             return view('clientes.index', [
                 'evento' => 'index',
-                'principal_clientes' => $this->principal_clientes,
+                'clientes' => $this->clientes,
                 'generos' => $this->generos,
                 'bancos' => $this->bancos,
                 'identidade_orgaos' => $this->identidade_orgaos,
@@ -227,7 +227,7 @@ class ClienteController extends Controller
                     ->addIndexColumn()
                     ->editColumn('perfil', function ($row) {
                         $retorno = "<div class='text-center'>";
-                        $retorno .= "<a href='#' onclick='clienteModalInfo(" . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
+                        $retorno .= "<a href='#' onclick='clienteModalInfoControle(1, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
                         $retorno .= "</div>";
 
                         return $retorno;
@@ -275,7 +275,7 @@ class ClienteController extends Controller
         }
     }
 
-    public function upload_documento_pdf(Request $request)
+    public function upload_documento(Request $request)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
@@ -283,16 +283,16 @@ class ClienteController extends Controller
             $error = false;
 
             //Verificando e fazendo Upload do PDF
-            if ($request->hasFile('cli_documentos_pdfs_file')) {
+            if ($request->hasFile('cli_documentos_file')) {
                 //cliente_id
-                $id = $request['upload_documentos_pdfs_cliente_id'];
+                $id = $request['upload_documentos_cliente_id'];
 
                 //buscar dados formulario
-                $arquivo_tmp = $_FILES["cli_documentos_pdfs_file"]["tmp_name"];
-                $arquivo_real = $_FILES["cli_documentos_pdfs_file"]["name"];
+                $arquivo_tmp = $_FILES["cli_documentos_file"]["tmp_name"];
+                $arquivo_real = $_FILES["cli_documentos_file"]["name"];
                 $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
-                $arquivo_type = $_FILES["cli_documentos_pdfs_file"]["type"];
-                $arquivo_size = $_FILES['cli_documentos_pdfs_file']['size'];
+                $arquivo_type = $_FILES["cli_documentos_file"]["type"];
+                $arquivo_size = $_FILES['cli_documentos_file']['size'];
 
                 if ($arquivo_type == 'application/pdf') {
                     if (copy($arquivo_tmp, "build/assets/pdfs/clientes/$arquivo_real")) {
@@ -321,16 +321,16 @@ class ClienteController extends Controller
                 //Salvar Dados na tabela clientes_documentos
                 $data = array();
                 $data['empresa_id'] = session('userLogged_empresa_id');
-                $data['cliente_id'] = $request['upload_documentos_pdfs_cliente_id'];
-                $data['acao'] = $request['upload_documentos_pdfs_cli_acao'];
+                $data['cliente_id'] = $request['upload_documentos_cliente_id'];
+                $data['acao'] = $request['upload_documentos_cli_acao'];
                 $data['name'] = $name;
-                $data['documento_id'] = $request['cli_documentos_pdfs_documento_id'];
+                $data['documento_id'] = $request['cli_documentos_documento_id'];
                 $data['caminho'] = $pdf;
-                $data['data_documento'] = $request['cli_documentos_pdfs_data_documento'];
-                $data['aviso'] = $request['cli_documentos_pdfs_aviso'];
+                $data['data_documento'] = $request['cli_documentos_data_documento'];
+                $data['aviso'] = $request['cli_documentos_aviso'];
 
                 //Buscando dados Api_Data() - Atualizar Registro
-                $this->responseApi(1, 12, 'clientes/uploadDocumentoPdf/upload_documento_pdf', '', '', $data);
+                $this->responseApi(1, 12, 'clientes/uploadDocumento/upload_documento', '', '', $data);
 
                 //Registro recebido com sucesso
                 if ($this->code == 2000) {
@@ -346,12 +346,12 @@ class ClienteController extends Controller
         }
     }
 
-    public function documentos_pdf($cliente_id)
+    public function documentos($cliente_id)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data() - Registro pelo id
-            $this->responseApi(1, 10, 'clientes/modalInfo/documentos_pdf/' . $cliente_id, '', '', '');
+            $this->responseApi(1, 10, 'clientes/modalInfo/documentos/' . $cliente_id, '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
@@ -364,10 +364,10 @@ class ClienteController extends Controller
         }
     }
 
-    public function deletar_documento_pdf($cliente_documento_id)
+    public function deletar_documento($cliente_documento_id)
     {
         //Buscando dados Api_Data() - Deletar Registro
-        $this->responseApi(1, 6, 'clientes/modalInfo/deletar_documento_pdf', $cliente_documento_id, '', '');
+        $this->responseApi(1, 6, 'clientes/modalInfo/deletar_documento', $cliente_documento_id, '', '');
 
         //Registro deletado com sucesso
         if ($this->code == 2000) {
