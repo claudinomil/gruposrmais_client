@@ -92,7 +92,7 @@ class SuporteService
         $clientes_executivos = $clientes_executivos->json();
 
         foreach ($clientes_executivos as $clientes_executivo) {
-            //if (!file_exists('build/assets/qrcodes/clientes_executivos/qrcode_cartao_emergencial_pt_'.$clientes_executivo['id'].'.png')) {
+            if (!file_exists('build/assets/qrcodes/clientes_executivos/qrcode_cartao_emergencial_pt_'.$clientes_executivo['id'].'.png')) {
                 //Gerar QRCode PNG (Português)
                 $label_text = '';
                 $code_content = $url . '/guests/validar_cartao_emergencial/clientes_executivos/pt/' . $clientes_executivo['id'];
@@ -108,7 +108,7 @@ class SuporteService
                 $save_name = 'qrcode_cartao_emergencial_en_' . $clientes_executivo['id'] . '.png';
 
                 QRCodeFacade::label($label_text)->code($code_content, 300, 0, 0, 0, 0, 255, 255, 255)->save($save_destino, $save_name);
-            //}
+            }
         }
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
