@@ -117,7 +117,7 @@ class SuporteService
         $funcionarios = $funcionarios->json();
 
         foreach ($funcionarios as $funcionario) {
-            //if (!file_exists('build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_pt_'.$funcionario['id'].'.png')) {
+            if (!file_exists('build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_pt_'.$funcionario['id'].'.png')) {
                 //Gerar QRCode PNG (Português)
                 $label_text = '';
                 $code_content = $url . '/guests/validar_cartao_emergencial/funcionarios/pt/' . $funcionario['id'];
@@ -133,7 +133,7 @@ class SuporteService
                 $save_name = 'qrcode_cartao_emergencial_en_' . $funcionario['id'] . '.png';
 
                 QRCodeFacade::label($label_text)->code($code_content, 300, 0, 0, 0, 0, 255, 255, 255)->save($save_destino, $save_name);
-            //}
+            }
         }
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     }
