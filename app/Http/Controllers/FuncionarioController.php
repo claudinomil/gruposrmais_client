@@ -83,11 +83,8 @@ class FuncionarioController extends Controller
             //Gerar QRCode Cartões Emergenciais
             SuporteFacade::setGerarQRCodesCartoesEmergenciais();
 
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Auxiliary Tables (Combobox)
-            $this->responseApi(2, 10, 'funcionarios/auxiliary/tables/'.$empresa_id, '', '', '');
+            $this->responseApi(2, 10, 'funcionarios/auxiliary/tables', '', '', '');
 
             return view('funcionarios.index', [
                 'contratacao_tipos' => $this->contratacao_tipos,
@@ -400,7 +397,6 @@ class FuncionarioController extends Controller
             if (!$error) {
                 //Buscando dados Api_Data() - Alterar Registro
                 $data = array();
-                $data['empresa_id'] = session('userLogged_empresa_id');
                 $data['name'] = $request['upload_foto_funcionario_name'];
                 $data['foto'] = $foto;
                 $this->responseApi(1, 11, 'funcionarios/uploadFoto/upload_foto/' . $id, '', '', $data);
@@ -466,7 +462,6 @@ class FuncionarioController extends Controller
             if (!$error) {
                 //Salvar Dados na tabela funcionarios_documentos
                 $data = array();
-                $data['empresa_id'] = session('userLogged_empresa_id');
                 $data['funcionario_id'] = $request['upload_documentos_funcionario_id'];
                 $data['acao'] = $request['upload_documentos_fun_acao'];
                 $data['name'] = $name;
@@ -534,11 +529,8 @@ class FuncionarioController extends Controller
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Registros
-            $this->responseApi(1, 10, 'funcionarios/funcionarioAcao1/funcionario_acao_1_gerar_pdf_dados/' . $funcionarios_ids.'/'.$empresa_id, '', '', '');
+            $this->responseApi(1, 10, 'funcionarios/funcionarioAcao1/funcionario_acao_1_gerar_pdf_dados/' . $funcionarios_ids, '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
@@ -555,11 +547,8 @@ class FuncionarioController extends Controller
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Registros
-            $this->responseApi(1, 10, 'funcionarios/funcionarioAcao1/funcionario_acao_1_grade_funcionarios/'.$empresa_id, '', '', '');
+            $this->responseApi(1, 10, 'funcionarios/funcionarioAcao1/funcionario_acao_1_grade_funcionarios', '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
@@ -576,11 +565,8 @@ class FuncionarioController extends Controller
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Lista de Registros
-            $this->responseApi(1, 10, 'funcionarios/cartoes_emergenciais/dados/'.$empresa_id.'/'.$ids, '', '', '');
+            $this->responseApi(1, 10, 'funcionarios/cartoes_emergenciais/dados/'.$ids, '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {

@@ -46,13 +46,14 @@
 
                                     <div class="mb-3">
                                         <label class="form-label">Empresa</label>
-                                        <select class="form-control" name="empresa_id" id="empresa_id" required>
+                                        <select class="form-control" name="empresa_id" id="empresa_id" onchange="setNomeEmpresa();" required>
                                             <option value="">Selecione...</option>
 
                                             @foreach ($empresas as $key => $empresa)
                                                 <option value="{{ $empresa['id'] }}">{{ $empresa['name'] }}</option>
                                             @endforeach
                                         </select>
+                                        <input type="hidden" name="empresa_name" id="empresa_name">
                                         @error('empresa_id') <div class="text-danger">{{ $message }}</div> @enderror
                                     </div>
                                     <div class="mb-3">
@@ -86,4 +87,12 @@
             </div>
         </div>
     </div>
+
+    <script>
+		function setNomeEmpresa() {
+			let select = document.getElementById('empresa_id');
+			let nomeEmpresa = select.options[select.selectedIndex].text;
+			document.getElementById('empresa_name').value = nomeEmpresa;
+		}
+    </script>
 @endsection

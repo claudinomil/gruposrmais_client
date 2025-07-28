@@ -66,9 +66,7 @@ class Breadcrumb
 
         $fieldReturn = 'name';
 
-        $empresa_id = session('userLogged_empresa_id');
-
-        $response = ApiData::getData(10, 'submodulos/research/'.$fieldSearch.'/'.$fieldValue.'/'.$fieldReturn.'/'.$empresa_id, '', '', '', '');
+        $response = ApiData::getData(10, 'submodulos/research/'.$fieldSearch.'/'.$fieldValue.'/'.$fieldReturn, '', '', '', '');
         //dd($response->json());   //TRAZER ERRO NA DEPURAÇÃO
 
         if (isset($response['content'][0]['name'])) {

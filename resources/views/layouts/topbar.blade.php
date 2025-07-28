@@ -46,9 +46,9 @@
 
                     {{-- Menu Empresas --}}
                     @if(count(session('se_userLoggedEmpresas')) > 0)
-                        @foreach(session('se_userLoggedEmpresas') as $key => $empresa)
-                            @if(session('userLogged_empresa_id') != $empresa['id'])
-                                <a href="{{route('users.escolher_empresa', $empresa['id'])}}" class="dropdown-item text-success"><i class="bx bx-repost text-success font-size-16 align-middle me-1"></i> <span>Ir para {{$empresa['name']}}</span></a>
+                        @foreach(session('se_userLoggedEmpresas') as $empresa)
+                            @if(session('gsrm_empresa_id') != $empresa['id'])
+                                <a href="{{route('users.escolher_empresa', [$empresa['id'], $empresa['name']])}}" class="dropdown-item text-success"><i class="bx bx-repost text-success font-size-16 align-middle me-1"></i> <span>Ir para {{$empresa['name']}}</span></a>
                             @endif
                         @endforeach
                     @endif

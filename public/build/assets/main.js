@@ -25,6 +25,7 @@ function configurarDataTable(op) {
             },
             bDestroy: true,
             responsive: true,
+            pageLength: 5,
             lengthChange: true,
             autoWidth: true,
             order: []

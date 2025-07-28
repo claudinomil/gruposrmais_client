@@ -10,6 +10,13 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         @include('layouts.head-css')
+
+        <script>
+            // Aguarda 2 segundos e redireciona para /acesso
+            setTimeout(function() {
+            	window.location.href = "/login";
+            }, 500);
+        </script>
     </head>
     <body style="background-color: #2a3042;">
         <div class="container">

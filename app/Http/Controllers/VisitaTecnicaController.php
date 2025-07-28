@@ -74,11 +74,8 @@ class VisitaTecnicaController extends Controller
                 abort(500, 'Erro Interno Client');
             }
         } else {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Auxiliary Tables (Combobox)
-            $this->responseApi(2, 10, 'visitas_tecnicas/auxiliary/tables/'.$empresa_id, '', '', '');
+            $this->responseApi(2, 10, 'visitas_tecnicas/auxiliary/tables', '', '', '');
 
             return view('visitas_tecnicas.index', [
                 'clientes' => $this->clientes,

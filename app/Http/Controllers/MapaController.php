@@ -50,11 +50,8 @@ class MapaController extends Controller
                 abort(500, 'Erro Interno Mapa');
             }
         } else {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Auxiliary Tables (Combobox)
-            $this->responseApi(2, 10, 'mapas/auxiliary/tables/'.$empresa_id, '', '', '');
+            $this->responseApi(2, 10, 'mapas/auxiliary/tables', '', '', '');
 
             return view('mapas.index', [
                 'mapas_pontos_tipos' => $this->mapas_pontos_tipos,

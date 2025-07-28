@@ -66,11 +66,8 @@ class ClienteExecutivoController extends Controller
             //Gerar QRCode Cartões Emergenciais
             SuporteFacade::setGerarQRCodesCartoesEmergenciais();
 
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Auxiliary Tables (Combobox)
-            $this->responseApi(2, 10, 'clientes_executivos/auxiliary/tables/'.$empresa_id, '', '', '');
+            $this->responseApi(2, 10, 'clientes_executivos/auxiliary/tables', '', '', '');
 
             //chamar view
             return view('clientes_executivos.index', [
@@ -356,7 +353,6 @@ class ClienteExecutivoController extends Controller
             if (!$error) {
                 //Buscando dados Api_Data() - Alterar Registro
                 $data = array();
-                $data['empresa_id'] = session('userLogged_empresa_id');
                 $data['name'] = $request['upload_foto_cliente_executivo_name'];
                 $data['foto'] = $foto;
                 $this->responseApi(1, 11, 'clientes_executivos/uploadFoto/upload_foto/' . $id, '', '', $data);
@@ -422,7 +418,6 @@ class ClienteExecutivoController extends Controller
             if (!$error) {
                 //Salvar Dados na tabela clientes_executivos_documentos
                 $data = array();
-                $data['empresa_id'] = session('userLogged_empresa_id');
                 $data['cliente_executivo_id'] = $request['upload_documentos_cliente_executivo_id'];
                 $data['acao'] = $request['upload_documentos_cex_acao'];
                 $data['name'] = $name;
@@ -490,11 +485,8 @@ class ClienteExecutivoController extends Controller
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Lista de Registros
-            $this->responseApi(1, 10, 'clientes_executivos/cartoes_emergenciais/dados/'.$empresa_id.'/'.$ids, '', '', '');
+            $this->responseApi(1, 10, 'clientes_executivos/cartoes_emergenciais/dados/'.$ids, '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {

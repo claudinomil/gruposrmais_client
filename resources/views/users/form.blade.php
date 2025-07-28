@@ -67,54 +67,32 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-
-                                <!-- Montar configurações para Empresas do Grupo SR+ - Início -->
-                                <!-- Montar configurações para Empresas do Grupo SR+ - Início -->
-                                @foreach ($empresas as $key => $empresa)
-
-                                <div class="row pt-4">
-                                    <h5 class="pb-4 text-primary"><i class="fas fa-user"></i> Configurações ({{$empresa['name']}})</h5>
-
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Grupo</label>
-                                        <select class="form-control" name="grupo_id_{{$empresa['id']}}" id="grupo_id_{{$empresa['id']}}">
+                                        <select class="form-control" name="grupo_id" id="grupo_id">
                                             <option value="">Selecione...</option>
 
                                             @foreach ($grupos as $grupo)
-                                                @if($grupo['empresa_id'] == $empresa['id'])
-                                                    <option value="{{ $grupo['id'] }}">{{ $grupo['name'] }}</option>
-                                                @endif
+                                                <option value="{{ $grupo['id'] }}">{{ $grupo['name'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Situação</label>
-                                        <select class="form-control" name="situacao_id_{{$empresa['id']}}" id="situacao_id_{{$empresa['id']}}">
+                                        <select class="form-control" name="situacao_id" id="situacao_id">
                                             <option value="">Selecione...</option>
 
-                                            @foreach ($situacoes as $key => $situacao)
+                                            @foreach ($situacoes as $situacao)
                                                 <option value="{{ $situacao['id'] }}">{{ $situacao['name'] }}</option>
-                                            @endforeach
-
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Acesso</label>
-                                        <select class="form-control" name="sistema_acesso_id_{{$empresa['id']}}" id="sistema_acesso_id_{{$empresa['id']}}">
-                                            <option value="">Selecione...</option>
-
-                                            @foreach ($sistema_acessos as $key => $sistema_acesso)
-                                                <option value="{{ $sistema_acesso['id'] }}">{{ $sistema_acesso['name'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Modo de layout</label>
-                                        <select class="form-control" name="layout_mode_{{$empresa['id']}}" id="layout_mode_{{$empresa['id']}}">
+                                        <select class="form-control" name="layout_mode" id="layout_mode">
                                             <option value=''>Selecione...</option>
 
-                                            @foreach ($se_layouts_modes as $key => $layout_mode)
+                                            @foreach ($se_layouts_modes as $layout_mode)
                                                 @if($layout_mode['ativo'] == 1)
                                                     <option value="{{ $layout_mode['name'] }}">{{ $layout_mode['descricao'] }}</option>
                                                 @endif
@@ -123,7 +101,7 @@
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Estilo de Layout</label>
-                                        <select class="form-control" name="layout_style_{{$empresa['id']}}" id="layout_style_{{$empresa['id']}}">
+                                        <select class="form-control" name="layout_style" id="layout_style">
                                             <option value=''>Selecione...</option>
 
                                             @foreach ($se_layouts_styles as $key => $layout_style)
@@ -134,11 +112,6 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                @endforeach
-                                <!-- Montar configurações para Empresas do Grupo SR+ - Fim -->
-                                <!-- Montar configurações para Empresas do Grupo SR+ - Fim -->
-
                             </div>
                         </fieldset>
                     </form>

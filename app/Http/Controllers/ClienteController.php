@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Facades\Permissoes;
+use App\Facades\SuporteFacade;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -48,14 +49,27 @@ class ClienteController extends Controller
                     ->addIndexColumn()
                     ->editColumn('perfil', function ($row) {
                         $retorno = "<div class='text-center'>";
-                        $retorno .= "<a href='#' onclick='clienteModalInfoControle(1, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
+                        $retorno .= "<a href='#' onclick='clienteModalInfoControle(2, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
                         $retorno .= "</div>";
 
                         return $retorno;
                     })
-                    ->editColumn('data_nascimento', function ($row) {
-                        if ($row['data_nascimento'] !== null) {
-                            $retorno = date('d/m/Y', strtotime($row['data_nascimento']));
+                    ->editColumn('cnpj', function ($row) {
+                        if ($row['tipo'] == 1) {
+                            $retorno = SuporteFacade::formatarCNPJ($row['cnpj']);
+                        } else if ($row['tipo'] == 2) {
+                            $retorno = SuporteFacade::formatarCPF($row['cpf']);
+                        } else {
+                            $retorno = '';
+                        }
+
+                        return $retorno;
+                    })
+                    ->editColumn('status', function ($row) {
+                        if ($row['status'] == 1) {
+                            $retorno = 'ATIVO';
+                        } else if ($row['status'] == 2) {
+                            $retorno = 'INATIVO';
                         } else {
                             $retorno = '';
                         }
@@ -74,11 +88,8 @@ class ClienteController extends Controller
                 abort(500, 'Erro Interno Client');
             }
         } else {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Auxiliary Tables (Combobox)
-            $this->responseApi(2, 10, 'clientes/auxiliary/tables/'.$empresa_id, '', '', '');
+            $this->responseApi(2, 10, 'clientes/auxiliary/tables', '', '', '');
 
             //chamar view
             return view('clientes.index', [
@@ -227,14 +238,27 @@ class ClienteController extends Controller
                     ->addIndexColumn()
                     ->editColumn('perfil', function ($row) {
                         $retorno = "<div class='text-center'>";
-                        $retorno .= "<a href='#' onclick='clienteModalInfoControle(1, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
+                        $retorno .= "<a href='#' onclick='clienteModalInfoControle(2, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
                         $retorno .= "</div>";
 
                         return $retorno;
                     })
-                    ->editColumn('data_nascimento', function ($row) {
-                        if ($row['data_nascimento'] !== null) {
-                            $retorno = date('d/m/Y', strtotime($row['data_nascimento']));
+                    ->editColumn('cnpj', function ($row) {
+                        if ($row['tipo'] == 1) {
+                            $retorno = SuporteFacade::formatarCNPJ($row['cnpj']);
+                        } else if ($row['tipo'] == 2) {
+                            $retorno = SuporteFacade::formatarCPF($row['cpf']);
+                        } else {
+                            $retorno = '';
+                        }
+
+                        return $retorno;
+                    })
+                    ->editColumn('status', function ($row) {
+                        if ($row['status'] == 1) {
+                            $retorno = 'ATIVO';
+                        } else if ($row['status'] == 2) {
+                            $retorno = 'INATIVO';
                         } else {
                             $retorno = '';
                         }
@@ -272,6 +296,219 @@ class ClienteController extends Controller
             } else {
                 echo 'Erro Interno Modal Info.';
             }
+        }
+    }
+
+    public function estatisticas($id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'clientes/modalInfo/estatisticas/' . $id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Modal Info.';
+            }
+        }
+    }
+
+    public function upload_logotipo_principal(Request $request)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Variavel controle
+            $error = false;
+
+            //Verificando e fazendo Upload do Arquivo
+            if ($request->hasFile('cli_logotipo_principal_file')) {
+                //cliente_id
+                $id = $request['upload_logotipo_principal_cliente_id'];
+
+                //buscar dados formulario
+                $arquivo_tmp = $_FILES["cli_logotipo_principal_file"]["tmp_name"];
+                $arquivo_real = $_FILES["cli_logotipo_principal_file"]["name"];
+                $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
+                $arquivo_type = $_FILES["cli_logotipo_principal_file"]["type"];
+                $arquivo_size = $_FILES['cli_logotipo_principal_file']['size'];
+
+                if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
+                    if (copy($arquivo_tmp, "build/assets/images/clientes/$arquivo_real")) {
+                        if (file_exists("build/assets/images/clientes/" . $arquivo_real)) {
+                            //renomear para logotipo_principal_ID
+                            $name = 'logotipo_principal_' . $id;
+                            $img = "build/assets/images/clientes/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+                            $de = "build/assets/images/clientes/$arquivo_real";
+                            $pa = $img;
+
+                            try {
+                                rename($de, $pa);
+                            } catch (\Exception $e) {
+                                $error = true;
+                            }
+                        }
+                    }
+                } else {
+                    return response()->json(['error' => 'Escolha um arquivo válido.']);
+                }
+            } else {
+                return response()->json(['error' => 'Escolha um arquivo válido.']);
+            }
+
+            if (!$error) {
+                //Salvar Dados na tabela clientes
+                $data = array();
+                $data['cliente_id'] = $request['upload_logotipo_principal_cliente_id'];
+                $data['logotipo_principal'] = $img;
+
+                //Buscando dados Api_Data() - Atualizar Registro
+                $this->responseApi(1, 12, 'clientes/uploadLogotipo/upload_logotipo_principal', '', '', $data);
+
+                //Registro recebido com sucesso
+                if ($this->code == 2000) {
+                    return response()->json(['success' => $this->message]);
+                } else {
+                    return response()->json(['error' => 'Erro Interno Upload Logotipo Principal.']);
+                }
+            } else {
+                return response()->json(['error' => 'IMG (Nome, Tamanho ou Tipo) inválida.']);
+            }
+        } else {
+            return response()->json(['error' => 'Erro na requisição Upload Logotipo Principal']);
+        }
+    }
+
+    public function upload_logotipo_relatorios(Request $request)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Variavel controle
+            $error = false;
+
+            //Verificando e fazendo Upload do Arquivo
+            if ($request->hasFile('cli_logotipo_relatorios_file')) {
+                //cliente_id
+                $id = $request['upload_logotipo_relatorios_cliente_id'];
+
+                //buscar dados formulario
+                $arquivo_tmp = $_FILES["cli_logotipo_relatorios_file"]["tmp_name"];
+                $arquivo_real = $_FILES["cli_logotipo_relatorios_file"]["name"];
+                $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
+                $arquivo_type = $_FILES["cli_logotipo_relatorios_file"]["type"];
+                $arquivo_size = $_FILES['cli_logotipo_relatorios_file']['size'];
+
+                if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
+                    if (copy($arquivo_tmp, "build/assets/images/clientes/$arquivo_real")) {
+                        if (file_exists("build/assets/images/clientes/" . $arquivo_real)) {
+                            //renomear para logotipo_relatorios_ID
+                            $name = 'logotipo_relatorios_' . $id;
+                            $img = "build/assets/images/clientes/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+                            $de = "build/assets/images/clientes/$arquivo_real";
+                            $pa = $img;
+
+                            try {
+                                rename($de, $pa);
+                            } catch (\Exception $e) {
+                                $error = true;
+                            }
+                        }
+                    }
+                } else {
+                    return response()->json(['error' => 'Escolha um arquivo válido.']);
+                }
+            } else {
+                return response()->json(['error' => 'Escolha um arquivo válido.']);
+            }
+
+            if (!$error) {
+                //Salvar Dados na tabela clientes
+                $data = array();
+                $data['cliente_id'] = $request['upload_logotipo_relatorios_cliente_id'];
+                $data['logotipo_relatorios'] = $img;
+
+                //Buscando dados Api_Data() - Atualizar Registro
+                $this->responseApi(1, 12, 'clientes/uploadLogotipo/upload_logotipo_relatorios', '', '', $data);
+
+                //Registro recebido com sucesso
+                if ($this->code == 2000) {
+                    return response()->json(['success' => $this->message]);
+                } else {
+                    return response()->json(['error' => 'Erro Interno Upload Logotipo Relatórios.']);
+                }
+            } else {
+                return response()->json(['error' => 'IMG (Nome, Tamanho ou Tipo) inválida.']);
+            }
+        } else {
+            return response()->json(['error' => 'Erro na requisição Upload Logotipo Relatórios']);
+        }
+    }
+
+    public function upload_logotipo_cartao_emergencial(Request $request)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Variavel controle
+            $error = false;
+
+            //Verificando e fazendo Upload do Arquivo
+            if ($request->hasFile('cli_logotipo_cartao_emergencial_file')) {
+                //cliente_id
+                $id = $request['upload_logotipo_cartao_emergencial_cliente_id'];
+
+                //buscar dados formulario
+                $arquivo_tmp = $_FILES["cli_logotipo_cartao_emergencial_file"]["tmp_name"];
+                $arquivo_real = $_FILES["cli_logotipo_cartao_emergencial_file"]["name"];
+                $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
+                $arquivo_type = $_FILES["cli_logotipo_cartao_emergencial_file"]["type"];
+                $arquivo_size = $_FILES['cli_logotipo_cartao_emergencial_file']['size'];
+
+                if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
+                    if (copy($arquivo_tmp, "build/assets/images/clientes/$arquivo_real")) {
+                        if (file_exists("build/assets/images/clientes/" . $arquivo_real)) {
+                            //renomear para logotipo_cartao_emergencial_ID
+                            $name = 'logotipo_cartao_emergencial_' . $id;
+                            $img = "build/assets/images/clientes/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+                            $de = "build/assets/images/clientes/$arquivo_real";
+                            $pa = $img;
+
+                            try {
+                                rename($de, $pa);
+                            } catch (\Exception $e) {
+                                $error = true;
+                            }
+                        }
+                    }
+                } else {
+                    return response()->json(['error' => 'Escolha um arquivo válido.']);
+                }
+            } else {
+                return response()->json(['error' => 'Escolha um arquivo válido.']);
+            }
+
+            if (!$error) {
+                //Salvar Dados na tabela clientes
+                $data = array();
+                $data['cliente_id'] = $request['upload_logotipo_cartao_emergencial_cliente_id'];
+                $data['logotipo_cartao_emergencial'] = $img;
+
+                //Buscando dados Api_Data() - Atualizar Registro
+                $this->responseApi(1, 12, 'clientes/uploadLogotipo/upload_logotipo_cartao_emergencial', '', '', $data);
+
+                //Registro recebido com sucesso
+                if ($this->code == 2000) {
+                    return response()->json(['success' => $this->message]);
+                } else {
+                    return response()->json(['error' => 'Erro Interno Upload Logotipo Cartão Emergencial.']);
+                }
+            } else {
+                return response()->json(['error' => 'IMG (Nome, Tamanho ou Tipo) inválida.']);
+            }
+        } else {
+            return response()->json(['error' => 'Erro na requisição Upload Logotipo Cartão Emergencial']);
         }
     }
 
@@ -320,7 +557,6 @@ class ClienteController extends Controller
             if (!$error) {
                 //Salvar Dados na tabela clientes_documentos
                 $data = array();
-                $data['empresa_id'] = session('userLogged_empresa_id');
                 $data['cliente_id'] = $request['upload_documentos_cliente_id'];
                 $data['acao'] = $request['upload_documentos_cli_acao'];
                 $data['name'] = $name;
@@ -381,6 +617,42 @@ class ClienteController extends Controller
             return response()->json(['success' => $this->message]);
         } else {
             return response()->json(['error' => $this->message]);
+        }
+    }
+
+    public function servicos($cliente_id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'clientes/modalInfo/servicos/' . $cliente_id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Serviços Pdf.';
+            }
+        }
+    }
+
+    public function clientes($cliente_id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'clientes/modalInfo/clientes/' . $cliente_id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Serviços Pdf.';
+            }
         }
     }
 

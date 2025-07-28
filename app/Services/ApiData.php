@@ -13,7 +13,8 @@ class ApiData
                 [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer '.session('access_token')
+                    'Authorization' => 'Bearer '.session('access_token'),
+                    'X-Empresa-Id' => session('gsrm_empresa_id')
                 ])->withOptions(
                 [
                     'verify' => false,
@@ -21,35 +22,32 @@ class ApiData
                 ]
             );
 
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Dados Usuario/Permissões/Configurações
-            if ($type == 0) {$response = $httpHeaders->get('users/user/permissoes/settings/'.$submodulo.'/'.$empresa_id);}
+            if ($type == 0) {$response = $httpHeaders->get('users/user/permissoes/settings/'.$submodulo);}
 
             //Lista de Registros
-            if ($type == 1) {$response = $httpHeaders->get($submodulo.'/index/'.$empresa_id);}
+            if ($type == 1) {$response = $httpHeaders->get($submodulo.'/index');}
 
             //Registro pelo id
             if ($type == 2) {$response = $httpHeaders->get($submodulo.'/show/'.$id);}
 
             //Lista por Filtro
-            if ($type == 3) {$response = $httpHeaders->get($submodulo.'/filter/'.$array_dados_filtro.'/'.$empresa_id);}
+            if ($type == 3) {$response = $httpHeaders->get($submodulo.'/filter/'.$array_dados_filtro);}
 
             //Incluir Registro
-            if ($type == 4) {$response = $httpHeaders->post($submodulo.'/store'.'/'.$empresa_id, $request);}
+            if ($type == 4) {$response = $httpHeaders->post($submodulo.'/store', $request);}
 
             //Alterar Registro
-            if ($type == 5) {$response = $httpHeaders->put($submodulo.'/update/'.$id.'/'.$empresa_id, $request);}
+            if ($type == 5) {$response = $httpHeaders->put($submodulo.'/update/'.$id, $request);}
 
             //Deletar Registro
-            if ($type == 6) {$response = $httpHeaders->delete($submodulo.'/destroy/'.$id.'/'.$empresa_id);}
+            if ($type == 6) {$response = $httpHeaders->delete($submodulo.'/destroy/'.$id);}
 
             //Logout
             if ($type == 7) {$response = $httpHeaders->post('auth/logout');}
 
             //Dashboard
-            if ($type == 8) {$response = $httpHeaders->get($submodulo.'/index/'.$id.'/'.$empresa_id);}
+            if ($type == 8) {$response = $httpHeaders->get($submodulo.'/index/'.$id);}
 
             //Direto para uma url enviada pela variavel $submodulo : GET
             if ($type == 10) {$response = $httpHeaders->get($submodulo); }
@@ -63,14 +61,7 @@ class ApiData
             //Direto para uma url enviada pela variavel $submodulo : DELETE
             if ($type == 13) {$response = $httpHeaders->delete($submodulo);}
 
-            //echo $type.$submodulo;
             //dd($response->json());   //TRAZER ERRO NA DEPURAÇÃO
-
-
-            //if ($submodulo == 'funcionarios/documentos/store/1') {dd($response->json());}
-
-
-
 
             return $response;
         } catch (\Exception $e) {

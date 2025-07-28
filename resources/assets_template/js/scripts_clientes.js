@@ -263,14 +263,108 @@ function validar_frm_upload_documentos() {
     return validacao_ok;
 }
 
-function clienteModalInfoControle(op=1, id='') {
+function validar_frm_upload_logotipo_principal() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: cli_logotipo_principal_file (arquivo requerido)
+    if (validacao({op:18, id:'cli_logotipo_principal_file'}) === false) {
+        validacao_ok = false;
+        mensagem += 'Arquivo requerido.'+'<br>';
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+function validar_frm_upload_logotipo_relatorios() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: cli_logotipo_relatorios_file (arquivo requerido)
+    if (validacao({op:18, id:'cli_logotipo_relatorios_file'}) === false) {
+        validacao_ok = false;
+        mensagem += 'Arquivo requerido.'+'<br>';
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+function validar_frm_upload_logotipo_cartao_emergencial() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: cli_logotipo_cartao_emergencial_file (arquivo requerido)
+    if (validacao({op:18, id:'cli_logotipo_cartao_emergencial_file'}) === false) {
+        validacao_ok = false;
+        mensagem += 'Arquivo requerido.'+'<br>';
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+function clienteModalInfoControle(op, id='') {
     if (document.getElementById('user_email').value == 'claudinomoraes@yahoo.com.br') {
+        var div_logotipos = document.getElementById('md_cli_div_logotipos');
         var div_dados = document.getElementById('md_cli_div_dados');
         var div_documentos = document.getElementById('md_cli_div_documentos');
         var div_servicos = document.getElementById('md_cli_div_servicos');
+        var div_clientes = document.getElementById('md_cli_div_clientes');
+
+        //Logotipos
+        if (op == 1) {
+            div_logotipos.classList.remove('d-none');
+            div_logotipos.classList.add('d-lg-flex');
+
+            div_dados.classList.remove('d-lg-flex');
+            div_dados.classList.add('d-none');
+
+            div_documentos.classList.remove('d-lg-flex');
+            div_documentos.classList.add('d-none');
+
+            div_servicos.classList.remove('d-lg-flex');
+            div_servicos.classList.add('d-none');
+
+            div_clientes.classList.remove('d-lg-flex');
+            div_clientes.classList.add('d-none');
+
+            clienteModalInfoEstatisticas(id);
+        }
 
         //Dados
-        if (op == 1) {
+        if (op == 2) {
+            div_logotipos.classList.remove('d-lg-flex');
+            div_logotipos.classList.add('d-none');
+
             div_dados.classList.remove('d-none');
             div_dados.classList.add('d-lg-flex');
 
@@ -280,11 +374,18 @@ function clienteModalInfoControle(op=1, id='') {
             div_servicos.classList.remove('d-lg-flex');
             div_servicos.classList.add('d-none');
 
+            div_clientes.classList.remove('d-lg-flex');
+            div_clientes.classList.add('d-none');
+
             clienteModalInfoDados(id);
+            clienteModalInfoEstatisticas(id);
         }
 
         //Documentos
-        if (op == 2) {
+        if (op == 3) {
+            div_logotipos.classList.remove('d-lg-flex');
+            div_logotipos.classList.add('d-none');
+
             div_dados.classList.remove('d-lg-flex');
             div_dados.classList.add('d-none');
 
@@ -294,11 +395,18 @@ function clienteModalInfoControle(op=1, id='') {
             div_servicos.classList.remove('d-lg-flex');
             div_servicos.classList.add('d-none');
 
+            div_clientes.classList.remove('d-lg-flex');
+            div_clientes.classList.add('d-none');
+
             clienteModalInfoDocumentos(id);
+            clienteModalInfoEstatisticas(id);
         }
 
         //Serviços
-        if (op == 3) {
+        if (op == 4) {
+            div_logotipos.classList.remove('d-lg-flex');
+            div_logotipos.classList.add('d-none');
+
             div_dados.classList.remove('d-lg-flex');
             div_dados.classList.add('d-none');
 
@@ -308,7 +416,32 @@ function clienteModalInfoControle(op=1, id='') {
             div_servicos.classList.remove('d-none');
             div_servicos.classList.add('d-lg-flex');
 
+            div_clientes.classList.remove('d-lg-flex');
+            div_clientes.classList.add('d-none');
+
             clienteModalInfoServicos(id);
+            clienteModalInfoEstatisticas(id);
+        }
+
+        //Clientes
+        if (op == 5) {
+            div_logotipos.classList.remove('d-lg-flex');
+            div_logotipos.classList.add('d-none');
+
+            div_dados.classList.remove('d-lg-flex');
+            div_dados.classList.add('d-none');
+
+            div_documentos.classList.remove('d-lg-flex');
+            div_documentos.classList.add('d-none');
+
+            div_servicos.classList.remove('d-lg-flex');
+            div_servicos.classList.add('d-none');
+
+            div_clientes.classList.remove('d-none');
+            div_clientes.classList.add('d-lg-flex');
+
+            clienteModalInfoClientes(id);
+            clienteModalInfoEstatisticas(id);
         }
     } else {
         clienteModalInfoDados(id);
@@ -316,8 +449,40 @@ function clienteModalInfoControle(op=1, id='') {
 }
 
 // Modal Clientes
+// Estatisticas
+function clienteModalInfoEstatisticas(id='') {
+    if (id == '') {id = document.getElementById('mi_cli_cliente_id').value;}
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'clientes/modalInfo/estatisticas/'+id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        //Lendo json
+        let json = data;
+
+        //Lendo dados cliente
+        let estatisticas = json;
+
+        //Header
+        document.getElementById('md_cli_estatisticas_documentos').innerHTML = estatisticas.documentos;
+        document.getElementById('md_cli_estatisticas_visitas_tecnicas').innerHTML = estatisticas.visitas_tecnicas;
+        document.getElementById('md_cli_estatisticas_ordens_servicos').innerHTML = estatisticas.ordens_servicos;
+        document.getElementById('md_cli_estatisticas_propostas').innerHTML = estatisticas.propostas;
+        document.getElementById('md_cli_estatisticas_clientes_rede').innerHTML = estatisticas.clientes_rede;
+        document.getElementById('md_cli_estatisticas_clientes_principal').innerHTML = estatisticas.clientes_principal;
+    }).catch(error => {
+        alert('Erro clienteModalInfoEstatisticas: '+error);
+    });
+}
+
+// Modal Clientes
 // Dados
-function clienteModalInfoDados(id='') {
+async function clienteModalInfoDados(id='') {
     if (document.getElementById('user_email').value == 'claudinomoraes@yahoo.com.br') {
         if (id == '') {id = document.getElementById('mi_cli_cliente_id').value;}
 
@@ -394,10 +559,26 @@ function clienteModalInfoDados(id='') {
             document.getElementById('mi_cli_header_nome').innerHTML = cliente.name;
             document.getElementById('mi_cli_header_email').innerHTML = cliente.email;
 
+            //Logotipo Principal
+            var logotipo_principal = url_atual+'build/assets/images/clientes/cliente-0.png';
+            if (cliente.logotipo_principal) {logotipo_principal = cliente.logotipo_principal;}
+            document.getElementById('mi_cli_logotipo').src = logotipo_principal;
+            document.getElementById('mi_cli_logotipo_principal').src = logotipo_principal;
+
+            //Logotipo Relatórios
+            var logotipo_relatorios = url_atual+'build/assets/images/clientes/cliente-0.png';
+            if (cliente.logotipo_relatorios) {logotipo_relatorios = cliente.logotipo_relatorios;}
+            document.getElementById('mi_cli_logotipo_relatorios').src = logotipo_relatorios;
+
+            //Logotipo Cartão Emergencial
+            var logotipo_cartao_emergencial = url_atual+'build/assets/images/clientes/cliente-0.png';
+            if (cliente.logotipo_cartao_emergencial) {logotipo_cartao_emergencial = cliente.logotipo_cartao_emergencial;}
+            document.getElementById('mi_cli_logotipo_cartao_emergencial').src = logotipo_cartao_emergencial;
+
             //Cliente id
             document.getElementById('mi_cli_cliente_id').value = cliente.id;
 
-            //Tab Dados
+            //Dados
             document.getElementById('mi_cli_status').value = status;
             document.getElementById('mi_cli_tipo').value = tipo;
             document.getElementById('mi_cli_cpf_cnpj').value = cpf_cnpj;
@@ -408,6 +589,15 @@ function clienteModalInfoDados(id='') {
 
             //Documentos
             document.getElementById('upload_documentos_cliente_id').value = cliente.id;
+
+            //Logotipo Principal
+            document.getElementById('upload_logotipo_principal_cliente_id').value = cliente.id;
+
+            //Logotipo Relatórios
+            document.getElementById('upload_logotipo_relatorios_cliente_id').value = cliente.id;
+
+            //Logotipo Cartão Emergencial
+            document.getElementById('upload_logotipo_cartao_emergencial_cliente_id').value = cliente.id;
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         }).catch(error => {
             alert('Erro clienteModalInfo: '+error);
@@ -637,137 +827,6 @@ function clienteModalInfoDocumentos(cliente_id='') {
     });
 }
 
-// Modal Clientes
-// Servicos
-function clienteModalInfoServicos(cliente_id='') {
-    /**********
-
-    if (cliente_id == '') {cliente_id = document.getElementById('upload_documentos_cliente_id').value;}
-
-    var url_atual = window.location.protocol+'//'+window.location.host+'/';
-
-    //Acessar rota
-    fetch(url_atual+'clientes/modalInfo/documentos/'+cliente_id, {
-        method: 'GET',
-        headers: {'REQUEST-ORIGIN': 'fetch'}
-    }).then(response => {
-        return response.json();
-    }).then(data => {
-        //Lendo json
-        let clientes_documentos = data.clientes_documentos;
-
-        //Grade
-        let grade = '';
-
-        //Montar Grade
-        if (clientes_documentos.length > 0) {
-            grade += '<table class="table align-middle table-nowrap table-check class-datatable-3">';
-            grade += '  <thead class="table-light">';
-            grade += '      <tr>';
-            grade += '          <th scope="col">Documento</th>';
-            grade += '          <th scope="col">Data</th>';
-            grade += '          <th scope="col">Aviso</th>';
-            grade += '          <th scope="col">Ações</th>';
-            grade += '      </tr>';
-            grade += '  </thead>';
-            grade += '  <tbody>';
-
-            //Varrer
-            clientes_documentos.forEach(dado => {
-                //Documento
-                let documentoName = dado.documentoName;
-
-                //Aviso
-                let aviso_texto = '';
-
-                if (dado.aviso == 0) {aviso_texto = 'Nenhum Aviso';}
-                if (dado.aviso == 1) {aviso_texto = 'Avisar a cada 1 mês';}
-                if (dado.aviso == 2) {aviso_texto = 'Avisar a cada 3 meses';}
-                if (dado.aviso == 3) {aviso_texto = 'Avisar a cada 6 meses';}
-                if (dado.aviso == 4) {aviso_texto = 'Avisar a cada 1 ano';}
-                if (dado.aviso == 5) {aviso_texto = 'Avisar a cada 3 anos';}
-                if (dado.aviso == 6) {aviso_texto = 'Avisar a cada 6 anos';}
-
-                //Ações
-                let acoes = '';
-
-                acoes += '<div class="row">';
-                acoes += '  <div class="col-6">';
-                acoes += '      <button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Documento" onclick="window.open(\'' + dado.caminho + '\', \'_blank\');"><i class="fa fa-file-pdf font-size-18"></i></button>';
-                acoes += '  </div>';
-                acoes += '  <div class="col-6">';
-                acoes += '      <button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Documento" onclick="clienteModalInfoDocumentosDeletar(' + dado.id + ');"><i class="fa fa-trash-alt font-size-18"></i></button>';
-                acoes += '  </div>';
-                acoes += '</div>';
-
-                //TR
-                grade += '<tr class="documento_fonte_'+dado.documento_fonte_id+'">';
-                grade += '  <td>'+documentoName+'</td>';
-                grade += '  <td>'+formatarData(2, dado.data_documento)+'</td>';
-                grade += '  <td>'+aviso_texto+'</td>';
-                grade += '  <td>'+acoes+'</td>';
-                grade += '</tr>';
-            });
-
-            grade += '  </tbody>';
-            grade += '</table>';
-        } else {
-            grade = 'Nenhum documento encontrado.';
-        }
-
-        //Retornar Grade
-        document.getElementById('cli_documentos_grade').innerHTML = grade;
-
-        //Colocar Botões para filtro dos documentos quanto a Fonte
-        var documentoFonteFiltro = '';
-        var idPrimeiroFiltro = 0; // Guardar um id para depois que a grade for mostrada executar o primeiro Filtro)
-        if (grade != 'Nenhum documento encontrado.') {
-            //Lendo json
-            let documento_fontes = data.documento_fontes;
-
-            documentoFonteFiltro += '<div class="row my-2 d-flex">';
-
-            //Varrer
-            documento_fontes.forEach(dado => {
-                let documento_fonte_id = dado.id;
-                let documento_fonte_name = dado.name;
-                let qtd_registros = clientes_documentos.filter(reg => reg.documento_fonte_id === documento_fonte_id);
-
-                if (qtd_registros.length > 0) {
-                    if (idPrimeiroFiltro == 0) {idPrimeiroFiltro = documento_fonte_id;}
-
-                    documentoFonteFiltro += `   <div class="col-4 col-lg-3">`;
-                    documentoFonteFiltro += `       <button type="button" class="btn btn-warning text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Filtar Documentos" onclick="clienteModalInfoDocumentosFiltrar(${documento_fonte_id});">${documento_fonte_name} (${qtd_registros.length})</button>`;
-                    documentoFonteFiltro += `   </div>`;
-                }
-            });
-
-            documentoFonteFiltro += '</div>';
-        }
-
-        //Retornar Documento Filtro (Botões)
-        document.getElementById('cli_documentos_grade_botoes').innerHTML = documentoFonteFiltro;
-
-        //Primeiro Filtro
-        clienteModalInfoDocumentosFiltrar(idPrimeiroFiltro);
-    }).catch(error => {
-        alert('Erro clienteModalInfoGradeDocumentosPdf: '+error);
-    }).finally(() => {
-        configurarDataTable(3);
-    });
-
-    *****/
-
-
-
-
-
-    grade = 'Nenhum documento encontrado.';
-
-    //Retornar Grade
-    document.getElementById('cli_servicos_grade').innerHTML = grade;
-}
-
 function clienteModalInfoDocumentosFiltrar(documento_fonte_id) {
     const todasLinhas = document.querySelectorAll("#cli_documentos_grade table tbody tr");
 
@@ -817,6 +876,219 @@ function clienteModalInfoDocumentosDeletar(cliente_documento_id) {
                 alert('Erro clienteModalInfoDeletarDocumentoPdf:'+error);
             });
         }
+    });
+}
+
+// Modal Clientes
+// Servicos
+function clienteModalInfoServicos(cliente_id='') {
+    if (cliente_id == '') {cliente_id = document.getElementById('mi_cli_cliente_id').value;}
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'clientes/modalInfo/servicos/'+cliente_id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        //Lendo json
+        let ordens_servicos = data.ordens_servicos;
+        let visitas_tecnicas = data.visitas_tecnicas;
+        let propostas = data.propostas;
+
+        //Array
+        let clientes_servicos = [];
+
+        //Grade
+        let grade = '';
+
+        //Montar Grade
+        if (ordens_servicos.length > 0 || visitas_tecnicas.length > 0 || propostas.length > 0) {
+            //Varrer Propostas
+            propostas.forEach(dado => {
+                clientes_servicos.push({'servico_fonte_id': 1, 'nome': 'PROPOSTA', 'data': formatarData(2, dado.data_proposta)});
+            });
+
+            //Varrer Ordens Serviços
+            ordens_servicos.forEach(dado => {
+                clientes_servicos.push({'servico_fonte_id': 2, 'nome': 'ORDEM DE SERVIÇO', 'data': formatarData(2, dado.data_abertura)});
+            });
+
+            //Varrer Visitas Técnicas
+            visitas_tecnicas.forEach(dado => {
+                clientes_servicos.push({'servico_fonte_id': 3, 'nome': 'VISITA TÉCNICA', 'data': formatarData(2, dado.data_abertura)});
+            });
+
+            grade += '<table class="table align-middle table-nowrap table-check class-datatable-3" id="tabela_clientes_servicos">';
+            grade += '  <thead class="table-light">';
+            grade += '      <tr>';
+            grade += '          <th scope="col">Serviço</th>';
+            grade += '          <th scope="col">Data</th>';
+            grade += '      </tr>';
+            grade += '  </thead>';
+            grade += '  <tbody>';
+
+            //Varrer clientes_servicos
+            clientes_servicos.forEach(dado => {
+                grade += '<tr class="servico_fonte_'+dado.servico_fonte_id+'">';
+                grade += '  <td>'+dado.nome+'</td>';
+                grade += '  <td>'+dado.data+'</td>';
+                grade += '</tr>';
+            });
+
+            grade += '  </tbody>';
+            grade += '</table>';
+        } else {
+            grade = 'Nenhum serviço encontrado.';
+        }
+
+        //Retornar Grade
+        document.getElementById('cli_servicos_grade').innerHTML = grade;
+
+        //Colocar Botões para filtro dos servicos quanto ao tipo
+        var servicoFonteFiltro = '';
+        var idPrimeiroFiltro = 1;
+        if (grade != 'Nenhum serviço encontrado.') {
+            servicoFonteFiltro += '<div class="row my-2 d-flex">';
+
+            //PROPOSTA
+            var qtd_registros = clientes_servicos.filter(reg => reg.servico_fonte_id === 1);
+
+            servicoFonteFiltro += `   <div class="col-4">`;
+            servicoFonteFiltro += `       <button type="button" class="btn btn-warning text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Filtar Serviços" onclick="clienteModalInfoServicosFiltrar('PROPOSTA');">Propostas (${qtd_registros.length})</button>`;
+            servicoFonteFiltro += `   </div>`;
+
+            //ORDEM DE SERVIÇO
+            var qtd_registros = clientes_servicos.filter(reg => reg.servico_fonte_id === 2);
+
+            servicoFonteFiltro += `   <div class="col-4">`;
+            servicoFonteFiltro += `       <button type="button" class="btn btn-warning text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Filtar Serviços" onclick="clienteModalInfoServicosFiltrar('ORDEM DE SERVIÇO');">Órdens de Serviços (${qtd_registros.length})</button>`;
+            servicoFonteFiltro += `   </div>`;
+
+            //VISITA TÉCNICA
+            var qtd_registros = clientes_servicos.filter(reg => reg.servico_fonte_id === 3);
+
+            servicoFonteFiltro += `   <div class="col-4">`;
+            servicoFonteFiltro += `       <button type="button" class="btn btn-warning text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Filtar Serviços" onclick="clienteModalInfoServicosFiltrar('VISITA TÉCNICA');">Visitas Técnicas (${qtd_registros.length})</button>`;
+            servicoFonteFiltro += `   </div>`;
+
+            servicoFonteFiltro += '</div>';
+        }
+
+        //Retornar Servico Filtro (Botões)
+        document.getElementById('cli_servicos_grade_botoes').innerHTML = servicoFonteFiltro;
+
+        //Primeiro Filtro
+        clienteModalInfoServicosFiltrar('PROPOSTA');
+    }).catch(error => {
+        alert('Erro clienteModalInfoGradeServicosPdf: '+error);
+    }).finally(() => {
+        configurarDataTable(3);
+    });
+}
+
+function clienteModalInfoServicosFiltrar(fonte) {
+    let tabela = $('#tabela_clientes_servicos').DataTable();
+    tabela.search(fonte).draw();
+}
+
+// Modal Clientes
+// Clientes
+function clienteModalInfoClientes(cliente_id='') {
+    if (cliente_id == '') {cliente_id = document.getElementById('mi_cli_cliente_id').value;}
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'clientes/modalInfo/clientes/'+cliente_id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        //Lendo json
+        let clientes_rede = data.clientes_rede;
+        let clientes_principal = data.clientes_principal;
+
+        //Grade Clientes Rede'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        let grade_clientes_rede = '';
+
+        //Montar Grade
+        if (clientes_rede.length > 0) {
+            grade_clientes_rede += '<table class="table align-middle table-nowrap table-check class-datatable-3" id="tabela_clientes_rede">';
+            grade_clientes_rede += '  <thead class="table-light">';
+            grade_clientes_rede += '      <tr>';
+            grade_clientes_rede += '          <th scope="col">Cliente</th>';
+            grade_clientes_rede += '          <th scope="col">CNPJ</th>';
+            grade_clientes_rede += '      </tr>';
+            grade_clientes_rede += '  </thead>';
+            grade_clientes_rede += '  <tbody>';
+
+            clientes_rede.forEach(dado => {
+                grade_clientes_rede += '<tr>';
+                grade_clientes_rede += '  <td>'+dado.name+'</td>';
+                grade_clientes_rede += '  <td>'+dado.cnpj+'</td>';
+                grade_clientes_rede += '</tr>';
+            });
+
+            grade_clientes_rede += '  </tbody>';
+            grade_clientes_rede += '</table>';
+        } else {
+            grade_clientes_rede = 'Nenhum cliente encontrado.';
+        }
+
+        //Retornar Grade
+        document.getElementById('cli_clientes_grade_rede').innerHTML = grade_clientes_rede;
+
+        if (grade_clientes_rede == 'Nenhum cliente encontrado.') {
+            document.getElementById('cli_clientes_rede').classList.add('d-none');
+        } else {
+            document.getElementById('cli_clientes_rede').classList.remove('d-none');
+        }
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Grade Clientes Principal''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        let grade_clientes_principal = '';
+
+        //Montar Grade
+        if (clientes_principal.length > 0) {
+            grade_clientes_principal += '<table class="table align-middle table-nowrap table-check class-datatable-3" id="tabela_clientes_principal">';
+            grade_clientes_principal += '  <thead class="table-light">';
+            grade_clientes_principal += '      <tr>';
+            grade_clientes_principal += '          <th scope="col">Cliente</th>';
+            grade_clientes_principal += '          <th scope="col">CNPJ</th>';
+            grade_clientes_principal += '      </tr>';
+            grade_clientes_principal += '  </thead>';
+            grade_clientes_principal += '  <tbody>';
+
+            clientes_principal.forEach(dado => {
+                grade_clientes_principal += '<tr>';
+                grade_clientes_principal += '  <td>'+dado.name+'</td>';
+                grade_clientes_principal += '  <td>'+dado.cnpj+'</td>';
+                grade_clientes_principal += '</tr>';
+            });
+
+            grade_clientes_principal += '  </tbody>';
+            grade_clientes_principal += '</table>';
+        } else {
+            grade_clientes_principal = 'Nenhum cliente encontrado.';
+        }
+
+        //Retornar Grade
+        document.getElementById('cli_clientes_grade_principal').innerHTML = grade_clientes_principal;
+
+        if (grade_clientes_principal == 'Nenhum cliente encontrado.') {
+            document.getElementById('cli_clientes_principal').classList.add('d-none');
+        } else {
+            document.getElementById('cli_clientes_principal').classList.remove('d-none');
+        }
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    }).catch(error => {
+        alert('Erro clienteModalInfoGradeServicosPdf: '+error);
+    }).finally(() => {
+        configurarDataTable(3);
     });
 }
 
@@ -876,6 +1148,161 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
         }).catch(error => {
             alert('Erro Clientes Upload Documento PDF: '+error);
+        });
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: frm_upload_logotipo_principal_cli_executar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    document.getElementById('frm_upload_logotipo_principal_cli_executar').addEventListener('click', function() {
+        //FormData
+        var formulario = document.getElementById('frm_upload_logotipo_principal_cli');
+        var formData = new FormData(formulario);
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+        var upload_documentos_cliente_id = document.getElementById('upload_logotipo_principal_cliente_id').value;
+
+        //Tratar Botões
+        document.getElementById('frm_upload_logotipo_principal_cli_executar').style.display = 'block';
+
+        //Criticando campos
+        if (validar_frm_upload_logotipo_principal() === false) {return false;}
+
+        //Acessar rota
+        fetch(url_atual+'clientes/uploadLogotipo/upload_logotipo_principal', {
+            method: 'POST',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            //Lendo dados
+            if (data.success) {
+                //Atualizando Logotipos principal
+                const fileInput = document.getElementById('cli_logotipo_principal_file');
+                const file = fileInput.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function() {
+                        document.getElementById('mi_cli_logotipo').src = reader.result;
+                        document.getElementById('mi_cli_logotipo_principal').src = reader.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+                //Reset Form
+                formulario.reset();
+            } else if (data.error) {
+                alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+            } else {
+                alert('Erro interno');
+            }
+        }).catch(error => {
+            alert('Erro Clientes Upload Logotipo Principal: '+error);
+        });
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: frm_upload_logotipo_relatorios_cli_executar''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    document.getElementById('frm_upload_logotipo_relatorios_cli_executar').addEventListener('click', function() {
+        //FormData
+        var formulario = document.getElementById('frm_upload_logotipo_relatorios_cli');
+        var formData = new FormData(formulario);
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+        var upload_documentos_cliente_id = document.getElementById('upload_logotipo_relatorios_cliente_id').value;
+
+        //Tratar Botões
+        document.getElementById('frm_upload_logotipo_relatorios_cli_executar').style.display = 'block';
+
+        //Criticando campos
+        if (validar_frm_upload_logotipo_relatorios() === false) {return false;}
+
+        //Acessar rota
+        fetch(url_atual+'clientes/uploadLogotipo/upload_logotipo_relatorios', {
+            method: 'POST',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            //Lendo dados
+            if (data.success) {
+                //Atualizando Logotipos relatorios
+                const fileInput = document.getElementById('cli_logotipo_relatorios_file');
+                const file = fileInput.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function() {
+                        document.getElementById('mi_cli_logotipo_relatorios').src = reader.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+                //Reset Form
+                formulario.reset();
+            } else if (data.error) {
+                alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+            } else {
+                alert('Erro interno');
+            }
+        }).catch(error => {
+            alert('Erro Clientes Upload Logotipo Relatório: '+error);
+        });
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: frm_upload_logotipo_cartao_emergencial_cli_executar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    document.getElementById('frm_upload_logotipo_cartao_emergencial_cli_executar').addEventListener('click', function() {
+        //FormData
+        var formulario = document.getElementById('frm_upload_logotipo_cartao_emergencial_cli');
+        var formData = new FormData(formulario);
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+        var upload_documentos_cliente_id = document.getElementById('upload_logotipo_cartao_emergencial_cliente_id').value;
+
+        //Tratar Botões
+        document.getElementById('frm_upload_logotipo_cartao_emergencial_cli_executar').style.display = 'block';
+
+        //Criticando campos
+        if (validar_frm_upload_logotipo_cartao_emergencial() === false) {return false;}
+
+        //Acessar rota
+        fetch(url_atual+'clientes/uploadLogotipo/upload_logotipo_cartao_emergencial', {
+            method: 'POST',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            //Lendo dados
+            if (data.success) {
+                //Atualizando Logotipos cartao_emergencial
+                const fileInput = document.getElementById('cli_logotipo_cartao_emergencial_file');
+                const file = fileInput.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function() {
+                        document.getElementById('mi_cli_logotipo').src = reader.result;
+                        document.getElementById('mi_cli_logotipo_cartao_emergencial').src = reader.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+                //Reset Form
+                formulario.reset();
+            } else if (data.error) {
+                alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+            } else {
+                alert('Erro interno');
+            }
+        }).catch(error => {
+            alert('Erro Clientes Upload Logotipo Cartão Emergencial: '+error);
         });
     });
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

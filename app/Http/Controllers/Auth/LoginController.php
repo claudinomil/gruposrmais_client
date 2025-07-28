@@ -63,6 +63,10 @@ class LoginController extends Controller
             //Gravar access_token em ums session
             session(['access_token' => $response['data']['access_token']]);
 
+            //Gravar Empresa logada (gsrm_empresa_id e gsrm_empresa)
+            session(['gsrm_empresa_id' => $request['empresa_id']]);
+            session(['gsrm_empresa' => $request['empresa_name']]);
+
             //Gravar API GOOGLE KEY
             session_start();
             $_SESSION['api_google_key'] = 'AIzaSyARmoDmjUAPxUg4J5Ztuq1ceSqZK6i3WbM';
@@ -70,28 +74,8 @@ class LoginController extends Controller
             //Ver de onde está acessando 'access_device' (mobile, tablet, desktop)
             SuporteFacade::setUserAcessDevice();
 
-            //Buscar dados de Configuração do Usuário logado (Conforme Empresa escolhida)
-            if (!SuporteFacade::setUserConfiguracao($request['empresa_id'])) {
-                abort(500, 'Erro Interno => Acesso/Configuração.');
-            } else {
-                //Verificar sistema_acesso_id do Usuário que acabou de se logar para redirecionar versão do Sistema (DESKTOP / MOBILE)
-                //1: Somente Desktop
-                if (session('userLogged_sistema_acesso_id') == 1) {return redirect('dashboards');}
-
-                //2: Somente Mobile
-                if (session('userLogged_sistema_acesso_id') == 2) {
-                    if (session('access_device') == 'mobile') {return redirect('Mobile');}
-                    if (session('access_device') == 'tablet') {return redirect('Mobile');}
-                    if (session('access_device') == 'desktop') {abort(500, 'Erro Interno => Acesso somente Mobile.');}
-                }
-
-                //3: Desktop & Mobile
-                if (session('userLogged_sistema_acesso_id') == 3) {
-                    if (session('access_device') == 'mobile') {return redirect('Mobile');}
-                    if (session('access_device') == 'tablet') {return redirect('dashboards');}
-                    if (session('access_device') == 'desktop') {return redirect('dashboards');}
-                }
-            }
+            //Redirecionar
+            return redirect('dashboards');
         }
 
         //E-mail não confirmado

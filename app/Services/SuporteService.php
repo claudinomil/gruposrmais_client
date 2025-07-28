@@ -35,51 +35,6 @@ class SuporteService
     }
 
     /*
-     * Buscar dados de Configuração do Usuário logado (Conforme Empresa escolhida)
-     */
-    public function setUserConfiguracao($empresa_id)
-    {
-        try {
-            //Buscando dados Api_Data() - UsuárioLogado
-            $response = ApiData::getData(10, 'users/user/logged/data/'.$empresa_id, '', '', '', '');
-            //dd($response);
-            //Gravar Session com dados de Configuração
-            session(['userLogged_empresa_id' => $response['content']['userData']['empresa_id']]);
-            session(['userLogged_empresa' => $response['content']['userData']['empresa']]);
-            session(['userLogged_grupo_id' => $response['content']['userData']['grupo_id']]);
-            session(['userLogged_situacao_id' => $response['content']['userData']['situacao_id']]);
-            session(['userLogged_sistema_acesso_id' => $response['content']['userData']['sistema_acesso_id']]);
-            session(['userLogged_layout_mode' => $response['content']['userData']['layout_mode']]);
-            session(['userLogged_layout_style' => $response['content']['userData']['layout_style']]);
-
-            //Verificar Dado de Configuração do Usuário - empresa_id=0: Usuário sem Configurações de Empresa
-            if (session('userLogged_empresa_id') == 0) {abort(500, 'Permissão Negada.<br>Usuário sem acesso para essa Empresa.');}
-
-            //Verificar Dado de Configuração do Usuário - grupo_id=0: Usuário sem Grupo
-            if (session('userLogged_grupo_id') == 0) {abort(500, 'Permissão Negada.<br>Usuário sem Grupo de Acesso.');}
-
-            //Verificar Dado de Configuração do Usuário - situacao_id=0: Usuário sem Situação
-            if (session('userLogged_situacao_id') == 0) {abort(500, 'Permissão Negada.<br>Usuário sem Situação.');}
-
-            //Verificar Dado de Configuração do Usuário - situacao_id=2: Usuário Bloqueado
-            if (session('userLogged_situacao_id') == 2) {abort(500, 'Permissão Negada.<br>Usuário Bloqueado.');}
-
-            //Verificar Dado de Configuração do Usuário - sistema_acesso_id=0: Usuário sem Sistema de Acesso
-            if (session('userLogged_sistema_acesso_id') == 0) {abort(500, 'Permissão Negada.<br>Usuário sem Sistema de Acesso.');}
-
-            //Verificar Dado de Configuração do Usuário - layout_mode=0: Usuário sem Layout Mode
-            if (session('userLogged_layout_mode') == 0) {abort(500, 'Permissão Negada.<br>Usuário sem Layout Mode.');}
-
-            //Verificar Dado de Configuração do Usuário - layout_style=0: Usuário sem Layout Style
-            if (session('userLogged_layout_style') == 0) {abort(500, 'Permissão Negada.<br>Usuário sem Layout Style.');}
-
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
-    /*
      * Gerar QRCode para Cartão Emergencial que mostra dados de Saúde para Atendimento Emergencial
      */
     public function setGerarQRCodesCartoesEmergenciais()
@@ -208,5 +163,25 @@ class SuporteService
         } else {
             return null;
         }
+    }
+
+    public function formatarCNPJ($cnpj) {
+        // Remove qualquer caractere que não seja número
+        $cnpj = preg_replace('/\D/', '', $cnpj);
+
+        // Verifica se tem 14 dígitos
+        if (strlen($cnpj) !== 14) {
+            return $cnpj; // ou retornar null, lançar exceção etc.
+        }
+
+        // Formata: 00.000.000/0000-00
+        return preg_replace('/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/', '$1.$2.$3/$4-$5', $cnpj);
+    }
+
+    public function formatarCPF($cpf) {
+        $cpf = preg_replace('/\D/', '', $cpf);
+        if (strlen($cpf) !== 11) return $cpf;
+
+        return preg_replace('/^(\d{3})(\d{3})(\d{3})(\d{2})$/', '$1.$2.$3-$4', $cpf);
     }
 }

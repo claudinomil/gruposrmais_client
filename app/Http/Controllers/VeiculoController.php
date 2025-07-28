@@ -52,11 +52,8 @@ class VeiculoController extends Controller
                 abort(500, 'Erro Interno Veículo');
             }
         } else {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Auxiliary Tables (Combobox)
-            $this->responseApi(2, 10, 'veiculos/auxiliary/tables/'.$empresa_id, '', '', '');
+            $this->responseApi(2, 10, 'veiculos/auxiliary/tables', '', '', '');
 
             return view('veiculos.index', [
                 'veiculo_categorias' => $this->veiculo_categorias,

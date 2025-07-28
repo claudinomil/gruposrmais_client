@@ -26,7 +26,7 @@ class Menu
         //Menu Verticarl
         if ($tp == 1) {
             $menu .= "<ul class='metismenu list-unstyled' id='side-menu'>
-                        <li class='text-light text-center font-size-22 pb-2'>".session('userLogged_empresa')."</li>";
+                        <li class='text-light text-center font-size-22 pb-2'>".session('gsrm_empresa')."</li>";
         }
 
         //Menu Horizontal
@@ -72,7 +72,7 @@ class Menu
                     if ($submodulo['id'] == 20) {$permitido = false;}
 
                     //21 : Propostas
-                    if ($submodulo['id'] == 21) {$permitido = false;}
+                    //if ($submodulo['id'] == 21) {$permitido = false;}
 
                     //22 : Visitas Técnicas
                     //if ($submodulo['id'] == 22) {$permitido = false;}
@@ -153,6 +153,30 @@ class Menu
                             }
                         }
 
+                        //$submodulo_menu_text
+                        $submodulo_menu_text = $submodulo['menu_text'];
+
+                        //Colocar Desenvolvimento, Teste e Novo'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                        $desenvolvimento = '<span class="badge rounded-pill bg-danger float-end" title="Submódulo Em Desenvolvimento">SED</span>';
+                        $teste = '<span class="badge rounded-pill bg-warning float-end" title="Submódulo Em Teste">SET</span>';
+                        $novo = '<span class="badge rounded-pill bg-success float-end" title="Submódulo Novo">SNO</span>';
+
+                        //Desenvolvimento
+                        if (
+                            $submodulo['id'] == 0
+                            or $submodulo['id'] == 21
+                            or $submodulo['id'] == 22
+                            or $submodulo['id'] == 26
+                            or $submodulo['id'] == 30
+                        ) {$submodulo_menu_text .= $desenvolvimento;}
+
+                        //Teste
+                        if ($submodulo['id'] == 0) {$submodulo_menu_text .= $teste;}
+
+                        //Novo
+                        if ($submodulo['id'] == 0) {$submodulo_menu_text .= $novo;}
+                        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
                         //Menu Verticarl
                         if ($tp == 1) {
                             $active = '';
@@ -161,12 +185,12 @@ class Menu
                                 $active = 'active';
                             }
 
-                            $menu .= "<li><a href='" . route($submodulo['menu_route'] . '.index') . "' class='" . $active . "' key='t-" . $submodulo['menu_route'] . "'><i class='" . $submodulo['menu_icon'] . " font-size-10'></i>" . $submodulo['menu_text'] . "</a></li>";
+                            $menu .= "<li><a href='" . route($submodulo['menu_route'] . '.index') . "' class='" . $active . "' key='t-" . $submodulo['menu_route'] . "'><i class='" . $submodulo['menu_icon'] . " font-size-10'></i>" . $submodulo_menu_text . "</a></li>";
                         }
 
                         //Menu Horizontal
                         if ($tp == 2) {
-                            $menu .= "<a href='" . route($submodulo['menu_route'] . '.index') . "' class='dropdown-item' key='t-" . $submodulo['menu_route'] . "'><i class='" . $submodulo['menu_icon'] . " me-1'></i>" . $submodulo['menu_text'] . "</a>";
+                            $menu .= "<a href='" . route($submodulo['menu_route'] . '.index') . "' class='dropdown-item' key='t-" . $submodulo['menu_route'] . "'><i class='" . $submodulo['menu_icon'] . " me-1'></i>" . $submodulo_menu_text . "</a>";
                         }
                     }
                 }

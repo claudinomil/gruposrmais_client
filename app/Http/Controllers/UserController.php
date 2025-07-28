@@ -70,11 +70,8 @@ class UserController extends Controller
                 abort(500, 'Erro Interno User');
             }
         } else {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Auxiliary Tables (Combobox)
-            $this->responseApi(2, 10, 'users/auxiliary/tables/'.$empresa_id, '', '', '');
+            $this->responseApi(2, 10, 'users/auxiliary/tables', '', '', '');
 
             return view('users.index', [
                 'empresas' => $this->empresas,
@@ -378,7 +375,7 @@ class UserController extends Controller
             $data['layout_style'] = $style;
 
             //Buscando dados Api_Data() - Alterar Registro
-            $this->responseApi(1, 11, 'users/editmodestyle/'.$id.'/'.session('userLogged_empresa_id'), '', '', $data);
+            $this->responseApi(1, 11, 'users/editmodestyle/'.$id, '', '', $data);
 
             //Registro alterado com sucesso
             if ($this->code == 2000) {
@@ -395,28 +392,12 @@ class UserController extends Controller
         }
     }
 
-    public function escolher_empresa($empresa_id)
+    public function escolher_empresa($empresa_id, $empresa_name)
     {
-        if (!SuporteFacade::setUserConfiguracao($empresa_id)) {
-            abort(500, 'Erro Interno => Acesso/Configuração.');
-        } else {
-            //Verificar sistema_acesso_id do Usuário que acabou de se logar para redirecionar versão do Sistema (DESKTOP / MOBILE)
-            //1: Somente Desktop
-            if (session('userLogged_sistema_acesso_id') == 1) {return redirect('dashboards');}
+        //Gravar Empresa logada (gsrm_empresa_id e gsrm_empresa)
+        session(['gsrm_empresa_id' => $empresa_id]);
+        session(['gsrm_empresa' => $empresa_name]);
 
-            //2: Somente Mobile
-            if (session('userLogged_sistema_acesso_id') == 2) {
-                if (session('access_device') == 'mobile') {return redirect('Mobile');}
-                if (session('access_device') == 'tablet') {return redirect('Mobile');}
-                if (session('access_device') == 'desktop') {abort(500, 'Erro Interno => Acesso somente Mobile.');}
-            }
-
-            //3: Desktop & Mobile
-            if (session('userLogged_sistema_acesso_id') == 3) {
-                if (session('access_device') == 'mobile') {return redirect('Mobile');}
-                if (session('access_device') == 'tablet') {return redirect('dashboards');}
-                if (session('access_device') == 'desktop') {return redirect('dashboards');}
-            }
-        }
+        return redirect('dashboards');
     }
 }

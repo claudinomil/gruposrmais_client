@@ -480,7 +480,7 @@
                                     <div class="col-8 order-1 order-lg-1 col-lg-4">
                                         <div class="d-flex">
                                             <div class="flex-shrink-0 me-3">
-                                                <img src="build/assets/images/users/avatar-0.png" alt="" class="avatar-lg rounded-circle img-thumbnail clearClass">
+                                                <img src="build/assets/images/clientes/cliente-0.png" alt="" class="avatar-lg rounded-circle img-thumbnail clearClass" id="mi_cli_logotipo">
                                             </div>
                                             <div class="flex-grow-1 align-self-center">
                                                 <div>
@@ -491,34 +491,60 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 order-3 order-lg-2 col-lg-4 align-self-center">
+                                    <div class="col-12 order-3 order-lg-2 col-lg-7 align-self-center">
                                         <div class="text-lg-center mt-4 mt-lg-0">
-                                            <div class="row text-center">
-                                                <div class="col-4">
+                                            <div class="row text-center font-size-12">
+                                                <div class="col-4 col-lg-2">
                                                     <div>
                                                         <p class="text-truncate mb-2" style="color: #ffac31;">Documentos</p>
-                                                        <h5 class="mb-0 clearClass" style="color: #ffffff;" id="md_cli_qtd_documentos">48</h5>
+                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_documentos">0</h5>
                                                     </div>
                                                 </div>
-                                                <div class="col-4">
+                                                <div class="col-4 col-lg-2">
                                                     <div>
-                                                        <p class="text-truncate mb-2" style="color: #ffac31;">Serviços</p>
-                                                        <h5 class="mb-0 clearClass" style="color: #ffffff;" id="md_cli_qtd_servicos">40</h5>
+                                                        <p class="text-truncate mb-2" style="color: #ffac31;">Propostas</p>
+                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_propostas">0</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 col-lg-2">
+                                                    <div>
+                                                        <p class="text-truncate mb-2" style="color: #ffac31;">Órdens de Serviços</p>
+                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_ordens_servicos">0</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 col-lg-2">
+                                                    <div>
+                                                        <p class="text-truncate mb-2" style="color: #ffac31;">Visitas Técnicas</p>
+                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_visitas_tecnicas">0</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 col-lg-2">
+                                                    <div>
+                                                        <p class="text-truncate mb-2" style="color: #ffac31;">Da Rede</p>
+                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_clientes_rede">0</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 col-lg-2">
+                                                    <div>
+                                                        <p class="text-truncate mb-2" style="color: #ffac31;">Do Principal</p>
+                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_clientes_principal">0</h5>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-4 order-2 order-lg-3 col-lg-4">
+                                    <div class="col-4 order-2 order-lg-3 col-lg-1">
                                         <div class="clearfix mt-0">
                                             <div class="dropdown float-end">
                                                 <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="bx bxs-cog align-middle me-1"></i> Opções
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(1);">Dados</a>
-                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(2);">Documentos</a>
-                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(3);">Serviços</a>
+                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(1);">Logotipo</a>
+                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(2);">Dados</a>
+                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(3);">Documentos</a>
+                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(4);">Serviços</a>
+                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(5);">Clientes</a>
                                                     <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item" href="#" data-bs-dismiss="modal">Fechar</a>
                                                 </div>
@@ -531,6 +557,82 @@
                             <div class="modal-body d-lg-flex flex-lg-column flex-grow-1 px-4">
                                 <!-- Cliente ID -->
                                 <input type="hidden" id="mi_cli_cliente_id" name="mi_cli_cliente_id" value="0">
+
+                                <!-- Logotipos -->
+                                <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_logotipos">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="card-title font-size-20 mb-4"><i class="bx bxs-file-plus"></i>&nbsp;&nbsp;Logotipos</h4>
+
+                                            <div class="row">
+                                                <div class="col-12 col-lg-4 pe-5">
+                                                    <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;LOGOTIPO PRINCIPAL</h6>
+                                                    <div class="col-12" style="height: 200px;">
+                                                        <img src="" alt="" class="img-fluid clearClass" style="max-height: 190px !important;" id="mi_cli_logotipo_principal">
+                                                    </div>
+
+                                                    @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                                                        <form enctype="multipart/form-data" id="frm_upload_logotipo_principal_cli">
+                                                            <input type="hidden" id="upload_logotipo_principal_cliente_id" name="upload_logotipo_principal_cliente_id" value="">
+
+                                                            <div class="col-12 mb-2">
+                                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_logotipo_principal_cli_executar" name="frm_upload_logotipo_principal_cli_executar">Enviar Logotipo</button>
+                                                            </div>
+
+                                                            <div class="col-12 mb-3">
+                                                                <label class="form-label">Logotipo (Arquivo)</label>
+                                                                <input type="file" class="form-control" name="cli_logotipo_principal_file" id="cli_logotipo_principal_file">
+                                                            </div>
+                                                        </form>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-lg-4 pe-5">
+                                                    <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;LOGOTIPO RELATÓRIOS</h6>
+                                                    <div class="col-12" style="height: 200px;">
+                                                        <img src="" alt="" class="img-fluid clearClass" style="max-height: 190px !important;" id="mi_cli_logotipo_relatorios">
+                                                    </div>
+
+                                                    @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                                                        <form enctype="multipart/form-data" id="frm_upload_logotipo_relatorios_cli">
+                                                            <input type="hidden" id="upload_logotipo_relatorios_cliente_id" name="upload_logotipo_relatorios_cliente_id" value="">
+
+                                                            <div class="col-12 mb-2">
+                                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_logotipo_relatorios_cli_executar" name="frm_upload_logotipo_relatorios_cli_executar">Enviar Logotipo</button>
+                                                            </div>
+
+                                                            <div class="col-12 mb-3">
+                                                                <label class="form-label">Logotipo (Arquivo)</label>
+                                                                <input type="file" class="form-control" name="cli_logotipo_relatorios_file" id="cli_logotipo_relatorios_file">
+                                                            </div>
+                                                        </form>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-lg-4 pe-5">
+                                                    <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;LOGOTIPO CARTÃO EMERGENCIAL</h6>
+                                                    <div class="col-12" style="height: 200px;">
+                                                        <img src="" alt="" class="img-fluid clearClass" style="max-height: 190px !important;" id="mi_cli_logotipo_cartao_emergencial">
+                                                    </div>
+
+                                                    @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                                                        <form enctype="multipart/form-data" id="frm_upload_logotipo_cartao_emergencial_cli">
+                                                            <input type="hidden" id="upload_logotipo_cartao_emergencial_cliente_id" name="upload_logotipo_cartao_emergencial_cliente_id" value="">
+
+                                                            <div class="col-12 mb-2">
+                                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_logotipo_cartao_emergencial_cli_executar" name="frm_upload_logotipo_cartao_emergencial_cli_executar">Enviar Logotipo</button>
+                                                            </div>
+
+                                                            <div class="col-12 mb-3">
+                                                                <label class="form-label">Logotipo (Arquivo)</label>
+                                                                <input type="file" class="form-control" name="cli_logotipo_cartao_emergencial_file" id="cli_logotipo_cartao_emergencial_file">
+                                                            </div>
+                                                        </form>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Logotipos END -->
 
                                 <!-- Dados -->
                                 <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_dados">
@@ -654,17 +756,40 @@
                                         <div class="card-body">
                                             <h4 class="card-title font-size-20 mb-4"><i class="fa fa-toolbox"></i>&nbsp;&nbsp;Serviços</h4>
 
-                                            <div class="col-12 col-lg-12">
-                                                <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE SERVIÇOS</h6>
+                                            <div class="row">
+                                                <div class="col-12 col-lg-7">
+                                                    <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE SERVIÇOS</h6>
 
-                                                <div class="col-12 mb-5" id="cli_servicos_grade_botoes"></div>
+                                                    <div class="col-12 mb-5" id="cli_servicos_grade_botoes"></div>
 
-                                                <div id="cli_servicos_grade">Nenhum serviço encontrado.</div>
+                                                    <div id="cli_servicos_grade">Nenhum documento encontrado.</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Serviços END -->
+
+                                <!-- Clientes -->
+                                <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_clientes">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="card-title font-size-20 mb-4"><i class="fa fa-toolbox"></i>&nbsp;&nbsp;Clientes</h4>
+
+                                            <div class="row">
+                                                <div class="col-12 col-lg-6 d-none" id="cli_clientes_rede">
+                                                    <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;CLIENTES DA REDE</h6>
+                                                    <div id="cli_clientes_grade_rede">Nenhum documento encontrado.</div>
+                                                </div>
+                                                <div class="col-12 col-lg-6 d-none" id="cli_clientes_principal">
+                                                    <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;CLIENTES DO PRINCIPAL</h6>
+                                                    <div id="cli_clientes_grade_principal">Nenhum documento encontrado.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Clientes END -->
 
                             </div>
                         </div>

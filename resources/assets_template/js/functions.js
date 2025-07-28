@@ -2197,6 +2197,33 @@ function validacao({op=0, value='', minCaracteres=0, maxCaracteres=0, id=''}) {
             return false;
         }
     }
+
+    //Campo FILE com arquivo IMG
+    if (op == 18) {
+        let elemento = document.getElementById(id);
+        const file = elemento.files[0]; // Obtém o primeiro arquivo selecionado
+
+        // Verificar se está vazio
+        if (!file) {
+            return false;
+        }
+
+        // Tipos MIME permitidos para imagens
+        const tiposPermitidos = ["image/png", "image/jpeg", "image/gif"];
+
+        // Extensões permitidas (em minúsculo)
+        const extensoesPermitidas = [".png", ".jpg", ".jpeg", ".gif"];
+
+        const nomeArquivo = file.name.toLowerCase();
+        const tipoValido = tiposPermitidos.includes(file.type);
+        const extensaoValida = extensoesPermitidas.some(ext => nomeArquivo.endsWith(ext));
+        if (!tipoValido && !extensaoValida) {
+            elemento.value = ''; // Limpa o campo se não for imagem válida
+            return false;
+        }
+
+        return true;
+    }
 }
 
 //Código para Acessar Câmera Frontal e Traseira - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -3820,6 +3847,8 @@ function formatarData(op, data) {
 }
 
 function capitalizarFrase(frase) {
+    if (!frase) {return '';}
+
     return frase
         .toLowerCase()
         .split(' ')

@@ -58,11 +58,8 @@ class RelatorioController extends Controller
 
     public function relatorios()
     {
-        //pegando o empresa_id
-        $empresa_id = session('userLogged_empresa_id');
-
         //Buscando dados Api_Data()
-        $this->responseApi(1, 10, 'relatorios/relatorios/'.$empresa_id, '', '', '');
+        $this->responseApi(1, 10, 'relatorios/relatorios', '', '', '');
 
         if ($this->code == 2000) {
             return response()->json(['success' => $this->content]);
@@ -75,11 +72,8 @@ class RelatorioController extends Controller
     {
         //Requisição Ajax
         if ($request->ajax()) {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Dados
-            $this->responseApi(1, 10, 'relatorios/relatorio1/' . $empresa_id . '/' . $grupo_id . '/' . $idioma, '', '', '');
+            $this->responseApi(1, 10, 'relatorios/relatorio1/' . $grupo_id . '/' . $idioma, '', '', '');
 
             if ($this->code == 2000) {
                 return response()->json(['success' => $this->content]);
@@ -93,11 +87,8 @@ class RelatorioController extends Controller
     {
         //Requisição Ajax
         if ($request->ajax()) {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Dados
-            $this->responseApi(1, 10, 'relatorios/relatorio2/' . $empresa_id . '/' . $grupo_id . '/' . $situacao_id . '/' . $idioma, '', '', '');
+            $this->responseApi(1, 10, 'relatorios/relatorio2/' . $grupo_id . '/' . $situacao_id . '/' . $idioma, '', '', '');
 
             //Dados recebidos com sucesso
             if ($this->code == 2000) {
@@ -112,11 +103,8 @@ class RelatorioController extends Controller
     {
         //Requisição Ajax
         if ($request->ajax()) {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Dados
-            $this->responseApi(1, 10, 'relatorios/relatorio3/' . $empresa_id . '/' . $data . '/' . $user_id . '/' . $submodulo_id . '/' . $operacao_id . '/' . $dado . '/' . $idioma, '', '', '');
+            $this->responseApi(1, 10, 'relatorios/relatorio3/' . $data . '/' . $user_id . '/' . $submodulo_id . '/' . $operacao_id . '/' . $dado . '/' . $idioma, '', '', '');
 
             //Dados recebidos com sucesso
             if ($this->code == 2000) {
@@ -131,11 +119,8 @@ class RelatorioController extends Controller
     {
         //Requisição Ajax
         if ($request->ajax()) {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data() - Dados
-            $this->responseApi(1, 10, 'relatorios/relatorio6/' . $empresa_id . '/' . $data_inicio . '/' . $data_fim . '/' . $cidade_id . '/' . $cidade . '/' . $idioma, '', '', '');
+            $this->responseApi(1, 10, 'relatorios/relatorio6/' . $data_inicio . '/' . $data_fim . '/' . $cidade_id . '/' . $cidade . '/' . $idioma, '', '', '');
 
             //Dados recebidos com sucesso
             if ($this->code == 2000) {

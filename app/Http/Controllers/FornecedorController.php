@@ -69,11 +69,8 @@ class FornecedorController extends Controller
                 abort(500, 'Erro Interno Fornecedor');
             }
         } else {
-            //pegando o empresa_id
-            $empresa_id = session('userLogged_empresa_id');
-
             //Buscando dados Api_Data()auxiliary - Auxiliary Tables (Combobox)
-            $this->responseApi(2, 10, 'fornecedores/auxiliary/tables/'.$empresa_id, '', '', '');
+            $this->responseApi(2, 10, 'fornecedores/auxiliary/tables', '', '', '');
 
             return view('fornecedores.index', [
                 'generos' => $this->generos,

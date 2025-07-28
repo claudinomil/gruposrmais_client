@@ -253,7 +253,7 @@ function crudLimparFormulario(nomeFormulario) {
 }
 
 //Montartabela
-async function crudTable(route, fieldsColumns='', pageLength=5) {
+async function crudTable(route, fieldsColumns='', pageLength=25) {
     if (fieldsColumns == '') {
         let crudFieldsColumnsTable = document.getElementById('crudFieldsColumnsTable').value;
         let camposColunasTabelas = crudFieldsColumnsTable.split(',');
@@ -738,36 +738,7 @@ function crudView(registro_id) {
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
-            if (prefixPermissaoSubmodulo == 'users') {
-                users_configuracoes = data.success['users_configuracoes'];
-
-                users_configuracoes.forEach(function (item) {
-                    //grupo_id
-                    elemento = document.getElementById('grupo_id_' + item.empresa_id);
-                    elemento.value = item.grupo_id;
-                    elemento.dispatchEvent(new Event("change", { bubbles: true }));
-
-                    //situacao_id
-                    elemento = document.getElementById('situacao_id_' + item.empresa_id);
-                    elemento.value = item.situacao_id;
-                    elemento.dispatchEvent(new Event("change", { bubbles: true }));
-
-                    //sistema_acesso_id
-                    elemento = document.getElementById('sistema_acesso_id_' + item.empresa_id);
-                    elemento.value = item.sistema_acesso_id;
-                    elemento.dispatchEvent(new Event("change", { bubbles: true }));
-
-                    //layout_mode
-                    elemento = document.getElementById('layout_mode_' + item.empresa_id);
-                    elemento.value = item.layout_mode;
-                    elemento.dispatchEvent(new Event("change", { bubbles: true }));
-
-                    //layout_style
-                    elemento = document.getElementById('layout_style_' + item.empresa_id);
-                    elemento.value = item.layout_style;
-                    elemento.dispatchEvent(new Event("change", { bubbles: true }));
-                });
-            }
+            if (prefixPermissaoSubmodulo == 'users') {}
 
             if (prefixPermissaoSubmodulo == 'propostas') {
                 limparServicosGrade();
@@ -1092,36 +1063,6 @@ async function crudEdit(registro_id) {
                 //Verificar se pode alterar campo funcionario_id
                 var user_operacoes_qtd = data.success['user_operacoes_qtd'];
                 if (user_operacoes_qtd > 0) {document.getElementById('funcionario_id').disabled = true;}
-
-                //User Configurações
-                users_configuracoes = data.success['users_configuracoes'];
-
-                users_configuracoes.forEach(function (item) {
-                    //grupo_id
-                    elemento = document.getElementById('grupo_id_' + item.empresa_id);
-                    elemento.value = item.grupo_id;
-                    elemento.dispatchEvent(new Event("change", { bubbles: true }));
-
-                    //situacao_id
-                    elemento = document.getElementById('situacao_id_' + item.empresa_id);
-                    elemento.value = item.situacao_id;
-                    elemento.dispatchEvent(new Event("change", { bubbles: true }));
-
-                    //sistema_acesso_id
-                    elemento = document.getElementById('sistema_acesso_id_' + item.empresa_id);
-                    elemento.value = item.sistema_acesso_id;
-                    elemento.dispatchEvent(new Event("change", { bubbles: true }));
-
-                    //layout_mode
-                    elemento = document.getElementById('layout_mode_' + item.empresa_id);
-                    elemento.value = item.layout_mode;
-                    elemento.dispatchEvent(new Event("change", { bubbles: true }));
-
-                    //layout_style
-                    elemento = document.getElementById('layout_style_' + item.empresa_id);
-                    elemento.value = item.layout_style;
-                    elemento.dispatchEvent(new Event("change", { bubbles: true }));
-                });
             }
 
             if (prefixPermissaoSubmodulo == 'mapas') {

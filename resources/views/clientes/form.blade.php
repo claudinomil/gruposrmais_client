@@ -27,7 +27,7 @@
                         @endif
 
                         <!-- Botão Info -->
-                        <x-button-crud op="7" onclick="clienteModalInfoControle(1);" />
+                        <x-button-crud op="7" onclick="clienteModalInfoControle(2);" />
 
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
@@ -382,7 +382,7 @@
                     @endif
 
                     <!-- Botão Info -->
-                    <x-button-crud op="7" onclick="clienteModalInfoControle(1);" />
+                    <x-button-crud op="7" onclick="clienteModalInfoControle(2);" />
 
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
