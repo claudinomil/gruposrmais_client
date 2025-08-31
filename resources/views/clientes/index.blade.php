@@ -8,7 +8,7 @@
 @section('content')
 
     @component('components.breadcrumb')
-@section('page_title') {{ \App\Facades\Breadcrumb::getCurrentPageTitle() }} @endsection
+@section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
 @endcomponent
 
 <div id="crudTable">
@@ -52,12 +52,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
-                    <input type="hidden" id="user_email" value="{{ session('se_userLoggedData.email') }}">
-
-
 
                     <!-- Tabela (Componente Blade) -->
                     <x-table-crud-ajax :numCols="4" :colsNames="['#', 'Nome', 'CNPJ', 'Status', 'Ações']" />

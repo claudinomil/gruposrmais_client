@@ -26,9 +26,6 @@
                                 <x-button-crud op="3" onclick="crudDelete(0);" />
                         @endif
 
-                        <!-- Botão Extra -->
-                        <x-button-crud op="7" data-bs-target=".modal-fornecedor" onclick="fornecedorExtraData();" />
-
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
@@ -284,10 +281,7 @@
                             <x-button-crud op="3" onclick="crudDelete(0);" />
                     @endif
 
-                    <!-- Botão Extra -->
-                    <x-button-crud op="7" data-bs-target=".modal-fornecedor" onclick="fornecedorExtraData();" />
-
-                        <!-- Botão Cancelar Operação -->
+                    <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
                 </div>

@@ -50,7 +50,7 @@
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-user"></i> Informa&ccedil;&otilde;es Gerais</h5>
                                     <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label col-12">Status</label>
+                                        <label class="form-label col-12">{{ __('Status') }}</label>
                                         <select class="form-select" name="servico_status_id" id="servico_status_id" required="required">
                                             <option value="">Selecione...</option>
 
@@ -60,7 +60,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label col-12">Cliente</label>
+                                        <label class="form-label col-12">{{ __('Cliente') }}</label>
                                         <select class="select2 form-select" name="cliente_id" id="cliente_id" required="required">
                                             <option value="">Selecione...</option>
 
@@ -70,7 +70,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-5 pb-3">
-                                        <label class="form-label col-12">Serviço</label>
+                                        <label class="form-label col-12">{{ __('Serviço') }}</label>
                                         <select class="select2 form-control" name="servico_id" id="servico_id" required="required">
                                             <option value="" data-servico_tipo_id="0">Selecione...</option>
 
@@ -81,7 +81,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label col-12">Funcionário Responsável</label>
+                                        <label class="form-label col-12">{{ __('Funcionário Responsável') }}</label>
                                         <select class="select2 form-control" name="responsavel_funcionario_id" id="responsavel_funcionario_id">
                                             <option value="">Selecione...</option>
 
@@ -92,23 +92,23 @@
                                     </div>
 
                                     <div class="form-group col-12 col-md-2 pb-3" id="divQuantidade">
-                                        <label class="form-label">Qtd</label>
+                                        <label class="form-label">{{ __('Qtd') }}</label>
                                         <input type="number" class="form-control" id="quantidade" name="quantidade" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3" id="divDataInicio">
-                                        <label class="form-label">Data Início</label>
+                                        <label class="form-label">{{ __('Data Início') }}</label>
                                         <input type="text" class="form-control mask_date" id="data_inicio" name="data_inicio" required="required">
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3" id="divDataFim">
-                                        <label class="form-label">Data Fim</label>
+                                        <label class="form-label">{{ __('Data Fim') }}</label>
                                         <input type="text" class="form-control mask_date" id="data_fim" name="data_fim" required="required">
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3" id="divDataVencimento">
-                                        <label class="form-label">Data Vencimento</label>
+                                        <label class="form-label">{{ __('Data Vencimento') }}</label>
                                         <input type="text" class="form-control mask_date" id="data_vencimento" name="data_vencimento">
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3" id="divValor">
-                                        <label class="form-label text-end">Valor</label>
+                                        <label class="form-label text-end">{{ __('Valor') }}</label>
                                         <input type="text" class="form-control text-end mask_money" id="valor" name="valor">
                                     </div>
 
@@ -123,7 +123,7 @@
                                             <h6 class="pb-2"><i class="fas fa-clipboard-list"></i> Informações Gerais</h6>
                                             <div class="row col-12 bg-light py-2 px-2">
                                                 <div class="form-group col-12 col-md-4 pb-3">
-                                                    <label class="form-label">Escala</label>
+                                                    <label class="form-label">{{ __('Escala') }}</label>
                                                     <select class="form-control" name="bi_escala_tipo_id" id="bi_escala_tipo_id" required="required">
                                                         <option value="">Selecione...</option>
                                                         @foreach ($escala_tipos as $key => $escala_tipo)
@@ -136,15 +136,15 @@
                                                 </div>
 
                                                 <div class="form-group col-12 col-md-4 pb-3">
-                                                    <label class="form-label">Brigadistas Ala</label>
+                                                    <label class="form-label">{{ __('Brigadistas Ala') }}</label>
                                                     <input type="number" class="form-control" id="bi_quantidade_brigadistas_por_ala" name="bi_quantidade_brigadistas_por_ala" step="1" required="required">
                                                 </div>
                                                 <div class="form-group col-12 col-md-4 pb-3">
-                                                    <label class="form-label">Brigadistas Total</label>
+                                                    <label class="form-label">{{ __('Brigadistas Total') }}</label>
                                                     <input type="text" class="form-control" id="bi_quantidade_brigadistas_total" name="bi_quantidade_brigadistas_total" readonly>
                                                 </div>
                                                 <div class="form-group col-12 col-md-4 pb-3">
-                                                    <label class="form-label">Hora início ala</label>
+                                                    <label class="form-label">{{ __('Hora início ala') }}</label>
                                                     <input type="time" class="form-control" id="bi_hora_inicio_ala" name="bi_hora_inicio_ala" required="required">
                                                 </div>
                                             </div>
@@ -156,7 +156,7 @@
                                             <div class="row col-12 bg-light py-2 px-2">
                                                 <div class="row bi_divCamposEscolherBrigadista">
                                                     <div class="form-group col-8 col-md-8 pb-3">
-                                                        <label class="form-label">Brigadista</label>
+                                                        <label class="form-label">{{ __('Brigadista') }}</label>
                                                         <select class="select2 form-control" name="bi_grade_funcionario_id" id="bi_grade_funcionario_id">
                                                             <option value="">Selecione...</option>
                                                             @foreach ($funcionarios as $key => $funcionario)
@@ -168,7 +168,7 @@
                                                         <input type="hidden" id="bi_grade_funcionario_nome" name="bi_grade_funcionario_nome">
                                                     </div>
                                                     <div class="form-group col-2 col-md-2 pb-3">
-                                                        <label class="form-label">Ala</label>
+                                                        <label class="form-label">{{ __('Ala') }}</label>
                                                         <select class="form-control" name="bi_grade_ala" id="bi_grade_ala">
                                                             <option value="1">1</option>
                                                         </select>

@@ -4,6 +4,9 @@ namespace App\Services;
 
 use App\Facades\ApiData;
 use App\Facades\QRCodeFacade;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class SuporteService
 {
@@ -32,6 +35,16 @@ class SuporteService
         if ($isMob) {return 'mobile';}
         if ($isTab) {return 'tablet';}
         if ($isDesk) {return 'desktop';}
+    }
+
+    /*
+     * Alterar Idioma da Sessao do Usuário Logado
+     */
+    public function setUserSessionIdioma()
+    {
+        // Salva o idioma na sessão
+        App::setLocale(session('se_userLogged_idioma'));
+        Session::put('locale', session('se_userLogged_idioma'));
     }
 
     /*
@@ -127,7 +140,7 @@ class SuporteService
             return '';
         }
 
-        $apiKey = 'AIzaSyAvEtoAQmil8RS2Gcl9csltgrVjdbnTHqQ'; // Substitua pela sua chave da API
+        $apiKey = 'AIzaSyBGeQFWQ6kFJ9hnXvogPLtmYXJHVuM6U78';
         $url = 'https://translation.googleapis.com/language/translate/v2?key=' . $apiKey;
 
         $postData = array(
@@ -183,5 +196,16 @@ class SuporteService
         if (strlen($cpf) !== 11) return $cpf;
 
         return preg_replace('/^(\d{3})(\d{3})(\d{3})(\d{2})$/', '$1.$2.$3-$4', $cpf);
+    }
+
+    public function consultarCNPJ($cnpj)
+    {
+        $url = "https://receitaws.com.br/v1/cnpj/{$cnpj}";
+
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+        ])->get($url);
+
+        return response()->json($response->json());
     }
 }

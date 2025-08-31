@@ -55,6 +55,7 @@
             <div class="main-content">
                 <div class="page-content">
                     <div class="container-fluid">
+                        <input type="hidden" id="user_email" value="{{ session('se_userLoggedData.email') }}">
                         @yield('content')
                     </div>
                 </div>

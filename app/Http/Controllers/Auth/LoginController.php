@@ -67,12 +67,18 @@ class LoginController extends Controller
             session(['gsrm_empresa_id' => $request['empresa_id']]);
             session(['gsrm_empresa' => $request['empresa_name']]);
 
+            //Gravar Idioma para o Usuário logado
+            session(['se_userLogged_idioma' => $request['idioma']]);
+
             //Gravar API GOOGLE KEY
             session_start();
-            $_SESSION['api_google_key'] = 'AIzaSyARmoDmjUAPxUg4J5Ztuq1ceSqZK6i3WbM';
+            $_SESSION['api_google_key'] = 'AIzaSyCySX2x8e-TEfua6M1gZG1vNGIYng1av4g';
 
             //Ver de onde está acessando 'access_device' (mobile, tablet, desktop)
             SuporteFacade::setUserAcessDevice();
+
+            //Trocar Idioma da Sessao
+            SuporteFacade::setUserSessionIdioma();
 
             //Redirecionar
             return redirect('dashboards');

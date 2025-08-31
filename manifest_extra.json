@@ -298,6 +298,11 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_clientes_servicos.js"
 },
+"resources/assets_template/js/scripts_escalas.js": {
+"file": "assets/scripts_escalas.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_escalas.js"
+},
 "resources/assets_template/js/scripts_clientes_servicos_qrcode_brigada_informacoes.js": {
 "file": "assets/scripts_clientes_servicos_qrcode_brigada_informacoes.js",
 "isEntry": true,

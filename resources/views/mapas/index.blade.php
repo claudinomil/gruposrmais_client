@@ -7,7 +7,7 @@
 
 @section('content')
     @component('components.breadcrumb')
-        @section('page_title') {{ \App\Facades\Breadcrumb::getCurrentPageTitle() }} @endsection
+        @section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
     @endcomponent
 
     <div class="row">
@@ -306,7 +306,7 @@
     <!-- scripts_mapas.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_mapas.js')}}"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARmoDmjUAPxUg4J5Ztuq1ceSqZK6i3WbM"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCySX2x8e-TEfua6M1gZG1vNGIYng1av4g"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 @endsection
 

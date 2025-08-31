@@ -45,31 +45,31 @@
                                 <div class="row pt-4" id="divInformacoesServico">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-list"></i> Informa&ccedil;&otilde;es do Serviço</h5>
                                     <div class="form-group col-12 col-md-5 pb-3">
-                                        <label class="form-label col-12">Cliente</label>
+                                        <label class="form-label col-12">{{ __('Cliente') }}</label>
                                         <input type="text" class="form-control" id="is_cliente" name="is_cliente" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
-                                        <label class="form-label col-12">Status do Serviço</label>
+                                        <label class="form-label col-12">{{ __('Status do Serviço') }}</label>
                                         <input type="text" class="form-control" id="is_servico_status" name="is_servico_status" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-5 pb-3">
-                                        <label class="form-label col-12">Funcionário Responsável</label>
+                                        <label class="form-label col-12">{{ __('Funcionário Responsável') }}</label>
                                         <input type="text" class="form-control" id="is_responsavel_funcionario" name="is_responsavel_funcionario" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
-                                        <label class="form-label">Data Início</label>
+                                        <label class="form-label">{{ __('Data Início') }}</label>
                                         <input type="text" class="form-control mask_date" id="is_data_inicio" name="is_data_inicio" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
-                                        <label class="form-label">Data Fim</label>
+                                        <label class="form-label">{{ __('Data Fim') }}</label>
                                         <input type="text" class="form-control mask_date" id="is_data_fim" name="is_data_fim" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
-                                        <label class="form-label">Data Vencimento</label>
+                                        <label class="form-label">{{ __('Data Vencimento') }}</label>
                                         <input type="text" class="form-control mask_date" id="is_data_vencimento" name="is_data_vencimento" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
-                                        <label class="form-label text-end">Valor</label>
+                                        <label class="form-label text-end">{{ __('Valor') }}</label>
                                         <input type="text" class="form-control text-end mask_money" id="is_valor" name="is_valor" readonly>
                                     </div>
                                 </div>

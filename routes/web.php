@@ -1,12 +1,43 @@
 <?php
 
-use App\Facades\QRCodeFacade;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\App;
 
 //Rota inicial
 Route::get('/', function () {
-    return view('welcome');
+    //return view('welcome');
+    return redirect()->route('login');
 });
+
+//Locale
+Route::get('/locale', function () {
+    return response()->json(['locale' => app()->getLocale()]);
+});
+
+//Traduzir frase/palavra conforme locale do sistema
+Route::get('/translate', function () {
+    $chave = Request::get('key');
+
+    if (!$chave) {return response()->json(['translation' => '']);}
+
+    $locale = App::getLocale();
+    $arquivo = resource_path("lang/{$locale}.json");
+
+    if (!File::exists($arquivo)) {return response()->json(['translation' => '']);}
+
+    $conteudo = json_decode(File::get($arquivo), true);
+
+    if (array_key_exists($chave, $conteudo)) {
+        return response()->json(['translation' => $conteudo[$chave]]);
+    } else {
+        return response()->json(['translation' => $chave]);
+    }
+});
+
+//Buscar dados de um CNPJ na receitaws.com.br
+Route::get('/receitaws/consulta-cnpj/{cnpj}', [\App\Services\SuporteService::class, 'consultarCNPJ']);
 
 //Administrador
 require __DIR__.'/routes_administrador.php';
@@ -109,6 +140,9 @@ require __DIR__ . '/routes_mapas_pontos_interesse.php';
 
 //Visitas Técnicas
 require __DIR__ . '/routes_visitas_tecnicas.php';
+
+//Escalas
+require __DIR__ . '/routes_escalas.php';
 
 //Diversos
 require __DIR__ . '/routes_guests.php';

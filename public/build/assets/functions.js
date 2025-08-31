@@ -22,7 +22,7 @@ API Google
 Retorna coordenadas via endereço
 */
 async function getCoordinatesFromAddress(address) {
-    const apiKey = 'AIzaSyARmoDmjUAPxUg4J5Ztuq1ceSqZK6i3WbM';
+    const apiKey = 'AIzaSyCySX2x8e-TEfua6M1gZG1vNGIYng1av4g';
 
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
     const response = await fetch(url);
@@ -116,7 +116,7 @@ Retorna tradução de texto
 async function traduzirTextoGoogle(texto, idiomaOrigem = 'pt', idiomaDestino = 'en') {
     if (texto == '' || texto === null) {return '';}
 
-    const apiKey = 'AIzaSyAvEtoAQmil8RS2Gcl9csltgrVjdbnTHqQ';
+    const apiKey = 'AIzaSyBGeQFWQ6kFJ9hnXvogPLtmYXJHVuM6U78';
     const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
     const body = {q: texto, source: idiomaOrigem, target: idiomaDestino, format: 'text'};
 
@@ -4263,14 +4263,19 @@ async function cartaoEmergencialGerarPDF(op = 0, ids = 0, gerar = 2, traducao = 
             var qrCodePngCaminho = '';
             var qrCodePngCaminhoPt = '';
             var qrCodePngCaminhoEn = '';
+            var logoCaminho = '';
 
             if (op == 1) {
                 qrCodePngCaminhoPt = 'build/assets/qrcodes/clientes_executivos/qrcode_cartao_emergencial_pt_'+pessoa.id+'.png';
                 qrCodePngCaminhoEn = 'build/assets/qrcodes/clientes_executivos/qrcode_cartao_emergencial_en_'+pessoa.id+'.png';
+
+                logoCaminho = 'build/assets/images/clientes/logotipo_cartao_emergencial_'+pessoa.cliente_id+'.png';
             }
             if (op == 2) {
                 qrCodePngCaminhoPt = 'build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_pt_'+pessoa.id+'.png';
                 qrCodePngCaminhoEn = 'build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_en_'+pessoa.id+'.png';
+
+                logoCaminho = 'build/assets/images/cartao_emergencial_funcionario.png';
             }
 
             if (gerar === 1) {
@@ -4291,7 +4296,7 @@ async function cartaoEmergencialGerarPDF(op = 0, ids = 0, gerar = 2, traducao = 
                     }
                 }
 
-                await cartaoEmergencialDesenhar(doc, xEsquerda, yTop, pessoa, qrCodePngCaminho, traducao);
+                await cartaoEmergencialDesenhar(doc, xEsquerda, yTop, pessoa, qrCodePngCaminho, logoCaminho, traducao);
             }
 
             if (gerar === 2) {
@@ -4302,8 +4307,8 @@ async function cartaoEmergencialGerarPDF(op = 0, ids = 0, gerar = 2, traducao = 
                     inserirCabecalho();
                 }
 
-                await cartaoEmergencialDesenhar(doc, xEsquerda, yTop, pessoa, qrCodePngCaminhoPt, 'pt');
-                await cartaoEmergencialDesenhar(doc, xDireita, yTop, pessoa, qrCodePngCaminhoEn, 'en');
+                await cartaoEmergencialDesenhar(doc, xEsquerda, yTop, pessoa, qrCodePngCaminhoPt, logoCaminho, 'pt');
+                await cartaoEmergencialDesenhar(doc, xDireita, yTop, pessoa, qrCodePngCaminhoEn, logoCaminho, 'en');
 
                 yTop += alturaCartao + espacamento;
 
@@ -4390,10 +4395,11 @@ async function cartaoEmergencialDados(op, ids) {
             //monta o array no formato usado no PDF
             return clientes_executivos.map(pessoa => ({
                 id: pessoa.id,
+                cliente_id: pessoa.cliente_id,
                 nome: pessoa.executivo_nome,
                 genero: pessoa.generoName,
                 nascimento: pessoa.data_nascimento,
-                foto: pessoa.foto,
+                fotografia_cartao_emergencial: pessoa.fotografia_cartao_emergencial,
                 contato_1_nome: pessoa.contato_1_nome,
                 contato_1_parentesco: pessoa.contato_1_parentesco,
                 contato_1_telefone: pessoa.contato_1_telefone,
@@ -4429,7 +4435,7 @@ async function cartaoEmergencialDados(op, ids) {
                 nome: pessoa.name,
                 genero: pessoa.generoName,
                 nascimento: pessoa.data_nascimento,
-                foto: pessoa.foto,
+                fotografia_cartao_emergencial: pessoa.fotografia_cartao_emergencial,
                 contato_1_nome: pessoa.contato_1_nome,
                 contato_1_parentesco: pessoa.contato_1_parentesco,
                 contato_1_telefone: pessoa.contato_1_telefone,
@@ -4446,7 +4452,7 @@ async function cartaoEmergencialDados(op, ids) {
 }
 
 // Desenha 1 cartão
-async function cartaoEmergencialDesenhar(doc, x, y, pessoa, qrCodePngCaminho, traducao) {
+async function cartaoEmergencialDesenhar(doc, x, y, pessoa, qrCodePngCaminho, logoCaminho, traducao) {
     //URL
     var url_atual = window.location.protocol + '//' + window.location.host + '/';
 
@@ -4458,7 +4464,7 @@ async function cartaoEmergencialDesenhar(doc, x, y, pessoa, qrCodePngCaminho, tr
     doc.rect(x, y, largura, 10, 'F');
 
     // Logo (esquerda)
-    const logo = 'build/assets/images/cartao_emergencial_cnooc.png';
+    const logo = logoCaminho;
     doc.addImage(logo, 'PNG', x + 2, y + 1.5, 20, 7);
 
     // Título
@@ -4478,8 +4484,8 @@ async function cartaoEmergencialDesenhar(doc, x, y, pessoa, qrCodePngCaminho, tr
 
     // Foto
     var caminhoFoto = 'build/assets/images/funcionarios/funcionario-0.png';
-    await arquivoExiste(url_atual+pessoa.foto).then(existe => {
-        if (existe) {caminhoFoto = pessoa.foto;}
+    await arquivoExiste(url_atual+pessoa.fotografia_cartao_emergencial).then(existe => {
+        if (existe) {caminhoFoto = pessoa.fotografia_cartao_emergencial;}
     });
 
     const base64 = await carregarImagemComoBase64(caminhoFoto);
@@ -4627,3 +4633,61 @@ function corrigirRotacaoImagem(base64Image) {
 }
 //Corrigir rotação da Foto para apresentação visual - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Corrigir rotação da Foto para apresentação visual - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+/*
+* Função que verifica o locale do Sistema e traduz usando os arquivos pt_BR.json e en.json
+*/
+async function traduzirViaLocale(texto) {
+    const response = await fetch('/translate?key=' + encodeURIComponent(texto));
+    const data = await response.json();
+    console.log(data.translation);
+    if (data.translation != '') {
+        return data.translation;
+    } else {
+        return texto;
+    }
+}
+
+/*
+* Função para pesquisa na API receitaws.com.br
+ */
+async function getReceitaWSCNPJ(cnpj) {
+    const response = await fetch(`/receitaws/consulta-cnpj/${cnpj}`);
+    const data = await response.json();
+    return data;
+}
+
+/*
+* Função para ajustar margens de um modal
+ */
+function ajustarMargensModalsInfo({ modalId = '', top = 20, right = 0, bottom = 20, left = 0 } = {}) {
+    if (modalId == '') {return;}
+
+    const alturaTela = window.innerHeight;
+    const larguraTela = window.innerWidth;
+
+    const header = document.querySelector('#'+modalId+' .modal-header');
+
+    let header_height = 130;
+
+    if (header) {
+        header.style.minHeight = header_height+'px';
+    }
+
+    const dialog = document.querySelector('#'+modalId+' .modal-dialog');
+
+    if (dialog) {
+        dialog.style.maxWidth = (larguraTela - left - right) + 'px';
+        dialog.style.minHeight = (alturaTela - top - bottom) + 'px';
+        dialog.style.marginTop = top + 'px';
+        dialog.style.marginBottom = bottom + 'px';
+        dialog.style.marginLeft = left + 'px';
+        dialog.style.marginRight = right + 'px';
+    }
+
+    const body = document.querySelector('#'+modalId+' .modal-body');
+
+    if (body) {
+        body.style.minHeight = (alturaTela - top - bottom - header_height) + 'px';
+    }
+}

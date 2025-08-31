@@ -243,6 +243,27 @@ function validar_frm_fornecedores() {
     return validacao_ok;
 }
 
+//Acertar formulário para entrada de dados de pessoa Jurídica e Física
+async function acertarFormulario() {
+    if ($('#tipo').val() == 1) {
+        $('.pessoa_juridica').show();
+        $('.pessoa_fisica').hide();
+
+        var texto = await traduzirViaLocale('Data Abertura');
+
+        $('#label_data_nascimento').html(texto);
+    }
+
+    if ($('#tipo').val() == 2) {
+        $('.pessoa_juridica').hide();
+        $('.pessoa_fisica').show();
+
+        var texto = await traduzirViaLocale('Data Nascimento');
+
+        $('#label_data_nascimento').html(texto);
+    }
+}
+
 $(document).ready(function () {
     if ($('#frm_fornecedores').length) {
         $('#frm_fornecedores').validate({
@@ -374,35 +395,12 @@ $(document).ready(function () {
         });
     }
 
-    //Acertar formulário para entrada de dados de pessoa Jurídica e Física
-    if ($('#tipo').val() == 1) {
-        $('.pessoa_juridica').show();
-        $('.pessoa_fisica').hide();
-
-        $('#label_data_nascimento').html('Data Abertura');
-    }
-
-    if ($('#tipo').val() == 2) {
-        $('.pessoa_juridica').hide();
-        $('.pessoa_fisica').show();
-
-        $('#label_data_nascimento').html('Data Nascimento');
-    }
+    //Acertar formulário
+    acertarFormulario();
 
     $('#tipo').change(function (e) {
-        if ($('#tipo').val() == 1) {
-            $('.pessoa_juridica').show();
-            $('.pessoa_fisica').hide();
-
-            $('#label_data_nascimento').html('Data Abertura');
-        }
-
-        if ($('#tipo').val() == 2) {
-            $('.pessoa_juridica').hide();
-            $('.pessoa_fisica').show();
-
-            $('#label_data_nascimento').html('Data Nascimento');
-        }
+        //Acertar formulário
+        acertarFormulario();
     });
 
     $(function () {
@@ -430,104 +428,44 @@ $(document).ready(function () {
             //Limpando mascara
             cnpj = cnpj.replace(/[^\d]+/g,"");
 
-            //Indo no Controller buscar dados na API
-            $.ajax({
-                type:'GET',
-                url: 'https://receitaws.com.br/v1/cnpj/'+cnpj,
-                data: '',
-                dataType: 'jsonp',
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    //retorno da API
-                    /*
-                    abertura	"15/07/2016"
-                    situacao	"INAPTA"
-                    tipo	"MATRIZ"
-                    nome	"CLAUDINO MIL HOMENS DE MORAES 01798241714"
-                    fantasia	"CMDS INFORMATICA"
-                    porte	"MICRO EMPRESA"
-                    natureza_juridica	"213-5 - Empresário (Individual)"
-                    logradouro	"RUA LINS DE VASCONCELOS"
-                    numero	"579"
-                    complemento	"APT 102"
-                    municipio	"RIO DE JANEIRO"
-                    bairro	"LINS DE VASCONCELOS"
-                    uf	"RJ"
-                    cep	"20.710-130"
-                    email	"claudinomoraes@yahoo.com.br"
-                    telefone	"(21) 6421-0128"
-                    data_situacao	"12/01/2022"
-                    motivo_situacao	"OMISSÃO DE DECLARAÇÕES"
-                    cnpj	"25.221.403/0001-91"
-                    ultima_atualizacao	"2023-03-11T23:59:59.000Z"
-                    status	"OK"
-                    efr	""
-                    situacao_especial	""
-                    data_situacao_especial	""
-                    atividade_principal
-                    0
-                    code	"00.00-0-00"
-                    text	"********"
-                    atividades_secundarias
-                    0
-                    code	"00.00-0-00"
-                    text	"Não informada"
-                    capital_social	"1.00"
-                    qsa	[]
-                    extra	{}
-                    billing
-                    free	true
-                    database	true
-                    */
-
-                    var dados = response;
-
-                    // alert(dados.status);
-
-                    if (dados.status != 'OK') {
-                        alert(dados.message);
-                    } else {
-                        $('#td_api_situacao').html(dados.situacao);
-                        $('#hidden_api_situacao').val(dados.situacao);
-                        $('#td_api_tipo').html(dados.tipo);
-                        $('#hidden_api_tipo').val(dados.tipo);
-                        $('#td_api_natureza_juridica').html(dados.natureza_juridica);
-                        $('#hidden_api_natureza_juridica').val(dados.natureza_juridica);
-                        $('#td_api_nome').html(dados.nome);
-                        $('#hidden_api_nome').val(dados.nome);
-                        $('#td_api_fantasia').html(dados.fantasia);
-                        $('#hidden_api_fantasia').val(dados.fantasia);
-                        $('#td_api_cnpj').html(dados.cnpj);
-                        $('#hidden_api_cnpj').val(dados.cnpj);
-                        $('#td_api_abertura').html(dados.abertura);
-                        $('#hidden_api_abertura').val(dados.abertura);
-                        $('#td_api_cep').html(dados.cep.replace(/[^\d]+/g,""));
-                        $('#hidden_api_cep').val(dados.cep.replace(/[^\d]+/g,""));
-                        $('#td_api_telefone').html(dados.telefone);
-                        $('#hidden_api_telefone').val(dados.telefone);
-                        $('#td_api_email').html(dados.email);
-                        $('#hidden_api_email').val(dados.email);
-                        $('#td_api_logradouro').html(dados.logradouro);
-                        $('#hidden_api_logradouro').val(dados.logradouro);
-                        $('#td_api_numero').html(dados.numero);
-                        $('#hidden_api_numero').val(dados.numero);
-                        $('#td_api_complemento').html(dados.complemento);
-                        $('#hidden_api_complemento').val(dados.complemento);
-                        $('#td_api_bairro').html(dados.bairro);
-                        $('#hidden_api_bairro').val(dados.bairro);
-                        $('#td_api_municipio').html(dados.municipio);
-                        $('#hidden_api_municipio').val(dados.municipio);
-                        $('#td_api_uf').html(dados.uf);
-                        $('#hidden_api_uf').val(dados.uf);
-                    }
+            // Indo buscar dados
+            getReceitaWSCNPJ(cnpj).then(dados_cnpj => {
+                if (dados_cnpj.status == 'OK') {
+                    $('#td_api_situacao').html(dados_cnpj.situacao);
+                    $('#hidden_api_situacao').val(dados_cnpj.situacao);
+                    $('#td_api_tipo').html(dados_cnpj.tipo);
+                    $('#hidden_api_tipo').val(dados_cnpj.tipo);
+                    $('#td_api_natureza_juridica').html(dados_cnpj.natureza_juridica);
+                    $('#hidden_api_natureza_juridica').val(dados_cnpj.natureza_juridica);
+                    $('#td_api_nome').html(dados_cnpj.nome);
+                    $('#hidden_api_nome').val(dados_cnpj.nome);
+                    $('#td_api_fantasia').html(dados_cnpj.fantasia);
+                    $('#hidden_api_fantasia').val(dados_cnpj.fantasia);
+                    $('#td_api_cnpj').html(dados_cnpj.cnpj);
+                    $('#hidden_api_cnpj').val(dados_cnpj.cnpj);
+                    $('#td_api_abertura').html(dados_cnpj.abertura);
+                    $('#hidden_api_abertura').val(dados_cnpj.abertura);
+                    $('#td_api_cep').html(dados_cnpj.cep.replace(/[^\d]+/g,""));
+                    $('#hidden_api_cep').val(dados_cnpj.cep.replace(/[^\d]+/g,""));
+                    $('#td_api_telefone').html(dados_cnpj.telefone);
+                    $('#hidden_api_telefone').val(dados_cnpj.telefone);
+                    $('#td_api_email').html(dados_cnpj.email);
+                    $('#hidden_api_email').val(dados_cnpj.email);
+                    $('#td_api_logradouro').html(dados_cnpj.logradouro);
+                    $('#hidden_api_logradouro').val(dados_cnpj.logradouro);
+                    $('#td_api_numero').html(dados_cnpj.numero);
+                    $('#hidden_api_numero').val(dados_cnpj.numero);
+                    $('#td_api_complemento').html(dados_cnpj.complemento);
+                    $('#hidden_api_complemento').val(dados_cnpj.complemento);
+                    $('#td_api_bairro').html(dados_cnpj.bairro);
+                    $('#hidden_api_bairro').val(dados_cnpj.bairro);
+                    $('#td_api_municipio').html(dados_cnpj.municipio);
+                    $('#hidden_api_municipio').val(dados_cnpj.municipio);
+                    $('#td_api_uf').html(dados_cnpj.uf);
+                    $('#hidden_api_uf').val(dados_cnpj.uf);
 
                     //abrir modal
                     $('#modal_api').modal('show');
-                },
-                error: function(){
-                    alert('Erro na API.');
                 }
             });
         });

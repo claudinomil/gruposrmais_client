@@ -74,7 +74,9 @@ class Controller extends BaseController
             if (isset($response['content']['visita_tecnica_tipos'])) {$this->visita_tecnica_tipos = $response['content']['visita_tecnica_tipos'];}
             if (isset($response['content']['visitas_tecnicas_dados'])) {$this->visitas_tecnicas_dados = $response['content']['visitas_tecnicas_dados'];}
             if (isset($response['content']['sistema_acessos'])) {$this->sistema_acessos = $response['content']['sistema_acessos'];}
+            if (isset($response['content']['escala_frequencias'])) {$this->escala_frequencias = $response['content']['escala_frequencias'];}
             if (isset($response['content']['escala_tipos'])) {$this->escala_tipos = $response['content']['escala_tipos'];}
+            if (isset($response['content']['escala_jornadas'])) {$this->escala_jornadas = $response['content']['escala_jornadas'];}
             if (isset($response['content']['funcionario_acao_1_funcionarios'])) {$this->funcionario_acao_1_funcionarios = $response['content']['funcionario_acao_1_funcionarios'];}
             if (isset($response['content']['ordem_servico_prioridades'])) {$this->ordem_servico_prioridades = $response['content']['ordem_servico_prioridades'];}
             if (isset($response['content']['ordem_servico_tipos'])) {$this->ordem_servico_tipos = $response['content']['ordem_servico_tipos'];}
@@ -91,6 +93,11 @@ class Controller extends BaseController
             if (isset($response['content']['mapas_pontos_tipos'])) {$this->mapas_pontos_tipos = $response['content']['mapas_pontos_tipos'];}
             if (isset($response['content']['ordens_servicos'])) {$this->ordens_servicos = $response['content']['ordens_servicos'];}
             if (isset($response['content']['documentos'])) {$this->documentos = $response['content']['documentos'];}
+            if (isset($response['content']['motivos_demissoes'])) {$this->motivos_demissoes = $response['content']['motivos_demissoes'];}
+            if (isset($response['content']['motivos_afastamentos'])) {$this->motivos_afastamentos = $response['content']['motivos_afastamentos'];}
+            if (isset($response['content']['pix_tipos'])) {$this->pix_tipos = $response['content']['pix_tipos'];}
+            if (isset($response['content']['atestado_saude_ocupacional_tipos'])) {$this->atestado_saude_ocupacional_tipos = $response['content']['atestado_saude_ocupacional_tipos'];}
+            if (isset($response['content']['visita_tecnica_perguntas'])) {$this->visita_tecnica_perguntas = $response['content']['visita_tecnica_perguntas'];}
         }
     }
 

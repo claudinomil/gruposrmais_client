@@ -1,7 +1,7 @@
 <?php
 
 
-$apiKey = "AIzaSyARmoDmjUAPxUg4J5Ztuq1ceSqZK6i3WbM"; // 🔁 Substitua aqui
+$apiKey = "AIzaSyCySX2x8e-TEfua6M1gZG1vNGIYng1av4g"; // 🔁 Substitua aqui
 
 $origem = "Rua Medina, 309, Rio de Janeiro";
 $destino = "Maracanã, Rio de Janeiro";

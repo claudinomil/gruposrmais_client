@@ -8,7 +8,7 @@
 @section('content')
 
     @component('components.breadcrumb')
-@section('page_title') {{ \App\Facades\Breadcrumb::getCurrentPageTitle() }} @endsection
+@section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
 @endcomponent
 
 <div id="crudTable">
@@ -24,7 +24,7 @@
                                 <div class="col-12 col-md-6 pb-2">
                                     @if (\App\Facades\Permissoes::permissao(['create']))
                                         <div class="row">
-                                            <div class="col-10">
+                                            <div class="col-8">
                                                 <select class="form-select" name="cliente_id" id="cliente_id">
                                                     <option value="">Escolha o Cliente...</option>
                                                     @foreach ($clientes as $cliente)
@@ -35,8 +35,15 @@
                                             <div class="col-2">
                                                 <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Executar Visita Técnica"><i class="bx bx-plus"></i></button>
                                                 <div class="dropdown-menu dropdown-menu-end" id="visita_tecnica_dropdown">
-                                                    <a class="dropdown-item small text-success" href="#" data-visita_tecnica_tipo_id="1">Executar Visita Técnica de Exaustão</a>
-                                                    <a class="dropdown-item small text-primary" href="#" data-visita_tecnica_tipo_id="2">Executar Visita Técnica de Incêndio</a>
+                                                    <a class="dropdown-item small text-success fw-bolder" href="#" data-visita_tecnica_tipo_id="1" data-vt_cs="1">Executar Visita Técnica de Exaustão Completa</a>
+                                                    <a class="dropdown-item small text-warning fw-bolder" href="#" data-visita_tecnica_tipo_id="1" data-vt_cs="2">Executar Visita Técnica de Exaustão Sintética</a>
+                                                    <a class="dropdown-item small text-primary fw-bolder" href="#" data-visita_tecnica_tipo_id="2" data-vt_cs="1">Executar Visita Técnica de Incêndio</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Configurar Perguntas"><i class="bx bx-cog"></i></button>
+                                                <div class="dropdown-menu dropdown-menu-end" id="visita_tecnica_configuracao_dropdown">
+                                                    <a class="dropdown-item small" href="#" onclick="configurar_perguntas_controle(1);">Configurar Perguntas</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -74,14 +81,11 @@
     </div>
 </div>
 
-<!-- Modal -->
 @include('visitas_tecnicas.form')
+@include('visitas_tecnicas.configurar_perguntas')
 @endsection
 
 @section('script')
-    <!-- TinyMCE -->
-    <script src="{{ asset('build/assets/tinymce/tinymce.min.js') }}"></script>
-
     <!-- Incluir a CDN do jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>

@@ -29,14 +29,19 @@ class FuncionarioController extends Controller
     public $bancos;
     public $documentos;
     public $clientes;
+    public $motivos_demissoes;
+    public $motivos_afastamentos;
+    public $pix_tipos;
+    public $atestado_saude_ocupacional_tipos;
+    public $empresas;
 
     public function __construct()
     {
-        $this->middleware('check-permissao:list', ['only' => ['index', 'filter', 'modal_info', 'documentos']]);
+        $this->middleware('check-permissao:list', ['only' => ['index', 'filter', 'modal_info', 'estatisticas', 'documentos', 'cartoes_emergenciais_dados', 'tomadores_servicos']]);
         $this->middleware('check-permissao:create', ['only' => ['create', 'store']]);
         $this->middleware('check-permissao:show', ['only' => ['show']]);
-        $this->middleware('check-permissao:edit', ['only' => ['edit', 'update', 'upload_foto', 'upload_documento']]);
-        $this->middleware('check-permissao:destroy', ['only' => ['destroy']]);
+        $this->middleware('check-permissao:edit', ['only' => ['edit', 'update', 'upload_fotografia_documento', 'upload_fotografia_cartao_emergencial', 'upload_documento']]);
+        $this->middleware('check-permissao:destroy', ['only' => ['destroy', 'deletar_documento']]);
     }
 
     public function index(Request $request)
@@ -50,11 +55,11 @@ class FuncionarioController extends Controller
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
-                    ->editColumn('foto', function ($row) {
+                    ->editColumn('fotografia_documento', function ($row) {
                         $retorno = "<div class='text-center'>";
-                        $retorno .= "<img src='" . asset($row['foto']) . "' alt='' class='img-thumbnail avatar-sm' id='datatable_foto_funcionario_id_" . $row['id'] . "'>";
+                        $retorno .= "<img src='" . asset($row['fotografia_documento']) . "' alt='' class='img-thumbnail avatar-sm' id='datatable_fotografia_documento_funcionario_id_" . $row['id'] . "'>";
                         $retorno .= "<br>";
-                        $retorno .= "<a href='#' onclick='funcionarioModalInfo(" . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
+                        $retorno .= "<a href='#' onclick='funcionarioModalInfoControle(2, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
                         $retorno .= "</div>";
 
                         return $retorno;
@@ -99,7 +104,12 @@ class FuncionarioController extends Controller
                 'funcoes' => $this->funcoes,
                 'bancos' => $this->bancos,
                 'documentos' => $this->documentos,
-                'clientes' => $this->clientes
+                'clientes' => $this->clientes,
+                'motivos_demissoes' => $this->motivos_demissoes,
+                'motivos_afastamentos' => $this->motivos_afastamentos,
+                'pix_tipos' => $this->pix_tipos,
+                'atestado_saude_ocupacional_tipos' => $this->atestado_saude_ocupacional_tipos,
+                'empresas' => $this->empresas
             ]);
         }
     }
@@ -167,11 +177,17 @@ class FuncionarioController extends Controller
                 if ($this->content['data_afastamento'] != '') {
                     $this->content['data_afastamento'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_afastamento'], 0, 10))->format('d/m/Y');
                 }
+                if ($this->content['carteira_nacional_data_emissao'] != '') {
+                    $this->content['carteira_nacional_data_emissao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['carteira_nacional_data_emissao'], 0, 10))->format('d/m/Y');
+                }
                 if ($this->content['personal_identidade_data_emissao'] != '') {
                     $this->content['personal_identidade_data_emissao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['personal_identidade_data_emissao'], 0, 10))->format('d/m/Y');
                 }
                 if ($this->content['professional_identidade_data_emissao'] != '') {
                     $this->content['professional_identidade_data_emissao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['professional_identidade_data_emissao'], 0, 10))->format('d/m/Y');
+                }
+                if ($this->content['atestado_saude_ocupacional_data_emissao'] != '') {
+                    $this->content['atestado_saude_ocupacional_data_emissao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['atestado_saude_ocupacional_data_emissao'], 0, 10))->format('d/m/Y');
                 }
 
                 return response()->json(['success' => $this->content]);
@@ -208,11 +224,17 @@ class FuncionarioController extends Controller
                 if ($this->content['data_afastamento'] != '') {
                     $this->content['data_afastamento'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_afastamento'], 0, 10))->format('d/m/Y');
                 }
+                if ($this->content['carteira_nacional_data_emissao'] != '') {
+                    $this->content['carteira_nacional_data_emissao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['carteira_nacional_data_emissao'], 0, 10))->format('d/m/Y');
+                }
                 if ($this->content['personal_identidade_data_emissao'] != '') {
                     $this->content['personal_identidade_data_emissao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['personal_identidade_data_emissao'], 0, 10))->format('d/m/Y');
                 }
                 if ($this->content['professional_identidade_data_emissao'] != '') {
                     $this->content['professional_identidade_data_emissao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['professional_identidade_data_emissao'], 0, 10))->format('d/m/Y');
+                }
+                if ($this->content['atestado_saude_ocupacional_data_emissao'] != '') {
+                    $this->content['atestado_saude_ocupacional_data_emissao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['atestado_saude_ocupacional_data_emissao'], 0, 10))->format('d/m/Y');
                 }
 
                 return response()->json(['success' => $this->content]);
@@ -287,11 +309,11 @@ class FuncionarioController extends Controller
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
-                    ->editColumn('foto', function ($row) {
+                    ->editColumn('fotografia_documento', function ($row) {
                         $retorno = "<div class='text-center'>";
-                        $retorno .= "<img src='" . asset($row['foto']) . "' alt='' class='img-thumbnail avatar-sm' id='datatable_foto_funcionario_id_" . $row['id'] . "'>";
+                        $retorno .= "<img src='" . asset($row['fotografia_documento']) . "' alt='' class='img-thumbnail avatar-sm' id='datatable_fotografia_documento_funcionario_id_" . $row['id'] . "'>";
                         $retorno .= "<br>";
-                        $retorno .= "<a href='#' onclick='funcionarioModalInfo(" . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
+                        $retorno .= "<a href='#' onclick='funcionarioModalInfoControle(2, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
                         $retorno .= "</div>";
 
                         return $retorno;
@@ -339,46 +361,51 @@ class FuncionarioController extends Controller
         }
     }
 
-    public function upload_foto(Request $request)
+    public function estatisticas($id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'funcionarios/modalInfo/estatisticas/' . $id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Modal Info.';
+            }
+        }
+    }
+
+    public function upload_fotografia_documento(Request $request)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Variavel controle
             $error = false;
 
-            //Foto padrão do Sistema
-            $foto = "build/assets/images/funcionarios/funcionario-0.png";
-
-            //Verificando e fazendo Upload da Foto novo
-            if ($request->hasFile('fun_foto_file')) {
+            //Verificando e fazendo Upload do Arquivo
+            if ($request->hasFile('fun_fotografia_documento_file')) {
                 //funcionario_id
-                $id = $request['upload_foto_funcionario_id'];
+                $id = $request['upload_fotografia_documento_funcionario_id'];
 
                 //buscar dados formulario
-                $arquivo_tmp = $_FILES["fun_foto_file"]["tmp_name"];
-                $arquivo_real = $_FILES["fun_foto_file"]["name"];
+                $arquivo_tmp = $_FILES["fun_fotografia_documento_file"]["tmp_name"];
+                $arquivo_real = $_FILES["fun_fotografia_documento_file"]["name"];
                 $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
-                $arquivo_type = $_FILES["fun_foto_file"]["type"];
-                $arquivo_size = $_FILES['fun_foto_file']['size'];
+                $arquivo_type = $_FILES["fun_fotografia_documento_file"]["type"];
+                $arquivo_size = $_FILES['fun_fotografia_documento_file']['size'];
 
-                if ($arquivo_type == 'image/jpg' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/png') {
+                if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
                     if (copy($arquivo_tmp, "build/assets/images/funcionarios/$arquivo_real")) {
                         if (file_exists("build/assets/images/funcionarios/" . $arquivo_real)) {
-                            //apagar foto no diretorio
-                            if (file_exists('build/assets/images/funcionarios/funcionario-' . $id . '.png')) {
-                                unlink('build/assets/images/funcionarios/funcionario-' . $id . '.png');
-                            }
-                            if (file_exists('build/assets/images/funcionarios/funcionario-' . $id . '.jpg')) {
-                                unlink('build/assets/images/funcionarios/funcionario-' . $id . '.jpg');
-                            }
-                            if (file_exists('build/assets/images/funcionarios/funcionario-' . $id . '.jpeg')) {
-                                unlink('build/assets/images/funcionarios/funcionario-' . $id . '.jpeg');
-                            }
-
-                            //Gravar novo
-                            $foto = "build/assets/images/funcionarios/funcionario-" . $id . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+                            //renomear para fotografia_documento_ID
+                            $name = 'fotografia_documento_' . $id;
+                            $img = "build/assets/images/funcionarios/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
                             $de = "build/assets/images/funcionarios/$arquivo_real";
-                            $pa = $foto;
+                            $pa = $img;
 
                             try {
                                 rename($de, $pa);
@@ -388,32 +415,97 @@ class FuncionarioController extends Controller
                         }
                     }
                 } else {
-                    return response()->json(['error' => 'Escolha um arquivo de imagem válido.']);
+                    return response()->json(['error' => 'Escolha um arquivo válido.']);
                 }
             } else {
-                return response()->json(['error' => 'Escolha um arquivo de imagem válido.']);
+                return response()->json(['error' => 'Escolha um arquivo válido.']);
             }
 
             if (!$error) {
-                //Buscando dados Api_Data() - Alterar Registro
+                //Salvar Dados na tabela funcionarios
                 $data = array();
-                $data['name'] = $request['upload_foto_funcionario_name'];
-                $data['foto'] = $foto;
-                $this->responseApi(1, 11, 'funcionarios/uploadFoto/upload_foto/' . $id, '', '', $data);
+                $data['funcionario_id'] = $request['upload_fotografia_documento_funcionario_id'];
+                $data['fotografia_documento'] = $img;
+
+                //Buscando dados Api_Data() - Atualizar Registro
+                $this->responseApi(1, 12, 'funcionarios/uploadFotografia/upload_fotografia_documento', '', '', $data);
 
                 //Registro recebido com sucesso
                 if ($this->code == 2000) {
                     return response()->json(['success' => $this->message]);
-                } else if ($this->code == 4040) {
-                    return response()->json(['error' => $this->message]);
                 } else {
-                    return response()->json(['error' => 'Erro Interno Upload Avatar.']);
+                    return response()->json(['error' => 'Erro Interno Upload Fotografia Documento.']);
                 }
             } else {
-                return response()->json(['error' => 'Imagem (Nome, Tamanho ou Tipo) inválida.']);
+                return response()->json(['error' => 'IMG (Nome, Tamanho ou Tipo) inválida.']);
             }
         } else {
-            return response()->json(['error' => 'Erro na requisição Upload Avatar']);
+            return response()->json(['error' => 'Erro na requisição Upload Fotografia Documento']);
+        }
+    }
+
+    public function upload_fotografia_cartao_emergencial(Request $request)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Variavel controle
+            $error = false;
+
+            //Verificando e fazendo Upload do Arquivo
+            if ($request->hasFile('fun_fotografia_cartao_emergencial_file')) {
+                //funcionario_id
+                $id = $request['upload_fotografia_cartao_emergencial_funcionario_id'];
+
+                //buscar dados formulario
+                $arquivo_tmp = $_FILES["fun_fotografia_cartao_emergencial_file"]["tmp_name"];
+                $arquivo_real = $_FILES["fun_fotografia_cartao_emergencial_file"]["name"];
+                $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
+                $arquivo_type = $_FILES["fun_fotografia_cartao_emergencial_file"]["type"];
+                $arquivo_size = $_FILES['fun_fotografia_cartao_emergencial_file']['size'];
+
+                if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
+                    if (copy($arquivo_tmp, "build/assets/images/funcionarios/$arquivo_real")) {
+                        if (file_exists("build/assets/images/funcionarios/" . $arquivo_real)) {
+                            //renomear para fotografia_cartao_emergencial_ID
+                            $name = 'fotografia_cartao_emergencial_' . $id;
+                            $img = "build/assets/images/funcionarios/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+                            $de = "build/assets/images/funcionarios/$arquivo_real";
+                            $pa = $img;
+
+                            try {
+                                rename($de, $pa);
+                            } catch (\Exception $e) {
+                                $error = true;
+                            }
+                        }
+                    }
+                } else {
+                    return response()->json(['error' => 'Escolha um arquivo válido.']);
+                }
+            } else {
+                return response()->json(['error' => 'Escolha um arquivo válido.']);
+            }
+
+            if (!$error) {
+                //Salvar Dados na tabela funcionarios
+                $data = array();
+                $data['funcionario_id'] = $request['upload_fotografia_cartao_emergencial_funcionario_id'];
+                $data['fotografia_cartao_emergencial'] = $img;
+
+                //Buscando dados Api_Data() - Atualizar Registro
+                $this->responseApi(1, 12, 'funcionarios/uploadFotografia/upload_fotografia_cartao_emergencial', '', '', $data);
+
+                //Registro recebido com sucesso
+                if ($this->code == 2000) {
+                    return response()->json(['success' => $this->message]);
+                } else {
+                    return response()->json(['error' => 'Erro Interno Upload Fotografia Cartão Emergencial.']);
+                }
+            } else {
+                return response()->json(['error' => 'IMG (Nome, Tamanho ou Tipo) inválida.']);
+            }
+        } else {
+            return response()->json(['error' => 'Erro na requisição Upload Fotografia Cartão Emergencial']);
         }
     }
 
@@ -465,8 +557,8 @@ class FuncionarioController extends Controller
                 $data['funcionario_id'] = $request['upload_documentos_funcionario_id'];
                 $data['acao'] = $request['upload_documentos_fun_acao'];
                 $data['name'] = $name;
-                $data['caminho'] = $pdf;
                 $data['documento_id'] = $request['fun_documentos_documento_id'];
+                $data['caminho'] = $pdf;
                 $data['data_documento'] = $request['fun_documentos_data_documento'];
                 $data['aviso'] = $request['fun_documentos_aviso'];
 
@@ -522,6 +614,24 @@ class FuncionarioController extends Controller
             return response()->json(['success' => $this->message]);
         } else {
             return response()->json(['error' => $this->message]);
+        }
+    }
+
+    public function tomadores_servicos($funcionario_id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'funcionarios/modalInfo/tomadores_servicos/' . $funcionario_id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Serviços Pdf.';
+            }
         }
     }
 

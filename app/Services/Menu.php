@@ -72,7 +72,7 @@ class Menu
                     if ($submodulo['id'] == 20) {$permitido = false;}
 
                     //21 : Propostas
-                    //if ($submodulo['id'] == 21) {$permitido = false;}
+                    if ($submodulo['id'] == 21) {$permitido = false;}
 
                     //22 : Visitas Técnicas
                     //if ($submodulo['id'] == 22) {$permitido = false;}
@@ -137,7 +137,7 @@ class Menu
                             if ($tp == 1) {
                                 $menu .= "<li class='" . $li_active . "'>
                                         <a href='javascript: void(0);' class='has-arrow waves-effect'>
-                                            <i class='" . $modulo['menu_icon'] . "' style='font-size:16px;'></i><span key='t-" . $modulo['menu_route'] . "'>" . $modulo['menu_text'] . "</span>
+                                            <i class='" . $modulo['menu_icon'] . "' style='font-size:16px;'></i><span key='t-" . $modulo['menu_route'] . "'>" . __($modulo['menu_text']) . "</span>
                                         </a>
                                         <ul class='sub-menu' aria-expanded='true'>";
                             }
@@ -146,15 +146,15 @@ class Menu
                             if ($tp == 2) {
                                 $menu .= "<li class='nav-item dropdown " . $li_active . "'>
                                             <a class='nav-link dropdown-toggle arrow-none' href='#' id='topnav-layout' role='button'>
-                                                <i class='" . $modulo['menu_icon'] . " me-2'></i><span key='t-" . $modulo['menu_route'] . "'>" . $modulo['menu_text'] . "</span> <div class='arrow-down'></div>
+                                                <i class='" . $modulo['menu_icon'] . " me-2'></i><span key='t-" . $modulo['menu_route'] . "'>" . __($modulo['menu_text']) . "</span> <div class='arrow-down'></div>
                                             </a>
                                             <div class='dropdown-menu' aria-labelledby='topnav-layout'>
                                                 <div class='dropdown'>";
                             }
                         }
 
-                        //$submodulo_menu_text
-                        $submodulo_menu_text = $submodulo['menu_text'];
+                        //$submodulo_menu_status
+                        $submodulo_menu_status = '';
 
                         //Colocar Desenvolvimento, Teste e Novo'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                         $desenvolvimento = '<span class="badge rounded-pill bg-danger float-end" title="Submódulo Em Desenvolvimento">SED</span>';
@@ -168,13 +168,13 @@ class Menu
                             or $submodulo['id'] == 22
                             or $submodulo['id'] == 26
                             or $submodulo['id'] == 30
-                        ) {$submodulo_menu_text .= $desenvolvimento;}
+                        ) {$submodulo_menu_status = $desenvolvimento;}
 
                         //Teste
-                        if ($submodulo['id'] == 0) {$submodulo_menu_text .= $teste;}
+                        if ($submodulo['id'] == 0) {$submodulo_menu_status = $teste;}
 
                         //Novo
-                        if ($submodulo['id'] == 0) {$submodulo_menu_text .= $novo;}
+                        if ($submodulo['id'] == 0) {$submodulo_menu_status = $novo;}
                         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                         //Menu Verticarl
@@ -185,12 +185,12 @@ class Menu
                                 $active = 'active';
                             }
 
-                            $menu .= "<li><a href='" . route($submodulo['menu_route'] . '.index') . "' class='" . $active . "' key='t-" . $submodulo['menu_route'] . "'><i class='" . $submodulo['menu_icon'] . " font-size-10'></i>" . $submodulo_menu_text . "</a></li>";
+                            $menu .= "<li><a href='" . route($submodulo['menu_route'] . '.index') . "' class='" . $active . "' key='t-" . $submodulo['menu_route'] . "'><i class='" . $submodulo['menu_icon'] . " font-size-10'></i>" . __($submodulo['menu_text']) . $submodulo_menu_status . "</a></li>";
                         }
 
                         //Menu Horizontal
                         if ($tp == 2) {
-                            $menu .= "<a href='" . route($submodulo['menu_route'] . '.index') . "' class='dropdown-item' key='t-" . $submodulo['menu_route'] . "'><i class='" . $submodulo['menu_icon'] . " me-1'></i>" . $submodulo_menu_text . "</a>";
+                            $menu .= "<a href='" . route($submodulo['menu_route'] . '.index') . "' class='dropdown-item' key='t-" . $submodulo['menu_route'] . "'><i class='" . $submodulo['menu_icon'] . " me-1'></i>" . __($submodulo['menu_text']) . $submodulo_menu_status . "</a>";
                         }
                     }
                 }
