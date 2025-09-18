@@ -29,17 +29,7 @@
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    <div class="modal-loading" id="crudFormAjaxLoading" style="display: none;">
-                        <div class="spinner-chase">
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                        </div>
-                    </div>
-
+                    
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
@@ -48,11 +38,11 @@
 
                             <div class="row mt-4">
                                 <div class="form-group col-12 col-md-4 pb-3">
-                                    <label class="form-label">Nome</label>
+                                    <label class="form-label">{{ __('Nome') }}</label>
                                     <input type="text" class="form-control text-uppercase" id="name" name="name" required="required">
                                 </div>
                                 <div class="form-group col-12 col-md-4 pb-3">
-                                    <label class="form-label">Número</label>
+                                    <label class="form-label">{{ __('Número') }}</label>
                                     <input type="text" class="form-control" id="numero" name="numero" required="required">
                                 </div>
                             </div>

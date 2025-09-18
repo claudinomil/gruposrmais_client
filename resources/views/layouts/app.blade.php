@@ -23,7 +23,7 @@
         @show
 
         <!-- Loader -->
-        <div id="preloader">
+        <div class="pt-5" id="preloader">
             <div id="statusPreloader">
                 <div class="spinner-chase">
                     <div class="chase-dot"></div>
@@ -54,14 +54,25 @@
             <!-- Start right Content here -->
             <div class="main-content">
                 <div class="page-content">
+                    <div class="modal-loading" id="crudFormAjaxLoading" style="display: none;">
+                        <div class="spinner-chase">
+                            <div class="chase-dot"></div>
+                            <div class="chase-dot"></div>
+                            <div class="chase-dot"></div>
+                            <div class="chase-dot"></div>
+                            <div class="chase-dot"></div>
+                            <div class="chase-dot"></div>
+                        </div>
+                    </div>
+                    
                     <div class="container-fluid">
+                        <input type="hidden" id="user_email" value="{{ session('se_userLoggedData.email') }}">
                         @yield('content')
                     </div>
+                    
+                    @include('layouts.footer')
                 </div>
-
-                @include('layouts.footer')
             </div>
-        </div>
 
         @include('layouts.modals')
 
@@ -74,17 +85,16 @@
 			sessionStorage.setItem("is_visited_mode", "{{session('se_userLoggedData.layout_mode')}}");
 
 			//Style
-{{--            @if(session('access_device') == 'desktop')--}}
-			sessionStorage.setItem("is_visited_style", "{{session('se_userLoggedData.layout_style')}}");
-{{--            @else--}}
-			//se for acesso pelo mobile forçar menu superior
-			// sessionStorage.setItem("is_visited_style", "layout_style_horizontal_boxed_width");
-{{--            @endif--}}
+            @if(session('access_device') == 'desktop')
+                sessionStorage.setItem("is_visited_style", "{{session('se_userLoggedData.layout_style')}}");
+            @else
+                //se for acesso pelo mobile forçar menu superior
+                // sessionStorage.setItem("is_visited_style", "layout_style_horizontal_boxed_width");
+            @endif
         </script>
 
         <!-- javascript -->
         @include('layouts.scripts')
-{{--        @include('layouts.scripts-ajax')--}}
         @include('layouts.scripts-profile')
 
         <!-- Área escondida para aviso na tela temporariamente -->

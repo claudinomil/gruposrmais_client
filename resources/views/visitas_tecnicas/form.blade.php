@@ -4,48 +4,48 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="modal-buttons" id="crudFormButtons1">
-                        <!-- store or update -->
-                        @if(\App\Facades\Permissoes::permissao(['create', 'edit']))
-                            <!-- Botão Confirnar Operação -->
-{{--                            <x-button-crud op="5" onclick="crudConfirmOperation();" />--}}
-                        @endif
+                    <div class="row">
+                        <div class="col-12 col-md-8 modal-buttons" id="crudFormButtons1">
+                            <!-- store or update -->
+                            @if(\App\Facades\Permissoes::permissao(['create', 'edit']))
+                                <!-- Botão Confirnar Operação -->
+                                <x-button-crud op="5" onclick="crudConfirmOperation();" />
+                            @endif
 
-                        <!-- Botão Cancelar Operação -->
-                        <x-button-crud op="4" onclick="crudCancelOperation();" />
-                    </div>
-                    <div class="modal-buttons" id="crudFormButtons2">
-                        <!-- edit or delete -->
-                        @if(\App\Facades\Permissoes::permissao(['edit']))
-                            <!-- Botão Alterar Registro -->
-                            <x-button-crud op="2" onclick="crudEdit(0)" />
-                        @endif
+                            <!-- Botão Cancelar Operação -->
+                            <x-button-crud op="4" onclick="crudCancelOperation();" />
+                        </div>
+                        <div class="col-12 col-md-8 modal-buttons" id="crudFormButtons2">
+                            <!-- edit or delete -->
+                            @if(\App\Facades\Permissoes::permissao(['edit']))
+                                <!-- Botão Alterar Registro -->
+                                <x-button-crud op="2" onclick="crudEdit(0)" />
+                            @endif
 
-                        @if(\App\Facades\Permissoes::permissao(['destroy']))
-                            <!-- Botão Excluir Registro -->
-                                <x-button-crud op="3" onclick="crudDelete(0);" />
-                        @endif
+                            @if(\App\Facades\Permissoes::permissao(['destroy']))
+                                <!-- Botão Excluir Registro -->
+                                    <x-button-crud op="3" onclick="crudDelete(0);" />
+                            @endif
 
-                        @if(\App\Facades\Permissoes::permissao(['list']))
-                            <!-- Botão PDF -->
-                            <x-button-crud op="99" model="3" bgColor="danger" textColor="write" title="Visita Técnica em PDF" image="fas fa-file-pdf" label="PDF" onclick="gerar_visita_tecnica()" />
-                            <x-button-crud op="99" model="3" bgColor="primary" textColor="write" title="Visita Técnica em PDF (Inglês)" image="fas fa-file-pdf" label="PDF" onclick="gerar_visita_tecnica(0, 0, 'en')" />
-                        @endif
-
-                        <!-- Botão Cancelar Operação -->
-                        <x-button-crud op="4" onclick="crudCancelOperation();" />
-                    </div>
-                    <div class="modal-loading" id="crudFormAjaxLoading" style="display: none;">
-                        <div class="spinner-chase">
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
+                            <!-- Botão Cancelar Operação -->
+                            <x-button-crud op="4" onclick="crudCancelOperation();" />
+                        </div>
+                        <div class="col-12 col-md-4 text-end">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info">Visualização</button>
+                                <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="mdi mdi-chevron-down"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#" onclick="vtt1_formControle(1)">Formulário Completo</a>
+                                    <a class="dropdown-item" href="#" onclick="vtt1_formControle(2)">Informações principais</a>
+                                    <a class="dropdown-item" href="#" onclick="vtt1_formControle(3)">Perguntas</a>
+                                    <a class="dropdown-item" href="#" onclick="vtt1_formControle(4)">Finalização</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
+                    
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
@@ -122,7 +122,7 @@
 
                                 <div class="row pt-4" id="vtt1_divClientes">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-table"></i> Cliente</h5>
-                                    <div class="form-group col-12 col-md-4 pb-3">
+                                    <div class="form-group col-12 col-md-4 pb-3" id="vtt1_divClienteId">
                                         <label class="form-label">Cliente</label>
                                         <select class="form-select" name="vtt1_cliente_id" id="vtt1_cliente_id" required="required">
                                             <option value="">Selecione...</option>
@@ -135,6 +135,10 @@
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Nome</label>
                                         <input type="text" class="form-control text-uppercase" id="vtt1_cliente_nome" name="vtt1_cliente_nome" readonly>
+                                    </div>
+                                    <div class="form-group col-12 col-md-2 pb-3">
+                                        <label class="form-label">CNPJ</label>
+                                        <input type="text" class="form-control mask_cnpj" id="vtt1_cliente_cnpj" name="vtt1_cliente_cnpj" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
                                         <label class="form-label">Telefone</label>
@@ -157,13 +161,66 @@
                                         <input type="text" class="form-control text-uppercase" id="vtt1_cliente_bairro" name="vtt1_cliente_bairro" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">Número</label>
+                                        <input type="text" class="form-control text-uppercase" id="vtt1_cliente_logradouro_numero" name="vtt1_cliente_logradouro_numero" readonly>
+                                    </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">Complemento</label>
+                                        <input type="text" class="form-control text-uppercase" id="vtt1_cliente_logradouro_complemento" name="vtt1_cliente_logradouro_complemento" readonly>
+                                    </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Cidade</label>
                                         <input type="text" class="form-control text-uppercase" id="vtt1_cliente_cidade" name="vtt1_cliente_cidade" readonly>
                                     </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">UF</label>
+                                        <input type="text" class="form-control text-uppercase" id="vtt1_cliente_uf" name="vtt1_cliente_uf" readonly>
+                                    </div>
                                 </div>
 
-                                <div class="row pt-3" id="vtt1_divExecutar">
-                                    <div class="text-success font-size-18">Visita Técnica de Exaustão <span class="text-dark font-size-14" id="vtt1_divExecutarCliente"></span></div>
+                                <div class="row pt-4" id="vtt1_divResponsavel">
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-user-check"></i> Responsável</h5>
+                                    <div class="form-group col-12 col-md-4 pb-3" id="vtt1_divResponsavelFuncionarioId">
+                                        <label class="form-label">Responsável</label>
+                                        <select class="form-select" name="vtt1_responsavel_funcionario_id" id="vtt1_responsavel_funcionario_id" required="required">
+                                            <option value="">Selecione...</option>
+
+                                            @foreach ($funcionarios as $key => $funcionario)
+                                                <option value="{{ $funcionario['id'] }}">{{ $funcionario['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">Nome</label>
+                                        <input type="text" class="form-control text-uppercase" id="vtt1_responsavel_funcionario_nome" name="vtt1_responsavel_funcionario_nome" readonly>
+                                    </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">E-mail</label>
+                                        <input type="email" class="form-control text-lowercase" id="vtt1_responsavel_funcionario_email" name="vtt1_responsavel_funcionario_email" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="row pt-4" id="vtt1_divFinaçizar">
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-hourglass-end"></i> Finalizar</h5>
+                                    <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">Nível</label>
+                                        <select class="form-select" name="vtt1_nivel" id="vtt1_nivel">
+                                            <option value="">Selecione...</option>
+                                            <option value="1">Risco Muito Baixo</option>
+                                            <option value="2">Risco Baixo</option>
+                                            <option value="3">Risco Moderado</option>
+                                            <option value="4">Risco Alto</option>
+                                            <option value="5">Risco Crítico</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-8 pb-3">
+                                        <label class="form-label">Classificação</label>
+                                        <textarea class="form-control" rows="4" id="vtt1_classificacao" name="vtt1_classificacao"></textarea>
+                                    </div>
+                                    <div class="form-group col-12 col-md-12 pb-3">
+                                        <label class="form-label">Comentários</label>
+                                        <textarea class="form-control" rows="8" id="vtt1_comentarios" name="vtt1_comentarios"></textarea>
+                                    </div>
                                 </div>
 
                                 <div class="row pt-4" id="vtt1_divPerguntas"></div>
@@ -187,7 +244,7 @@
                         <!-- store or update -->
                     @if(\App\Facades\Permissoes::permissao(['create', 'edit']))
                         <!-- Botão Confirnar Operação -->
-{{--                            <x-button-crud op="5" onclick="crudConfirmOperation();" />--}}
+                            <x-button-crud op="5" onclick="crudConfirmOperation();" />
                     @endif
 
                     <!-- Botão Cancelar Operação -->
@@ -203,12 +260,6 @@
                     @if(\App\Facades\Permissoes::permissao(['destroy']))
                         <!-- Botão Excluir Registro -->
                             <x-button-crud op="3" onclick="crudDelete(0);" />
-                    @endif
-
-                    @if(\App\Facades\Permissoes::permissao(['list']))
-                        <!-- Botão PDF -->
-                        <x-button-crud op="99" model="3" bgColor="danger" textColor="write" title="Visita Técnica em PDF" image="fas fa-file-pdf" label="PDF" onclick="gerar_visita_tecnica()" />
-                        <x-button-crud op="99" model="3" bgColor="primary" textColor="write" title="Visita Técnica em PDF (Inglês)" image="fas fa-file-pdf" label="PDF" onclick="gerar_visita_tecnica(0, 0, 'en')" />
                     @endif
 
                     <!-- Botão Cancelar Operação -->
@@ -229,7 +280,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <textarea id="vtt1_modal_observacao_texto" name="vtt1_modal_observacao_texto"></textarea>
+                        <textarea class="col-12" rows="5" id="vtt1_modal_observacao_texto" name="vtt1_modal_observacao_texto"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -276,6 +327,44 @@
             <div class="modal-content">
                 <div class="modal-body text-center">
                     <img id="modalVisualizarImagemSrc" src="" class="img-fluid" alt="Imagem">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pdf -->
+    <div class="modal fade" id="vtt1_modalPdf" tabindex="-1" role="dialog" aria-labelledby="vtt1_modalPdfTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="vtt1_modalPdfTitle">PDF</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <!-- Opção buscar arquivo -->
+                        <div class="col-12 d-flex justify-content-center">
+                            <button type="button" class="btn btn-outline-success" onclick="document.getElementById('vtt1_modalPdfFile').click();">Buscar Arquivo <i class="fas fa-file-pdf ms-1"></i></button>
+                            <input type="file" id="vtt1_modalPdfFile" accept=".pdf,application/pdf" style="display:none;" onchange="vtt1_pdfEnviar(this)">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal visualizar Pdf -->
+    <div class="modal fade" id="modalVisualizarPdf" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <iframe id="modalVisualizarPdfSrc" src="" frameborder="0" style="width:100%; height:80vh;"></iframe>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

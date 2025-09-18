@@ -118,6 +118,16 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_bancos.js"
 },
+"resources/assets_template/js/scripts_materiais.js": {
+"file": "assets/scripts_materiais.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_materiais.js"
+},
+"resources/assets_template/js/scripts_brigadas_incendios.js": {
+"file": "assets/scripts_brigadas_incendios.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_brigadas_incendios.js"
+},
 "resources/assets_template/js/scripts_clientes.js": {
 "file": "assets/scripts_clientes.js",
 "isEntry": true,
@@ -277,36 +287,6 @@
  "file": "assets/scripts_visitas_tecnicas_vtt2.js",
  "isEntry": true,
  "src": "resources/assets_template/js/scripts_visitas_tecnicas_vtt2.js"
-},
-"resources/assets_template/js/scripts_brigadas.js": {
-"file": "assets/scripts_brigadas.js",
-"isEntry": true,
-"src": "resources/assets_template/js/scripts_brigadas.js"
-},
-"resources/assets_template/js/scripts_brigadas_escalas.js": {
-"file": "assets/scripts_brigadas_escalas.js",
-"isEntry": true,
-"src": "resources/assets_template/js/scripts_brigadas_escalas.js"
-},
-"resources/assets_template/js/scripts_brigadas_rondas.js": {
-"file": "assets/scripts_brigadas_rondas.js",
-"isEntry": true,
-"src": "resources/assets_template/js/scripts_brigadas_rondas.js"
-},
-"resources/assets_template/js/scripts_clientes_servicos.js": {
-"file": "assets/scripts_clientes_servicos.js",
-"isEntry": true,
-"src": "resources/assets_template/js/scripts_clientes_servicos.js"
-},
-"resources/assets_template/js/scripts_clientes_servicos_qrcode_brigada_informacoes.js": {
-"file": "assets/scripts_clientes_servicos_qrcode_brigada_informacoes.js",
-"isEntry": true,
-"src": "resources/assets_template/js/scripts_clientes_servicos_qrcode_brigada_informacoes.js"
-},
-"resources/assets_template/js/scripts_clientes_servicos_qrcode_brigada_escalas.js": {
-"file": "assets/scripts_clientes_servicos_qrcode_brigada_escalas.js",
-"isEntry": true,
-"src": "resources/assets_template/js/scripts_clientes_servicos_qrcode_brigada_escalas.js"
 },
 "resources/assets_template/libs/jspdf/jspdf.js": {
 "file": "assets/jspdf.js",

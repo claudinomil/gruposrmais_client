@@ -57,8 +57,8 @@ class ButtonCrud extends Component
 
         //Botão Incluir Registro (CRUD)
         if ($this->op == 1) {
-            $this->title = 'Adicionar Registro';
-            $this->label = 'Adicionar';
+            $this->title = __('Adicionar Registro');
+            $this->label = __('Adicionar');
 
             //Modelo do Botão
             if ($this->model == 2 or $this->model == 3) {
@@ -70,8 +70,8 @@ class ButtonCrud extends Component
 
         //Botão Alterar Registro (CRUD)
         if ($this->op == 2) {
-            $this->title = 'Alterar Registro';
-            $this->label = 'Alterar';
+            $this->title = __('Alterar Registro');
+            $this->label = __('Alterar');
 
             //Modelo do Botão
             if ($this->model == 2 or $this->model == 3) {
@@ -83,8 +83,8 @@ class ButtonCrud extends Component
 
         //Botão Excluir Registro (CRUD)
         if ($this->op == 3) {
-            $this->title = 'Excluir Registro';
-            $this->label = 'Excluir';
+            $this->title = __('Excluir Registro');
+            $this->label = __('Excluir');
 
             //Modelo do Botão
             if ($this->model == 2 or $this->model == 3) {
@@ -96,8 +96,8 @@ class ButtonCrud extends Component
 
         //Botão Cancelar Operação (CRUD)
         if ($this->op == 4) {
-            $this->title = 'Cancelar Operação';
-            $this->label = 'Cancelar';
+            $this->title = __('Cancelar Operação');
+            $this->label = __('Cancelar');
 
             //Modelo do Botão
             if ($this->model == 2 or $this->model == 3) {
@@ -109,8 +109,8 @@ class ButtonCrud extends Component
 
         //Botão Confirmar Operação (CRUD)
         if ($this->op == 5) {
-            $this->title = 'Confirmar Operação';
-            $this->label = 'Confirmar';
+            $this->title = __('Confirmar Operação');
+            $this->label = __('Confirmar');
 
             //Modelo do Botão
             if ($this->model == 2 or $this->model == 3) {
@@ -122,7 +122,7 @@ class ButtonCrud extends Component
 
         //Botão Pesquisar no Banco (CRUD) - min
         if ($this->op == 6) {
-            $this->title = 'Pesquisar no Banco de Dados';
+            $this->title = __('Pesquisar no Banco de Dados');
             $this->image = "fa fa-arrow-right";
             $this->label = "";
             $this->class = "btn btn-success text-white text-center mb-2 ".$this->class;
@@ -133,8 +133,8 @@ class ButtonCrud extends Component
             $this->dataBsToggle = "modal";
             $this->dataBsPlacement = "";
             $this->dataBsTarget = $this->dataBsTarget;
-            $this->title = 'Informações';
-            $this->label = 'Info';
+            $this->title = __('Informações');
+            $this->label = __('Info');
 
             //Modelo do Botão
             if ($this->model == 2 or $this->model == 3) {

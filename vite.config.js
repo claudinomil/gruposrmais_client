@@ -45,6 +45,8 @@ export default defineConfig({
                 {src: 'resources/assets_template/js/functions.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_template_init.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_bancos.js', dest: 'assets'},
+                {src: 'resources/assets_template/js/scripts_materiais.js', dest: 'assets'},
+                {src: 'resources/assets_template/js/scripts_brigadas_incendios.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_empresas.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_departamentos.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_funcionarios.js', dest: 'assets'},
@@ -77,12 +79,6 @@ export default defineConfig({
                 {src: 'resources/assets_template/js/scripts_visitas_tecnicas.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_visitas_tecnicas_vtt1.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_visitas_tecnicas_vtt2.js', dest: 'assets'},
-                {src: 'resources/assets_template/js/scripts_brigadas.js', dest: 'assets'},
-                {src: 'resources/assets_template/js/scripts_brigadas_escalas.js', dest: 'assets'},
-                {src: 'resources/assets_template/js/scripts_brigadas_rondas.js', dest: 'assets'},
-                {src: 'resources/assets_template/js/scripts_clientes_servicos.js', dest: 'assets'},
-                {src: 'resources/assets_template/js/scripts_clientes_servicos_qrcode_brigada_informacoes.js', dest: 'assets'},
-                {src: 'resources/assets_template/js/scripts_clientes_servicos_qrcode_brigada_escalas.js', dest: 'assets'},
                 {src: 'resources/assets_template/libs/jspdf/jspdf.js', dest: 'assets'},
                 {src: 'resources/assets_template/libs/jspdf/jspdf_autotable.js', dest: 'assets'},
                 {src: 'resources/assets_template/images/clientes/cliente-0.png', dest: 'assets/images/clientes'},
@@ -93,6 +89,7 @@ export default defineConfig({
                 {src: 'resources/assets_template/images/visitas_tecnicas/visita-tecnica-0.png', dest: 'assets/images/visitas_tecnicas'},
 
                 {src: 'resources/assets_template/images/cartao_emergencial_cnooc.png', dest: 'assets/images'},
+                {src: 'resources/assets_template/images/cartao_emergencial_funcionario.png', dest: 'assets/images'},
 
                 {src: 'resources/assets_template/images/cliente-img.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/proposta-img.png', dest: 'assets/images'},
@@ -123,6 +120,7 @@ export default defineConfig({
                 {src: 'resources/assets_template/images/proposta_logo_gruposrmais.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/proposta_logo_inmetro.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/image_logo_email.png', dest: 'assets/images'},
+                {src: 'resources/assets_template/images/image_pdf.png', dest: 'assets/images'},
 
                 {src: 'resources/assets_template/images/emergencia.png', dest: 'assets/images'},
 
@@ -131,6 +129,10 @@ export default defineConfig({
 
                 {src: 'resources/assets_template/images/ordem_servico_rodape.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/ordem_servico_rodape_cliente_2.png', dest: 'assets/images'},
+
+                {src: 'resources/assets_template/images/visita_tecnica_topo.png', dest: 'assets/images'},
+
+                {src: 'resources/assets_template/images/visita_tecnica_rodape.png', dest: 'assets/images'},
 
                 {src: 'resources/assets_template/images/proposta_topo.jpg', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/proposta_rodape.jpg', dest: 'assets/images'},
@@ -148,7 +150,6 @@ export default defineConfig({
                 {src: 'resources/assets_template/pdfs/funcionarios/pdf.pdf', dest: 'assets/pdfs/funcionarios'},
                 {src: 'resources/assets_template/pdfs/clientes_executivos/pdf.pdf', dest: 'assets/pdfs/clientes_executivos'},
 
-                {src: 'resources/assets_template/qrcodes/clientes_servicos/qrcode.pdf', dest: 'assets/qrcodes/clientes_servicos'},
                 {src: 'resources/assets_template/qrcodes/clientes_executivos/qrcode.pdf', dest: 'assets/qrcodes/clientes_executivos'},
                 {src: 'resources/assets_template/qrcodes/funcionarios/qrcode.pdf', dest: 'assets/qrcodes/funcionarios'},
 
@@ -165,7 +166,41 @@ export default defineConfig({
                 {src: 'resources/assets_template/json/comunidades.json', dest: 'assets'},
 
                 //Copianto tinymce completo para funcionar sem erro
-                {src: 'resources/assets_template/libs/tinymce', dest: 'assets'}
+                {src: 'resources/assets_template/libs/tinymce', dest: 'assets'},
+
+                //Fonts
+                {src: 'resources/assets_template/fonts/boxicons.eot', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/boxicons.svg', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/boxicons.ttf', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/boxicons.ttf', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/boxicons.woff2', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/boxicons.woff', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/dripicons-v2.eot', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/dripicons-v2.svg', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/dripicons-v2.ttf', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/dripicons-v2.woff', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-brands-400.eot', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-brands-400.svg', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-brands-400.ttf', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-brands-400.woff', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-brands-400.woff2', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-regular-400.eot', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-regular-400.svg', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-regular-400.ttf', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-regular-400.woff', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-regular-400.woff2', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-solid-900.eot', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-solid-900.svg', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-solid-900.ttf', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-solid-900.woff', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/fa-solid-900.woff2', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/materialdesignicons-webfont.eot', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/materialdesignicons-webfont.ttf', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/materialdesignicons-webfont.woff', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/materialdesignicons-webfont.woff2', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/summernote.eot', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/summernote.ttf', dest: 'fonts'},
+                {src: 'resources/assets_template/fonts/summernote.woff', dest: 'fonts'}
             ]
         })
     ]

@@ -28,7 +28,6 @@ return [
                     base_path('public/build/assets/pdfs/visitas_tecnicas'),
 
                     base_path('public/build/assets/qrcodes/clientes_executivos'),
-                    base_path('public/build/assets/qrcodes/clientes_servicos'),
                     base_path('public/build/assets/qrcodes/funcionarios'),
                 ],
 

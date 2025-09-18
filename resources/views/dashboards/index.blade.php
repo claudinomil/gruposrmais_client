@@ -7,7 +7,7 @@
 
 @section('content')
     @component('components.breadcrumb')
-        @section('page_title') {{ \App\Facades\Breadcrumb::getCurrentPageTitle() }} @endsection
+        @section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
     @endcomponent
 
     <div id="crudTable">

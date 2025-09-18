@@ -1,3 +1,7 @@
+@php
+    App::setLocale($traducao);
+@endphp
+
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -360,141 +364,140 @@
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 		?>
 
-        <h1>{{ $traducao === 'en' ? 'Medical Emergency Information Form' : __('Medical Emergency Information Form') }}</h1>
+        <h1>{{ __('Formulário de Informações de Emergência Médica') }}</h1>
 
         <div class="section">
-            <h2>{{ $traducao === 'en' ? 'Personal Information' : __('Personal Information') }}</h2>
-            <label>{{ $traducao === 'en' ? 'Full Name:' : __('Full Name:') }} <input type="text" value="{{ $nome_completo }}" disabled></label>
-            <label>{{ $traducao === 'en' ? 'Date of Birth:' : __('Date of Birth:') }} <input type="text" value="{{ $data_nascimento }}" disabled></label>
-            <label>{{ $traducao === 'en' ? 'Nationality:' : __('Nationality:') }} <input type="text" value="{{ $nacionalidade }}" disabled></label>
-            <label>{{ $traducao === 'en' ? 'CPF:' : __('CPF:') }} <input type="text" value="{{ $cpf }}" disabled></label>
-            <label>{{ $traducao === 'en' ? 'ID:' : __('ID:') }} <input type="text" value="{{ $rg }}" disabled></label>
-            <label>{{ $traducao === 'en' ? 'Full Address:' : __('Full Address:') }} <input type="text" value="{{ $endereco }}" disabled></label>
-            <label>{{ $traducao === 'en' ? 'Phone / Mobile:' : __('Phone / Mobile:') }} <input type="text" value="{{ $telefone_celular }}" disabled></label>
-            <label>{{ $traducao === 'en' ? 'Email Address:' : __('Email Address:') }} <input type="text" value="{{ $email }}" disabled></label>
+            <h2>{{ __('Informações Pessoais') }}</h2>
+            <label>{{ __('Nome completo:') }} <input type="text" value="{{ $nome_completo }}" disabled></label>
+            <label>{{ __('Data de nascimento:') }} <input type="text" value="{{ $data_nascimento }}" disabled></label>
+            <label>{{ __('Nacionalidade:') }} <input type="text" value="{{ $nacionalidade }}" disabled></label>
+            <label>{{ __('CPF:') }} <input type="text" value="{{ $cpf }}" disabled></label>
+            <label>{{ __('Identidade:') }} <input type="text" value="{{ $rg }}" disabled></label>
+            <label>{{ __('Endereço completo:') }} <input type="text" value="{{ $endereco }}" disabled></label>
+            <label>{{ __('Telefone / Celular:') }} <input type="text" value="{{ $telefone_celular }}" disabled></label>
+            <label>{{ __('Endereço de e-mail:') }} <input type="text" value="{{ $email }}" disabled></label>
         </div>
 
         <div class="section">
-            <h2>{{ $traducao === 'en' ? 'Anthropometric Data' : __('Anthropometric Data') }}</h2>
-            <label>{{ $traducao === 'en' ? 'Blood Type / Rh Factor:' : __('Blood Type / Rh Factor:') }} <input type="text" value="{{ $tipo_sanguineo_fator_rh }}" disabled></label>
-            <label>{{ $traducao === 'en' ? 'Height (m):' : __('Height (m):') }} <input type="text" value="{{ $altura }}" disabled></label>
-            <label>{{ $traducao === 'en' ? 'Weight (kg):' : __('Weight (kg):') }} <input type="text" value="{{ $peso }}" disabled></label>
+            <h2>{{ __('Dados Antropométricos') }}</h2>
+            <label>{{ __('Tipo sanguíneo / Fator RH:') }} <input type="text" value="{{ $tipo_sanguineo_fator_rh }}" disabled></label>
+            <label>{{ __('Altura (m):') }} <input type="text" value="{{ $altura }}" disabled></label>
+            <label>{{ __('Peso (kg):') }} <input type="text" value="{{ $peso }}" disabled></label>
         </div>
-        <div class="section">
-            <h2>{{ $traducao === 'en' ? 'Medical History' : __('Medical History') }}</h2>
 
-            <label>{{ $traducao === 'en' ? '1. Diagnosed Chronic Disease:' : __('1. Diagnosed Chronic Disease:') }}</label>
+        <div class="section">
+            <h2>{{ __('Histórico Médico') }}</h2>
+            <label>{{ __('1. Doença crônica diagnosticada:') }}</label>
             @if($doenca_cronica_nao != '')
-                <label>{!! $doenca_cronica_nao !!} {{ $traducao === 'en' ? 'No' : __('No') }}</label>
+                <label>{!! $doenca_cronica_nao !!} {{ __('Não') }}</label>
             @else
                 <div class="checkbox-group">
-                    <label {!! $doenca_diabetes_hide !!}>{!! $doenca_diabetes_checked !!} {{ $traducao === 'en' ? 'Diabetes' : __('Diabetes') }}</label>
-                    <label {!! $doenca_hipertensao_hide !!}>{!! $doenca_hipertensao_checked !!} {{ $traducao === 'en' ? 'Hypertension' : __('Hypertension') }}</label>
-                    <label {!! $doenca_asma_hide !!}>{!! $doenca_asma_checked !!} {{ $traducao === 'en' ? 'Asthma' : __('Asthma') }}</label>
-                    <label {!! $doenca_renal_hide !!}>{!! $doenca_renal_checked !!} {{ $traducao === 'en' ? 'Kidney Disease' : __('Kidney Disease') }}</label>
-                    <label {!! $doenca_cardiaca_hide !!}>{!! $doenca_cardiaca_checked !!} {{ $traducao === 'en' ? 'Heart Disease' : __('Heart Disease') }}</label>
-                    <label {!! $doenca_outras_hide !!}>{!! $doenca_outras_checked !!} {{ $traducao === 'en' ? 'Other(s):' : __('Other(s):') }} <input type="text" value="{{ $doenca_outras }}" disabled></label>
+                    <label {!! $doenca_diabetes_hide !!}>{!! $doenca_diabetes_checked !!} {{ __('Diabetes') }}</label>
+                    <label {!! $doenca_hipertensao_hide !!}>{!! $doenca_hipertensao_checked !!} {{ __('Hipertensão') }}</label>
+                    <label {!! $doenca_asma_hide !!}>{!! $doenca_asma_checked !!} {{ __('Asma') }}</label>
+                    <label {!! $doenca_renal_hide !!}>{!! $doenca_renal_checked !!} {{ __('Doença renal') }}</label>
+                    <label {!! $doenca_cardiaca_hide !!}>{!! $doenca_cardiaca_checked !!} {{ __('Doença cardíaca') }}</label>
+                    <label {!! $doenca_outras_hide !!}>{!! $doenca_outras_checked !!} {{ __('Outra(s):') }} <input type="text" value="{{ $doenca_outras }}" disabled></label>
                 </div>
             @endif
 
-            <label>{{ $traducao === 'en' ? '2. Do you have a disability or special condition?' : __('2. Do you have a disability or special condition?') }}</label>
+            <label>{{ __('2. Possui deficiência ou condição especial?') }}</label>
             @if($deficiencia_qual == '')
-                <label>{!! $deficiencia_qual_nao !!} {{ $traducao === 'en' ? 'No' : __('No') }}</label>
+                <label>{!! $deficiencia_qual_nao !!} {{ __('Não') }}</label>
             @else
-                <label>{!! $deficiencia_qual_sim !!} {{ $traducao === 'en' ? 'Yes. Which one?' : __('Yes. Which one?') }} <input type="text" value="{{ $deficiencia_qual }}" disabled></label>
+                <label>{!! $deficiencia_qual_sim !!} {{ __('Sim. Qual?') }} <input type="text" value="{{ $deficiencia_qual }}" disabled></label>
             @endif
 
-            <label>{{ $traducao === 'en' ? '3. Have you ever had surgery?' : __('3. Have you ever had surgery?') }}</label>
+            <label>{{ __('3. Já teve alguma cirurgia?') }}</label>
             @if($cirurgia_quais_quando == '')
-                <label>{!! $cirurgia_quais_quando_nao !!} {{ $traducao === 'en' ? 'No' : __('No') }}</label>
+                <label>{!! $cirurgia_quais_quando_nao !!} {{ __('Não') }}</label>
             @else
-                <label>{!! $cirurgia_quais_quando_sim !!} {{ $traducao === 'en' ? 'Yes. Which one(s) and when?' : __('Yes. Which one(s) and when?') }} <input type="text" value="{{ $cirurgia_quais_quando }}" disabled></label>
+                <label>{!! $cirurgia_quais_quando_sim !!} {{ __('Sim. Qual(is) e quando?') }} <input type="text" value="{{ $cirurgia_quais_quando }}" disabled></label>
             @endif
 
-            <label>{{ $traducao === 'en' ? '4. Have you ever been hospitalized?' : __('4. Have you ever been hospitalized?') }}</label>
+            <label>{{ __('4. Já foi hospitalizado(a)?') }}</label>
             @if($hospitalizado_quando_porque == '')
-                <label>{!! $hospitalizado_quando_porque_nao !!} {{ $traducao === 'en' ? 'No' : __('No') }}</label>
+                <label>{!! $hospitalizado_quando_porque_nao !!} {{ __('Não') }}</label>
             @else
-                <label>{!! $hospitalizado_quando_porque_sim !!} {{ $traducao === 'en' ? 'Yes. When and why?' : __('Yes. When and why?') }} <input type="text" value="{{ $hospitalizado_quando_porque }}" disabled></label>
+                <label>{!! $hospitalizado_quando_porque_sim !!} {{ __('Sim. Quando e por quê?') }} <input type="text" value="{{ $hospitalizado_quando_porque }}" disabled></label>
             @endif
 
-            <label>{{ $traducao === 'en' ? '5. Seizures or epilepsy?' : __('5. Seizures or epilepsy?') }}</label>
+            <label>{{ __('5. Convulsões ou epilepsia?') }}</label>
             @if($convulsoes_epilepsia_ultimo_episodio == '')
-                <label>{!! $convulsoes_epilepsia_ultimo_episodio_nao !!} {{ $traducao === 'en' ? 'No' : __('No') }}</label>
+                <label>{!! $convulsoes_epilepsia_ultimo_episodio_nao !!} {{ __('Não') }}</label>
             @else
-                <label>{!! $convulsoes_epilepsia_ultimo_episodio_sim !!} {{ $traducao === 'en' ? 'Yes. Last episode:' : __('Yes. Last episode:') }} <input type="text" value="{{ $convulsoes_epilepsia_ultimo_episodio }}" disabled></label>
+                <label>{!! $convulsoes_epilepsia_ultimo_episodio_sim !!} {{ __('Sim. Último episódio:') }} <input type="text" value="{{ $convulsoes_epilepsia_ultimo_episodio }}" disabled></label>
             @endif
 
-            <label>{{ $traducao === 'en' ? '6. Allergies?' : __('6. Allergies?') }}</label>
+            <label>{{ __('6. Alergia?') }}</label>
             @if($alergia_medicamentos_alimentos_substancias == '')
-                <label>{!! $alergia_medicamentos_alimentos_substancias_nao !!} {{ $traducao === 'en' ? 'No' : __('No') }}</label>
+                <label>{!! $alergia_medicamentos_alimentos_substancias_nao !!} {{ __('Não') }}</label>
             @else
-                <label>{!! $alergia_medicamentos_alimentos_substancias_sim !!} {{ $traducao === 'en' ? 'Yes. To which medications, foods or substances?' : __('Yes. To which medications, foods or substances?') }} <input type="text" value="{{ $alergia_medicamentos_alimentos_substancias }}" disabled></label>
+                <label>{!! $alergia_medicamentos_alimentos_substancias_sim !!} {{ __('Sim. A quais medicamentos, alimentos ou substâncias?') }} <input type="text" value="{{ $alergia_medicamentos_alimentos_substancias }}" disabled></label>
             @endif
 
-            <label>{{ $traducao === 'en' ? '7. Continuous medication?' : __('7. Continuous medication?') }}</label>
+            <label>{{ __('7. Medicação contínua?') }}</label>
             @if($medicacao_continua_quais_dosagem_horarios == '')
-                <label>{!! $medicacao_continua_quais_dosagem_horarios_nao !!} {{ $traducao === 'en' ? 'No' : __('No') }}</label>
+                <label>{!! $medicacao_continua_quais_dosagem_horarios_nao !!} {{ __('Não') }}</label>
             @else
-                <label>{!! $medicacao_continua_quais_dosagem_horarios_sim !!} {{ $traducao === 'en' ? 'Yes. Which one(s), dosage and schedule:' : __('Yes. Which one(s), dosage and schedule:') }} <input type="text" value="{{ $medicacao_continua_quais_dosagem_horarios }}" disabled></label>
+                <label>{!! $medicacao_continua_quais_dosagem_horarios_sim !!} {{ __('Sim. Qual(is), dosagem e horários:') }} <input type="text" value="{{ $medicacao_continua_quais_dosagem_horarios }}" disabled></label>
             @endif
 
-            <label>{{ $traducao === 'en' ? '8. Do you have health insurance?' : __('8. Do you have health insurance?') }}</label>
+            <label>{{ __('8. Possui plano de saúde?') }}</label>
             @if($plano_saude_qual == '')
-                <label>{!! $plano_saude_qual_nao !!} {{ $traducao === 'en' ? 'No' : __('No') }}</label>
+                <label>{!! $plano_saude_qual_nao !!} {{ __('Não') }}</label>
             @else
-                <label>{!! $plano_saude_qual_sim !!} {{ $traducao === 'en' ? 'Yes. Insurance name:' : __('Yes. Insurance name:') }} <input type="text" value="{{ $plano_saude_qual }}" disabled></label>
+                <label>{!! $plano_saude_qual_sim !!} {{ __('Sim. Nome do plano:') }} <input type="text" value="{{ $plano_saude_qual }}" disabled></label>
             @endif
         </div>
 
         <div class="section">
-            <h2>{{ $traducao === 'en' ? 'Habits and Lifestyle' : __('Habits and Lifestyle') }}</h2>
-            <label>{{ $traducao === 'en' ? '9. Do you smoke?' : __('9. Do you smoke?') }}</label>
+            <h2>{{ __('Hábitos e Estilo de Vida') }}</h2>
+            <label>{{ __('9. Você fuma?') }}</label>
             @if($fumante == '1')
-                <label>{!! $fumante_sim !!} {{ $traducao === 'en' ? 'Yes' : __('Yes') }}</label>
+                <label>{!! $fumante_sim !!} {{ __('Sim') }}</label>
             @else
-                <label>{!! $fumante_nao !!} {{ $traducao === 'en' ? 'No' : __('No') }}</label>
+                <label>{!! $fumante_nao !!} {{ __('Não') }}</label>
             @endif
 
-            <label>{{ $traducao === 'en' ? '10. Do you consume alcoholic beverages?' : __('10. Do you consume alcoholic beverages?') }}</label>
+            <label>{{ __('10. Você consome bebidas alcoólicas?') }}</label>
             @if($bebida_alcoolica == '1')
-                <label>{!! $bebida_alcoolica_sim !!} {{ $traducao === 'en' ? 'Yes' : __('Yes') }}</label>
+                <label>{!! $bebida_alcoolica_sim !!} {{ __('Sim') }}</label>
             @else
-                <label>{!! $bebida_alcoolica_nao !!} {{ $traducao === 'en' ? 'No' : __('No') }}</label>
+                <label>{!! $bebida_alcoolica_nao !!} {{ __('Não') }}</label>
             @endif
 
-            <label>{{ $traducao === 'en' ? '11. Do you regularly engage in physical activity?' : __('11. Do you regularly engage in physical activity?') }}</label>
+            <label>{{ __('11. Pratica atividades físicas regularmente?') }}</label>
             @if($atividade_fisica == '1')
-                <label>{!! $atividade_fisica_sim !!} {{ $traducao === 'en' ? 'Yes' : __('Yes') }}</label>
+                <label>{!! $atividade_fisica_sim !!} {{ __('Sim') }}</label>
             @else
-                <label>{!! $atividade_fisica_nao !!} {{ $traducao === 'en' ? 'No' : __('No') }}</label>
+                <label>{!! $atividade_fisica_nao !!} {{ __('Não') }}</label>
             @endif
         </div>
 
         <div class="section">
-            <h2>{{ $traducao === 'en' ? 'Family History' : __('Family History') }}</h2>
-            <label>{{ $traducao === 'en' ? '12. Family illnesses:' : __('12. Family illnesses:') }}</label>
+            <h2>{{ __('Histórico Familiar') }}</h2>
+            <label>{{ __('12. Doenças na família:') }}</label>
             @if($doenca_familiar_nao != '')
-                <label>{!! $doenca_familiar_nao !!} {{ $traducao === 'en' ? 'No' : __('No') }}</label>
+                <label>{!! $doenca_familiar_nao !!} {{ __('Não') }}</label>
             @else
                 <div class="checkbox-group">
-                    <label {!! $doenca_familia_cardiaca_hide !!}>{!! $doenca_familia_cardiaca_checked !!} {{ $traducao === 'en' ? 'Heart Disease' : __('Heart Disease') }}</label>
-                    <label {!! $doenca_familia_diabetes_hide !!}>{!! $doenca_familia_diabetes_checked !!} {{ $traducao === 'en' ? 'Diabetes' : __('Diabetes') }}</label>
-                    <label {!! $doenca_familia_hipertensao_hide !!}>{!! $doenca_familia_hipertensao_checked !!} {{ $traducao === 'en' ? 'Hypertension' : __('Hypertension') }}</label>
-                    <label {!! $doenca_familia_epilepsia_hide !!}>{!! $doenca_familia_epilepsia_checked !!} {{ $traducao === 'en' ? 'Epilepsy' : __('Epilepsy') }}</label>
-                    <label {!! $doenca_familia_cancer_hide !!}>{!! $doenca_familia_cancer_checked !!} {{ $traducao === 'en' ? 'Cancer' : __('Cancer') }}</label>
-                    <label {!! $doenca_familia_outras_hide !!}>{!! $doenca_familia_outras_checked !!} {{ $traducao === 'en' ? 'Others:' : __('Others:') }} <input type="text" value="{{ $doenca_familia_outras }}" disabled></label>
+                    <label {!! $doenca_familia_cardiaca_hide !!}>{!! $doenca_familia_cardiaca_checked !!} {{ __('Doença cardíaca') }}</label>
+                    <label {!! $doenca_familia_diabetes_hide !!}>{!! $doenca_familia_diabetes_checked !!} {{ __('Diabetes') }}</label>
+                    <label {!! $doenca_familia_hipertensao_hide !!}>{!! $doenca_familia_hipertensao_checked !!} {{ __('Hipertensão') }}</label>
+                    <label {!! $doenca_familia_epilepsia_hide !!}>{!! $doenca_familia_epilepsia_checked !!} {{ __('Epilepsia') }}</label>
+                    <label {!! $doenca_familia_cancer_hide !!}>{!! $doenca_familia_cancer_checked !!} {{ __('Câncer') }}</label>
+                    <label {!! $doenca_familia_outras_hide !!}>{!! $doenca_familia_outras_checked !!} {{ __('Outras:') }} <input type="text" value="{{ $doenca_familia_outras }}" disabled></label>
                 </div>
             @endif
         </div>
 
         <div class="section">
-            <h2>{{ $traducao === 'en' ? 'Emergency Contact' : __('Emergency Contact') }}</h2>
-            <label>{{ $traducao === 'en' ? '13. Full name of emergency contact:' : __('13. Full name of emergency contact:') }} <input type="text" value="{{ $contato_nome_principal }}" disabled></label>
-            <label>{{ $traducao === 'en' ? 'Phone:' : __('Phone:') }} <input type="text" value="{{ $contato_telefone_principal }}" disabled></label>
-            <label>{{ $traducao === 'en' ? 'Relationship:' : __('Relationship:') }} <input type="text" value="{{ $contato_parentesco_principal }}" disabled></label>
-            <label>{{ $traducao === 'en' ? 'Alternative contact (optional):' : __('Alternative contact (optional):') }} <input type="text" value="{{ $contato_alternativo }}" disabled></label>
+            <h2>{{ __('Contato de Emergência') }}</h2>
+            <label>{{ __('13. Nome completo do contato de emergência:') }} <input type="text" value="{{ $contato_nome_principal }}" disabled></label>
+            <label>{{ __('Telefone:') }} <input type="text" value="{{ $contato_telefone_principal }}" disabled></label>
+            <label>{{ __('Grau de parentesco:') }} <input type="text" value="{{ $contato_parentesco_principal }}" disabled></label>
+            <label>{{ __('Outro contato alternativo (opcional):') }} <input type="text" value="{{ $contato_alternativo }}" disabled></label>
         </div>
-
     </body>
 </html>

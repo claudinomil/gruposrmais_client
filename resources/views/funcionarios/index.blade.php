@@ -8,7 +8,7 @@
 @section('content')
 
     @component('components.breadcrumb')
-@section('page_title') {{ \App\Facades\Breadcrumb::getCurrentPageTitle() }} @endsection
+@section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
 @endcomponent
 
 <div id="crudTable">
@@ -67,7 +67,7 @@
                     <input type="hidden" id="crudNameSubmodulo" name="crudNameSubmodulo" value="{{$se_nameSubmodulo}}">
                     <input type="hidden" id="crudNameFormSubmodulo" name="crudNameFormSubmodulo" value="{{$se_nameFormSubmodulo}}">
                     <input type="hidden" id="crudFieldsFormSubmodulo" name="crudFieldsFormSubmodulo" value="{{$crudFieldsFormSubmodulo}}">
-                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="foto,name,data_nascimento,departamentoName,funcaoName,action">
+                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="fotografia_documento,name,data_nascimento,departamentoName,funcaoName,action">
                 </div>
             </div>
         </div>

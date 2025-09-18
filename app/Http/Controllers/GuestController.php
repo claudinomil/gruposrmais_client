@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\App;
 
 class GuestController extends Controller
 {
@@ -29,6 +30,7 @@ class GuestController extends Controller
                 'traducao' => $traducao,
                 'content' => $this->content
             ]);
+
         } else if ($this->code == 2040) {
             return response()->json(['error' => $this->message]);
         } else {

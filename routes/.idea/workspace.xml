@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ebb3b8fa-b985-4ebb-a302-346ef5d53946" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/APAGARVTController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Auth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Auth/LoginController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/FuncionarioController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/FuncionarioController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/GuestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/GuestController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/VisitaTecnicaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/VisitaTecnicaController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Services/Breadcrumb.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Services/Breadcrumb.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Services/Menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Services/Menu.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Services/SuporteService.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Services/SuporteService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/../config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../manifest_extra.json" beforeDir="false" afterPath="$PROJECT_DIR$/../manifest_extra.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/FuturaLT-0563d840.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/FuturaLT-Bold-d157d0a4.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/FuturaLT-BoldOblique-acbf51d3.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/FuturaLT-Condensed-190f3f82.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/FuturaLT-CondensedBold-b256b579.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/FuturaLT-CondensedBoldOblique-c3a9ad1c.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/FuturaLT-CondensedOblique-1d1024b4.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/FuturaLT-Oblique-c20826bf.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/administrador.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/app-1e7bf12d.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/app-4ed993c7.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/app-6685e1d1.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/app-dark.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/app.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/app.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/bootstrap-dark.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/bootstrap.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/bootstrap.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/boxicons-77e1b957.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/boxicons-79f14604.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/boxicons-802c3564.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/boxicons-809f57f0.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/boxicons-ac7dcf49.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/comunidades.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/cruds.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/cruds_functions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/datatables.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/dripicons-v2-2c1ce9e2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/dripicons-v2-4551d45f.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/dripicons-v2-d8c798b5.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/dripicons-v2-e87a09ce.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-brands-400-02340ba1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-brands-400-5d919029.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-brands-400-811e1577.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-brands-400-a0c14538.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-brands-400-e836c5d5.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-regular-400-01f4416f.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-regular-400-6a8c8e9e.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-regular-400-865fd23d.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-regular-400-8e2d9619.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-regular-400-f32b94a2.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-solid-900-231d68ce.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-solid-900-32501727.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-solid-900-352f8ead.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-solid-900-7f4d3fd0.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/fa-solid-900-e7685398.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/functions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/cartao_emergencial_cnooc.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/cliente-img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/clientes/cliente-0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/clientes_executivos/cliente_executivo-0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/emergencia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/error-img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/fornecedor-img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/fornecedores/fornecedor-0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/funcionario-img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/funcionarios/funcionario-0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/24_7_365.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/aboriginal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/above_ground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/administration.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/administrativeboundary.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/airshow-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/alien.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/amphitheater.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/anniversary.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/anon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/anthropo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/apartment-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/aquarium.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/arcos_da_lapa.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/arcos_da_lapa_png.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/art-museum-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/assortment.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/atencao_amarelo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/atencao_verde_preto.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/atencao_vermelho_preto.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/atm-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/avalanche1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/bank_euro.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/battlefield.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/billiard-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/blast.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/bomb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/bowling.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/bullfight.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/bumper-car.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/bustour.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/caraccident.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/carrental.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/casino-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/cinema.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/circus.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/cnooc_brasil_escritorio.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/coins.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/coldstorage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/comedyclub.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/communitycentre.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/company.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/condominium.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/conference.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/congress.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/contract.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/corpo_de_bombeiros.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/corpo_de_bombeiros_rj_png.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/country_residence_service.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/court.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/cowabduction.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/crimescene.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/cristo_redentor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/cropcircles.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/cruzada_sao_sebastiao.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/currencyexchange.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/customs.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/dance_class.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/dancinghall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/dinopark.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/disability.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/dressingroom.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/drinkingfountain.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/earthquake-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/elevator.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/elevator_down.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/elevator_up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/embassy.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/entrance.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/eu.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/exchequer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/exit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/expert.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/ferriswheel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/festival.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/findajob.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/fire.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/fireexstinguisher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/firemen.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/fireworks.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/firstaid.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/fishing.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/flood.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/gavel-auction-fw.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/gendarmery_france.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/geocaching-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/group-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/heating-and-aircon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/hifi.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/historical_museum.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/hookah_final.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/hotel_logistico_png.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/house.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/information.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/ipcam24.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/jazzclub.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/key.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/knottemplate.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/laboratory.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/laterne.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/laundromat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/library.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/linedown.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/lock-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/lockerrental.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/love_date.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/magicshow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/maracana.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/military.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/moving-walkway-enter-export.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/mural.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/museu_de_arte_conteporanea.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/museu_do_amanha.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/museum_archeological.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/museum_art.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/museum_crafts.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/museum_industry.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/museum_naval.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/museum_openair.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/museum_science.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/museum_war.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/music_choral.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/music_classical.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/music_hiphop.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/music_live.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/music_rock.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/ododow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/office-building.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/paintball.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/pao_de_acucar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/party-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/peace.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/phantom.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/pirates.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/planecrash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/planetarium-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/poker.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/police.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/policia_militar_rj.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/postal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/poweroutage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/presentation.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/printer-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/prison.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/publicart.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/radiation.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/rape.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/reception.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/regroup.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/rescue-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/retirement_home.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/revolt.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/robbery.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/ropescourse.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/ruble.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/rupee-icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/segway.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/shark-export.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/shooting.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/shower.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/skull.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/sledge_summer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/smoking.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/snowman.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/square-compass.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/stairs.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/strike.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/stripclub2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/targ.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/telephone.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/theater.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/theft.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/themepark.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/toilets_inclusive.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/tornado-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/torture.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/townhouse.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/trash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/treasure-mark.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/treedown.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/triskelion.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/tsunami.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/ufo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/unlock.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/videogames.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/waiting.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/walkingtour.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/wandhydrant.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/war.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/waterpark.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/wedding.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/welfareroom.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/wi-fi-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/workcase.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/zombie-outbreak1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/icones/mapas/zoo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/image_favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/image_logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/image_logo_email.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/image_logo_layout_dark_menu.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/image_logo_layout_dark_menu_min.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/image_logo_layout_light_menu.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/image_logo_layout_light_menu_min.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/image_logo_login.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/image_logo_qrcode.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/image_logo_relatorio.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/megamenu-img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/ordem_servico_rodape.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/ordem_servico_rodape_cliente_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/ordem_servico_topo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/ordem_servico_topo_cliente_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/pictograma_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/pictograma_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/pictograma_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/pictograma_7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/profile-img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/proposta-img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/proposta_logo_cbmerj.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/proposta_logo_crea.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/proposta_logo_gruposrmais.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/proposta_logo_inmetro.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/proposta_rodape.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/proposta_rodape.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/proposta_topo.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/proposta_topo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/proposta_topo_simples.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/relatorios_rodape.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/relatorios_topo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/users/avatar-0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/verification-img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/visita_tecnica-img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/visitas_tecnicas/visita-tecnica-0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/images/welcome_logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/jquery-masks.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/jquery-repeater.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/jquery-validation-methods.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/jquery-validation-pt-br.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/jquery-validation.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/jquery.mask.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/jquery.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/jspdf.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/jspdf_autotable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/jszip.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/materialdesignicons-webfont-34845bb6.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/materialdesignicons-webfont-4045a75f.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/materialdesignicons-webfont-7b7ee7a1.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/materialdesignicons-webfont-e1ad5120.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/metismenu.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/node-waves.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/ocorrencias.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/pdfmake.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/pdfs/clientes/pdf.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/pdfs/clientes_executivos/pdf.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/pdfs/funcionarios/pdf.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/pdfs/visitas_tecnicas/pdf.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/qrcodes/clientes_executivos/qrcode.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/qrcodes/funcionarios/qrcode.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_bancos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_clientes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_clientes_executivos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_departamentos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_empresas.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_escolaridades.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_estados_civis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_fornecedores.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_funcionarios.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_funcoes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_generos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_grupos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_identidade_orgaos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_mapas.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_mapas_pontos_interesse.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_modulos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_nacionalidades.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_naturalidades.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_ordens_servicos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_ordens_servicos_ost1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_ordens_servicos_ost2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_ordens_servicos_ost3.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_profiles.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_propostas.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_relatorios.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_servico_tipos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_servicos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_submodulos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_template_init.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_users.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_veiculos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_visitas_tecnicas.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_visitas_tecnicas_vtt1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_visitas_tecnicas_vtt2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/select2.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/simplebar.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/summernote-2eeca740.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/summernote-68282f2b.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/summernote-edd368ac.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/sweetalert2.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/changelog.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/icons/default/icons.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/icons/default/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/jquery.tinymce.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/license.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/advlist/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/advlist/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/anchor/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/anchor/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/autolink/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/autolink/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/autoresize/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/autoresize/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/autosave/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/autosave/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/bbcode/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/bbcode/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/charmap/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/charmap/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/code/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/code/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/codesample/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/codesample/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/colorpicker/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/colorpicker/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/contextmenu/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/contextmenu/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/directionality/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/directionality/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/emoticons/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/emoticons/js/emojis.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/emoticons/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/fullpage/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/fullpage/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/fullscreen/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/fullscreen/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/help/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/help/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/hr/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/hr/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/image/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/image/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/imagetools/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/imagetools/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/importcss/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/importcss/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/insertdatetime/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/insertdatetime/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/legacyoutput/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/legacyoutput/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/link/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/link/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/lists/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/lists/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/media/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/media/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/nonbreaking/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/nonbreaking/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/noneditable/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/noneditable/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/pagebreak/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/pagebreak/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/paste/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/paste/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/preview/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/preview/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/print/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/print/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/quickbars/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/quickbars/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/save/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/save/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/searchreplace/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/searchreplace/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/spellchecker/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/spellchecker/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/tabfocus/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/tabfocus/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/table/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/table/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/template/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/template/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/textcolor/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/textcolor/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/textpattern/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/textpattern/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/toc/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/toc/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/visualblocks/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/visualblocks/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/visualchars/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/visualchars/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/wordcount/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/plugins/wordcount/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/content/dark/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/content/default/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/content/document/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/content/writer/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/ui/oxide-dark/content.inline.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/ui/oxide-dark/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/ui/oxide-dark/content.mobile.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/ui/oxide-dark/fonts/tinymce-mobile.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/ui/oxide-dark/skin.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/ui/oxide-dark/skin.mobile.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/ui/oxide/content.inline.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/ui/oxide/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/ui/oxide/content.mobile.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/ui/oxide/fonts/tinymce-mobile.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/ui/oxide/skin.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/skins/ui/oxide/skin.mobile.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/themes/mobile/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/themes/mobile/theme.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/themes/silver/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/themes/silver/theme.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tinymce/tinymce.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/tt0205m_-66a77614.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/unicode.futurab-23a62c64.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/unicode.futurabb-059f910a.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/gerar-mapa.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/proxy-directions.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/teste.php" beforeDir="false" afterPath="$PROJECT_DIR$/../public/teste.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/assets_template/css/icons.css" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/assets_template/css/icons.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/assets_template/css/icons.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/assets_template/css/icons.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/assets_template/js/cruds_functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/assets_template/js/cruds_functions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/assets_template/js/functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/assets_template/js/functions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/assets_template/js/scripts_APAGARVT.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/assets_template/js/scripts_clientes.js" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/assets_template/js/scripts_clientes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/assets_template/js/scripts_fornecedores.js" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/assets_template/js/scripts_fornecedores.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/assets_template/js/scripts_funcionarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/assets_template/js/scripts_funcionarios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/assets_template/js/scripts_visitas_tecnicas.js" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/assets_template/js/scripts_visitas_tecnicas.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/assets_template/js/scripts_visitas_tecnicas_vtt1.js" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/assets_template/js/scripts_visitas_tecnicas_vtt1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/lang/pt_BR.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/teste.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/teste.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/APAGARVT/form.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/APAGARVT/index.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/auth/login.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/auth/reset-password.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/auth/reset-password.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/bancos/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/bancos/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/bancos/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/bancos/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/clientes/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/clientes/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/clientes/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/clientes/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/clientes_executivos/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/clientes_executivos/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/clientes_executivos/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/clientes_executivos/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/components/breadcrumb.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/breadcrumb.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/dashboards/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/dashboards/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/departamentos/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/departamentos/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/departamentos/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/departamentos/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/empresas/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/empresas/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/escolaridades/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/escolaridades/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/estados_civis/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/estados_civis/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/fornecedores/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/fornecedores/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/fornecedores/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/fornecedores/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/funcionarios/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/funcionarios/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/funcionarios/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/funcionarios/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/funcoes/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/funcoes/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/generos/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/generos/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/grupos/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/grupos/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/guests/validar_cartao_emergencial.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/guests/validar_cartao_emergencial.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/identidade_orgaos/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/identidade_orgaos/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/layouts/app.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/layouts/modals.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/layouts/modals.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/mapas/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/mapas/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/mapas_pontos_interesse/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/mapas_pontos_interesse/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/nacionalidades/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/nacionalidades/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/naturalidades/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/naturalidades/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/ordens_servicos/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/ordens_servicos/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/ordens_servicos/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/ordens_servicos/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/propostas/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/propostas/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/relatorios/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/relatorios/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/servico_tipos/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/servico_tipos/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/servicos/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/servicos/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/transacoes/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/transacoes/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/users/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/users/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/veiculos/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/veiculos/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/visitas_tecnicas/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/visitas_tecnicas/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/visitas_tecnicas/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/visitas_tecnicas/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/z_testes/teste1.html" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/z_testes/teste1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes_APAGARVT.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes_funcionarios.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes_funcionarios.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes_visitas_tecnicas.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes_visitas_tecnicas.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../vite.config.js" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution>
+      <executable />
+    </execution>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="31yHJA5l3efzgfweaEpldXNgLvZ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../aaaaa" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ebb3b8fa-b985-4ebb-a302-346ef5d53946" name="Default Changelist" comment="" />
+      <created>1756489318011</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1756489318011</updated>
+      <workItem from="1756489319308" duration="54000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

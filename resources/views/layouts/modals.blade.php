@@ -261,292 +261,58 @@
 
     @if($se_prefixPermissaoSubmodulo == 'funcionarios')
         <!-- Funcionario Modal Info -->
-        <div id="funcionario_modal_info" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content" style="min-height: 500px;">
-                    <div class="modal-body">
-                        <!-- Header -->
-                        <div class="row" id="header">
-                            <div class="col-md-4 text-center">
-                                <img class="img-thumbnail avatar-xl clearClass" src="" data-holder-rendered="true" id="mi_fun_foto">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="col-12 font-size-14 text-primary p-1 clearClass" id="mi_fun_nome"></div>
-                                <div class="col-12 font-size-12 text-secondary p-1 clearClass" style="margin-top: -10px;" id="mi_fun_funcao"></div>
-                                <div class="col-12 font-size-10 text-secondary p-1 clearClass" style="margin-top: -10px;" id="mi_fun_email"></div>
-                                <div class="col-12 font-size-14 text-success p-1 clearClass" id="mi_fun_departamento"></div>
-                            </div>
-                            <hr>
-                        </div>
+            @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
 
-                        <!-- Navegação tabs -->
-                        <div class="row" style="margin-top: -12px;">
-                            <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-bs-toggle="tab" href="#tab_fun_dados" role="tab">
-                                        <span class="d-block d-sm-none"><i class="fas fa-book"></i></span>
-                                        <span class="d-none d-sm-block">Dados</span>
-                                    </a>
-                                </li>
-
-                                @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#tab_fun_foto" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-address-card"></i></span>
-                                            <span class="d-none d-sm-block">Foto</span>
-                                        </a>
-                                    </li>
-                                @endif
-
-                                @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#tab_fun_documentos_upload" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-docker"></i></span>
-                                            <span class="d-none d-sm-block">Incluir Documento</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#tab_fun_documentos" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-docker"></i></span>
-                                            <span class="d-none d-sm-block">Documentos</span>
-                                        </a>
-                                    </li>
-                                @endif
-
-                                <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#tab_fun_cartao_emergencial" role="tab">
-                                        <span class="d-block d-sm-none"><i class="fas fa-address-card"></i></span>
-                                        <span class="d-none d-sm-block">Cartão Emergencial</span>
-                                    </a>
-                                </li>
-                            </ul>
-
-                            <!-- Tab panes -->
-                            <div class="tab-content p-3 text-muted">
-                                <div class="tab-pane active" id="tab_fun_dados" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">CPF</div>
-                                        <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_cpf"></div>
-
-                                        <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Departamento</div>
-                                        <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_departamento"></div>
-
-                                        <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Função</div>
-                                        <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_funcao"></div>
-
-                                        <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Nome</div>
-                                        <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_nome"></div>
-
-                                        <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Telefone(s)</div>
-                                        <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_telefones"></div>
-
-                                        <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Celular(s)</div>
-                                        <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_celulares"></div>
-
-                                        <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Data Admissão</div>
-                                        <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_data_admissao"></div>
-
-                                        <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Data Demissão</div>
-                                        <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_data_demissao"></div>
-
-                                        <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">PIS</div>
-                                        <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_pis"></div>
-
-                                        <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">PASEP</div>
-                                        <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_pasep"></div>
-
-                                        <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Carteira Trabalho</div>
-                                        <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_fun_carteira_trabalho"></div>
-                                    </div>
-                                </div>
-
-                                @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
-                                    <div class="tab-pane" id="tab_fun_foto" role="tabpanel">
-                                        <form enctype="multipart/form-data" id="frm_upload_fun_foto">
-                                            <input type="hidden" id="upload_foto_funcionario_id" name="upload_foto_funcionario_id" value="">
-                                            <input type="hidden" id="upload_foto_funcionario_name" name="upload_foto_funcionario_name" value="">
-
-                                            <div class="form-group col-12 py-2">
-                                                <button type="button" class="btn btn-sm btn-success" id="frm_upload_fun_foto_executar">Confirmar Upload</button>
-                                            </div>
-                                            <div class="form-group col-12 pt-2">
-                                                <label class="form-label mb-0 ps-1 small">Foto</label>
-                                                <input type="file" class="form-control form-control-sm" name="fun_foto_file" id="fun_foto_file">
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                    <div class="tab-pane" id="tab_fun_documentos_upload" role="tabpanel">
-                                        <form enctype="multipart/form-data" id="frm_upload_documentos_fun">
-                                            <input type="hidden" id="upload_documentos_funcionario_id" name="upload_documentos_funcionario_id" value="">
-
-                                            <!-- Ação do Formulário: 1(create) 2(edit) 3(update) 4(delete) -->
-                                            <input type="hidden" id="upload_documentos_fun_acao" name="upload_documentos_fun_acao" value="1">
-
-                                            <div class="form-group col-12 d-flex gap-3 py-2">
-                                                <button type="button" class="btn btn-sm btn-success" id="frm_upload_documentos_fun_executar" name="frm_upload_documentos_fun_executar">Executar Ação</button>
-                                            </div>
-                                            <div class="row" id="div_frm_upload_documentos_fun_executar">
-                                                <div class="form-group col-12 col-md-6 pt-2">
-                                                    <label class="form-label mb-0 ps-1 small">Documento (Nome)</label>
-                                                    <select class="form-select form-select-sm" name="fun_documentos_documento_id" id="fun_documentos_documento_id">
-                                                        <option value="">Selecione...</option>
-
-                                                        @foreach ($documentos as $documento)
-                                                            @php
-                                                                $class = '';
-                                                                if ($documento['documento_fonte_id'] == 1) {$class = 'pessoa_juridica';}
-                                                                if ($documento['documento_fonte_id'] == 2) {$class = 'pessoa_fisica';}
-                                                                if ($documento['documento_fonte_id'] == 3) {$class = 'pessoa_juridica';}
-                                                            @endphp
-
-                                                            <option class="{{ $class }}" value="{{ $documento['id'] }}">{{ $documento['name'] }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-12 col-md-6 pt-2">
-                                                    <label class="form-label mb-0 ps-1 small">Data Documento</label>
-                                                    <input type="text" class="form-control form-control-sm mask_date" name="fun_documentos_data_documento" id="fun_documentos_data_documento" placeholder="Data do Documento PDF">
-                                                </div>
-                                                <div class="form-group col-12 col-md-6 pt-2">
-                                                    <label class="form-label mb-0 ps-1 small">Aviso</label>
-                                                    <select class="form-select form-select-sm" name="fun_documentos_aviso" id="fun_documentos_aviso">
-                                                        <option value="0">Nenhum Aviso</option>
-                                                        <option value="1">Avisar a cada 1 mês</option>
-                                                        <option value="2">Avisar a cada 3 meses</option>
-                                                        <option value="3">Avisar a cada 6 meses</option>
-                                                        <option value="4">Avisar a cada 1 ano</option>
-                                                        <option value="5">Avisar a cada 3 anos</option>
-                                                        <option value="6">Avisar a cada 6 anos</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-12 col-md-6 pt-2">
-                                                    <label class="form-label mb-0 ps-1 small">Documento (Arquivo)</label>
-                                                    <input type="file" class="form-control form-control-sm" name="fun_documentos_file" id="fun_documentos_file">
-                                                </div>
-                                            </div>
-                                            <div class="row" id="div_frm_upload_documentos_fun_listar" style="display: none;"></div>
-                                            <div class="row" id="div_frm_upload_documentos_fun_visualisar" style="display: none;">VISUALISAR</div>
-                                        </form>
-                                    </div>
-                                @endif
-
-                                <div class="tab-pane" id="tab_fun_documentos" role="tabpanel">
-                                    <div class="table-responsive" id="fun_documentos_grade">Nenhum documento encontrado.</div>
-                                </div>
-                                <div class="tab-pane" id="tab_fun_documentos" role="tabpanel">
-                                    <div class="table-responsive" id="fun_documentos_grade">Nenhum documento encontrado.</div>
-                                </div>
-
-                                <style>
-                                    .cartao_emergencial {
-                                        width: 86.60mm;
-                                        height: 54.98mm;
-                                        overflow: hidden;
-                                        display: flex;
-                                        justify-content: center;
-                                        align-items: center;
-                                    }
-                                </style>
-
-                                <div class="tab-pane" id="tab_fun_cartao_emergencial" role="tabpanel">
-                                    <div class="row justify-content-center pt-2">
-                                        <div class="col-auto">
-                                            <div class="cartao_emergencial" id="fun_cartao_emergencial_1">Cartão 1</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="cartao_emergencial" id="fun_cartao_emergencial_2">Cartão 2</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    @if($se_prefixPermissaoSubmodulo == 'clientes')
-        <!-- Cliente Modal Info -->
-        @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
-
-                <div class="modal fade" id="cliente_modal_info" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-fullscreen">
-                        <div class="modal-content bg-light d-flex flex-column h-100">
-                            <div class="modal-header sticky-top" style="background-color: #2a3042; z-index: 1055;">
+                <div class="modal fade" id="funcionario_modal_info" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content bg-light">
+                            <div class="modal-header" style="background-color: #2a3042;">
                                 <!-- Header -->
                                 <div class="row col-12">
                                     <div class="col-8 order-1 order-lg-1 col-lg-4">
                                         <div class="d-flex">
                                             <div class="flex-shrink-0 me-3">
-                                                <img src="build/assets/images/clientes/cliente-0.png" alt="" class="avatar-lg rounded-circle img-thumbnail clearClass" id="mi_cli_logotipo">
+                                                <img src="build/assets/images/funcionarios/funcionario-0.png" alt="" class="avatar-lg rounded-circle img-thumbnail clearClass" id="mi_fun_fotografia">
                                             </div>
                                             <div class="flex-grow-1 align-self-center">
                                                 <div>
-                                                    <h4 class="mb-2" style="color: #ffac31 !important;">INFORMAÇÕES CLIENTES</h4>
-                                                    <h5 class="mb-1" style="color: #ffffff !important;" id="mi_cli_header_nome"></h5>
-                                                    <p class="mb-0" id="mi_cli_header_email" style="color: #ffac31 !important;"></p>
+                                                    <h5 class="mb-2" style="color: #ffac31 !important;">INFORMAÇÕES FUNCIONÁRIOS</h5>
+                                                    <h6 class="mb-1" style="color: #ffffff !important;" id="mi_fun_header_nome"></h6>
+                                                    <div class="clearfix mt-2">
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <i class="bx bxs-cog align-middle me-1"></i> Opções
+                                                            </button>
+                                                            <div class="dropdown-menu dropdown-menu-end">
+                                                                <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(1);">Fotografias</a>
+                                                                <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(2);">Dados</a>
+                                                                <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(5);">Incluir Documentos</a>
+                                                                <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(3);">Documentos</a>
+                                                                <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(4);">Tomadores de Serviços</a>
+                                                                <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(6);">Cartão Emergencial</a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a class="dropdown-item" href="#" data-bs-dismiss="modal">Fechar</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 order-3 order-lg-2 col-lg-7 align-self-center">
+                                    <div class="col-12 order-3 order-lg-2 col-lg-8 align-self-center">
                                         <div class="text-lg-center mt-4 mt-lg-0">
                                             <div class="row text-center font-size-12">
-                                                <div class="col-4 col-lg-2">
+                                                <div class="col-4 col-lg-3">
                                                     <div>
                                                         <p class="text-truncate mb-2" style="color: #ffac31;">Documentos</p>
-                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_documentos">0</h5>
+                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_fun_estatisticas_documentos">0</h5>
                                                     </div>
                                                 </div>
-                                                <div class="col-4 col-lg-2">
+                                                <div class="col-4 col-lg-3">
                                                     <div>
-                                                        <p class="text-truncate mb-2" style="color: #ffac31;">Propostas</p>
-                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_propostas">0</h5>
+                                                        <p class="text-truncate mb-2" style="color: #ffac31;">Tomadores de Serviços</p>
+                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_fun_estatisticas_tomadores_servicos">0</h5>
                                                     </div>
-                                                </div>
-                                                <div class="col-4 col-lg-2">
-                                                    <div>
-                                                        <p class="text-truncate mb-2" style="color: #ffac31;">Órdens de Serviços</p>
-                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_ordens_servicos">0</h5>
-                                                    </div>
-                                                </div>
-                                                <div class="col-4 col-lg-2">
-                                                    <div>
-                                                        <p class="text-truncate mb-2" style="color: #ffac31;">Visitas Técnicas</p>
-                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_visitas_tecnicas">0</h5>
-                                                    </div>
-                                                </div>
-                                                <div class="col-4 col-lg-2">
-                                                    <div>
-                                                        <p class="text-truncate mb-2" style="color: #ffac31;">Da Rede</p>
-                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_clientes_rede">0</h5>
-                                                    </div>
-                                                </div>
-                                                <div class="col-4 col-lg-2">
-                                                    <div>
-                                                        <p class="text-truncate mb-2" style="color: #ffac31;">Do Principal</p>
-                                                        <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_clientes_principal">0</h5>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 order-2 order-lg-3 col-lg-1">
-                                        <div class="clearfix mt-0">
-                                            <div class="dropdown float-end">
-                                                <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="bx bxs-cog align-middle me-1"></i> Opções
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(1);">Logotipo</a>
-                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(2);">Dados</a>
-                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(3);">Documentos</a>
-                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(4);">Serviços</a>
-                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(5);">Clientes</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#" data-bs-dismiss="modal">Fechar</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -555,75 +321,52 @@
                                 <!-- Header END -->
                             </div>
                             <div class="modal-body d-lg-flex flex-lg-column flex-grow-1 px-4">
-                                <!-- Cliente ID -->
-                                <input type="hidden" id="mi_cli_cliente_id" name="mi_cli_cliente_id" value="0">
+                                <!-- Funcionário ID -->
+                                <input type="hidden" id="mi_fun_funcionario_id" name="mi_fun_funcionario_id" value="0">
 
-                                <!-- Logotipos -->
-                                <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_logotipos">
-                                    <div class="card">
+                                <!-- Fotografias -->
+                                <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_fotografias">
+                                    <div class="card mb-0">
                                         <div class="card-body">
-                                            <h4 class="card-title font-size-20 mb-4"><i class="bx bxs-file-plus"></i>&nbsp;&nbsp;Logotipos</h4>
+                                            <h5 class="card-title mb-4"><i class="bx bxs-file-plus"></i>&nbsp;&nbsp;Fotografias</h5>
 
                                             <div class="row">
-                                                <div class="col-12 col-lg-4 pe-5">
-                                                    <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;LOGOTIPO PRINCIPAL</h6>
-                                                    <div class="col-12" style="height: 200px;">
-                                                        <img src="" alt="" class="img-fluid clearClass" style="max-height: 190px !important;" id="mi_cli_logotipo_principal">
+                                                <div class="col-12 col-lg-6 pe-5">
+                                                    <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTOGRAFIA DOCUMENTO</h6>
+                                                    <div class="col-12" style="height: 150px;">
+                                                        <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_fun_fotografia_documento">
                                                     </div>
 
-                                                    @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
-                                                        <form enctype="multipart/form-data" id="frm_upload_logotipo_principal_cli">
-                                                            <input type="hidden" id="upload_logotipo_principal_cliente_id" name="upload_logotipo_principal_cliente_id" value="">
+                                                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                                        <form enctype="multipart/form-data" id="frm_upload_fotografia_documento_fun">
+                                                            <input type="hiddenx" id="upload_fotografia_documento_funcionario_id" name="upload_fotografia_documento_funcionario_id" value="">
 
                                                             <div class="col-12 mb-2">
-                                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_logotipo_principal_cli_executar" name="frm_upload_logotipo_principal_cli_executar">Enviar Logotipo</button>
+                                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_fotografia_documento_fun_executar" name="frm_upload_fotografia_documento_fun_executar">Enviar Fotografia</button>
                                                             </div>
 
                                                             <div class="col-12 mb-3">
-                                                                <label class="form-label">Logotipo (Arquivo)</label>
-                                                                <input type="file" class="form-control" name="cli_logotipo_principal_file" id="cli_logotipo_principal_file">
+                                                                <input type="file" class="form-control form-control-sm" name="fun_fotografia_documento_file" id="fun_fotografia_documento_file">
                                                             </div>
                                                         </form>
                                                     @endif
                                                 </div>
-                                                <div class="col-12 col-lg-4 pe-5">
-                                                    <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;LOGOTIPO RELATÓRIOS</h6>
-                                                    <div class="col-12" style="height: 200px;">
-                                                        <img src="" alt="" class="img-fluid clearClass" style="max-height: 190px !important;" id="mi_cli_logotipo_relatorios">
+                                                <div class="col-12 col-lg-6 pe-5">
+                                                    <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTIGRAFIA CARTÃO EMERGENCIAL</h6>
+                                                    <div class="col-12" style="height: 150px;">
+                                                        <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_fun_fotografia_cartao_emergencial">
                                                     </div>
 
-                                                    @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
-                                                        <form enctype="multipart/form-data" id="frm_upload_logotipo_relatorios_cli">
-                                                            <input type="hidden" id="upload_logotipo_relatorios_cliente_id" name="upload_logotipo_relatorios_cliente_id" value="">
+                                                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                                        <form enctype="multipart/form-data" id="frm_upload_fotografia_cartao_emergencial_fun">
+                                                            <input type="hidden" id="upload_fotografia_cartao_emergencial_funcionario_id" name="upload_fotografia_cartao_emergencial_funcionario_id" value="">
 
                                                             <div class="col-12 mb-2">
-                                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_logotipo_relatorios_cli_executar" name="frm_upload_logotipo_relatorios_cli_executar">Enviar Logotipo</button>
+                                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_fotografia_cartao_emergencial_fun_executar" name="frm_upload_fotografia_cartao_emergencial_fun_executar">Enviar Fotografia</button>
                                                             </div>
 
                                                             <div class="col-12 mb-3">
-                                                                <label class="form-label">Logotipo (Arquivo)</label>
-                                                                <input type="file" class="form-control" name="cli_logotipo_relatorios_file" id="cli_logotipo_relatorios_file">
-                                                            </div>
-                                                        </form>
-                                                    @endif
-                                                </div>
-                                                <div class="col-12 col-lg-4 pe-5">
-                                                    <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;LOGOTIPO CARTÃO EMERGENCIAL</h6>
-                                                    <div class="col-12" style="height: 200px;">
-                                                        <img src="" alt="" class="img-fluid clearClass" style="max-height: 190px !important;" id="mi_cli_logotipo_cartao_emergencial">
-                                                    </div>
-
-                                                    @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
-                                                        <form enctype="multipart/form-data" id="frm_upload_logotipo_cartao_emergencial_cli">
-                                                            <input type="hidden" id="upload_logotipo_cartao_emergencial_cliente_id" name="upload_logotipo_cartao_emergencial_cliente_id" value="">
-
-                                                            <div class="col-12 mb-2">
-                                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_logotipo_cartao_emergencial_cli_executar" name="frm_upload_logotipo_cartao_emergencial_cli_executar">Enviar Logotipo</button>
-                                                            </div>
-
-                                                            <div class="col-12 mb-3">
-                                                                <label class="form-label">Logotipo (Arquivo)</label>
-                                                                <input type="file" class="form-control" name="cli_logotipo_cartao_emergencial_file" id="cli_logotipo_cartao_emergencial_file">
+                                                                <input type="file" class="form-control form-control-sm" name="fun_fotografia_cartao_emergencial_file" id="fun_fotografia_cartao_emergencial_file">
                                                             </div>
                                                         </form>
                                                     @endif
@@ -632,41 +375,77 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Logotipos END -->
+                                <!-- Fotografias END -->
 
                                 <!-- Dados -->
-                                <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_dados">
-                                    <div class="card">
+                                <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_dados">
+                                    <div class="card mb-0">
                                         <div class="card-body">
-                                            <h4 class="card-title font-size-20 mb-4"><i class="fa fa-database"></i>&nbsp;&nbsp;Dados</h4>
+                                            <h5 class="card-title mb-4"><i class="fa fa-database"></i>&nbsp;&nbsp;Dados</h5>
                                             <div class="row">
-                                                <div class="col-lg-4 mb-3">
-                                                    <label class="form-label">Status</label>
-                                                    <input type="text" class="form-control clearClass" id="mi_cli_status" readonly>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small">Nome</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_nome" readonly>
                                                 </div>
-                                                <div class="col-lg-4 mb-3">
-                                                    <label class="form-label">Tipo</label>
-                                                    <input type="text" class="form-control clearClass" id="mi_cli_tipo" readonly>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small">CPF</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_cpf" readonly>
                                                 </div>
-                                                <div class="col-lg-4 mb-3">
-                                                    <label class="form-label">CPF/CNPJ</label>
-                                                    <input type="text" class="form-control clearClass" id="mi_cli_cpf_cnpj" readonly>
+
+                                                @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
+                                                    <div class="col-lg-3 mb-3">
+                                                        <label class="form-label small">Empresa</label>
+                                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_empresa" readonly>
+                                                    </div>
+                                                @endif
+
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small">Tomador de Serviço</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_tomador_servico" readonly>
                                                 </div>
-                                                <div class="col-lg-4 mb-3">
-                                                    <label class="form-label">Nome</label>
-                                                    <input type="text" class="form-control clearClass" id="mi_cli_nome" readonly>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small">Contratação Tipo</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_contratacao_tipo" readonly>
                                                 </div>
-                                                <div class="col-lg-4 mb-3">
-                                                    <label class="form-label">Telefone(s)</label>
-                                                    <input type="text" class="form-control clearClass" id="mi_cli_telefones" readonly>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small">Função</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_funcao" readonly>
                                                 </div>
-                                                <div class="col-lg-4 mb-3">
-                                                    <label class="form-label">Celular(s)</label>
-                                                    <input type="text" class="form-control clearClass" id="mi_cli_celulares" readonly>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small">Departamento</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_departamento" readonly>
                                                 </div>
-                                                <div class="col-lg-4 mb-3">
-                                                    <label class="form-label" id="div_cli_dados_data">Data Nascimento</label>
-                                                    <input type="text" class="form-control clearClass" id="mi_cli_data_nascimento" readonly>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small">Nome Profissional</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_nome_profissional" readonly>
+                                                </div>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small" id="div_fun_dados_data">Nascimento</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_data_nascimento" readonly>
+                                                </div>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small">Gênero</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_genero" readonly>
+                                                </div>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small">Celular 1</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_celular_1" readonly>
+                                                </div>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small">Celular 2</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_celular_2" readonly>
+                                                </div>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small">Telefone 1</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_telefone_1" readonly>
+                                                </div>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small">Telefone 2</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_telefone_2" readonly>
+                                                </div>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="form-label small">E-mail</label>
+                                                    <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_email" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -674,30 +453,29 @@
                                 </div>
                                 <!-- Dados END -->
 
-                                <!-- Documentos -->
-                                <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_documentos">
-                                    <div class="card">
+                                <!-- Incluir Documentos -->
+                                <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_incluir_documentos">
+                                    <div class="card mb-0">
                                         <div class="card-body">
-                                            <h4 class="card-title font-size-20 mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos</h4>
+                                            <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Incluir Documentos</h5>
 
                                             <div class="row">
-                                                @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
-                                                    <div class="col-12 col-lg-5 pe-5">
+                                                @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                                    <div class="col-12 col-lg-12 pe-5">
                                                         <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;INCLUSÃO DE DOCUMENTO</h6>
-                                                        <form enctype="multipart/form-data" id="frm_upload_documentos_cli">
-                                                            <input type="hidden" id="upload_documentos_cliente_id" name="upload_documentos_cliente_id" value="">
+                                                        <form enctype="multipart/form-data" id="frm_upload_documentos_fun">
+                                                            <input type="hidden" id="upload_documentos_funcionario_id" name="upload_documentos_funcionario_id" value="">
 
                                                             <!-- Ação do Formulário: 1(create) 2(edit) 3(update) 4(delete) -->
-                                                            <input type="hidden" id="upload_documentos_cli_acao" name="upload_documentos_cli_acao" value="1">
+                                                            <input type="hidden" id="upload_documentos_fun_acao" name="upload_documentos_fun_acao" value="1">
 
                                                             <div class="col-12 mb-5">
-                                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_documentos_cli_executar" name="frm_upload_documentos_cli_executar">Incluir Documento</button>
+                                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_documentos_fun_executar" name="frm_upload_documentos_fun_executar">Incluir Documento</button>
                                                             </div>
-
-                                                            <div class="row" id="div_frm_upload_documentos_cli_executar">
-                                                                <div class="col-lg-12 mb-3">
+                                                            <div class="row" id="div_frm_upload_documentos_fun_executar">
+                                                                <div class="col-12 col-lg-3 mb-3">
                                                                     <label class="form-label">Documento (Nome)</label>
-                                                                    <select class="form-select" name="cli_documentos_documento_id" id="cli_documentos_documento_id">
+                                                                    <select class="form-select form-select-sm" name="fun_documentos_documento_id" id="fun_documentos_documento_id">
                                                                         <option value="">Selecione...</option>
 
                                                                         @foreach ($documentos as $documento)
@@ -712,13 +490,13 @@
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
-                                                                <div class="col-lg-6 mb-3">
+                                                                <div class="col-12 col-lg-3 mb-3">
                                                                     <label class="form-label">Data Documento</label>
-                                                                    <input type="text" class="form-control mask_date" name="cli_documentos_data_documento" id="cli_documentos_data_documento" placeholder="Data do Documento PDF">
+                                                                    <input type="text" class="form-control form-control-sm mask_date" name="fun_documentos_data_documento" id="fun_documentos_data_documento" placeholder="Data do Documento PDF">
                                                                 </div>
-                                                                <div class="col-lg-6 mb-3">
+                                                                <div class="col-12 col-lg-3 mb-3">
                                                                     <label class="form-label">Aviso</label>
-                                                                    <select class="form-select" name="cli_documentos_aviso" id="cli_documentos_aviso">
+                                                                    <select class="form-select form-select-sm" name="fun_documentos_aviso" id="fun_documentos_aviso">
                                                                         <option value="0">Nenhum Aviso</option>
                                                                         <option value="1">Avisar a cada 1 mês</option>
                                                                         <option value="2">Avisar a cada 3 meses</option>
@@ -728,21 +506,33 @@
                                                                         <option value="6">Avisar a cada 6 anos</option>
                                                                     </select>
                                                                 </div>
-                                                                <div class="col-lg-12 mb-3">
+                                                                <div class="col-12 col-lg-3 mb-3">
                                                                     <label class="form-label">Documento (Arquivo)</label>
-                                                                    <input type="file" class="form-control" name="cli_documentos_file" id="cli_documentos_file">
+                                                                    <input type="file" class="form-control form-control-sm" name="fun_documentos_file" id="fun_documentos_file">
                                                                 </div>
                                                             </div>
                                                         </form>
                                                     </div>
                                                 @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Incluir Documentos END -->
 
-                                                <div class="col-12 col-lg-7">
+                                <!-- Documentos -->
+                                <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_documentos">
+                                    <div class="card mb-0">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos</h5>
+
+                                            <div class="row">
+                                                <div class="col-12 col-lg-12">
                                                     <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE DOCUMENTOS</h6>
 
-                                                    <div class="col-12 mb-5" id="cli_documentos_grade_botoes"></div>
+                                                    <div class="col-12 mb-5" id="fun_documentos_grade_botoes"></div>
 
-                                                    <div id="cli_documentos_grade">Nenhum documento encontrado.</div>
+                                                    <div id="fun_documentos_grade">Nenhum documento encontrado.</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -750,51 +540,394 @@
                                 </div>
                                 <!-- Documentos END -->
 
-                                <!-- Serviços -->
-                                <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_servicos">
-                                    <div class="card">
+                                <!-- Tomadores de Serviços -->
+                                <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_tomadores_servicos">
+                                    <div class="card mb-0">
                                         <div class="card-body">
-                                            <h4 class="card-title font-size-20 mb-4"><i class="fa fa-toolbox"></i>&nbsp;&nbsp;Serviços</h4>
+                                            <h5 class="card-title mb-4"><i class="fa fa-toolbox"></i>&nbsp;&nbsp;Tomadores de Serviços</h5>
 
                                             <div class="row">
-                                                <div class="col-12 col-lg-7">
-                                                    <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE SERVIÇOS</h6>
+                                                <div class="col-12 col-lg-12">
+                                                    <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE TOMADORES DE SERVIÇOS</h6>
 
-                                                    <div class="col-12 mb-5" id="cli_servicos_grade_botoes"></div>
+                                                    <div class="col-12 mb-5" id="fun_tomadores_servicos_grade_botoes"></div>
 
-                                                    <div id="cli_servicos_grade">Nenhum documento encontrado.</div>
+                                                    <div id="fun_tomadores_servicos_grade">Nenhum documento encontrado.</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Serviços END -->
+                                <!-- Tomadores de Serviços END -->
 
-                                <!-- Clientes -->
-                                <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_clientes">
-                                    <div class="card">
+                                <!-- Cartão Emergencial -->
+                                <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_cartao_emergencial">
+                                    <div class="card mb-0">
                                         <div class="card-body">
-                                            <h4 class="card-title font-size-20 mb-4"><i class="fa fa-toolbox"></i>&nbsp;&nbsp;Clientes</h4>
+                                            <h5 class="card-title mb-4"><i class="fa fa-address-card"></i>&nbsp;&nbsp;Cartão Emergencial</h5>
 
                                             <div class="row">
-                                                <div class="col-12 col-lg-6 d-none" id="cli_clientes_rede">
-                                                    <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;CLIENTES DA REDE</h6>
-                                                    <div id="cli_clientes_grade_rede">Nenhum documento encontrado.</div>
+                                                <div class="col-12 col-lg-4">
+                                                    <h6 class="col-12 mb-4"><i class="bx bx-card font-size-16"></i>&nbsp;&nbsp;PORTUGUÊS</h6>
+
+                                                    <div id="fun_cartao_emergencial_1">Cartão 1</div>
                                                 </div>
-                                                <div class="col-12 col-lg-6 d-none" id="cli_clientes_principal">
-                                                    <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;CLIENTES DO PRINCIPAL</h6>
-                                                    <div id="cli_clientes_grade_principal">Nenhum documento encontrado.</div>
+                                                <div class="col-12 col-lg-2">&nbsp;</div>
+                                                <div class="col-12 col-lg-4">
+                                                    <h6 class="col-12 mb-4"><i class="bx bx-card font-size-16"></i>&nbsp;&nbsp;INGLÊS</h6>
+
+                                                    <div id="fun_cartao_emergencial_2">Cartão 2</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Clientes END -->
+                                <!-- Cartão Emergencial END -->
 
                             </div>
                         </div>
                     </div>
                 </div>
+
+            @endif
+
+    @endif
+
+    @if($se_prefixPermissaoSubmodulo == 'clientes')
+        <!-- Cliente Modal Info -->
+        @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
+
+            <div class="modal fade" id="cliente_modal_info" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content bg-light">
+                        <div class="modal-header" style="background-color: #2a3042;">
+                            <!-- Header -->
+                            <div class="row col-12">
+                                <div class="col-8 order-1 order-lg-1 col-lg-4">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0 me-3">
+                                            <img src="build/assets/images/clientes/cliente-0.png" alt="" class="avatar-lg rounded-circle img-thumbnail clearClass" id="mi_cli_logotipo">
+                                        </div>
+                                        <div class="flex-grow-1 align-self-center">
+                                            <div>
+                                                <h5 class="mb-2" style="color: #ffac31 !important;">INFORMAÇÕES CLIENTES</h5>
+                                                <h6 class="mb-1" style="color: #ffffff !important;" id="mi_cli_header_nome"></h6>
+                                                <div class="clearfix mt-2">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="bx bxs-cog align-middle me-1"></i> Opções
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                            <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(1);">Logotipos</a>
+                                                            <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(2);">Dados</a>
+                                                            <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(6);">Incluir Documentos</a>
+                                                            <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(3);">Documentos</a>
+                                                            <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(4);">Serviços</a>
+                                                            <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(5);">Clientes</a>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item" href="#" data-bs-dismiss="modal">Fechar</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 order-3 order-lg-2 col-lg-8 align-self-center">
+                                    <div class="text-lg-center mt-4 mt-lg-0">
+                                        <div class="row text-center font-size-12">
+                                            <div class="col-4 col-lg-3">
+                                                <div>
+                                                    <p class="text-truncate mb-2" style="color: #ffac31;">Documentos</p>
+                                                    <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_documentos">0</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 col-lg-3">
+                                                <div>
+                                                    <p class="text-truncate mb-2" style="color: #ffac31;">Propostas</p>
+                                                    <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_propostas">0</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 col-lg-3">
+                                                <div>
+                                                    <p class="text-truncate mb-2" style="color: #ffac31;">Órdens de Serviços</p>
+                                                    <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_ordens_servicos">0</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 col-lg-3">
+                                                <div>
+                                                    <p class="text-truncate mb-2" style="color: #ffac31;">Visitas Técnicas</p>
+                                                    <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_visitas_tecnicas">0</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 col-lg-3">
+                                                <div>
+                                                    <p class="text-truncate mb-2" style="color: #ffac31;">Da Rede</p>
+                                                    <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_clientes_rede">0</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 col-lg-3">
+                                                <div>
+                                                    <p class="text-truncate mb-2" style="color: #ffac31;">Do Principal</p>
+                                                    <h5 class="mb-0" style="color: #ffffff;" id="md_cli_estatisticas_clientes_principal">0</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Header END -->
+                        </div>
+                        <div class="modal-body d-lg-flex flex-lg-column flex-grow-1 px-4">
+                            <!-- Cliente ID -->
+                            <input type="hidden" id="mi_cli_cliente_id" name="mi_cli_cliente_id" value="0">
+
+                            <!-- Logotipos -->
+                            <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_logotipos">
+                                <div class="card mb-0">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-4"><i class="bx bxs-file-plus"></i>&nbsp;&nbsp;Logotipos</h5>
+
+                                        <div class="row">
+                                            <div class="col-12 col-lg-4 pe-5">
+                                                <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;LOGOTIPO PRINCIPAL</h6>
+                                                <div class="col-12" style="height: 150px;">
+                                                    <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_cli_logotipo_principal">
+                                                </div>
+
+                                                @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                                                    <form enctype="multipart/form-data" id="frm_upload_logotipo_principal_cli">
+                                                        <input type="hidden" id="upload_logotipo_principal_cliente_id" name="upload_logotipo_principal_cliente_id" value="">
+
+                                                        <div class="col-12 mb-2">
+                                                            <button type="button" class="btn btn-success btn-sm" id="frm_upload_logotipo_principal_cli_executar" name="frm_upload_logotipo_principal_cli_executar">Enviar Logotipo</button>
+                                                        </div>
+
+                                                        <div class="col-12 mb-3">
+                                                            <input type="file" class="form-control form-control-sm" name="cli_logotipo_principal_file" id="cli_logotipo_principal_file">
+                                                        </div>
+                                                    </form>
+                                                @endif
+                                            </div>
+                                            <div class="col-12 col-lg-4 pe-5">
+                                                <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;LOGOTIPO RELATÓRIOS</h6>
+                                                <div class="col-12" style="height: 150px;">
+                                                    <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_cli_logotipo_relatorios">
+                                                </div>
+
+                                                @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                                                    <form enctype="multipart/form-data" id="frm_upload_logotipo_relatorios_cli">
+                                                        <input type="hidden" id="upload_logotipo_relatorios_cliente_id" name="upload_logotipo_relatorios_cliente_id" value="">
+
+                                                        <div class="col-12 mb-2">
+                                                            <button type="button" class="btn btn-success btn-sm" id="frm_upload_logotipo_relatorios_cli_executar" name="frm_upload_logotipo_relatorios_cli_executar">Enviar Logotipo</button>
+                                                        </div>
+
+                                                        <div class="col-12 mb-3">
+                                                            <input type="file" class="form-control form-control-sm" name="cli_logotipo_relatorios_file" id="cli_logotipo_relatorios_file">
+                                                        </div>
+                                                    </form>
+                                                @endif
+                                            </div>
+                                            <div class="col-12 col-lg-4 pe-5">
+                                                <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;LOGOTIPO CARTÃO EMERGENCIAL</h6>
+                                                <div class="col-12" style="height: 150px;">
+                                                    <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_cli_logotipo_cartao_emergencial">
+                                                </div>
+
+                                                @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                                                    <form enctype="multipart/form-data" id="frm_upload_logotipo_cartao_emergencial_cli">
+                                                        <input type="hidden" id="upload_logotipo_cartao_emergencial_cliente_id" name="upload_logotipo_cartao_emergencial_cliente_id" value="">
+
+                                                        <div class="col-12 mb-2">
+                                                            <button type="button" class="btn btn-success btn-sm" id="frm_upload_logotipo_cartao_emergencial_cli_executar" name="frm_upload_logotipo_cartao_emergencial_cli_executar">Enviar Logotipo</button>
+                                                        </div>
+
+                                                        <div class="col-12 mb-3">
+                                                            <input type="file" class="form-control form-control-sm" name="cli_logotipo_cartao_emergencial_file" id="cli_logotipo_cartao_emergencial_file">
+                                                        </div>
+                                                    </form>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Logotipos END -->
+
+                            <!-- Dados -->
+                            <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_dados">
+                                <div class="card mb-0">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-4"><i class="fa fa-database"></i>&nbsp;&nbsp;Dados</h5>
+                                        <div class="row">
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label small">Status</label>
+                                                <input type="text" class="form-control form-control-sm clearClass" id="mi_cli_status" readonly>
+                                            </div>
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label small">Tipo</label>
+                                                <input type="text" class="form-control form-control-sm clearClass" id="mi_cli_tipo" readonly>
+                                            </div>
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label small">CPF/CNPJ</label>
+                                                <input type="text" class="form-control form-control-sm clearClass" id="mi_cli_cpf_cnpj" readonly>
+                                            </div>
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label small">Nome</label>
+                                                <input type="text" class="form-control form-control-sm clearClass" id="mi_cli_nome" readonly>
+                                            </div>
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label small" id="div_cli_dados_data">Data Nascimento</label>
+                                                <input type="text" class="form-control form-control-sm clearClass" id="mi_cli_data_nascimento" readonly>
+                                            </div>
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label small">Celular(s)</label>
+                                                <input type="text" class="form-control form-control-sm clearClass" id="mi_cli_celulares" readonly>
+                                            </div>
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label small">Telefone(s)</label>
+                                                <input type="text" class="form-control form-control-sm clearClass" id="mi_cli_telefones" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Dados END -->
+
+                            <!-- Incluir Documentos -->
+                            <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_incluir_documentos">
+                                <div class="card mb-0">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Incluir Documentos</h5>
+
+                                        <div class="row">
+                                            @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                                                <div class="col-12 col-lg-12 pe-5">
+                                                    <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;INCLUSÃO DE DOCUMENTO</h6>
+                                                    <form enctype="multipart/form-data" id="frm_upload_documentos_cli">
+                                                        <input type="hidden" id="upload_documentos_cliente_id" name="upload_documentos_cliente_id" value="">
+
+                                                        <!-- Ação do Formulário: 1(create) 2(edit) 3(update) 4(delete) -->
+                                                        <input type="hidden" id="upload_documentos_cli_acao" name="upload_documentos_cli_acao" value="1">
+
+                                                        <div class="col-12 mb-5">
+                                                            <button type="button" class="btn btn-success btn-sm" id="frm_upload_documentos_cli_executar" name="frm_upload_documentos_cli_executar">Incluir Documento</button>
+                                                        </div>
+
+                                                        <div class="row" id="div_frm_upload_documentos_cli_executar">
+                                                            <div class="col-12 col-lg-3 mb-3">
+                                                                <label class="form-label">Documento (Nome)</label>
+                                                                <select class="form-select form-select-sm" name="cli_documentos_documento_id" id="cli_documentos_documento_id">
+                                                                    <option value="">Selecione...</option>
+
+                                                                    @foreach ($documentos as $documento)
+                                                                        @php
+                                                                            $class = '';
+                                                                            if ($documento['documento_fonte_id'] == 1) {$class = 'pessoa_juridica';}
+                                                                            if ($documento['documento_fonte_id'] == 2) {$class = 'pessoa_fisica';}
+                                                                            if ($documento['documento_fonte_id'] == 3) {$class = 'pessoa_juridica';}
+                                                                        @endphp
+
+                                                                        <option class="{{ $class }}" value="{{ $documento['id'] }}">{{ $documento['name'] }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-12 col-lg-3 mb-3">
+                                                                <label class="form-label">Data Documento</label>
+                                                                <input type="text" class="form-control form-control-sm mask_date" name="cli_documentos_data_documento" id="cli_documentos_data_documento" placeholder="Data do Documento PDF">
+                                                            </div>
+                                                            <div class="col-12 col-lg-3 mb-3">
+                                                                <label class="form-label">Aviso</label>
+                                                                <select class="form-select form-select-sm" name="cli_documentos_aviso" id="cli_documentos_aviso">
+                                                                    <option value="0">Nenhum Aviso</option>
+                                                                    <option value="1">Avisar a cada 1 mês</option>
+                                                                    <option value="2">Avisar a cada 3 meses</option>
+                                                                    <option value="3">Avisar a cada 6 meses</option>
+                                                                    <option value="4">Avisar a cada 1 ano</option>
+                                                                    <option value="5">Avisar a cada 3 anos</option>
+                                                                    <option value="6">Avisar a cada 6 anos</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-12 col-lg-3 mb-3">
+                                                                <label class="form-label">Documento (Arquivo)</label>
+                                                                <input type="file" class="form-control form-control-sm" name="cli_documentos_file" id="cli_documentos_file">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Incluir Documentos END -->
+
+                            <!-- Documentos -->
+                            <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_documentos">
+                                <div class="card mb-0">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos</h5>
+
+                                        <div class="row">
+                                            <div class="col-12 col-lg-12">
+                                                <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE DOCUMENTOS</h6>
+
+                                                <div class="col-12 mb-5" id="cli_documentos_grade_botoes"></div>
+
+                                                <div id="cli_documentos_grade">Nenhum documento encontrado.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Documentos END -->
+
+                            <!-- Serviços -->
+                            <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_servicos">
+                                <div class="card mb-0">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-4"><i class="fa fa-toolbox"></i>&nbsp;&nbsp;Serviços</h5>
+
+                                        <div class="row">
+                                            <div class="col-12 col-lg-12">
+                                                <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE SERVIÇOS</h6>
+
+                                                <div class="col-12 mb-5" id="cli_servicos_grade_botoes"></div>
+
+                                                <div id="cli_servicos_grade">Nenhum documento encontrado.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Serviços END -->
+
+                            <!-- Clientes -->
+                            <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_clientes">
+                                <div class="card mb-0">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-4"><i class="fa fa-toolbox"></i>&nbsp;&nbsp;Clientes</h5>
+
+                                        <div class="row">
+                                            <div class="col-12 col-lg-12 d-none" id="cli_clientes_rede">
+                                                <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;CLIENTES DA REDE</h6>
+                                                <div id="cli_clientes_grade_rede">Nenhum documento encontrado.</div>
+                                            </div>
+                                            <div class="col-12 col-lg-12 d-none" id="cli_clientes_principal">
+                                                <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;CLIENTES DO PRINCIPAL</h6>
+                                                <div id="cli_clientes_grade_principal">Nenhum documento encontrado.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Clientes END -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
         @else

@@ -29,17 +29,7 @@
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    <div class="modal-loading" id="crudFormAjaxLoading" style="display: none;">
-                        <div class="spinner-chase">
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                        </div>
-                    </div>
-
+                    
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <input type="hidden" id="frm_operacao" name="frm_operacao">

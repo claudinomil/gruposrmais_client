@@ -340,43 +340,42 @@ function clienteExecutivoModalInfoGradeDocumentosPdf({cliente_executivo_id='', b
 }
 
 //Função para deletar documento da grade
-function clienteExecutivoModalInfoDeletarDocumentoPdf(cliente_executivo_documento_id) {
+async function clienteExecutivoModalInfoDeletarDocumentoPdf(cliente_executivo_documento_id) {
     //Confirmação de Delete
-    alertSwalConfirmacao(function (confirmed) {
-        if (confirmed) {
-            var url_atual = window.location.protocol+'//'+window.location.host+'/';
+    const confirmed = await alertSwalConfirmacao();
+    if (confirmed) {
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
 
-            //Acessar rota
-            fetch(url_atual+'clientes_executivos/modalInfo/deletar_documento/'+cliente_executivo_documento_id, {
-                method: 'DELETE',
-                headers: {
-                    'REQUEST-ORIGIN': 'fetch',
-                    'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                //Lendo dados
-                if (data.success) {
-                    alertSwal('success', 'Clientes Executivos', data.success, 'true', 2000);
+        //Acessar rota
+        fetch(url_atual+'clientes_executivos/modalInfo/deletar_documento/'+cliente_executivo_documento_id, {
+            method: 'DELETE',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            //Lendo dados
+            if (data.success) {
+                alertSwal('success', 'Clientes Executivos', data.success, 'true', 2000);
 
-                    //Dados
-                    let cliente_executivo_id = document.getElementById('upload_documentos_cliente_executivo_id').value;
+                //Dados
+                let cliente_executivo_id = document.getElementById('upload_documentos_cliente_executivo_id').value;
 
-                    //Montar Grade
-                    clienteExecutivoModalInfoGradeDocumentosPdf({cliente_executivo_id:cliente_executivo_id});
-                } else if (data.error) {
-                    alertSwal('error', 'Clientes Executivos', data.error, 'true', 2000);
-                } else if (data.error_permissao) {
-                    alertSwal('warning', "Permissão Negada", '', 'true', 2000);
-                } else {
-                    alert('Erro interno');
-                }
-            }).catch(error => {
-                alert('Erro clienteExecutivoModalInfoDeletarDocumentoPdf:'+error);
-            });
-        }
-    });
+                //Montar Grade
+                clienteExecutivoModalInfoGradeDocumentosPdf({cliente_executivo_id:cliente_executivo_id});
+            } else if (data.error) {
+                alertSwal('error', 'Clientes Executivos', data.error, 'true', 2000);
+            } else if (data.error_permissao) {
+                alertSwal('warning', "Permissão Negada", '', 'true', 2000);
+            } else {
+                alert('Erro interno');
+            }
+        }).catch(error => {
+            alert('Erro clienteExecutivoModalInfoDeletarDocumentoPdf:'+error);
+        });
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {

@@ -45,32 +45,33 @@
                                     @csrf
 
                                     <div class="mb-3">
-                                        <label class="form-label">Empresa</label>
                                         <select class="form-control" name="empresa_id" id="empresa_id" onchange="setNomeEmpresa();" required>
-                                            <option value="">Selecione...</option>
+                                            <option value="">Selecione a Empresa</option>
 
                                             @foreach ($empresas as $key => $empresa)
                                                 <option value="{{ $empresa['id'] }}">{{ $empresa['name'] }}</option>
                                             @endforeach
                                         </select>
                                         <input type="hidden" name="empresa_name" id="empresa_name">
-                                        @error('empresa_id') <div class="text-danger">{{ $message }}</div> @enderror
                                     </div>
                                     <div class="mb-3">
-                                        <label for="email" class="form-label">E-mail</label>
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Entre com o Usuário" required autofocus>
-                                        @error('email') <div class="text-danger">{{ $message }}</div> @enderror
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu E-mail de Usuário" required autofocus>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Senha</label>
                                         <div class="input-group auth-pass-inputgroup">
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="Entre com a Senha" aria-label="Password" aria-describedby="password-addon" required>
+                                            <input type="password" class="form-control" id="password" name="password" placeholder="Digite sua Senha" aria-label="Password" aria-describedby="password-addon" required>
                                             <button class="btn btn-light " type="button" id="password-addon"><i class="mdi mdi-eye-outline"></i></button>
                                         </div>
-                                        @error('password') <div class="text-danger">{{ $message }}</div> @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <select class="form-control" name="idioma" id="idioma" required>
+                                            <option value="">Selecione o Idioma</option>
+                                            <option value="pt_BR">Português</option>
+                                            <option value="en">Inglês</option>
+                                        </select>
                                     </div>
                                     <div class="mt-5 d-grid">
-                                        <button class="btn btn-primary waves-effect waves-light" type="submit">Login</button>
+                                        <button class="btn btn-primary waves-effect waves-light" type="submit" id="btn_Login">Login</button>
                                     </div>
 
                                     @if (Route::has('forget.password.get'))
@@ -78,7 +79,6 @@
                                             <a href="{{ route('forget.password.get') }}" class="text-muted"><i class="mdi mdi-lock me-1"></i> Esqueceu sua senha?</a>
                                         </div>
                                     @endif
-
                                 </form>
                             </div>
                         </div>
@@ -94,5 +94,20 @@
 			let nomeEmpresa = select.options[select.selectedIndex].text;
 			document.getElementById('empresa_name').value = nomeEmpresa;
 		}
+    </script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+        	var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+        	if (url_atual == 'http://gruposrmais-client.test/') {
+				document.getElementById('empresa_id').value = 1;
+				document.getElementById('email').value = 'claudinomoraes@yahoo.com.br';
+				document.getElementById('password').value = '12345678';
+				document.getElementById('idioma').value = 'pt_BR';
+
+				document.getElementById('btn_Login').focus();
+			}
+        });
     </script>
 @endsection

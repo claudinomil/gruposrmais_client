@@ -178,6 +178,8 @@ function crudPreencherFormulario(campo, dados) {
             if (dados['visita_tecnica_tipo_id'] == 1) {vtt = 'vtt1_';}
             if (dados['visita_tecnica_tipo_id'] == 2) {vtt = 'vtt2_';}
 
+            //if (campo_formulario == 'empresa_id') {campo_formulario = vtt+campo_formulario;}
+            //if (campo_formulario == 'visita_tecnica_tipo_id') {campo_formulario = vtt+campo_formulario;}
             if (campo_formulario == 'numero_visita_tecnica') {campo_formulario = vtt+campo_formulario;}
             if (campo_formulario == 'ano_visita_tecnica') {campo_formulario = vtt+campo_formulario;}
             if (campo_formulario == 'data_abertura') {campo_formulario = vtt+campo_formulario;}
@@ -191,12 +193,22 @@ function crudPreencherFormulario(campo, dados) {
             if (campo_formulario == 'visita_tecnica_status_id') {campo_formulario = vtt+campo_formulario;}
             if (campo_formulario == 'cliente_id') {campo_formulario = vtt+campo_formulario;}
             if (campo_formulario == 'cliente_nome') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'cliente_cnpj') {campo_formulario = vtt+campo_formulario;}
             if (campo_formulario == 'cliente_telefone') {campo_formulario = vtt+campo_formulario;}
             if (campo_formulario == 'cliente_celular') {campo_formulario = vtt+campo_formulario;}
             if (campo_formulario == 'cliente_email') {campo_formulario = vtt+campo_formulario;}
             if (campo_formulario == 'cliente_logradouro') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'cliente_logradouro_numero') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'cliente_logradouro_complemento') {campo_formulario = vtt+campo_formulario;}
             if (campo_formulario == 'cliente_bairro') {campo_formulario = vtt+campo_formulario;}
             if (campo_formulario == 'cliente_cidade') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'cliente_uf') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'responsavel_funcionario_id') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'responsavel_funcionario_nome') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'responsavel_funcionario_email') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'nivel') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'classificacao') {campo_formulario = vtt+campo_formulario;}
+            if (campo_formulario == 'comentarios') {campo_formulario = vtt+campo_formulario;}
         }
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -411,12 +423,6 @@ function crudCreate() {
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
-            if (prefixPermissaoSubmodulo == 'clientes_servicos') {
-                //Brigada de Incêndio''''''''''''''''''''''''''''''''''''''''''''''''
-                bi_limparGradeBrigadistas();
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            }
-
             if (prefixPermissaoSubmodulo == 'servicos') {
                 //voltar configurações de campos apos passar pelo edit
                 document.getElementById('name').readOnly = false;
@@ -511,6 +517,13 @@ function crudCreate() {
             }
 
             if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {}
+
+            if (prefixPermissaoSubmodulo == 'brigadas_incendios') {
+                // Preparando Tela
+                controleDisplay();
+                mat_controleDisplay();
+                esc_controleDisplay();
+            }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         } else if (data.error_permissao) {
             alertSwal('warning', "Permissão Negada", '', 'true', 2000);
@@ -599,10 +612,8 @@ function crudView(registro_id) {
             }
 
             if (prefixPermissaoSubmodulo == 'funcionarios') {
-                //Liberar campos frm_upload_fun_foto
-                document.getElementById('upload_foto_funcionario_id').disabled = false;
-                document.getElementById('upload_foto_funcionario_name').disabled = false;
-                document.getElementById('fun_foto_file').disabled = false;
+                //mi_fun_funcionario_id
+                document.getElementById('mi_fun_funcionario_id').value = registro_id;
 
                 //Liberar campos frm_upload_documentos_fun
                 document.getElementById('upload_documentos_funcionario_id').disabled = false;
@@ -703,39 +714,6 @@ function crudView(registro_id) {
                 if (data.success['doenca_familia_cardiaca'] == 1) {document.getElementById('doenca_familia_cardiaca').checked = true;}
                 if (data.success['doenca_familia_cancer'] == 1) {document.getElementById('doenca_familia_cancer').checked = true;}
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            }
-
-            if (prefixPermissaoSubmodulo == 'clientes_servicos') {
-                //Verificar botões''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                //Se servico_status_id for igual a 1(EXECUTADO) : Somente Visualização
-                if (data.success.servico_status_id == 1) {
-                    document.getElementById('crudAlterarRegistro').style.display = 'none';
-                    document.getElementById('crudExcluirRegistro').style.display = 'none';
-                } else {
-                    document.getElementById('crudAlterarRegistro').style.display = 'block';
-                    document.getElementById('crudExcluirRegistro').style.display = 'block';
-                }
-                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                //Brigada de Incêndio'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                //Configuração conforme escala escolhida
-                bi_configuracaoConformeEscala(document.getElementById('bi_escala_tipo_id').value);
-
-                bi_limparGradeBrigadistas();
-
-                //Preencher Grade Brigadistas
-                cliente_servicos_brigadistas = data.success['cliente_servicos_brigadistas'];
-
-                cliente_servicos_brigadistas.forEach(function (item) {
-                    //Dados para preencher na linha da grade
-                    document.getElementById('bi_grade_funcionario_id').value = item.funcionario_id;
-                    document.getElementById('bi_grade_funcionario_nome').value = item.funcionario_nome;
-                    document.getElementById('bi_grade_ala').value = item.ala;
-
-                    bi_gradeBrigadistasAtualizar(1);
-                });
-                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
             if (prefixPermissaoSubmodulo == 'users') {}
@@ -910,11 +888,9 @@ function crudView(registro_id) {
             if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
                 //View divVTT1''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 if (document.getElementById('visita_tecnica_tipo_id').value == 1) {
-                    //Show e Hide
-                    document.getElementById('divVisitaTecnicaTipo').style.display = '';
-                    document.getElementById('vtt1_divExecutar').style.display = 'none';
-                    document.getElementById('vtt1_divInformacoesGerais').style.display = '';
-                    document.getElementById('vtt1_divClientes').style.display = '';
+                    //Acertos no Formulário
+                    document.getElementById('vtt1_divClienteId').style.display = 'none';
+                    document.getElementById('vtt1_divResponsavelFuncionarioId').style.display = 'none';
 
                     //Visita Técnica Dados
                     var visitas_tecnicas_dados = data.success['visitas_tecnicas_dados'];
@@ -932,41 +908,43 @@ function crudView(registro_id) {
                 document.getElementById('visita_tecnica_tipo_id').dispatchEvent(new Event('change'));
             }
 
-            if (prefixPermissaoSubmodulo == 'brigadas') {
-                bi_preencherFormulario(data.success);
+            if (prefixPermissaoSubmodulo == 'brigadas_incendios') {
+                // Preparando Tela
+                controleDisplay();
+                mat_controleDisplay();
+                esc_controleDisplay();
+
+                // Colocar Materiais da Brigada Incêndio
+                const brigada_incendio_materiais = data.success['brigada_incendio_materiais'];
+
+                brigada_incendio_materiais.forEach(function (item) {
+                    // Adicionar linha na grade
+                    mat_adicionarLinhaGrade({
+                        material_id: item.material_id,
+                        material_categoria_name: item.material_categoria_name,
+                        material_name: item.material_name,
+                        material_quantidade: item.material_quantidade
+                    });
+                });
+
+                // Colocar Escalas da Brigada Incêndio
+                const brigada_incendio_escalas = data.success['brigada_incendio_escalas'];
+
+                brigada_incendio_escalas.forEach(function (item) {
+                    // Adicionar linha na grade
+                    esc_adicionarLinhaGrade({
+                        escala_tipo_id: item.escala_tipo_id,
+                        escala_tipo_name: item.escala_tipo_name,
+                        escala_tipo_quantidade_alas: item.escala_tipo_quantidade_alas,
+                        escala_tipo_quantidade_horas_trabalhadas: item.escala_tipo_quantidade_horas_trabalhadas,
+                        escala_tipo_quantidade_horas_descanso: item.escala_tipo_quantidade_horas_descanso,
+                        quantidade_brigadistas_por_ala: item.quantidade_brigadistas_por_ala,
+                        quantidade_brigadistas_total: item.quantidade_brigadistas_total,
+                        posto: item.posto,
+                        hora_inicio_ala_1: item.hora_inicio_ala_1
+                    });
+                });
             }
-
-            // if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
-            //     //Verificar botões''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            //     //Se servico_status_id for igual a 1(EXECUTADO) : Somente Visualização
-            //     if (data.success.clientes_servicos_servico.servico_status_id == 1) {
-            //         document.getElementById('crudAlterarRegistro').style.display = 'none';
-            //     } else {
-            //         document.getElementById('crudAlterarRegistro').style.display = 'block';
-            //     }
-            //     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            //
-            //     vt_configurarFormulario(data.success);
-            //     vt_preencherFormulario(data.success);
-            //
-            //     //Alert para marcar Serviço como Finalizado'''''''''''''''''''''''''''''''''''
-            //     document.getElementById('hrServicoExecutado').style.display = 'none';
-            //     document.getElementById('spanServicoExecutado').style.display = 'none';
-            //
-            //     document.getElementById('executado_data').value = data.success.executado_data;
-            //     document.getElementById('executado_user_funcionario').value = data.success.executado_user_funcionario;
-            //     document.getElementById('executado_user_id').value = data.success.executado_user_id;
-            //
-            //     if (data.success.executado_data == '' || data.success.executado_data === null) {
-            //         document.getElementById('servico_executado').checked = false;
-            //         document.getElementById('labelServicoExecutado').innerHTML = 'Visita não Finalizada';
-            //     } else {
-            //         document.getElementById('servico_executado').checked = true;
-            //         document.getElementById('labelServicoExecutado').innerHTML = 'Visita Finalizada';
-            //     }
-            //     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            // }
-
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             //Configuração
@@ -1158,32 +1136,6 @@ async function crudEdit(registro_id) {
                 if (data.success['doenca_familia_cardiaca'] == 1) {document.getElementById('doenca_familia_cardiaca').checked = true;}
                 if (data.success['doenca_familia_cancer'] == 1) {document.getElementById('doenca_familia_cancer').checked = true;}
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            }
-
-            if (prefixPermissaoSubmodulo == 'clientes_servicos') {
-                //Não deixar alterar o campo servico_id e cliente_id'''''''''''''''''
-                document.getElementById('servico_id').disabled = true;
-                //document.getElementById('cliente_id').disabled = true;
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                //Brigada de Incêndio''''''''''''''''''''''''''''''''''''''''''''''''
-                //Configuração conforme escala escolhida
-                bi_configuracaoConformeEscala(document.getElementById('bi_escala_tipo_id').value);
-
-                bi_limparGradeBrigadistas();
-
-                //Preencher Grade Brigadistas
-                cliente_servicos_brigadistas = data.success['cliente_servicos_brigadistas'];
-
-                cliente_servicos_brigadistas.forEach(function (item) {
-                    //Dados para preencher na linha da grade
-                    document.getElementById('bi_grade_funcionario_id').value = item.funcionario_id;
-                    document.getElementById('bi_grade_funcionario_nome').value = item.funcionario_nome;
-                    document.getElementById('bi_grade_ala').value = item.ala;
-
-                    bi_gradeBrigadistasAtualizar(1);
-                });
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
             if (prefixPermissaoSubmodulo == 'servicos') {
@@ -1380,19 +1332,16 @@ async function crudEdit(registro_id) {
             if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
                 //Edit divVTT1''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 if (document.getElementById('visita_tecnica_tipo_id').value == 1) {
-                    //Show e Hide
-                    document.getElementById('divVisitaTecnicaTipo').style.display = 'none';
-                    document.getElementById('vtt1_divExecutar').style.display = '';
-                    document.getElementById('vtt1_divInformacoesGerais').style.display = 'none';
-                    document.getElementById('vtt1_divClientes').style.display = 'none';
-
-                    document.getElementById('vtt1_divExecutarCliente').innerHTML = '('+data.success.clienteName+')';
+                    //Acertos no Formulário
+                    document.getElementById('visita_tecnica_tipo_id').disabled = true;
+                    document.getElementById('vtt1_divClienteId').style.display = 'none';
+                    document.getElementById('vtt1_divResponsavelFuncionarioId').style.display = '';
 
                     //Visita Técnica Dados
                     var visitas_tecnicas_dados = data.success['visitas_tecnicas_dados'];
 
                     //Montar Perguntas
-                    const htmlPerguntas = vtt1_gerarHtmlPerguntas(visitas_tecnicas_dados);
+                    const htmlPerguntas = vtt1_gerarHtmlPerguntas(visitas_tecnicas_dados, data.success['vt_cs']);
                     document.getElementById('vtt1_divPerguntas').innerHTML = htmlPerguntas;
                 }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1404,50 +1353,43 @@ async function crudEdit(registro_id) {
                 document.getElementById('visita_tecnica_tipo_id').dispatchEvent(new Event('change'));
             }
 
-            // if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
-            //     vt_configurarFormulario(data.success);
-            //
-            //     if (!vt_preencherFormulario(data.success)) {
-            //         //Configuração
-            //         crudConfiguracao({p_crudTable:'show', p_crudForm:'hide'});
-            //     }
-            //
-            //     //Alert para marcar Serviço como Finalizado''''''''''''''''''''''''''
-            //     document.getElementById('hrServicoExecutado').style.display = 'none';
-            //     document.getElementById('spanServicoExecutado').style.display = 'none';
-            //
-            //     document.getElementById('executado_data').disabled = true;
-            //     document.getElementById('executado_data').readOnly = false;
-            //
-            //     document.getElementById('executado_user_funcionario').disabled = true;
-            //     document.getElementById('executado_user_funcionario').readOnly = false;
-            //
-            //     document.getElementById('executado_user_id').disabled = true;
-            //     document.getElementById('executado_user_id').readOnly = false;
-            //
-            //     if (data.success.executado_data == '' || data.success.executado_data === null) {
-            //         document.getElementById('executado_data').value = data.success.dados_servico_executado.executado_data;
-            //         document.getElementById('executado_user_funcionario').value = data.success.dados_servico_executado.executado_user_funcionario;
-            //         document.getElementById('executado_user_id').value = data.success.dados_servico_executado.executado_user_id;
-            //
-            //         document.getElementById('servico_executado').checked = false;
-            //         document.getElementById('labelServicoExecutado').innerHTML = 'Visita não Finalizada';
-            //
-            //         document.getElementById('hrServicoExecutado').style.display = 'block';
-            //         document.getElementById('spanServicoExecutado').style.display = 'block';
-            //         document.getElementById('spanServicoExecutado').innerHTML = 'Ao verificar as Medidas de Segurança finalize a Visita aqui e confirme.';
-            //     } else {
-            //         document.getElementById('executado_data').value = data.success.executado_data;
-            //         document.getElementById('executado_user_funcionario').value = data.success.executado_user_funcionario;
-            //         document.getElementById('executado_user_id').value = data.success.executado_user_id;
-            //
-            //         document.getElementById('servico_executado').checked = true;
-            //         document.getElementById('labelServicoExecutado').innerHTML = 'Visita Finalizada';
-            //     }
-            //     //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            // }
+            if (prefixPermissaoSubmodulo == 'brigadas_incendios') {
+                // Preparando Tela
+                controleDisplay();
+                mat_controleDisplay();
+                esc_controleDisplay();
 
+                // Colocar Materiais da Brigada Incêndio
+                const brigada_incendio_materiais = data.success['brigada_incendio_materiais'];
 
+                brigada_incendio_materiais.forEach(function (item) {
+                    // Adicionar linha na grade
+                    mat_adicionarLinhaGrade({
+                        material_id: item.material_id,
+                        material_categoria_name: item.material_categoria_name,
+                        material_name: item.material_name,
+                        material_quantidade: item.material_quantidade
+                    });
+                });
+
+                // Colocar Escalas da Brigada Incêndio
+                const brigada_incendio_escalas = data.success['brigada_incendio_escalas'];
+
+                brigada_incendio_escalas.forEach(function (item) {
+                    // Adicionar linha na grade
+                    esc_adicionarLinhaGrade({
+                        escala_tipo_id: item.escala_tipo_id,
+                        escala_tipo_name: item.escala_tipo_name,
+                        escala_tipo_quantidade_alas: item.escala_tipo_quantidade_alas,
+                        escala_tipo_quantidade_horas_trabalhadas: item.escala_tipo_quantidade_horas_trabalhadas,
+                        escala_tipo_quantidade_horas_descanso: item.escala_tipo_quantidade_horas_descanso,
+                        quantidade_brigadistas_por_ala: item.quantidade_brigadistas_por_ala,
+                        quantidade_brigadistas_total: item.quantidade_brigadistas_total,
+                        posto: item.posto,
+                        hora_inicio_ala_1: item.hora_inicio_ala_1
+                    });
+                });
+            }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             //Configuração
@@ -1474,7 +1416,7 @@ async function crudEdit(registro_id) {
 }
 
 //Delete
-function crudDelete(registro_id) {
+async function crudDelete(registro_id) {
     //Variáveis
     if (registro_id == 0) {registro_id = document.getElementById('registro_id').value;}
     let prefixPermissaoSubmodulo = document.getElementById('crudPrefixPermissaoSubmodulo').value;
@@ -1482,62 +1424,56 @@ function crudDelete(registro_id) {
     let nameFormSubmodulo = document.getElementById('crudNameFormSubmodulo').value;
 
     //Confirmação de Delete
-    alertSwalConfirmacao(function (confirmed) {
-        if (confirmed) {
-            //Configuração - Retirar DIV Botões e colocar DIV Loading
-            crudConfiguracao({p_crudFormButtons1:'hide', p_crudFormAjaxLoading:'show'});
+    const confirmed = await alertSwalConfirmacao();
+    if (confirmed) {
+        //Configuração - Retirar DIV Botões e colocar DIV Loading
+        crudConfiguracao({p_crudFormButtons1:'hide', p_crudFormAjaxLoading:'show'});
 
-            //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            if (prefixPermissaoSubmodulo == 'clientes_servicos') {
-                //Confirmar exclusão, pois vai deletar a Visita Técnica
-                var resultado = confirm("Essa operação irá afetar o que se refere a este Serviço. Confirma operação?");
-                if (resultado == false) {return false;}
+        //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Acessar rota
+        fetch(prefixPermissaoSubmodulo+'/'+registro_id, {
+            method: 'DELETE',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
-            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            //Lendo dados
+            if (data.success) {
+                alertSwal('success', nameSubmodulo, data.success, 'true', 2000);
 
-            //Acessar rota
-            fetch(prefixPermissaoSubmodulo+'/'+registro_id, {
-                method: 'DELETE',
-                headers: {
-                    'REQUEST-ORIGIN': 'fetch',
-                    'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                //Lendo dados
-                if (data.success) {
-                    alertSwal('success', nameSubmodulo, data.success, 'true', 2000);
-
-                    //Configuração
-                    crudConfiguracao({p_crudTable:'show', p_crudForm:'hide'});
-
-                    //Table
-                    crudTable(prefixPermissaoSubmodulo);
-                } else if (data.error) {
-                    alertSwal('error', nameSubmodulo, data.error, 'true', 2000);
-
-                    //Configuração
-                    crudConfiguracao({p_crudTable:'show', p_crudForm:'hide'});
-
-                    //Table
-                    crudTable(prefixPermissaoSubmodulo);
-                } else if (data.error_permissao) {
-                    alertSwal('warning', "Permissão Negada", '', 'true', 2000);
-                } else {
-                    alert('Erro interno');
-                }
-            }).catch(error => {
                 //Configuração
-                crudConfiguracao({p_removeMask:true, p_putMask:true});
+                crudConfiguracao({p_crudTable:'show', p_crudForm:'hide'});
 
-                alert('Erro Crud Functions Delete:'+error);
-            });
+                //Table
+                crudTable(prefixPermissaoSubmodulo);
+            } else if (data.error) {
+                alertSwal('error', nameSubmodulo, data.error, 'true', 2000);
 
+                //Configuração
+                crudConfiguracao({p_crudTable:'show', p_crudForm:'hide'});
+
+                //Table
+                crudTable(prefixPermissaoSubmodulo);
+            } else if (data.error_permissao) {
+                alertSwal('warning', "Permissão Negada", '', 'true', 2000);
+            } else {
+                alert('Erro interno');
+            }
+        }).catch(error => {
+            //Configuração
+            crudConfiguracao({p_removeMask:true, p_putMask:true});
+
+            alert('Erro Crud Functions Delete:'+error);
+        }).finally(() => {
             //Configuração - Retirar DIV Loading e colocar DIV Botões
             crudConfiguracao({p_crudFormButtons1:'show', p_crudFormAjaxLoading:'hide'});
-        }
-    });
+        });
+    }
 }
 
 //Confirm Operacao
@@ -1553,18 +1489,6 @@ function crudConfirmOperation() {
         var executar = 1;
 
         //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        if (prefixPermissaoSubmodulo == 'clientes_servicos') {
-            //pegar valor selecionado
-            servico_id_selected = document.getElementById('servico_id');
-            optionSelecionado = servico_id_selected.options[servico_id_selected.selectedIndex];
-            servicoTipoId = optionSelecionado.getAttribute('data-servico_tipo_id');
-
-            //Serviço Tipo 1: Brigada de Incêndio - Verificação
-            if (servicoTipoId == 1) {if (bi_gradeBrigadistasVerificacao(2) === false) {executar = 0;}}
-
-            //Serviço Tipo 3: Visita Técnica - Verificação
-            if (servicoTipoId == 3) {if (vt_verificacao() === false) {executar = 0;}}
-        }
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         if (executar == 1) {
@@ -1648,25 +1572,18 @@ function crudConfirmOperation() {
                     crudConfiguracao({p_removeMask:true, p_putMask:true});
 
                     alert('Erro Crud Functions Confirm Operation Create: '+error);
+                }).finally(() => {
+                    //Configuração - Retirar DIV Loading e colocar DIV Botões
+                    crudConfiguracao({p_crudFormButtons1:'show', p_crudFormAjaxLoading:'hide'});
                 });
-
-                //Configuração - Retirar DIV Loading e colocar DIV Botões
-                crudConfiguracao({p_crudFormButtons1:'show', p_crudFormAjaxLoading:'hide'});
             }
 
             //Confirm Operacao - Edit
             if (document.getElementById('frm_operacao').value == 'edit') {
                 //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                if (prefixPermissaoSubmodulo == 'clientes_servicos') {
-                    //Não deixar alterar o campo servico_id e cliente_id (revertendo)''''
-                    document.getElementById('servico_id').disabled = false;
-                    //document.getElementById('cliente_id').disabled = false;
-                    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                    //Confirmar alteração, pois pode afetar a Visita Técnica'''''''''''''
-                    var resultado = confirm("Essa operação irá afetar o que se refere a este Serviço. Confirma operação?");
-                    if (resultado == false) {return false;}
-                    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
+                    //Acertos no Formulário
+                    document.getElementById('visita_tecnica_tipo_id').disabled = false;
                 }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -1736,10 +1653,10 @@ function crudConfirmOperation() {
                     crudConfiguracao({p_removeMask:true, p_putMask:true});
 
                     alert('Erro Crud Functions Confirm Operation Edit:'+error);
+                }).finally(() => {
+                    //Configuração - Retirar DIV Loading e colocar DIV Botões
+                    crudConfiguracao({p_crudFormButtons1:'show', p_crudFormAjaxLoading:'hide'});
                 });
-
-                //Configuração - Retirar DIV Loading e colocar DIV Botões
-                crudConfiguracao({p_crudFormButtons1:'show', p_crudFormAjaxLoading:'hide'});
             }
         }
     }

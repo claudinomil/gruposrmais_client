@@ -26,23 +26,10 @@
                                 <x-button-crud op="3" onclick="crudDelete(0);" />
                         @endif
 
-                        <!-- Botão Info -->
-                        <x-button-crud op="7" onclick="clienteModalInfoControle(2);" />
-
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    <div class="modal-loading" id="crudFormAjaxLoading" style="display: none;">
-                        <div class="spinner-chase">
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                        </div>
-                    </div>
-
+                    
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
@@ -53,40 +40,39 @@
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-user"></i> Informa&ccedil;&otilde;es Gerais</h5>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label col-12">Status</label>
+                                        <label class="form-label col-12">{{ __('Status') }}</label>
                                         <select class="select2 form-control col-12" name="status" id="status" required="required">
                                             <option value="1">ATIVO</option>
                                             <option value="2">INATIVO</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Tipo</label>
+                                        <label class="form-label">{{ __('Tipo') }}</label>
                                         <select class="select2 form-control" name="tipo" id="tipo" required="required">
                                             <option value="1">PESSOA JURÍDICA</option>
                                             <option value="2">PESSOA FÍSICA</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3 pessoa_fisica">
-                                        <label class="form-label">CPF</label>
+                                        <label class="form-label">{{ __('CPF') }}</label>
                                         <input type="text" class="form-control mask_cpf" id="cpf" name="cpf">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3 pessoa_juridica">
-                                        <label class="form-label">
-                                            CNPJ
+                                        <label class="form-label">{{ __('CNPJ') }}
                                             <a href="#" class="texto-primary" id="link_api_buscar">&nbsp;&nbsp;&nbsp;<i class="mdi mdi-search-web"></i> Buscar na API</a>
                                         </label>
                                         <input type="text" class="form-control mask_cnpj" id="cnpj" name="cnpj">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Nome</label>
+                                        <label class="form-label">{{ __('Nome') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="name" name="name" required="required">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3 pessoa_juridica">
-                                        <label class="form-label">Nome Fantasia</label>
+                                        <label class="form-label">{{ __('Nome Fantasia') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="nome_fantasia" name="nome_fantasia">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3 pessoa_fisica">
-                                        <label class="form-label">Gênero</label>
+                                        <label class="form-label">{{ __('Gênero') }}</label>
                                         <select class="select2 form-control" name="genero_id" id="genero_id" required="required">
                                             <option value="">Selecione...</option>
 
@@ -97,11 +83,11 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label" id="label_data_nascimento">Nascimento</label>
+                                        <label class="form-label" id="label_data_nascimento">{{ __('Nascimento') }}</label>
                                         <input type="text" class="form-control mask_date" id="data_nascimento" name="data_nascimento">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Cliente Principal</label>
+                                        <label class="form-label">{{ __('Cliente Principal') }}</label>
                                         <select class="select2 form-control" name="principal_cliente_id" id="principal_cliente_id">
                                             <option value="">Selecione...</option>
 
@@ -112,7 +98,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Cliente Rede</label>
+                                        <label class="form-label">{{ __('Cliente Rede') }}</label>
                                         <select class="select2 form-control" name="rede_cliente_id" id="rede_cliente_id">
                                             <option value="">Selecione...</option>
 
@@ -126,36 +112,76 @@
 
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-user"></i> Contato</h5>
-                                    <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label">Telefone 1</label>
-                                        <input type="text" class="form-control mask_phone_with_ddd" id="telefone_1" name="telefone_1">
-                                    </div>
-                                    <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label">Telefone 2</label>
-                                        <input type="text" class="form-control mask_phone_with_ddd" id="telefone_2" name="telefone_2">
-                                    </div>
-                                    <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label">Celular 1</label>
-                                        <input type="text" class="form-control mask_cell_with_ddd" id="celular_1" name="celular_1">
-                                    </div>
-                                    <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label">Celular 2</label>
-                                        <input type="text" class="form-control mask_cell_with_ddd" id="celular_2" name="celular_2">
-                                    </div>
                                     <div class="form-group col-12 col-md-6 pb-3">
-                                        <label class="form-label">E-mail</label>
+                                        <label class="form-label">{{ __('E-mail Cliente') }}</label>
                                         <input type="email" class="form-control text-lowercase mask_email" id="email" name="email">
                                     </div>
                                     <div class="form-group col-12 col-md-6 pb-3">
-                                        <label class="form-label">Site</label>
+                                        <label class="form-label">{{ __('Site Cliente') }}</label>
                                         <input type="text" class="form-control text-lowercase" id="site" name="site">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <h6 class="pb-2 text-success">Contato 1</h6>
+                                            <div class="form-group col-12 col-md-11 pb-3">
+                                                <label class="form-label">{{ __('Nome') }}</label>
+                                                <input type="text" class="form-control" id="contato_1_nome" name="contato_1_nome">
+                                            </div>
+                                            <div class="form-group col-12 col-md-11 pb-3">
+                                                <label class="form-label">{{ __('Setor') }}</label>
+                                                <input type="text" class="form-control" id="contato_1_setor" name="contato_1_setor">
+                                            </div>
+                                            <div class="form-group col-12 col-md-11 pb-3">
+                                                <label class="form-label">{{ __('Cargo') }}</label>
+                                                <input type="text" class="form-control" id="contato_1_cargo" name="contato_1_cargo">
+                                            </div>
+                                            <div class="form-group col-12 col-md-11 pb-3">
+                                                <label class="form-label">{{ __('E-mail') }}</label>
+                                                <input type="email" class="form-control" id="contato_1_email" name="contato_1_email">
+                                            </div>
+                                            <div class="form-group col-12 col-md-11 pb-3">
+                                                <label class="form-label">{{ __('Telefone') }}</label>
+                                                <input type="text" class="form-control mask_phone_with_ddd" id="telefone_1" name="telefone_1">
+                                            </div>
+                                            <div class="form-group col-12 col-md-11 pb-3">
+                                                <label class="form-label">{{ __('Celular') }}</label>
+                                                <input type="text" class="form-control mask_cell_with_ddd" id="celular_1" name="celular_1">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <h6 class="pb-2 text-success">Contato 2</h6>
+                                            <div class="form-group col-12 col-md-11 pb-3">
+                                                <label class="form-label">{{ __('Nome') }}</label>
+                                                <input type="text" class="form-control" id="contato_2_nome" name="contato_2_nome">
+                                            </div>
+                                            <div class="form-group col-12 col-md-11 pb-3">
+                                                <label class="form-label">{{ __('Setor') }}</label>
+                                                <input type="text" class="form-control" id="contato_2_setor" name="contato_2_setor">
+                                            </div>
+                                            <div class="form-group col-12 col-md-11 pb-3">
+                                                <label class="form-label">{{ __('Cargo') }}</label>
+                                                <input type="text" class="form-control" id="contato_2_cargo" name="contato_2_cargo">
+                                            </div>
+                                            <div class="form-group col-12 col-md-11 pb-3">
+                                                <label class="form-label">{{ __('E-mail') }}</label>
+                                                <input type="email" class="form-control" id="contato_2_email" name="contato_2_email">
+                                            </div>
+                                            <div class="form-group col-12 col-md-11 pb-3">
+                                                <label class="form-label">{{ __('Telefone') }}</label>
+                                                <input type="text" class="form-control mask_phone_with_ddd" id="telefone_2" name="telefone_2">
+                                            </div>
+                                            <div class="form-group col-12 col-md-11 pb-3">
+                                                <label class="form-label">{{ __('Celular') }}</label>
+                                                <input type="text" class="form-control mask_cell_with_ddd" id="celular_2" name="celular_2">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-paste"></i> Documentos</h5>
                                     <div class="form-group col-12 col-md-3 pb-3 pessoa_fisica">
-                                        <label class="form-label">Identidade (Órgão)</label>
+                                        <label class="form-label">{{ __('Identidade (Órgão)') }}</label>
                                         <select class="form-control select2" name="identidade_orgao_id" id="identidade_orgao_id">
                                             <option value="">Selecione...</option>
 
@@ -166,7 +192,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-3 pb-3 pessoa_fisica">
-                                        <label class="form-label">Identidade (Estado)</label>
+                                        <label class="form-label">{{ __('Identidade (Estado)') }}</label>
                                         <select class="form-control select2" name="identidade_estado_id" id="identidade_estado_id">
                                             <option value="">Selecione...</option>
 
@@ -177,19 +203,19 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-3 pb-3 pessoa_fisica">
-                                        <label class="form-label">Identidade (Número)</label>
+                                        <label class="form-label">{{ __('Identidade (Número)') }}</label>
                                         <input type="text" class="form-control" id="identidade_numero" name="identidade_numero">
                                     </div>
                                     <div class="form-group col-12 col-md-3 pb-3 pessoa_fisica">
-                                        <label class="form-label">Identidade (Emissão)</label>
+                                        <label class="form-label">{{ __('Identidade (Emissão)') }}</label>
                                         <input type="text" class="form-control mask_date" id="identidade_data_emissao" name="identidade_data_emissao">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3 pessoa_juridica">
-                                        <label class="form-label">Inscrição Estadual</label>
+                                        <label class="form-label">{{ __('Inscrição Estadual') }}</label>
                                         <input type="text" class="form-control" id="inscricao_estadual" name="inscricao_estadual">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3 pessoa_juridica">
-                                        <label class="form-label">Inscrição Municipal</label>
+                                        <label class="form-label">{{ __('Inscrição Municipal') }}</label>
                                         <input type="text" class="form-control" id="inscricao_municipal" name="inscricao_municipal">
                                     </div>
                                 </div>
@@ -197,31 +223,31 @@
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-house-user"></i> Endereço</h5>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">CEP</label>
+                                        <label class="form-label">{{ __('CEP') }}</label>
                                         <input type="text" class="form-control mask_cep" id="cep" name="cep" onblur="pesquisacep(this.value);">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Número</label>
+                                        <label class="form-label">{{ __('Número') }}</label>
                                         <input type="text" class="form-control" id="numero" name="numero">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Complemento</label>
+                                        <label class="form-label">{{ __('Complemento') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="complemento" name="complemento">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Logradouro</label>
+                                        <label class="form-label">{{ __('Logradouro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="logradouro" name="logradouro" readonly="readonly">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Bairro</label>
+                                        <label class="form-label">{{ __('Bairro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="bairro" name="bairro" readonly="readonly">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Localidade</label>
+                                        <label class="form-label">{{ __('Localidade') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="localidade" name="localidade" readonly="readonly">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">UF</label>
+                                        <label class="form-label">{{ __('UF') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="uf" name="uf" readonly="readonly">
                                     </div>
                                 </div>
@@ -230,31 +256,31 @@
                                     <h5 class="pb-4 text-primary"><i class="fas fa-house-user"></i> Endereço Cobrança&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="text-success font-size-10" id="link_copiar_endereco">:: Copiar do Endereço</a></h5>
 
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">CEP</label>
+                                        <label class="form-label">{{ __('CEP') }}</label>
                                         <input type="text" class="form-control mask_cep" id="cep_cobranca" name="cep_cobranca" onblur="pesquisacep_cobranca(this.value);">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Número</label>
+                                        <label class="form-label">{{ __('Número') }}</label>
                                         <input type="text" class="form-control" id="numero_cobranca" name="numero_cobranca">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Complemento</label>
+                                        <label class="form-label">{{ __('Complemento') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="complemento_cobranca" name="complemento_cobranca">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Logradouro</label>
+                                        <label class="form-label">{{ __('Logradouro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="logradouro_cobranca" name="logradouro_cobranca" readonly="readonly">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Bairro</label>
+                                        <label class="form-label">{{ __('Bairro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="bairro_cobranca" name="bairro_cobranca" readonly="readonly">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Localidade</label>
+                                        <label class="form-label">{{ __('Localidade') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="localidade_cobranca" name="localidade_cobranca" readonly="readonly">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">UF</label>
+                                        <label class="form-label">{{ __('UF') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="uf_cobranca" name="uf_cobranca" readonly="readonly">
                                     </div>
                                 </div>
@@ -262,27 +288,27 @@
                                 <div class="row pt-4 pessoa_juridica">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-clipboard"></i> Classificação (DECRETO Nº 42, DE 17 DE DEZEMBRO DE 2018)</h5>
                                     <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">Número Pavimentos</label>
+                                        <label class="form-label">{{ __('Número Pavimentos') }}</label>
                                         <input type="number" class="form-control" id="numero_pavimentos" name="numero_pavimentos" min="1" step="1" value="1">
                                     </div>
                                     <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">Altura</label>
+                                        <label class="form-label">{{ __('Altura') }}</label>
                                         <input type="text" class="form-control mask_money" id="altura" name="altura">
                                     </div>
                                     <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">ATC (m²)</label>
+                                        <label class="form-label">{{ __('ATC (m²)') }}</label>
                                         <input type="text" class="form-control mask_money" id="area_total_construida" name="area_total_construida">
                                     </div>
                                     <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">Lotação</label>
+                                        <label class="form-label">{{ __('Lotação') }}</label>
                                         <input type="number" class="form-control" id="lotacao" name="lotacao" min="1" step="1" value="1">
                                     </div>
                                     <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">Carga Incêndio</label>
+                                        <label class="form-label">{{ __('Carga Incêndio') }}</label>
                                         <input type="number" class="form-control" id="carga_incendio" name="carga_incendio" step="1" value="">
                                     </div>
                                     <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">Risco Incêndio</label>
+                                        <label class="form-label">{{ __('Risco Incêndio') }}</label>
                                         <select class="select2 form-control" name="incendio_risco_id" id="incendio_risco_id">
                                             <option value="">Selecione...</option>
 
@@ -293,7 +319,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-12 pb-3">
-                                        <label class="form-label">Classificação Edificação</label>
+                                        <label class="form-label">{{ __('Classificação Edificação') }}</label>
                                         <select class="select2 form-control" name="edificacao_classificacao_id" id="edificacao_classificacao_id">
                                             <option value="">Selecione...</option>
                                             @foreach ($edificacao_classificacoes as $key => $edificacao_classificacao)
@@ -308,19 +334,19 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">Grupo</label>
+                                        <label class="form-label">{{ __('Grupo') }}</label>
                                         <input type="text" class="form-control" id="grupo" name="grupo" readonly>
                                     </div>
                                     <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">Divisão</label>
+                                        <label class="form-label">{{ __('Divisão') }}</label>
                                         <input type="text" class="form-control" id="divisao" name="divisao" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label">Ocupação</label>
+                                        <label class="form-label">{{ __('Ocupação') }}</label>
                                         <input type="text" class="form-control" id="ocupacao_uso" name="ocupacao_uso" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-5 pb-3">
-                                        <label class="form-label">Descrição</label>
+                                        <label class="form-label">{{ __('Descrição') }}</label>
                                         <input type="text" class="form-control" id="descricao" name="descricao" readonly>
                                     </div>
 
@@ -337,15 +363,15 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="form-group col-12 col-md-3 pb-3">
-                                                                <label class="form-label">Qtd</label>
+                                                                <label class="form-label">{{ __('Qtd') }}</label>
                                                                 <input type="number" class="form-control text-small quantidadeSegurancaMedida" id="quantidade_{{$pavimento.'_'.$seguranca_medida['id']}}" name="quantidade_{{$pavimento.'_'.$seguranca_medida['id']}}" step="1">
                                                             </div>
                                                             <div class="form-group col-12 col-md-9 pb-3">
-                                                                <label class="form-label">Tipo</label>
+                                                                <label class="form-label">{{ __('Tipo') }}</label>
                                                                 <input type="text" class="form-control text-uppercase tipoSegurancaMedida" id="tipo_{{$pavimento.'_'.$seguranca_medida['id']}}" name="tipo_{{$pavimento.'_'.$seguranca_medida['id']}}">
                                                             </div>
                                                             <div class="form-group col-12 col-md-12 pb-3">
-                                                                <label class="form-label">Observação</label>
+                                                                <label class="form-label">{{ __('Observação') }}</label>
                                                                 <textarea class="form-control observacaoSegurancaMedida" id="observacao_{{$pavimento.'_'.$seguranca_medida['id']}}" name="observacao_{{$pavimento.'_'.$seguranca_medida['id']}}" rows="2"></textarea>
                                                             </div>
                                                         </div>
@@ -380,9 +406,6 @@
                         <!-- Botão Excluir Registro -->
                             <x-button-crud op="3" onclick="crudDelete(0);" />
                     @endif
-
-                    <!-- Botão Info -->
-                    <x-button-crud op="7" onclick="clienteModalInfoControle(2);" />
 
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />

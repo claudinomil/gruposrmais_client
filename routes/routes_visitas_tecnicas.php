@@ -6,15 +6,23 @@ use App\Http\Controllers\VisitaTecnicaController;
 Route::prefix('visitas_tecnicas')->group(function () {
     Route::get('', [VisitaTecnicaController::class, 'index'])->name('visitas_tecnicas.index');
     Route::get('/create', [VisitaTecnicaController::class, 'create'])->name('visitas_tecnicas.create');
-    Route::post('/{visita_tecnica_tipo_id}/{cliente_id}', [VisitaTecnicaController::class, 'store'])->name('visitas_tecnicas.store');
+    Route::post('/{cliente_id}/{visita_tecnica_tipo_id}/{vt_cs}', [VisitaTecnicaController::class, 'store'])->name('visitas_tecnicas.store');
     Route::get('/{id}', [VisitaTecnicaController::class, 'show'])->name('visitas_tecnicas.show');
     Route::get('/{id}/edit', [VisitaTecnicaController::class, 'edit'])->name('visitas_tecnicas.edit');
     Route::post('/{id}', [VisitaTecnicaController::class, 'update'])->name('visitas_tecnicas.update');
     Route::delete('/{id}', [VisitaTecnicaController::class, 'destroy'])->name('visitas_tecnicas.destroy');
     Route::get('/filter/{array_dados}', [VisitaTecnicaController::class, 'filter'])->name('visitas_tecnicas.filter');
 
-    //Rotas Perguntas individuais
-    Route::post('/pergunta/updatePergunta/{visita_tecnica_dado_id}', [VisitaTecnicaController::class, 'updatePergunta'])->name('visitas_tecnicas.update_pergunta');
-    Route::post('/pergunta/uploadFotografia/{visita_tecnica_dado_id}/{slot}', [VisitaTecnicaController::class, 'uploadFotografia'])->name('visitas_tecnicas.uploadFotografia');
-    Route::post('/pergunta/removerFotografia/{visita_tecnica_dado_id}/{slot}', [VisitaTecnicaController::class, 'removerFotografia'])->name('visitas_tecnicas.removerFotografia');
+    //Rotas Perguntas individuais (VTT1)
+    Route::post('/vtt1/pergunta/updatePergunta/{visita_tecnica_dado_id}', [VisitaTecnicaController::class, 'vtt1_updatePergunta'])->name('visitas_tecnicas.vtt1_update_pergunta');
+    Route::post('/vtt1/pergunta/uploadFotografia/{visita_tecnica_dado_id}/{slot}', [VisitaTecnicaController::class, 'vtt1_uploadFotografia'])->name('visitas_tecnicas.vtt1_uploadFotografia');
+    Route::post('/vtt1/pergunta/removerFotografia/{visita_tecnica_dado_id}/{slot}', [VisitaTecnicaController::class, 'vtt1_removerFotografia'])->name('visitas_tecnicas.vtt1_removerFotografia');
+    Route::post('/vtt1/pergunta/uploadPdf/{visita_tecnica_dado_id}/{slot}', [VisitaTecnicaController::class, 'vtt1_uploadPdf'])->name('visitas_tecnicas.vtt1_uploadPdf');
+    Route::post('/vtt1/pergunta/removerPdf/{visita_tecnica_dado_id}/{slot}', [VisitaTecnicaController::class, 'vtt1_removerPdf'])->name('visitas_tecnicas.vtt1_removerPdf');
+
+    //Visitas Técnicas Perguntas (VTT1)
+    Route::post('/vtt1/visitas_tecnicas_perguntas/atualizar_pergunta/{id}', [VisitaTecnicaController::class, 'vtt1_atualizar_pergunta'])->name('visitas_tecnicas.vtt1_atualizar_pergunta');
+
+    //Visitas Técnicas Perguntas Completa / Sintética) (VTT1)
+    Route::get('/vtt1/visitas_tecnicas_perguntas/perguntas_completa_sintetica/{cs}', [VisitaTecnicaController::class, 'vtt1_perguntas_completa_sintetica'])->name('visitas_tecnicas.vtt1_perguntas_completa_sintetica');
 });

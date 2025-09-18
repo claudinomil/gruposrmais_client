@@ -4,6 +4,9 @@ namespace App\Services;
 
 use App\Facades\ApiData;
 use App\Facades\QRCodeFacade;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class SuporteService
 {
@@ -35,11 +38,20 @@ class SuporteService
     }
 
     /*
+     * Alterar Idioma da Sessao do Usuário Logado
+     */
+    public function setUserSessionIdioma()
+    {
+        // Salva o idioma na sessão
+        App::setLocale(session('se_userLogged_idioma'));
+        Session::put('locale', session('se_userLogged_idioma'));
+    }
+
+    /*
      * Gerar QRCode para Cartão Emergencial que mostra dados de Saúde para Atendimento Emergencial
      */
     public function setGerarQRCodesCartoesEmergenciais()
     {
-        //$url = 'http://192.168.0.207/gruposrmais-client/public/';
         $url = env('APP_URL');
 
         //Clientes Executivos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -93,41 +105,12 @@ class SuporteService
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     }
 
-    /*
-     * Gerar QRCode para Cliente Serviço
-     * Mostra dados do Cliente Serviço, Escala e Rondas
-     */
-    public function getClienteServicoQRCodeBrigadaInformacoes($cliente_servico_id)
-    {
-        $label_text = 'Brigada Informações';
-        $code_content = env('APP_URL') . '/qrcodes/clientes_servicos/qrcode_brigada_informacoes/' . $cliente_servico_id;
-        $save_destino = 'build/assets/qrcodes/clientes_servicos/';
-        $save_name = 'qrcode_brigada_informacoes_' . $cliente_servico_id . '.png';
-
-        QRCodeFacade::label($label_text)->logo()->code($code_content)->save($save_destino, $save_name);
-    }
-
-    /*
-     * Gerar QRCode para Cliente Serviço
-     * Registra Chegada e Saída do Brigadista no local
-     * Realizar Rondas
-     */
-    public function getClienteServicoQRCodeBrigadaEscalas($cliente_servico_id)
-    {
-        $label_text = 'Brigada Serviço';
-        $code_content = env('APP_URL') . '/qrcodes/clientes_servicos/qrcode_brigada_escalas/' . $cliente_servico_id;
-        $save_destino = 'build/assets/qrcodes/clientes_servicos/';
-        $save_name = 'qrcode_brigada_escalas_' . $cliente_servico_id . '.png';
-
-        QRCodeFacade::label($label_text)->logo()->code($code_content)->save($save_destino, $save_name);
-    }
-
     function traduzirTextoGoogle($texto, $idiomaOrigem = 'pt', $idiomaDestino = 'en') {
         if (empty($texto)) {
             return '';
         }
 
-        $apiKey = 'AIzaSyAvEtoAQmil8RS2Gcl9csltgrVjdbnTHqQ'; // Substitua pela sua chave da API
+        $apiKey = 'AIzaSyBGeQFWQ6kFJ9hnXvogPLtmYXJHVuM6U78';
         $url = 'https://translation.googleapis.com/language/translate/v2?key=' . $apiKey;
 
         $postData = array(
@@ -183,5 +166,16 @@ class SuporteService
         if (strlen($cpf) !== 11) return $cpf;
 
         return preg_replace('/^(\d{3})(\d{3})(\d{3})(\d{2})$/', '$1.$2.$3-$4', $cpf);
+    }
+
+    public function consultarCNPJ($cnpj)
+    {
+        $url = "https://receitaws.com.br/v1/cnpj/{$cnpj}";
+
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+        ])->get($url);
+
+        return response()->json($response->json());
     }
 }

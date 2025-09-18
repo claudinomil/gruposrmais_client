@@ -26,26 +26,10 @@
                                 <x-button-crud op="3" onclick="crudDelete(0);" />
                         @endif
 
-                        @if(\App\Facades\Permissoes::permissao(['list']))
-                            <!-- Botão OrdemServicoPDF -->
-                            <x-button-crud op="99" model="3" bgColor="danger" textColor="write" title="Ordem Serviço em PDF" image="fas fa-file-pdf" label="PDF" onclick="gerar_ordem_servico()" />
-                            <x-button-crud op="99" model="3" bgColor="primary" textColor="write" title="Ordem Serviço em PDF (Inglês)" image="fas fa-file-pdf" label="PDF" onclick="gerar_ordem_servico(0, 0, 'en')" />
-                        @endif
-
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    <div class="modal-loading" id="crudFormAjaxLoading" style="display: none;">
-                        <div class="spinner-chase">
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                        </div>
-                    </div>
-
+                    
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
@@ -732,12 +716,6 @@
                     @if(\App\Facades\Permissoes::permissao(['destroy']))
                         <!-- Botão Excluir Registro -->
                             <x-button-crud op="3" onclick="crudDelete(0);" />
-                    @endif
-
-                    @if(\App\Facades\Permissoes::permissao(['list']))
-                        <!-- Botão OrdemServicoPDF -->
-                        <x-button-crud op="99" model="3" bgColor="danger" textColor="write" title="Ordem Serviço em PDF" image="fas fa-file-pdf" label="PDF" onclick="gerar_ordem_servico()" />
-                        <x-button-crud op="99" model="3" bgColor="primary" textColor="write" title="Ordem Serviço em PDF (Inglês)" image="fas fa-file-pdf" label="PDF" onclick="gerar_ordem_servico(0, 0, 'en')" />
                     @endif
 
                     <!-- Botão Cancelar Operação -->

@@ -26,23 +26,10 @@
                                 <x-button-crud op="3" onclick="crudDelete(0);" />
                         @endif
 
-                        <!-- Botão Extra -->
-                        <x-button-crud op="7" data-bs-target=".modal-fornecedor" onclick="fornecedorExtraData();" />
-
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    <div class="modal-loading" id="crudFormAjaxLoading" style="display: none;">
-                        <div class="spinner-chase">
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                        </div>
-                    </div>
-
+                    
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
@@ -284,10 +271,7 @@
                             <x-button-crud op="3" onclick="crudDelete(0);" />
                     @endif
 
-                    <!-- Botão Extra -->
-                    <x-button-crud op="7" data-bs-target=".modal-fornecedor" onclick="fornecedorExtraData();" />
-
-                        <!-- Botão Cancelar Operação -->
+                    <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
                 </div>

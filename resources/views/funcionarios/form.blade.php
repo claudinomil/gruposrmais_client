@@ -26,48 +26,42 @@
                             <x-button-crud op="3" onclick="crudDelete(0);" />
                         @endif
 
-                        <!-- Botão Info -->
-                        <x-button-crud op="7" onclick="funcionarioModalInfo();" />
-
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    <div class="modal-loading" id="crudFormAjaxLoading" style="display: none;">
-                        <div class="spinner-chase">
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                            <div class="chase-dot"></div>
-                        </div>
-                    </div>
-
+                    
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
                             <input type="hidden" id="frm_operacao" name="frm_operacao">
                             <input type="hidden" id="registro_id" name="registro_id">
-                            <input type="hidden" id="foto" name="foto" value="build/assets/images/funcionarios/funcionario-0.png">
+                            <input type="hidden" id="fotografia_documento" name="fotografia_documento" value="build/assets/images/funcionarios/funcionario-0.png">
 
                             <div class="row mt-4">
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-user"></i> Informa&ccedil;&otilde;es Gerais</h5>
                                     <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">Nome</label>
+                                        <input type="text" class="form-control text-uppercase" id="name" name="name" required="required">
+                                    </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">CPF</label>
                                         <input type="text" class="form-control mask_cpf" id="cpf" name="cpf" required="required">
                                     </div>
-                                    <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Tipo Contratação</label>
-                                        <select class="form-control select2" name="contratacao_tipo_id" id="contratacao_tipo_id">
-                                            <option value="">Selecione...</option>
 
-                                            @foreach ($contratacao_tipos as $key => $contratacao_tipo)
-                                                <option value="{{ $contratacao_tipo['id'] }}">{{ $contratacao_tipo['name'] }}</option>
-                                            @endforeach
+                                    @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
+                                        <div class="form-group col-12 col-md-4 pb-3">
+                                            <label class="form-label">Empresa</label>
+                                            <select class="form-select" name="empresa_id" id="empresa_id">
+                                                <option value="">Selecione...</option>
 
-                                        </select>
-                                    </div>
+                                                @foreach ($empresas as $empresa)
+                                                    <option value="{{ $empresa['id'] }}">{{ $empresa['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endif
+
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Tomador de Serviço</label>
                                         <select class="select2 form-control" name="tomador_servico_cliente_id" id="tomador_servico_cliente_id">
@@ -79,12 +73,12 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Departamento</label>
-                                        <select class="form-control select2" name="departamento_id" id="departamento_id">
+                                        <label class="form-label">Tipo Contratação</label>
+                                        <select class="form-control select2" name="contratacao_tipo_id" id="contratacao_tipo_id">
                                             <option value="">Selecione...</option>
 
-                                            @foreach ($departamentos as $key => $departamento)
-                                                <option value="{{ $departamento['id'] }}">{{ $departamento['name'] }}</option>
+                                            @foreach ($contratacao_tipos as $key => $contratacao_tipo)
+                                                <option value="{{ $contratacao_tipo['id'] }}">{{ $contratacao_tipo['name'] }}</option>
                                             @endforeach
 
                                         </select>
@@ -101,8 +95,15 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Nome</label>
-                                        <input type="text" class="form-control text-uppercase" id="name" name="name" required="required">
+                                        <label class="form-label">Departamento</label>
+                                        <select class="form-control select2" name="departamento_id" id="departamento_id">
+                                            <option value="">Selecione...</option>
+
+                                            @foreach ($departamentos as $key => $departamento)
+                                                <option value="{{ $departamento['id'] }}">{{ $departamento['name'] }}</option>
+                                            @endforeach
+
+                                        </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Nome Profissional</label>
@@ -124,20 +125,20 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label">Telefone 1</label>
-                                        <input type="text" class="form-control mask_phone_with_ddd" id="telefone_1" name="telefone_1">
-                                    </div>
-                                    <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label">Telefone 2</label>
-                                        <input type="text" class="form-control mask_phone_with_ddd" id="telefone_2" name="telefone_2">
-                                    </div>
-                                    <div class="form-group col-12 col-md-3 pb-3">
                                         <label class="form-label">Celular 1</label>
                                         <input type="text" class="form-control mask_cell_with_ddd" id="celular_1" name="celular_1">
                                     </div>
                                     <div class="form-group col-12 col-md-3 pb-3">
                                         <label class="form-label">Celular 2</label>
                                         <input type="text" class="form-control mask_cell_with_ddd" id="celular_2" name="celular_2">
+                                    </div>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">Telefone 1</label>
+                                        <input type="text" class="form-control mask_phone_with_ddd" id="telefone_1" name="telefone_1">
+                                    </div>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">Telefone 2</label>
+                                        <input type="text" class="form-control mask_phone_with_ddd" id="telefone_2" name="telefone_2">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">E-mail</label>
@@ -218,10 +219,29 @@
                                         <label class="form-label">Conta</label>
                                         <input type="text" class="form-control" id="conta" name="conta">
                                     </div>
+
+                                    @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
+                                    <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">PIX Tipo</label>
+                                        <select class="form-select" name="pix_tipo_id" id="pix_tipo_id">
+                                            <option value="">Selecione...</option>
+
+                                            @foreach ($pix_tipos as $pix_tipo)
+                                                <option value="{{ $pix_tipo['id'] }}">{{ $pix_tipo['name'] }}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">PIX Chave</label>
+                                        <input type="text" class="form-control" id="pix_chave" name="pix_chave">
+                                    </div>
+                                    @endif
+
                                 </div>
 
                                 <div class="row pt-4">
-                                    <h5 class="pb-4 text-primary"><i class="fas fa-user-tie"></i> Dados Profissionais</h5>
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-user-tie"></i> Dados Contratuais</h5>
                                     <div class="form-group col-12 col-md-4 pb-3 contratacao_tipo_1">
                                         <label class="form-label">Data Admissão</label>
                                         <input type="text" class="form-control mask_date" id="data_admissao" name="data_admissao">
@@ -229,6 +249,16 @@
                                     <div class="form-group col-12 col-md-4 pb-3 contratacao_tipo_1">
                                         <label class="form-label">Data Demissão</label>
                                         <input type="text" class="form-control mask_date" id="data_demissao" name="data_demissao">
+                                    </div>
+                                    <div class="form-group col-12 col-md-4 pb-3 contratacao_tipo_1">
+                                        <label class="form-label">Motivo Demissão</label>
+                                        <select class="form-control" name="motivo_demissao_id" id="motivo_demissao_id">
+                                            <option value="">Selecione...</option>
+
+                                            @foreach ($motivos_demissoes as $motivo_demissao)
+                                                <option value="{{ $motivo_demissao['id'] }}">{{ $motivo_demissao['name'] }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3 contratacao_tipo_2">
                                         <label class="form-label">Data Cadastro</label>
@@ -238,10 +268,54 @@
                                         <label class="form-label">Data Afastamento</label>
                                         <input type="text" class="form-control mask_date" id="data_afastamento" name="data_afastamento">
                                     </div>
+                                    <div class="form-group col-12 col-md-4 pb-3 contratacao_tipo_2">
+                                        <label class="form-label">Motivo Afastamento</label>
+                                        <select class="form-control" name="motivo_afastamento_id" id="motivo_afastamento_id">
+                                            <option value="">Selecione...</option>
+
+                                            @foreach ($motivos_afastamentos as $motivo_afastamento)
+                                                <option value="{{ $motivo_afastamento['id'] }}">{{ $motivo_afastamento['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-paste"></i> Documentos</h5>
+
+                                    @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">Carteira Nacional (Órgão)</label>
+                                        <select class="form-control select2" name="carteira_nacional_orgao_id" id="carteira_nacional_orgao_id">
+                                            <option value="">Selecione...</option>
+
+                                            @foreach ($identidade_orgaos as $key => $identidade_orgao)
+                                                <option value="{{ $identidade_orgao['id'] }}">{{ $identidade_orgao['name'] }}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">Carteira Nacional (Estado)</label>
+                                        <select class="form-control select2" name="carteira_nacional_estado_id" id="carteira_nacional_estado_id">
+                                            <option value="">Selecione...</option>
+
+                                            @foreach ($identidade_estados as $key => $identidade_estado)
+                                                <option value="{{ $identidade_estado['id'] }}">{{ $identidade_estado['name'] }}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">Carteira Nacional (Número)</label>
+                                        <input type="text" class="form-control" id="carteira_nacional_numero" name="carteira_nacional_numero">
+                                    </div>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">Carteira Nacional (Emissão)</label>
+                                        <input type="text" class="form-control mask_date" id="carteira_nacional_data_emissao" name="carteira_nacional_data_emissao">
+                                    </div>
+                                    @endif
+
                                     <div class="form-group col-12 col-md-3 pb-3">
                                         <label class="form-label">Identidade Pessoal (Órgão)</label>
                                         <select class="form-control select2" name="personal_identidade_orgao_id" id="personal_identidade_orgao_id">
@@ -302,6 +376,22 @@
                                         <label class="form-label">Identidade Profissional (Emissão)</label>
                                         <input type="text" class="form-control mask_date" id="professional_identidade_data_emissao" name="professional_identidade_data_emissao">
                                     </div>
+
+                                    @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">Título Eleitor (Número)</label>
+                                        <input type="text" class="form-control" id="titulo_eleitor_numero" name="titulo_eleitor_numero">
+                                    </div>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">Título Eleitor (Zona)</label>
+                                        <input type="text" class="form-control" id="titulo_eleitor_zona" name="titulo_eleitor_zona">
+                                    </div>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">Título Eleitor (Seção)</label>
+                                        <input type="text" class="form-control" id="titulo_eleitor_secao" name="titulo_eleitor_secao">
+                                    </div>
+                                    @endif
+
                                     <div class="form-group col-12 col-md-3 pb-3">
                                         <label class="form-label">PIS</label>
                                         <input type="text" class="form-control mask_pis" id="pis" name="pis">
@@ -314,6 +404,25 @@
                                         <label class="form-label">Carteira Trabalho</label>
                                         <input type="text" class="form-control" id="carteira_trabalho" name="carteira_trabalho">
                                     </div>
+
+                                    @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
+                                        <div class="form-group col-12 col-md-3 pb-3">
+                                            <label class="form-label">Atestado Saúde Ocupacional (Tipo)</label>
+                                            <select class="form-select" name="atestado_saude_ocupacional_tipo_id" id="atestado_saude_ocupacional_tipo_id">
+                                                <option value="">Selecione...</option>
+
+                                                @foreach ($atestado_saude_ocupacional_tipos as $atestado_saude_ocupacional_tipo)
+                                                    <option value="{{ $atestado_saude_ocupacional_tipo['id'] }}">{{ $atestado_saude_ocupacional_tipo['name'] }}</option>
+                                                @endforeach
+
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-12 col-md-3 pb-3">
+                                            <label class="form-label">Atestado Saúde Ocupacional (Emissão)</label>
+                                            <input type="text" class="form-control mask_date" id="atestado_saude_ocupacional_data_emissao" name="atestado_saude_ocupacional_data_emissao">
+                                        </div>
+                                    @endif
+
                                 </div>
 
                                 <div class="row pt-4">
@@ -562,9 +671,6 @@
                             <!-- Botão Excluir Registro -->
                             <x-button-crud op="3" onclick="crudDelete(0);" />
                         @endif
-
-                        <!-- Botão Info -->
-                        <x-button-crud op="7" onclick="funcionarioModalInfo();" />
 
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />

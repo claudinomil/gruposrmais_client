@@ -11,7 +11,6 @@ class Breadcrumb
     {
         if (session()->exists('breadcrumbPreviousPageTitle')) {return session('breadcrumbPreviousPageTitle');}
 
-        //return 'Previous Title';
         return '';
     }
 
@@ -19,7 +18,6 @@ class Breadcrumb
     {
         if (session()->exists('breadcrumbPreviousPageRoute')) {return session('breadcrumbPreviousPageRoute');}
 
-        //return 'Previous Route';
         return '';
     }
 
@@ -27,7 +25,6 @@ class Breadcrumb
     {
         if (session()->exists('breadcrumbCurrentPageTitle')) {return session('breadcrumbCurrentPageTitle');}
 
-        //return 'Current Title';
         return '';
     }
 
@@ -35,7 +32,6 @@ class Breadcrumb
     {
         if (session()->exists('breadcrumbCurrentPageRoute')) {return session('breadcrumbCurrentPageRoute');}
 
-        //return 'Current Route';
         return '';
     }
 

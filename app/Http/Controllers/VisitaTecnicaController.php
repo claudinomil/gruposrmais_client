@@ -22,6 +22,7 @@ class VisitaTecnicaController extends Controller
     public $visita_tecnica_tipos;
     public $visita_tecnica_status;
     public $visitas_tecnicas_dados;
+    public $visita_tecnica_perguntas;
 
     public function __construct()
     {
@@ -49,17 +50,34 @@ class VisitaTecnicaController extends Controller
                     ->editColumn('visita_tecnica', function ($row) {
                         if ($row['visita_tecnica_tipo_id'] == 1) {$cor = 'text-success';}
                         if ($row['visita_tecnica_tipo_id'] == 2) {$cor = 'text-primary';}
-                        if ($row['visita_tecnica_tipo_id'] == 3) {$cor = 'text-info';}
 
                         $retorno = "<div class='row'>";
                         $retorno .= "    <div class='col-2'>";
-                        $retorno .= "       <a href='#' title='Visita Técnica em PDF' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].");'><i class='fa fa-file-pdf fa-2x text-danger'></i></a>";
-                        $retorno .= "       <a href='#' title='Visita Técnica em PDF (Inglês)' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"en\");'><i class='fa fa-file-pdf fa-2x text-primary'></i></a>";
+
+                        if ($row['vt_cs'] == 1) {
+                            $retorno .= "   <a href='#' title='Visita Técnica Completa em PDF' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"pt\", 1);'><i class='fa fa-file-pdf fa-2x text-danger'></i></a>";
+                            $retorno .= "   <a href='#' title='Visita Técnica Completa em PDF (Inglês)' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"en\", 1);'><i class='fa fa-file-pdf fa-2x text-primary'></i></a>";
+                        }
+                        
+                        if ($row['vt_cs'] == 2) {
+                            $retorno .= "   <a href='#' title='Visita Técnica Sintética em PDF' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"pt\", 2);'><i class='fa fa-file-pdf fa-2x text-danger'></i></a>";
+                            $retorno .= "   <a href='#' title='Visita Técnica Sintética em PDF (Inglês)' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"en\", 2);'><i class='fa fa-file-pdf fa-2x text-primary'></i></a>";
+                        }
+                        
                         $retorno .= "    </div>";
                         $retorno .= "    <div class='col-10'>";
                         $retorno .= "       Visita Técnica nº.&nbsp;".$row['numero_visita_tecnica']."/".$row['ano_visita_tecnica'];
                         $retorno .= "        <br>";
                         $retorno .=         "<span class='".$cor."'>".$row['visitaTecnicaTipoName']."</span>";
+
+                        if ($row['vt_cs'] == 1) {
+                            $retorno .= "   &nbsp;&nbsp;&nbsp;<span class='badge bg-info' style='font-size: 100% !important'>Completa</span>";
+                        }
+
+                        if ($row['vt_cs'] == 2) {
+                            $retorno .= "   &nbsp;&nbsp;&nbsp;<span class='badge bg-warning' style='font-size: 100% !important'>Sintética</span>";
+                        }
+
                         $retorno .= "    </div>";
                         $retorno .= "</div>";
 
@@ -82,7 +100,8 @@ class VisitaTecnicaController extends Controller
                 'funcionarios' => $this->funcionarios,
                 'visita_tecnica_tipos' => $this->visita_tecnica_tipos,
                 'visita_tecnica_status' => $this->visita_tecnica_status,
-                'visitas_tecnicas_dados' => $this->visitas_tecnicas_dados
+                'visitas_tecnicas_dados' => $this->visitas_tecnicas_dados,
+                'visita_tecnica_perguntas' => $this->visita_tecnica_perguntas
             ]);
         }
     }
@@ -95,13 +114,14 @@ class VisitaTecnicaController extends Controller
         }
     }
 
-    public function store(Request $request, $visita_tecnica_tipo_id, $cliente_id)
+    public function store(Request $request, $cliente_id, $visita_tecnica_tipo_id, $vt_cs)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Colocando dados no request''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            $request['visita_tecnica_tipo_id'] = $visita_tecnica_tipo_id;
             $request['cliente_id'] = $cliente_id;
+            $request['visita_tecnica_tipo_id'] = $visita_tecnica_tipo_id;
+            $request['vt_cs'] = $vt_cs;
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             //Ajustando Request (retirando o prefixo de acordo com o visita_tecnica_tipo_id'''''''''''''''''''''''''''''
@@ -233,7 +253,6 @@ class VisitaTecnicaController extends Controller
 
             if ($request['visita_tecnica_tipo_id'] == 1) {$prefixo = 'vtt1_';}
             if ($request['visita_tecnica_tipo_id'] == 2) {$prefixo = 'vtt2_';}
-
             if ($prefixo != '') {
                 foreach ($data as $key => $value) {
                     if (str_starts_with($key, $prefixo)) {
@@ -273,6 +292,32 @@ class VisitaTecnicaController extends Controller
 
             //Registro deletado com sucesso
             if ($this->code == 2000) {
+                //Varrer $this->content que tem Ids para apagar imagens e pdfs relacionados'''''''''''''''''''''''''''''
+                $ids = $this->content;
+
+                foreach ($ids as $vtd_id) {
+                    //Padrões de busca
+                    $patternFotos = "build/assets/images/visitas_tecnicas/visitas_tecnicas_dados_{$vtd_id['id']}_fotografia*";
+                    $patternPdfs  = "build/assets/pdfs/visitas_tecnicas/visitas_tecnicas_dados_{$vtd_id['id']}_pdf*";
+
+                    //dd($patternPdfs);
+
+                    //Apaga Fotos
+                    foreach (glob($patternFotos) as $file) {
+                        if (is_file($file)) {
+                            unlink($file);
+                        }
+                    }
+
+                    //Apaga PDFs
+                    foreach (glob($patternPdfs) as $file) {
+                        if (is_file($file)) {
+                            unlink($file);
+                        }
+                    }
+                }
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
                 return response()->json(['success' => $this->message]);
             } else if ($this->code == 2040) { //Registro não excluído - pertence a relacionamento com outra(s) tabela(s)
                 return response()->json(['error' => $this->message]);
@@ -305,8 +350,11 @@ class VisitaTecnicaController extends Controller
 
                         $retorno = "<div class='row'>";
                         $retorno .= "    <div class='col-2'>";
-                        $retorno .= "       <a href='#' title='Visita Técnica em PDF' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].");'><i class='fa fa-file-pdf fa-2x text-danger'></i></a>";
-                        $retorno .= "       <a href='#' title='Visita Técnica em PDF (Inglês)' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"en\");'><i class='fa fa-file-pdf fa-2x text-primary'></i></a>";
+                        $retorno .= "       <a href='#' title='Visita Técnica Completa em PDF' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"pt\", 1);'><i class='fa fa-file-pdf fa-2x text-danger'></i></a>";
+                        $retorno .= "       <a href='#' title='Visita Técnica Completa em PDF (Inglês)' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"en\", 1);'><i class='fa fa-file-pdf fa-2x text-primary'></i></a>";
+                        $retorno .= "       <br>";
+                        $retorno .= "       <a href='#' title='Visita Técnica Sintética em PDF' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"pt\", 2);'><i class='fa fa-file-pdf fa-2x text-warning'></i></a>";
+                        $retorno .= "       <a href='#' title='Visita Técnica Sintética em PDF (Inglês)' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"en\", 2);'><i class='fa fa-file-pdf fa-2x text-success'></i></a>";
                         $retorno .= "    </div>";
                         $retorno .= "    <div class='col-10'>";
                         $retorno .= "       Visita Técnica nº.&nbsp;".$row['numero_visita_tecnica']."/".$row['ano_visita_tecnica'];
@@ -330,18 +378,12 @@ class VisitaTecnicaController extends Controller
         }
     }
 
-    public function updatePergunta(Request $request, $visita_tecnica_dado_id)
+    public function vtt1_updatePergunta(Request $request, $visita_tecnica_dado_id)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            $request['resposta'];
-            $request['observacao'];
-            $request['fotografia_1'];
-            $request['fotografia_2'];
-            $request['fotografia_3'];
-
             //Buscando dados Api_Data() - Alterar Registro
-            $this->responseApi(1, 11, 'visitas_tecnicas/pergunta/updatePergunta/'.$visita_tecnica_dado_id, '', '', $request->all());
+            $this->responseApi(1, 11, 'visitas_tecnicas/vtt1/pergunta/updatePergunta/'.$visita_tecnica_dado_id, '', '', $request->all());
 
             //Registro alterado com sucesso
             if ($this->code == 2000) {
@@ -354,7 +396,7 @@ class VisitaTecnicaController extends Controller
         }
     }
 
-    public function uploadFotografia(Request $request, $visita_tecnica_dado_id, $slot)
+    public function vtt1_uploadFotografia(Request $request, $visita_tecnica_dado_id, $slot)
     {
         $request->validate([
             'foto' => 'required|image|max:5120'
@@ -371,7 +413,7 @@ class VisitaTecnicaController extends Controller
         return response()->json(['success' => true, 'path' => asset($caminho)]);
     }
 
-    public function removerFotografia(Request $request, $visita_tecnica_dado_id, $slot)
+    public function vtt1_removerFotografia(Request $request, $visita_tecnica_dado_id, $slot)
     {
         $caminho = 'build/assets/images/visitas_tecnicas/';
 
@@ -387,5 +429,87 @@ class VisitaTecnicaController extends Controller
         if ($caminho.$nomeArquivo4 && file_exists(public_path($caminho.$nomeArquivo4))) {@unlink(public_path($caminho.$nomeArquivo4));}
 
         return response()->json(['success' => true, 'xxxx' => $nomeArquivo1]);
+    }
+
+    public function vtt1_uploadPdf(Request $request, $visita_tecnica_dado_id, $slot)
+    {
+        $request->validate([
+            'pdf' => 'required|file|mimes:pdf|max:10240' // até 10 MB por exemplo
+        ]);
+
+        $file = $request->file('pdf');
+        $nomeArquivo = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_pdf_{$slot}." . $file->getClientOriginalExtension();
+        $caminho = "build/assets/pdfs/visitas_tecnicas/$nomeArquivo";
+
+        // Salva o arquivo
+        $file->move(public_path('build/assets/pdfs/visitas_tecnicas'), $nomeArquivo);
+
+        // Retorna caminho completo acessível via URL
+        return response()->json(['success' => true, 'path' => asset($caminho)]);
+    }
+
+    public function vtt1_removerPdf(Request $request, $visita_tecnica_dado_id, $slot)
+    {
+        $caminho = 'build/assets/pdfs/visitas_tecnicas/';
+
+        $nomeArquivo = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_pdf_{$slot}.pdf";
+
+        $fullPath = public_path($caminho . $nomeArquivo);
+
+        if (file_exists($fullPath)) {
+            @unlink($fullPath);
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Arquivo não encontrado']);
+    }
+
+    public function vtt1_atualizar_pergunta(Request $request, $id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Acertos nos nomes dos campos
+            $request['titulo'] = $request['titulo_'.$id];
+            $request['subtitulo'] = $request['subtitulo_'.$id];
+            $request['pergunta'] = $request['pergunta_'.$id];
+            $request['visita_tecnica_tipo_id'] = $request['visita_tecnica_tipo_id_'.$id];
+            $request['completa'] = $request['completa_'.$id];
+            $request['completa_ordem'] = $request['completa_ordem_'.$id];
+            $request['sintetica'] = $request['sintetica_'.$id];
+            $request['sintetica_ordem'] = $request['sintetica_ordem_'.$id];
+            $request['opcoes'] = $request['opcoes_'.$id];
+
+            //Buscando dados Api_Data() - Alterar Registro
+            $this->responseApi(1, 11, 'visitas_tecnicas/vtt1/visitas_tecnicas_perguntas/atualizar_pergunta/'.$id, '', '', $request->all());
+
+            //Registro alterado com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->message]);
+            } else if ($this->code == 2020) { //Falha na validação dos dados
+                return response()->json(['error_validation' => $this->validation]);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                return response()->json(['error_not_found' => $this->message]);
+            } else {
+                abort(500, 'Erro Interno Funcionário');
+            }
+        }
+    }
+
+    public function vtt1_perguntas_completa_sintetica($vt_cs)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'visitas_tecnicas/vtt1/visitas_tecnicas_perguntas/perguntas_completa_sintetica/'.$vt_cs, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            } else if ($this->code == 4040) {
+                return response()->json(['error_not_found' => $this->message]);
+            } else {
+                abort(500, 'Erro Interno Client');
+            }
+        }
     }
 }

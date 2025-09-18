@@ -74,7 +74,6 @@ class Controller extends BaseController
             if (isset($response['content']['visita_tecnica_tipos'])) {$this->visita_tecnica_tipos = $response['content']['visita_tecnica_tipos'];}
             if (isset($response['content']['visitas_tecnicas_dados'])) {$this->visitas_tecnicas_dados = $response['content']['visitas_tecnicas_dados'];}
             if (isset($response['content']['sistema_acessos'])) {$this->sistema_acessos = $response['content']['sistema_acessos'];}
-            if (isset($response['content']['escala_tipos'])) {$this->escala_tipos = $response['content']['escala_tipos'];}
             if (isset($response['content']['funcionario_acao_1_funcionarios'])) {$this->funcionario_acao_1_funcionarios = $response['content']['funcionario_acao_1_funcionarios'];}
             if (isset($response['content']['ordem_servico_prioridades'])) {$this->ordem_servico_prioridades = $response['content']['ordem_servico_prioridades'];}
             if (isset($response['content']['ordem_servico_tipos'])) {$this->ordem_servico_tipos = $response['content']['ordem_servico_tipos'];}
@@ -91,6 +90,14 @@ class Controller extends BaseController
             if (isset($response['content']['mapas_pontos_tipos'])) {$this->mapas_pontos_tipos = $response['content']['mapas_pontos_tipos'];}
             if (isset($response['content']['ordens_servicos'])) {$this->ordens_servicos = $response['content']['ordens_servicos'];}
             if (isset($response['content']['documentos'])) {$this->documentos = $response['content']['documentos'];}
+            if (isset($response['content']['motivos_demissoes'])) {$this->motivos_demissoes = $response['content']['motivos_demissoes'];}
+            if (isset($response['content']['motivos_afastamentos'])) {$this->motivos_afastamentos = $response['content']['motivos_afastamentos'];}
+            if (isset($response['content']['pix_tipos'])) {$this->pix_tipos = $response['content']['pix_tipos'];}
+            if (isset($response['content']['atestado_saude_ocupacional_tipos'])) {$this->atestado_saude_ocupacional_tipos = $response['content']['atestado_saude_ocupacional_tipos'];}
+            if (isset($response['content']['visita_tecnica_perguntas'])) {$this->visita_tecnica_perguntas = $response['content']['visita_tecnica_perguntas'];}
+            if (isset($response['content']['material_categorias'])) {$this->material_categorias = $response['content']['material_categorias'];}
+            if (isset($response['content']['materiais'])) {$this->materiais = $response['content']['materiais'];}
+            if (isset($response['content']['escala_tipos'])) {$this->escala_tipos = $response['content']['escala_tipos'];}
         }
     }
 
@@ -108,12 +115,11 @@ class Controller extends BaseController
         //5: Visualização e Exclusão
         //6: Alteração e Exclusão
         //7: Visualização, Alteração e Exclusão
-        //8: Visualização e Escalas
 
         //Montando Coluna Ação
         $btn = '<td class="text-center" style="vertical-align:top;"><div class="row">';
 
-        if ($botoes == 1 or $botoes == 4 or $botoes == 5 or $botoes == 7 or $botoes == 8) {
+        if ($botoes == 1 or $botoes == 4 or $botoes == 5 or $botoes == 7) {
             if (Permissoes::permissao(['show'])) {
                 $btn .= '<div class="col-12 col-md-4 pb-2"><button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Registro" onclick="crudView(' . $id . ');"><i class="fa fa-eye font-size-18"></i></button></div>';
             }
@@ -130,13 +136,7 @@ class Controller extends BaseController
                 $btn .= '<div class="col-12 col-md-4 pb-2"><button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Registro" onclick="crudDelete(' . $id . ');"><i class="fa fa-trash-alt font-size-18"></i></button></div>';
             }
         }
-
-        if ($botoes == 8) {
-            if (Permissoes::permissao(['edit'])) {
-                $btn .= '<div class="col-12 col-md-4 pb-2"><button type="button" class="btn btn-outline-primary text-center btn-sm escalasBrigada" data-bs-toggle="tooltip" data-bs-placement="top" title="Escalas" data-id="'.$id.'"><i class="far fa-calendar-alt font-size-18"></i></button></div>';
-            }
-        }
-
+        
         $btn .= '</div></td>';
 
         return $btn;
