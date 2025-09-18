@@ -58,6 +58,11 @@ class UserController extends Controller
 
                         return $retorno;
                     })
+                    ->editColumn('usuario', function ($row) {
+                        $retorno = $row['name']."<br>"."<span class='text-success'>:: ".$row['grupoName']."</span>";
+
+                        return $retorno;
+                    })
                     ->addColumn('action', function ($row, Request $request) {
                         return $this->columnAction($row['id']);
                     })
