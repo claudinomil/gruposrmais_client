@@ -383,159 +383,155 @@ function validar_frm_upload_fotografia_cartao_emergencial() {
 }
 
 function funcionarioModalInfoControle(op, id='') {
-    if (document.getElementById('user_email').value == 'claudinomoraes@yahoo.com.br') {
-        var div_fotografias = document.getElementById('md_fun_div_fotografias');
-        var div_dados = document.getElementById('md_fun_div_dados');
-        var div_documentos = document.getElementById('md_fun_div_documentos');
-        var div_tomadores_servicos = document.getElementById('md_fun_div_tomadores_servicos');
-        var div_incluir_documentos = document.getElementById('md_fun_div_incluir_documentos');
-        var div_cartao_emergencial = document.getElementById('md_fun_div_cartao_emergencial');
+    var div_fotografias = document.getElementById('md_fun_div_fotografias');
+    var div_dados = document.getElementById('md_fun_div_dados');
+    var div_documentos = document.getElementById('md_fun_div_documentos');
+    var div_tomadores_servicos = document.getElementById('md_fun_div_tomadores_servicos');
+    var div_incluir_documentos = document.getElementById('md_fun_div_incluir_documentos');
+    var div_cartao_emergencial = document.getElementById('md_fun_div_cartao_emergencial');
 
-        //Fotografias
-        if (op == 1) {
-            div_fotografias.classList.remove('d-none');
-            div_fotografias.classList.add('d-lg-flex');
+    //Fotografias
+    if (op == 1) {
+        div_fotografias.classList.remove('d-none');
+        div_fotografias.classList.add('d-lg-flex');
 
-            div_dados.classList.remove('d-lg-flex');
-            div_dados.classList.add('d-none');
+        div_dados.classList.remove('d-lg-flex');
+        div_dados.classList.add('d-none');
 
-            div_documentos.classList.remove('d-lg-flex');
-            div_documentos.classList.add('d-none');
+        div_documentos.classList.remove('d-lg-flex');
+        div_documentos.classList.add('d-none');
 
-            div_tomadores_servicos.classList.remove('d-lg-flex');
-            div_tomadores_servicos.classList.add('d-none');
+        div_tomadores_servicos.classList.remove('d-lg-flex');
+        div_tomadores_servicos.classList.add('d-none');
 
-            div_incluir_documentos.classList.remove('d-lg-flex');
-            div_incluir_documentos.classList.add('d-none');
+        div_incluir_documentos.classList.remove('d-lg-flex');
+        div_incluir_documentos.classList.add('d-none');
 
-            div_cartao_emergencial.classList.remove('d-lg-flex');
-            div_cartao_emergencial.classList.add('d-none');
+        div_cartao_emergencial.classList.remove('d-lg-flex');
+        div_cartao_emergencial.classList.add('d-none');
 
-            funcionarioModalInfoEstatisticas(id);
-        }
+        funcionarioModalInfoEstatisticas(id);
+    }
 
-        //Dados
-        if (op == 2) {
-            div_fotografias.classList.remove('d-lg-flex');
-            div_fotografias.classList.add('d-none');
+    //Dados
+    if (op == 2) {
+        div_fotografias.classList.remove('d-lg-flex');
+        div_fotografias.classList.add('d-none');
 
-            div_dados.classList.remove('d-none');
-            div_dados.classList.add('d-lg-flex');
+        div_dados.classList.remove('d-none');
+        div_dados.classList.add('d-lg-flex');
 
-            div_documentos.classList.remove('d-lg-flex');
-            div_documentos.classList.add('d-none');
+        div_documentos.classList.remove('d-lg-flex');
+        div_documentos.classList.add('d-none');
 
-            div_tomadores_servicos.classList.remove('d-lg-flex');
-            div_tomadores_servicos.classList.add('d-none');
+        div_tomadores_servicos.classList.remove('d-lg-flex');
+        div_tomadores_servicos.classList.add('d-none');
 
-            div_incluir_documentos.classList.remove('d-lg-flex');
-            div_incluir_documentos.classList.add('d-none');
+        div_incluir_documentos.classList.remove('d-lg-flex');
+        div_incluir_documentos.classList.add('d-none');
 
-            div_cartao_emergencial.classList.remove('d-lg-flex');
-            div_cartao_emergencial.classList.add('d-none');
+        div_cartao_emergencial.classList.remove('d-lg-flex');
+        div_cartao_emergencial.classList.add('d-none');
 
-            funcionarioModalInfoDados(id);
-            funcionarioModalInfoEstatisticas(id);
-        }
-
-        //Documentos
-        if (op == 3) {
-            div_fotografias.classList.remove('d-lg-flex');
-            div_fotografias.classList.add('d-none');
-
-            div_dados.classList.remove('d-lg-flex');
-            div_dados.classList.add('d-none');
-
-            div_documentos.classList.remove('d-none');
-            div_documentos.classList.add('d-lg-flex');
-
-            div_tomadores_servicos.classList.remove('d-lg-flex');
-            div_tomadores_servicos.classList.add('d-none');
-
-            div_incluir_documentos.classList.remove('d-lg-flex');
-            div_incluir_documentos.classList.add('d-none');
-
-            div_cartao_emergencial.classList.remove('d-lg-flex');
-            div_cartao_emergencial.classList.add('d-none');
-
-            funcionarioModalInfoDocumentos(id);
-            funcionarioModalInfoEstatisticas(id);
-        }
-
-        //Tomadores de Serviços
-        if (op == 4) {
-            div_fotografias.classList.remove('d-lg-flex');
-            div_fotografias.classList.add('d-none');
-
-            div_dados.classList.remove('d-lg-flex');
-            div_dados.classList.add('d-none');
-
-            div_documentos.classList.remove('d-lg-flex');
-            div_documentos.classList.add('d-none');
-
-            div_tomadores_servicos.classList.remove('d-none');
-            div_tomadores_servicos.classList.add('d-lg-flex');
-
-            div_incluir_documentos.classList.remove('d-lg-flex');
-            div_incluir_documentos.classList.add('d-none');
-
-            div_cartao_emergencial.classList.remove('d-lg-flex');
-            div_cartao_emergencial.classList.add('d-none');
-
-            funcionarioModalInfoTomadoresServicos(id);
-            funcionarioModalInfoEstatisticas(id);
-        }
-
-        //Incluir Documentos
-        if (op == 5) {
-            div_fotografias.classList.remove('d-lg-flex');
-            div_fotografias.classList.add('d-none');
-
-            div_dados.classList.remove('d-lg-flex');
-            div_dados.classList.add('d-none');
-
-            div_documentos.classList.remove('d-lg-flex');
-            div_documentos.classList.add('d-none');
-
-            div_tomadores_servicos.classList.remove('d-lg-flex');
-            div_tomadores_servicos.classList.add('d-none');
-
-            div_incluir_documentos.classList.remove('d-none');
-            div_incluir_documentos.classList.add('d-lg-flex');
-
-            div_cartao_emergencial.classList.remove('d-lg-flex');
-            div_cartao_emergencial.classList.add('d-none');
-
-            funcionarioModalInfoEstatisticas(id);
-        }
-
-        //Cartão Emergencial
-        if (op == 6) {
-            div_fotografias.classList.remove('d-lg-flex');
-            div_fotografias.classList.add('d-none');
-
-            div_dados.classList.remove('d-lg-flex');
-            div_dados.classList.add('d-none');
-
-            div_documentos.classList.remove('d-lg-flex');
-            div_documentos.classList.add('d-none');
-
-            div_tomadores_servicos.classList.remove('d-lg-flex');
-            div_tomadores_servicos.classList.add('d-none');
-
-            div_incluir_documentos.classList.remove('d-lg-flex');
-            div_incluir_documentos.classList.add('d-none');
-
-            div_cartao_emergencial.classList.remove('d-none');
-            div_cartao_emergencial.classList.add('d-lg-flex');
-
-            //Colocar imagem do Cartão emergencial
-            if (id == '') {id = document.getElementById('mi_fun_funcionario_id').value;}
-            cartaoEmergencialGerarPDF(2, id, 1, 'pt', 'fun_cartao_emergencial_1');
-            cartaoEmergencialGerarPDF(2, id, 1, 'en', 'fun_cartao_emergencial_2');
-        }
-    } else {
         funcionarioModalInfoDados(id);
+        funcionarioModalInfoEstatisticas(id);
+    }
+
+    //Documentos
+    if (op == 3) {
+        div_fotografias.classList.remove('d-lg-flex');
+        div_fotografias.classList.add('d-none');
+
+        div_dados.classList.remove('d-lg-flex');
+        div_dados.classList.add('d-none');
+
+        div_documentos.classList.remove('d-none');
+        div_documentos.classList.add('d-lg-flex');
+
+        div_tomadores_servicos.classList.remove('d-lg-flex');
+        div_tomadores_servicos.classList.add('d-none');
+
+        div_incluir_documentos.classList.remove('d-lg-flex');
+        div_incluir_documentos.classList.add('d-none');
+
+        div_cartao_emergencial.classList.remove('d-lg-flex');
+        div_cartao_emergencial.classList.add('d-none');
+
+        funcionarioModalInfoDocumentos(id);
+        funcionarioModalInfoEstatisticas(id);
+    }
+
+    //Tomadores de Serviços
+    if (op == 4) {
+        div_fotografias.classList.remove('d-lg-flex');
+        div_fotografias.classList.add('d-none');
+
+        div_dados.classList.remove('d-lg-flex');
+        div_dados.classList.add('d-none');
+
+        div_documentos.classList.remove('d-lg-flex');
+        div_documentos.classList.add('d-none');
+
+        div_tomadores_servicos.classList.remove('d-none');
+        div_tomadores_servicos.classList.add('d-lg-flex');
+
+        div_incluir_documentos.classList.remove('d-lg-flex');
+        div_incluir_documentos.classList.add('d-none');
+
+        div_cartao_emergencial.classList.remove('d-lg-flex');
+        div_cartao_emergencial.classList.add('d-none');
+
+        funcionarioModalInfoTomadoresServicos(id);
+        funcionarioModalInfoEstatisticas(id);
+    }
+
+    //Incluir Documentos
+    if (op == 5) {
+        div_fotografias.classList.remove('d-lg-flex');
+        div_fotografias.classList.add('d-none');
+
+        div_dados.classList.remove('d-lg-flex');
+        div_dados.classList.add('d-none');
+
+        div_documentos.classList.remove('d-lg-flex');
+        div_documentos.classList.add('d-none');
+
+        div_tomadores_servicos.classList.remove('d-lg-flex');
+        div_tomadores_servicos.classList.add('d-none');
+
+        div_incluir_documentos.classList.remove('d-none');
+        div_incluir_documentos.classList.add('d-lg-flex');
+
+        div_cartao_emergencial.classList.remove('d-lg-flex');
+        div_cartao_emergencial.classList.add('d-none');
+
+        funcionarioModalInfoEstatisticas(id);
+    }
+
+    //Cartão Emergencial
+    if (op == 6) {
+        div_fotografias.classList.remove('d-lg-flex');
+        div_fotografias.classList.add('d-none');
+
+        div_dados.classList.remove('d-lg-flex');
+        div_dados.classList.add('d-none');
+
+        div_documentos.classList.remove('d-lg-flex');
+        div_documentos.classList.add('d-none');
+
+        div_tomadores_servicos.classList.remove('d-lg-flex');
+        div_tomadores_servicos.classList.add('d-none');
+
+        div_incluir_documentos.classList.remove('d-lg-flex');
+        div_incluir_documentos.classList.add('d-none');
+
+        div_cartao_emergencial.classList.remove('d-none');
+        div_cartao_emergencial.classList.add('d-lg-flex');
+
+        //Colocar imagem do Cartão emergencial
+        if (id == '') {id = document.getElementById('mi_fun_funcionario_id').value;}
+        cartaoEmergencialGerarPDF(2, id, 1, 'pt', 'fun_cartao_emergencial_1');
+        cartaoEmergencialGerarPDF(2, id, 1, 'en', 'fun_cartao_emergencial_2');
     }
 }
 
@@ -570,85 +566,81 @@ function funcionarioModalInfoEstatisticas(id='') {
 // Modal Funcionários
 // Dados
 async function funcionarioModalInfoDados(id='') {
-    if (document.getElementById('user_email').value == 'claudinomoraes@yahoo.com.br') {
-        if (id == '') {id = document.getElementById('mi_fun_funcionario_id').value;}
+    if (id == '') {id = document.getElementById('mi_fun_funcionario_id').value;}
 
-        //Abrir Modal
-        var modalEl = document.getElementById('funcionario_modal_info');
-        if (!modalEl.classList.contains('show')) {
-            new bootstrap.Modal(document.getElementById('funcionario_modal_info')).show();
-            ajustarMargensModalsInfo({ modalId:'funcionario_modal_info', top:20, right:20, bottom:20, left:20 });
-        }
-
-        //Limpando dados
-        let elementos = document.querySelectorAll('.clearClass');
-        elementos.forEach(elemento => {elemento.src = ''; elemento.innerHTML = '';});
-
-        var url_atual = window.location.protocol+'//'+window.location.host+'/';
-
-        //Acessar rota
-        fetch(url_atual+'funcionarios/modalInfo/modal_info/'+id, {
-            method: 'GET',
-            headers: {'REQUEST-ORIGIN': 'fetch'}
-        }).then(response => {
-            return response.json();
-        }).then(data => {
-            //Lendo json
-            let json = data;
-
-            //Lendo dados funcionario
-            let funcionario = json.funcionario;
-
-            //Passando dados funcionario''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            //Header
-            document.getElementById('mi_fun_header_nome').innerHTML = funcionario.name;
-
-            //Fotografia Documento
-            var fotografia_documento = url_atual+'build/assets/images/funcionarios/funcionario-0.png';
-            if (funcionario.fotografia_documento) {fotografia_documento = funcionario.fotografia_documento;}
-            document.getElementById('mi_fun_fotografia').src = fotografia_documento;
-            document.getElementById('mi_fun_fotografia_documento').src = fotografia_documento;
-
-            //Fotografia Cartão Emergencial
-            var fotografia_cartao_emergencial = url_atual+'build/assets/images/funcionarios/funcionario-0.png';
-            if (funcionario.fotografia_cartao_emergencial) {fotografia_cartao_emergencial = funcionario.fotografia_cartao_emergencial;}
-            document.getElementById('mi_fun_fotografia_cartao_emergencial').src = fotografia_cartao_emergencial;
-
-            //Funcionário id
-            document.getElementById('mi_fun_funcionario_id').value = funcionario.id;
-
-            //Dados
-            document.getElementById('mi_fun_nome').value = funcionario.name;
-            document.getElementById('mi_fun_cpf').value = funcionario.cpf;
-            document.getElementById('mi_fun_empresa').value = funcionario.empresaName;
-            document.getElementById('mi_fun_tomador_servico').value = funcionario.tomadorServicoName;
-            document.getElementById('mi_fun_contratacao_tipo').value = funcionario.contratacaoTipoName;
-            document.getElementById('mi_fun_funcao').value = funcionario.funcaoName;
-            document.getElementById('mi_fun_departamento').value = funcionario.departamentoName;
-            document.getElementById('mi_fun_nome_profissional').value = funcionario.nome_profissional;
-            document.getElementById('mi_fun_data_nascimento').value = formatarData(2, funcionario.data_nascimento);
-            document.getElementById('mi_fun_genero').value = funcionario.generoName;
-            document.getElementById('mi_fun_celular_1').value = formatarTelCel(2, funcionario.celular_1);
-            document.getElementById('mi_fun_celular_2').value = formatarTelCel(2, funcionario.celular_2);
-            document.getElementById('mi_fun_telefone_1').value = formatarTelCel(1, funcionario.telefone_1);
-            document.getElementById('mi_fun_telefone_2').value = formatarTelCel(1, funcionario.telefone_2);
-            document.getElementById('mi_fun_email').value = funcionario.email;
-
-            //Documentos
-            document.getElementById('upload_documentos_funcionario_id').value = funcionario.id;
-
-            //Fotografia Documento
-            document.getElementById('upload_fotografia_documento_funcionario_id').value = funcionario.id;
-
-            //Fotografia Cartão Emergencial
-            document.getElementById('upload_fotografia_cartao_emergencial_funcionario_id').value = funcionario.id;
-            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        }).catch(error => {
-            alert('Erro funcionarioModalInfo: '+error);
-        });
-    } else {
-        alert('INFO em desenvolvimento.');
+    //Abrir Modal
+    var modalEl = document.getElementById('funcionario_modal_info');
+    if (!modalEl.classList.contains('show')) {
+        new bootstrap.Modal(document.getElementById('funcionario_modal_info')).show();
+        ajustarMargensModalsInfo({ modalId:'funcionario_modal_info', top:20, right:20, bottom:20, left:20 });
     }
+
+    //Limpando dados
+    let elementos = document.querySelectorAll('.clearClass');
+    elementos.forEach(elemento => {elemento.src = ''; elemento.innerHTML = '';});
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'funcionarios/modalInfo/modal_info/'+id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        //Lendo json
+        let json = data;
+
+        //Lendo dados funcionario
+        let funcionario = json.funcionario;
+
+        //Passando dados funcionario''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Header
+        document.getElementById('mi_fun_header_nome').innerHTML = funcionario.name;
+
+        //Fotografia Documento
+        var fotografia_documento = url_atual+'build/assets/images/funcionarios/funcionario-0.png';
+        if (funcionario.fotografia_documento) {fotografia_documento = funcionario.fotografia_documento;}
+        document.getElementById('mi_fun_fotografia').src = fotografia_documento;
+        document.getElementById('mi_fun_fotografia_documento').src = fotografia_documento;
+
+        //Fotografia Cartão Emergencial
+        var fotografia_cartao_emergencial = url_atual+'build/assets/images/funcionarios/funcionario-0.png';
+        if (funcionario.fotografia_cartao_emergencial) {fotografia_cartao_emergencial = funcionario.fotografia_cartao_emergencial;}
+        document.getElementById('mi_fun_fotografia_cartao_emergencial').src = fotografia_cartao_emergencial;
+
+        //Funcionário id
+        document.getElementById('mi_fun_funcionario_id').value = funcionario.id;
+
+        //Dados
+        document.getElementById('mi_fun_nome').value = funcionario.name;
+        document.getElementById('mi_fun_cpf').value = funcionario.cpf;
+        document.getElementById('mi_fun_empresa').value = funcionario.empresaName;
+        document.getElementById('mi_fun_tomador_servico').value = funcionario.tomadorServicoName;
+        document.getElementById('mi_fun_contratacao_tipo').value = funcionario.contratacaoTipoName;
+        document.getElementById('mi_fun_funcao').value = funcionario.funcaoName;
+        document.getElementById('mi_fun_departamento').value = funcionario.departamentoName;
+        document.getElementById('mi_fun_nome_profissional').value = funcionario.nome_profissional;
+        document.getElementById('mi_fun_data_nascimento').value = formatarData(2, funcionario.data_nascimento);
+        document.getElementById('mi_fun_genero').value = funcionario.generoName;
+        document.getElementById('mi_fun_celular_1').value = formatarTelCel(2, funcionario.celular_1);
+        document.getElementById('mi_fun_celular_2').value = formatarTelCel(2, funcionario.celular_2);
+        document.getElementById('mi_fun_telefone_1').value = formatarTelCel(1, funcionario.telefone_1);
+        document.getElementById('mi_fun_telefone_2').value = formatarTelCel(1, funcionario.telefone_2);
+        document.getElementById('mi_fun_email').value = funcionario.email;
+
+        //Documentos
+        document.getElementById('upload_documentos_funcionario_id').value = funcionario.id;
+
+        //Fotografia Documento
+        document.getElementById('upload_fotografia_documento_funcionario_id').value = funcionario.id;
+
+        //Fotografia Cartão Emergencial
+        document.getElementById('upload_fotografia_cartao_emergencial_funcionario_id').value = funcionario.id;
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    }).catch(error => {
+        alert('Erro funcionarioModalInfo: '+error);
+    });
 }
 
 // Modal Funcionários

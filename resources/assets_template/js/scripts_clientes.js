@@ -333,157 +333,153 @@ function validar_frm_upload_logotipo_cartao_emergencial() {
 }
 
 function clienteModalInfoControle(op, id='') {
-    if (document.getElementById('user_email').value == 'claudinomoraes@yahoo.com.br') {
-        var div_logotipos = document.getElementById('md_cli_div_logotipos');
-        var div_dados = document.getElementById('md_cli_div_dados');
-        var div_documentos = document.getElementById('md_cli_div_documentos');
-        var div_servicos = document.getElementById('md_cli_div_servicos');
-        var div_clientes = document.getElementById('md_cli_div_clientes');
-        var div_incluir_documentos = document.getElementById('md_cli_div_incluir_documentos');
+    var div_logotipos = document.getElementById('md_cli_div_logotipos');
+    var div_dados = document.getElementById('md_cli_div_dados');
+    var div_documentos = document.getElementById('md_cli_div_documentos');
+    var div_servicos = document.getElementById('md_cli_div_servicos');
+    var div_clientes = document.getElementById('md_cli_div_clientes');
+    var div_incluir_documentos = document.getElementById('md_cli_div_incluir_documentos');
 
-        //Logotipos
-        if (op == 1) {
-            div_logotipos.classList.remove('d-none');
-            div_logotipos.classList.add('d-lg-flex');
+    //Logotipos
+    if (op == 1) {
+        div_logotipos.classList.remove('d-none');
+        div_logotipos.classList.add('d-lg-flex');
 
-            div_dados.classList.remove('d-lg-flex');
-            div_dados.classList.add('d-none');
+        div_dados.classList.remove('d-lg-flex');
+        div_dados.classList.add('d-none');
 
-            div_documentos.classList.remove('d-lg-flex');
-            div_documentos.classList.add('d-none');
+        div_documentos.classList.remove('d-lg-flex');
+        div_documentos.classList.add('d-none');
 
-            div_servicos.classList.remove('d-lg-flex');
-            div_servicos.classList.add('d-none');
+        div_servicos.classList.remove('d-lg-flex');
+        div_servicos.classList.add('d-none');
 
-            div_clientes.classList.remove('d-lg-flex');
-            div_clientes.classList.add('d-none');
+        div_clientes.classList.remove('d-lg-flex');
+        div_clientes.classList.add('d-none');
 
-            div_incluir_documentos.classList.remove('d-lg-flex');
-            div_incluir_documentos.classList.add('d-none');
+        div_incluir_documentos.classList.remove('d-lg-flex');
+        div_incluir_documentos.classList.add('d-none');
 
-            clienteModalInfoEstatisticas(id);
-        }
+        clienteModalInfoEstatisticas(id);
+    }
 
-        //Dados
-        if (op == 2) {
-            div_logotipos.classList.remove('d-lg-flex');
-            div_logotipos.classList.add('d-none');
+    //Dados
+    if (op == 2) {
+        div_logotipos.classList.remove('d-lg-flex');
+        div_logotipos.classList.add('d-none');
 
-            div_dados.classList.remove('d-none');
-            div_dados.classList.add('d-lg-flex');
+        div_dados.classList.remove('d-none');
+        div_dados.classList.add('d-lg-flex');
 
-            div_documentos.classList.remove('d-lg-flex');
-            div_documentos.classList.add('d-none');
+        div_documentos.classList.remove('d-lg-flex');
+        div_documentos.classList.add('d-none');
 
-            div_servicos.classList.remove('d-lg-flex');
-            div_servicos.classList.add('d-none');
+        div_servicos.classList.remove('d-lg-flex');
+        div_servicos.classList.add('d-none');
 
-            div_clientes.classList.remove('d-lg-flex');
-            div_clientes.classList.add('d-none');
+        div_clientes.classList.remove('d-lg-flex');
+        div_clientes.classList.add('d-none');
 
-            div_incluir_documentos.classList.remove('d-lg-flex');
-            div_incluir_documentos.classList.add('d-none');
+        div_incluir_documentos.classList.remove('d-lg-flex');
+        div_incluir_documentos.classList.add('d-none');
 
-            clienteModalInfoDados(id);
-            clienteModalInfoEstatisticas(id);
-        }
-
-        //Documentos
-        if (op == 3) {
-            div_logotipos.classList.remove('d-lg-flex');
-            div_logotipos.classList.add('d-none');
-
-            div_dados.classList.remove('d-lg-flex');
-            div_dados.classList.add('d-none');
-
-            div_documentos.classList.remove('d-none');
-            div_documentos.classList.add('d-lg-flex');
-
-            div_servicos.classList.remove('d-lg-flex');
-            div_servicos.classList.add('d-none');
-
-            div_clientes.classList.remove('d-lg-flex');
-            div_clientes.classList.add('d-none');
-
-            div_incluir_documentos.classList.remove('d-lg-flex');
-            div_incluir_documentos.classList.add('d-none');
-
-            clienteModalInfoDocumentos(id);
-            clienteModalInfoEstatisticas(id);
-        }
-
-        //Serviços
-        if (op == 4) {
-            div_logotipos.classList.remove('d-lg-flex');
-            div_logotipos.classList.add('d-none');
-
-            div_dados.classList.remove('d-lg-flex');
-            div_dados.classList.add('d-none');
-
-            div_documentos.classList.remove('d-lg-flex');
-            div_documentos.classList.add('d-none');
-
-            div_servicos.classList.remove('d-none');
-            div_servicos.classList.add('d-lg-flex');
-
-            div_clientes.classList.remove('d-lg-flex');
-            div_clientes.classList.add('d-none');
-
-            div_incluir_documentos.classList.remove('d-lg-flex');
-            div_incluir_documentos.classList.add('d-none');
-
-            clienteModalInfoServicos(id);
-            clienteModalInfoEstatisticas(id);
-        }
-
-        //Clientes
-        if (op == 5) {
-            div_logotipos.classList.remove('d-lg-flex');
-            div_logotipos.classList.add('d-none');
-
-            div_dados.classList.remove('d-lg-flex');
-            div_dados.classList.add('d-none');
-
-            div_documentos.classList.remove('d-lg-flex');
-            div_documentos.classList.add('d-none');
-
-            div_servicos.classList.remove('d-lg-flex');
-            div_servicos.classList.add('d-none');
-
-            div_clientes.classList.remove('d-none');
-            div_clientes.classList.add('d-lg-flex');
-
-            div_incluir_documentos.classList.remove('d-lg-flex');
-            div_incluir_documentos.classList.add('d-none');
-
-            clienteModalInfoClientes(id);
-            clienteModalInfoEstatisticas(id);
-        }
-
-        //Incluir Documentos
-        if (op == 6) {
-            div_logotipos.classList.remove('d-lg-flex');
-            div_logotipos.classList.add('d-none');
-
-            div_dados.classList.remove('d-lg-flex');
-            div_dados.classList.add('d-none');
-
-            div_documentos.classList.remove('d-lg-flex');
-            div_documentos.classList.add('d-none');
-
-            div_servicos.classList.remove('d-lg-flex');
-            div_servicos.classList.add('d-none');
-
-            div_clientes.classList.remove('d-lg-flex');
-            div_clientes.classList.add('d-none');
-
-            div_incluir_documentos.classList.remove('d-none');
-            div_incluir_documentos.classList.add('d-lg-flex');
-
-            clienteModalInfoEstatisticas(id);
-        }
-    } else {
         clienteModalInfoDados(id);
+        clienteModalInfoEstatisticas(id);
+    }
+
+    //Documentos
+    if (op == 3) {
+        div_logotipos.classList.remove('d-lg-flex');
+        div_logotipos.classList.add('d-none');
+
+        div_dados.classList.remove('d-lg-flex');
+        div_dados.classList.add('d-none');
+
+        div_documentos.classList.remove('d-none');
+        div_documentos.classList.add('d-lg-flex');
+
+        div_servicos.classList.remove('d-lg-flex');
+        div_servicos.classList.add('d-none');
+
+        div_clientes.classList.remove('d-lg-flex');
+        div_clientes.classList.add('d-none');
+
+        div_incluir_documentos.classList.remove('d-lg-flex');
+        div_incluir_documentos.classList.add('d-none');
+
+        clienteModalInfoDocumentos(id);
+        clienteModalInfoEstatisticas(id);
+    }
+
+    //Serviços
+    if (op == 4) {
+        div_logotipos.classList.remove('d-lg-flex');
+        div_logotipos.classList.add('d-none');
+
+        div_dados.classList.remove('d-lg-flex');
+        div_dados.classList.add('d-none');
+
+        div_documentos.classList.remove('d-lg-flex');
+        div_documentos.classList.add('d-none');
+
+        div_servicos.classList.remove('d-none');
+        div_servicos.classList.add('d-lg-flex');
+
+        div_clientes.classList.remove('d-lg-flex');
+        div_clientes.classList.add('d-none');
+
+        div_incluir_documentos.classList.remove('d-lg-flex');
+        div_incluir_documentos.classList.add('d-none');
+
+        clienteModalInfoServicos(id);
+        clienteModalInfoEstatisticas(id);
+    }
+
+    //Clientes
+    if (op == 5) {
+        div_logotipos.classList.remove('d-lg-flex');
+        div_logotipos.classList.add('d-none');
+
+        div_dados.classList.remove('d-lg-flex');
+        div_dados.classList.add('d-none');
+
+        div_documentos.classList.remove('d-lg-flex');
+        div_documentos.classList.add('d-none');
+
+        div_servicos.classList.remove('d-lg-flex');
+        div_servicos.classList.add('d-none');
+
+        div_clientes.classList.remove('d-none');
+        div_clientes.classList.add('d-lg-flex');
+
+        div_incluir_documentos.classList.remove('d-lg-flex');
+        div_incluir_documentos.classList.add('d-none');
+
+        clienteModalInfoClientes(id);
+        clienteModalInfoEstatisticas(id);
+    }
+
+    //Incluir Documentos
+    if (op == 6) {
+        div_logotipos.classList.remove('d-lg-flex');
+        div_logotipos.classList.add('d-none');
+
+        div_dados.classList.remove('d-lg-flex');
+        div_dados.classList.add('d-none');
+
+        div_documentos.classList.remove('d-lg-flex');
+        div_documentos.classList.add('d-none');
+
+        div_servicos.classList.remove('d-lg-flex');
+        div_servicos.classList.add('d-none');
+
+        div_clientes.classList.remove('d-lg-flex');
+        div_clientes.classList.add('d-none');
+
+        div_incluir_documentos.classList.remove('d-none');
+        div_incluir_documentos.classList.add('d-lg-flex');
+
+        clienteModalInfoEstatisticas(id);
     }
 }
 
@@ -522,230 +518,124 @@ function clienteModalInfoEstatisticas(id='') {
 // Modal Clientes
 // Dados
 async function clienteModalInfoDados(id='') {
-    if (document.getElementById('user_email').value == 'claudinomoraes@yahoo.com.br') {
-        if (id == '') {id = document.getElementById('mi_cli_cliente_id').value;}
+    if (id == '') {id = document.getElementById('mi_cli_cliente_id').value;}
 
-        //Abrir Modal
-        var modalEl = document.getElementById('cliente_modal_info');
-        if (!modalEl.classList.contains('show')) {
-            new bootstrap.Modal(document.getElementById('cliente_modal_info')).show();
-            ajustarMargensModalsInfo({ modalId:'cliente_modal_info', top:20, right:20, bottom:20, left:20 });
+    //Abrir Modal
+    var modalEl = document.getElementById('cliente_modal_info');
+    if (!modalEl.classList.contains('show')) {
+        new bootstrap.Modal(document.getElementById('cliente_modal_info')).show();
+        ajustarMargensModalsInfo({ modalId:'cliente_modal_info', top:20, right:20, bottom:20, left:20 });
+    }
+
+    //Limpando dados
+    let elementos = document.querySelectorAll('.clearClass');
+    elementos.forEach(elemento => {elemento.src = ''; elemento.innerHTML = '';});
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'clientes/modalInfo/modal_info/'+id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        //Lendo json
+        let json = data;
+
+        //Lendo dados cliente
+        let cliente = json.cliente;
+
+        //Acertos
+        if (cliente.status == 1) {var status = 'ATIVO';}
+        if (cliente.status == 2) {var status = 'INATIVO';}
+
+        if (cliente.tipo == 1) {
+            var tipo = 'PESSOA JURÍDICA';
+            var cpf_cnpj = cliente.cnpj;
+
+            //Campo data_nascimento
+            document.getElementById('div_cli_dados_data').innerHTML = 'Data Abertura';
+        }
+        if (cliente.tipo == 2) {
+            var tipo = 'PESSOA FÍSICA';
+            var cpf_cnpj = cliente.cpf;
+
+            //Campo data_nascimento
+            document.getElementById('div_cli_dados_data').innerHTML = 'Data Nascimento';
         }
 
-        //Limpando dados
-        let elementos = document.querySelectorAll('.clearClass');
-        elementos.forEach(elemento => {elemento.src = ''; elemento.innerHTML = '';});
+        //Campo cli_documentos_documento_id''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        const selectDocumento = document.getElementById('cli_documentos_documento_id');
+        const options = selectDocumento.querySelectorAll('option');
 
-        var url_atual = window.location.protocol+'//'+window.location.host+'/';
-
-        //Acessar rota
-        fetch(url_atual+'clientes/modalInfo/modal_info/'+id, {
-            method: 'GET',
-            headers: {'REQUEST-ORIGIN': 'fetch'}
-        }).then(response => {
-            return response.json();
-        }).then(data => {
-            //Lendo json
-            let json = data;
-
-            //Lendo dados cliente
-            let cliente = json.cliente;
-
-            //Acertos
-            if (cliente.status == 1) {var status = 'ATIVO';}
-            if (cliente.status == 2) {var status = 'INATIVO';}
-
-            if (cliente.tipo == 1) {
-                var tipo = 'PESSOA JURÍDICA';
-                var cpf_cnpj = cliente.cnpj;
-
-                //Campo data_nascimento
-                document.getElementById('div_cli_dados_data').innerHTML = 'Data Abertura';
-            }
-            if (cliente.tipo == 2) {
-                var tipo = 'PESSOA FÍSICA';
-                var cpf_cnpj = cliente.cpf;
-
-                //Campo data_nascimento
-                document.getElementById('div_cli_dados_data').innerHTML = 'Data Nascimento';
+        options.forEach(option => {
+            //Sempre mostrar a primeira opção (placeholder)
+            if (option.value === '') {
+                option.style.display = 'block';
+                return;
             }
 
-            //Campo cli_documentos_documento_id''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            const selectDocumento = document.getElementById('cli_documentos_documento_id');
-            const options = selectDocumento.querySelectorAll('option');
-
-            options.forEach(option => {
-                //Sempre mostrar a primeira opção (placeholder)
-                if (option.value === '') {
-                    option.style.display = 'block';
-                    return;
-                }
-
-                if (cliente.tipo == 1 && option.classList.contains('pessoa_juridica')) {
-                    option.style.display = 'block';
-                } else if (cliente.tipo == 2 && option.classList.contains('pessoa_fisica')) {
-                    option.style.display = 'block';
-                } else {
-                    option.style.display = 'none';
-                }
-            });
-
-            //Resetar o valor selecionado sempre que mudar o tipo
-            selectDocumento.value = '';
-            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-            //Passando dados cliente''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            //Header
-            document.getElementById('mi_cli_header_nome').innerHTML = cliente.name;
-
-            //Logotipo Principal
-            var logotipo_principal = url_atual+'build/assets/images/clientes/cliente-0.png';
-            if (cliente.logotipo_principal) {logotipo_principal = cliente.logotipo_principal;}
-            document.getElementById('mi_cli_logotipo').src = logotipo_principal;
-            document.getElementById('mi_cli_logotipo_principal').src = logotipo_principal;
-
-            //Logotipo Relatórios
-            var logotipo_relatorios = url_atual+'build/assets/images/clientes/cliente-0.png';
-            if (cliente.logotipo_relatorios) {logotipo_relatorios = cliente.logotipo_relatorios;}
-            document.getElementById('mi_cli_logotipo_relatorios').src = logotipo_relatorios;
-
-            //Logotipo Cartão Emergencial
-            var logotipo_cartao_emergencial = url_atual+'build/assets/images/clientes/cliente-0.png';
-            if (cliente.logotipo_cartao_emergencial) {logotipo_cartao_emergencial = cliente.logotipo_cartao_emergencial;}
-            document.getElementById('mi_cli_logotipo_cartao_emergencial').src = logotipo_cartao_emergencial;
-
-            //Cliente id
-            document.getElementById('mi_cli_cliente_id').value = cliente.id;
-
-            //Dados
-            document.getElementById('mi_cli_status').value = status;
-            document.getElementById('mi_cli_tipo').value = tipo;
-            document.getElementById('mi_cli_cpf_cnpj').value = cpf_cnpj;
-            document.getElementById('mi_cli_nome').value = cliente.name;
-            document.getElementById('mi_cli_telefones').value = formatarTelCel(1, cliente.telefone_1)+'  '+formatarTelCel(1, cliente.telefone_2);
-            document.getElementById('mi_cli_celulares').value = formatarTelCel(2, cliente.celular_1)+'  '+formatarTelCel(2, cliente.celular_2);
-            document.getElementById('mi_cli_data_nascimento').value = formatarData(2, cliente.data_nascimento);
-
-            //Documentos
-            document.getElementById('upload_documentos_cliente_id').value = cliente.id;
-
-            //Logotipo Principal
-            document.getElementById('upload_logotipo_principal_cliente_id').value = cliente.id;
-
-            //Logotipo Relatórios
-            document.getElementById('upload_logotipo_relatorios_cliente_id').value = cliente.id;
-
-            //Logotipo Cartão Emergencial
-            document.getElementById('upload_logotipo_cartao_emergencial_cliente_id').value = cliente.id;
-            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        }).catch(error => {
-            alert('Erro clienteModalInfo: '+error);
+            if (cliente.tipo == 1 && option.classList.contains('pessoa_juridica')) {
+                option.style.display = 'block';
+            } else if (cliente.tipo == 2 && option.classList.contains('pessoa_fisica')) {
+                option.style.display = 'block';
+            } else {
+                option.style.display = 'none';
+            }
         });
-    } else {
-        if (id == '') {id = document.getElementById('registro_id').value;}
 
-        //Abrir Modal
-        new bootstrap.Modal(document.getElementById('cliente_modal_info')).show();
+        //Resetar o valor selecionado sempre que mudar o tipo
+        selectDocumento.value = '';
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-        //Limpando dados
-        let elementos = document.querySelectorAll('.clearClass');
-        elementos.forEach(elemento => {elemento.src = ''; elemento.innerHTML = '';});
+        //Passando dados cliente''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Header
+        document.getElementById('mi_cli_header_nome').innerHTML = cliente.name;
 
-        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+        //Logotipo Principal
+        var logotipo_principal = url_atual+'build/assets/images/clientes/cliente-0.png';
+        if (cliente.logotipo_principal) {logotipo_principal = cliente.logotipo_principal;}
+        document.getElementById('mi_cli_logotipo').src = logotipo_principal;
+        document.getElementById('mi_cli_logotipo_principal').src = logotipo_principal;
 
-        //Acessar rota
-        fetch(url_atual+'clientes/modalInfo/modal_info/'+id, {
-            method: 'GET',
-            headers: {'REQUEST-ORIGIN': 'fetch'}
-        }).then(response => {
-            return response.json();
-        }).then(data => {
-            //Lendo json
-            let json = data;
+        //Logotipo Relatórios
+        var logotipo_relatorios = url_atual+'build/assets/images/clientes/cliente-0.png';
+        if (cliente.logotipo_relatorios) {logotipo_relatorios = cliente.logotipo_relatorios;}
+        document.getElementById('mi_cli_logotipo_relatorios').src = logotipo_relatorios;
 
-            //Lendo dados cliente
-            let cliente = json.cliente;
+        //Logotipo Cartão Emergencial
+        var logotipo_cartao_emergencial = url_atual+'build/assets/images/clientes/cliente-0.png';
+        if (cliente.logotipo_cartao_emergencial) {logotipo_cartao_emergencial = cliente.logotipo_cartao_emergencial;}
+        document.getElementById('mi_cli_logotipo_cartao_emergencial').src = logotipo_cartao_emergencial;
 
-            //Acertos
-            if (cliente.status == 1) {var status = 'ATIVO';}
-            if (cliente.status == 2) {var status = 'INATIVO';}
+        //Cliente id
+        document.getElementById('mi_cli_cliente_id').value = cliente.id;
 
-            if (cliente.tipo == 1) {
-                var tipo = 'PESSOA JURÍDICA';
-                var cpf_cnpj = cliente.cnpj;
+        //Dados
+        document.getElementById('mi_cli_status').value = status;
+        document.getElementById('mi_cli_tipo').value = tipo;
+        document.getElementById('mi_cli_cpf_cnpj').value = cpf_cnpj;
+        document.getElementById('mi_cli_nome').value = cliente.name;
+        document.getElementById('mi_cli_telefones').value = formatarTelCel(1, cliente.telefone_1)+'  '+formatarTelCel(1, cliente.telefone_2);
+        document.getElementById('mi_cli_celulares').value = formatarTelCel(2, cliente.celular_1)+'  '+formatarTelCel(2, cliente.celular_2);
+        document.getElementById('mi_cli_data_nascimento').value = formatarData(2, cliente.data_nascimento);
 
-                //Campo data_nascimento
-                document.getElementById('div_cli_dados_data').innerHTML = 'Data Abertura';
-            }
-            if (cliente.tipo == 2) {
-                var tipo = 'PESSOA FÍSICA';
-                var cpf_cnpj = cliente.cpf;
+        //Documentos
+        document.getElementById('upload_documentos_cliente_id').value = cliente.id;
 
-                //Campo data_nascimento
-                document.getElementById('div_cli_dados_data').innerHTML = 'Data Nascimento';
-            }
+        //Logotipo Principal
+        document.getElementById('upload_logotipo_principal_cliente_id').value = cliente.id;
 
-            //Campo cli_documentos_documento_id'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            const selectDocumento = document.getElementById('cli_documentos_documento_id');
-            const options = selectDocumento.querySelectorAll('option');
+        //Logotipo Relatórios
+        document.getElementById('upload_logotipo_relatorios_cliente_id').value = cliente.id;
 
-            options.forEach(option => {
-                //Sempre mostrar a primeira opção (placeholder)
-                if (option.value === '') {
-                    option.style.display = 'block';
-                    return;
-                }
-
-                if (cliente.tipo == 1 && option.classList.contains('pessoa_juridica')) {
-                    option.style.display = 'block';
-                } else if (cliente.tipo == 2 && option.classList.contains('pessoa_fisica')) {
-                    option.style.display = 'block';
-                } else {
-                    option.style.display = 'none';
-                }
-            });
-
-            //Resetar o valor selecionado sempre que mudar o tipo
-            selectDocumento.value = '';
-            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-            //Passando dados cliente'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            //Header
-            const header_mi_cli_nome = document.querySelector('#cliente_modal_info #header #mi_cli_nome');
-            const header_mi_cli_email = document.querySelector('#cliente_modal_info #header #mi_cli_email');
-
-            header_mi_cli_nome.innerHTML = cliente.name;
-            header_mi_cli_email.innerHTML = cliente.email;
-
-            //Tab Dados
-            const tab_cli_dados_mi_cli_status = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_status');
-            const tab_cli_dados_mi_cli_tipo = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_tipo');
-            const tab_cli_dados_mi_cli_cpf_cnpj = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_cpf_cnpj');
-            const tab_cli_dados_mi_cli_nome = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_nome');
-            const tab_cli_dados_mi_cli_telefones = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_telefones');
-            const tab_cli_dados_mi_cli_celulares = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_celulares');
-            const tab_cli_dados_mi_cli_data_nascimento = document.querySelector('#cliente_modal_info #tab_cli_dados #mi_cli_data_nascimento');
-
-            tab_cli_dados_mi_cli_status.innerHTML = status;
-            tab_cli_dados_mi_cli_tipo.innerHTML = tipo;
-            tab_cli_dados_mi_cli_cpf_cnpj.innerHTML = cpf_cnpj;
-            tab_cli_dados_mi_cli_nome.innerHTML = cliente.name;
-            tab_cli_dados_mi_cli_telefones.innerHTML = formatarTelCel(1, cliente.telefone_1)+'  '+formatarTelCel(1, cliente.telefone_2);
-            tab_cli_dados_mi_cli_celulares.innerHTML = formatarTelCel(2, cliente.celular_1)+'  '+formatarTelCel(2, cliente.celular_2);
-            tab_cli_dados_mi_cli_data_nascimento.innerHTML = formatarData(2, cliente.data_nascimento);
-
-            //Upload Documento PDF
-            const tab_documento_upload_documentos_cliente_id = document.querySelector('#cliente_modal_info #tab_cli_documentos_upload #upload_documentos_cliente_id');
-
-            tab_documento_upload_documentos_cliente_id.value = cliente.id;
-            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-            //Montando Grade de Documentos PDF
-            clienteModalInfoDocumentos(cliente.id);
-        }).catch(error => {
-            alert('Erro clienteModalInfo: ', error);
-        });
-    }
+        //Logotipo Cartão Emergencial
+        document.getElementById('upload_logotipo_cartao_emergencial_cliente_id').value = cliente.id;
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    }).catch(error => {
+        alert('Erro clienteModalInfo: '+error);
+    });
 }
 
 // Modal Clientes

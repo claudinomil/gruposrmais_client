@@ -3771,7 +3771,6 @@ function corrigirRotacaoImagem(base64Image) {
 async function traduzirViaLocale(texto) {
     const response = await fetch('/translate?key=' + encodeURIComponent(texto));
     const data = await response.json();
-    console.log(data.translation);
     if (data.translation != '') {
         return data.translation;
     } else {
@@ -3838,4 +3837,16 @@ async function verificarArquivo(arquivo) {
     }
     
     return retorno;
+}
+
+/*
+ * Gerar texto em código numérico positivo
+ */
+async function gerarCodigoNumerico(texto) {
+    let hash = 0;
+    for (let i = 0; i < texto.length; i++) {
+        hash = (hash << 5) - hash + texto.charCodeAt(i);
+        hash |= 0; // força para 32 bits
+    }
+    return Math.abs(hash); // número sempre positivo
 }

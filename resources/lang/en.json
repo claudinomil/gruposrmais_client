@@ -866,5 +866,20 @@
     "Confirmar":"Confirm",
     "Pesquisar no Banco de Dados":"Search in Database",
     "Informações":"Information",
-    "Info":"Info"
+    "Info":"Info",
+    "Escalas x Brigadistas": "Schedules x Firefighters",
+    "Qtd Brig/Ala": "Qty Firef./Wing",
+    "Posto": "Post",
+    "Hr Iní. Ala 1": "Start Hr. Wing 1",
+    "ESCALA": "SCHEDULE",
+    "BRIGADISTAS": "FIREFIGHTERS",
+    "Brigadistas": "Firefighters",
+    "ALA": "WING",
+    "Escalas Geradas": "Generated Schedules",
+    "Escala Modelo": "Schedule Template",
+    "Data Término": "End Date",
+    "ESCALA TIPO": "SCHEDULE TYPE",
+    "POSTO": "POST",
+    "DATA INÍCIO": "START DATE",
+    "DATA TÉRMINO": "END DATE"
 }

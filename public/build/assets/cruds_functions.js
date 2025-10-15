@@ -523,6 +523,7 @@ function crudCreate() {
                 controleDisplay();
                 mat_controleDisplay();
                 esc_controleDisplay();
+                ger_controleDisplay();
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         } else if (data.error_permissao) {
@@ -913,6 +914,10 @@ function crudView(registro_id) {
                 controleDisplay();
                 mat_controleDisplay();
                 esc_controleDisplay();
+                ger_controleDisplay();
+
+                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 // Colocar Materiais da Brigada Incêndio
                 const brigada_incendio_materiais = data.success['brigada_incendio_materiais'];
@@ -926,11 +931,20 @@ function crudView(registro_id) {
                         material_quantidade: item.material_quantidade
                     });
                 });
+                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                // Grade de Escalas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Escalas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 // Colocar Escalas da Brigada Incêndio
                 const brigada_incendio_escalas = data.success['brigada_incendio_escalas'];
+                const brigada_incendio_escalas_brigadistas = data.success['brigada_incendio_escalas_brigadistas'];
 
                 brigada_incendio_escalas.forEach(function (item) {
+                    // Filtra brigadistas desta escala
+                    const brigadistasDaEscala = brigada_incendio_escalas_brigadistas.filter(b => b.brigada_incendio_escala_id === item.id);
+
                     // Adicionar linha na grade
                     esc_adicionarLinhaGrade({
                         escala_tipo_id: item.escala_tipo_id,
@@ -941,9 +955,18 @@ function crudView(registro_id) {
                         quantidade_brigadistas_por_ala: item.quantidade_brigadistas_por_ala,
                         quantidade_brigadistas_total: item.quantidade_brigadistas_total,
                         posto: item.posto,
-                        hora_inicio_ala_1: item.hora_inicio_ala_1
+                        hora_inicio_ala_1: item.hora_inicio_ala_1,
+                        brigadistas: brigadistasDaEscala
                     });
                 });
+                // Grade de Escalas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Escalas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                // Grade de Geradas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Geradas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -1358,6 +1381,10 @@ async function crudEdit(registro_id) {
                 controleDisplay();
                 mat_controleDisplay();
                 esc_controleDisplay();
+                ger_controleDisplay();
+
+                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 // Colocar Materiais da Brigada Incêndio
                 const brigada_incendio_materiais = data.success['brigada_incendio_materiais'];
@@ -1371,11 +1398,20 @@ async function crudEdit(registro_id) {
                         material_quantidade: item.material_quantidade
                     });
                 });
+                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                // Grade de Escalas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Escalas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 // Colocar Escalas da Brigada Incêndio
                 const brigada_incendio_escalas = data.success['brigada_incendio_escalas'];
+                const brigada_incendio_escalas_brigadistas = data.success['brigada_incendio_escalas_brigadistas'];
 
                 brigada_incendio_escalas.forEach(function (item) {
+                    // Filtra brigadistas desta escala
+                    const brigadistasDaEscala = brigada_incendio_escalas_brigadistas.filter(b => b.brigada_incendio_escala_id === item.id);
+
                     // Adicionar linha na grade
                     esc_adicionarLinhaGrade({
                         escala_tipo_id: item.escala_tipo_id,
@@ -1386,9 +1422,18 @@ async function crudEdit(registro_id) {
                         quantidade_brigadistas_por_ala: item.quantidade_brigadistas_por_ala,
                         quantidade_brigadistas_total: item.quantidade_brigadistas_total,
                         posto: item.posto,
-                        hora_inicio_ala_1: item.hora_inicio_ala_1
+                        hora_inicio_ala_1: item.hora_inicio_ala_1,
+                        brigadistas: brigadistasDaEscala
                     });
                 });
+                // Grade de Escalas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Escalas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                // Grade de Geradas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Geradas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 

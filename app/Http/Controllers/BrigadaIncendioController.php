@@ -44,16 +44,8 @@ class BrigadaIncendioController extends Controller
                         return $this->columnAction($row['id']);
                     })
                     ->editColumn('brigada_incendio', function ($row) {
-                        $retorno = "<div class='row'>";
-                        $retorno .= "    <div class='col-2'>";
-                        $retorno .= "   <a href='#' title='Brigada Incêndio em PDF (Português)' onclick='gerar_brigada_incendio(".$row['id'].", \"pt\", 1);'><i class='fa fa-file-pdf fa-2x text-danger'></i></a>";
-                        $retorno .= "   <a href='#' title='Brigada Incêndio em PDF (Inglês)' onclick='gerar_brigada_incendio(".$row['id'].", \"en\", 1);'><i class='fa fa-file-pdf fa-2x text-primary'></i></a>";
-                        $retorno .= "    </div>";
-                        $retorno .= "    <div class='col-10'>";
-                        $retorno .= "       Brigada Incêndio nº.&nbsp;".$row['numero_brigada_incendio']."/".$row['ano_brigada_incendio'];
-                        $retorno .= "    </div>";
-                        $retorno .= "</div>";
-
+                        $retorno = "Brigada Incêndio nº.&nbsp;".$row['numero_brigada_incendio']."/".$row['ano_brigada_incendio'];
+                        
                         return $retorno;
                     })
                     ->rawColumns(['action'])
@@ -236,10 +228,15 @@ class BrigadaIncendioController extends Controller
                     ->addColumn('action', function ($row, Request $request) {
                         return $this->columnAction($row['id']);
                     })
+                    ->editColumn('brigada_incendio', function ($row) {
+                        $retorno = "Brigada Incêndio nº.&nbsp;".$row['numero_brigada_incendio']."/".$row['ano_brigada_incendio'];
+                        
+                        return $retorno;
+                    })
                     ->rawColumns(['action'])
                     ->escapeColumns([])
                     ->make(true);
-
+                    
                 return $allData;
             } else {
                 abort(500, 'Erro Interno Brigadas Incêndios');

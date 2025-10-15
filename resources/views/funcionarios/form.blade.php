@@ -48,20 +48,16 @@
                                         <label class="form-label">CPF</label>
                                         <input type="text" class="form-control mask_cpf" id="cpf" name="cpf" required="required">
                                     </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">Empresa</label>
+                                        <select class="form-select" name="empresa_id" id="empresa_id">
+                                            <option value="">Selecione...</option>
 
-                                    @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
-                                        <div class="form-group col-12 col-md-4 pb-3">
-                                            <label class="form-label">Empresa</label>
-                                            <select class="form-select" name="empresa_id" id="empresa_id">
-                                                <option value="">Selecione...</option>
-
-                                                @foreach ($empresas as $empresa)
-                                                    <option value="{{ $empresa['id'] }}">{{ $empresa['name'] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    @endif
-
+                                            @foreach ($empresas as $empresa)
+                                                <option value="{{ $empresa['id'] }}">{{ $empresa['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Tomador de Serviço</label>
                                         <select class="select2 form-control" name="tomador_servico_cliente_id" id="tomador_servico_cliente_id">
@@ -219,8 +215,6 @@
                                         <label class="form-label">Conta</label>
                                         <input type="text" class="form-control" id="conta" name="conta">
                                     </div>
-
-                                    @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">PIX Tipo</label>
                                         <select class="form-select" name="pix_tipo_id" id="pix_tipo_id">
@@ -236,8 +230,6 @@
                                         <label class="form-label">PIX Chave</label>
                                         <input type="text" class="form-control" id="pix_chave" name="pix_chave">
                                     </div>
-                                    @endif
-
                                 </div>
 
                                 <div class="row pt-4">
@@ -282,8 +274,6 @@
 
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-paste"></i> Documentos</h5>
-
-                                    @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
                                     <div class="form-group col-12 col-md-3 pb-3">
                                         <label class="form-label">Carteira Nacional (Órgão)</label>
                                         <select class="form-control select2" name="carteira_nacional_orgao_id" id="carteira_nacional_orgao_id">
@@ -314,8 +304,6 @@
                                         <label class="form-label">Carteira Nacional (Emissão)</label>
                                         <input type="text" class="form-control mask_date" id="carteira_nacional_data_emissao" name="carteira_nacional_data_emissao">
                                     </div>
-                                    @endif
-
                                     <div class="form-group col-12 col-md-3 pb-3">
                                         <label class="form-label">Identidade Pessoal (Órgão)</label>
                                         <select class="form-control select2" name="personal_identidade_orgao_id" id="personal_identidade_orgao_id">
@@ -376,8 +364,6 @@
                                         <label class="form-label">Identidade Profissional (Emissão)</label>
                                         <input type="text" class="form-control mask_date" id="professional_identidade_data_emissao" name="professional_identidade_data_emissao">
                                     </div>
-
-                                    @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
                                     <div class="form-group col-12 col-md-3 pb-3">
                                         <label class="form-label">Título Eleitor (Número)</label>
                                         <input type="text" class="form-control" id="titulo_eleitor_numero" name="titulo_eleitor_numero">
@@ -390,8 +376,6 @@
                                         <label class="form-label">Título Eleitor (Seção)</label>
                                         <input type="text" class="form-control" id="titulo_eleitor_secao" name="titulo_eleitor_secao">
                                     </div>
-                                    @endif
-
                                     <div class="form-group col-12 col-md-3 pb-3">
                                         <label class="form-label">PIS</label>
                                         <input type="text" class="form-control mask_pis" id="pis" name="pis">
@@ -404,25 +388,21 @@
                                         <label class="form-label">Carteira Trabalho</label>
                                         <input type="text" class="form-control" id="carteira_trabalho" name="carteira_trabalho">
                                     </div>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">Atestado Saúde Ocupacional (Tipo)</label>
+                                        <select class="form-select" name="atestado_saude_ocupacional_tipo_id" id="atestado_saude_ocupacional_tipo_id">
+                                            <option value="">Selecione...</option>
 
-                                    @if(session('se_userLoggedData.email') == 'claudinomoraes@yahoo.com.br')
-                                        <div class="form-group col-12 col-md-3 pb-3">
-                                            <label class="form-label">Atestado Saúde Ocupacional (Tipo)</label>
-                                            <select class="form-select" name="atestado_saude_ocupacional_tipo_id" id="atestado_saude_ocupacional_tipo_id">
-                                                <option value="">Selecione...</option>
+                                            @foreach ($atestado_saude_ocupacional_tipos as $atestado_saude_ocupacional_tipo)
+                                                <option value="{{ $atestado_saude_ocupacional_tipo['id'] }}">{{ $atestado_saude_ocupacional_tipo['name'] }}</option>
+                                            @endforeach
 
-                                                @foreach ($atestado_saude_ocupacional_tipos as $atestado_saude_ocupacional_tipo)
-                                                    <option value="{{ $atestado_saude_ocupacional_tipo['id'] }}">{{ $atestado_saude_ocupacional_tipo['name'] }}</option>
-                                                @endforeach
-
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-12 col-md-3 pb-3">
-                                            <label class="form-label">Atestado Saúde Ocupacional (Emissão)</label>
-                                            <input type="text" class="form-control mask_date" id="atestado_saude_ocupacional_data_emissao" name="atestado_saude_ocupacional_data_emissao">
-                                        </div>
-                                    @endif
-
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">Atestado Saúde Ocupacional (Emissão)</label>
+                                        <input type="text" class="form-control mask_date" id="atestado_saude_ocupacional_data_emissao" name="atestado_saude_ocupacional_data_emissao">
+                                    </div>
                                 </div>
 
                                 <div class="row pt-4">
