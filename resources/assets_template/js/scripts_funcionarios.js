@@ -660,6 +660,11 @@ function funcionarioModalInfoDocumentos(funcionario_id='') {
         //Lendo json
         let funcionarios_documentos = data.funcionarios_documentos;
 
+        // Permissões
+        let permissoes = data.permissoes;
+        const permissao_list = permissoes.some(p => p.permissao === 'funcionarios_list');
+        const permissao_destroy = permissoes.some(p => p.permissao === 'funcionarios_destroy');
+
         //Grade
         let grade = '';
 
@@ -696,12 +701,19 @@ function funcionarioModalInfoDocumentos(funcionario_id='') {
                 let acoes = '';
 
                 acoes += '<div class="row">';
-                acoes += '  <div class="col-6">';
-                acoes += '      <button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Documento" onclick="window.open(\'' + dado.caminho + '\', \'_blank\');"><i class="fa fa-file-pdf font-size-18"></i></button>';
-                acoes += '  </div>';
-                acoes += '  <div class="col-6">';
-                acoes += '      <button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Documento" onclick="funcionarioModalInfoDocumentosDeletar(' + dado.id + ');"><i class="fa fa-trash-alt font-size-18"></i></button>';
-                acoes += '  </div>';
+
+                if (permissao_list) {
+                    acoes += '  <div class="col-6">';
+                    acoes += '      <button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Documento" onclick="window.open(\'' + dado.caminho + '\', \'_blank\');"><i class="fa fa-file-pdf font-size-18"></i></button>';
+                    acoes += '  </div>';
+                }
+
+                if (permissao_destroy) {
+                    acoes += '  <div class="col-6">';
+                    acoes += '      <button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Documento" onclick="funcionarioModalInfoDocumentosDeletar(' + dado.id + ');"><i class="fa fa-trash-alt font-size-18"></i></button>';
+                    acoes += '  </div>';
+                }
+
                 acoes += '</div>';
 
                 //TR

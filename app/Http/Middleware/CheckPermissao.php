@@ -53,7 +53,7 @@ class CheckPermissao
                 if ($request->ajax()) {
                     return response()->json(['error_permissao' => 'Permissão Negada']);
                 } else {
-                    abort(403, 'Permissão Negada.');
+                    abort(403, 'Permissão Negada');
                 }
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -97,7 +97,7 @@ class CheckPermissao
             if ($request->ajax()) {
                 return response()->json(['error_permissao' => 'Permissão Negada']);
             } else {
-                abort(403, 'Permissão Negada..');
+                abort(403, 'Permissão Negada');
             }
         }
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

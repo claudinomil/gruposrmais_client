@@ -129,7 +129,7 @@ class Menu
                     //if ($submodulo['id'] == 32) {$permitido = false;}
 
                     //33 : Brigadas de Incêndios
-                    //if ($submodulo['id'] == 33) {$permitido = false;}
+                    if ($submodulo['id'] == 33) {$permitido = false;}
                     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                     if ($permitido) {
