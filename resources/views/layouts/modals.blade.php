@@ -77,7 +77,7 @@
 
                                                 <div class="row mt-4">
                                                     <div class="input-group">
-                                                        <input type="file" class="form-control" name="avatar_file" id="avatar_file">
+                                                        <input type="file" class="form-control" name="avatar_file" accept=".png, .jpg, .jpeg" id="avatar_file">
                                                         <button type="submit" class="input-group-text">Upload</button>
                                                     </div>
                                                 </div>
@@ -337,20 +337,20 @@
 
                                             @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
                                                 <form enctype="multipart/form-data" id="frm_upload_fotografia_documento_fun">
-                                                    <input type="hiddenx" id="upload_fotografia_documento_funcionario_id" name="upload_fotografia_documento_funcionario_id" value="">
+                                                    <input type="hidden" id="upload_fotografia_documento_funcionario_id" name="upload_fotografia_documento_funcionario_id" value="">
 
                                                     <div class="col-12 mb-2">
                                                         <button type="button" class="btn btn-success btn-sm" id="frm_upload_fotografia_documento_fun_executar" name="frm_upload_fotografia_documento_fun_executar">Enviar Fotografia</button>
                                                     </div>
 
                                                     <div class="col-12 mb-3">
-                                                        <input type="file" class="form-control form-control-sm" name="fun_fotografia_documento_file" id="fun_fotografia_documento_file">
+                                                        <input type="file" class="form-control form-control-sm" name="fun_fotografia_documento_file" accept=".png, .jpg, .jpeg" id="fun_fotografia_documento_file">
                                                     </div>
                                                 </form>
                                             @endif
                                         </div>
                                         <div class="col-12 col-lg-6 pe-5">
-                                            <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTIGRAFIA CARTÃO EMERGENCIAL</h6>
+                                            <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTOGRAFIA CARTÃO EMERGENCIAL</h6>
                                             <div class="col-12" style="height: 150px;">
                                                 <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_fun_fotografia_cartao_emergencial">
                                             </div>
@@ -364,7 +364,7 @@
                                                     </div>
 
                                                     <div class="col-12 mb-3">
-                                                        <input type="file" class="form-control form-control-sm" name="fun_fotografia_cartao_emergencial_file" id="fun_fotografia_cartao_emergencial_file">
+                                                        <input type="file" class="form-control form-control-sm" name="fun_fotografia_cartao_emergencial_file" accept=".png, .jpg, .jpeg" id="fun_fotografia_cartao_emergencial_file">
                                                     </div>
                                                 </form>
                                             @endif
@@ -693,7 +693,7 @@
                                                     </div>
 
                                                     <div class="col-12 mb-3">
-                                                        <input type="file" class="form-control form-control-sm" name="cli_logotipo_principal_file" id="cli_logotipo_principal_file">
+                                                        <input type="file" class="form-control form-control-sm" name="cli_logotipo_principal_file" accept=".png, .jpg, .jpeg" id="cli_logotipo_principal_file">
                                                     </div>
                                                 </form>
                                             @endif
@@ -713,7 +713,7 @@
                                                     </div>
 
                                                     <div class="col-12 mb-3">
-                                                        <input type="file" class="form-control form-control-sm" name="cli_logotipo_relatorios_file" id="cli_logotipo_relatorios_file">
+                                                        <input type="file" class="form-control form-control-sm" name="cli_logotipo_relatorios_file" accept=".png, .jpg, .jpeg" id="cli_logotipo_relatorios_file">
                                                     </div>
                                                 </form>
                                             @endif
@@ -733,7 +733,7 @@
                                                     </div>
 
                                                     <div class="col-12 mb-3">
-                                                        <input type="file" class="form-control form-control-sm" name="cli_logotipo_cartao_emergencial_file" id="cli_logotipo_cartao_emergencial_file">
+                                                        <input type="file" class="form-control form-control-sm" name="cli_logotipo_cartao_emergencial_file" accept=".png, .jpg, .jpeg" id="cli_logotipo_cartao_emergencial_file">
                                                     </div>
                                                 </form>
                                             @endif
@@ -1114,7 +1114,7 @@
                                         </div>
                                         <div class="form-group col-12 pt-2">
                                             <label class="form-label mb-0 ps-1 small">Foto</label>
-                                            <input type="file" class="form-control form-control-sm" name="cex_foto_file" id="cex_foto_file">
+                                            <input type="file" class="form-control form-control-sm" name="cex_foto_file" accept=".png, .jpg, .jpeg" id="cex_foto_file">
                                         </div>
                                     </form>
                                 </div>
