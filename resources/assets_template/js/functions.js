@@ -3523,7 +3523,7 @@ async function cartaoEmergencialDados(op, ids) {
                 nome: pessoa.executivo_nome,
                 genero: pessoa.generoName,
                 nascimento: pessoa.data_nascimento,
-                fotografia_cartao_emergencial: pessoa.fotografia_cartao_emergencial,
+                fotografia_cartao_emergencial: pessoa.foto,
                 contato_1_nome: pessoa.contato_1_nome,
                 contato_1_parentesco: pessoa.contato_1_parentesco,
                 contato_1_telefone: pessoa.contato_1_telefone,
