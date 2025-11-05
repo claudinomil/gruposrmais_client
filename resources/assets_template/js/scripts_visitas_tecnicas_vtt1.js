@@ -1263,15 +1263,13 @@ async function vtt1_gerarPDF(visita_tecnica_id=0, traducao='pt', vt_cs) {
         var pageRodape = 'build/assets/images/visita_tecnica_rodape.png';
 
         //Verificar se existe topo para cliente''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        var arquivo = 'build/assets/images/visita_tecnica_topo_cliente_'+cliente_id+'.png';
-        var resposta = await verificarArquivo(arquivo);
-        if (resposta != '') {pageTopo = arquivo;}
+        var topoClienteExiste = await arquivoExiste('build/assets/images/visita_tecnica_topo_cliente_'+cliente_id+'.png');
+        if (topoClienteExiste === true) {pageTopo = 'build/assets/images/visita_tecnica_topo_cliente_'+cliente_id+'.png';}
         //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         //Verificar se existe rodapé para cliente''''''''''''''''''''''''''''''''''''''''''''''''''''
-        var arquivo = 'build/assets/images/visita_tecnica_rodape_cliente_'+cliente_id+'.png';
-        var resposta = await verificarArquivo(arquivo);
-        if (resposta != '') {pageRodape = arquivo;}
+        var rodapeClienteExiste = await arquivoExiste('build/assets/images/visita_tecnica_rodape_cliente_'+cliente_id+'.png');
+        if (rodapeClienteExiste === true) {pageRodape = 'build/assets/images/visita_tecnica_rodape_cliente_'+cliente_id+'.png';}
         //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         //Variáveis
@@ -1758,33 +1756,30 @@ async function vtt1_gerarPDF(visita_tecnica_id=0, traducao='pt', vt_cs) {
 
             if (dado.fotografia_1 !== null && dado.fotografia_1 !== '') {
                 //Verificar Arquivo''''''''''''''''''''''''''''''''''''''
-                var verificar_arquivo = await verificarArquivo(dado.fotografia_1);
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                if (verificar_arquivo != '') {
+                var fotografia_1Existe = await arquivoExiste(dado.fotografia_1);
+                if (fotografia_1Existe === true) {
                     alterarNovaMarginTop = 1;
                     await inserirFotografia({caminho:dado.fotografia_1, xPos:marginLeft, yPos:novaMarginTop, height:20});
                 }
+                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
             if (dado.fotografia_2 !== null && dado.fotografia_2 !== '') {
                 //Verificar Arquivo''''''''''''''''''''''''''''''''''''''
-                var verificar_arquivo = await verificarArquivo(dado.fotografia_2);
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                if (verificar_arquivo != '') {
+                var fotografia_2Existe = await arquivoExiste(dado.fotografia_2);
+                if (fotografia_2Existe === true) {
                     alterarNovaMarginTop = 1;
-                    await inserirFotografia({caminho:dado.fotografia_2, xPos:marginLeft+60, yPos:novaMarginTop, height:20});
+                    await inserirFotografia({caminho:dado.fotografia_2, xPos:marginLeft, yPos:novaMarginTop, height:20});
                 }
+                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
             if (dado.fotografia_3 !== null && dado.fotografia_3 !== '') {
                 //Verificar Arquivo''''''''''''''''''''''''''''''''''''''
-                var verificar_arquivo = await verificarArquivo(dado.fotografia_3);
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                if (verificar_arquivo != '') {
+                var fotografia_3Existe = await arquivoExiste(dado.fotografia_3);
+                if (fotografia_3Existe === true) {
                     alterarNovaMarginTop = 1;
-                    await inserirFotografia({caminho:dado.fotografia_3, xPos:marginLeft+60+60, yPos:novaMarginTop, height:20});
+                    await inserirFotografia({caminho:dado.fotografia_3, xPos:marginLeft, yPos:novaMarginTop, height:20});
                 }
+                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
             //Alterar novaMarginTop

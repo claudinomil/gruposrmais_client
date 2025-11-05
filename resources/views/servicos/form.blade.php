@@ -45,7 +45,7 @@
                                 <div class="form-group col-12 col-md-6 pb-3">
                                     <label class="form-label">Serviço Tipo</label>
                                     <select class="form-select" name="servico_tipo_id" id="servico_tipo_id" required="required">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
 
                                         @foreach ($servico_tipos as $key => $servico_tipo)
                                             <option class="{{ 'servico_tipo_name_'.$servico_tipo['id'] }}" value="{{ $servico_tipo['id'] }}">{{ $servico_tipo['name'] }}</option>

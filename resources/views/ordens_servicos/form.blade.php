@@ -41,7 +41,7 @@
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">Tipo</label>
                                     <select class="form-select" name="ordem_servico_tipo_id" id="ordem_servico_tipo_id">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
                                         @foreach ($ordem_servico_tipos as $registro)
                                             <option value="{{ $registro['id'] }}">{{ $registro['name'] }}</option>
                                         @endforeach
@@ -59,7 +59,7 @@
                             <!-- ORDEM DE SERVIÇO TIPO 2 - INÍCIO------------------------------------------------------>
                             <div class="row mt-4" id="divOST2">
                                 <div class="row pt-4" id="ost2_divOrdemServicoInformacoesGerais">
-                                    <h5 class="pb-4 text-primary"><i class="fas fa-list"></i> Informações Gerais</h5>
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-list"></i>{{ __(' Informações Gerais') }}</h5>
                                     <div class="form-group col-12 col-md-2 pb-3">
                                         <label class="form-label">Status</label>
                                         <select class="form-select" name="ost2_ordem_servico_status_id" id="ost2_ordem_servico_status_id">
@@ -69,7 +69,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-1 pb-3">
-                                        <label class="form-label">Número</label>
+                                        <label class="form-label">{{ __('Número') }}</label>
                                         <input type="text" class="form-control" id="ost2_numero_ordem_servico" name="ost2_numero_ordem_servico" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-1 pb-3">
@@ -114,7 +114,7 @@
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Cliente</label>
                                         <select class="form-select" name="ost2_cliente_id" id="ost2_cliente_id" required="required">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($clientes as $key => $cliente)
                                                 <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
@@ -122,27 +122,27 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Nome</label>
+                                        <label class="form-label">{{ __('Nome') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="ost2_cliente_nome" name="ost2_cliente_nome" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
-                                        <label class="form-label">Telefone</label>
+                                        <label class="form-label">{{ __('Telefone') }}</label>
                                         <input type="text" class="form-control mask_phone_with_ddd" id="ost2_cliente_telefone" name="ost2_cliente_telefone" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
-                                        <label class="form-label">Celular</label>
+                                        <label class="form-label">{{ __('Celular') }}</label>
                                         <input type="text" class="form-control mask_cell_with_ddd" id="ost2_cliente_celular" name="ost2_cliente_celular" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">E-mail</label>
+                                        <label class="form-label">{{ __('E-mail') }}</label>
                                         <input type="email" class="form-control text-lowercase" id="ost2_cliente_email" name="ost2_cliente_email" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Logradouro</label>
+                                        <label class="form-label">{{ __('Logradouro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="ost2_cliente_logradouro" name="ost2_cliente_logradouro" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Bairro</label>
+                                        <label class="form-label">{{ __('Bairro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="ost2_cliente_bairro" name="ost2_cliente_bairro" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
@@ -156,7 +156,7 @@
                                         <div class="form-group col-12 col-md-4 pb-3">
                                             <label class="form-label">Serviço</label>
                                             <select class="form-select" name="ost2_ts_servico_id" id="ost2_ts_servico_id">
-                                                <option value="">Selecione...</option>
+                                                <option value="">{{ __('Selecione...') }}</option>
 
                                                 @foreach ($servicos as $key => $servico)
                                                     <option value="{{ $servico['id'] }}">{{ $servico['name'] }}</option>
@@ -167,7 +167,7 @@
                                         <div class="form-group col-12 col-md-4 pb-3">
                                             <label class="form-label">Responsável</label>
                                             <select class="form-select" name="ost2_ts_responsavel_funcionario_id" id="ost2_ts_responsavel_funcionario_id">
-                                                <option value="">Selecione...</option>
+                                                <option value="">{{ __('Selecione...') }}</option>
 
                                                 @foreach ($funcionarios as $funcionario)
                                                     <option value="{{ $funcionario['id'] }}">{{ $funcionario['name'] }}</option>
@@ -298,7 +298,7 @@
                             <!-- ORDEM DE SERVIÇO TIPO 3 - INÍCIO------------------------------------------------------>
                             <div class="row mt-4" id="divOST3">
                                 <div class="row pt-4" id="ost3_divOrdemServicoInformacoesGerais">
-                                    <h5 class="pb-4 text-primary"><i class="fas fa-list"></i> Informações Gerais</h5>
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-list"></i>{{ __(' Informações Gerais') }}</h5>
                                     <div class="form-group col-12 col-md-2 pb-3">
                                         <label class="form-label">Status</label>
                                         <select class="form-select" name="ost3_ordem_servico_status_id" id="ost3_ordem_servico_status_id">
@@ -308,7 +308,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-1 pb-3">
-                                        <label class="form-label">Número</label>
+                                        <label class="form-label">{{ __('Número') }}</label>
                                         <input type="text" class="form-control" id="ost3_numero_ordem_servico" name="ost3_numero_ordem_servico" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-1 pb-3">
@@ -356,7 +356,7 @@
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Cliente</label>
                                         <select class="form-select" name="ost3_cliente_id" id="ost3_cliente_id" required="required">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($clientes as $key => $cliente)
                                                 <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
@@ -364,27 +364,27 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Nome</label>
+                                        <label class="form-label">{{ __('Nome') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="ost3_cliente_nome" name="ost3_cliente_nome" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
-                                        <label class="form-label">Telefone</label>
+                                        <label class="form-label">{{ __('Telefone') }}</label>
                                         <input type="text" class="form-control mask_phone_with_ddd" id="ost3_cliente_telefone" name="ost3_cliente_telefone" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
-                                        <label class="form-label">Celular</label>
+                                        <label class="form-label">{{ __('Celular') }}</label>
                                         <input type="text" class="form-control mask_cell_with_ddd" id="ost3_cliente_celular" name="ost3_cliente_celular" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">E-mail</label>
+                                        <label class="form-label">{{ __('E-mail') }}</label>
                                         <input type="email" class="form-control text-lowercase" id="ost3_cliente_email" name="ost3_cliente_email" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Logradouro</label>
+                                        <label class="form-label">{{ __('Logradouro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="ost3_cliente_logradouro" name="ost3_cliente_logradouro" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Bairro</label>
+                                        <label class="form-label">{{ __('Bairro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="ost3_cliente_bairro" name="ost3_cliente_bairro" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
@@ -404,7 +404,7 @@
                                     <div class="form-group col-12 col-md-6 pb-3">
                                         <label class="form-label">Responsável</label>
                                         <select class="form-select" name="ost3_ts_responsavel_funcionario_id" id="ost3_ts_responsavel_funcionario_id">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($funcionarios as $funcionario)
                                                 <option value="{{ $funcionario['id'] }}">{{ $funcionario['name'] }}</option>
@@ -441,7 +441,7 @@
                                         <div class="form-group col-12 col-md-2 pb-3">
                                             <label class="form-label">Destino (Ordem)</label>
                                             <select class="form-select" name="ost3_te_destino_ordem" id="ost3_te_destino_ordem">
-                                                <option value="">Selecione...</option>
+                                                <option value="">{{ __('Selecione...') }}</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -493,11 +493,11 @@
                                             <thead class="table-light">
                                             <tr>
                                                 <th class="text-center">ORDEM</th>
-                                                <th>CEP</th>
+                                                <th>{{ __('CEP') }}</th>
                                                 <th>LOGRADOURO</th>
                                                 <th>BAIRRO</th>
                                                 <th>LOCALIDADE</th>
-                                                <th>UF</th>
+                                                <th>{{ __('UF') }}</th>
                                                 <th>NÚMERO</th>
                                                 <th>COMPLEMENTO</th>
                                             </tr>
@@ -540,7 +540,7 @@
                                         <div class="form-group col-12 col-md-10 pb-3">
                                             <label class="form-label">Veículo</label>
                                             <select class="form-select" name="ost3_te_veiculo_id" id="ost3_te_veiculo_id">
-                                                <option value="">Selecione...</option>
+                                                <option value="">{{ __('Selecione...') }}</option>
 
                                                 @foreach ($veiculos as $veiculo)
                                                     <option value="{{ $veiculo['id'] }}">{{ $veiculo['veiculoMarcaName'].' || '.$veiculo['veiculoModeloName'].' || '.$veiculo['veiculoCombustivelName'].' || '.$veiculo['veiculoCategoriaName'].' || '.$veiculo['placa'] }}</option>
@@ -591,7 +591,7 @@
                                         <div class="form-group col-12 col-md-6 pb-3">
                                             <label class="form-label">Executivo</label>
                                             <select class="form-select" name="ost3_te_cliente_executivo_id" id="ost3_te_cliente_executivo_id">
-                                                <option value="">Selecione...</option>
+                                                <option value="">{{ __('Selecione...') }}</option>
 
                                                 @foreach ($clientes_executivos as $cliente_executivo)
                                                     <option value="{{ $cliente_executivo['id'] }}">{{ $cliente_executivo['executivo_nome'].' || '.$cliente_executivo['executivo_funcao'] }}</option>
@@ -604,7 +604,7 @@
                                         <div class="form-group col-12 col-md-4 pb-3">
                                             <label class="form-label">Veículo</label>
                                             <select class="form-select" name="ost3_te_cliente_executivo_veiculo_id" id="ost3_te_cliente_executivo_veiculo_id">
-                                                <option value="">Selecione...</option>
+                                                <option value="">{{ __('Selecione...') }}</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-12 col-md-2 pb-3">
@@ -645,7 +645,7 @@
                                         <div class="form-group col-12 col-md-6 pb-3">
                                             <label class="form-label">Funcionário</label>
                                             <select class="form-select" name="ost3_te_equipe_funcionario_id" id="ost3_te_equipe_funcionario_id">
-                                                <option value="">Selecione...</option>
+                                                <option value="">{{ __('Selecione...') }}</option>
 
                                                 @foreach ($funcionarios as $funcionario)
                                                     <option value="{{ $funcionario['id'] }}">{{ $funcionario['name'].' || '.$funcionario['funcaoName'] }}</option>
@@ -658,7 +658,7 @@
                                         <div class="form-group col-12 col-md-4 pb-3">
                                             <label class="form-label">Veículo</label>
                                             <select class="form-select" name="ost3_te_equipe_funcionario_veiculo_id" id="ost3_te_equipe_funcionario_veiculo_id">
-                                                <option value="">Selecione...</option>
+                                                <option value="">{{ __('Selecione...') }}</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-12 col-md-2 pb-3">

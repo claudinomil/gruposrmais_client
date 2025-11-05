@@ -66,7 +66,7 @@
                                     <div class="mb-3">
                                         <select class="form-control" name="idioma" id="idioma" required>
                                             <option value="">Selecione o Idioma</option>
-                                            <option value="pt_BR">Português</option>
+                                            <option value="pt_BR">{{ __('Português') }}</option>
                                             <option value="en">Inglês</option>
                                         </select>
                                     </div>

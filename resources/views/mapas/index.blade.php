@@ -18,13 +18,13 @@
                         @if(\App\Facades\Permissoes::permissao(['list']))
                             <!-- Mapas -->
                             <div class="btn-group">
-                                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Escolher Mapa <i class="mdi mdi-chevron-down"></i></button>
+                                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{ __('Escolher Mapa') }} <i class="mdi mdi-chevron-down"></i></button>
                                 <div class="dropdown-menu dropdown-menu-dark">
-                                    <a class="dropdown-item" href="#" id="mp_escolher">Mapa</a>
+                                    <a class="dropdown-item" href="#" id="mp_escolher">{{ __('Mapa') }}</a>
                                 </div>
                             </div>
 
-                            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Montar Mapa</button>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{ __('Montar Mapa') }}</button>
                         @endif
                     </div>
                     <div class="col-12 col-md-12 mt-3" style="height: 600px; margin-bottom: 1rem;" id="mp_mapa"></div>
@@ -142,14 +142,14 @@
                         <div class="col-12 col-md-6 mb-2">
                             <label for="mapa_ponto_tipo_id" class="form-label">Ponto Tipo</label>
                             <select class="form-select form-select-sm" name="mapa_ponto_tipo_id" id="mapa_ponto_tipo_id" required>
-                                <option value="">Selecione...</option>
+                                <option value="">{{ __('Selecione...') }}</option>
                                 @foreach ($mapas_pontos_tipos as $mapa_ponto_tipo)
                                     <option value="{{ $mapa_ponto_tipo['id'] }}">{{ $mapa_ponto_tipo['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-12 col-md-6 mb-2">
-                            <label for="name" class="form-label">Nome</label>
+                            <label for="name" class="form-label">{{ __('Nome') }}</label>
                             <input type="text" class="form-control form-control-sm" id="name" name="name" required>
                         </div>
                         <div class="col-12 mb-2">
@@ -198,7 +198,7 @@
                             <button type="button" class="btn btn-outline-warning btn-sm w-100" onclick="configOfcanvas();">Fechar</button>
                         </div>
                         <div class="col-12 col-md-6 mb-2">
-                            <label for="rota_name" class="form-label">Nome</label>
+                            <label for="rota_name" class="form-label">{{ __('Nome') }}</label>
                             <input type="text" class="form-control form-control-sm" id="rota_name" name="rota_name" required>
                         </div>
                         <div class="col-12 mb-2">
@@ -235,7 +235,7 @@
                         <div class="col-12 col-md-12 mb-2">
                             <label for="ordem_servico_id" class="form-label">Órdem Serviço</label>
                             <select class="form-select form-select-sm" name="ordem_servico_id" id="ordem_servico_id" required>
-                                <option value="">Selecione...</option>
+                                <option value="">{{ __('Selecione...') }}</option>
                                 @foreach ($ordens_servicos as $ordem_servico)
                                     <option value="{{ $ordem_servico['id'] }}">{{ 'Ordem Serviço nº. '.$ordem_servico['numero_ordem_servico'].'/'.$ordem_servico['ano_ordem_servico'] }}</option>
                                 @endforeach
@@ -255,7 +255,7 @@
                     <thead class="table-light">
                     <tr>
                         <th scope="col">Item</th>
-                        {{--                        <th scope="col">Nome</th>--}}
+                        {{--                        <th scope="col">{{ __('Nome') }}</th>--}}
                         <th scope="col" class="text-center">Ações</th>
                     </tr>
                     </thead>

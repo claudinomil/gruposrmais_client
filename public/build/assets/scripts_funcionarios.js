@@ -630,13 +630,16 @@ async function funcionarioModalInfoDados(id='') {
         document.getElementById('mi_fun_email').value = funcionario.email;
 
         //Documentos
-        document.getElementById('upload_documentos_funcionario_id').value = funcionario.id;
+        let upload_documentos_funcionario_id = document.getElementById('upload_documentos_funcionario_id');
+        if (upload_documentos_funcionario_id) {upload_documentos_funcionario_id.value = funcionario.id ?? "";}
 
         //Fotografia Documento
-        document.getElementById('upload_fotografia_documento_funcionario_id').value = funcionario.id;
+        let upload_fotografia_documento_funcionario_id = document.getElementById('upload_fotografia_documento_funcionario_id');
+        if (upload_fotografia_documento_funcionario_id) {upload_fotografia_documento_funcionario_id.value = funcionario.id ?? "";}
 
         //Fotografia Cartão Emergencial
-        document.getElementById('upload_fotografia_cartao_emergencial_funcionario_id').value = funcionario.id;
+        let upload_fotografia_cartao_emergencial_funcionario_id = document.getElementById('upload_fotografia_cartao_emergencial_funcionario_id');
+        if (upload_fotografia_cartao_emergencial_funcionario_id) {upload_fotografia_cartao_emergencial_funcionario_id.value = funcionario.id ?? "";}
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     }).catch(error => {
         alert('Erro funcionarioModalInfo: '+error);

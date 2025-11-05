@@ -40,7 +40,7 @@
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">Ponto Tipo</label>
                                     <select class="form-control" name="mapa_ponto_tipo_id" id="mapa_ponto_tipo_id">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
 
                                         @foreach ($mapas_pontos_tipos as $mapa_ponto_tipo)
                                             <option value="{{ $mapa_ponto_tipo['id'] }}">{{ $mapa_ponto_tipo['name'] }}</option>
@@ -48,7 +48,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-12 col-md-4 pb-3">
-                                    <label class="form-label">Nome</label>
+                                    <label class="form-label">{{ __('Nome') }}</label>
                                     <input type="text" class="form-control" id="name" name="name" required="required">
                                 </div>
                                 <div class="form-group col-12 col-md-4 pb-3">

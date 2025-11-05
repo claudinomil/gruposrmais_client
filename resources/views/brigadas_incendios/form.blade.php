@@ -85,7 +85,7 @@
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">{{ __('Cliente') }}</label>
                                         <select class="form-control" name="cliente_id" id="cliente_id">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
                                             
                                             @foreach ($clientes as $cliente)
                                                 <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
@@ -147,7 +147,7 @@
                                                 <div class="form-group col-7 col-md-9 pb-3">
                                                     <label class="form-label small">{{ __('Material') }}</label>
                                                     <select class="form-select form-select-sm" name="mat_escolherMaterialId" id="mat_escolherMaterialId">
-                                                        <option value="">Selecione...</option>
+                                                        <option value="">{{ __('Selecione...') }}</option>
                                                         
                                                         @foreach ($materiais as $material)
                                                             <option value="{{ $material['id'] }}" data-material_id="{{ $material['id'] }}" data-material_name="{{ $material['name'] }}" data-material_categoria_name="{{ $material['materialCategoriaName'] }}">{{ $material['materialCategoriaName'].' - '.$material['name'] }}</option>
@@ -193,7 +193,7 @@
                                                 <div class="form-group col-6 col-md-2 pb-3">
                                                     <label class="form-label small">{{ __('Tipo') }}</label>
                                                     <select class="form-select form-select-sm" name="esc_escolherEscalaTipoId" id="esc_escolherEscalaTipoId">
-                                                        <option value="">Selecione...</option>
+                                                        <option value="">{{ __('Selecione...') }}</option>
                                                         
                                                         @foreach ($escala_tipos as $escala_tipo)
                                                             <option value="{{ $escala_tipo['id'] }}" data-escala_tipo_id="{{ $escala_tipo['id'] }}" data-escala_tipo_name="{{ $escala_tipo['name'] }}" data-escala_tipo_quantidade_alas="{{ $escala_tipo['quantidade_alas'] }}" data-escala_tipo_quantidade_horas_trabalhadas="{{ $escala_tipo['quantidade_horas_trabalhadas'] }}" data-escala_tipo_quantidade_horas_descanso="{{ $escala_tipo['quantidade_horas_descanso'] }}">{{ $escala_tipo['name'] }}</option>

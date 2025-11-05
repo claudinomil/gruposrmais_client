@@ -54,7 +54,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3 pessoa_fisica">
-                                        <label class="form-label">CPF</label>
+                                        <label class="form-label">{{ __('CPF') }}</label>
                                         <input type="text" class="form-control mask_cpf" id="cpf" name="cpf">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3 pessoa_juridica">
@@ -65,7 +65,7 @@
                                         <input type="text" class="form-control mask_cnpj" id="cnpj" name="cnpj">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Nome</label>
+                                        <label class="form-label">{{ __('Nome') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="name" name="name" required="required">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3 pessoa_juridica">
@@ -73,9 +73,9 @@
                                         <input type="text" class="form-control text-uppercase" id="nome_fantasia" name="nome_fantasia">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3 pessoa_fisica">
-                                        <label class="form-label">Gênero</label>
+                                        <label class="form-label">{{ __('Gênero') }}</label>
                                         <select class="select2 form-control" name="genero_id" id="genero_id" required="required">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($generos as $key => $genero)
                                                 <option value="{{ $genero['id'] }}">{{ $genero['name'] }}</option>
@@ -84,7 +84,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label" id="label_data_nascimento">Nascimento</label>
+                                        <label class="form-label" id="label_data_nascimento">{{ __('Nascimento') }}</label>
                                         <input type="text" class="form-control mask_date" id="data_nascimento" name="data_nascimento">
                                     </div>
                                 </div>
@@ -92,23 +92,23 @@
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-user"></i> Contato</h5>
                                     <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label">Telefone 1</label>
+                                        <label class="form-label">{{ __('Telefone 1') }}</label>
                                         <input type="text" class="form-control mask_phone_with_ddd" id="telefone_1" name="telefone_1">
                                     </div>
                                     <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label">Telefone 2</label>
+                                        <label class="form-label">{{ __('Telefone 2') }}</label>
                                         <input type="text" class="form-control mask_phone_with_ddd" id="telefone_2" name="telefone_2">
                                     </div>
                                     <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label">Celular 1</label>
+                                        <label class="form-label">{{ __('Celular 1') }}</label>
                                         <input type="text" class="form-control mask_cell_with_ddd" id="celular_1" name="celular_1">
                                     </div>
                                     <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label">Celular 2</label>
+                                        <label class="form-label">{{ __('Celular 2') }}</label>
                                         <input type="text" class="form-control mask_cell_with_ddd" id="celular_2" name="celular_2">
                                     </div>
                                     <div class="form-group col-12 col-md-6 pb-3">
-                                        <label class="form-label">E-mail</label>
+                                        <label class="form-label">{{ __('E-mail') }}</label>
                                         <input type="email" class="form-control text-lowercase mask_email" id="email" name="email">
                                     </div>
                                     <div class="form-group col-12 col-md-6 pb-3">
@@ -120,9 +120,9 @@
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-landmark"></i> Dados Bancários</h5>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Banco</label>
+                                        <label class="form-label">{{ __('Banco') }}</label>
                                         <select class="form-control select2" name="banco_id" id="banco_id">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($bancos as $key => $banco)
                                                 <option value="{{ $banco['id'] }}">{{ $banco['name'] }}</option>
@@ -131,11 +131,11 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Agência</label>
+                                        <label class="form-label">{{ __('Agência') }}</label>
                                         <input type="text" class="form-control" id="agencia" name="agencia">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Conta</label>
+                                        <label class="form-label">{{ __('Conta') }}</label>
                                         <input type="text" class="form-control" id="conta" name="conta">
                                     </div>
                                 </div>
@@ -145,7 +145,7 @@
                                     <div class="form-group col-12 col-md-3 pb-3 pessoa_fisica">
                                         <label class="form-label">Identidade (Órgão)</label>
                                         <select class="form-control select2" name="identidade_orgao_id" id="identidade_orgao_id">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($identidade_orgaos as $key => $identidade_orgao)
                                                 <option value="{{ $identidade_orgao['id'] }}">{{ $identidade_orgao['name'] }}</option>
@@ -156,7 +156,7 @@
                                     <div class="form-group col-12 col-md-3 pb-3 pessoa_fisica">
                                         <label class="form-label">Identidade (Estado)</label>
                                         <select class="form-control select2" name="identidade_estado_id" id="identidade_estado_id">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($identidade_estados as $key => $identidade_estado)
                                                 <option value="{{ $identidade_estado['id'] }}">{{ $identidade_estado['name'] }}</option>
@@ -185,31 +185,31 @@
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-house-user"></i> Endereço</h5>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">CEP</label>
+                                        <label class="form-label">{{ __('CEP') }}</label>
                                         <input type="text" class="form-control mask_cep" id="cep" name="cep" onblur="pesquisacep(this.value);">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Número</label>
+                                        <label class="form-label">{{ __('Número') }}</label>
                                         <input type="text" class="form-control" id="numero" name="numero">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Complemento</label>
+                                        <label class="form-label">{{ __('Complemento') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="complemento" name="complemento">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Logradouro</label>
+                                        <label class="form-label">{{ __('Logradouro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="logradouro" name="logradouro" readonly="readonly">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Bairro</label>
+                                        <label class="form-label">{{ __('Bairro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="bairro" name="bairro" readonly="readonly">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Localidade</label>
+                                        <label class="form-label">{{ __('Localidade') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="localidade" name="localidade" readonly="readonly">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">UF</label>
+                                        <label class="form-label">{{ __('UF') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="uf" name="uf" readonly="readonly">
                                     </div>
                                 </div>
@@ -217,31 +217,31 @@
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-house-user"></i> Endereço Cobrança</h5>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">CEP</label>
+                                        <label class="form-label">{{ __('CEP') }}</label>
                                         <input type="text" class="form-control mask_cep" id="cep_cobranca" name="cep_cobranca" onblur="pesquisacep_cobranca(this.value);">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Número</label>
+                                        <label class="form-label">{{ __('Número') }}</label>
                                         <input type="text" class="form-control" id="numero_cobranca" name="numero_cobranca">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Complemento</label>
+                                        <label class="form-label">{{ __('Complemento') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="complemento_cobranca" name="complemento_cobranca">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Logradouro</label>
+                                        <label class="form-label">{{ __('Logradouro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="logradouro_cobranca" name="logradouro_cobranca" readonly="readonly">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Bairro</label>
+                                        <label class="form-label">{{ __('Bairro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="bairro_cobranca" name="bairro_cobranca" readonly="readonly">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Localidade</label>
+                                        <label class="form-label">{{ __('Localidade') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="localidade_cobranca" name="localidade_cobranca" readonly="readonly">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">UF</label>
+                                        <label class="form-label">{{ __('UF') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="uf_cobranca" name="uf_cobranca" readonly="readonly">
                                     </div>
                                 </div>
@@ -317,7 +317,7 @@
                                 <table class="table table-nowrap mb-0">
                                     <tbody>
                                     <tr>
-                                        <th scope="row">Situação</th>
+                                        <th scope="row">{{ __('Situação') }}</th>
                                         <td name="td_api_situacao" id="td_api_situacao"></td>
                                     </tr>
                                     <tr>
@@ -329,7 +329,7 @@
                                         <td name="td_api_natureza_juridica" id="td_api_natureza_juridica"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Nome</th>
+                                        <th scope="row">{{ __('Nome') }}</th>
                                         <td name="td_api_nome" id="td_api_nome"></td>
                                     </tr>
                                     <tr>
@@ -345,31 +345,31 @@
                                         <td name="td_api_abertura" id="td_api_abertura"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">CEP</th>
+                                        <th scope="row">{{ __('CEP') }}</th>
                                         <td name="td_api_cep" id="td_api_cep"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Telefone</th>
+                                        <th scope="row">{{ __('Telefone') }}</th>
                                         <td name="td_api_telefone" id="td_api_telefone"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">E-mail</th>
+                                        <th scope="row">{{ __('E-mail') }}</th>
                                         <td name="td_api_email" id="td_api_email"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Logradouro</th>
+                                        <th scope="row">{{ __('Logradouro') }}</th>
                                         <td name="td_api_logradouro" id="td_api_logradouro"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Número</th>
+                                        <th scope="row">{{ __('Número') }}</th>
                                         <td name="td_api_numero" id="td_api_numero"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Complemento</th>
+                                        <th scope="row">{{ __('Complemento') }}</th>
                                         <td name="td_api_complemento" id="td_api_complemento"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Bairro</th>
+                                        <th scope="row">{{ __('Bairro') }}</th>
                                         <td name="td_api_bairro" id="td_api_bairro"></td>
                                     </tr>
                                     <tr>
@@ -377,7 +377,7 @@
                                         <td name="td_api_municipio" id="td_api_municipio"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">UF</th>
+                                        <th scope="row">{{ __('UF') }}</th>
                                         <td name="td_api_uf" id="td_api_uf"></td>
                                     </tr>
                                     </tbody>

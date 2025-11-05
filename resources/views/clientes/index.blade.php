@@ -35,15 +35,15 @@
 
                                     @php
                                         $selectCampoPesquisar = [
-                                        ['value' => 'clientes.name', 'descricao' => 'Nome'],
-                                        ['value' => 'clientes.identidade', 'descricao' => 'Identidade'],
-                                        ['value' => 'identidade_orgaos.name', 'descricao' => 'Órgão Identidade'],
-                                        ['value' => 'clientes.cpf', 'descricao' => 'CPF'],
-                                        ['value' => 'generos.name', 'descricao' => 'Gênero'],
-                                        ['value' => 'estados_civis.name', 'descricao' => 'Estado Civil'],
-                                        ['value' => 'clientes.pai', 'descricao' => 'Pai'],
-                                        ['value' => 'clientes.mae', 'descricao' => 'Mãe'],
-                                        ['value' => 'clientes.email', 'descricao' => 'E-mail']
+                                        ['value' => 'clientes.name', 'descricao' => __('Nome')],
+                                        ['value' => 'clientes.identidade', 'descricao' => __('Identidade')],
+                                        ['value' => 'identidade_orgaos.name', 'descricao' => __('Órgão Identidade')],
+                                        ['value' => 'clientes.cpf', 'descricao' => __('CPF')],
+                                        ['value' => 'generos.name', 'descricao' => __('Gênero')],
+                                        ['value' => 'estados_civis.name', 'descricao' => __('Estado Civil')],
+                                        ['value' => 'clientes.pai', 'descricao' => __('Pai')],
+                                        ['value' => 'clientes.mae', 'descricao' => __('Mãe')],
+                                        ['value' => 'clientes.email', 'descricao' => __('E-mail')]
                                         ];
                                     @endphp
 
@@ -54,7 +54,7 @@
                     </div>
 
                     <!-- Tabela (Componente Blade) -->
-                    <x-table-crud-ajax :numCols="4" :colsNames="['#', 'Nome', 'CNPJ', 'Status', 'Ações']" />
+                    <x-table-crud-ajax :numCols="4" :colsNames="['#', __('Nome'), __('CNPJ'), __('Status'), __('Ações')]" />
                     <input type="hidden" id="crudPrefixPermissaoSubmodulo" name="crudPrefixPermissaoSubmodulo" value="{{$se_prefixPermissaoSubmodulo}}">
                     <input type="hidden" id="crudNameSubmodulo" name="crudNameSubmodulo" value="{{$se_nameSubmodulo}}">
                     <input type="hidden" id="crudNameFormSubmodulo" name="crudNameFormSubmodulo" value="{{$se_nameFormSubmodulo}}">

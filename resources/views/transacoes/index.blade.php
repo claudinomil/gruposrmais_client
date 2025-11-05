@@ -31,12 +31,12 @@
 
                                     @php
                                         $selectCampoPesquisar = [
-                                        ['value' => 'transacoes.date', 'descricao' => 'Data'],
-                                        ['value' => 'transacoes.time', 'descricao' => 'Hora'],
-                                        ['value' => 'users.name', 'descricao' => 'Usuário'],
-                                        ['value' => 'operacoes.name', 'descricao' => 'Operação'],
-                                        ['value' => 'submodulos.name', 'descricao' => 'Submódulo'],
-                                        ['value' => 'transacoes.dados', 'descricao' => 'Dados']
+                                        ['value' => 'transacoes.date', 'descricao' => __('Data')],
+                                        ['value' => 'transacoes.time', 'descricao' => __('Hora')],
+                                        ['value' => 'users.name', 'descricao' => __('Usuário')],
+                                        ['value' => 'operacoes.name', 'descricao' => __('Operação')],
+                                        ['value' => 'submodulos.name', 'descricao' => __('Submódulo')],
+                                        ['value' => 'transacoes.dados', 'descricao' => __('Dados')]
                                         ];
                                     @endphp
 
@@ -47,7 +47,7 @@
                     </div>
 
                     <!-- Tabela (Componente Blade) -->
-                    <x-table-crud-ajax :numCols="4" :colsNames="['Data/Hora', 'Usuário', 'Submódulo/Operação', 'Dados']" />
+                    <x-table-crud-ajax :numCols="4" :colsNames="[__('Data/Hora'), __('Usuário'), __('Submódulo/Operação'), __('Dados')]" />
                     <input type="hidden" id="crudPrefixPermissaoSubmodulo" name="crudPrefixPermissaoSubmodulo" value="{{$se_prefixPermissaoSubmodulo}}">
                     <input type="hidden" id="crudNameSubmodulo" name="crudNameSubmodulo" value="{{$se_nameSubmodulo}}">
                     <input type="hidden" id="crudNameFormSubmodulo" name="crudNameFormSubmodulo" value="{{$se_nameFormSubmodulo}}">

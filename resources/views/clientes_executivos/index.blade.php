@@ -35,7 +35,7 @@
 
                                     @php
                                         $selectCampoPesquisar = [
-                                        ['value' => 'clientes_executivos.executivo_nome', 'descricao' => 'Nome']
+                                        ['value' => 'clientes_executivos.executivo_nome', 'descricao' => __('Nome')]
                                         ];
                                     @endphp
 
@@ -46,12 +46,12 @@
                     </div>
 
                     <!-- Tabela (Componente Blade) -->
-                    <x-table-crud-ajax :numCols="4" :colsNames="['#', 'Nome', 'Função', 'Cliente', 'Ações']" />
+                    <x-table-crud-ajax :numCols="4" :colsNames="['#', __('Nome'), __('Função'), __('Cliente'), __('Ações')]" />
                     <input type="hidden" id="crudPrefixPermissaoSubmodulo" name="crudPrefixPermissaoSubmodulo" value="{{$se_prefixPermissaoSubmodulo}}">
                     <input type="hidden" id="crudNameSubmodulo" name="crudNameSubmodulo" value="{{$se_nameSubmodulo}}">
                     <input type="hidden" id="crudNameFormSubmodulo" name="crudNameFormSubmodulo" value="{{$se_nameFormSubmodulo}}">
                     <input type="hidden" id="crudFieldsFormSubmodulo" name="crudFieldsFormSubmodulo" value="{{$crudFieldsFormSubmodulo}}">
-                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="foto,executivo_nome,executivo_funcao,clienteName,action">
+                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="fotografia_documento,executivo_nome,executivo_funcao,clienteName,action">
                 </div>
             </div>
         </div>

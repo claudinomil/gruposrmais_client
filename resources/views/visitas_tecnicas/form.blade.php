@@ -57,7 +57,7 @@
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">Tipo</label>
                                     <select class="form-select" name="visita_tecnica_tipo_id" id="visita_tecnica_tipo_id">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
                                         @foreach ($visita_tecnica_tipos as $registro)
                                             <option value="{{ $registro['id'] }}">{{ $registro['name'] }}</option>
                                         @endforeach
@@ -69,7 +69,7 @@
                             <!-- VISITA TECNICA TIPO 1 - INÍCIO-------------------------------------------------------->
                             <div class="row mt-4" id="divVTT1">
                                 <div class="row pt-4" id="vtt1_divInformacoesGerais">
-                                    <h5 class="pb-4 text-primary"><i class="fas fa-list"></i> Informações Gerais</h5>
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-list"></i>{{ __(' Informações Gerais') }}</h5>
                                     <div class="form-group col-12 col-md-2 pb-3">
                                         <label class="form-label">Status</label>
                                         <select class="form-select" name="vtt1_visita_tecnica_status_id" id="vtt1_visita_tecnica_status_id">
@@ -79,7 +79,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-1 pb-3">
-                                        <label class="form-label">Número</label>
+                                        <label class="form-label">{{ __('Número') }}</label>
                                         <input type="text" class="form-control" id="vtt1_numero_visita_tecnica" name="vtt1_numero_visita_tecnica" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-1 pb-3">
@@ -125,7 +125,7 @@
                                     <div class="form-group col-12 col-md-4 pb-3" id="vtt1_divClienteId">
                                         <label class="form-label">Cliente</label>
                                         <select class="form-select" name="vtt1_cliente_id" id="vtt1_cliente_id" required="required">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($clientes as $key => $cliente)
                                                 <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
@@ -133,7 +133,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Nome</label>
+                                        <label class="form-label">{{ __('Nome') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="vtt1_cliente_nome" name="vtt1_cliente_nome" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
@@ -141,31 +141,31 @@
                                         <input type="text" class="form-control mask_cnpj" id="vtt1_cliente_cnpj" name="vtt1_cliente_cnpj" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
-                                        <label class="form-label">Telefone</label>
+                                        <label class="form-label">{{ __('Telefone') }}</label>
                                         <input type="text" class="form-control mask_phone_with_ddd" id="vtt1_cliente_telefone" name="vtt1_cliente_telefone" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
-                                        <label class="form-label">Celular</label>
+                                        <label class="form-label">{{ __('Celular') }}</label>
                                         <input type="text" class="form-control mask_cell_with_ddd" id="vtt1_cliente_celular" name="vtt1_cliente_celular" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">E-mail</label>
+                                        <label class="form-label">{{ __('E-mail') }}</label>
                                         <input type="email" class="form-control text-lowercase" id="vtt1_cliente_email" name="vtt1_cliente_email" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Logradouro</label>
+                                        <label class="form-label">{{ __('Logradouro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="vtt1_cliente_logradouro" name="vtt1_cliente_logradouro" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Bairro</label>
+                                        <label class="form-label">{{ __('Bairro') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="vtt1_cliente_bairro" name="vtt1_cliente_bairro" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Número</label>
+                                        <label class="form-label">{{ __('Número') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="vtt1_cliente_logradouro_numero" name="vtt1_cliente_logradouro_numero" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Complemento</label>
+                                        <label class="form-label">{{ __('Complemento') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="vtt1_cliente_logradouro_complemento" name="vtt1_cliente_logradouro_complemento" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
@@ -173,7 +173,7 @@
                                         <input type="text" class="form-control text-uppercase" id="vtt1_cliente_cidade" name="vtt1_cliente_cidade" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">UF</label>
+                                        <label class="form-label">{{ __('UF') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="vtt1_cliente_uf" name="vtt1_cliente_uf" readonly>
                                     </div>
                                 </div>
@@ -183,7 +183,7 @@
                                     <div class="form-group col-12 col-md-4 pb-3" id="vtt1_divResponsavelFuncionarioId">
                                         <label class="form-label">Responsável</label>
                                         <select class="form-select" name="vtt1_responsavel_funcionario_id" id="vtt1_responsavel_funcionario_id" required="required">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($funcionarios as $key => $funcionario)
                                                 <option value="{{ $funcionario['id'] }}">{{ $funcionario['name'] }}</option>
@@ -191,11 +191,11 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Nome</label>
+                                        <label class="form-label">{{ __('Nome') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="vtt1_responsavel_funcionario_nome" name="vtt1_responsavel_funcionario_nome" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">E-mail</label>
+                                        <label class="form-label">{{ __('E-mail') }}</label>
                                         <input type="email" class="form-control text-lowercase" id="vtt1_responsavel_funcionario_email" name="vtt1_responsavel_funcionario_email" readonly>
                                     </div>
                                 </div>
@@ -205,7 +205,7 @@
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Nível</label>
                                         <select class="form-select" name="vtt1_nivel" id="vtt1_nivel">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
                                             <option value="1">Risco Muito Baixo</option>
                                             <option value="2">Risco Baixo</option>
                                             <option value="3">Risco Moderado</option>

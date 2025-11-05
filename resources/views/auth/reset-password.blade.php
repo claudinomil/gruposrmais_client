@@ -42,7 +42,7 @@
                                     <input type="hidden" name="token" value="{{ $token }}">
 
                                     <div class="mb-3">
-                                        <label for="email" class="form-label">E-mail</label>
+                                        <label for="email" class="form-label">{{ __('E-mail') }}</label>
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Entre com o Usuário" required autofocus value="">
                                         @error('email') <div class="text-danger">{{ $message }}</div> @enderror
                                     </div>

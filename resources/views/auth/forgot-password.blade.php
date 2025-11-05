@@ -49,7 +49,7 @@
                                     @csrf
 
                                     <div class="mb-3">
-                                        <label for="useremail" class="form-label">E-mail</label>
+                                        <label for="useremail" class="form-label">{{ __('E-mail') }}</label>
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Entre com o E-mail" required autofocus>
                                     </div>
                                     <div class="mt-5 d-grid">

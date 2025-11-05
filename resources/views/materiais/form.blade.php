@@ -40,7 +40,7 @@
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">Categoria</label>
                                     <select class="form-control" name="material_categoria_id" id="material_categoria_id">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
                                         
                                         @foreach ($material_categorias as $material_categoria)
                                             <option value="{{ $material_categoria['id'] }}">{{ $material_categoria['name'] }}</option>

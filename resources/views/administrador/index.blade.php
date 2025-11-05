@@ -94,7 +94,7 @@
                                     <thead class="table-light sticky-top">
                                     <tr>
                                         <th>#</th>
-                                        <th>Nome</th>
+                                        <th>>{{ __('Nome') }}</th>
                                         <th>Data</th>
                                         <th>Tamanho</th>
                                     </tr>
@@ -117,7 +117,7 @@
                                     <thead class="table-light sticky-top">
                                     <tr>
                                         <th>#</th>
-                                        <th>Nome</th>
+                                        <th>>{{ __('Nome') }}</th>
                                         <th>Data</th>
                                         <th>Tamanho</th>
                                     </tr>

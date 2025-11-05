@@ -22,6 +22,8 @@ function putMask() {
             "A": {pattern: /[\w@\-.+]/, recursive: true}
         }
     });
+    $('.mask_peso').mask("##0,000", {reverse: true});
+    $('.mask_altura').mask("##0,00", {reverse: true});
 }
 
 function removeMask() {

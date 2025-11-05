@@ -35,14 +35,14 @@
                         <fieldset>
                             <input type="hidden" id="frm_operacao" name="frm_operacao">
                             <input type="hidden" id="registro_id" name="registro_id">
-                            <input type="hidden" id="foto" name="foto" value="build/assets/images/clientes_executivos/cliente_executivo-0.png">
+                            <input type="hidden" id="fotografia_documento" name="fotografia_documento" value="build/assets/images/clientes_executivos/cliente_executivo-0.png">
 
                             <div class="row pt-4">
-                                <h5 class="pb-4 text-primary"><i class="fas fa-house-user"></i> Informações Gerais</h5>
+                                <h5 class="pb-4 text-primary"><i class="fas fa-house-user"></i>{{ __(' Informações Gerais') }}</h5>
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">{{ __('Cliente') }}</label>
                                     <select class="form-control" name="cliente_id" id="cliente_id" required="required">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
 
                                         @foreach ($clientes as $cliente)
                                             <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
@@ -68,7 +68,7 @@
                                 <div class="form-group col-12 col-md-3 pb-3">
                                     <label class="form-label">{{ __('Gênero') }}</label>
                                     <select class="select2 form-control" name="genero_id" id="genero_id">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
                                         @foreach ($generos as $key => $genero)
                                             <option value="{{ $genero['id'] }}">{{ $genero['name'] }}</option>
                                         @endforeach
@@ -77,7 +77,7 @@
                                 <div class="form-group col-12 col-md-3 pb-3">
                                     <label class="form-label">{{ __('Nacionalidade') }}</label>
                                     <select class="select2 form-control" name="nacionalidade_id" id="nacionalidade_id">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
                                         @foreach ($nacionalidades as $nacionalidade)
                                             <option value="{{ $nacionalidade['id'] }}">{{ $nacionalidade['name'] }}</option>
                                         @endforeach
@@ -90,7 +90,7 @@
                                 <div class="form-group col-12 col-md-3 pb-3">
                                     <label class="form-label">{{ __('Identidade (Órgão)') }}</label>
                                     <select class="form-control select2" name="personal_identidade_orgao_id" id="personal_identidade_orgao_id">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
 
                                         @foreach ($identidade_orgaos as $key => $identidade_orgao)
                                             <option value="{{ $identidade_orgao['id'] }}">{{ $identidade_orgao['name'] }}</option>
@@ -101,7 +101,7 @@
                                 <div class="form-group col-12 col-md-3 pb-3">
                                     <label class="form-label">{{ __('Identidade (Estado)') }}</label>
                                     <select class="form-control select2" name="personal_identidade_estado_id" id="personal_identidade_estado_id">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
 
                                         @foreach ($identidade_estados as $key => $identidade_estado)
                                             <option value="{{ $identidade_estado['id'] }}">{{ $identidade_estado['name'] }}</option>
@@ -172,7 +172,7 @@
                                 <div class="form-group col-12 col-md-3 pb-3">
                                     <label class="form-label">{{ __('Tipo Sanguíneo') }}</label>
                                     <select class="form-control" name="tipo_sanguineo" id="tipo_sanguineo">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
                                         <option value="A">A</option>
                                         <option value="B">B</option>
                                         <option value="AB">AB</option>
@@ -182,18 +182,18 @@
                                 <div class="form-group col-12 col-md-3 pb-3">
                                     <label class="form-label">{{ __('Fator RH') }}</label>
                                     <select class="form-control" name="fator_rh" id="fator_rh">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
                                         <option value="Positivo">Positivo</option>
                                         <option value="Negativo">Negativo</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-12 col-md-3 pb-3">
-                                    <label class="form-label">{{ __('Altura') }}</label>
-                                    <input type="number" class="form-control mask_money" name="altura" id="altura">
+                                    <label class="form-label">{{ __('Altura (m)') }}</label>
+                                    <input type="text" class="form-control mask_altura" name="altura" id="altura">
                                 </div>
                                 <div class="form-group col-12 col-md-3 pb-3">
-                                    <label class="form-label">{{ __('Peso') }}</label>
-                                    <input type="number" class="form-control mask_money" name="peso" id="peso">
+                                    <label class="form-label">{{ __('Peso (kg)') }}</label>
+                                    <input type="text" class="form-control mask_peso" name="peso" id="peso">
                                 </div>
                                 <div class="form-group col-12 col-md-6 pb-3">
                                     <div class="mt-4 bg-light p-2">
@@ -334,25 +334,25 @@
                                 <div class="form-group col-12 col-md-3 pb-3">
                                     <label class="form-label">{{ __('Fumante') }}</label>
                                     <select class="form-control" name="fumante" id="fumante">
-                                        <option value="">Selecione...</option>
-                                        <option value="1">SIM</option>
-                                        <option value="2">NÃO</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
+                                        <option value="1">{{ __('SIM') }}</option>
+                                        <option value="2">{{ __('NÃO') }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-12 col-md-3 pb-3">
                                     <label class="form-label">{{ __('Bebida alcóolica') }}</label>
                                     <select class="form-control" name="bebida_alcoolica" id="bebida_alcoolica">
-                                        <option value="">Selecione...</option>
-                                        <option value="SIM">SIM</option>
-                                        <option value="NÃO">NÃO</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
+                                        <option value="SIM">{{ __('SIM') }}</option>
+                                        <option value="NÃO">{{ __('NÃO') }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-12 col-md-3 pb-3">
                                     <label class="form-label">{{ __('Atividade física') }}</label>
                                     <select class="form-control" name="atividade_fisica" id="atividade_fisica">
-                                        <option value="">Selecione...</option>
-                                        <option value="SIM">SIM</option>
-                                        <option value="NÃO">NÃO</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
+                                        <option value="SIM">{{ __('SIM') }}</option>
+                                        <option value="NÃO">{{ __('NÃO') }}</option>
                                     </select>
                                 </div>
                             </div>

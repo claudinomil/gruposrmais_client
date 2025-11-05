@@ -37,7 +37,7 @@
                             <div class="form-group col-12 col-md-4 pb-3">
                                 <label class="form-label">Nome Referência - Plural</label>
                                 <select class="form-control select2" name="referencia_name_plural" id="referencia_name_plural" required="required">
-                                    <option value="">Selecione...</option>
+                                    <option value="">{{ __('Selecione...') }}</option>
                                     <option value="Departamentos">Departamentos</option>
                                     <option value="Funcionarios">Funcionários</option>
                                     <option value="Clientes">Clientes</option>
@@ -46,8 +46,8 @@
                             <div class="form-group col-12 col-md-4 pb-3">
                                 <label class="form-label">Nome Referência - Singular</label>
                                 <select class="form-control select2" name="referencia_name_singular" id="referencia_name_singular" required="required">
-                                    <option value="">Selecione...</option>
-                                    <option value="Departamento">Departamento</option>
+                                    <option value="">{{ __('Selecione...') }}</option>
+                                    <option value="Departamento">{{ __('Departamento') }}</option>
                                     <option value="Funcionario">Funcionário</option>
                                     <option value="Cliente">Cliente</option>
                                 </select>

@@ -90,7 +90,7 @@ export default defineConfig({
 
                 {src: 'resources/assets_template/images/cartao_emergencial_cnooc.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/cartao_emergencial_funcionario.png', dest: 'assets/images'},
-
+                
                 {src: 'resources/assets_template/images/cliente-img.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/proposta-img.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/visita_tecnica-img.png', dest: 'assets/images'},
@@ -155,6 +155,10 @@ export default defineConfig({
 
                 {src: 'resources/proxy-directions.php', dest: ''},
                 {src: 'resources/gerar-mapa.php', dest: ''},
+
+                //Imagens aleatorias
+                {src: 'resources/assets_template/images/sem_imagem_quadrada.png', dest: 'assets/images'},
+                {src: 'resources/assets_template/images/sem_imagem_retangular.png', dest: 'assets/images'},
 
                 //Testes
                 {src: 'resources/assets_template/json/ocorrencias.json', dest: 'assets'},

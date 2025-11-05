@@ -35,8 +35,8 @@
 
                                     @php
                                         $selectCampoPesquisar = [
-                                        ['value' => 'veiculos.placa', 'descricao' => 'Placa'],
-                                        ['value' => 'veiculos.renavam', 'descricao' => 'Renavam']
+                                        ['value' => 'veiculos.placa', 'descricao' => __('Placa')],
+                                        ['value' => 'veiculos.renavam', 'descricao' => __('Renavam')]
                                         ];
                                     @endphp
 
@@ -47,7 +47,7 @@
                     </div>
 
                     <!-- Tabela (Componente Blade) -->
-                    <x-table-crud-ajax :numCols="5" :colsNames="['Marca', 'Modelo', 'Placa', 'Renavam', 'Ações']" />
+                    <x-table-crud-ajax :numCols="5" :colsNames="[__('Marca'), __('Modelo'), __('Placa'), __('Renavam'), __('Ações')]" />
                     <input type="hidden" id="crudPrefixPermissaoSubmodulo" name="crudPrefixPermissaoSubmodulo" value="{{$se_prefixPermissaoSubmodulo}}">
                     <input type="hidden" id="crudNameSubmodulo" name="crudNameSubmodulo" value="{{$se_nameSubmodulo}}">
                     <input type="hidden" id="crudNameFormSubmodulo" name="crudNameFormSubmodulo" value="{{$se_nameFormSubmodulo}}">

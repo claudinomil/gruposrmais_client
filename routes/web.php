@@ -145,8 +145,15 @@ require __DIR__ . '/routes_guests.php';
 require __DIR__ . '/routes_z_testes.php';
 
 //Verificar se arquivo existe'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-Route::get('/verificar-arquivo', function (Illuminate\Http\Request $request) {
+Route::get('/arquivo_existe', function (Illuminate\Http\Request $request) {
     $arquivo = $request->query('arquivo');
+
+    // Verificar variavel
+    if (!isset($arquivo) || $arquivo === null || $arquivo === '') {
+        return 'error';
+    }
+
+    // Ver se existe
     $path = public_path($arquivo);
     return file_exists($path) ? 'success' : 'error';
 });

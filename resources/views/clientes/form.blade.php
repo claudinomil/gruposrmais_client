@@ -74,7 +74,7 @@
                                     <div class="form-group col-12 col-md-4 pb-3 pessoa_fisica">
                                         <label class="form-label">{{ __('Gênero') }}</label>
                                         <select class="select2 form-control" name="genero_id" id="genero_id" required="required">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($generos as $key => $genero)
                                                 <option value="{{ $genero['id'] }}">{{ $genero['name'] }}</option>
@@ -89,7 +89,7 @@
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">{{ __('Cliente Principal') }}</label>
                                         <select class="select2 form-control" name="principal_cliente_id" id="principal_cliente_id">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($clientes as $key => $cliente)
                                                 <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
@@ -100,7 +100,7 @@
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">{{ __('Cliente Rede') }}</label>
                                         <select class="select2 form-control" name="rede_cliente_id" id="rede_cliente_id">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($clientes as $key => $cliente)
                                                 <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
@@ -183,7 +183,7 @@
                                     <div class="form-group col-12 col-md-3 pb-3 pessoa_fisica">
                                         <label class="form-label">{{ __('Identidade (Órgão)') }}</label>
                                         <select class="form-control select2" name="identidade_orgao_id" id="identidade_orgao_id">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($identidade_orgaos as $key => $identidade_orgao)
                                                 <option value="{{ $identidade_orgao['id'] }}">{{ $identidade_orgao['name'] }}</option>
@@ -194,7 +194,7 @@
                                     <div class="form-group col-12 col-md-3 pb-3 pessoa_fisica">
                                         <label class="form-label">{{ __('Identidade (Estado)') }}</label>
                                         <select class="form-control select2" name="identidade_estado_id" id="identidade_estado_id">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($identidade_estados as $key => $identidade_estado)
                                                 <option value="{{ $identidade_estado['id'] }}">{{ $identidade_estado['name'] }}</option>
@@ -310,7 +310,7 @@
                                     <div class="form-group col-6 col-md-2 pb-3">
                                         <label class="form-label">{{ __('Risco Incêndio') }}</label>
                                         <select class="select2 form-control" name="incendio_risco_id" id="incendio_risco_id">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($incendio_riscos as $key => $incendio_risco)
                                                 <option value="{{ $incendio_risco['id'] }}">{{ $incendio_risco['name'] }}</option>
@@ -321,7 +321,7 @@
                                     <div class="form-group col-12 col-md-12 pb-3">
                                         <label class="form-label">{{ __('Classificação Edificação') }}</label>
                                         <select class="select2 form-control" name="edificacao_classificacao_id" id="edificacao_classificacao_id">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
                                             @foreach ($edificacao_classificacoes as $key => $edificacao_classificacao)
                                                 <option value="{{ $edificacao_classificacao['id'] }}"
                                                         data-grupo="{{ $edificacao_classificacao['grupo'] }}"
@@ -453,7 +453,7 @@
                                 <table class="table table-nowrap mb-0">
                                     <tbody>
                                         <tr>
-                                            <th scope="row">Situação</th>
+                                            <th scope="row">{{ __('Situação') }}</th>
                                             <td name="td_api_situacao" id="td_api_situacao"></td>
                                         </tr>
                                         <tr>
@@ -465,7 +465,7 @@
                                             <td name="td_api_natureza_juridica" id="td_api_natureza_juridica"></td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">Nome</th>
+                                            <th scope="row">{{ __('Nome') }}</th>
                                             <td name="td_api_nome" id="td_api_nome"></td>
                                         </tr>
                                         <tr>
@@ -481,31 +481,31 @@
                                             <td name="td_api_abertura" id="td_api_abertura"></td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">CEP</th>
+                                            <th scope="row">{{ __('CEP') }}</th>
                                             <td name="td_api_cep" id="td_api_cep"></td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">Telefone</th>
+                                            <th scope="row">{{ __('Telefone') }}</th>
                                             <td name="td_api_telefone" id="td_api_telefone"></td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">E-mail</th>
+                                            <th scope="row">{{ __('E-mail') }}</th>
                                             <td name="td_api_email" id="td_api_email"></td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">Logradouro</th>
+                                            <th scope="row">{{ __('Logradouro') }}</th>
                                             <td name="td_api_logradouro" id="td_api_logradouro"></td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">Número</th>
+                                            <th scope="row">{{ __('Número') }}</th>
                                             <td name="td_api_numero" id="td_api_numero"></td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">Complemento</th>
+                                            <th scope="row">{{ __('Complemento') }}</th>
                                             <td name="td_api_complemento" id="td_api_complemento"></td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">Bairro</th>
+                                            <th scope="row">{{ __('Bairro') }}</th>
                                             <td name="td_api_bairro" id="td_api_bairro"></td>
                                         </tr>
                                         <tr>
@@ -513,7 +513,7 @@
                                             <td name="td_api_municipio" id="td_api_municipio"></td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">UF</th>
+                                            <th scope="row">{{ __('UF') }}</th>
                                             <td name="td_api_uf" id="td_api_uf"></td>
                                         </tr>
                                     </tbody>

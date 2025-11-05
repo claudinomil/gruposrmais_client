@@ -35,8 +35,8 @@
 
                                     @php
                                         $selectCampoPesquisar = [
-                                        ['value' => 'mapas_pontos_interesse.name', 'descricao' => 'Nome'],
-                                        ['value' => 'mapas_pontos_interesse.descricao', 'descricao' => 'Descrição']
+                                        ['value' => 'mapas_pontos_interesse.name', 'descricao' => __('Nome')],
+                                        ['value' => 'mapas_pontos_interesse.descricao', 'descricao' => __('Descrição')]
                                         ];
                                     @endphp
 

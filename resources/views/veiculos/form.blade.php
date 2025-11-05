@@ -40,7 +40,7 @@
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">Categoria</label>
                                     <select class="form-control" name="veiculo_categoria_id" id="veiculo_categoria_id">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
 
                                         @foreach ($veiculo_categorias as $veiculo_categoria)
                                             <option value="{{ $veiculo_categoria['id'] }}">{{ $veiculo_categoria['name'] }}</option>
@@ -50,7 +50,7 @@
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">Combustível</label>
                                     <select class="form-control" name="veiculo_combustivel_id" id="veiculo_combustivel_id">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
 
                                         @foreach ($veiculo_combustiveis as $veiculo_combustivel)
                                             <option value="{{ $veiculo_combustivel['id'] }}">{{ $veiculo_combustivel['name'] }}</option>
@@ -60,7 +60,7 @@
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">Marca</label>
                                     <select class="form-control" name="veiculo_marca_id" id="veiculo_marca_id">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
 
                                         @foreach ($veiculo_marcas as $veiculo_marca)
                                             <option value="{{ $veiculo_marca['id'] }}">{{ $veiculo_marca['name'] }}</option>
@@ -70,7 +70,7 @@
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">Modelo</label>
                                     <select class="form-control" name="veiculo_modelo_id" id="veiculo_modelo_id">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
 
                                         @foreach ($veiculo_modelos as $veiculo_modelo)
                                             <option value="{{ $veiculo_modelo['id'] }}">{{ $veiculo_modelo['name'] }}</option>
@@ -92,7 +92,7 @@
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">Blindado</label>
                                     <select class="form-control" name="blindado" id="blindado">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
                                         <option value="1">Sim</option>
                                         <option value="2">Não</option>
                                     </select>
@@ -100,7 +100,7 @@
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">GNV</label>
                                     <select class="form-control" name="gnv" id="gnv">
-                                        <option value="">Selecione...</option>
+                                        <option value="">{{ __('Selecione...') }}</option>
                                         <option value="1">Sim</option>
                                         <option value="2">Não</option>
                                     </select>

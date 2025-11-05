@@ -26,27 +26,27 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Grupo</label>
+                            <label class="form-label">{{ __('Grupo') }}</label>
                             <select class="form-select" name="modal_relatorio1_grupo_id" id="modal_relatorio1_grupo_id">
-                                <option value="0">Todos os Grupos</option>
+                                <option value="0">{{ __('Todos os Grupos') }}</option>
                                 @foreach ($grupos as $grupo)
                                     <option value="{{$grupo['id']}}">{{$grupo['name']}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Idioma</label>
+                            <label class="form-label">{{ __('Idioma') }}</label>
                             <select class="form-select" name="modal_relatorio1_idioma" id="modal_relatorio1_idioma">
-                                <option value="1">Português</option>
-                                <option value="2">Inglês</option>
+                                <option value="1">{{ __('Português') }}</option>
+                                <option value="2">{{ __('Inglês') }}</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-12 text-end">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio1_cancelar">Cancelar</button>
-                        <button type="button" class="btn btn-primary" onclick="relatorio1(2)">Gerar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio1_cancelar">{{ __('Cancelar') }}</button>
+                        <button type="button" class="btn btn-primary" onclick="relatorio1(2)">{{ __('Gerar') }}</button>
                     </div>
                 </div>
             </div>
@@ -64,36 +64,36 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Grupo</label>
+                            <label class="form-label">{{ __('Grupo') }}</label>
                             <select class="form-select" name="modal_relatorio2_grupo_id" id="modal_relatorio2_grupo_id">
-                                <option value="0">Todos os Grupos</option>
+                                <option value="0">{{ __('Todos os Grupos') }}</option>
                                 @foreach ($grupos as $grupo)
                                     <option value="{{$grupo['id']}}">{{$grupo['name']}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Situação</label>
+                            <label class="form-label">{{ __('Situação') }}</label>
                             <select class="form-select" name="modal_relatorio2_situacao_id" id="modal_relatorio2_situacao_id">
-                                <option value="0">Todos as Situações</option>
+                                <option value="0">{{ __('Todos as Situações') }}</option>
                                 @foreach ($situacoes as $situacao)
                                     <option value="{{$situacao['id']}}">{{$situacao['name']}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Idioma</label>
+                            <label class="form-label">{{ __('Idioma') }}</label>
                             <select class="form-select" name="modal_relatorio2_idioma" id="modal_relatorio2_idioma">
-                                <option value="1">Português</option>
-                                <option value="2">Inglês</option>
+                                <option value="1">{{ __('Português') }}</option>
+                                <option value="2">{{ __('Inglês') }}</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-12 text-end">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio2_cancelar">Cancelar</button>
-                        <button type="button" class="btn btn-primary" onclick="relatorio2(2)">Gerar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio2_cancelar">{{ __('Cancelar') }}</button>
+                        <button type="button" class="btn btn-primary" onclick="relatorio2(2)">{{ __('Gerar') }}</button>
                     </div>
                 </div>
             </div>
@@ -111,11 +111,11 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Data</label>
+                            <label class="form-label">{{ __('Data') }}</label>
                             <input type="text" class="form-control form-control-sm mask_date" name="modal_relatorio3_data" id="modal_relatorio3_data">
                         </div>
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Usuário</label>
+                            <label class="form-label">{{ __('Usuário') }}</label>
                             <select class="form-select" name="modal_relatorio3_user_id" id="modal_relatorio3_user_id">
                                 <option value="0">Todos os Usuários</option>
                                 @foreach ($users as $user)
@@ -124,40 +124,40 @@
                             </select>
                         </div>
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Submódulo</label>
+                            <label class="form-label">{{ __('Submódulo') }}</label>
                             <select class="form-select" name="modal_relatorio3_submodulo_id" id="modal_relatorio3_submodulo_id">
-                                <option value="0">Todos os Submódulos</option>
+                                <option value="0">{{ __('Todos os Submódulos') }}</option>
                                 @foreach ($submodulos as $submodulo)
                                     <option value="{{$submodulo['id']}}">{{$submodulo['name']}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Operação</label>
+                            <label class="form-label">{{ __('Operação') }}</label>
                             <select class="form-select" name="modal_relatorio3_operacao_id" id="modal_relatorio3_operacao_id">
-                                <option value="0">Todos as Operações</option>
+                                <option value="0">{{ __('Todos as Operações') }}</option>
                                 @foreach ($operacoes as $operacao)
                                     <option value="{{$operacao['id']}}">{{$operacao['name']}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Dado</label>
+                            <label class="form-label">{{ __('Dado') }}</label>
                             <input type="text" class="form-control form-control-sm" name="modal_relatorio3_dado" id="modal_relatorio3_dado">
                         </div>
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Idioma</label>
+                            <label class="form-label">{{ __('Idioma') }}</label>
                             <select class="form-select" name="modal_relatorio3_idioma" id="modal_relatorio3_idioma">
-                                <option value="1">Português</option>
-                                <option value="2">Inglês</option>
+                                <option value="1">{{ __('Português') }}</option>
+                                <option value="2">{{ __('Inglês') }}</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-12 text-end">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio3_cancelar">Cancelar</button>
-                        <button type="button" class="btn btn-primary" onclick="relatorio3(2)">Gerar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio3_cancelar">{{ __('Cancelar') }}</button>
+                        <button type="button" class="btn btn-primary" onclick="relatorio3(2)">{{ __('Gerar') }}</button>
                     </div>
                 </div>
             </div>
@@ -175,15 +175,15 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group col-6 pb-3">
-                            <label class="form-label">Data início</label>
+                            <label class="form-label">{{ __('Data início') }}</label>
                             <input type="text" class="form-control form-control-sm mask_date" name="modal_relatorio6_data_inicio" id="modal_relatorio6_data_inicio" value="{{ date('d/m/Y') }}">
                         </div>
                         <div class="form-group col-6 pb-3">
-                            <label class="form-label">Data fim</label>
+                            <label class="form-label">{{ __('Data fim') }}</label>
                             <input type="text" class="form-control form-control-sm mask_date" name="modal_relatorio6_data_fim" id="modal_relatorio6_data_fim" value="{{ date('d/m/Y') }}">
                         </div>
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Cidade</label>
+                            <label class="form-label">{{ __('Cidade') }}</label>
                             <select class="form-select" name="modal_relatorio6_cidade_id" id="modal_relatorio6_cidade_id">
                                 <option value="88959ad9-b2f5-4a33-a8ec-ceff5a572ca5">Belford Roxo</option>
                                 <option value="9d7b569c-ec84-4908-96ab-3706ec3bfc57">Cachoeiras de Macacú</option>
@@ -209,18 +209,18 @@
                             </select>
                         </div>
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Idioma</label>
+                            <label class="form-label">{{ __('Idioma') }}</label>
                             <select class="form-select" name="modal_relatorio6_idioma" id="modal_relatorio6_idioma">
-                                <option value="1">Português</option>
-                                <option value="2">Inglês</option>
+                                <option value="1">{{ __('Português') }}</option>
+                                <option value="2">{{ __('Inglês') }}</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-12 text-end">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio6_cancelar">Cancelar</button>
-                        <button type="button" class="btn btn-primary" onclick="relatorio6(2)">Gerar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio6_cancelar">{{ __('Cancelar') }}</button>
+                        <button type="button" class="btn btn-primary" onclick="relatorio6(2)">{{ __('Gerar') }}</button>
                     </div>
                 </div>
             </div>
@@ -238,7 +238,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Executivos</label>
+                            <label class="form-label">{{ __('Executivos') }}</label>
                             <select class="form-select form-select-sm" name="modal_relatorio7_clientes_executivos_ids[]" id="modal_relatorio7_clientes_executivos_ids" multiple>
                                 @foreach ($clientes_executivos as $cliente_executivo)
                                     <option value="{{$cliente_executivo['id']}}">{{$cliente_executivo['executivo_nome']}}</option>
@@ -246,7 +246,7 @@
                             </select>
                         </div>
                         <div class="form-group col-12 pb-3">
-                            <label class="form-label">Funcionários</label>
+                            <label class="form-label">{{ __('Funcionários') }}</label>
                             <select class="form-select form-select-sm" name="modal_relatorio7_funcionarios_ids[]" id="modal_relatorio7_funcionarios_ids" multiple>
                                 @foreach ($funcionarios as $funcionario)
                                     <option value="{{$funcionario['id']}}">{{$funcionario['name']}}</option>
@@ -257,8 +257,8 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-12 text-end">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio7_cancelar">Cancelar</button>
-                        <button type="button" class="btn btn-primary" onclick="relatorio7(2)">Gerar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio7_cancelar">{{ __('Cancelar') }}</button>
+                        <button type="button" class="btn btn-primary" onclick="relatorio7(2)">{{ __('Gerar') }}</button>
                     </div>
                 </div>
             </div>

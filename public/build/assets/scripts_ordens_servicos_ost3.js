@@ -1327,15 +1327,11 @@ async function ost3_gerarPDF(ordem_servico_id=0, traducao='pt') {
         var pageRodape = 'build/assets/images/ordem_servico_rodape.png';
 
         //Verificar se existe topo e rodapé para cliente''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        var url_atual = window.location.protocol + '//' + window.location.host + '/';
+        var topoClienteExiste = await arquivoExiste('build/assets/images/ordem_servico_topo_cliente_'+cliente_id+'.png');
+        if (topoClienteExiste === true) {pageTopo = 'build/assets/images/ordem_servico_topo_cliente_'+cliente_id+'.png';}
 
-        await arquivoExiste(url_atual+'/build/assets/images/ordem_servico_topo_cliente_'+cliente_id+'.png').then(existe => {
-            if (existe) {pageTopo = 'build/assets/images/ordem_servico_topo_cliente_'+cliente_id+'.png';}
-        });
-
-        await arquivoExiste(url_atual+'/build/assets/images/ordem_servico_rodape_cliente_'+cliente_id+'.png').then(existe => {
-            if (existe) {pageRodape = 'build/assets/images/ordem_servico_rodape_cliente_'+cliente_id+'.png';}
-        });
+        var rodapeClienteExiste = await arquivoExiste('build/assets/images/ordem_servico_rodape_cliente_'+cliente_id+'.png');
+        if (rodapeClienteExiste === true) {pageRodape = 'build/assets/images/ordem_servico_rodape_cliente_'+cliente_id+'.png';}
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         //Variáveis

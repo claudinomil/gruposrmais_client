@@ -35,11 +35,11 @@
                                             <div class="pt-4">
                                                 <div class="row">
                                                     <div class="col-6">
-                                                        <h5 class="font-size-15">Grupo</h5>
+                                                        <h5 class="font-size-15">{{ __('Grupo') }}</h5>
                                                         <p class="text-muted mb-0 text-truncate jsonUser jsonUserGrupo"></p>
                                                     </div>
                                                     <div class="col-6">
-                                                        <h5 class="font-size-15">Situação</h5>
+                                                        <h5 class="font-size-15">{{ __('Situação') }}</h5>
                                                         <p class="text-muted mb-0 text-truncate jsonUser jsonUserSituacao"></p>
                                                     </div>
                                                 </div>
@@ -382,19 +382,19 @@
                                     <h5 class="card-title mb-4"><i class="fa fa-database"></i>&nbsp;&nbsp;Dados</h5>
                                     <div class="row">
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">Nome</label>
+                                            <label class="form-label small">{{ __('Nome') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_nome" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">CPF</label>
+                                            <label class="form-label small">{{ __('CPF') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_cpf" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">Empresa</label>
+                                            <label class="form-label small">{{ __('Empresa') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_empresa" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">Tomador de Serviço</label>
+                                            <label class="form-label small">{{ __('Tomador de Serviço') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_tomador_servico" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
@@ -402,43 +402,43 @@
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_contratacao_tipo" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">Função</label>
+                                            <label class="form-label small">{{ __('Função') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_funcao" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">Departamento</label>
+                                            <label class="form-label small">{{ __('Departamento') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_departamento" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">Nome Profissional</label>
+                                            <label class="form-label small">{{ __('Nome Profissional') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_nome_profissional" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small" id="div_fun_dados_data">Nascimento</label>
+                                            <label class="form-label small" id="div_fun_dados_data">{{ __('Nascimento') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_data_nascimento" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">Gênero</label>
+                                            <label class="form-label small">{{ __('Gênero') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_genero" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">Celular 1</label>
+                                            <label class="form-label small">{{ __('Celular 1') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_celular_1" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">Celular 2</label>
+                                            <label class="form-label small">{{ __('Celular 2') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_celular_2" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">Telefone 1</label>
+                                            <label class="form-label small">{{ __('Telefone 1') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_telefone_1" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">Telefone 2</label>
+                                            <label class="form-label small">{{ __('Telefone 2') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_telefone_2" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">E-mail</label>
+                                            <label class="form-label small">{{ __('E-mail') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_email" readonly>
                                         </div>
                                     </div>
@@ -470,7 +470,7 @@
                                                         <div class="col-12 col-lg-3 mb-3">
                                                             <label class="form-label">Documento (Nome)</label>
                                                             <select class="form-select form-select-sm" name="fun_documentos_documento_id" id="fun_documentos_documento_id">
-                                                                <option value="">Selecione...</option>
+                                                                <option value="">{{ __('Selecione...') }}</option>
 
                                                                 @foreach ($documentos as $documento)
                                                                     @php
@@ -502,7 +502,7 @@
                                                         </div>
                                                         <div class="col-12 col-lg-3 mb-3">
                                                             <label class="form-label">Documento (Arquivo)</label>
-                                                            <input type="file" class="form-control form-control-sm" name="fun_documentos_file" id="fun_documentos_file">
+                                                            <input type="file" class="form-control form-control-sm" name="fun_documentos_file" id="fun_documentos_file" accept=".pdf">
                                                         </div>
                                                     </div>
                                                 </form>
@@ -763,7 +763,7 @@
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_cli_cpf_cnpj" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
-                                            <label class="form-label small">Nome</label>
+                                            <label class="form-label small">{{ __('Nome') }}</label>
                                             <input type="text" class="form-control form-control-sm clearClass" id="mi_cli_nome" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
@@ -808,7 +808,7 @@
                                                         <div class="col-12 col-lg-3 mb-3">
                                                             <label class="form-label">Documento (Nome)</label>
                                                             <select class="form-select form-select-sm" name="cli_documentos_documento_id" id="cli_documentos_documento_id">
-                                                                <option value="">Selecione...</option>
+                                                                <option value="">{{ __('Selecione...') }}</option>
 
                                                                 @foreach ($documentos as $documento)
                                                                     @php
@@ -840,7 +840,7 @@
                                                         </div>
                                                         <div class="col-12 col-lg-3 mb-3">
                                                             <label class="form-label">Documento (Arquivo)</label>
-                                                            <input type="file" class="form-control form-control-sm" name="cli_documentos_file" id="cli_documentos_file">
+                                                            <input type="file" class="form-control form-control-sm" name="cli_documentos_file" id="cli_documentos_file" accept=".pdf">
                                                         </div>
                                                     </div>
                                                 </form>
@@ -1025,8 +1025,12 @@
         </div>
     </div>
 
+
+
+    @if($se_prefixPermissaoSubmodulo == 'clientes_executivos_APAGAR')
+
     <!-- Cliente Executivo Modal Info -->
-    <div id="cliente_executivo_modal_info" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="cliente_executivo_modal_infoxxxxxxxxxxxxxxxxxxxxx" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="min-height: 500px;">
                 <div class="modal-body">
@@ -1089,10 +1093,10 @@
                         <div class="tab-content p-3 text-muted">
                             <div class="tab-pane active" id="tab_cex_dados" role="tabpanel">
                                 <div class="row">
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Função</div>
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">{{ __('Função') }}</div>
                                     <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_cex_funcao"></div>
 
-                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Nome</div>
+                                    <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">{{ __('Nome') }}</div>
                                     <div class="col-12 col-md-8 font-size-12 pb-3 text-dark clearClass" id="mi_cex_nome"></div>
 
                                     <div class="col-12 col-md-4 font-size-14 pb-3 text-secondary">Telefone(s)</div>
@@ -1154,7 +1158,7 @@
                                             </div>
                                             <div class="form-group col-12 pt-2">
                                                 <label class="form-label mb-0 ps-1 small">Documento</label>
-                                                <input type="file" class="form-control form-control-sm" name="cex_documentos_file" id="cex_documentos_file">
+                                                <input type="file" class="form-control form-control-sm" name="cex_documentos_file" id="cex_documentos_file" accept=".pdf">
                                             </div>
                                         </div>
                                     </form>
@@ -1193,104 +1197,292 @@
         </div>
     </div>
 
-    <!-- Modal para mostrar Informações Visita Técnica -->
-{{--    <div class="modal fade modal-visita-tecnica" tabindex="-1" role="dialog" aria-hidden="true">--}}
-{{--        <div class="modal-dialog modal-xl">--}}
-{{--            <div class="modal-content" style="background-color: var(--bs-body-bg);">--}}
-{{--                <div class="modal-body">--}}
-{{--                    <div class="row">--}}
-{{--                        <div class="col-xl-5">--}}
+    @endif
 
-{{--                            <!-- Card -->--}}
-{{--                            <div class="card overflow-hidden">--}}
-{{--                                <div class="bg-danger">--}}
-{{--                                    <div class="row">--}}
-{{--                                        <div class="col-7">--}}
-{{--                                            <div class="text-white p-3">--}}
-{{--                                                <h5 class="text-white">Extra</h5>--}}
-{{--                                                <p>Visita Técnica do Sistema</p>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="col-5 align-self-end">--}}
-{{--                                            <x-button-crud op="99" model="1" class="btn-close float-end px-1 py-1" data-bs-dismiss="modal" aria-label="Close" />--}}
-{{--                                            <img src="{{ asset('build/assets/images/visita_tecnica-img.png') }}" alt="" class="img-fluid">--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="card-body pt-0">--}}
-{{--                                    <div class="row">--}}
-{{--                                        <div class="col-sm-4">--}}
-{{--                                            <h5 class="font-size-15 text-truncate jsonVisitaTecnicaName"></h5>--}}
-{{--                                            <p class="text-muted mb-0 text-truncate jsonVisitaTecnicaFuncao"></p>--}}
-{{--                                        </div>--}}
+    @if($se_prefixPermissaoSubmodulo == 'clientes_executivos')
+        <!-- Cliente Executivo Modal Info -->
+        <div class="modal fade" id="cliente_executivo_modal_info" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-light">
+                    <div class="modal-header" style="background-color: #2a3042;">
+                        <!-- Header -->
+                        <div class="row col-12">
+                            <div class="col-8 order-1 order-lg-1 col-lg-4">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <img src="build/assets/images/clientes_executivos/cliente_executivo-0.png" alt="" class="avatar-lg rounded-circle img-thumbnail clearClass" id="mi_cex_fotografia">
+                                    </div>
+                                    <div class="flex-grow-1 align-self-center">
+                                        <div>
+                                            <h5 class="mb-2" style="color: #ffac31 !important;">INFORMAÇÕES CLIENTES EXECUTIVOS</h5>
+                                            <h6 class="mb-1" style="color: #ffffff !important;" id="mi_cex_header_nome"></h6>
+                                            <div class="clearfix mt-2">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="bx bxs-cog align-middle me-1"></i> Opções
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="#" onclick="clienteExecutivoModalInfoControle(1);">Fotografias</a>
+                                                        <a class="dropdown-item" href="#" onclick="clienteExecutivoModalInfoControle(2);">Dados</a>
+                                                        <a class="dropdown-item" href="#" onclick="clienteExecutivoModalInfoControle(5);">Incluir Documentos</a>
+                                                        <a class="dropdown-item" href="#" onclick="clienteExecutivoModalInfoControle(3);">Documentos</a>
+                                                        <a class="dropdown-item" href="#" onclick="clienteExecutivoModalInfoControle(6);">Cartão Emergencial</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#" data-bs-dismiss="modal">Fechar</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 order-3 order-lg-2 col-lg-8 align-self-center">
+                                <div class="text-lg-center mt-4 mt-lg-0">
+                                    <div class="row text-center font-size-12">
+                                        <div class="col-4 col-lg-3">
+                                            <div>
+                                                <p class="text-truncate mb-2" style="color: #ffac31;">Documentos</p>
+                                                <h5 class="mb-0" style="color: #ffffff;" id="md_cex_estatisticas_documentos">0</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Header END -->
+                    </div>
+                    <div class="modal-body d-lg-flex flex-lg-column flex-grow-1 px-4">
+                        <!-- Cliente Executivo ID -->
+                        <input type="hidden" id="mi_cex_cliente_executivo_id" name="mi_cex_cliente_executivo_id" value="0">
 
-{{--                                        <div class="col-sm-8">--}}
-{{--                                            <div class="pt-4">--}}
-{{--                                                <div class="row">--}}
-{{--                                                    <div class="col-6">--}}
-{{--                                                        <h5 class="font-size-15">Escolaridade</h5>--}}
-{{--                                                        <p class="text-muted mb-0 text-truncate jsonVisitaTecnicaEscolaridade"></p>--}}
-{{--                                                    </div>--}}
-{{--                                                    <div class="col-6">--}}
-{{--                                                        <h5 class="font-size-15">Gênero</h5>--}}
-{{--                                                        <p class="text-muted mb-0 text-truncate jsonVisitaTecnicaGenero"></p>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                                <div class="row">--}}
-{{--                                                    <div class="col-4 mt-4 px-0">&nbsp;</div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                        <!-- Fotografias -->
+                        <div class="row d-lg-flex flex-lg-grow-1" id="md_cex_div_fotografias">
+                            <div class="card mb-0">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4"><i class="bx bxs-file-plus"></i>&nbsp;&nbsp;Fotografias</h5>
 
-{{--                            <!-- Informações Pessoais -->--}}
-{{--                            <div class="card">--}}
-{{--                                <div class="card-body">--}}
-{{--                                    <h4 class="card-title mb-4">Informações Pessoais</h4>--}}
-{{--                                    <div class="table-responsive">--}}
-{{--                                        <table class="table table-nowrap mb-0">--}}
-{{--                                            <tbody>--}}
-{{--                                            <tr>--}}
-{{--                                                <th scope="row">Name :</th>--}}
-{{--                                                <td class="jsonVisitaTecnicaName"></td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <th scope="row">E-mail :</th>--}}
-{{--                                                <td class="jsonVisitaTecnicaEmail"></td>--}}
-{{--                                            </tr>--}}
-{{--                                            </tbody>--}}
-{{--                                        </table>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                                    <div class="row">
+                                        <div class="col-12 col-lg-6 pe-5">
+                                            <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTOGRAFIA DOCUMENTO</h6>
+                                            <div class="col-12" style="height: 150px;">
+                                                <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_cex_fotografia_documento">
+                                            </div>
 
-{{--                        </div>--}}
+                                            @if(\App\Facades\Permissoes::permissao(['clientes_executivos_edit']))
+                                                <form enctype="multipart/form-data" id="frm_upload_fotografia_documento_cex">
+                                                    <input type="hidden" id="upload_fotografia_documento_cliente_executivo_id" name="upload_fotografia_documento_cliente_executivo_id" value="">
 
-{{--                        <div class="col-xl-7">--}}
-{{--                            <div class="card">--}}
-{{--                                <div class="card-body">--}}
-{{--                                    <h4 class="card-title mb-4">Transações</h4>--}}
-{{--                                    <div class="table-responsive">--}}
-{{--                                        <table class="table table-nowrap table-hover mb-0 class-datatable-2 font-size-11">--}}
-{{--                                            <thead>--}}
-{{--                                            <tr>--}}
-{{--                                                <th scope="col">#</th>--}}
-{{--                                                <th scope="col">Operação</th>--}}
-{{--                                            </tr>--}}
-{{--                                            </thead>--}}
-{{--                                            <tbody class="jsonVisitaTecnicaTransacoesTable"></tbody>--}}
-{{--                                        </table>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+                                                    <div class="col-12 mb-2">
+                                                        <button type="button" class="btn btn-success btn-sm" id="frm_upload_fotografia_documento_cex_executar" name="frm_upload_fotografia_documento_cex_executar">Enviar Fotografia</button>
+                                                    </div>
 
+                                                    <div class="col-12 mb-3">
+                                                        <input type="file" class="form-control form-control-sm" name="cex_fotografia_documento_file" accept=".png, .jpg, .jpeg" id="cex_fotografia_documento_file">
+                                                    </div>
+                                                </form>
+                                            @endif
+                                        </div>
+                                        <div class="col-12 col-lg-6 pe-5">
+                                            <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTOGRAFIA CARTÃO EMERGENCIAL</h6>
+                                            <div class="col-12" style="height: 150px;">
+                                                <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_cex_fotografia_cartao_emergencial">
+                                            </div>
+
+                                            @if(\App\Facades\Permissoes::permissao(['clientes_executivos_edit']))
+                                                <form enctype="multipart/form-data" id="frm_upload_fotografia_cartao_emergencial_cex">
+                                                    <input type="hidden" id="upload_fotografia_cartao_emergencial_cliente_executivo_id" name="upload_fotografia_cartao_emergencial_cliente_executivo_id" value="">
+
+                                                    <div class="col-12 mb-2">
+                                                        <button type="button" class="btn btn-success btn-sm" id="frm_upload_fotografia_cartao_emergencial_cex_executar" name="frm_upload_fotografia_cartao_emergencial_cex_executar">Enviar Fotografia</button>
+                                                    </div>
+
+                                                    <div class="col-12 mb-3">
+                                                        <input type="file" class="form-control form-control-sm" name="cex_fotografia_cartao_emergencial_file" accept=".png, .jpg, .jpeg" id="cex_fotografia_cartao_emergencial_file">
+                                                    </div>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fotografias END -->
+
+                        <!-- Dados -->
+                        <div class="row d-lg-flex flex-lg-grow-1" id="md_cex_div_dados">
+                            <div class="card mb-0">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4"><i class="fa fa-database"></i>&nbsp;&nbsp;Dados</h5>
+                                    <div class="row">
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="form-label small">{{ __('Nome') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_cex_nome" readonly>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="form-label small">{{ __('CPF') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_cex_cpf" readonly>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="form-label small">Cliente</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_cex_cliente" readonly>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="form-label small">{{ __('Função') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_cex_funcao" readonly>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="form-label small">{{ __('Nome Profissional') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_cex_nome_profissional" readonly>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="form-label small" id="div_cex_dados_data">{{ __('Nascimento') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_cex_data_nascimento" readonly>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="form-label small">{{ __('Gênero') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_cex_genero" readonly>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="form-label small">{{ __('Celular 1') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_cex_celular_1" readonly>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="form-label small">{{ __('Celular 2') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_cex_celular_2" readonly>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="form-label small">{{ __('Telefone 1') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_cex_telefone_1" readonly>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="form-label small">{{ __('Telefone 2') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_cex_telefone_2" readonly>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="form-label small">{{ __('E-mail') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_cex_email" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Dados END -->
+
+                        <!-- Incluir Documentos -->
+                        <div class="row d-lg-flex flex-lg-grow-1" id="md_cex_div_incluir_documentos">
+                            <div class="card mb-0">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Incluir Documentos</h5>
+
+                                    <div class="row">
+                                        @if(\App\Facades\Permissoes::permissao(['clientes_executivos_edit']))
+                                            <div class="col-12 col-lg-12 pe-5">
+                                                <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;INCLUSÃO DE DOCUMENTO</h6>
+                                                <form enctype="multipart/form-data" id="frm_upload_documentos_cex">
+                                                    <input type="hidden" id="upload_documentos_cliente_executivo_id" name="upload_documentos_cliente_executivo_id" value="">
+
+                                                    <!-- Ação do Formulário: 1(create) 2(edit) 3(update) 4(delete) -->
+                                                    <input type="hidden" id="upload_documentos_cex_acao" name="upload_documentos_cex_acao" value="1">
+
+                                                    <div class="col-12 mb-5">
+                                                        <button type="button" class="btn btn-success btn-sm" id="frm_upload_documentos_cex_executar" name="frm_upload_documentos_cex_executar">Incluir Documento</button>
+                                                    </div>
+                                                    <div class="row" id="div_frm_upload_documentos_cex_executar">
+                                                        <div class="col-12 col-lg-3 mb-3">
+                                                            <label class="form-label">Documento (Nome)</label>
+                                                            <select class="form-select form-select-sm" name="cex_documentos_documento_id" id="cex_documentos_documento_id">
+                                                                <option value="">{{ __('Selecione...') }}</option>
+
+                                                                @foreach ($documentos as $documento)
+                                                                    @php
+                                                                        $class = '';
+                                                                        if ($documento['documento_fonte_id'] == 1) {$class = 'pessoa_juridica';}
+                                                                        if ($documento['documento_fonte_id'] == 2) {$class = 'pessoa_fisica';}
+                                                                        if ($documento['documento_fonte_id'] == 3) {$class = 'pessoa_juridica';}
+                                                                    @endphp
+
+                                                                    <option class="{{ $class }}" value="{{ $documento['id'] }}">{{ $documento['name'] }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-12 col-lg-3 mb-3">
+                                                            <label class="form-label">Data Documento</label>
+                                                            <input type="text" class="form-control form-control-sm mask_date" name="cex_documentos_data_documento" id="cex_documentos_data_documento" placeholder="Data do Documento PDF">
+                                                        </div>
+                                                        <div class="col-12 col-lg-3 mb-3">
+                                                            <label class="form-label">Aviso</label>
+                                                            <select class="form-select form-select-sm" name="cex_documentos_aviso" id="cex_documentos_aviso">
+                                                                <option value="0">Nenhum Aviso</option>
+                                                                <option value="1">Avisar a cada 1 mês</option>
+                                                                <option value="2">Avisar a cada 3 meses</option>
+                                                                <option value="3">Avisar a cada 6 meses</option>
+                                                                <option value="4">Avisar a cada 1 ano</option>
+                                                                <option value="5">Avisar a cada 3 anos</option>
+                                                                <option value="6">Avisar a cada 6 anos</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-12 col-lg-3 mb-3">
+                                                            <label class="form-label">Documento (Arquivo)</label>
+                                                            <input type="file" class="form-control form-control-sm" name="cex_documentos_file" id="cex_documentos_file" accept=".pdf">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Incluir Documentos END -->
+
+                        <!-- Documentos -->
+                        <div class="row d-lg-flex flex-lg-grow-1" id="md_cex_div_documentos">
+                            <div class="card mb-0">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos</h5>
+
+                                    <div class="row">
+                                        <div class="col-12 col-lg-12">
+                                            <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE DOCUMENTOS</h6>
+
+                                            <div class="col-12 mb-5" id="cex_documentos_grade_botoes"></div>
+
+                                            <div id="cex_documentos_grade">Nenhum documento encontrado.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Documentos END -->
+                         
+                        <!-- Cartão Emergencial -->
+                        <div class="row d-lg-flex flex-lg-grow-1" id="md_cex_div_cartao_emergencial">
+                            <div class="card mb-0">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4"><i class="fa fa-address-card"></i>&nbsp;&nbsp;Cartão Emergencial</h5>
+
+                                    <div class="row">
+                                        <div class="col-12 col-lg-4">
+                                            <h6 class="col-12 mb-4"><i class="bx bx-card font-size-16"></i>&nbsp;&nbsp;PORTUGUÊS</h6>
+
+                                            <div id="cex_cartao_emergencial_1">Cartão 1</div>
+                                        </div>
+                                        <div class="col-12 col-lg-2">&nbsp;</div>
+                                        <div class="col-12 col-lg-4">
+                                            <h6 class="col-12 mb-4"><i class="bx bx-card font-size-16"></i>&nbsp;&nbsp;INGLÊS</h6>
+
+                                            <div id="cex_cartao_emergencial_2">Cartão 2</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Cartão Emergencial END -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
 </div>

@@ -53,7 +53,7 @@
                                         <input type="text" class="form-control" id="data_proposta_extenso" name="data_proposta_extenso" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
-                                        <label class="form-label">Número</label>
+                                        <label class="form-label">{{ __('Número') }}</label>
                                         <input type="text" class="form-control" id="numero_proposta" name="numero_proposta" readonly>
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
@@ -63,7 +63,7 @@
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Cliente</label>
                                         <select class="form-control" name="cliente_id" id="cliente_id" required="required">
-                                            <option value="">Selecione...</option>
+                                            <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($clientes as $key => $cliente)
                                                 <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
@@ -101,7 +101,7 @@
                                         <div class="form-group col-12 col-md-6 pb-3">
                                             <label class="form-label">Serviço</label>
                                             <select class="form-control" name="ts_servico_id" id="ts_servico_id">
-                                                <option value="">Selecione...</option>
+                                                <option value="">{{ __('Selecione...') }}</option>
 
                                                 @foreach ($servicos as $key => $servico)
                                                     <option value="{{ $servico['id'] }}">{{ $servico['name'] }}</option>

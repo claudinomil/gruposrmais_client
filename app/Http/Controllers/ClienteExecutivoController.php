@@ -21,14 +21,15 @@ class ClienteExecutivoController extends Controller
     public $nacionalidades;
     public $identidade_orgaos;
     public $identidade_estados;
+    public $documentos;
 
     public function __construct()
     {
-        $this->middleware('check-permissao:list', ['only' => ['index', 'filter', 'modal_info', 'documentos']]);
+        $this->middleware('check-permissao:list', ['only' => ['index', 'filter', 'modal_info', 'estatisticas', 'documentos', 'cartoes_emergenciais_dados']]);
         $this->middleware('check-permissao:create', ['only' => ['create', 'store']]);
         $this->middleware('check-permissao:show', ['only' => ['show']]);
-        $this->middleware('check-permissao:edit', ['only' => ['edit', 'update', 'upload_foto', 'upload_documento']]);
-        $this->middleware('check-permissao:destroy', ['only' => ['destroy']]);
+        $this->middleware('check-permissao:edit', ['only' => ['edit', 'update', 'upload_fotografia_documento', 'upload_fotografia_cartao_emergencial', 'upload_documento']]);
+        $this->middleware('check-permissao:destroy', ['only' => ['destroy', 'deletar_documento']]);
     }
 
     public function index(Request $request)
@@ -42,11 +43,11 @@ class ClienteExecutivoController extends Controller
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
-                    ->editColumn('foto', function ($row) {
+                    ->editColumn('fotografia_documento', function ($row) {
                         $retorno = "<div class='text-center'>";
-                        $retorno .= "<img src='" . asset($row['foto']) . "' alt='' class='img-thumbnail avatar-sm' id='datatable_foto_cliente_executivo_id_" . $row['id'] . "'>";
+                        $retorno .= "<img src='" . asset($row['fotografia_documento']) . "' alt='' class='img-thumbnail avatar-sm' id='datatable_fotografia_documento_cliente_executivo_id_" . $row['id'] . "'>";
                         $retorno .= "<br>";
-                        $retorno .= "<a href='#' onclick='clienteExecutivoModalInfo(" . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
+                        $retorno .= "<a href='#' onclick='clienteExecutivoModalInfoControle(2, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
                         $retorno .= "</div>";
 
                         return $retorno;
@@ -76,11 +77,12 @@ class ClienteExecutivoController extends Controller
                 'generos' => $this->generos,
                 'nacionalidades' => $this->nacionalidades,
                 'identidade_orgaos' => $this->identidade_orgaos,
-                'identidade_estados' => $this->identidade_estados
+                'identidade_estados' => $this->identidade_estados,
+                'documentos' => $this->documentos,
             ]);
         }
     }
-
+    
     public function create(Request $request)
     {
         //Verificando Origem enviada pelo Fetch
@@ -140,7 +142,7 @@ class ClienteExecutivoController extends Controller
                 }
 
                 if ($this->content['peso'] != '') {
-                    $this->content['peso'] = number_format($this->content['peso'], 2, ",", ".");
+                    $this->content['peso'] = number_format($this->content['peso'], 3, ",", ".");
                 } else {
                     $this->content['peso'] = '';
                 }
@@ -175,7 +177,7 @@ class ClienteExecutivoController extends Controller
                 }
 
                 if ($this->content['peso'] != '') {
-                    $this->content['peso'] = number_format($this->content['peso'], 2, ",", ".");
+                    $this->content['peso'] = number_format($this->content['peso'], 3, ",", ".");
                 } else {
                     $this->content['peso'] = '';
                 }
@@ -252,11 +254,11 @@ class ClienteExecutivoController extends Controller
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
-                    ->editColumn('foto', function ($row) {
+                    ->editColumn('fotografia_documento', function ($row) {
                         $retorno = "<div class='text-center'>";
-                        $retorno .= "<img src='" . asset($row['foto']) . "' alt='' class='img-thumbnail avatar-sm' id='datatable_foto_cliente_executivo_id_" . $row['id'] . "'>";
+                        $retorno .= "<img src='" . asset($row['fotografia_documento']) . "' alt='' class='img-thumbnail avatar-sm' id='datatable_fotografia_documento_cliente_executivo_id_" . $row['id'] . "'>";
                         $retorno .= "<br>";
-                        $retorno .= "<a href='#' onclick='clienteExecutivoModalInfo(" . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
+                        $retorno .= "<a href='#' onclick='clienteExecutivoModalInfoControle(2, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
                         $retorno .= "</div>";
 
                         return $retorno;
@@ -277,6 +279,213 @@ class ClienteExecutivoController extends Controller
         }
     }
 
+    // public function modal_info($id)
+    // {
+    //     //Verificando Origem enviada pelo Fetch
+    //     if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+    //         //Buscando dados Api_Data() - Registro pelo id
+    //         $this->responseApi(1, 10, 'clientes_executivos/modalInfo/modal_info/' . $id, '', '', '');
+
+    //         //Registro recebido com sucesso
+    //         if ($this->code == 2000) {
+    //             return json_encode($this->content);
+    //         } else if ($this->code == 4040) { //Registro não encontrado
+    //             echo 'Registro não encontrado.';
+    //         } else {
+    //             echo 'Erro Interno Modal Info.';
+    //         }
+    //     }
+    // }
+
+    // public function upload_foto(Request $request)
+    // {
+    //     //Verificando Origem enviada pelo Fetch
+    //     if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+    //         //Variavel controle
+    //         $error = false;
+
+    //         //Foto padrão do Sistema
+    //         $foto = "build/assets/images/clientes_executivos/cliente_executivo-0.png";
+
+    //         //Verificando e fazendo Upload da Foto novo
+    //         if ($request->hasFile('cex_foto_file')) {
+    //             //cliente_executivo_id
+    //             $id = $request['upload_foto_cliente_executivo_id'];
+
+    //             //buscar dados formulario
+    //             $arquivo_tmp = $_FILES["cex_foto_file"]["tmp_name"];
+    //             $arquivo_real = $_FILES["cex_foto_file"]["name"];
+    //             $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
+    //             $arquivo_type = $_FILES["cex_foto_file"]["type"];
+    //             $arquivo_size = $_FILES['cex_foto_file']['size'];
+
+    //             if ($arquivo_type == 'image/jpg' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/png') {
+    //                 if (copy($arquivo_tmp, "build/assets/images/clientes_executivos/$arquivo_real")) {
+    //                     if (file_exists("build/assets/images/clientes_executivos/" . $arquivo_real)) {
+    //                         //apagar foto no diretorio
+    //                         if (file_exists('build/assets/images/clientes_executivos/cliente_executivo-' . $id . '.png')) {
+    //                             unlink('build/assets/images/clientes_executivos/cliente_executivo-' . $id . '.png');
+    //                         }
+    //                         if (file_exists('build/assets/images/clientes_executivos/cliente_executivo-' . $id . '.jpg')) {
+    //                             unlink('build/assets/images/clientes_executivos/cliente_executivo-' . $id . '.jpg');
+    //                         }
+    //                         if (file_exists('build/assets/images/clientes_executivos/cliente_executivo-' . $id . '.jpeg')) {
+    //                             unlink('build/assets/images/clientes_executivos/cliente_executivo-' . $id . '.jpeg');
+    //                         }
+
+    //                         //Gravar novo
+    //                         $foto = "build/assets/images/clientes_executivos/cliente_executivo-" . $id . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+    //                         $de = "build/assets/images/clientes_executivos/$arquivo_real";
+    //                         $pa = $foto;
+
+    //                         try {
+    //                             rename($de, $pa);
+    //                         } catch (\Exception $e) {
+    //                             $error = true;
+    //                         }
+    //                     }
+    //                 }
+    //             } else {
+    //                 return response()->json(['error' => 'Escolha um arquivo de imagem válido.']);
+    //             }
+    //         } else {
+    //             return response()->json(['error' => 'Escolha um arquivo de imagem válido.']);
+    //         }
+
+    //         if (!$error) {
+    //             //Buscando dados Api_Data() - Alterar Registro
+    //             $data = array();
+    //             $data['name'] = $request['upload_foto_cliente_executivo_name'];
+    //             $data['foto'] = $foto;
+    //             $this->responseApi(1, 11, 'clientes_executivos/uploadFoto/upload_foto/' . $id, '', '', $data);
+
+    //             //Registro recebido com sucesso
+    //             if ($this->code == 2000) {
+    //                 return response()->json(['success' => $this->message]);
+    //             } else if ($this->code == 4040) {
+    //                 return response()->json(['error' => $this->message]);
+    //             } else {
+    //                 return response()->json(['error' => 'Erro Interno Upload Avatar.']);
+    //             }
+    //         } else {
+    //             return response()->json(['error' => 'Imagem (Nome, Tamanho ou Tipo) inválida.']);
+    //         }
+    //     } else {
+    //         return response()->json(['error' => 'Erro na requisição Upload Avatar']);
+    //     }
+    // }
+
+    // public function upload_documento(Request $request)
+    // {
+    //     //Verificando Origem enviada pelo Fetch
+    //     if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+    //         //Variavel controle
+    //         $error = false;
+
+    //         //Verificando e fazendo Upload do PDF
+    //         if ($request->hasFile('cex_documentos_file')) {
+    //             //cliente_executivo_id
+    //             $id = $request['upload_documentos_cliente_executivo_id'];
+
+    //             //buscar dados formulario
+    //             $arquivo_tmp = $_FILES["cex_documentos_file"]["tmp_name"];
+    //             $arquivo_real = $_FILES["cex_documentos_file"]["name"];
+    //             $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
+    //             $arquivo_type = $_FILES["cex_documentos_file"]["type"];
+    //             $arquivo_size = $_FILES['cex_documentos_file']['size'];
+
+    //             if ($arquivo_type == 'application/pdf') {
+    //                 if (copy($arquivo_tmp, "build/assets/pdfs/clientes_executivos/$arquivo_real")) {
+    //                     if (file_exists("build/assets/pdfs/clientes_executivos/" . $arquivo_real)) {
+    //                         //renomear para nome id_$id_documento_YmdHis
+    //                         $name = 'id_' . $id . '_documento_' . date('YmdHis');
+    //                         $pdf = "build/assets/pdfs/clientes_executivos/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+    //                         $de = "build/assets/pdfs/clientes_executivos/$arquivo_real";
+    //                         $pa = $pdf;
+
+    //                         try {
+    //                             rename($de, $pa);
+    //                         } catch (\Exception $e) {
+    //                             $error = true;
+    //                         }
+    //                     }
+    //                 }
+    //             } else {
+    //                 return response()->json(['error' => 'Escolha um arquivo pdf válido.']);
+    //             }
+    //         } else {
+    //             return response()->json(['error' => 'Escolha um arquivo pdf.']);
+    //         }
+
+    //         if (!$error) {
+    //             //Salvar Dados na tabela clientes_executivos_documentos
+    //             $data = array();
+    //             $data['cliente_executivo_id'] = $request['upload_documentos_cliente_executivo_id'];
+    //             $data['acao'] = $request['upload_documentos_cex_acao'];
+    //             $data['name'] = $name;
+    //             $data['descricao'] = $request['cex_documentos_descricao'];
+    //             $data['caminho'] = $pdf;
+    //             $data['data_documento'] = $request['cex_documentos_data_documento'];
+    //             $data['aviso'] = $request['cex_documentos_aviso'];
+
+    //             //Buscando dados Api_Data() - Atualizar Registro
+    //             $this->responseApi(1, 12, 'clientes_executivos/uploadDocumento/upload_documento', '', '', $data);
+
+    //             //Registro recebido com sucesso
+    //             if ($this->code == 2000) {
+    //                 return response()->json(['success' => $this->message]);
+    //             } else {
+    //                 return response()->json(['error' => 'Erro Interno Upload Documento PDF.']);
+    //             }
+    //         } else {
+    //             return response()->json(['error' => 'PDF (Nome, Tamanho ou Tipo) inválida.']);
+    //         }
+    //     } else {
+    //         return response()->json(['error' => 'Erro na requisição Upload Documento PDF']);
+    //     }
+    // }
+
+    // public function documentos($cliente_executivo_id)
+    // {
+    //     //Verificando Origem enviada pelo Fetch
+    //     if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+    //         //Buscando dados Api_Data() - Registro pelo id
+    //         $this->responseApi(1, 10, 'clientes_executivos/modalInfo/documentos/' . $cliente_executivo_id, '', '', '');
+
+    //         //Registro recebido com sucesso
+    //         if ($this->code == 2000) {
+    //             return json_encode($this->content);
+    //         } else if ($this->code == 4040) { //Registro não encontrado
+    //             echo 'Registro não encontrado.';
+    //         } else {
+    //             echo 'Erro Interno Documentos Pdf.';
+    //         }
+    //     }
+    // }
+
+    // public function deletar_documento($cliente_executivo_documento_id)
+    // {
+    //     //Buscando dados Api_Data() - Deletar Registro
+    //     $this->responseApi(1, 6, 'clientes_executivos/modalInfo/deletar_documento', $cliente_executivo_documento_id, '', '');
+
+    //     //Registro deletado com sucesso
+    //     if ($this->code == 2000) {
+    //         //Apagar arquivo
+    //         $caminhoArquivo = $this->content;
+
+    //         if (file_exists($caminhoArquivo)) {
+    //             unlink($caminhoArquivo);
+    //         }
+
+    //         return response()->json(['success' => $this->message]);
+    //     } else {
+    //         return response()->json(['error' => $this->message]);
+    //     }
+    // }
+
+
+
+
     public function modal_info($id)
     {
         //Verificando Origem enviada pelo Fetch
@@ -295,46 +504,51 @@ class ClienteExecutivoController extends Controller
         }
     }
 
-    public function upload_foto(Request $request)
+    public function estatisticas($id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'clientes_executivos/modalInfo/estatisticas/' . $id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Modal Info.';
+            }
+        }
+    }
+
+    public function upload_fotografia_documento(Request $request)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Variavel controle
             $error = false;
 
-            //Foto padrão do Sistema
-            $foto = "build/assets/images/clientes_executivos/cliente_executivo-0.png";
-
-            //Verificando e fazendo Upload da Foto novo
-            if ($request->hasFile('cex_foto_file')) {
+            //Verificando e fazendo Upload do Arquivo
+            if ($request->hasFile('cex_fotografia_documento_file')) {
                 //cliente_executivo_id
-                $id = $request['upload_foto_cliente_executivo_id'];
+                $id = $request['upload_fotografia_documento_cliente_executivo_id'];
 
                 //buscar dados formulario
-                $arquivo_tmp = $_FILES["cex_foto_file"]["tmp_name"];
-                $arquivo_real = $_FILES["cex_foto_file"]["name"];
+                $arquivo_tmp = $_FILES["cex_fotografia_documento_file"]["tmp_name"];
+                $arquivo_real = $_FILES["cex_fotografia_documento_file"]["name"];
                 $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
-                $arquivo_type = $_FILES["cex_foto_file"]["type"];
-                $arquivo_size = $_FILES['cex_foto_file']['size'];
+                $arquivo_type = $_FILES["cex_fotografia_documento_file"]["type"];
+                $arquivo_size = $_FILES['cex_fotografia_documento_file']['size'];
 
-                if ($arquivo_type == 'image/jpg' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/png') {
+                if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
                     if (copy($arquivo_tmp, "build/assets/images/clientes_executivos/$arquivo_real")) {
                         if (file_exists("build/assets/images/clientes_executivos/" . $arquivo_real)) {
-                            //apagar foto no diretorio
-                            if (file_exists('build/assets/images/clientes_executivos/cliente_executivo-' . $id . '.png')) {
-                                unlink('build/assets/images/clientes_executivos/cliente_executivo-' . $id . '.png');
-                            }
-                            if (file_exists('build/assets/images/clientes_executivos/cliente_executivo-' . $id . '.jpg')) {
-                                unlink('build/assets/images/clientes_executivos/cliente_executivo-' . $id . '.jpg');
-                            }
-                            if (file_exists('build/assets/images/clientes_executivos/cliente_executivo-' . $id . '.jpeg')) {
-                                unlink('build/assets/images/clientes_executivos/cliente_executivo-' . $id . '.jpeg');
-                            }
-
-                            //Gravar novo
-                            $foto = "build/assets/images/clientes_executivos/cliente_executivo-" . $id . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+                            //renomear para fotografia_documento_ID
+                            $name = 'fotografia_documento_' . $id;
+                            $img = "build/assets/images/clientes_executivos/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
                             $de = "build/assets/images/clientes_executivos/$arquivo_real";
-                            $pa = $foto;
+                            $pa = $img;
 
                             try {
                                 rename($de, $pa);
@@ -344,32 +558,97 @@ class ClienteExecutivoController extends Controller
                         }
                     }
                 } else {
-                    return response()->json(['error' => 'Escolha um arquivo de imagem válido.']);
+                    return response()->json(['error' => 'Escolha um arquivo válido.']);
                 }
             } else {
-                return response()->json(['error' => 'Escolha um arquivo de imagem válido.']);
+                return response()->json(['error' => 'Escolha um arquivo válido.']);
             }
 
             if (!$error) {
-                //Buscando dados Api_Data() - Alterar Registro
+                //Salvar Dados na tabela clientes_executivos
                 $data = array();
-                $data['name'] = $request['upload_foto_cliente_executivo_name'];
-                $data['foto'] = $foto;
-                $this->responseApi(1, 11, 'clientes_executivos/uploadFoto/upload_foto/' . $id, '', '', $data);
+                $data['cliente_executivo_id'] = $request['upload_fotografia_documento_cliente_executivo_id'];
+                $data['fotografia_documento'] = $img;
+
+                //Buscando dados Api_Data() - Atualizar Registro
+                $this->responseApi(1, 12, 'clientes_executivos/uploadFotografia/upload_fotografia_documento', '', '', $data);
 
                 //Registro recebido com sucesso
                 if ($this->code == 2000) {
                     return response()->json(['success' => $this->message]);
-                } else if ($this->code == 4040) {
-                    return response()->json(['error' => $this->message]);
                 } else {
-                    return response()->json(['error' => 'Erro Interno Upload Avatar.']);
+                    return response()->json(['error' => 'Erro Interno Upload Fotografia Documento.']);
                 }
             } else {
-                return response()->json(['error' => 'Imagem (Nome, Tamanho ou Tipo) inválida.']);
+                return response()->json(['error' => 'IMG (Nome, Tamanho ou Tipo) inválida.']);
             }
         } else {
-            return response()->json(['error' => 'Erro na requisição Upload Avatar']);
+            return response()->json(['error' => 'Erro na requisição Upload Fotografia Documento']);
+        }
+    }
+
+    public function upload_fotografia_cartao_emergencial(Request $request)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Variavel controle
+            $error = false;
+
+            //Verificando e fazendo Upload do Arquivo
+            if ($request->hasFile('cex_fotografia_cartao_emergencial_file')) {
+                //cliente_executivo_id
+                $id = $request['upload_fotografia_cartao_emergencial_cliente_executivo_id'];
+
+                //buscar dados formulario
+                $arquivo_tmp = $_FILES["cex_fotografia_cartao_emergencial_file"]["tmp_name"];
+                $arquivo_real = $_FILES["cex_fotografia_cartao_emergencial_file"]["name"];
+                $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
+                $arquivo_type = $_FILES["cex_fotografia_cartao_emergencial_file"]["type"];
+                $arquivo_size = $_FILES['cex_fotografia_cartao_emergencial_file']['size'];
+
+                if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
+                    if (copy($arquivo_tmp, "build/assets/images/clientes_executivos/$arquivo_real")) {
+                        if (file_exists("build/assets/images/clientes_executivos/" . $arquivo_real)) {
+                            //renomear para fotografia_cartao_emergencial_ID
+                            $name = 'fotografia_cartao_emergencial_' . $id;
+                            $img = "build/assets/images/clientes_executivos/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+                            $de = "build/assets/images/clientes_executivos/$arquivo_real";
+                            $pa = $img;
+
+                            try {
+                                rename($de, $pa);
+                            } catch (\Exception $e) {
+                                $error = true;
+                            }
+                        }
+                    }
+                } else {
+                    return response()->json(['error' => 'Escolha um arquivo válido.']);
+                }
+            } else {
+                return response()->json(['error' => 'Escolha um arquivo válido.']);
+            }
+
+            if (!$error) {
+                //Salvar Dados na tabela clientes_executivos
+                $data = array();
+                $data['cliente_executivo_id'] = $request['upload_fotografia_cartao_emergencial_cliente_executivo_id'];
+                $data['fotografia_cartao_emergencial'] = $img;
+
+                //Buscando dados Api_Data() - Atualizar Registro
+                $this->responseApi(1, 12, 'clientes_executivos/uploadFotografia/upload_fotografia_cartao_emergencial', '', '', $data);
+
+                //Registro recebido com sucesso
+                if ($this->code == 2000) {
+                    return response()->json(['success' => $this->message]);
+                } else {
+                    return response()->json(['error' => 'Erro Interno Upload Fotografia Cartão Emergencial.']);
+                }
+            } else {
+                return response()->json(['error' => 'IMG (Nome, Tamanho ou Tipo) inválida.']);
+            }
+        } else {
+            return response()->json(['error' => 'Erro na requisição Upload Fotografia Cartão Emergencial']);
         }
     }
 
@@ -412,7 +691,7 @@ class ClienteExecutivoController extends Controller
                     return response()->json(['error' => 'Escolha um arquivo pdf válido.']);
                 }
             } else {
-                return response()->json(['error' => 'Escolha um arquivo pdf.']);
+                return response()->json(['error' => 'Escolha um arquivo pdf válido.']);
             }
 
             if (!$error) {
@@ -421,7 +700,7 @@ class ClienteExecutivoController extends Controller
                 $data['cliente_executivo_id'] = $request['upload_documentos_cliente_executivo_id'];
                 $data['acao'] = $request['upload_documentos_cex_acao'];
                 $data['name'] = $name;
-                $data['descricao'] = $request['cex_documentos_descricao'];
+                $data['documento_id'] = $request['cex_documentos_documento_id'];
                 $data['caminho'] = $pdf;
                 $data['data_documento'] = $request['cex_documentos_data_documento'];
                 $data['aviso'] = $request['cex_documentos_aviso'];
@@ -480,7 +759,7 @@ class ClienteExecutivoController extends Controller
             return response()->json(['error' => $this->message]);
         }
     }
-
+    
     public function cartoes_emergenciais_dados($ids)
     {
         //Verificando Origem enviada pelo Fetch
