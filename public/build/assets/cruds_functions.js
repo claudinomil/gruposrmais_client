@@ -525,6 +525,17 @@ function crudCreate() {
                 esc_controleDisplay();
                 ger_controleDisplay();
             }
+
+            if (prefixPermissaoSubmodulo == 'pontos_interesse') {
+                // Configurar Tela
+                configurarTela();
+
+                // Desmarcar especialidades
+                const elementos = document.querySelectorAll('.class_input_especialidade');
+                elementos.forEach(function(elemento) {
+                    elemento.checked = false;
+                });
+            }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         } else if (data.error_permissao) {
             alertSwal('warning', "Permissão Negada", '', 'true', 2000);
@@ -967,6 +978,17 @@ function crudView(registro_id) {
 
                 // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            }
+
+            if (prefixPermissaoSubmodulo == 'pontos_interesse') {
+                // Configurar Tela
+                configurarTela();
+
+                // Marcar especialidades
+                const especialidades = data.success['especialidades'];
+                especialidades.forEach(function(item) {
+                    document.getElementById('especialidade_' + item['especialidade_id']).checked = true;
+                });
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -1434,6 +1456,17 @@ async function crudEdit(registro_id) {
 
                 // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            }
+
+            if (prefixPermissaoSubmodulo == 'pontos_interesse') {
+                // Configurar Tela
+                configurarTela();
+
+                // Marcar especialidades
+                const especialidades = data.success['especialidades'];
+                especialidades.forEach(function(item) {
+                    document.getElementById('especialidade_' + item['especialidade_id']).checked = true;
+                });
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 

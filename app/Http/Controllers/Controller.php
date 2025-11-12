@@ -87,7 +87,8 @@ class Controller extends BaseController
             if (isset($response['content']['veiculos'])) {$this->veiculos = $response['content']['veiculos'];}
             if (isset($response['content']['clientes_executivos'])) {$this->clientes_executivos = $response['content']['clientes_executivos'];}
             if (isset($response['content']['relatorios'])) {$this->relatorios = $response['content']['relatorios'];}
-            if (isset($response['content']['mapas_pontos_tipos'])) {$this->mapas_pontos_tipos = $response['content']['mapas_pontos_tipos'];}
+            if (isset($response['content']['pontos_tipos'])) {$this->pontos_tipos = $response['content']['pontos_tipos'];}
+            if (isset($response['content']['pontos_naturezas'])) {$this->pontos_naturezas = $response['content']['pontos_naturezas'];}
             if (isset($response['content']['ordens_servicos'])) {$this->ordens_servicos = $response['content']['ordens_servicos'];}
             if (isset($response['content']['documentos'])) {$this->documentos = $response['content']['documentos'];}
             if (isset($response['content']['motivos_demissoes'])) {$this->motivos_demissoes = $response['content']['motivos_demissoes'];}
@@ -98,6 +99,7 @@ class Controller extends BaseController
             if (isset($response['content']['material_categorias'])) {$this->material_categorias = $response['content']['material_categorias'];}
             if (isset($response['content']['materiais'])) {$this->materiais = $response['content']['materiais'];}
             if (isset($response['content']['escala_tipos'])) {$this->escala_tipos = $response['content']['escala_tipos'];}
+            if (isset($response['content']['especialidades'])) {$this->especialidades = $response['content']['especialidades'];}
         }
     }
 

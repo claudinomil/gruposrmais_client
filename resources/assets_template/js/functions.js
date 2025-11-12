@@ -3223,7 +3223,9 @@ function pesquisacep_repeater(indice) {
 /*
 * Função que verifica o locale do Sistema e traduz usando os arquivos pt_BR.json e en.json
 */
-async function traduzirViaLocale(texto) {
+async function traduzirViaLocale(texto='') {
+    if (texto == '') {return texto;}
+
     const response = await fetch('/translate?key=' + encodeURIComponent(texto));
     const data = await response.json();
     if (data.translation != '') {

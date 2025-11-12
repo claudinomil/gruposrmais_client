@@ -529,7 +529,7 @@
                                     </div>
                                     <div class="form-group col-12 col-md-6 pb-3">
                                         <div class="mt-4 bg-light p-2">
-                                            <h5 class="font-size-14 mb-4"><i class="mdi mdi-arrow-right text-primary me-1"></i> Contato Emergencial 1</h5>
+                                            <h5 class="font-size-14 mb-4"><i class="mdi mdi-arrow-right text-primary me-1"></i> {{ __('Contato Emergencial') }} 1</h5>
                                             <div class="row">
                                                 <div class="form-group col-12 col-md-6 pb-3">
                                                     <label class="form-label">{{ __('Nome') }}</label>
@@ -552,7 +552,7 @@
                                     </div>
                                     <div class="form-group col-12 col-md-6 pb-3">
                                         <div class="mt-4 bg-light p-2">
-                                            <h5 class="font-size-14 mb-4"><i class="mdi mdi-arrow-right text-primary me-1"></i> Contato Emergencial 2</h5>
+                                            <h5 class="font-size-14 mb-4"><i class="mdi mdi-arrow-right text-primary me-1"></i> {{ __('Contato Emergencial') }} 2</h5>
                                             <div class="row">
                                                 <div class="form-group col-12 col-md-6 pb-3">
                                                     <label class="form-label">{{ __('Nome') }}</label>

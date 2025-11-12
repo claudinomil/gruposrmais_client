@@ -12,7 +12,6 @@
 
     <div id="crudTable">
         <div class="row">
-
             @if ($dashboardsUsers == 1)
                 <div class="col-12 col-md-4">
                     <div class="card">
@@ -20,12 +19,12 @@
                             <div class="text-center">
                                 <div class="mb-1">
                                     <i class="bx bx-user text-primary display-4"></i>
-                                    <p class="h3 text-primary">Usuários</p>
+                                    <p class="h3 text-primary">{{ __('Usuários') }}</p>
                                     <h3>{{$content['dashboardsUsersQtd']}}</h3>
                                 </div>
                             </div>
                             <div class="table-responsive mt-4">
-                                <h4>Grupos:</h4>
+                                <h4>{{ __('Grupos') }}:</h4>
                                 <table class="table align-middle table-nowrap">
                                     <tbody>
 
@@ -39,7 +38,7 @@
                                         @endphp
 
                                         <tr>
-                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{$grupo['name']}}</p></td>
+                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{ __($grupo['name']) }}</p></td>
                                             <td class="text-end" style="width: 25%"><h5 class="mb-0">{{$grupo['qtd']}}</h5></td>
                                             <td class="px-0" style="width: 30%">
                                                 <div class="progress bg-transparent progress-sm">
@@ -53,7 +52,7 @@
                                     </tbody>
                                 </table>
 
-                                <h4>Situações:</h4>
+                                <h4>{{ __('Situações') }}:</h4>
                                 <table class="table align-middle table-nowrap">
                                     <tbody>
 
@@ -67,7 +66,7 @@
                                         @endphp
 
                                         <tr>
-                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{$situacao['name']}}</p></td>
+                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{ __($situacao['name'])}}</p></td>
                                             <td class="text-end" style="width: 25%"><h5 class="mb-0">{{$situacao['qtd']}}</h5></td>
                                             <td class="px-0" style="width: 30%">
                                                 <div class="progress bg-transparent progress-sm">
@@ -93,12 +92,12 @@
                             <div class="text-center">
                                 <div class="mb-1">
                                     <i class="bx bx-female text-primary display-4"></i>
-                                    <p class="h3 text-primary">Funcionários</p>
+                                    <p class="h3 text-primary">{{ __('Funcionários') }}</p>
                                     <h3>{{$content['dashboardsFuncionariosQtd']}}</h3>
                                 </div>
                             </div>
                             <div class="table-responsive mt-4">
-                                <h4>Contratações:</h4>
+                                <h4>{{ __('Contratações') }}:</h4>
                                 <table class="table align-middle table-nowrap">
                                     <tbody>
 
@@ -112,7 +111,7 @@
                                         @endphp
 
                                         <tr>
-                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{$contratacao['name']}}</p></td>
+                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{ __($contratacao['name']) }}</p></td>
                                             <td class="text-end" style="width: 25%"><h5 class="mb-0">{{$contratacao['qtd']}}</h5></td>
                                             <td class="px-0" style="width: 30%">
                                                 <div class="progress bg-transparent progress-sm">
@@ -126,7 +125,7 @@
                                     </tbody>
                                 </table>
 
-                                <h4>Funções:</h4>
+                                <h4>{{ __('Funções') }}:</h4>
                                 <table class="table align-middle table-nowrap">
                                     <tbody>
 
@@ -140,7 +139,7 @@
                                         @endphp
 
                                         <tr>
-                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{$funcao['name']}}</p></td>
+                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{ __($funcao['name']) }}</p></td>
                                             <td class="text-end" style="width: 25%"><h5 class="mb-0">{{$funcao['qtd']}}</h5></td>
                                             <td class="px-0" style="width: 30%">
                                                 <div class="progress bg-transparent progress-sm">
@@ -154,7 +153,7 @@
                                     </tbody>
                                 </table>
 
-                                <h4>Gêneros:</h4>
+                                <h4>{{ __('Gêneros') }}:</h4>
                                 <table class="table align-middle table-nowrap">
                                     <tbody>
 
@@ -168,7 +167,7 @@
                                         @endphp
 
                                         <tr>
-                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{$genero['name']}}</p></td>
+                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{ __($genero['name']) }}</p></td>
                                             <td class="text-end" style="width: 25%"><h5 class="mb-0">{{$genero['qtd']}}</h5></td>
                                             <td class="px-0" style="width: 30%">
                                                 <div class="progress bg-transparent progress-sm">
@@ -194,12 +193,12 @@
                             <div class="text-center">
                                 <div class="mb-1">
                                     <i class="bx bx-male text-primary display-4"></i>
-                                    <p class="h3 text-primary">Clientes</p>
+                                    <p class="h3 text-primary">{{ __('Clientes') }}</p>
                                     <h3>{{$content['dashboardsClientesQtd']}}</h3>
                                 </div>
                             </div>
                             <div class="table-responsive mt-4">
-                                <h4>Funções:</h4>
+                                <h4>{{ __('Funções') }}:</h4>
                                 <table class="table align-middle table-nowrap">
                                     <tbody>
 
@@ -217,7 +216,7 @@
                                         @endphp
 
                                         <tr>
-                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{$status_name}}</p></td>
+                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{ __($status_name) }}</p></td>
                                             <td class="text-end" style="width: 25%"><h5 class="mb-0">{{$status['qtd']}}</h5></td>
                                             <td class="px-0" style="width: 30%">
                                                 <div class="progress bg-transparent progress-sm">
@@ -231,7 +230,7 @@
                                     </tbody>
                                 </table>
 
-                                <h4>Tipos:</h4>
+                                <h4>{{ __('Tipos') }}:</h4>
                                 <table class="table align-middle table-nowrap">
                                     <tbody>
 
@@ -249,7 +248,7 @@
                                         @endphp
 
                                         <tr>
-                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{$tipo_name}}</p></td>
+                                            <td class="px-0" style="width: 30%"><p class="mb-0">{{ __($tipo_name) }}</p></td>
                                             <td class="text-end" style="width: 25%"><h5 class="mb-0">{{$tipo['qtd']}}</h5></td>
                                             <td class="px-0" style="width: 30%">
                                                 <div class="progress bg-transparent progress-sm">
@@ -273,4 +272,9 @@
 @endsection
 
 @section('script')
+    <!-- E-Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@6/dist/echarts.min.js"></script>
+
+    <!-- scripts_dashboards.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_dashboards.js')}}"></script>
 @endsection

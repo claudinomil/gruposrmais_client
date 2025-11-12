@@ -118,6 +118,11 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_bancos.js"
 },
+"resources/assets_template/js/scripts_dashboards.js": {
+"file": "assets/scripts_dashboards.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_dashboards.js"
+},
 "resources/assets_template/js/scripts_materiais.js": {
 "file": "assets/scripts_materiais.js",
 "isEntry": true,
@@ -178,10 +183,10 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_mapas.js"
 },
-"resources/assets_template/js/scripts_mapas_pontos_interesse.js": {
-"file": "assets/scripts_mapas_pontos_interesse.js",
+"resources/assets_template/js/scripts_pontos_interesse.js": {
+"file": "assets/scripts_pontos_interesse.js",
 "isEntry": true,
-"src": "resources/assets_template/js/scripts_mapas_pontos_interesse.js"
+"src": "resources/assets_template/js/scripts_pontos_interesse.js"
 },
 "resources/assets_template/js/scripts_relatorios.js": {
 "file": "assets/scripts_relatorios.js",

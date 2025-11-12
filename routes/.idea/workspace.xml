@@ -343,7 +343,7 @@
       <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_grupos.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_identidade_orgaos.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_mapas.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_mapas_pontos_interesse.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_pontos_interesse.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_modulos.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_nacionalidades.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../public/build/assets/scripts_naturalidades.js" beforeDir="false" />
@@ -532,7 +532,7 @@
       <change beforePath="$PROJECT_DIR$/../resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/layouts/app.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../resources/views/layouts/modals.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/layouts/modals.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../resources/views/mapas/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/mapas/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resources/views/mapas_pontos_interesse/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/mapas_pontos_interesse/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/pontos_interesse/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/pontos_interesse/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../resources/views/nacionalidades/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/nacionalidades/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../resources/views/naturalidades/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/naturalidades/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../resources/views/ordens_servicos/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/ordens_servicos/form.blade.php" afterDir="false" />

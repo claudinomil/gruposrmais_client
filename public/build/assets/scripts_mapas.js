@@ -90,8 +90,8 @@ async function mapItensEditar(dado, excluir=false) {
         id: dado.id ?? null,
         mapa_id: dado.mapa_id ?? null,
         item_tipo_id: dado.item_tipo_id ?? null,
-        mapa_ponto_tipo_id: dado.mapa_ponto_tipo_id ?? null,
-        mapa_ponto_tipo: dado.mapa_ponto_tipo ?? null,
+        ponto_tipo_id: dado.ponto_tipo_id ?? null,
+        ponto_tipo: dado.ponto_tipo ?? null,
         ordem_servico_id: dado.ordem_servico_id ?? null,
         item_name: dado.item_name ?? null,
         item_descricao: dado.item_descricao ?? null,
@@ -137,8 +137,8 @@ async function mapItensPontoInteresseIndividual(dado) {
             id: dado.id ?? null,
             mapa_id: dado.mapa_id ?? null,
             item_tipo_id: 1,
-            mapa_ponto_tipo_id: dado.mapa_ponto_tipo_id ?? null,
-            mapa_ponto_tipo: dado.mapa_ponto_tipo ?? null,
+            ponto_tipo_id: dado.ponto_tipo_id ?? null,
+            ponto_tipo: dado.ponto_tipo ?? null,
             ordem_servico_id: dado.ordem_servico_id ?? null,
             item_name: dado.name ?? null,
             item_descricao: dado.descricao ?? null,
@@ -239,12 +239,12 @@ function pontosInteresseIndividualAutocompleteMudarCor(map_item_id=0) {
 
 //Ponto Interesse Grupo - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Ponto Interesse Grupo - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-async function mapItensPontosInteresseGrupo(mapa_ponto_tipo_id=0) {
-    if (mapa_ponto_tipo_id == 0) {return false;}
+async function mapItensPontosInteresseGrupo(ponto_tipo_id=0) {
+    if (ponto_tipo_id == 0) {return false;}
 
     try {
         //Buscando Pontos
-        const res = await fetch(url_atual + 'mapas_pontos_interesse/mapa_pontos_tipo/'+mapa_ponto_tipo_id, {method: 'GET', headers: {'REQUEST-ORIGIN': 'fetch'}});
+        const res = await fetch(url_atual + 'pontos_interesse/pontos_tipo/'+ponto_tipo_id, {method: 'GET', headers: {'REQUEST-ORIGIN': 'fetch'}});
         const json = await res.json();
         const pontosInteresse = json.success;
 
@@ -258,8 +258,8 @@ async function mapItensPontosInteresseGrupo(mapa_ponto_tipo_id=0) {
                 id: dado.id ?? null,
                 mapa_id: dado.mapa_id ?? null,
                 item_tipo_id: 2,
-                mapa_ponto_tipo_id: dado.mapa_ponto_tipo_id ?? null,
-                mapa_ponto_tipo: dado.mapa_ponto_tipo ?? null,
+                ponto_tipo_id: dado.ponto_tipo_id ?? null,
+                ponto_tipo: dado.ponto_tipo ?? null,
                 ordem_servico_id: dado.ordem_servico_id ?? null,
                 item_name: dado.name ?? null,
                 item_descricao: dado.descricao ?? null,
@@ -310,8 +310,8 @@ async function mapItensPontoPersonalizado(form) {
             id: null,
             mapa_id: null,
             item_tipo_id: 3,
-            mapa_ponto_tipo_id: form.mapa_ponto_tipo_id.value ?? null,
-            mapa_ponto_tipo: form.mapa_ponto_tipo_id.text ?? null,
+            ponto_tipo_id: form.ponto_tipo_id.value ?? null,
+            ponto_tipo: form.ponto_tipo_id.text ?? null,
             ordem_servico_id: null,
             item_name: form.name.value ?? null,
             item_descricao: form.descricao.value ?? null,
@@ -348,8 +348,8 @@ function validarFormPontoPersonalizado() {
     var validacao_ok = true;
     var mensagem = '';
 
-    //Campo: mapa_ponto_tipo_id (requerido)
-    if (validacao({op:1, value:document.getElementById('mapa_ponto_tipo_id').value}) === false) {
+    //Campo: ponto_tipo_id (requerido)
+    if (validacao({op:1, value:document.getElementById('ponto_tipo_id').value}) === false) {
         validacao_ok = false;
         mensagem += 'Ponto tipo requerido.'+'<br>';
     }
@@ -419,8 +419,8 @@ async function mapItensPontosGoogle(poi) {
             id: null,
             mapa_id: null,
             item_tipo_id: 4,
-            mapa_ponto_tipo_id: null,
-            mapa_ponto_tipo: null,
+            ponto_tipo_id: null,
+            ponto_tipo: null,
             ordem_servico_id: null,
             item_name: null,
             item_descricao: null,
@@ -469,8 +469,8 @@ async function mapItensRotaPersonalizada(form) {
             id: null,
             mapa_id: null,
             item_tipo_id: 5,
-            mapa_ponto_tipo_id: null,
-            mapa_ponto_tipo: null,
+            ponto_tipo_id: null,
+            ponto_tipo: null,
             ordem_servico_id: null,
             item_name: form.rota_name.value ?? null,
             item_descricao: form.rota_descricao.value ?? null,
@@ -572,8 +572,8 @@ async function mapItensRotaOrdemServico(dado) {
             id: null,
             mapa_id: null,
             item_tipo_id: 6,
-            mapa_ponto_tipo_id: null,
-            mapa_ponto_tipo: null,
+            ponto_tipo_id: null,
+            ponto_tipo: null,
             ordem_servico_id: null,
             item_name: dado.rota_name ?? null,
             item_descricao: dado.rota_descricao ?? null,
@@ -662,8 +662,8 @@ async function mapItensPoligonosComunidades() {
             id: null,
             mapa_id: null,
             item_tipo_id: 7,
-            mapa_ponto_tipo_id: null,
-            mapa_ponto_tipo: null,
+            ponto_tipo_id: null,
+            ponto_tipo: null,
             ordem_servico_id: null,
             item_name: null,
             item_descricao: null,
@@ -714,9 +714,9 @@ function mapItensGrade() {
         var itemTexto = '';
 
         mapItens.forEach(item => {
-            if (item.item_tipo_id == 1) {itemTexto = item.map_item+'<br>'+item.mapa_ponto_tipo+'<br>'+item.item_name;}
-            if (item.item_tipo_id == 2) {itemTexto = item.map_item+'<br>'+item.mapa_ponto_tipo+'<br>'+item.item_name;}
-            if (item.item_tipo_id == 3) {itemTexto = item.map_item+'<br>'+item.mapa_ponto_tipo+'<br>'+item.item_name;}
+            if (item.item_tipo_id == 1) {itemTexto = item.map_item+'<br>'+item.ponto_tipo+'<br>'+item.item_name;}
+            if (item.item_tipo_id == 2) {itemTexto = item.map_item+'<br>'+item.ponto_tipo+'<br>'+item.item_name;}
+            if (item.item_tipo_id == 3) {itemTexto = item.map_item+'<br>'+item.ponto_tipo+'<br>'+item.item_name;}
             if (item.item_tipo_id == 4) {itemTexto = item.map_item+'<br>'+'POI: '+item.google_grupo;}
             if (item.item_tipo_id == 5) {itemTexto = item.map_item+'<br>'+item.item_name;}
             if (item.item_tipo_id == 6) {itemTexto = item.map_item+'<br>'+item.item_name+'<br>'+item.item_descricao;}
@@ -1112,7 +1112,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //         const ocorrencias = await res.json();
 //
 //         //Filtrar ocorrências com base nos pontosTiposSelecionados
-//         const ocorrenciasFiltradas = ocorrencias.filter(o => pontosTiposSelecionados.includes(String(o.mapa_ponto_tipo_id)));
+//         const ocorrenciasFiltradas = ocorrencias.filter(o => pontosTiposSelecionados.includes(String(o.ponto_tipo_id)));
 //
 //         //Pontos iniciais e centro do mapa
 //         const lagoa = { lat: -22.970722, lng: -43.219185 };
@@ -1697,7 +1697,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //         const ocorrencias = await res.json();
 //
 //         //Filtrar ocorrências com base nos pontosTiposSelecionados
-//         const ocorrenciasFiltradas = ocorrencias.filter(o => pontosTiposSelecionados.includes(String(o.mapa_ponto_tipo_id)));
+//         const ocorrenciasFiltradas = ocorrencias.filter(o => pontosTiposSelecionados.includes(String(o.ponto_tipo_id)));
 //
 //         //Pontos iniciais e centro do mapa
 //         const lagoa = { lat: -22.970722, lng: -43.219185 };

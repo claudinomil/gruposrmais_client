@@ -263,7 +263,7 @@
                                                         <div class="row" id="esc_modalBrigadistasDados"></div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('Fechar') }}</button>
                                                     </div>
                                                 </div>
                                             </div>

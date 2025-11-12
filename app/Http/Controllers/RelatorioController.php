@@ -35,6 +35,8 @@ class RelatorioController extends Controller
             $operacoes = $this->content['operacoes'];
             $clientes_executivos = $this->content['clientes_executivos'];
             $funcionarios = $this->content['funcionarios'];
+            $pontos_tipos = $this->content['pontos_tipos'];
+            $pontos_naturezas = $this->content['pontos_naturezas'];
         } else {
             $grupos = [];
             $situacoes = [];
@@ -43,6 +45,8 @@ class RelatorioController extends Controller
             $operacoes = [];
             $clientes_executivos = [];
             $funcionarios = [];
+            $pontos_tipos = [];
+            $pontos_naturezas = [];
         }
 
         return view('relatorios.index', [
@@ -52,7 +56,9 @@ class RelatorioController extends Controller
             'submodulos' => $submodulos,
             'operacoes' => $operacoes,
             'clientes_executivos' => $clientes_executivos,
-            'funcionarios' => $funcionarios
+            'funcionarios' => $funcionarios,
+            'pontos_tipos' => $pontos_tipos,
+            'pontos_naturezas' => $pontos_naturezas
         ]);
     }
 
@@ -121,6 +127,22 @@ class RelatorioController extends Controller
         if ($request->ajax()) {
             //Buscando dados Api_Data() - Dados
             $this->responseApi(1, 10, 'relatorios/relatorio6/' . $data_inicio . '/' . $data_fim . '/' . $cidade_id . '/' . $cidade . '/' . $idioma, '', '', '');
+
+            //Dados recebidos com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            } else {
+                return response()->json(['error' => 'Erro Interno Relatórios']);
+            }
+        }
+    }
+
+    public function relatorio8(Request $request, $ponto_tipo_id, $ponto_natureza_id, $idioma)
+    {
+        //Requisição Ajax
+        if ($request->ajax()) {
+            //Buscando dados Api_Data() - Dados
+            $this->responseApi(1, 10, 'relatorios/relatorio8/' . $ponto_tipo_id . '/' . $ponto_natureza_id . '/' . $idioma, '', '', '');
 
             //Dados recebidos com sucesso
             if ($this->code == 2000) {

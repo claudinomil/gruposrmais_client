@@ -264,6 +264,53 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Relatorio 8 -->
+    <div class="modal fade bs-example-modal-sm" id="modal_relatorio8" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_relatorio8_titulo">Xxxxxxxxxxxx</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-12 pb-3">
+                            <label class="form-label">{{ __('Tipo') }}</label>
+                            <select class="form-select" name="modal_relatorio8_ponto_tipo_id" id="modal_relatorio8_ponto_tipo_id">
+                                <option value="0">{{ __('Todos os Tipos') }}</option>
+                                @foreach ($pontos_tipos as $pontos_tipo)
+                                    <option value="{{$pontos_tipo['id']}}">{{$pontos_tipo['name']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-12 pb-3">
+                            <label class="form-label">{{ __('Natureza') }}</label>
+                            <select class="form-select" name="modal_relatorio8_ponto_natureza_id" id="modal_relatorio8_ponto_natureza_id">
+                                <option value="0">{{ __('Todos as Naturezas') }}</option>
+                                @foreach ($pontos_naturezas as $pontos_natureza)
+                                    <option value="{{$pontos_natureza['id']}}">{{$pontos_natureza['name']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-12 pb-3">
+                            <label class="form-label">{{ __('Idioma') }}</label>
+                            <select class="form-select" name="modal_relatorio8_idioma" id="modal_relatorio8_idioma">
+                                <option value="1">{{ __('Português') }}</option>
+                                <option value="2">{{ __('Inglês') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12 text-end">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio8_cancelar">{{ __('Cancelar') }}</button>
+                        <button type="button" class="btn btn-primary" onclick="relatorio8(2)">{{ __('Gerar') }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 

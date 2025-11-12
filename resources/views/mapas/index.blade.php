@@ -54,9 +54,9 @@
                 <div class="col-md-6">
                     <a href="#" class="btn btn-info btn-sm dropdown-toggle w-100" data-bs-toggle="dropdown" aria-expanded="false">POIs Sistema Grupo <i class="mdi mdi-chevron-down"></i></a>
                     <div class="dropdown-menu p-2">
-                        @foreach ($mapas_pontos_tipos as $mapa_ponto_tipo)
-                            <a href="#" class="dropdown-item small text-info ps-1" onclick="mapItensPontosInteresseGrupo({{ $mapa_ponto_tipo['id'] }});">
-                                <i class="fa fa-map-marked me-1 font-size-14"></i> POI's Sistema ({{ $mapa_ponto_tipo['name'] }})
+                        @foreach ($pontos_tipos as $ponto_tipo)
+                            <a href="#" class="dropdown-item small text-info ps-1" onclick="mapItensPontosInteresseGrupo({{ $ponto_tipo['id'] }});">
+                                <i class="fa fa-map-marked me-1 font-size-14"></i> POI's Sistema ({{ $ponto_tipo['name'] }})
                             </a>
                         @endforeach
                     </div>
@@ -140,11 +140,11 @@
                             <button type="button" class="btn btn-outline-warning btn-sm w-100" onclick="configOfcanvas();">Fechar</button>
                         </div>
                         <div class="col-12 col-md-6 mb-2">
-                            <label for="mapa_ponto_tipo_id" class="form-label">Ponto Tipo</label>
-                            <select class="form-select form-select-sm" name="mapa_ponto_tipo_id" id="mapa_ponto_tipo_id" required>
+                            <label for="ponto_tipo_id" class="form-label">Ponto Tipo</label>
+                            <select class="form-select form-select-sm" name="ponto_tipo_id" id="ponto_tipo_id" required>
                                 <option value="">{{ __('Selecione...') }}</option>
-                                @foreach ($mapas_pontos_tipos as $mapa_ponto_tipo)
-                                    <option value="{{ $mapa_ponto_tipo['id'] }}">{{ $mapa_ponto_tipo['name'] }}</option>
+                                @foreach ($pontos_tipos as $ponto_tipo)
+                                    <option value="{{ $ponto_tipo['id'] }}">{{ $ponto_tipo['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -295,7 +295,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Fechar') }}</button>
                 </div>
             </div>
         </div>

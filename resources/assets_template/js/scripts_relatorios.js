@@ -1,64 +1,76 @@
 //Montar Divs com opções de Relatórios
-function relatorios() {
-    //URL
-    var url = window.location.protocol+'//'+window.location.host+'/';
+async function relatorios() {
+    const url = `${window.location.protocol}//${window.location.host}/relatorios/relatorios`;
 
-    $.get(url+'relatorios/relatorios', function (data) {
-        //relatorios
-        var relatorios = '';
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
 
-        if (data.success) {
-            //Dados
-            var agrupamentos = data.success.agrupamentos;
-            var grupo_relatorios = data.success.grupo_relatorios;
-
-            agrupamentos.forEach(function (agrupamento) {
-                relatorios += '<div class="col-12 col-md-4">';
-                relatorios += ' <div class="card">';
-                relatorios += '     <div class="card-body">';
-                relatorios += '         <div class="text-center">';
-                relatorios += '             <div class="mb-3">';
-                relatorios += '                 <i class="bx bx-printer text-primary display-6"></i>';
-                relatorios += '             </div>';
-                relatorios += '             <h5>'+agrupamento['name']+'</h5>';
-                relatorios += '         </div>';
-                relatorios += '         <div class="table-responsive mt-4">';
-                relatorios += '             <table class="table align-middle">';
-                relatorios += '                 <tbody>';
-
-                var num = 0;
-
-                grupo_relatorios.forEach(function (grupo_relatorio) {
-                    if (agrupamento['id'] == grupo_relatorio['agrupamento_id']) {
-                        num++;
-
-                        relatorios += '             <tr>';
-                        relatorios += '                 <th>';
-                        relatorios += '                     <div class="d-flex align-items-center">'+num+'</div>';
-                        relatorios += '                 </th>';
-                        relatorios += '                 <td>';
-                        relatorios += '                     <div class="d-flex align-items-center">' + grupo_relatorio['relatorio_name'] + '</div>';
-                        relatorios += '                 </td>';
-                        relatorios += '                 <td style="text-align: right">';
-                        relatorios += '                     <button type="button" class="btn btn-light btn-sm w-xs" onclick="relatorio' + grupo_relatorio['relatorio_id'] + '(1, \''+grupo_relatorio['relatorio_name']+'\');">Filtro</button>';
-                        relatorios += '                 </td>';
-                        relatorios += '             </tr>';
-                    }
-                });
-
-                relatorios += '                 </tbody>';
-                relatorios += '             </table>';
-                relatorios += '         </div>';
-                relatorios += '     </div>';
-                relatorios += ' </div>';
-                relatorios += '</div>';
-            });
-
-            document.getElementById('divRelatorios').innerHTML = relatorios;
-        } else {
-            alert('Relatórios não encontrado.');
+        if (!data.success) {
+            alert('Relatórios não encontrados.');
+            return;
         }
-    });
+
+        const agrupamentos = data.success.agrupamentos;
+        const grupo_relatorios = data.success.grupo_relatorios;
+
+        let relatorios = '';
+
+        for (const agrupamento of agrupamentos) {
+            const agrupamentoNome = await traduzirViaLocale(agrupamento['name']);
+
+            relatorios += `
+                <div class="col-12 col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="mb-3">
+                                    <i class="bx bx-printer text-primary display-6"></i>
+                                </div>
+                                <h5>${agrupamentoNome}</h5>
+                            </div>
+                            <div class="table-responsive mt-4">
+                                <table class="table align-middle">
+                                    <tbody>
+            `;
+            
+            let num = 0;
+
+            for (const grupo_relatorio of grupo_relatorios) {
+                if (agrupamento['id'] == grupo_relatorio['agrupamento_id']) {
+                    const relatorioNome = await traduzirViaLocale(grupo_relatorio['relatorio_name']);
+                    num++;
+
+                    relatorios += `
+                        <tr>
+                            <th><div class="d-flex align-items-center">${num}</div></th>
+                            <td><div class="d-flex align-items-center">${relatorioNome}</div></td>
+                            <td style="text-align: right">
+                                <button type="button" class="btn btn-light btn-sm w-xs" 
+                                    onclick="relatorio${grupo_relatorio['relatorio_id']}(1, '${grupo_relatorio['relatorio_name']}');">
+                                    Filtro
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }
+            }
+
+            relatorios += `
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        document.getElementById('divRelatorios').innerHTML = relatorios;
+
+    } catch (error) {
+        console.error('Erro ao carregar relatórios:', error);
+    }
 }
 
 function relatorio1(op=1, relatorio_name='') {
@@ -289,68 +301,57 @@ function relatorio7(op=1, relatorio_name='') {
     }
 }
 
-// function relatorio7(op=1, relatorio_name='') {
-//     if (op == 1) {
-//         //Título Modal
-//         document.getElementById('modal_relatorio7_titulo').innerHTML = relatorio_name;
-//
-//         //Abrir Modal
-//         new bootstrap.Modal(document.getElementById('modal_relatorio7')).show();
-//     } else {
-//         //URL
-//         var url = window.location.protocol+'//'+window.location.host+'/';
-//
-//         return new Promise(function(resolve, reject) {
-//             //Validar campos do modal'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//             var validacao_ok = true;
-//             var mensagem = '';
-//
-//             //Campo: modal_relatorio7_clientes_executivos_ids && modal_relatorio7_funcionarios_ids (requerido)
-//             if (validacao({op:1, value:document.getElementById('modal_relatorio7_clientes_executivos_ids').value}) === false && validacao({op:1, value:document.getElementById('modal_relatorio7_funcionarios_ids').value}) === false) {
-//                 validacao_ok = false;
-//                 mensagem += 'Escolha Clientes Executivos ou Funcionários.'+'<br>';
-//             }
-//
-//             //Mensagem
-//             if (validacao_ok === false) {
-//                 var texto = '<div class="pt-3">';
-//                 texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
-//                 texto += '</div>';
-//
-//                 alertSwal('warning', 'Validação', texto, 'true', 5000);
-//
-//                 return;
-//             }
-//             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//
-//             //Clientes Executivos escolhidos
-//             var select = document.getElementById('modal_relatorio7_clientes_executivos_ids');
-//             var clientes_executivos = Array.from(select.selectedOptions).map(option => option.value);
-//             if (clientes_executivos == '') {clientes_executivos = 'xxx';}
-//
-//             //Funcionários escolhidos
-//             var select = document.getElementById('modal_relatorio7_funcionarios_ids');
-//             var funcionarios = Array.from(select.selectedOptions).map(option => option.value);
-//             if (funcionarios == '') {funcionarios = 'xxx';}
-//
-//             //Dados
-//             $.get(url+'relatorios/relatorio7/'+clientes_executivos+'/'+funcionarios, function (data) {
-//                 if (data.success) {
-//                     resolve(data.success);
-//                 } else {
-//                     alert(data.error);
-//                     resolve([]);
-//                 }
-//             });
-//         }).then(function (data) {
-//             //Gerar PDF
-//             gerarPDFRelatorio({x_relatorio:6, x_dados:data});
-//
-//             //Fechar Modal
-//             document.getElementById('modal_relatorio7_cancelar').click();
-//         });
-//     }
-// }
+function relatorio8(op=1, relatorio_name='') {
+    if (op == 1) {
+        //Título Modal
+        document.getElementById('modal_relatorio8_titulo').innerHTML = relatorio_name;
+
+        //Abrir Modal
+        new bootstrap.Modal(document.getElementById('modal_relatorio8')).show();
+    } else {
+        //URL
+        var url = window.location.protocol+'//'+window.location.host+'/';
+
+        return new Promise(function(resolve, reject) {
+            //Validar campos do modal'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            var validacao_ok = true;
+            var mensagem = '';
+            
+            //Mensagem
+            if (validacao_ok === false) {
+                var texto = '<div class="pt-3">';
+                texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+                texto += '</div>';
+
+                alertSwal('warning', 'Validação', texto, 'true', 5000);
+
+                return;
+            }
+            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+            //Formatando dados para envio
+            var ponto_tipo_id = document.getElementById('modal_relatorio8_ponto_tipo_id').value;
+            var ponto_natureza_id = document.getElementById('modal_relatorio8_ponto_natureza_id').value;
+            var idioma = $('#modal_relatorio8_idioma').val();
+
+            //Dados
+            $.get(url+'relatorios/relatorio8/'+ponto_tipo_id+'/'+ponto_natureza_id+'/'+idioma, function (data) {
+                if (data.success) {
+                    resolve(data.success);
+                } else {
+                    alert(data.error);
+                    resolve([]);
+                }
+            });
+        }).then(function (data) {
+            //Gerar PDF
+            gerarPDFRelatorio({x_relatorio:8, x_dados:data, x_idioma:$('#modal_relatorio8_idioma').val()});
+
+            //Fechar Modal
+            document.getElementById('modal_relatorio8_cancelar').click();
+        });
+    }
+}
 
 async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
     //Return
@@ -581,6 +582,7 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
             doc.autoTable({
                 html: tabela, // Usa a tabela do HTML
                 startY: novaMarginTop - 5, // Define onde começa a tabela no PDF
+                margin: { top: 50, left: 15, right: 15, bottom: 40 }, // <-- reserva espaço pro rodapé
                 useCss: true, // Permite que os estilos CSS sejam considerados
                 styles: {
                     fontStyle: "normal",
@@ -588,11 +590,12 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
                     textColor: [0, 0, 0], // Cor do texto preto
                     lineColor: [121, 130, 156], // Cor da borda cinza escuro (#79829c)
                     lineWidth: 0.2, // Espessura da borda
+                    cellPadding: 2,
                 },
                 headStyles: {
                     fontStyle: "bold",
                     fontSize: 8,
-                    fillColor: ['#F2CEED'], // Cor do cabeçalho #00FEFF (Ciano)
+                    fillColor: [242, 206, 237], // Cor do cabeçalho (Ciano)
                     textColor: [0, 0, 0], // Texto preto
                 },
                 alternateRowStyles: {
@@ -601,13 +604,16 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
                 columnStyles: {
                     0: { halign: "left" }, // Coluna NOME centralizada
                 },
+                didDrawPage: function (data) {
+                    // Redesenha cabeçalho e rodapé em todas as páginas
+                    adicionarCabecalhoRodape(pageTopo, pageRodape);
+                },
                 didParseCell: function (data) {
                     //Força padding em cada célula
                     data.cell.styles.cellPadding = 2;
-                },
-                margin: { top: 0 },
+                }
             });
-
+            
             //Nova margem topo para depois da tabela
             novaMarginTop = novaMarginTop + (qtdLinhasTabela*6.3) + 5;
             //Tabela - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -702,6 +708,7 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
             doc.autoTable({
                 html: tabela, // Usa a tabela do HTML
                 startY: novaMarginTop - 5, // Define onde começa a tabela no PDF
+                margin: { top: 50, left: 15, right: 15, bottom: 40 }, // <-- reserva espaço pro rodapé
                 useCss: true, // Permite que os estilos CSS sejam considerados
                 styles: {
                     fontStyle: "normal",
@@ -709,11 +716,12 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
                     textColor: [0, 0, 0], // Cor do texto preto
                     lineColor: [121, 130, 156], // Cor da borda cinza escuro (#79829c)
                     lineWidth: 0.2, // Espessura da borda
+                    cellPadding: 2,
                 },
                 headStyles: {
                     fontStyle: "bold",
                     fontSize: 8,
-                    fillColor: ['#F2CEED'], // Cor do cabeçalho #00FEFF (Ciano)
+                    fillColor: [242, 206, 237], // Cor do cabeçalho (Ciano)
                     textColor: [0, 0, 0], // Texto preto
                 },
                 alternateRowStyles: {
@@ -722,13 +730,16 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
                 columnStyles: {
                     0: { halign: "left" }, // Coluna NOME centralizada
                 },
+                didDrawPage: function (data) {
+                    // Redesenha cabeçalho e rodapé em todas as páginas
+                    adicionarCabecalhoRodape(pageTopo, pageRodape);
+                },
                 didParseCell: function (data) {
                     //Força padding em cada célula
                     data.cell.styles.cellPadding = 2;
-                },
-                margin: { top: 0 },
+                }
             });
-
+            
             //Nova margem topo para depois da tabela
             novaMarginTop = novaMarginTop + (qtdLinhasTabela*6.3) + 5;
             //Tabela - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -841,6 +852,7 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
             doc.autoTable({
                 html: tabela, // Usa a tabela do HTML
                 startY: novaMarginTop - 5, // Define onde começa a tabela no PDF
+                margin: { top: 50, left: 15, right: 15, bottom: 40 }, // <-- reserva espaço pro rodapé
                 useCss: true, // Permite que os estilos CSS sejam considerados
                 styles: {
                     fontStyle: "normal",
@@ -848,11 +860,12 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
                     textColor: [0, 0, 0], // Cor do texto preto
                     lineColor: [121, 130, 156], // Cor da borda cinza escuro (#79829c)
                     lineWidth: 0.2, // Espessura da borda
+                    cellPadding: 2,
                 },
                 headStyles: {
                     fontStyle: "bold",
                     fontSize: 8,
-                    fillColor: ['#F2CEED'], // Cor do cabeçalho #00FEFF (Ciano)
+                    fillColor: [242, 206, 237], // Cor do cabeçalho (Ciano)
                     textColor: [0, 0, 0], // Texto preto
                 },
                 alternateRowStyles: {
@@ -861,11 +874,14 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
                 columnStyles: {
                     0: { halign: "left" }, // Coluna NOME centralizada
                 },
+                didDrawPage: function (data) {
+                    // Redesenha cabeçalho e rodapé em todas as páginas
+                    adicionarCabecalhoRodape(pageTopo, pageRodape);
+                },
                 didParseCell: function (data) {
                     //Força padding em cada célula
                     data.cell.styles.cellPadding = 2;
-                },
-                margin: { top: 0 },
+                }
             });
 
             //Nova margem topo para depois da tabela
@@ -1041,6 +1057,166 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
         }
         //Relatório 6 - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         //Relatório 6 - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Relatório 8 - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Relatório 8 - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        if (x_relatorio == 8) {
+            //Cabeçalho e rodapé
+            await adicionarCabecalhoRodape(pageTopo, pageRodape);
+
+            //Texto
+            texto = 'SISTEMA SAC';
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ' '+texto;
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:marginTop, x_fontSize:12, x_fontStyle:'bold', x_align:'left', x_fundo:true, x_fundo_cor:2});
+
+            //Texto
+            texto = 'ADMINISTRAÇÃO E CONTROLE';
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = texto+' ';
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:marginTop, x_fontSize:12, x_fontStyle:'bold', x_align:'right'});
+
+            //Texto
+            texto = 'Parâmetros: '+dados.relatorio_parametros;
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ' '+texto;
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:marginTop+10, x_fontSize:10, x_align:'left', x_fundo:true, x_fundo_cor:1});
+
+            //Texto
+            texto = dados.relatorio_data+' às '+dados.relatorio_hora;
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = texto+' ';
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:marginTop+10, x_fontSize:10, x_align:'right'});
+
+            //Tabela - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            //Tabela - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            //Texto
+            texto = dados.relatorio_nome;
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ' '+texto;
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_fontSize:12, x_fontStyle:'bold', x_fundo:true});
+
+            var tabelaHTML = `<table>
+                            <thead>
+                                <tr>
+                                    <th>&nbsp;<b>TIPO/NOME</b>&nbsp;</th>
+                                    <th width="200px">&nbsp;<b>NATUREZA</b>&nbsp;</th>
+                                    <th>&nbsp;<b>ESPECIALIDADE(S)</b>&nbsp;</th>
+                                </tr>
+                            </thead>
+                        <tbody>`;
+
+            var qtdLinhasTabela = 1;
+
+            var registros = dados.relatorio_registros;
+            var especialidades = dados.relatorio_registros_especialidades;
+            
+            // Agrupa as especialidades por ponto_interesse_id
+            var especialidadesPorPonto = {};
+
+            // Cria o agrupamento
+            especialidades.forEach(function (esp) {
+                var id = esp.ponto_interesse_id;
+
+                if (!especialidadesPorPonto[id]) {
+                    especialidadesPorPonto[id] = [];
+                }
+
+                especialidadesPorPonto[id].push(esp);
+            });
+
+            // Ordena as especialidades de cada ponto por nome
+            Object.keys(especialidadesPorPonto).forEach(function (id) {
+                especialidadesPorPonto[id].sort(function (a, b) {
+                    return a.especialidadeName.localeCompare(b.especialidadeName);
+                });
+            });
+
+            // Varrendo registros
+            registros.forEach(function (dado) {
+                //Dados para preencher na linha da grade
+                var ponto_tipo = dado.ponto_tipo ? dado.ponto_tipo : '';
+                var ponto_natureza = dado.ponto_natureza ? dado.ponto_natureza : '';
+                var nome = dado.name ? dado.name : '';
+
+                var esp = especialidadesPorPonto[dado.id];
+                var listaEspecialidades = esp && esp.length ? 'Especialidades: ' + esp.map(e => e.especialidadeName).join(', ') : '';
+                
+                tabelaHTML += `<tr>
+                            <td>${ponto_tipo}:<br>${nome}</td>
+                            <td>${ponto_natureza}</td>
+                            <td>${listaEspecialidades}</td>
+                        </tr>`;
+
+                qtdLinhasTabela++;
+            });
+
+            tabelaHTML += `</tbody>
+                    </table>`;
+
+            qtdLinhasTabela++;
+            qtdLinhasTabela++;
+
+            //Criando um elemento temporário para converter a string em HTML real
+            var div = document.createElement('div');
+            if (traducao == 'en') {tabelaHTML = await traduzirTextoGoogle(tabelaHTML);}
+            div.innerHTML = tabelaHTML;
+            var tabela = div.querySelector('table');
+
+            //Converte a tabela para PDF usando autoTable
+            doc.autoTable({
+                html: tabela, // Usa a tabela do HTML
+                startY: novaMarginTop - 5, // Define onde começa a tabela no PDF
+                margin: { top: 50, left: 15, right: 15, bottom: 40 }, // <-- reserva espaço pro rodapé
+                useCss: true, // Permite que os estilos CSS sejam considerados
+                styles: {
+                    fontStyle: "normal",
+                    fontSize: 8,
+                    textColor: [0, 0, 0], // Cor do texto preto
+                    lineColor: [121, 130, 156], // Cor da borda cinza escuro (#79829c)
+                    lineWidth: 0.2, // Espessura da borda
+                    cellPadding: 2,
+                    overflow: 'linebreak',
+                    whiteSpace: 'nowrap'
+                },
+                columnStyles: {
+                    0: {cellWidth: 60},
+                    1: {cellWidth: 30},
+                    2: {cellWidth: 'auto' },
+                },
+                headStyles: {
+                    fontStyle: "bold",
+                    fontSize: 8,
+                    fillColor: [242, 206, 237], // Cor do cabeçalho (Ciano)
+                    textColor: [0, 0, 0], // Texto preto
+                },
+                alternateRowStyles: {
+                    fillColor: [255, 255, 255], // Cor de fundo alternada para as linhas
+                },
+                didDrawPage: function (data) {
+                    // Redesenha cabeçalho e rodapé em todas as páginas
+                    adicionarCabecalhoRodape(pageTopo, pageRodape);
+                },
+                didParseCell: function (data) {
+                    // se for célula de cabeçalho, força nowrap + elipsize
+                    if (data.cell.section === 'head') {
+                        data.cell.styles.whiteSpace = 'nowrap';
+                        data.cell.styles.overflow = 'ellipsize'; // evita quebra; mostrará "..." se faltar espaço
+                        data.cell.styles.cellPadding = 2;
+                    }
+
+                    //Força padding em cada célula
+                    data.cell.styles.cellPadding = 2;
+                }
+            });
+            
+            //Nova margem topo para depois da tabela
+            novaMarginTop = novaMarginTop + (qtdLinhasTabela*6.3) + 5;
+            //Tabela - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            //Tabela - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        }
+        //Relatório 8 - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Relatório 8 - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         //Gerar o pdf, abrir em uma outra aba e colocar link para download - Início'''''''''''''''''''''''''''''''''''''
         //Gerar o pdf, abrir em uma outra aba e colocar link para download - Início'''''''''''''''''''''''''''''''''''''

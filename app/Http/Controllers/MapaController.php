@@ -15,7 +15,7 @@ class MapaController extends Controller
     public $content;
 
     //Dados Auxiliares
-    public $mapas_pontos_tipos;
+    public $pontos_tipos;
     public $ordens_servicos;
 
     public function __construct()
@@ -54,7 +54,7 @@ class MapaController extends Controller
             $this->responseApi(2, 10, 'mapas/auxiliary/tables', '', '', '');
 
             return view('mapas.index', [
-                'mapas_pontos_tipos' => $this->mapas_pontos_tipos,
+                'pontos_tipos' => $this->pontos_tipos,
                 'ordens_servicos' => $this->ordens_servicos
             ]);
         }
