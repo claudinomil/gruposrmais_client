@@ -357,6 +357,12 @@ function crudCreate() {
                 elementos.forEach(function(elemento) {
                     elemento.checked = false;
                 });
+
+                //Graficos - desmarcar checkbox
+                var elementos = document.querySelectorAll('.grupo_graficos');
+                elementos.forEach(function(elemento) {
+                    elemento.checked = false;
+                });
             }
 
             if (prefixPermissaoSubmodulo == 'users') {
@@ -611,6 +617,19 @@ function crudView(registro_id) {
                 var relatorios = data.success['relatorios'];
                 relatorios.forEach(function(item) {
                     document.getElementById('relatorio_' + item['relatorio_id']).checked = true;
+                });
+
+                //Graficos
+                //desmarcar checkbox
+                var elementos = document.querySelectorAll('.grupo_graficos');
+                elementos.forEach(function(elemento) {
+                    elemento.checked = false;
+                });
+
+                //marcar checkbox
+                var graficos = data.success['graficos'];
+                graficos.forEach(function(item) {
+                    document.getElementById('grafico_' + item['grafico_id']).checked = true;
                 });
             }
 
@@ -989,6 +1008,21 @@ function crudView(registro_id) {
                 especialidades.forEach(function(item) {
                     document.getElementById('especialidade_' + item['especialidade_id']).checked = true;
                 });
+
+                // Display nas divs não checadas
+                for (let x = 1; x <= 200; x++) {
+                    const chk = document.getElementById('especialidade_' + x);
+                    const div = document.getElementById('divEspecialidade_' + x);
+
+                    // só continua se ambos existirem na página
+                    if (!chk || !div) continue;
+
+                    if (!chk.checked) {
+                        div.style.display = 'none';
+                    } else {
+                        div.style.display = ''; // mostra se estiver marcado
+                    }
+                }
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -1076,6 +1110,19 @@ async function crudEdit(registro_id) {
                 var relatorios = data.success['relatorios'];
                 relatorios.forEach(function(item) {
                     document.getElementById('relatorio_' + item['relatorio_id']).checked = true;
+                });
+
+                //Graficos
+                //desmarcar checkbox
+                var elementos = document.querySelectorAll('.grupo_graficos');
+                elementos.forEach(function(elemento) {
+                    elemento.checked = false;
+                });
+
+                //marcar checkbox
+                var graficos = data.success['graficos'];
+                graficos.forEach(function(item) {
+                    document.getElementById('grafico_' + item['grafico_id']).checked = true;
                 });
             }
 

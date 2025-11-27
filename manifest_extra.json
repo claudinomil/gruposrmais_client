@@ -118,10 +118,25 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_bancos.js"
 },
+"resources/assets_template/js/scripts_dashboards_global.js": {
+"file": "assets/scripts_dashboards_global.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_dashboards_global.js"
+},
 "resources/assets_template/js/scripts_dashboards.js": {
 "file": "assets/scripts_dashboards.js",
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_dashboards.js"
+},
+"resources/assets_template/js/scripts_dashboards2.js": {
+"file": "assets/scripts_dashboards2.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_dashboards2.js"
+},
+"resources/assets_template/js/scripts_dashboards3.js": {
+"file": "assets/scripts_dashboards3.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_dashboards3.js"
 },
 "resources/assets_template/js/scripts_materiais.js": {
 "file": "assets/scripts_materiais.js",

@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var prefixPermissaoSubmodulo = document.getElementById('crudPrefixPermissaoSubmodulo').value;
 
         if (typeof prefixPermissaoSubmodulo !== "undefined" && prefixPermissaoSubmodulo != '') {
-            if (prefixPermissaoSubmodulo != 'dashboards' && prefixPermissaoSubmodulo != 'relatorios' && prefixPermissaoSubmodulo != 'logotipos' && prefixPermissaoSubmodulo != 'mapas') {
+            if (prefixPermissaoSubmodulo != 'dashboards' && prefixPermissaoSubmodulo != 'dashboards2' && prefixPermissaoSubmodulo != 'dashboards3' && prefixPermissaoSubmodulo != 'relatorios' && prefixPermissaoSubmodulo != 'logotipos' && prefixPermissaoSubmodulo != 'mapas') {
                 //Table
                 crudTable(prefixPermissaoSubmodulo);
             }

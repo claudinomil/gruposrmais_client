@@ -11,65 +11,38 @@ async function relatorios() {
             return;
         }
 
-        const agrupamentos = data.success.agrupamentos;
         const grupo_relatorios = data.success.grupo_relatorios;
 
         let relatorios = '';
 
-        for (const agrupamento of agrupamentos) {
-            const agrupamentoNome = await traduzirViaLocale(agrupamento['name']);
+        let num = 0;
 
-            relatorios += `
-                <div class="col-12 col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="text-center">
-                                <div class="mb-3">
-                                    <i class="bx bx-printer text-primary display-6"></i>
+        for (const grupo_relatorio of grupo_relatorios) {
+            const relatorioNome = await traduzirViaLocale(grupo_relatorio['relatorio_name']);
+            num++;
+
+            relatorios += `<div class="col-12 col-md-3">
+                            <div class="card">
+                                <div class="card-body" style="padding: 0.5rem 0.5rem !important;">
+                                    <div class="row">
+                                        <div class="col-3 col-md-3 text-center">
+                                            <i class="bx bx-printer display-6"></i>
+                                        </div>
+                                        <div class="col-9 col-md-9">
+                                            <h5 class="text-truncate">${relatorioNome}</h5>
+                                            <button type="button" class="btn btn-light btn-sm w-xs" onclick="relatorio${grupo_relatorio['relatorio_id']}(1, '${grupo_relatorio['relatorio_name']}');">
+                                                Filtro
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <h5>${agrupamentoNome}</h5>
                             </div>
-                            <div class="table-responsive mt-4">
-                                <table class="table align-middle">
-                                    <tbody>
-            `;
-            
-            let num = 0;
-
-            for (const grupo_relatorio of grupo_relatorios) {
-                if (agrupamento['id'] == grupo_relatorio['agrupamento_id']) {
-                    const relatorioNome = await traduzirViaLocale(grupo_relatorio['relatorio_name']);
-                    num++;
-
-                    relatorios += `
-                        <tr>
-                            <th><div class="d-flex align-items-center">${num}</div></th>
-                            <td><div class="d-flex align-items-center">${relatorioNome}</div></td>
-                            <td style="text-align: right">
-                                <button type="button" class="btn btn-light btn-sm w-xs" 
-                                    onclick="relatorio${grupo_relatorio['relatorio_id']}(1, '${grupo_relatorio['relatorio_name']}');">
-                                    Filtro
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                }
-            }
-
-            relatorios += `
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
+                        </div>`;
         }
 
         document.getElementById('divRelatorios').innerHTML = relatorios;
-
     } catch (error) {
-        console.error('Erro ao carregar relatórios:', error);
+            console.error('Erro ao carregar relatórios:', error);
     }
 }
 
@@ -316,7 +289,7 @@ function relatorio8(op=1, relatorio_name='') {
             //Validar campos do modal'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             var validacao_ok = true;
             var mensagem = '';
-            
+
             //Mensagem
             if (validacao_ok === false) {
                 var texto = '<div class="pt-3">';
@@ -332,10 +305,11 @@ function relatorio8(op=1, relatorio_name='') {
             //Formatando dados para envio
             var ponto_tipo_id = document.getElementById('modal_relatorio8_ponto_tipo_id').value;
             var ponto_natureza_id = document.getElementById('modal_relatorio8_ponto_natureza_id').value;
+            var modelo = document.getElementById('modal_relatorio8_modelo').value;
             var idioma = $('#modal_relatorio8_idioma').val();
 
             //Dados
-            $.get(url+'relatorios/relatorio8/'+ponto_tipo_id+'/'+ponto_natureza_id+'/'+idioma, function (data) {
+            $.get(url+'relatorios/relatorio8/'+ponto_tipo_id+'/'+ponto_natureza_id+'/'+modelo+'/'+idioma, function (data) {
                 if (data.success) {
                     resolve(data.success);
                 } else {
@@ -353,6 +327,57 @@ function relatorio8(op=1, relatorio_name='') {
     }
 }
 
+function relatorio9(op=1, relatorio_name='') {
+    if (op == 1) {
+        //Título Modal
+        document.getElementById('modal_relatorio9_titulo').innerHTML = relatorio_name;
+
+        //Abrir Modal
+        new bootstrap.Modal(document.getElementById('modal_relatorio9')).show();
+    } else {
+        //URL
+        var url = window.location.protocol+'//'+window.location.host+'/';
+
+        return new Promise(function(resolve, reject) {
+            //Validar campos do modal'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            var validacao_ok = true;
+            var mensagem = '';
+
+            //Mensagem
+            if (validacao_ok === false) {
+                var texto = '<div class="pt-3">';
+                texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+                texto += '</div>';
+
+                alertSwal('warning', 'Validação', texto, 'true', 5000);
+
+                return;
+            }
+            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+            //Formatando dados para envio
+            var idioma = $('#modal_relatorio9_idioma').val();
+
+            //Dados
+            $.get(url+'relatorios/relatorio9/'+idioma, function (data) {
+                if (data.success) {
+                    resolve(data.success);
+                } else {
+                    alert(data.error);
+                    resolve([]);
+                }
+            });
+        }).then(function (data) {
+            //Gerar PDF
+            gerarPDFRelatorio({x_relatorio:9, x_dados:data, x_idioma:$('#modal_relatorio9_idioma').val()});
+
+            //Fechar Modal
+            document.getElementById('modal_relatorio9_cancelar').click();
+        });
+    }
+}
+
+// Gerar Relatório com Topo, Tabela com dados e Rodapé
 async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
     //Return
     if (x_relatorio == 0) {return;}
@@ -402,11 +427,15 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
         doc.addImage(rodape, 'PNG', 15, pageHeight - 30, pageWidth - 20, 20);
     }
 
+    async function adicionarCabecalho(topo) {
+        doc.addImage(topo, 'PNG', 15, 10, pageWidth - 30, 30);
+    }
+
     //Função para implementar texto no pdf
     //@PARAM x_align : 'left' // Pode ser 'left', 'right', 'center' ou 'justify'
     //@PARAM x_fontStyle : 'normal', 'bold', 'italic' ou 'bolditalic'
     //@PARAM x_subtitulo : Se for um Título ou Subtítulo que precisa ficar junto do texto posterior então envia algo para não ficar vazio (irá fazer o cálculo diferente de fim de página)
-    async function inserirTexto({x_texto = '', x_spacingBetweenTexts = 3, x_marginLeft = marginLeft, x_marginTop = novaMarginTop, x_font = 1, x_fontStyle = 'normal', x_fontSize = 12, x_align = 'left', x_subtitulo = '', x_atualizarNovaMarginTop = true, x_fundo = false, x_fundo_cor = 1}) {
+    async function inserirTexto({x_texto = '', x_spacingBetweenTexts = 3, x_marginLeft = marginLeft, x_marginTop = novaMarginTop, x_font = 1, x_fontStyle = 'normal', x_fontSize = 12, x_align = 'left', x_subtitulo = '', x_atualizarNovaMarginTop = true, x_fundo = false, x_fundo_cor = 1, x_textColor = 1}) {
         let linhasTexto = doc.splitTextToSize(x_texto, textWidth);
         let alturaTexto = linhasTexto.length * x_spacingBetweenTexts;
 
@@ -414,9 +443,15 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
         let espacoFimPagina = 45;
         if (x_subtitulo != '') {espacoFimPagina = 65;}
         if ((x_marginTop + alturaTexto) > (pageHeight - espacoFimPagina)) {
-            await novaPagina();
+            await novaPaginaCabecalhoRodape();
             x_marginTop = novaMarginTop; // Reinicia a margem após nova página
         }
+
+        // Cor texto
+        if (x_textColor == 1) {doc.setTextColor(0, 0, 0);} // Preto
+        if (x_textColor == 2) {doc.setTextColor(255, 0, 0);} // Vermelho
+        if (x_textColor == 3) {doc.setTextColor(0, 0, 255);} // Azul
+        if (x_textColor == 4) {doc.setTextColor(0, 200, 0);} // Verde
 
         // Define a fonte conforme o parâmetro recebido
         switch (x_font) {
@@ -469,29 +504,67 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
         }
     }
 
-    async function inserirLinha({x_spacingBetweenTexts = 3, x_marginLeft = marginLeft, x_marginTop = novaMarginTop, x_tamanho = 195, x_espessura = 0.5}) {
-        let alturaTexto = x_espessura * x_spacingBetweenTexts;
-
-        //Verifica se o texto cabe na página, senão cria uma nova
-        let espacoFimPagina = 65;
-        if ((x_marginTop + alturaTexto) > (pageHeight - espacoFimPagina)) {
-            await novaPagina();
-            x_marginTop = novaMarginTop; // Reinicia a margem após nova página
-        }
-
-        doc.setLineWidth(x_espessura);
-        doc.line(x_marginLeft, x_marginTop, x_tamanho, x_marginTop);
-
-        x_marginTop += x_spacingBetweenTexts; // Ajusta a posição para a próxima linha
-
-        novaMarginTop = x_marginTop + alturaTexto + x_spacingBetweenTexts;
-    }
-
-    async function novaPagina() {
+    async function novaPaginaCabecalhoRodape() {
         doc.addPage();
         novaMarginTop = marginTop;
 
         await adicionarCabecalhoRodape(pageTopo, pageRodape);
+
+    }
+
+    async function novaPaginaCabecalho() {
+        doc.addPage();
+        novaMarginTop = marginTop;
+
+        await adicionarCabecalho(pageTopo);
+    }
+
+    // Função interna para desenhar campos (retângulos ou opções)
+    async function desenharCampos(campos, startY) {
+        let xLeft = marginLeft;
+
+        for (const campo of campos) {
+            // Campo pode ser: [label, width, quebra]
+            // ou: [label, width, quebra, tipo, opcoes]
+            let [labelOriginal, width, quebra, tipo = 'retangulo', opcoes = []] = campo;
+
+            // Traduz label se necessário
+            const label = (traducao === 'en') ? await traduzirTextoGoogle(labelOriginal) : labelOriginal;
+
+            doc.setFontSize(8);
+            doc.text(label + ":", xLeft, startY - 2);
+
+            if (tipo === 'retangulo') {
+                // Desenha retângulo simples (padrão)
+                doc.roundedRect(xLeft, startY, width, rowHeight, cornerRadius, cornerRadius);
+            }
+            else if (tipo === 'opcoes') {
+                // Exemplo: ["Gênero", 100, true, "opcoes", ["Masculino", "Feminino", "Outro"]]
+                let xOp = xLeft;
+                const espacoEntre = 5;
+                const tamanhoQuadrado = 3.5;
+
+                for (const opcao of opcoes) {
+                    const textoOpcao = (traducao === 'en') ? await traduzirTextoGoogle(opcao) : opcao;
+                    // desenha o quadradinho
+                    doc.rect(xOp, startY + 2, tamanhoQuadrado, tamanhoQuadrado);
+                    // escreve o texto ao lado
+                    doc.text(textoOpcao, xOp + tamanhoQuadrado + 2, startY + 2 + tamanhoQuadrado);
+                    // avança posição
+                    xOp += tamanhoQuadrado + doc.getTextWidth(textoOpcao) + espacoEntre + 2;
+                }
+            }
+
+            xLeft += width + 5;
+
+            // quebra de linha
+            if (quebra) {
+                xLeft = marginLeft;
+                startY += rowHeight + 8;
+            }
+        }
+
+        return startY; // retorna o Y final para continuar desenhando
     }
     //Funções internas - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     //Funções internas - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -613,7 +686,7 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
                     data.cell.styles.cellPadding = 2;
                 }
             });
-            
+
             //Nova margem topo para depois da tabela
             novaMarginTop = novaMarginTop + (qtdLinhasTabela*6.3) + 5;
             //Tabela - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -739,7 +812,7 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
                     data.cell.styles.cellPadding = 2;
                 }
             });
-            
+
             //Nova margem topo para depois da tabela
             novaMarginTop = novaMarginTop + (qtdLinhasTabela*6.3) + 5;
             //Tabela - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1088,135 +1161,485 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
             texto = texto+' ';
             await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:marginTop+10, x_fontSize:10, x_align:'right'});
 
-            //Tabela - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            //Tabela - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            //Texto
-            texto = dados.relatorio_nome;
-            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
-            texto = ' '+texto;
-            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_fontSize:12, x_fontStyle:'bold', x_fundo:true});
+            //Modelo
+            modelo = dados.relatorio_modelo;
 
-            var tabelaHTML = `<table>
-                            <thead>
-                                <tr>
-                                    <th>&nbsp;<b>TIPO/NOME</b>&nbsp;</th>
-                                    <th width="200px">&nbsp;<b>NATUREZA</b>&nbsp;</th>
-                                    <th>&nbsp;<b>ESPECIALIDADE(S)</b>&nbsp;</th>
-                                </tr>
-                            </thead>
-                        <tbody>`;
+            // Relatório Analítico
+            if (modelo == 1) {
+                //Tabela - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //Tabela - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //Texto
+                texto = dados.relatorio_nome;
+                if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+                texto = ' '+texto;
+                await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_fontSize:12, x_fontStyle:'bold', x_fundo:true});
 
-            var qtdLinhasTabela = 1;
+                var tabelaHTML = `<table>
+                                <thead>
+                                    <tr>
+                                        <th>&nbsp;<b>TIPO/NOME</b>&nbsp;</th>
+                                        <th width="200px">&nbsp;<b>NATUREZA</b>&nbsp;</th>
+                                        <th>&nbsp;<b>ESPECIALIDADE(S)</b>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                            <tbody>`;
 
-            var registros = dados.relatorio_registros;
-            var especialidades = dados.relatorio_registros_especialidades;
-            
-            // Agrupa as especialidades por ponto_interesse_id
-            var especialidadesPorPonto = {};
+                var qtdLinhasTabela = 1;
 
-            // Cria o agrupamento
-            especialidades.forEach(function (esp) {
-                var id = esp.ponto_interesse_id;
+                var registros = dados.relatorio_registros;
+                var especialidades = dados.relatorio_registros_especialidades;
 
-                if (!especialidadesPorPonto[id]) {
-                    especialidadesPorPonto[id] = [];
-                }
+                // Agrupa as especialidades por ponto_interesse_id
+                var especialidadesPorPonto = {};
 
-                especialidadesPorPonto[id].push(esp);
-            });
+                // Cria
+                especialidades.forEach(function (esp) {
+                    var id = esp.ponto_interesse_id;
 
-            // Ordena as especialidades de cada ponto por nome
-            Object.keys(especialidadesPorPonto).forEach(function (id) {
-                especialidadesPorPonto[id].sort(function (a, b) {
-                    return a.especialidadeName.localeCompare(b.especialidadeName);
-                });
-            });
-
-            // Varrendo registros
-            registros.forEach(function (dado) {
-                //Dados para preencher na linha da grade
-                var ponto_tipo = dado.ponto_tipo ? dado.ponto_tipo : '';
-                var ponto_natureza = dado.ponto_natureza ? dado.ponto_natureza : '';
-                var nome = dado.name ? dado.name : '';
-
-                var esp = especialidadesPorPonto[dado.id];
-                var listaEspecialidades = esp && esp.length ? 'Especialidades: ' + esp.map(e => e.especialidadeName).join(', ') : '';
-                
-                tabelaHTML += `<tr>
-                            <td>${ponto_tipo}:<br>${nome}</td>
-                            <td>${ponto_natureza}</td>
-                            <td>${listaEspecialidades}</td>
-                        </tr>`;
-
-                qtdLinhasTabela++;
-            });
-
-            tabelaHTML += `</tbody>
-                    </table>`;
-
-            qtdLinhasTabela++;
-            qtdLinhasTabela++;
-
-            //Criando um elemento temporário para converter a string em HTML real
-            var div = document.createElement('div');
-            if (traducao == 'en') {tabelaHTML = await traduzirTextoGoogle(tabelaHTML);}
-            div.innerHTML = tabelaHTML;
-            var tabela = div.querySelector('table');
-
-            //Converte a tabela para PDF usando autoTable
-            doc.autoTable({
-                html: tabela, // Usa a tabela do HTML
-                startY: novaMarginTop - 5, // Define onde começa a tabela no PDF
-                margin: { top: 50, left: 15, right: 15, bottom: 40 }, // <-- reserva espaço pro rodapé
-                useCss: true, // Permite que os estilos CSS sejam considerados
-                styles: {
-                    fontStyle: "normal",
-                    fontSize: 8,
-                    textColor: [0, 0, 0], // Cor do texto preto
-                    lineColor: [121, 130, 156], // Cor da borda cinza escuro (#79829c)
-                    lineWidth: 0.2, // Espessura da borda
-                    cellPadding: 2,
-                    overflow: 'linebreak',
-                    whiteSpace: 'nowrap'
-                },
-                columnStyles: {
-                    0: {cellWidth: 60},
-                    1: {cellWidth: 30},
-                    2: {cellWidth: 'auto' },
-                },
-                headStyles: {
-                    fontStyle: "bold",
-                    fontSize: 8,
-                    fillColor: [242, 206, 237], // Cor do cabeçalho (Ciano)
-                    textColor: [0, 0, 0], // Texto preto
-                },
-                alternateRowStyles: {
-                    fillColor: [255, 255, 255], // Cor de fundo alternada para as linhas
-                },
-                didDrawPage: function (data) {
-                    // Redesenha cabeçalho e rodapé em todas as páginas
-                    adicionarCabecalhoRodape(pageTopo, pageRodape);
-                },
-                didParseCell: function (data) {
-                    // se for célula de cabeçalho, força nowrap + elipsize
-                    if (data.cell.section === 'head') {
-                        data.cell.styles.whiteSpace = 'nowrap';
-                        data.cell.styles.overflow = 'ellipsize'; // evita quebra; mostrará "..." se faltar espaço
-                        data.cell.styles.cellPadding = 2;
+                    if (!especialidadesPorPonto[id]) {
+                        especialidadesPorPonto[id] = [];
                     }
 
-                    //Força padding em cada célula
-                    data.cell.styles.cellPadding = 2;
+                    especialidadesPorPonto[id].push(esp);
+                });
+
+                // Ordena as especialidades de cada ponto por nome
+                Object.keys(especialidadesPorPonto).forEach(function (id) {
+                    especialidadesPorPonto[id].sort(function (a, b) {
+                        return a.especialidadeName.localeCompare(b.especialidadeName);
+                    });
+                });
+
+                // Varrendo registros
+                registros.forEach(function (dado) {
+                    //Dados para preencher na linha da grade
+                    var ponto_tipo = dado.ponto_tipo ? dado.ponto_tipo : '';
+                    var ponto_natureza = dado.ponto_natureza ? dado.ponto_natureza : '';
+                    var nome = dado.name ? dado.name : '';
+
+                    var esp = especialidadesPorPonto[dado.id];
+                    var listaEspecialidades = esp && esp.length ? 'Especialidades: ' + esp.map(e => e.especialidadeName).join(', ') : '';
+
+                    tabelaHTML += `<tr>
+                                <td>${ponto_tipo}:<br>${nome}</td>
+                                <td>${ponto_natureza}</td>
+                                <td>${listaEspecialidades}</td>
+                            </tr>`;
+
+                    qtdLinhasTabela++;
+                });
+
+                tabelaHTML += `</tbody>
+                        </table>`;
+
+                qtdLinhasTabela++;
+                qtdLinhasTabela++;
+
+                //Criando um elemento temporário para converter a string em HTML real
+                var div = document.createElement('div');
+                if (traducao == 'en') {tabelaHTML = await traduzirTextoGoogle(tabelaHTML);}
+                div.innerHTML = tabelaHTML;
+                var tabela = div.querySelector('table');
+
+                //Converte a tabela para PDF usando autoTable
+                doc.autoTable({
+                    html: tabela, // Usa a tabela do HTML
+                    startY: novaMarginTop - 5, // Define onde começa a tabela no PDF
+                    margin: { top: 50, left: 15, right: 15, bottom: 40 }, // <-- reserva espaço pro rodapé
+                    useCss: true, // Permite que os estilos CSS sejam considerados
+                    styles: {
+                        fontStyle: "normal",
+                        fontSize: 8,
+                        textColor: [0, 0, 0], // Cor do texto preto
+                        lineColor: [121, 130, 156], // Cor da borda cinza escuro (#79829c)
+                        lineWidth: 0.2, // Espessura da borda
+                        cellPadding: 2,
+                        overflow: 'linebreak',
+                        whiteSpace: 'nowrap'
+                    },
+                    columnStyles: {
+                        0: {cellWidth: 60},
+                        1: {cellWidth: 30},
+                        2: {cellWidth: 'auto' },
+                    },
+                    headStyles: {
+                        fontStyle: "bold",
+                        fontSize: 8,
+                        fillColor: [242, 206, 237], // Cor do cabeçalho (Ciano)
+                        textColor: [0, 0, 0], // Texto preto
+                    },
+                    alternateRowStyles: {
+                        fillColor: [255, 255, 255], // Cor de fundo alternada para as linhas
+                    },
+                    didDrawPage: function (data) {
+                        // Redesenha cabeçalho e rodapé em todas as páginas
+                        adicionarCabecalhoRodape(pageTopo, pageRodape);
+                    },
+                    didParseCell: function (data) {
+                        // se for célula de cabeçalho, força nowrap + elipsize
+                        if (data.cell.section === 'head') {
+                            data.cell.styles.whiteSpace = 'nowrap';
+                            data.cell.styles.overflow = 'ellipsize'; // evita quebra; mostrará "..." se faltar espaço
+                            data.cell.styles.cellPadding = 2;
+                        }
+
+                        //Força padding em cada célula
+                        data.cell.styles.cellPadding = 2;
+                    }
+                });
+
+                //Nova margem topo para depois da tabela
+                novaMarginTop = novaMarginTop + (qtdLinhasTabela*6.3) + 5;
+                //Tabela - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //Tabela - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            }
+
+            // Relatório Sintético
+            if (modelo == 2) {
+                //Texto
+                texto = dados.relatorio_nome;
+                if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+                texto = ' '+texto;
+                await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_fontSize:12, x_fontStyle:'bold', x_fundo:true});
+
+                var registros = dados.relatorio_registros;
+                var especialidades = dados.relatorio_registros_especialidades;
+
+                // Agrupa as especialidades por ponto_interesse_id
+                var especialidadesPorPonto = {};
+
+                // Cria
+                especialidades.forEach(function (esp) {
+                    var id = esp.ponto_interesse_id;
+
+                    if (!especialidadesPorPonto[id]) {
+                        especialidadesPorPonto[id] = [];
+                    }
+
+                    especialidadesPorPonto[id].push(esp);
+                });
+
+                // Ordena as especialidades de cada ponto por nome
+                Object.keys(especialidadesPorPonto).forEach(function (id) {
+                    especialidadesPorPonto[id].sort(function (a, b) {
+                        return a.especialidadeName.localeCompare(b.especialidadeName);
+                    });
+                });
+
+                // Agrupa registros por bairro
+                const bairros = {};
+
+                for (const dado of registros) {
+                    if (!bairros[dado.bairro]) {
+                        bairros[dado.bairro] = [];
+                    }
+
+                    bairros[dado.bairro].push(dado);
                 }
-            });
-            
-            //Nova margem topo para depois da tabela
-            novaMarginTop = novaMarginTop + (qtdLinhasTabela*6.3) + 5;
-            //Tabela - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            //Tabela - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                // Ordenar os Bairros
+                const bairrosOrdenados = Object.keys(bairros).sort((a, b) => a.localeCompare(b, 'pt-BR'));
+
+                // Monta o relatório formatado por Bairro
+                for (const bairro of bairrosOrdenados) {
+                    // Qtd Pontos no Bairro
+                    var qtd_pontos = 0;
+
+                    //Texto
+                    texto = primeiraMaiuscula(bairro);
+                    inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_fontSize:14, x_fontStyle:'bolditalic', x_textColor:3});
+
+                    // Colocar Pontos de Interesse do Bairro
+                    for (const dado of bairros[bairro]) {
+                        qtd_pontos++;
+
+                        var ponto_tipo = dado.ponto_tipo ? dado.ponto_tipo : '';
+                        var ponto_natureza = dado.ponto_natureza ? dado.ponto_natureza : '';
+                        var nome = dado.name ? dado.name : '';
+                        var telefone_1 = dado.telefone_1 ? dado.telefone_1 : '';
+                        var telefone_2 = dado.telefone_2 ? dado.telefone_2 : '';
+                        var numero = dado.numero ? dado.numero : '';
+                        var complemento = dado.complemento ? dado.complemento : '';
+                        var logradouro = dado.logradouro ? dado.logradouro : '';
+
+                        // Telefone
+                        var telefone = '';
+                        if (telefone_1 != '') {
+                            telefone += formatarTelCel(3, telefone_1);
+                        }
+                        if (telefone_2 != '') {
+                            if (telefone != '') {telefone += ' / ';}
+                            telefone += formatarTelCel(3, telefone_2);
+                        }
+
+                        // Endereço
+                        var endereco = logradouro;
+                        if (numero != '') {endereco += ', '+numero;}
+                        if (complemento != '') {endereco += ', '+complemento;}
+
+                        // Título
+                        var titulo = `${qtd_pontos}. ${nome} (Natureza ${ponto_natureza}) - (${telefone})`;
+
+                        //Texto
+                        texto = primeiraMaiuscula(titulo);
+                        inserirTexto({x_texto:texto, x_spacingBetweenTexts:2, x_fontSize:10});
+
+                        //Texto
+                        texto = primeiraMaiuscula(endereco);
+                        inserirTexto({x_texto:texto, x_spacingBetweenTexts:2, x_fontSize:10, x_marginLeft:marginLeft+4});
+
+                        // lista de especialidades
+                        var esp = especialidadesPorPonto[dado.id];
+                        var listaEspecialidades = esp && esp.length ? 'Especialidades: ' + esp.map(e => e.especialidadeName).join(', ') : '';
+
+                        //Texto
+                        texto = primeiraMaiuscula(listaEspecialidades);
+                        inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_fontSize:10, x_align:'justify', x_marginLeft:marginLeft+4});
+                    }
+
+                    //relatorio += '\n';
+                }
+            }
         }
         //Relatório 8 - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         //Relatório 8 - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        //Relatório 9 - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Relatório 9 - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        if (x_relatorio == 9) {
+            //Cabeçalho e rodapé
+            //await adicionarCabecalho(pageTopo);
+
+            // // Não vai colocar cabeçalho então muda a marginTop
+            // startY = marginTop - 40;
+
+            // //Texto
+            // texto = 'SISTEMA SAC';
+            // if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            // texto = ' '+texto;
+            // await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:startY, x_fontSize:12, x_fontStyle:'bold', x_align:'left', x_fundo:true, x_fundo_cor:2});
+
+            // //Texto
+            // texto = 'ADMINISTRAÇÃO E CONTROLE';
+            // if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            // texto = texto+' ';
+            // await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:startY, x_fontSize:12, x_fontStyle:'bold', x_align:'right'});
+
+            // //Texto
+            // texto = dados.relatorio_nome;
+            // if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            // texto = ' '+texto;
+            // await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:startY+10, x_fontSize:10, x_align:'left', x_fundo:true, x_fundo_cor:1});
+
+            // //Texto
+            // texto = dados.relatorio_data+' às '+dados.relatorio_hora;
+            // if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            // texto = texto+' ';
+            // await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:startY+10, x_fontSize:10, x_align:'right'});
+
+            // Configurações Gerais
+            doc.setFont("helvetica", "normal");
+
+            var xLeft = marginLeft;
+            var startY = 0;
+            var rowHeight = 7;
+            var cornerRadius = 1;
+
+            // Página 1''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            //Texto
+            startY = 10;
+            texto = 'SISTEMA SAC';
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ' '+texto;
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:startY, x_fontSize:12, x_fontStyle:'bold', x_align:'left', x_fundo:true, x_fundo_cor:2});
+
+            //Texto
+            startY = 10;
+            texto = 'ADMINISTRAÇÃO E CONTROLE';
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = texto+' ';
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:startY, x_fontSize:12, x_fontStyle:'bold', x_align:'right'});
+
+            //Texto
+            startY += 10;
+            texto = dados.relatorio_nome;
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ' '+texto;
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:startY, x_fontSize:10, x_align:'left', x_fundo:true, x_fundo_cor:1});
+
+            //Texto
+            texto = 'Página 1/2'; //dados.relatorio_data+' às '+dados.relatorio_hora;
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = texto+' ';
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:startY, x_fontSize:10, x_align:'right'});
+
+            // Subtítulo Informações Gerais
+            startY += 15;
+            texto = 'Informações Gerais';
+            if (traducao === 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ':: '+texto;
+            doc.setFontSize(12);
+            doc.text(texto, marginLeft, startY);
+
+            // Formulário
+            startY = startY + 10;
+            var campos = [
+                ["Nome", 70, false], ["CPF", 40, false], ["Empresa", 60, true, "opcoes", ["SR Mais", "Consultoria Mais"]],
+                ["Tipo de Contratação", 60, false], ["Departamento", 60, false], ["Função", 50, true],
+                ["Nome Profissional", 60, false], ["Nascimento", 40, false], ["Sexo", 70, true, "opcoes", ["Masculino", "Feminino", "Outro"]],
+                ["Celular", 40, false], ["Telefone", 40, false], ["E-mail", 90, true],
+                ["Estado Civil", 60, false], ["Escolaridade", 55, false], ["Nacionalidade", 55, true],
+                ["Naturalidade", 60, false], ["Mãe", 55, false], ["Pai", 55, true],
+                ["Cor/Raça", 180, true, "opcoes", ["Branca", "Preta", "Parda", "Amarela", "Indígena"]]
+            ];
+
+            // Chamada
+            startY = await desenharCampos(campos, startY);
+
+            // Subtítulo Dados Bancários
+            texto = 'Dados Bancários';
+            if (traducao === 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ':: '+texto;
+            startY = startY + 5;
+            doc.setFontSize(12);
+            doc.text(texto, marginLeft, startY);
+
+            // Formulário
+            startY = startY + 10;
+            var campos = [
+                ["Banco", 40, false], ["Agência", 20, false], ["Conta", 30, false], ["PIX Tipo", 30, false], ["PIX Chave", 40, true]
+            ];
+
+            // Chamada
+            startY = await desenharCampos(campos, startY);
+
+            // Subtítulo Endereço
+            texto = 'Endereço';
+            if (traducao === 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ':: '+texto;
+            startY = startY + 5;
+            doc.setFontSize(12);
+            doc.text(texto, marginLeft, startY);
+
+            // Formulário
+            startY = startY + 10;
+            var campos = [
+                ["Logradouro", 100, false], ["Número", 20, false], ["Complemento", 50, true],
+                ["Bairro", 47.5, false], ["Localidade", 47.5, false], ["UF", 20, false], ["CEP", 30, true]
+            ];
+
+            // Chamada
+            startY = await desenharCampos(campos, startY);
+            //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+            // Página 2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            doc.addPage();
+
+            //Texto
+            startY = 10;
+            texto = 'SISTEMA SAC';
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ' '+texto;
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:startY, x_fontSize:12, x_fontStyle:'bold', x_align:'left', x_fundo:true, x_fundo_cor:2});
+
+            //Texto
+            startY = 10;
+            texto = 'ADMINISTRAÇÃO E CONTROLE';
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = texto+' ';
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:startY, x_fontSize:12, x_fontStyle:'bold', x_align:'right'});
+
+            //Texto
+            startY += 10;
+            texto = dados.relatorio_nome;
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ' '+texto;
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:startY, x_fontSize:10, x_align:'left', x_fundo:true, x_fundo_cor:1});
+
+            //Texto
+            texto = 'Página 2/2'; //dados.relatorio_data+' às '+dados.relatorio_hora;
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = texto+' ';
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:startY, x_fontSize:10, x_align:'right'});
+
+            // Subtítulo Documentos
+            startY += 15;
+            texto = 'Documentos';
+            if (traducao === 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ':: '+texto;
+            doc.setFontSize(12);
+            doc.text(texto, marginLeft, startY);
+
+            // Formulário
+            startY += 10;
+            var campos = [
+                ["Carteira Nacional - CN (Órgão)", 75, false], ["CN (Estado)", 20, false], ["CN (Número)", 40, false], ["CN (Emissão)", 30, true],
+                ["Identidade Pessoal - IP (Órgão)", 75, false], ["IP (Estado)", 20, false], ["IP (Número)", 40, false], ["IP (Emissão)", 30, true],
+                ["Identidade Profissional - IP (Órgão)", 75, false], ["IP (Estado)", 20, false], ["IP (Número)", 40, false], ["IP (Emissão)", 30, true],
+                ["Título de Eleitor - TE (Número)", 60, false], ["TE (Zona)", 60, false], ["TE (Seção)", 50, true],
+                ["PIS", 60, false], ["PASEP", 60, false], ["Carteira Trabalho", 50, true],
+                ["Atestado de Saúde Ocupacional - ASO (Tipo)", 145, false], ["ASO (Emissão)", 30, true],
+                ["CNH", 30, false, "opcoes", ["Sim", "Não"]], ["CNH (Categoria)", 30, false], ["CNH (Validade)", 30, true]
+            ];
+
+            // Chamada
+            startY = await desenharCampos(campos, startY);
+
+            // Subtítulo Transporte
+            texto = 'Transporte';
+            if (traducao === 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ':: '+texto;
+            startY += 5;
+            doc.setFontSize(12);
+            doc.text(texto, marginLeft, startY);
+
+            // Formulário
+            startY += 10;
+            var campos = [
+                ["Utiliza transporte público?", 35, false, "opcoes", ["Sim", "Não"]], ["Necessita vale-transporte?", 35, false, "opcoes", ["Sim", "Não"]], ["Endereço de embarque", 100, true],
+                ["Tipo de transporte", 145, false, "opcoes", ["Ônibus", "Metrô/Trem", "Van", "Aplicativo", "Carro Próprio", "Moto", "Bicicleta"]], ["Vl passagens (diário) R$", 30, true]
+            ];
+
+            // Chamada
+            startY = await desenharCampos(campos, startY);
+
+            // Subtítulo Dependentes
+            texto = 'Dependentes';
+            if (traducao === 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ':: '+texto;
+            startY += 5;
+            doc.setFontSize(12);
+            doc.text(texto, marginLeft, startY);
+
+            // Formulário
+            startY += 10;
+            var campos = [
+                ["1. Nome", 80, false], ["Grau de Parentesco", 60, false], ["Data Nascimento", 30, true],
+                ["2. Nome", 80, false], ["Grau de Parentesco", 60, false], ["Data Nascimento", 30, true]
+            ];
+
+            // Chamada
+            startY = await desenharCampos(campos, startY);
+            //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+            // Assinatura''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            // Nome
+            texto = 'Assinatura do Funcionário';
+            if (traducao === 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = texto+': ___________________________________________';
+            doc.setFontSize(9);
+            doc.text(texto, xLeft, 270);
+
+            //Data
+            texto = 'Data';
+            if (traducao === 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = texto+': ____/____/______';
+            doc.setFontSize(9);
+            doc.text(texto, 160, 270);
+            //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        }
+        //Relatório 9 - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Relatório 9 - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         //Gerar o pdf, abrir em uma outra aba e colocar link para download - Início'''''''''''''''''''''''''''''''''''''
         //Gerar o pdf, abrir em uma outra aba e colocar link para download - Início'''''''''''''''''''''''''''''''''''''
@@ -1226,33 +1649,6 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
         //Tentar abrir em uma nova aba
         const newTab = window.open(pdfUrl);
 
-        //Adiciona um link abaixo do botão
-        /*
-        let elemento = document.getElementById('xxxx');
-
-        //Verifica se já existe um link para evitar duplicação
-        let existingLink = document.getElementById('pdf_download_link');
-        if (existingLink) {
-            existingLink.href = pdfUrl; // Atualiza o link existente
-            return;
-        }
-
-        //Cria o link dinamicamente
-        let link = document.createElement('a');
-        link.id = 'pdf_download_link';
-        link.href = pdfUrl;
-        link.download = 'documento.pdf';
-        link.textContent = 'Clique aqui para baixar o PDF';
-
-        //Estiliza o link para ficar vermelho
-        link.style.color = 'red';
-        link.style.textDecoration = 'underline';
-        link.style.display = 'block';
-        link.style.marginTop = '10px';
-
-        //Insere o link logo abaixo do botão
-        elemento.parentNode.insertBefore(link, elemento.nextSibling);
-        */
         //Gerar o pdf, abrir em uma outra aba e colocar link para download - Fim''''''''''''''''''''''''''''''''''''''''
         //Gerar o pdf, abrir em uma outra aba e colocar link para download - Fim''''''''''''''''''''''''''''''''''''''''
     } catch (e) {

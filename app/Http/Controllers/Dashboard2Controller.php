@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Facades\Permissoes;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class Dashboard2Controller extends Controller
 {
     //Variaveis de Retorno da API
     public $message;
@@ -15,13 +15,13 @@ class DashboardController extends Controller
     
     public function __construct()
     {
-        $this->middleware('check-permissao:dashboards_list', ['only' => ['index']]);
+        $this->middleware('check-permissao:dashboards2_list', ['only' => ['index']]);
     }
 
     public function index(Request $request)
     {
         //chamar view
-        return view('dashboards.index');
+        return view('dashboards2.index');
     }
 
     public function graficos()
@@ -29,7 +29,7 @@ class DashboardController extends Controller
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data()
-            $this->responseApi(1, 10, 'dashboards/graficos', '', '', '');
+            $this->responseApi(1, 10, 'dashboards2/graficos', '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
@@ -45,7 +45,7 @@ class DashboardController extends Controller
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data()
-            $this->responseApi(1, 10, 'dashboards/grafico/dados/'.$grafico_id, '', '', '');
+            $this->responseApi(1, 10, 'dashboards2/grafico/dados/'.$grafico_id, '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {

@@ -3312,6 +3312,36 @@ async function gerarCodigoNumerico(texto) {
     return Math.abs(hash); // número sempre positivo
 }
 
+// Primeira letra maiuscula
+function primeiraMaiuscula(frase) {
+    const excecoes = [
+        "de", "da", "do", "das", "dos",
+        "em", "no", "na", "nos", "nas",
+        "por", "para",
+        "e", "a", "o"
+    ];
+
+    return frase
+        .toLowerCase()
+        .split(/\s+/)
+        .map((palavra, index) => {
+
+            // Primeira palavra sempre deve ser capitalizada
+            if (index === 0) {
+                return palavra.charAt(0).toUpperCase() + palavra.slice(1);
+            }
+
+            // Mantém as exceções minúsculas
+            if (excecoes.includes(palavra)) {
+                return palavra;
+            }
+
+            // Capitaliza normalmente
+            return palavra.charAt(0).toUpperCase() + palavra.slice(1);
+        })
+        .join(' ');
+}
+
 //Corrigir rotação da Foto para apresentação visual - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Corrigir rotação da Foto para apresentação visual - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 function carregarImagemComoBase64(url) {

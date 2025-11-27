@@ -1,4 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Gráficos
-    dashboard_graficos(1);
+    dashboard_graficos(3);
 });

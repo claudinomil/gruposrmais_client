@@ -13,6 +13,7 @@ class Menu
         //Módulos e Submódulos
         $modulos = session('se_userLoggedMenuModulos');
         $submodulos = session('se_userLoggedMenuSubmodulos');
+        $dashboards = session('se_userDashboards');
 
         //Pegar Id do Modulo Ativo
         $moduloIdActive = 0;
@@ -86,9 +87,6 @@ class Menu
                     //16 : Clientes
                     //if ($submodulo['id'] == 16) {$permitido = false;}
 
-                    //17 : Dashboards
-                    //if ($submodulo['id'] == 17) {$permitido = false;}
-
                     //18 : Fornecedores
                     //if ($submodulo['id'] == 18) {$permitido = false;}
 
@@ -99,7 +97,7 @@ class Menu
                     if ($submodulo['id'] == 20) {$permitido = false;}
 
                     //21 : Propostas
-                    if ($submodulo['id'] == 21) {$permitido = false;}
+                    //if ($submodulo['id'] == 21) {$permitido = false;}
 
                     //22 : Visitas Técnicas
                     //if ($submodulo['id'] == 22) {$permitido = false;}
@@ -129,7 +127,37 @@ class Menu
                     //if ($submodulo['id'] == 32) {$permitido = false;}
 
                     //33 : Brigadas de Incêndios
-                    if ($submodulo['id'] == 33) {$permitido = false;}
+                    //if ($submodulo['id'] == 33) {$permitido = false;}
+
+                    //17 : Dashboards
+                    if ($submodulo['id'] == 17) {
+                        $permitido = false;
+
+                        // Verificar se o Usuário tem Gráficos para mostrar esse Dashboard
+                        foreach ($dashboards as $dashboard) {
+                            if ($dashboard['dashboard'] == 1) {$permitido = true;}
+                        }
+                    }
+
+                    //34 : Dashboards 2
+                    if ($submodulo['id'] == 34) {
+                        $permitido = false;
+
+                        // Verificar se o Usuário tem Gráficos para mostrar esse Dashboard
+                        foreach ($dashboards as $dashboard) {
+                            if ($dashboard['dashboard'] == 2) {$permitido = true;}
+                        }
+                    }
+
+                    //35 : Dashboards 3
+                    if ($submodulo['id'] == 35) {
+                        $permitido = false;
+
+                        // Verificar se o Usuário tem Gráficos para mostrar esse Dashboard
+                        foreach ($dashboards as $dashboard) {
+                            if ($dashboard['dashboard'] == 3) {$permitido = true;}
+                        }
+                    }
                     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                     if ($permitido) {
@@ -176,7 +204,7 @@ class Menu
                             or $submodulo['id'] == 21
                             or $submodulo['id'] == 22
                             or $submodulo['id'] == 26
-                            or $submodulo['id'] == 30 
+                            or $submodulo['id'] == 30
                             or $submodulo['id'] == 33
                         ) {$submodulo_menu_status = $desenvolvimento;}
 

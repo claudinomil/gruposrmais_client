@@ -22,7 +22,7 @@ class RelatorioController extends Controller
     public function index()
     {
         //Gerar QRCode Cartões Emergenciais
-        SuporteFacade::setGerarQRCodesCartoesEmergenciais();
+        //SuporteFacade::setGerarQRCodesCartoesEmergenciais();
 
         //Buscando dados Api_Data()
         $this->responseApi(1, 1, 'relatorios', '', '', '');
@@ -137,12 +137,28 @@ class RelatorioController extends Controller
         }
     }
 
-    public function relatorio8(Request $request, $ponto_tipo_id, $ponto_natureza_id, $idioma)
+    public function relatorio8(Request $request, $ponto_tipo_id, $ponto_natureza_id, $modelo, $idioma)
     {
         //Requisição Ajax
         if ($request->ajax()) {
             //Buscando dados Api_Data() - Dados
-            $this->responseApi(1, 10, 'relatorios/relatorio8/' . $ponto_tipo_id . '/' . $ponto_natureza_id . '/' . $idioma, '', '', '');
+            $this->responseApi(1, 10, 'relatorios/relatorio8/' . $ponto_tipo_id . '/' . $ponto_natureza_id . '/' . $modelo . '/' . $idioma, '', '', '');
+
+            //Dados recebidos com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            } else {
+                return response()->json(['error' => 'Erro Interno Relatórios']);
+            }
+        }
+    }
+
+    public function relatorio9(Request $request, $idioma)
+    {
+        //Requisição Ajax
+        if ($request->ajax()) {
+            //Buscando dados Api_Data() - Dados
+            $this->responseApi(1, 10, 'relatorios/relatorio9/' . $idioma, '', '', '');
 
             //Dados recebidos com sucesso
             if ($this->code == 2000) {

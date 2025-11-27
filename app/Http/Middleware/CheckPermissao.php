@@ -49,6 +49,8 @@ class CheckPermissao
                 session(['se_namesFieldsSubmodulo' => $response['content']['namesFieldsSubmodulo']]); //Array com os nomes dos campos da tabela
                 session(['se_layouts_modes' => $response['content']['layouts_modes']]); //Layouts Modes
                 session(['se_layouts_styles' => $response['content']['layouts_styles']]); //Layouts Styles
+                session(['se_userDashboards' => $response['content']['userDashboards']]); //Dashboards do usuário logado (Gráficos)
+
             } else {
                 if ($request->ajax()) {
                     return response()->json(['error_permissao' => 'Permissão Negada']);

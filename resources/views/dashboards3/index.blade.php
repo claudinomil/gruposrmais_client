@@ -24,6 +24,6 @@
     <!-- scripts_dashboards_global.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_dashboards_global.js')}}"></script>
 
-    <!-- scripts_dashboards.js -->
-    <script src="{{ Vite::asset('resources/assets_template/js/scripts_dashboards.js')}}"></script>
+    <!-- scripts_dashboards3.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_dashboards3.js')}}"></script>
 @endsection

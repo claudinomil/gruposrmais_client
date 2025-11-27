@@ -18,6 +18,7 @@ class GrupoController extends Controller
     public $submodulos;
     public $permissoes;
     public $relatorios;
+    public $graficos;
 
     public function __construct()
     {
@@ -57,7 +58,8 @@ class GrupoController extends Controller
             return view('grupos.index', [
                 'submodulos' => $this->submodulos,
                 'permissoes' => $this->permissoes,
-                'relatorios' => $this->relatorios
+                'relatorios' => $this->relatorios,
+                'graficos' => $this->graficos
             ]);
         }
     }
