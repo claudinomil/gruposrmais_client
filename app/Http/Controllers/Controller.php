@@ -101,6 +101,7 @@ class Controller extends BaseController
             if (isset($response['content']['materiais'])) {$this->materiais = $response['content']['materiais'];}
             if (isset($response['content']['escala_tipos'])) {$this->escala_tipos = $response['content']['escala_tipos'];}
             if (isset($response['content']['especialidades'])) {$this->especialidades = $response['content']['especialidades'];}
+            if (isset($response['content']['cores'])) {$this->cores = $response['content']['cores'];}
         }
     }
 
@@ -139,7 +140,7 @@ class Controller extends BaseController
                 $btn .= '<div class="col-12 col-md-4 pb-2"><button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Registro" onclick="crudDelete(' . $id . ');"><i class="fa fa-trash-alt font-size-18"></i></button></div>';
             }
         }
-        
+
         $btn .= '</div></td>';
 
         return $btn;

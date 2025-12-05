@@ -654,7 +654,13 @@ function crudView(registro_id) {
                 document.getElementById('fun_documentos_file').disabled = false;
                 document.getElementById('fun_documentos_documento_id').disabled = false;
 
-                //Doenças e Doenças Família'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Liberar campos frm_upload_documentos_mensais_fun
+                document.getElementById('upload_documentos_mensais_funcionario_id').disabled = false;
+                document.getElementById('upload_documentos_mensais_fun_acao').disabled = false;
+                document.getElementById('fun_documentos_mensais_mes').disabled = false;
+                document.getElementById('fun_documentos_mensais_ano').disabled = false;
+
+                // Doenças e Doenças Família'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 document.getElementById('doenca_diabetes').checked = false;
                 document.getElementById('doenca_hipertensao').checked = false;
                 document.getElementById('doenca_asma').checked = false;

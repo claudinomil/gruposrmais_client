@@ -89,12 +89,13 @@ export default defineConfig({
                 {src: 'resources/assets_template/images/fornecedores/fornecedor-0.png', dest: 'assets/images/fornecedores'},
                 {src: 'resources/assets_template/images/clientes_executivos/cliente_executivo-0.png', dest: 'assets/images/clientes_executivos'},
                 {src: 'resources/assets_template/images/funcionarios/funcionario-0.png', dest: 'assets/images/funcionarios'},
+                {src: 'resources/assets_template/images/materiais/material-0.png', dest: 'assets/images/materiais'},
                 {src: 'resources/assets_template/images/users/avatar-0.png', dest: 'assets/images/users'},
                 {src: 'resources/assets_template/images/visitas_tecnicas/visita-tecnica-0.png', dest: 'assets/images/visitas_tecnicas'},
 
                 {src: 'resources/assets_template/images/cartao_emergencial_cnooc.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/cartao_emergencial_funcionario.png', dest: 'assets/images'},
-                
+
                 {src: 'resources/assets_template/images/cliente-img.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/proposta-img.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/visita_tecnica-img.png', dest: 'assets/images'},

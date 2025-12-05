@@ -22,7 +22,7 @@ class RelatorioController extends Controller
     public function index()
     {
         //Gerar QRCode Cartões Emergenciais
-        //SuporteFacade::setGerarQRCodesCartoesEmergenciais();
+        SuporteFacade::setGerarQRCodesCartoesEmergenciais();
 
         //Buscando dados Api_Data()
         $this->responseApi(1, 1, 'relatorios', '', '', '');

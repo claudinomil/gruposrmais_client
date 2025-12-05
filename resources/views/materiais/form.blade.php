@@ -29,7 +29,7 @@
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    
+
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
@@ -41,17 +41,31 @@
                                     <label class="form-label">Categoria</label>
                                     <select class="form-control" name="material_categoria_id" id="material_categoria_id">
                                         <option value="">{{ __('Selecione...') }}</option>
-                                        
+
                                         @foreach ($material_categorias as $material_categoria)
                                             <option value="{{ $material_categoria['id'] }}">{{ $material_categoria['name'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-12 col-md-4 pb-3">
+                                <div class="form-group col-12 col-md-8 pb-3">
                                     <label class="form-label">{{ __('Nome') }}</label>
                                     <input type="text" class="form-control text-uppercase" id="name" name="name" required="required">
                                 </div>
-                                <div class="form-group col-12 col-md-4 pb-3">
+                                <div class="form-group col-12 col-md-2 pb-3">
+                                    <label class="form-label">Cor</label>
+                                    <select class="form-control" name="cor" id="cor">
+                                        <option value="">{{ __('Selecione...') }}</option>
+
+                                        @foreach ($cores as $cor)
+                                            <option value="{{ $cor['id'] }}">{{ $cor['name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-12 col-md-2 pb-3">
+                                    <label class="form-label">{{ __('CA') }}</label>
+                                    <input type="text" class="form-control" id="ca" name="ca">
+                                </div>
+                                <div class="form-group col-12 col-md-8 pb-3">
                                     <label class="form-label">{{ __('Descrição') }}</label>
                                     <input type="text" class="form-control" id="descricao" name="descricao">
                                 </div>

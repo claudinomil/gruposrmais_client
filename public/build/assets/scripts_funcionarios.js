@@ -289,7 +289,6 @@ function validar_frm_upload_documentos() {
     var validacao_ok = true;
     var mensagem = '';
 
-
     //Campo: upload_documentos_funcionario_id (requerido)
     if (validacao({op:1, value:document.getElementById('upload_documentos_funcionario_id').value}) === false) {
         validacao_ok = false;
@@ -321,6 +320,88 @@ function validar_frm_upload_documentos() {
     if (validacao({op:16, id:'fun_documentos_file'}) === false) {
         validacao_ok = false;
         mensagem += 'Arquivo PDF requerido.'+'<br>';
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+async function validar_frm_upload_verificar_documentos_mensais() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: upload_documentos_mensais_funcionario_id (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_documentos_mensais_funcionario_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Funcionário requerido.'+'<br>';
+    }
+
+    //Campo: upload_documentos_mensais_fun_acao (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_documentos_mensais_fun_acao').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Ação do Formulário requerido.'+'<br>';
+    }
+
+    //Campo: fun_documentos_mensais_mes (requerido)
+    if (validacao({op:1, value:document.getElementById('fun_documentos_mensais_mes').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Mês requerido.'+'<br>';
+    }
+
+    //Campo: fun_documentos_mensais_ano (requerido)
+    if (validacao({op:1, value:document.getElementById('fun_documentos_mensais_ano').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Ano requerido.'+'<br>';
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+function validar_frm_upload_documentos_mensais() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: upload_documentos_mensais_funcionario_id (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_documentos_mensais_funcionario_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Funcionário requerido.'+'<br>';
+    }
+
+    //Campo: upload_documentos_mensais_fun_acao (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_documentos_mensais_fun_acao').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Ação do Formulário requerido.'+'<br>';
+    }
+
+    //Campo: fun_documentos_mensais_mes (requerido)
+    if (validacao({op:1, value:document.getElementById('fun_documentos_mensais_mes').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Mês requerido.'+'<br>';
+    }
+
+    //Campo: fun_documentos_mensais_ano (requerido)
+    if (validacao({op:1, value:document.getElementById('fun_documentos_mensais_ano').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Ano requerido.'+'<br>';
     }
 
     //Mensagem
@@ -386,8 +467,10 @@ function funcionarioModalInfoControle(op, id='') {
     var div_fotografias = document.getElementById('md_fun_div_fotografias');
     var div_dados = document.getElementById('md_fun_div_dados');
     var div_documentos = document.getElementById('md_fun_div_documentos');
+    var div_documentos_mensais = document.getElementById('md_fun_div_documentos_mensais');
     var div_tomadores_servicos = document.getElementById('md_fun_div_tomadores_servicos');
     var div_incluir_documentos = document.getElementById('md_fun_div_incluir_documentos');
+    var div_incluir_documentos_mensais = document.getElementById('md_fun_div_incluir_documentos_mensais');
     var div_cartao_emergencial = document.getElementById('md_fun_div_cartao_emergencial');
 
     //Fotografias
@@ -401,11 +484,17 @@ function funcionarioModalInfoControle(op, id='') {
         div_documentos.classList.remove('d-lg-flex');
         div_documentos.classList.add('d-none');
 
+        div_documentos_mensais.classList.remove('d-lg-flex');
+        div_documentos_mensais.classList.add('d-none');
+
         div_tomadores_servicos.classList.remove('d-lg-flex');
         div_tomadores_servicos.classList.add('d-none');
 
         div_incluir_documentos.classList.remove('d-lg-flex');
         div_incluir_documentos.classList.add('d-none');
+
+        div_incluir_documentos_mensais.classList.remove('d-lg-flex');
+        div_incluir_documentos_mensais.classList.add('d-none');
 
         div_cartao_emergencial.classList.remove('d-lg-flex');
         div_cartao_emergencial.classList.add('d-none');
@@ -424,11 +513,17 @@ function funcionarioModalInfoControle(op, id='') {
         div_documentos.classList.remove('d-lg-flex');
         div_documentos.classList.add('d-none');
 
+        div_documentos_mensais.classList.remove('d-lg-flex');
+        div_documentos_mensais.classList.add('d-none');
+
         div_tomadores_servicos.classList.remove('d-lg-flex');
         div_tomadores_servicos.classList.add('d-none');
 
         div_incluir_documentos.classList.remove('d-lg-flex');
         div_incluir_documentos.classList.add('d-none');
+
+        div_incluir_documentos_mensais.classList.remove('d-lg-flex');
+        div_incluir_documentos_mensais.classList.add('d-none');
 
         div_cartao_emergencial.classList.remove('d-lg-flex');
         div_cartao_emergencial.classList.add('d-none');
@@ -448,11 +543,17 @@ function funcionarioModalInfoControle(op, id='') {
         div_documentos.classList.remove('d-none');
         div_documentos.classList.add('d-lg-flex');
 
+        div_documentos_mensais.classList.remove('d-lg-flex');
+        div_documentos_mensais.classList.add('d-none');
+
         div_tomadores_servicos.classList.remove('d-lg-flex');
         div_tomadores_servicos.classList.add('d-none');
 
         div_incluir_documentos.classList.remove('d-lg-flex');
         div_incluir_documentos.classList.add('d-none');
+
+        div_incluir_documentos_mensais.classList.remove('d-lg-flex');
+        div_incluir_documentos_mensais.classList.add('d-none');
 
         div_cartao_emergencial.classList.remove('d-lg-flex');
         div_cartao_emergencial.classList.add('d-none');
@@ -472,11 +573,17 @@ function funcionarioModalInfoControle(op, id='') {
         div_documentos.classList.remove('d-lg-flex');
         div_documentos.classList.add('d-none');
 
+        div_documentos_mensais.classList.remove('d-lg-flex');
+        div_documentos_mensais.classList.add('d-none');
+
         div_tomadores_servicos.classList.remove('d-none');
         div_tomadores_servicos.classList.add('d-lg-flex');
 
         div_incluir_documentos.classList.remove('d-lg-flex');
         div_incluir_documentos.classList.add('d-none');
+
+        div_incluir_documentos_mensais.classList.remove('d-lg-flex');
+        div_incluir_documentos_mensais.classList.add('d-none');
 
         div_cartao_emergencial.classList.remove('d-lg-flex');
         div_cartao_emergencial.classList.add('d-none');
@@ -496,11 +603,17 @@ function funcionarioModalInfoControle(op, id='') {
         div_documentos.classList.remove('d-lg-flex');
         div_documentos.classList.add('d-none');
 
+        div_documentos_mensais.classList.remove('d-lg-flex');
+        div_documentos_mensais.classList.add('d-none');
+
         div_tomadores_servicos.classList.remove('d-lg-flex');
         div_tomadores_servicos.classList.add('d-none');
 
         div_incluir_documentos.classList.remove('d-none');
         div_incluir_documentos.classList.add('d-lg-flex');
+
+        div_incluir_documentos_mensais.classList.remove('d-lg-flex');
+        div_incluir_documentos_mensais.classList.add('d-none');
 
         div_cartao_emergencial.classList.remove('d-lg-flex');
         div_cartao_emergencial.classList.add('d-none');
@@ -519,11 +632,17 @@ function funcionarioModalInfoControle(op, id='') {
         div_documentos.classList.remove('d-lg-flex');
         div_documentos.classList.add('d-none');
 
+        div_documentos_mensais.classList.remove('d-lg-flex');
+        div_documentos_mensais.classList.add('d-none');
+
         div_tomadores_servicos.classList.remove('d-lg-flex');
         div_tomadores_servicos.classList.add('d-none');
 
         div_incluir_documentos.classList.remove('d-lg-flex');
         div_incluir_documentos.classList.add('d-none');
+
+        div_incluir_documentos_mensais.classList.remove('d-lg-flex');
+        div_incluir_documentos_mensais.classList.add('d-none');
 
         div_cartao_emergencial.classList.remove('d-none');
         div_cartao_emergencial.classList.add('d-lg-flex');
@@ -532,6 +651,68 @@ function funcionarioModalInfoControle(op, id='') {
         if (id == '') {id = document.getElementById('mi_fun_funcionario_id').value;}
         cartaoEmergencialGerarPDF(2, id, 1, 'pt', 'fun_cartao_emergencial_1');
         cartaoEmergencialGerarPDF(2, id, 1, 'en', 'fun_cartao_emergencial_2');
+    }
+
+    //Documentos Mensais
+    if (op == 7) {
+        div_fotografias.classList.remove('d-lg-flex');
+        div_fotografias.classList.add('d-none');
+
+        div_dados.classList.remove('d-lg-flex');
+        div_dados.classList.add('d-none');
+
+        div_documentos.classList.remove('d-lg-flex');
+        div_documentos.classList.add('d-none');
+
+        div_documentos_mensais.classList.remove('d-none');
+        div_documentos_mensais.classList.add('d-lg-flex');
+
+        div_tomadores_servicos.classList.remove('d-lg-flex');
+        div_tomadores_servicos.classList.add('d-none');
+
+        div_incluir_documentos.classList.remove('d-lg-flex');
+        div_incluir_documentos.classList.add('d-none');
+
+        div_incluir_documentos_mensais.classList.remove('d-lg-flex');
+        div_incluir_documentos_mensais.classList.add('d-none');
+
+        div_cartao_emergencial.classList.remove('d-lg-flex');
+        div_cartao_emergencial.classList.add('d-none');
+
+        funcionarioModalInfoDocumentosMensais(id);
+        funcionarioModalInfoEstatisticas(id);
+    }
+
+    //Incluir Documentos Mensais
+    if (op == 8) {
+        div_fotografias.classList.remove('d-lg-flex');
+        div_fotografias.classList.add('d-none');
+
+        div_dados.classList.remove('d-lg-flex');
+        div_dados.classList.add('d-none');
+
+        div_documentos.classList.remove('d-lg-flex');
+        div_documentos.classList.add('d-none');
+
+        div_documentos_mensais.classList.remove('d-lg-flex');
+        div_documentos_mensais.classList.add('d-none');
+
+        div_tomadores_servicos.classList.remove('d-lg-flex');
+        div_tomadores_servicos.classList.add('d-none');
+
+        div_incluir_documentos.classList.remove('d-lg-flex');
+        div_incluir_documentos.classList.add('d-none');
+
+        div_incluir_documentos_mensais.classList.remove('d-none');
+        div_incluir_documentos_mensais.classList.add('d-lg-flex');
+
+        div_cartao_emergencial.classList.remove('d-lg-flex');
+        div_cartao_emergencial.classList.add('d-none');
+
+        // Limpando Campos
+        document.getElementById('div_documentos_mensais_files').innerHTML = '';
+
+        funcionarioModalInfoEstatisticas(id);
     }
 }
 
@@ -632,6 +813,10 @@ async function funcionarioModalInfoDados(id='') {
         //Documentos
         let upload_documentos_funcionario_id = document.getElementById('upload_documentos_funcionario_id');
         if (upload_documentos_funcionario_id) {upload_documentos_funcionario_id.value = funcionario.id ?? "";}
+
+        // Documentos Mensais
+        let upload_documentos_mensais_funcionario_id = document.getElementById('upload_documentos_mensais_funcionario_id');
+        if (upload_documentos_mensais_funcionario_id) {upload_documentos_mensais_funcionario_id.value = funcionario.id ?? "";}
 
         //Fotografia Documento
         let upload_fotografia_documento_funcionario_id = document.getElementById('upload_fotografia_documento_funcionario_id');
@@ -914,6 +1099,292 @@ function funcionarioModalInfoTomadoresServicosFiltrar(fonte) {
     tabela.search(fonte).draw();
 }
 
+// Modal Funcionários
+// Documentos Mensais
+function funcionarioModalInfoDocumentosMensais(funcionario_id='') {
+
+
+
+    // VERIFICAR CODIGO
+    // ACERTAR BOTOES
+    // VERIFICAR SOBRE FILTRO
+    // COLOCAR PARA VISUALIZAR
+    // COLOCAR PARA DELETAR
+
+
+    if (funcionario_id == '') {funcionario_id = document.getElementById('upload_documentos_mensais_funcionario_id').value;}
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'funcionarios/modalInfo/documentos_mensais/'+funcionario_id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        // Lendo JSON
+        let funcionarios_documentos_mensais = data.funcionarios_documentos_mensais;
+
+        // Permissões
+        let permissoes = data.permissoes;
+        const permissao_list = permissoes.some(p => p.permissao === 'funcionarios_list');
+        const permissao_destroy = permissoes.some(p => p.permissao === 'funcionarios_destroy');
+
+        // Grade
+        let grade = '';
+
+        if (funcionarios_documentos_mensais.length > 0) {
+            grade += '<table class="table align-middle table-nowrap table-check table-sm class-datatable-3">';
+            grade += '  <thead class="table-light">';
+            grade += '      <tr>';
+            grade += '          <th scope="col">Mês</th>';
+            grade += '          <th scope="col">Ano</th>';
+            grade += '          <th scope="col">Documentos / Ações</th>';
+            grade += '      </tr>';
+            grade += '  </thead>';
+            grade += '  <tbody>';
+
+            // Agrupar documentos por mês/ano (pra ficar organizado)
+            let agrupados = {};
+            funcionarios_documentos_mensais.forEach(dado => {
+                let chave = `${dado.mes}-${dado.ano}`;
+                if (!agrupados[chave]) agrupados[chave] = [];
+                agrupados[chave].push(dado);
+            });
+
+            // Montar as linhas agrupadas
+            for (let chave in agrupados) {
+                let [mes, ano] = chave.split('-');
+                let documentos = agrupados[chave];
+
+                grade += '<tr>';
+                grade += `  <td>${mes}</td>`;
+                grade += `  <td>${ano}</td>`;
+                grade += '  <td>';
+                grade += '      <div class="row">';
+
+                // Para cada documento do mês/ano
+                documentos.forEach(dado => {
+
+                    // Nome do documento
+                    let nomeDoc = primeiraMaiuscula(dado.documentoMensalName) ?? 'Documento';
+
+                    // Bloco de ações
+                    let acoes = '<div class="btn-group btn-group-sm" role="group">';
+
+                    if (permissao_list) {
+                        acoes += `
+                            <button type="button" class="btn btn-outline-info"
+                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="Visualizar Documento"
+                                onclick="window.open('${dado.caminho}', '_blank');">
+                                <i class="fa fa-file-pdf font-size-18"></i>
+                            </button>`;
+                    }
+
+                    if (permissao_destroy) {
+                        acoes += `&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-danger"
+                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="Excluir Documento"
+                                onclick="funcionarioModalInfoDocumentosMensaisDeletar(${dado.id});">
+                                <i class="fa fa-trash-alt font-size-18"></i>
+                            </button>`;
+                    }
+
+                    acoes += '</div>';
+
+                    // Monta bloco do documento com nome + botões
+                    grade += `
+                        <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center mb-1">
+                            <span class="me-2">
+                                <i class="fa fa-file-pdf text-danger"></i> <span class="small">${nomeDoc}</span>
+                            </span>
+                            ${acoes}
+                        </div>
+                    `;
+                });
+
+                grade += '      </div>';
+                grade += '  </td>';
+                grade += '</tr>';
+            }
+
+            grade += '  </tbody>';
+            grade += '</table>';
+        } else {
+            grade = 'Nenhum documento mensal encontrado.';
+        }
+
+
+
+        // //Lendo json
+        // let funcionarios_documentos_mensais = data.funcionarios_documentos_mensais;
+
+        // // Permissões
+        // let permissoes = data.permissoes;
+        // const permissao_list = permissoes.some(p => p.permissao === 'funcionarios_list');
+        // const permissao_destroy = permissoes.some(p => p.permissao === 'funcionarios_destroy');
+
+        // //Grade
+        // let grade = '';
+
+        // //Montar Grade
+        // if (funcionarios_documentos_mensais.length > 0) {
+        //     grade += '<table class="table align-middle table-nowrap table-check table-sm class-datatable-3">';
+        //     grade += '  <thead class="table-light">';
+        //     grade += '      <tr>';
+        //     grade += '          <th scope="col">Mês</th>';
+        //     grade += '          <th scope="col">Ano</th>';
+        //     grade += '          <th scope="col">Documentos/Ações</th>';
+        //     grade += '      </tr>';
+        //     grade += '  </thead>';
+        //     grade += '  <tbody>';
+
+        //     //Varrer
+        //     funcionarios_documentos_mensais.forEach(dado => {
+
+
+
+        //         mes = ???;
+        //         ano = ???;
+        //         documentoMensalName = ???;
+
+        //         //Ações
+        //         let acoes = '';
+
+        //         acoes += '<div class="row">';
+
+        //         if (permissao_list) {
+        //             acoes += '  <div class="col-6">';
+        //             acoes += '      <button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Documento" onclick="window.open(\'' + dado.caminho + '\', \'_blank\');"><i class="fa fa-file-pdf font-size-18"></i></button>';
+        //             acoes += '  </div>';
+        //         }
+
+        //         if (permissao_destroy) {
+        //             acoes += '  <div class="col-6">';
+        //             acoes += '      <button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Documento" onclick="funcionarioModalInfoDocumentosDeletar(' + dado.id + ');"><i class="fa fa-trash-alt font-size-18"></i></button>';
+        //             acoes += '  </div>';
+        //         }
+
+        //         acoes += '</div>';
+
+        //         //TR
+        //         grade += '<tr class="documento_fonte_'+dado.documento_fonte_id+'">';
+        //         grade += '  <td>'+documentoName+'</td>';
+        //         grade += '  <td>'+formatarData(2, dado.data_documento)+'</td>';
+        //         grade += '  <td>'+aviso_texto+'</td>';
+        //         grade += '  <td>'+acoes+'</td>';
+        //         grade += '</tr>';
+        //     });
+
+        //     grade += '  </tbody>';
+        //     grade += '</table>';
+
+
+
+        // } else {
+        //     grade = 'Nenhum documento mensal encontrado.';
+        // }
+
+        //Retornar Grade
+        document.getElementById('fun_documentos_mensais_grade').innerHTML = grade;
+
+
+
+
+
+        // //Colocar Botões para filtro dos documentos mensais quanto a Fonte
+        // var documentoFonteFiltro = '';
+        // var idPrimeiroFiltro = 0; // Guardar um id para depois que a grade for mostrada executar o primeiro Filtro)
+        // if (grade != 'Nenhum documento mensal encontrado.') {
+        //     //Lendo json
+        //     let documento_fontes = data.documento_fontes;
+
+        //     documentoFonteFiltro += '<div class="row my-2 d-flex">';
+
+        //     //Varrer
+        //     documento_fontes.forEach(dado => {
+        //         let documento_fonte_id = dado.id;
+        //         let documento_fonte_name = dado.name;
+        //         let qtd_registros = funcionarios_documentos.filter(reg => reg.documento_fonte_id === documento_fonte_id);
+
+        //         if (qtd_registros.length > 0) {
+        //             if (idPrimeiroFiltro == 0) {idPrimeiroFiltro = documento_fonte_id;}
+
+        //             documentoFonteFiltro += `   <div class="col-4 col-lg-3">`;
+        //             documentoFonteFiltro += `       <button type="button" class="btn btn-warning text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Filtar Documentos" onclick="funcionarioModalInfoDocumentosFiltrar(${documento_fonte_id});">${documento_fonte_name} (${qtd_registros.length})</button>`;
+        //             documentoFonteFiltro += `   </div>`;
+        //         }
+        //     });
+
+        //     documentoFonteFiltro += '</div>';
+        // }
+
+        // //Retornar Documento Mensal Filtro (Botões)
+        // document.getElementById('fun_documentos_mensais_grade_botoes').innerHTML = documentoFonteFiltro;
+
+        // //Primeiro Filtro
+        // funcionarioModalInfoDocumentosMensaisFiltrar(idPrimeiroFiltro);
+    }).catch(error => {
+        alert('Erro funcionarioModalInfoGradeDocumentosMensaisPdf: '+error);
+    }).finally(() => {
+        configurarDataTable(3);
+    });
+}
+
+function funcionarioModalInfoDocumentosMensaisFiltrar(documento_fonte_id) {
+    const todasLinhas = document.querySelectorAll("#fun_documentos_mensais_grade table tbody tr");
+
+    todasLinhas.forEach(linha => {
+        if (linha.classList.contains(`documento_fonte_${documento_fonte_id}`)) {
+            linha.style.display = '';
+        } else {
+            linha.style.display = 'none';
+        }
+    });
+}
+
+//Função para deletar documento mensal da grade
+async function funcionarioModalInfoDocumentosMensaisDeletar(funcionario_documento_mensal_id) {
+    //Confirmação de Delete
+    const confirmed = await alertSwalConfirmacao();
+    if (confirmed) {
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+        //Acessar rota
+        fetch(url_atual+'funcionarios/modalInfo/deletar_documento_mensal/'+funcionario_documento_mensal_id, {
+            method: 'DELETE',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            //Lendo dados
+            if (data.success) {
+                alertSwal('success', 'Funcionários', data.success, 'true', 2000);
+
+                //Dados
+                let funcionario_id = document.getElementById('upload_documentos_mensais_funcionario_id').value;
+
+                //Montar Grade
+                funcionarioModalInfoDocumentosMensais(funcionario_id);
+            } else if (data.error) {
+                alertSwal('error', 'Funcionários', data.error, 'true', 2000);
+            } else if (data.error_permissao) {
+                alertSwal('warning', "Permissão Negada", '', 'true', 2000);
+            } else {
+                alert('Erro interno');
+            }
+        }).catch(error => {
+            alert('Erro funcionarioModalInfoDeletarDocumentoMensalPdf:'+error);
+        });
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function(event) {
     //Acertar formulário para entrada de dados de contratacao_tipo''''''''''''''''''''''''''''''''''''''''''''''''''''''
     if ($('#contratacao_tipo_id').val() == 1) {
@@ -935,16 +1406,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-    //Botão: frm_upload_documentos_fun_executar''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    //Botão: frm_upload_documentos_fun_executar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     document.getElementById('frm_upload_documentos_fun_executar').addEventListener('click', function() {
         //FormData
         var formulario = document.getElementById('frm_upload_documentos_fun');
         var formData = new FormData(formulario);
         var url_atual = window.location.protocol+'//'+window.location.host+'/';
         var upload_documentos_funcionario_id = document.getElementById('upload_documentos_funcionario_id').value;
-
-        //Tratar Botões
-        document.getElementById('frm_upload_documentos_fun_executar').style.display = 'block';
 
         //Criticando campos
         if (validar_frm_upload_documentos() === false) {return false;}
@@ -975,6 +1443,128 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
         }).catch(error => {
             alert('Erro Funcionários Upload Documento PDF: '+error);
+        });
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: fun_documentos_mensais_botao_verificar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    document.getElementById('fun_documentos_mensais_botao_verificar').addEventListener('click', async function() {
+        // Criticando campos
+        const validar = await validar_frm_upload_verificar_documentos_mensais();
+        if (validar === false) {return false;}
+
+        // Dados
+        const frm_upload_documentos_mensais_fun_executar = document.getElementById('frm_upload_documentos_mensais_fun_executar');
+        const upload_documentos_mensais_funcionario_id = document.getElementById('upload_documentos_mensais_funcionario_id').value;
+        const fun_documentos_mensais_mes = document.getElementById('fun_documentos_mensais_mes').value;
+        const fun_documentos_mensais_ano = document.getElementById('fun_documentos_mensais_ano').value;
+
+        // Botão: frm_upload_documentos_mensais_fun_executar
+        frm_upload_documentos_mensais_fun_executar.classList.remove('d-block');
+        frm_upload_documentos_mensais_fun_executar.classList.add('d-none');
+
+        // URL
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+        //Acessar rota
+        fetch(url_atual+'funcionarios/modalInfo/verificar_documentos_mensais/'+upload_documentos_mensais_funcionario_id+'/'+fun_documentos_mensais_mes+'/'+fun_documentos_mensais_ano, {
+            method: 'GET',
+            headers: {'REQUEST-ORIGIN': 'fetch'}
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            // Lendo json
+            const documentos_mensais = data.documentos_mensais;
+            const verificar_documentos_mensais = data.verificar_documentos_mensais;
+
+            // Campos Files
+            let campos_files = '';
+
+            // verifica se existe documento_mensal_funcionario_id
+            documentos_mensais.forEach(documento_mensal => {
+                const existe = verificar_documentos_mensais.find(f => f.documento_mensal_funcionario_id === documento_mensal.id);
+                let existe_texto = '';
+
+                if (existe) {
+                    existe_texto = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript: void(0);" class="text-success small" onclick="window.open(\'' + existe.caminho + '\', \'_blank\');" title="Abrir documento existente"><span class="fa fa-file-pdf text-danger font-size-14"></span> Documento já existe na Base de Dados</a>';
+                }
+
+                const div_class = 'col-12 col-md-6 col-lg-6 mb-3';
+
+                campos_files += `<div class="${div_class}">
+                                    <label class="form-label">${primeiraMaiuscula(documento_mensal.name)} (PDF) ${existe_texto}</label>
+                                    <input type="file" class="form-control form-control-sm" name="fun_documentos_mensais_file_${documento_mensal.id}" id="fun_documentos_mensais_file_${documento_mensal.id}" accept=".pdf">
+                                </div>`;
+            });
+
+            // Retornar Campos
+            document.getElementById('div_documentos_mensais_files').innerHTML = campos_files;
+
+            //Tratar Botões
+            if (campos_files != '') {
+                frm_upload_documentos_mensais_fun_executar.classList.remove('d-none');
+                frm_upload_documentos_mensais_fun_executar.classList.add('d-block');
+            }
+        }).catch(error => {
+            alert('Erro fun_documentos_mensais_botao_verificar: '+error);
+        }).finally(() => {});
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: frm_upload_documentos_mensais_fun_executar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    document.getElementById('frm_upload_documentos_mensais_fun_executar').addEventListener('click', function() {
+        //FormData
+        var formulario = document.getElementById('frm_upload_documentos_mensais_fun');
+        var formData = new FormData(formulario);
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+        var upload_documentos_mensais_funcionario_id = document.getElementById('upload_documentos_mensais_funcionario_id').value;
+
+        //Criticando campos
+        if (validar_frm_upload_documentos_mensais() === false) {return false;}
+
+        // Acessar rota
+        fetch(url_atual+'funcionarios/uploadDocumentoMensal/upload_documento_mensal', {
+            method: 'POST',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            // Caso de sucesso total
+            if (data.success) {
+                // Atualiza grade de documentos
+                funcionarioModalInfoDocumentosMensais(upload_documentos_mensais_funcionario_id);
+
+                // Mostra sucesso principal
+                alertSwal('success', 'Funcionários', data.success, true, 20000);
+            } else if (data.error) {
+                // Monta uma mensagem de resumo
+                let msg = `<b>${data.error}</b><br>`;
+
+                if (data.sucessos && data.sucessos.length > 0) {
+                    msg += `<br><b>Enviados com sucesso:</b><br>`;
+                    msg += data.sucessos.map(s => '✅ ' + s).join('<br>') + '<br>';
+                }
+
+                if (data.erros && data.erros.length > 0) {
+                    msg += `<br><b>Falhas:</b><br>`;
+                    msg += data.erros.map(e => '❌ ' + e).join('<br>');
+                }
+
+                alertSwal('warning', 'Funcionários', msg, true, 40000);
+            } else {
+                alert('Erro interno desconhecido.');
+            }
+
+            formulario.reset();
+
+            // Limpando Campos
+            document.getElementById('div_documentos_mensais_files').innerHTML = '';
+        }).catch(error => {
+            alert('Erro Funcionários Upload Documento Mensal PDF: ' + error);
         });
     });
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

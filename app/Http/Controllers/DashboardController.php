@@ -12,7 +12,7 @@ class DashboardController extends Controller
     public $code;
     public $validation;
     public $content;
-    
+
     public function __construct()
     {
         $this->middleware('check-permissao:dashboards_list', ['only' => ['index']]);

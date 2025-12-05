@@ -37,11 +37,11 @@ class FuncionarioController extends Controller
 
     public function __construct()
     {
-        $this->middleware('check-permissao:list', ['only' => ['index', 'filter', 'modal_info', 'estatisticas', 'documentos', 'cartoes_emergenciais_dados', 'tomadores_servicos']]);
+        $this->middleware('check-permissao:list', ['only' => ['index', 'filter', 'modal_info', 'estatisticas', 'documentos', 'documentos_mensais', 'verificar_documentos_mensais', 'cartoes_emergenciais_dados', 'tomadores_servicos']]);
         $this->middleware('check-permissao:create', ['only' => ['create', 'store']]);
         $this->middleware('check-permissao:show', ['only' => ['show']]);
-        $this->middleware('check-permissao:edit', ['only' => ['edit', 'update', 'upload_fotografia_documento', 'upload_fotografia_cartao_emergencial', 'upload_documento']]);
-        $this->middleware('check-permissao:destroy', ['only' => ['destroy', 'deletar_documento']]);
+        $this->middleware('check-permissao:edit', ['only' => ['edit', 'update', 'upload_fotografia_documento', 'upload_fotografia_cartao_emergencial', 'upload_documento', 'upload_documento_mensal']]);
+        $this->middleware('check-permissao:destroy', ['only' => ['destroy', 'deletar_documento', 'deletar_documento_mensal']]);
     }
 
     public function index(Request $request)
@@ -86,7 +86,7 @@ class FuncionarioController extends Controller
             }
         } else {
             //Gerar QRCode Cartões Emergenciais
-            SuporteFacade::setGerarQRCodesCartoesEmergenciais();
+            //SuporteFacade::setGerarQRCodesCartoesEmergenciais();
 
             //Buscando dados Api_Data() - Auxiliary Tables (Combobox)
             $this->responseApi(2, 10, 'funcionarios/auxiliary/tables', '', '', '');
@@ -632,6 +632,234 @@ class FuncionarioController extends Controller
             } else {
                 echo 'Erro Interno Serviços Pdf.';
             }
+        }
+    }
+
+    public function upload_documento_mensal(Request $request)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            $erros = [];
+            $sucessos = [];
+
+            // Percorre todos os campos de arquivo enviados
+            foreach ($_FILES as $key => $file) {
+                // Só processa os campos que começam com "fun_documentos_mensais_file_"
+                if (strpos($key, 'fun_documentos_mensais_file_') === 0) {
+
+                    // Verifica se há arquivo enviado
+                    if ($request->hasFile($key)) {
+
+                        // Extrai o sufixo (ex: 3 em fun_documentos_mensais_file_3)
+                        $indice = str_replace('fun_documentos_mensais_file_', '', $key);
+
+                        // Dados do formulário
+                        $idFuncionario = $request['upload_documentos_mensais_funcionario_id'];
+                        $arquivoTmp = $_FILES[$key]["tmp_name"];
+                        $arquivoReal = $_FILES[$key]["name"];
+                        $arquivoReal = utf8_decode('tmp_' . $arquivoReal);
+                        $arquivoType = $_FILES[$key]["type"];
+
+                        // Verifica tipo do arquivo
+                        if ($arquivoType != 'application/pdf') {
+                            $erros[] = "Arquivo '$arquivoReal' não é um PDF válido.";
+                            continue;
+                        }
+
+                        // Faz upload para pasta temporária
+                        if (!copy($arquivoTmp, "build/assets/pdfs/funcionarios/$arquivoReal")) {
+                            $erros[] = "Falha ao copiar o arquivo '$arquivoReal'.";
+                            continue;
+                        }
+
+                        // Verifica se o arquivo foi realmente salvo
+                        if (!file_exists("build/assets/pdfs/funcionarios/$arquivoReal")) {
+                            $erros[] = "Arquivo '$arquivoReal' não encontrado após upload.";
+                            continue;
+                        }
+
+                        // Renomeia o arquivo
+                        $novoNome = 'id_' . $idFuncionario . '_documento_mensal_' . date('YmdHis') . "_{$indice}";
+                        $novoCaminho = "build/assets/pdfs/funcionarios/" . $novoNome . '.' . pathinfo($arquivoReal, PATHINFO_EXTENSION);
+                        $origem = "build/assets/pdfs/funcionarios/$arquivoReal";
+
+                        try {
+                            rename($origem, $novoCaminho);
+                        } catch (\Exception $e) {
+                            $erros[] = "Falha ao renomear '$arquivoReal'.";
+                            continue;
+                        }
+
+                        // Monta os dados para API
+                        $data = [
+                            'funcionario_id' => $idFuncionario,
+                            'acao' => $request['upload_documentos_mensais_fun_acao'],
+                            'documento_mensal_funcionario_id' => $indice,
+                            'mes' => $request['fun_documentos_mensais_mes'],
+                            'ano' => $request['fun_documentos_mensais_ano'],
+                            'caminho' => $novoCaminho,
+                        ];
+
+                        // Chama a API
+                        $this->responseApi(1, 12, 'funcionarios/uploadDocumentoMensal/upload_documento_mensal', '', '', $data);
+
+                        if ($this->code == 2000) {
+                            $sucessos[] = "Arquivo '{$arquivoReal}' enviado e salvo com sucesso.";
+                        } else {
+                            $erros[] = "Falha ao registrar '{$arquivoReal}' na API.";
+                        }
+                    } else {
+                        $erros[] = "Nenhum arquivo recebido para o campo '$key'.";
+                    }
+                }
+            }
+
+            // Retorna resultado consolidado
+            if (count($erros) > 0) {
+                return response()->json([
+                    'error' => 'Alguns arquivos não foram processados corretamente.',
+                    'sucessos' => $sucessos,
+                    'erros' => $erros,
+                ]);
+            } else {
+                return response()->json([
+                    'success' => 'Todos os arquivos foram enviados e gravados com sucesso!',
+                    'sucessos' => $sucessos,
+                ]);
+            }
+
+
+
+
+
+
+
+
+
+            // //Variavel controle
+            // $error = false;
+
+            // //Verificando e fazendo Upload do PDF
+            // if ($request->hasFile('fun_documentos_mensais_file_')) {
+            //     //funcionario_id
+            //     $id = $request['upload_documentos_mensais_funcionario_id'];
+
+            //     //buscar dados formulario
+            //     $arquivo_tmp = $_FILES["fun_documentos_mensais_file_"]["tmp_name"];
+            //     $arquivo_real = $_FILES["fun_documentos_mensais_file_"]["name"];
+            //     $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
+            //     $arquivo_type = $_FILES["fun_documentos_mensais_file_"]["type"];
+            //     $arquivo_size = $_FILES['fun_documentos_mensais_file_']['size'];
+
+            //     if ($arquivo_type == 'application/pdf') {
+            //         if (copy($arquivo_tmp, "build/assets/pdfs/funcionarios/$arquivo_real")) {
+            //             if (file_exists("build/assets/pdfs/funcionarios/" . $arquivo_real)) {
+            //                 //renomear para nome id_$id_documento_mensal_YmdHis
+            //                 $name = 'id_' . $id . '_documento_mensal_' . date('YmdHis');
+            //                 $pdf = "build/assets/pdfs/funcionarios/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+            //                 $de = "build/assets/pdfs/funcionarios/$arquivo_real";
+            //                 $pa = $pdf;
+
+            //                 try {
+            //                     rename($de, $pa);
+            //                 } catch (\Exception $e) {
+            //                     $error = true;
+            //                 }
+            //             }
+            //         }
+            //     } else {
+            //         return response()->json(['error' => 'Escolha um arquivo pdf válido.']);
+            //     }
+            // } else {
+            //     return response()->json(['error' => 'Escolha um arquivo pdf válido.']);
+            // }
+
+            // if (!$error) {
+            //     //Salvar Dados na tabela funcionarios_documentos_mensais
+            //     $data = array();
+            //     $data['funcionario_id'] = $request['upload_documentos_mensais_funcionario_id'];
+            //     $data['acao'] = $request['upload_documentos_mensais_fun_acao'];
+            //     $data['documento_mensal_funcionario_id'] = $request['fun_documentos_mensais_documento_id'];
+            //     $data['mes'] = $request['fun_documentos_mensais_mes'];
+            //     $data['ano'] = $request['fun_documentos_mensais_ano'];
+            //     $data['caminho'] = $pdf;
+
+            //     //Buscando dados Api_Data() - Atualizar Registro
+            //     $this->responseApi(1, 12, 'funcionarios/uploadDocumentoMensal/upload_documento_mensal', '', '', $data);
+
+            //     //Registro recebido com sucesso
+            //     if ($this->code == 2000) {
+            //         return response()->json(['success' => $this->message]);
+            //     } else {
+            //         return response()->json(['error' => 'Erro Interno Upload Documento Mensal PDF.']);
+            //     }
+            // } else {
+            //     return response()->json(['error' => 'PDF (Nome, Tamanho ou Tipo) inválida.']);
+            // }
+
+
+
+
+
+
+        } else {
+            return response()->json(['error' => 'Erro na requisição Upload Documento Mensal PDF']);
+        }
+    }
+
+    public function verificar_documentos_mensais($funcionario_id, $mes, $ano)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'funcionarios/modalInfo/verificar_documentos_mensais/' . $funcionario_id . '/' . $mes . '/' . $ano, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Verificar Documentos Mensais Pdf.';
+            }
+        }
+    }
+
+    public function documentos_mensais($funcionario_id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'funcionarios/modalInfo/documentos_mensais/' . $funcionario_id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Documentos Mensais Pdf.';
+            }
+        }
+    }
+
+    public function deletar_documento_mensal($funcionario_documento_mensal_id)
+    {
+        //Buscando dados Api_Data() - Deletar Registro
+        $this->responseApi(1, 6, 'funcionarios/modalInfo/deletar_documento_mensal', $funcionario_documento_mensal_id, '', '');
+
+        //Registro deletado com sucesso
+        if ($this->code == 2000) {
+            //Apagar arquivo
+            $caminhoArquivo = $this->content;
+
+            if (file_exists($caminhoArquivo)) {
+                unlink($caminhoArquivo);
+            }
+
+            return response()->json(['success' => $this->message]);
+        } else {
+            return response()->json(['error' => $this->message]);
         }
     }
 

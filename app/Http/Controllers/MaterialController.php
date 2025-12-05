@@ -16,13 +16,14 @@ class MaterialController extends Controller
 
     //Dados Auxiliares
     public $material_categorias;
+    public $cores;
 
     public function __construct()
     {
-        $this->middleware('check-permissao:materiais_list', ['only' => ['index', 'filter']]);
+        $this->middleware('check-permissao:materiais_list', ['only' => ['index', 'filter', 'modal_info']]);
         $this->middleware('check-permissao:materiais_create', ['only' => ['create', 'store']]);
         $this->middleware('check-permissao:materiais_show', ['only' => ['show']]);
-        $this->middleware('check-permissao:materiais_edit', ['only' => ['edit', 'update']]);
+        $this->middleware('check-permissao:materiais_edit', ['only' => ['edit', 'update', 'upload_fotografia']]);
         $this->middleware('check-permissao:materiais_destroy', ['only' => ['destroy']]);
     }
 
@@ -37,6 +38,15 @@ class MaterialController extends Controller
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
+                    ->editColumn('fotografia', function ($row) {
+                        $retorno = "<div class='text-center'>";
+                        $retorno .= "<img src='" . asset($row['fotografia']) . "' alt='' class='img-thumbnail avatar-sm' id='datatable_fotografia_material_id_" . $row['id'] . "'>";
+                        $retorno .= "<br>";
+                        $retorno .= "<a href='#' onclick='materialModalInfoControle(2, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
+                        $retorno .= "</div>";
+
+                        return $retorno;
+                    })
                     ->addColumn('action', function ($row, Request $request) {
                         return $this->columnAction($row['id']);
                     })
@@ -53,7 +63,8 @@ class MaterialController extends Controller
             $this->responseApi(2, 10, 'materiais/auxiliary/tables', '', '', '');
 
             return view('materiais.index', [
-                'material_categorias' => $this->material_categorias
+                'material_categorias' => $this->material_categorias,
+                'cores' => $this->cores
             ]);
         }
     }
@@ -171,6 +182,15 @@ class MaterialController extends Controller
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
+                    ->editColumn('fotografia', function ($row) {
+                        $retorno = "<div class='text-center'>";
+                        $retorno .= "<img src='" . asset($row['fotografia']) . "' alt='' class='img-thumbnail avatar-sm' id='datatable_fotografia_material_id_" . $row['id'] . "'>";
+                        $retorno .= "<br>";
+                        $retorno .= "<a href='#' onclick='materialModalInfoControle(2, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
+                        $retorno .= "</div>";
+
+                        return $retorno;
+                    })
                     ->addColumn('action', function ($row, Request $request) {
                         return $this->columnAction($row['id']);
                     })
@@ -184,6 +204,89 @@ class MaterialController extends Controller
             }
         } else {
             return view('materiais.index');
+        }
+    }
+
+    public function modal_info($id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'materiais/modalInfo/modal_info/' . $id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Modal Info.';
+            }
+        }
+    }
+
+    public function upload_fotografia(Request $request)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Variavel controle
+            $error = false;
+
+            //Verificando e fazendo Upload do Arquivo
+            if ($request->hasFile('mat_fotografia_file')) {
+                //material_id
+                $id = $request['upload_fotografia_material_id'];
+
+                //buscar dados formulario
+                $arquivo_tmp = $_FILES["mat_fotografia_file"]["tmp_name"];
+                $arquivo_real = $_FILES["mat_fotografia_file"]["name"];
+                $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
+                $arquivo_type = $_FILES["mat_fotografia_file"]["type"];
+                $arquivo_size = $_FILES['mat_fotografia_file']['size'];
+
+                if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
+                    if (copy($arquivo_tmp, "build/assets/images/materiais/$arquivo_real")) {
+                        if (file_exists("build/assets/images/materiais/" . $arquivo_real)) {
+                            //renomear para fotografia_ID
+                            $name = 'fotografia_' . $id;
+                            $img = "build/assets/images/materiais/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+                            $de = "build/assets/images/materiais/$arquivo_real";
+                            $pa = $img;
+
+                            try {
+                                rename($de, $pa);
+                            } catch (\Exception $e) {
+                                $error = true;
+                            }
+                        }
+                    }
+                } else {
+                    return response()->json(['error' => 'Escolha um arquivo válido.']);
+                }
+            } else {
+                return response()->json(['error' => 'Escolha um arquivo válido.']);
+            }
+
+            if (!$error) {
+                //Salvar Dados na tabela materiais
+                $data = array();
+                $data['material_id'] = $request['upload_fotografia_material_id'];
+                $data['fotografia'] = $img;
+
+                //Buscando dados Api_Data() - Atualizar Registro
+                $this->responseApi(1, 12, 'materiais/uploadFotografia/upload_fotografia', '', '', $data);
+
+                //Registro recebido com sucesso
+                if ($this->code == 2000) {
+                    return response()->json(['success' => $this->message]);
+                } else {
+                    return response()->json(['error' => 'Erro Interno Upload Fotografia.']);
+                }
+            } else {
+                return response()->json(['error' => 'IMG (Nome, Tamanho ou Tipo) inválida.']);
+            }
+        } else {
+            return response()->json(['error' => 'Erro na requisição Upload Fotografia']);
         }
     }
 }

@@ -12,4 +12,8 @@ Route::prefix('materiais')->group(function () {
     Route::post('/{id}', [MaterialController::class, 'update'])->name('materiais.update');
     Route::delete('/{id}', [MaterialController::class, 'destroy'])->name('materiais.destroy');
     Route::get('/filter/{array_dados}', [MaterialController::class, 'filter'])->name('materiais.filter');
+
+    // Modal materiais_modal_info
+    Route::get('/modalInfo/modal_info/{id}', [MaterialController::class, 'modal_info'])->name('materiais.modal_info');
+    Route::post('/uploadFotografia/upload_fotografia', [MaterialController::class, 'upload_fotografia'])->name('materiais.upload_fotografia');
 });
