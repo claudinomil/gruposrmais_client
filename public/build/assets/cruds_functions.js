@@ -532,6 +532,11 @@ function crudCreate() {
                 ger_controleDisplay();
             }
 
+            if (prefixPermissaoSubmodulo == 'materiais_entradas') {
+                // Preparando Tela
+                mat_controleDisplay();
+            }
+
             if (prefixPermissaoSubmodulo == 'pontos_interesse') {
                 // Configurar Tela
                 configurarTela();
@@ -1003,6 +1008,33 @@ function crudView(registro_id) {
 
                 // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            }
+
+            if (prefixPermissaoSubmodulo == 'materiais_entradas') {
+                // Preparando Tela
+                mat_controleDisplay();
+
+                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                // Colocar Materiais Entradas Itens
+                const material_entrada_itens = data.success['material_entrada_itens'];
+
+                material_entrada_itens.forEach(function (item) {
+                    // Adicionar linha na grade
+                    mat_adicionarLinhaGrade({
+                        material_id: item.material_id,
+                        material_categoria_name: item.material_categoria_name,
+                        material_name: item.material_name,
+                        material_quantidade: item.material_quantidade,
+                        material_valor_unitario: item.material_valor_unitario
+                    });
+                });
+
+                // Colocar Total Geral
+                mat_colocarTotalGeralGrade();
+                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
             if (prefixPermissaoSubmodulo == 'pontos_interesse') {
@@ -1509,6 +1541,33 @@ async function crudEdit(registro_id) {
 
                 // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            }
+
+            if (prefixPermissaoSubmodulo == 'materiais_entradas') {
+                // Preparando Tela
+                mat_controleDisplay();
+
+                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                // Colocar Materiais Entradas Itens
+                const material_entrada_itens = data.success['material_entrada_itens'];
+
+                material_entrada_itens.forEach(function (item) {
+                    // Adicionar linha na grade
+                    mat_adicionarLinhaGrade({
+                        material_id: item.material_id,
+                        material_categoria_name: item.material_categoria_name,
+                        material_name: item.material_name,
+                        material_quantidade: item.material_quantidade,
+                        material_valor_unitario: item.material_valor_unitario
+                    });
+                });
+
+                // Colocar Total Geral
+                mat_colocarTotalGeralGrade();
+                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
             if (prefixPermissaoSubmodulo == 'pontos_interesse') {

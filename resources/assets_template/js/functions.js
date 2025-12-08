@@ -2944,8 +2944,41 @@ function pavimentosShowHide() {
 //Funções para o Submódulo Clientes - FIM'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Funções para o Submódulo Clientes - FIM'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-//Funções para Api ViaCep Para rodar em formulario sem REPEATER (Inicio)''''''''''''''''''''''''''''''''''''''''''''''''
+// Diversas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Diversas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+function toNumberOrMoney(valor, tipo = 'float', casas = 2) {
+    if (valor === null || valor === undefined || valor === '') return null;
 
+    if (typeof valor === 'string') {
+        valor = valor.trim().replace(/[R$\s]/g, '');
+
+        const temVirgula = valor.includes(',');
+        const temPonto = valor.includes('.');
+
+        // Formato brasileiro: usa vírgula como decimal
+        if (temVirgula && (!temPonto || valor.lastIndexOf(',') > valor.lastIndexOf('.'))) {
+            valor = valor.replace(/\./g, '').replace(',', '.');
+
+        // Formato americano: usa ponto como decimal e vírgula como milhar
+        } else if (temPonto && (!temVirgula || valor.lastIndexOf('.') > valor.lastIndexOf(','))) {
+            valor = valor.replace(/,/g, '');
+        }
+        // Caso não tenha separadores, mantém como está (ex: "1234")
+    }
+
+    const numero = parseFloat(valor);
+
+    if (isNaN(numero)) return null;
+
+    if (tipo === 'money') {
+        return numero.toLocaleString('pt-BR', {
+            minimumFractionDigits: casas,
+            maximumFractionDigits: casas
+        });
+    }
+
+    return parseFloat(numero.toFixed(casas));
+}
 /*
 * @PARAM op=1 : Entrada 01/02/2003   Saída 2003-02-01
 * @PARAM op=2 : Entrada 2003-02-01   Saída 01/02/2003
@@ -3014,6 +3047,13 @@ function formatarTelCel(op, numero) {
         return ''+numero.substring(0, 2)+' '+numero.substring(2, 7)+'-'+numero.substring(7, 11);
     }
 }
+// Diversas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Diversas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+
+
+//Funções para Api ViaCep Para rodar em formulario sem REPEATER (Inicio)''''''''''''''''''''''''''''''''''''''''''''''''
 
 //FORMULARIO COM CAMPOS SIMPLES'''''''''''''''''''''''''''''''''''''''''''''
 function limpa_formulário_cep() {
@@ -3290,7 +3330,7 @@ async function arquivoExiste(arquivo) {
     var existe = await fetch('/arquivo_existe?arquivo=' + encodeURIComponent(arquivo), {
         method: 'GET'
     });
-    
+
     var resposta = await existe.text();
 
     if (resposta === 'success') {
@@ -3561,7 +3601,7 @@ async function cartaoEmergencialGerarPDF(op = 0, ids = 0, gerar = 2, traducao = 
 
         for (const pessoa of pessoas) {
             registro++;
-            
+
             //QRCode caminho PNG
             var qrCodePngCaminho = 'build/assets/images/sem_imagem_quadrada.png';
             var qrCodePngCaminhoPt = 'build/assets/images/sem_imagem_quadrada.png';
@@ -3809,7 +3849,7 @@ async function cartaoEmergencialDesenhar(doc, x, y, pessoa, qrCodePngCaminho, lo
     // Cabeçalho azul
     doc.setFillColor('#c0f0f7'); // azul claro
     doc.rect(x, y, largura, 10, 'F');
-    
+
     // Logo (esquerda)
     const logo = logoCaminho;
     doc.addImage(logo, 'PNG', x + 2, y + 1.5, 20, 7);
@@ -3831,10 +3871,10 @@ async function cartaoEmergencialDesenhar(doc, x, y, pessoa, qrCodePngCaminho, lo
 
     // Foto
     var caminhoFoto = 'build/assets/images/sem_imagem_quadrada.png';
-    
+
     var arquivo_existe = await arquivoExiste(pessoa.fotografia_cartao_emergencial);
     if (arquivo_existe === true) {caminhoFoto = pessoa.fotografia_cartao_emergencial;}
-    
+
     const base64 = await carregarImagemComoBase64(caminhoFoto);
     const imagemCorrigida = await corrigirRotacaoImagem(base64);
     doc.addImage(imagemCorrigida, "JPEG", x + 3, y + 12, 25, 27);

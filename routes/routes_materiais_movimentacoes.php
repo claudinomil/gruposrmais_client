@@ -1,0 +1,15 @@
+<?php
+
+use App\Http\Controllers\MaterialController;
+
+// Materiais Movimentacoes
+Route::prefix('materiais_movimentacoes')->group(function () {
+    Route::get('', [MaterialController::class, 'index'])->name('materiais_movimentacoes.index');
+    Route::get('/create', [MaterialController::class, 'create'])->name('materiais_movimentacoes.create');
+    Route::post('', [MaterialController::class, 'store'])->name('materiais_movimentacoes.store');
+    Route::get('/{id}', [MaterialController::class, 'show'])->name('materiais_movimentacoes.show');
+    Route::get('/{id}/edit', [MaterialController::class, 'edit'])->name('materiais_movimentacoes.edit');
+    Route::post('/{id}', [MaterialController::class, 'update'])->name('materiais_movimentacoes.update');
+    Route::delete('/{id}', [MaterialController::class, 'destroy'])->name('materiais_movimentacoes.destroy');
+    Route::get('/filter/{array_dados}', [MaterialController::class, 'filter'])->name('materiais_movimentacoes.filter');
+});

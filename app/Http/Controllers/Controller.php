@@ -62,6 +62,7 @@ class Controller extends BaseController
             if (isset($response['content']['transacoes'])) {$this->transacoes = $response['content']['transacoes'];}
             if (isset($response['content']['users'])) {$this->users = $response['content']['users'];}
             if (isset($response['content']['clientes'])) {$this->clientes = $response['content']['clientes'];}
+            if (isset($response['content']['fornecedores'])) {$this->fornecedores = $response['content']['fornecedores'];}
             if (isset($response['content']['responsavel_funcionarios'])) {$this->responsavel_funcionarios = $response['content']['responsavel_funcionarios'];}
             if (isset($response['content']['contratacao_tipos'])) {$this->contratacao_tipos = $response['content']['contratacao_tipos'];}
             if (isset($response['content']['servico_tipos'])) {$this->servico_tipos = $response['content']['servico_tipos'];}

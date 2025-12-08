@@ -160,6 +160,11 @@ class MaterialController extends Controller
 
             //Registro deletado com sucesso
             if ($this->code == 2000) {
+                // Apagar arquivo
+                $caminhoArquivo = 'build/assets/images/materiais/fotografia_'.$id.'.png';
+
+                if (file_exists($caminhoArquivo)) {unlink($caminhoArquivo);}
+
                 return response()->json(['success' => $this->message]);
             } else if ($this->code == 2040) { //Registro não excluído - pertence a relacionamento com outra(s) tabela(s)
                 return response()->json(['error' => $this->message]);

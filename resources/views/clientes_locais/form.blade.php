@@ -18,12 +18,12 @@
                         <!-- edit or delete -->
                         @if(\App\Facades\Permissoes::permissao(['edit']))
                             <!-- Botão Alterar Registro -->
-                            <x-button-crud op="2" onclick="crudEdit(0)" />
+                                <x-button-crud op="2" onclick="crudEdit(0)" />
                         @endif
 
                         @if(\App\Facades\Permissoes::permissao(['destroy']))
                             <!-- Botão Excluir Registro -->
-                            <x-button-crud op="3" onclick="crudDelete(0);" />
+                                <x-button-crud op="3" onclick="crudDelete(0);" />
                         @endif
 
                         <!-- Botão Cancelar Operação -->
@@ -36,42 +36,25 @@
                             <input type="hidden" id="frm_operacao" name="frm_operacao">
                             <input type="hidden" id="registro_id" name="registro_id">
 
-                            <div class="row mt-4">
-                                <div class="form-group col-12 col-md-6 pb-3">
-                                    <label class="form-label">Categoria</label>
-                                    <select class="form-control" name="material_categoria_id" id="material_categoria_id">
+                            <div class="row pt-4">
+                                <h5 class="pb-4 text-primary"><i class="fas fa-house-user"></i>{{ __(' Informações Gerais') }}</h5>
+                                <div class="form-group col-12 col-md-4 pb-3">
+                                    <label class="form-label">{{ __('Cliente') }}</label>
+                                    <select class="form-control" name="cliente_id" id="cliente_id" required="required">
                                         <option value="">{{ __('Selecione...') }}</option>
 
-                                        @foreach ($material_categorias as $material_categoria)
-                                            <option value="{{ $material_categoria['id'] }}">{{ $material_categoria['name'] }}</option>
+                                        @foreach ($clientes as $cliente)
+                                            <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-12 col-md-6 pb-3">
+                                <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">{{ __('Nome') }}</label>
-                                    <input type="text" class="form-control text-uppercase" id="name" name="name" required="required">
+                                    <input type="text" class="form-control text-uppercase" id="name" name="name">
                                 </div>
                                 <div class="form-group col-12 col-md-4 pb-3">
-                                    <label class="form-label">Cor</label>
-                                    <select class="form-control" name="cor_id" id="cor_id">
-                                        <option value="">{{ __('Selecione...') }}</option>
-
-                                        @foreach ($cores as $cor)
-                                            <option value="{{ $cor['id'] }}">{{ $cor['name'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group col-12 col-md-4 pb-3">
-                                    <label class="form-label">{{ __('CA') }}</label>
-                                    <input type="text" class="form-control" id="ca" name="ca">
-                                </div>
-                                <div class="form-group col-12 col-md-4 pb-3">
-                                    <label class="form-label">{{ __('Número Patrimônio') }}</label>
-                                    <input type="text" class="form-control" id="numero_patrimonio" name="numero_patrimonio">
-                                </div>
-                                <div class="form-group col-12 col-md-12 pb-3">
                                     <label class="form-label">{{ __('Descrição') }}</label>
-                                    <input type="text" class="form-control" id="descricao" name="descricao">
+                                    <input type="text" class="form-control text-uppercase" id="descricao" name="descricao">
                                 </div>
                             </div>
                         </fieldset>

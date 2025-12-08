@@ -359,6 +359,11 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_materiais.js"
 },
+"resources/assets_template/js/scripts_materiais_entradas.js": {
+"file": "assets/scripts_materiais_entradas.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_materiais_entradas.js"
+},
 "resources/assets_template/js/scripts_brigadas_incendios.js": {
 "file": "assets/scripts_brigadas_incendios.js",
 "isEntry": true,
@@ -373,6 +378,11 @@
 "file": "assets/scripts_clientes_executivos.js",
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_clientes_executivos.js"
+},
+"resources/assets_template/js/scripts_clientes_locais.js": {
+"file": "assets/scripts_clientes_locais.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_clientes_locais.js"
 },
 "resources/assets_template/js/scripts_ordens_servicos.js": {
 "file": "assets/scripts_ordens_servicos.js",
