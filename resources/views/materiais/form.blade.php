@@ -65,10 +65,6 @@
                                     <label class="form-label">{{ __('CA') }}</label>
                                     <input type="text" class="form-control" id="ca" name="ca">
                                 </div>
-                                <div class="form-group col-12 col-md-4 pb-3">
-                                    <label class="form-label">{{ __('Número Patrimônio') }}</label>
-                                    <input type="text" class="form-control" id="numero_patrimonio" name="numero_patrimonio">
-                                </div>
                                 <div class="form-group col-12 col-md-12 pb-3">
                                     <label class="form-label">{{ __('Descrição') }}</label>
                                     <input type="text" class="form-control" id="descricao" name="descricao">

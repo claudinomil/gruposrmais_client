@@ -141,12 +141,12 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-3 col-md-2 pb-3">
-                                                    <label class="form-label small">{{ __('Qtd') }}</label>
-                                                    <input type="text" class="form-control form-control-sm text-center mask_money2" name="mat_escolherMaterialQuantidade" id="mat_escolherMaterialQuantidade">
+                                                    <label class="form-label small">{{ __('Valor Unitário') }}</label>
+                                                    <input type="text" class="form-control form-control-sm text-center mask_money2" name="mat_escolherMaterialValorUnitario" id="mat_escolherMaterialValorUnitario">
                                                 </div>
                                                 <div class="form-group col-3 col-md-2 pb-3">
-                                                    <label class="form-label small">{{ __('Valor') }}</label>
-                                                    <input type="text" class="form-control form-control-sm text-center mask_money2" name="mat_escolherMaterialValorUnitario" id="mat_escolherMaterialValorUnitario">
+                                                    <label class="form-label small">{{ __('Número Patrimônio') }}</label>
+                                                    <input type="text" class="form-control form-control-sm text-center" name="mat_escolherMaterialNumeroPatrimonio" id="mat_escolherMaterialNumeroPatrimonio">
                                                 </div>
                                                 <div class="form-group col-2 col-md-1 pb-3">
                                                     <label class="form-label">&nbsp;</label>
@@ -162,18 +162,17 @@
                                                     <thead class="table-primary">
                                                         <tr>
                                                             <th class="p-3">{{ __('MATERIAL') }}</th>
-                                                            <th class="p-3 text-center">{{ __('QTD') }}</th>
+                                                            <th class="p-3 text-center">{{ __('NÚMERO PATRIMÔNIO') }}</th>
                                                             <th class="p-3 text-center">{{ __('VALOR UNITÁRIO') }}</th>
-                                                            <th class="p-3 text-center">{{ __('VALOR TOTAL') }}</th>
                                                             <th class="p-3 text-center" id="mat_thOpcoes"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="mat_gradeTbody"></tbody>
                                                     <tfoot class="table-light">
                                                         <tr>
-                                                            <th colspan="3" class="text-end font-size-14">TOTAL GERAL:</th>
+                                                            <th colspan="2" class="text-end font-size-14">TOTAL GERAL:</th>
                                                             <th class="text-center font-size-16" id="mat_gradeTotalGeral"></th>
-                                                            <th></th>
+                                                            <th id="mat_tfOpcoes"></th>
                                                         </tr>
                                                     </tfoot>
                                                 </table>

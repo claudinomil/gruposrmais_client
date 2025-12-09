@@ -1026,7 +1026,7 @@ function crudView(registro_id) {
                         material_id: item.material_id,
                         material_categoria_name: item.material_categoria_name,
                         material_name: item.material_name,
-                        material_quantidade: item.material_quantidade,
+                        material_numero_patrimonio: item.material_numero_patrimonio,
                         material_valor_unitario: item.material_valor_unitario
                     });
                 });
@@ -1559,7 +1559,7 @@ async function crudEdit(registro_id) {
                         material_id: item.material_id,
                         material_categoria_name: item.material_categoria_name,
                         material_name: item.material_name,
-                        material_quantidade: item.material_quantidade,
+                        material_numero_patrimonio: item.material_numero_patrimonio,
                         material_valor_unitario: item.material_valor_unitario
                     });
                 });

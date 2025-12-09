@@ -159,6 +159,9 @@ require __DIR__ . '/routes_guests.php';
 //Testes
 require __DIR__ . '/routes_z_testes.php';
 
+// Patrimonio
+require __DIR__.'/routes_patrimonio.php';
+
 //Verificar se arquivo existe'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Route::get('/arquivo_existe', function (Illuminate\Http\Request $request) {
     $arquivo = $request->query('arquivo');

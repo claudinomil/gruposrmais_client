@@ -47,10 +47,11 @@ const frm_operacao = document.getElementById('frm_operacao');
 const mat_divMateriais = document.getElementById('mat_divMateriais');
 const mat_divEscolherMaterial = document.getElementById('mat_divEscolherMaterial');
 const mat_escolherMaterialId = document.getElementById('mat_escolherMaterialId');
-const mat_escolherMaterialQuantidade = document.getElementById('mat_escolherMaterialQuantidade');
+const mat_escolherMaterialNumeroPatrimonio = document.getElementById('mat_escolherMaterialNumeroPatrimonio');
 const mat_escolherMaterialValorUnitario = document.getElementById('mat_escolherMaterialValorUnitario');
 const mat_btnAdicionar = document.getElementById('mat_btnAdicionar');
 const mat_thOpcoes = document.getElementById('mat_thOpcoes');
+const mat_tfOpcoes = document.getElementById('mat_tfOpcoes');
 const mat_gradeTbody = document.getElementById('mat_gradeTbody');
 const mat_camposHiddens = document.getElementById('mat_camposHiddens');
 
@@ -67,14 +68,17 @@ function mat_controleDisplay() {
     if (frm_operacao.value == 'create') {
         mat_divEscolherMaterial.style.display = '';
         mat_thOpcoes.style.display = '';
+        mat_tfOpcoes.style.display = '';
     }
     if (frm_operacao.value == 'view') {
         mat_divEscolherMaterial.style.display = 'none';
         mat_thOpcoes.style.display = 'none';
+        mat_tfOpcoes.style.display = 'none';
     }
     if (frm_operacao.value == 'edit') {
         mat_divEscolherMaterial.style.display = '';
         mat_thOpcoes.style.display = '';
+        mat_tfOpcoes.style.display = '';
     }
 }
 
@@ -91,27 +95,15 @@ function mat_existeMaterialGrade(material_id) {
 
 /*
  * Adicionar linha na grade
- * @PARAM registro: recebe material_id, material_categoria_name, material_name, material_quantidade, material_valor_unitario
+ * @PARAM registro: recebe material_id, material_categoria_name, material_name, material_numero_patrimonio, material_valor_unitario
 */
 async function mat_adicionarLinhaGrade(registro) {
     // Dados para preenchera linha da grade
     let material_id = registro.material_id;
     let material_categoria_name = registro.material_categoria_name;
     let material_name = registro.material_name;
-    let material_quantidade = toNumberOrMoney(registro.material_quantidade, 'money');
-
-    alert(registro.material_valor_unitario);
-
+    let material_numero_patrimonio = registro.material_numero_patrimonio;
     let material_valor_unitario = toNumberOrMoney(registro.material_valor_unitario, 'money');
-
-    alert(material_valor_unitario);
-
-    let material_valor_total = 0;
-
-
-    // material_valor_total
-    material_valor_total = toNumberOrMoney(material_quantidade) * toNumberOrMoney(material_valor_unitario);
-    material_valor_total = toNumberOrMoney(material_valor_total, 'money');
 
     let ordenar = material_categoria_name+' '+material_name;
     let id_linha_hiddens = material_id;
@@ -124,13 +116,12 @@ async function mat_adicionarLinhaGrade(registro) {
                     <div class="text-black">${material_categoria_name}</div>
                     <div class="text-primary">${material_name}</div>
                 </td>
-                <td class="p-2 text-center align-middle text-nowrap">${material_quantidade}</td>
-                <td class="p-2 text-center align-middle text-nowrap">${material_valor_unitario}</td>
-                <td class="p-2 text-center align-middle text-nowrap">${material_valor_total}</td>`;
+                <td class="p-2 text-center align-middle text-nowrap">${material_numero_patrimonio}</td>
+                <td class="p-2 text-center align-middle text-nowrap">${material_valor_unitario}</td>`;
 
     if (frm_operacao.value != 'view') {
         linha += `<td class="p-2 text-center align-middle text-nowrap">
-                        <button type="button" class="btn btn-sm btn-primary text-write py-1" title="Editar Material da Grade" onclick="mat_editarLinhaGrade('${material_id}', '${material_quantidade}', '${material_valor_unitario}');">
+                        <button type="button" class="btn btn-sm btn-primary text-write py-1" title="Editar Material da Grade" onclick="mat_editarLinhaGrade('${material_id}', '${material_numero_patrimonio}', '${material_valor_unitario}');">
                             <i class="fas fa-pen"></i>
                         </button>
                         <button type="button" class="btn btn-sm btn-danger text-write py-1" title="Retirar Material da Grade" onclick="mat_removerLinhaGrade(1, ${material_id});">
@@ -151,9 +142,8 @@ async function mat_adicionarLinhaGrade(registro) {
                     <input type="hidden" name="mat_material_id[]" id="mat_material_id_${id_linha_hiddens}" value="${material_id}">
                     <input type="hidden" name="mat_material_categoria_name[]" id="mat_material_categoria_name_${id_linha_hiddens}" value="${material_categoria_name}">
                     <input type="hidden" name="mat_material_name[]" id="mat_material_name_${id_linha_hiddens}" value="${material_name}">
-                    <input type="hidden" name="mat_material_quantidade[]" id="mat_material_quantidade_${id_linha_hiddens}" value="${material_quantidade}">
+                    <input type="hidden" name="mat_material_numero_patrimonio[]" id="mat_material_numero_patrimonio_${id_linha_hiddens}" value="${material_numero_patrimonio}">
                     <input type="hidden" name="mat_material_valor_unitario[]" id="mat_material_valor_unitario_${id_linha_hiddens}" value="${material_valor_unitario}">
-                    <input type="hidden" name="mat_material_valor_total[]" id="mat_material_valor_total_${id_linha_hiddens}" value="${material_valor_total}">
                 </div>`;
 
     // Adicionar hiddens na div
@@ -163,9 +153,9 @@ async function mat_adicionarLinhaGrade(registro) {
 /*
  * Editar linha da grade Materiais
 */
-async function mat_editarLinhaGrade(material_id, material_quantidade, material_valor_unitario) {
+async function mat_editarLinhaGrade(material_id, material_numero_patrimonio, material_valor_unitario) {
     mat_escolherMaterialId.value = material_id;
-    mat_escolherMaterialQuantidade.value = material_quantidade;
+    mat_escolherMaterialNumeroPatrimonio.value = material_numero_patrimonio;
     mat_escolherMaterialValorUnitario.value = material_valor_unitario;
 }
 
@@ -191,6 +181,9 @@ async function mat_removerLinhaGrade(op, material_id) {
             hiddens.remove();
         }
     }
+
+    // Colocar Total Geral
+    mat_colocarTotalGeralGrade();
 }
 
 /*
@@ -210,10 +203,10 @@ async function mat_ordenarLinhasGrade() {
     linhas.forEach(linha => mat_gradeTbody.appendChild(linha));
 }
 
-async function mat_somarValorTotalGrade() {
+async function mat_somarValorUnitarioGrade() {
     let soma = 0;
 
-    document.querySelectorAll('input[name="mat_material_valor_total[]"]').forEach(campo => {
+    document.querySelectorAll('input[name="mat_material_valor_unitario[]"]').forEach(campo => {
         let valor = campo.value || '0';
 
         // Limpa formatação e converte
@@ -230,7 +223,7 @@ async function mat_somarValorTotalGrade() {
 }
 
 async function mat_colocarTotalGeralGrade() {
-    let vt = await mat_somarValorTotalGrade();
+    let vt = await mat_somarValorUnitarioGrade();
     let valor = toNumberOrMoney(vt, 'money');
     document.getElementById('mat_gradeTotalGeral').innerHTML = valor;
     document.getElementById('valor_total_grade').value = valor;
@@ -307,11 +300,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
         if (mat_escolherMaterialId.value == '') {
             mensagem_erro += 'Escolha um Material.<br>';
         }
-        if (mat_escolherMaterialQuantidade.value == '') {
-            mensagem_erro += 'Digite uma Quantidade.<br>';
-        }
         if (mat_escolherMaterialValorUnitario.value == '') {
             mensagem_erro += 'Digite um Valor Unitário.<br>';
+        }
+        if (mat_escolherMaterialNumeroPatrimonio.value == '') {
+            mensagem_erro += 'Digite um Número de Patrimônio.<br>';
         }
 
         if (mensagem_erro != '') {
@@ -326,12 +319,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
                 material_id: material_selected.dataset.material_id,
                 material_categoria_name: material_selected.dataset.material_categoria_name,
                 material_name: material_selected.dataset.material_name,
-                material_quantidade: mat_escolherMaterialQuantidade.value,
+                material_numero_patrimonio: mat_escolherMaterialNumeroPatrimonio.value,
                 material_valor_unitario: mat_escolherMaterialValorUnitario.value
             });
 
             mat_escolherMaterialId.value = '';
-            mat_escolherMaterialQuantidade.value = '';
+            mat_escolherMaterialNumeroPatrimonio.value = '';
             mat_escolherMaterialValorUnitario.value = '';
             mat_ordenarLinhasGrade();
 
