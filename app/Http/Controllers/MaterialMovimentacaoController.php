@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Facades\SuporteFacade;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Carbon;
 
-class ClienteLocalController extends Controller
+class MaterialMovimentacaoController extends Controller
 {
     //Variaveis de Retorno da API
     public $message;
@@ -16,15 +16,16 @@ class ClienteLocalController extends Controller
     public $content;
 
     //Dados Auxiliares
-    public $clientes;
+    public $fornecedores;
+    public $materiais;
 
     public function __construct()
     {
-        $this->middleware('check-permissao:list', ['only' => ['index', 'filter']]);
-        $this->middleware('check-permissao:create', ['only' => ['create', 'store']]);
-        $this->middleware('check-permissao:show', ['only' => ['show']]);
-        $this->middleware('check-permissao:edit', ['only' => ['edit', 'update']]);
-        $this->middleware('check-permissao:destroy', ['only' => ['destroy']]);
+        $this->middleware('check-permissao:materiais_movimentacoes_list', ['only' => ['index', 'filter']]);
+        $this->middleware('check-permissao:materiais_movimentacoes_create', ['only' => ['create', 'store']]);
+        $this->middleware('check-permissao:materiais_movimentacoes_show', ['only' => ['show']]);
+        $this->middleware('check-permissao:materiais_movimentacoes_edit', ['only' => ['edit', 'update']]);
+        $this->middleware('check-permissao:materiais_movimentacoes_destroy', ['only' => ['destroy']]);
     }
 
     public function index(Request $request)
@@ -32,7 +33,7 @@ class ClienteLocalController extends Controller
         //Requisição Ajax
         if ($request->ajax()) {
             //Buscando dados Api_Data() - Lista de Registros
-            $this->responseApi(1, 1, 'clientes_locais', '', '', '');
+            $this->responseApi(1, 1, 'materiais_movimentacoes', '', '', '');
 
             //Dados recebidos com sucesso
             if ($this->code == 2000) {
@@ -47,16 +48,15 @@ class ClienteLocalController extends Controller
 
                 return $allData;
             } else {
-                abort(500, 'Erro Interno Client');
+                abort(500, 'Erro Interno Materiais Movimentacoes');
             }
         } else {
             //Buscando dados Api_Data() - Auxiliary Tables (Combobox)
-            $this->responseApi(2, 10, 'clientes_locais/auxiliary/tables', '', '', '');
+            $this->responseApi(2, 10, 'materiais_movimentacoes/auxiliary/tables', '', '', '');
 
-            //chamar view
-            return view('clientes_locais.index', [
-                'evento' => 'index',
-                'clientes' => $this->clientes
+            return view('materiais_movimentacoes.index', [
+                'fornecedores' => $this->fornecedores,
+                'materiais' => $this->materiais
             ]);
         }
     }
@@ -74,7 +74,7 @@ class ClienteLocalController extends Controller
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data() - Incluir Registro
-            $this->responseApi(1, 4, 'clientes_locais', '', '', $request->all());
+            $this->responseApi(1, 4, 'materiais_movimentacoes', '', '', $request->all());
 
             //Registro criado com sucesso
             if ($this->code == 2010) {
@@ -82,7 +82,7 @@ class ClienteLocalController extends Controller
             } else if ($this->code == 2020) { //Falha na validação dos dados
                 return response()->json(['error_validation' => $this->validation]);
             } else {
-                abort(500, 'Erro Interno Client');
+                abort(500, 'Erro Interno Materiais Movimentacoes');
             }
         }
     }
@@ -92,15 +92,36 @@ class ClienteLocalController extends Controller
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data() - Registro pelo id
-            $this->responseApi(1, 2, 'clientes_locais', $id, '', '');
+            $this->responseApi(1, 2, 'materiais_movimentacoes', $id, '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
+                //Preparando Dados para a View''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //data_emissao
+                if ($this->content['data_emissao'] != '') {
+                    $this->content['data_emissao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_emissao'], 0, 10))->format('d/m/Y');
+                }
+
+                //valor_desconto
+                if ($this->content['valor_desconto'] != '') {
+                    $this->content['valor_desconto'] = number_format($this->content['valor_desconto'], 2, ",", ".");
+                } else {
+                    $this->content['valor_desconto'] = 0;
+                }
+
+                //valor_total
+                if ($this->content['valor_total'] != '') {
+                    $this->content['valor_total'] = number_format($this->content['valor_total'], 2, ",", ".");
+                } else {
+                    $this->content['valor_total'] = 0;
+                }
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
                 return response()->json(['success' => $this->content]);
             } else if ($this->code == 4040) { //Registro não encontrado
                 return response()->json(['error_not_found' => $this->message]);
             } else {
-                abort(500, 'Erro Interno Client');
+                abort(500, 'Erro Interno Materiais Movimentacoes');
             }
         }
     }
@@ -110,15 +131,36 @@ class ClienteLocalController extends Controller
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data() - Registro pelo id
-            $this->responseApi(1, 2, 'clientes_locais', $id, '', '');
+            $this->responseApi(1, 2, 'materiais_movimentacoes', $id, '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
+                //Preparando Dados para a View''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //data_emissao
+                if ($this->content['data_emissao'] != '') {
+                    $this->content['data_emissao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_emissao'], 0, 10))->format('d/m/Y');
+                }
+
+                //valor_desconto
+                if ($this->content['valor_desconto'] != '') {
+                    $this->content['valor_desconto'] = number_format($this->content['valor_desconto'], 2, ",", ".");
+                } else {
+                    $this->content['valor_desconto'] = 0;
+                }
+
+                //valor_total
+                if ($this->content['valor_total'] != '') {
+                    $this->content['valor_total'] = number_format($this->content['valor_total'], 2, ",", ".");
+                } else {
+                    $this->content['valor_total'] = 0;
+                }
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
                 return response()->json(['success' => $this->content]);
             } else if ($this->code == 4040) { //Registro não encontrado
                 return response()->json(['error_not_found' => $this->message]);
             } else {
-                abort(500, 'Erro Interno Client');
+                abort(500, 'Erro Interno Materiais Movimentacoes');
             }
         }
     }
@@ -128,7 +170,7 @@ class ClienteLocalController extends Controller
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data() - Alterar Registro
-            $this->responseApi(1, 5, 'clientes_locais', $id, '', $request->all());
+            $this->responseApi(1, 5, 'materiais_movimentacoes', $id, '', $request->all());
 
             //Registro alterado com sucesso
             if ($this->code == 2000) {
@@ -138,7 +180,7 @@ class ClienteLocalController extends Controller
             } else if ($this->code == 4040) { //Registro não encontrado
                 return response()->json(['error_not_found' => $this->message]);
             } else {
-                abort(500, 'Erro Interno Client');
+                abort(500, 'Erro Interno Materiais Movimentacoes');
             }
         }
     }
@@ -148,7 +190,7 @@ class ClienteLocalController extends Controller
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data() - Deletar Registro
-            $this->responseApi(1, 6, 'clientes_locais', $id, '', '');
+            $this->responseApi(1, 6, 'materiais_movimentacoes', $id, '', '');
 
             //Registro deletado com sucesso
             if ($this->code == 2000) {
@@ -158,7 +200,7 @@ class ClienteLocalController extends Controller
             } else if ($this->code == 4040) { //Registro não encontrado
                 return response()->json(['error' => $this->message]);
             } else {
-                abort(500, 'Erro Interno Client');
+                abort(500, 'Erro Interno Materiais Movimentacoes');
             }
         }
     }
@@ -168,7 +210,7 @@ class ClienteLocalController extends Controller
         //Requisição Ajax
         if ($request->ajax()) {
             //Buscando dados Api_Data() - Pesquisar Registros
-            $this->responseApi(1, 3, 'clientes_locais', '', $array_dados, '');
+            $this->responseApi(1, 3, 'materiais_movimentacoes', '', $array_dados, '');
 
             //Dados recebidos com sucesso
             if ($this->code == 2000) {
@@ -183,10 +225,10 @@ class ClienteLocalController extends Controller
 
                 return $allData;
             } else {
-                abort(500, 'Erro Interno Client');
+                abort(500, 'Erro Interno Materiais Movimentacoes');
             }
         } else {
-            return view('clientes_locais.index');
+            return view('materiais_movimentacoes.index');
         }
     }
 }

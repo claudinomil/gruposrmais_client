@@ -150,8 +150,8 @@ require __DIR__ . '/routes_materiais_movimentacoes.php';
 //Brigadas Incendios
 require __DIR__ . '/routes_brigadas_incendios.php';
 
-// Clientes Locais
-require __DIR__ . '/routes_clientes_locais.php';
+// Estoques Locais
+require __DIR__ . '/routes_estoques_locais.php';
 
 //Diversos
 require __DIR__ . '/routes_guests.php';

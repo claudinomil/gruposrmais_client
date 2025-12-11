@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title') Materiais Entradas @endsection
+@section('title') Materiais Movimentacoes @endsection
 
 @section('css')
 @endsection
@@ -59,7 +59,7 @@
 </div>
 
 <!-- Modal -->
-@include('materiais_entradas.form')
+@include('materiais_movimentacoes.form')
 @endsection
 
 @section('script')

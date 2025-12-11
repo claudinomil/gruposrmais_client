@@ -103,6 +103,8 @@ class Controller extends BaseController
             if (isset($response['content']['escala_tipos'])) {$this->escala_tipos = $response['content']['escala_tipos'];}
             if (isset($response['content']['especialidades'])) {$this->especialidades = $response['content']['especialidades'];}
             if (isset($response['content']['cores'])) {$this->cores = $response['content']['cores'];}
+            if (isset($response['content']['estoques'])) {$this->estoques = $response['content']['estoques'];}
+            if (isset($response['content']['estoques_locais'])) {$this->estoques_locais = $response['content']['estoques_locais'];}
         }
     }
 

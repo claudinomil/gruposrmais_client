@@ -39,8 +39,28 @@
                             <div class="row pt-4">
                                 <h5 class="pb-4 text-primary"><i class="fas fa-house-user"></i>{{ __(' Informações Gerais') }}</h5>
                                 <div class="form-group col-12 col-md-4 pb-3">
+                                    <label class="form-label">{{ __('Estoque') }}</label>
+                                    <select class="form-control" name="estoque_id" id="estoque_id">
+                                        <option value="">{{ __('Selecione...') }}</option>
+
+                                        @foreach ($estoques as $estoque)
+                                            <option value="{{ $estoque['id'] }}">{{ $estoque['name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-12 col-md-4 pb-3" id="divEmpresaId" style="display: none;">
+                                    <label class="form-label">{{ __('Empresa') }}</label>
+                                    <select class="form-control" name="empresa_id" id="empresa_id">
+                                        <option value="">{{ __('Selecione...') }}</option>
+
+                                        @foreach ($empresas as $empresa)
+                                            <option value="{{ $empresa['id'] }}">{{ $empresa['name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-12 col-md-4 pb-3" id="divClienteId" style="display: none;">
                                     <label class="form-label">{{ __('Cliente') }}</label>
-                                    <select class="form-control" name="cliente_id" id="cliente_id" required="required">
+                                    <select class="form-control" name="cliente_id" id="cliente_id">
                                         <option value="">{{ __('Selecione...') }}</option>
 
                                         @foreach ($clientes as $cliente)
@@ -52,7 +72,7 @@
                                     <label class="form-label">{{ __('Nome') }}</label>
                                     <input type="text" class="form-control text-uppercase" id="name" name="name">
                                 </div>
-                                <div class="form-group col-12 col-md-4 pb-3">
+                                <div class="form-group col-12 col-md-12 pb-3">
                                     <label class="form-label">{{ __('Descrição') }}</label>
                                     <input type="text" class="form-control text-uppercase" id="descricao" name="descricao">
                                 </div>
