@@ -63,6 +63,6 @@
 @endsection
 
 @section('script')
-    <!-- scripts_materiais_movimentacoes.js -->
-    <script src="{{ Vite::asset('resources/assets_template/js/scripts_materiais_movimentacoes.js')}}"></script>
+    <!-- scripts_materiais_entradas.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_materiais_entradas.js')}}"></script>
 @endsection
