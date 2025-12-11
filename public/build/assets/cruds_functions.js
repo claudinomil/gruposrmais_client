@@ -1673,7 +1673,7 @@ function crudConfirmOperation() {
     let prefixPermissaoSubmodulo = document.getElementById('crudPrefixPermissaoSubmodulo').value;
     let nameSubmodulo = document.getElementById('crudNameSubmodulo').value;
     let nameFormSubmodulo = document.getElementById('crudNameFormSubmodulo').value;
-
+alert(nameFormSubmodulo);
     //Verificar Validação feita com sucesso
     if (window['validar_'+nameFormSubmodulo]() === true) {
         var executar = 1;
