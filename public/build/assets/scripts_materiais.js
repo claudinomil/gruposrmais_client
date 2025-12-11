@@ -111,7 +111,7 @@ async function materialModalInfoDados(id='') {
 
         //Lendo dados material
         let material = json.material;
-console.log(material);
+
         //Passando dados material''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         //Header
         document.getElementById('mi_mat_header_nome').innerHTML = material.name;
