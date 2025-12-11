@@ -89,7 +89,7 @@
                                         <label class="form-label">{{ __('Cidade') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="fornecedor_cidade" name="fornecedor_cidade" readonly>
                                     </div>
-                                    <div class="form-group col-12 col-md-4 pb-3" style="display: nonex;">
+                                    <div class="form-group col-12 col-md-4 pb-3" style="display: none;">
                                         <label class="form-label">{{ __('UF') }}</label>
                                         <input type="text" class="form-control text-uppercase" id="fornecedor_uf" name="fornecedor_uf" readonly>
                                     </div>
