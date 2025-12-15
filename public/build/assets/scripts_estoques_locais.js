@@ -52,7 +52,15 @@ const empresa_id = document.getElementById('empresa_id');
 const divClienteId = document.getElementById('divClienteId');
 const cliente_id = document.getElementById('cliente_id');
 
-function controleTela() {
+function controleGrade() {
+    document.getElementById('btnCrudEditGradeId1').style.display = 'none';
+    document.getElementById('btnCrudEditGradeId2').style.display = 'none';
+
+    document.getElementById('btnCrudDeleteGradeId1').style.display = 'none';
+    document.getElementById('btnCrudDeleteGradeId2').style.display = 'none';
+}
+
+function controleForm() {
     divEmpresaId.style.display = 'none';
     divClienteId.style.display = 'none';
 
@@ -71,10 +79,10 @@ function controleTela() {
 // DOMContentLoaded - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 document.addEventListener('DOMContentLoaded', function(event) {
     estoque_id.addEventListener('change', function () {
-        controleTela();
+        controleForm();
     });
 
-    controleTela();
+    controleForm();
 });
 // DOMContentLoaded - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // DOMContentLoaded - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

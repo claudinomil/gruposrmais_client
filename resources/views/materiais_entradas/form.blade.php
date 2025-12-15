@@ -115,12 +115,26 @@
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
                                         <label class="form-label">{{ __('Valor Desconto') }}</label>
-                                        <input type="text" class="form-control mask_money2" id="valor_desconto" name="valor_desconto" readonly>
+                                        <input type="text" class="form-control mask_money2" id="valor_desconto" name="valor_desconto">
                                     </div>
                                     <div class="form-group col-12 col-md-2 pb-3">
                                         <label class="form-label">{{ __('Valor Total da Nota') }}</label>
                                         <input type="text" class="form-control mask_money2" id="valor_total" name="valor_total">
                                         <input type="hidden" id="valor_total_grade" name="valor_total_grade">
+                                    </div>
+                                </div>
+
+                                <div class="row pt-4">
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-table"></i> {{ __('Local inicial dos Materiais') }}</h5>
+                                    <div class="form-group col-12 col-md-5 pb-3">
+                                        <label class="form-label">{{ __('Local') }}</label>
+                                        <select class="form-control" name="estoque_local_id" id="estoque_local_id">
+                                            <option value="">{{ __('Selecione...') }}</option>
+
+                                            @foreach ($estoques_locais as $estoque_local)
+                                                <option value="{{ $estoque_local['id'] }}">{{ $estoque_local['name'].' - '.$estoque_local['empresaName'] }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 

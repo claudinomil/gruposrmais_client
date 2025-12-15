@@ -16,10 +16,20 @@ function validar_frm_materiais_entradas() {
         mensagem += 'Fornecedor requerido.'+'<br>';
     }
 
-    // Campo: valor_total x valor_total_grade
-    if (document.getElementById('valor_total').value !== document.getElementById('valor_total_grade').value) {
+    // Campo: estoque_local_id (requerido)
+    if (validacao({op:1, value:document.getElementById('estoque_local_id').value}) === false) {
         validacao_ok = false;
-        mensagem += 'Valor Total diferente do Valor Total da Grade.'+'<br>';
+        mensagem += 'Local requerido.'+'<br>';
+    }
+
+    // Campo: valor_total x valor_desconto x valor_total_grade
+    const vt = document.getElementById('valor_total');
+    const vd = document.getElementById('valor_desconto');
+    const vtg = document.getElementById('valor_total_grade');
+
+    if ((toNumberOrMoney(vtg.value, 'float', 2) + toNumberOrMoney(vd.value, 'float', 2)) !== toNumberOrMoney(vt.value, 'float', 2)) {
+        validacao_ok = false;
+        mensagem += 'Valor Total diferente do Valor Desconto + Valor Total da Grade.'+'<br>';
     }
 
     // Mensagem
@@ -83,22 +93,12 @@ function mat_controleDisplay() {
 }
 
 /*
- * Verificar se Material já existe na grade
-*/
-function mat_existeMaterialGrade(material_id) {
-    if (document.getElementById("mat_materialLinha_" + material_id)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-/*
  * Adicionar linha na grade
  * @PARAM registro: recebe material_id, material_categoria_name, material_name, material_numero_patrimonio, material_valor_unitario
 */
 async function mat_adicionarLinhaGrade(registro) {
     // Dados para preenchera linha da grade
+    let material_item_id = registro.material_item_id;
     let material_id = registro.material_id;
     let material_categoria_name = registro.material_categoria_name;
     let material_name = registro.material_name;
@@ -106,7 +106,9 @@ async function mat_adicionarLinhaGrade(registro) {
     let material_valor_unitario = toNumberOrMoney(registro.material_valor_unitario, 'money');
 
     let ordenar = material_categoria_name+' '+material_name;
-    let id_linha_hiddens = material_id;
+
+    // Novo ID único da linha (timestamp + contador simples)
+    let id_linha_hiddens = Date.now() + '_' + Math.floor(Math.random() * 10000);
 
     // Montar Linha
     let linha;
@@ -121,10 +123,7 @@ async function mat_adicionarLinhaGrade(registro) {
 
     if (frm_operacao.value != 'view') {
         linha += `<td class="p-2 text-center align-middle text-nowrap">
-                        <button type="button" class="btn btn-sm btn-primary text-write py-1" title="Editar Material da Grade" onclick="mat_editarLinhaGrade('${material_id}', '${material_numero_patrimonio}', '${material_valor_unitario}');">
-                            <i class="fas fa-pen"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-danger text-write py-1" title="Retirar Material da Grade" onclick="mat_removerLinhaGrade(1, ${material_id});">
+                            <button type="button" class="btn btn-sm btn-danger text-write py-1" title="Retirar Material da Grade" onclick="mat_removerLinhaGrade(1, '${id_linha_hiddens}');">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </td>`;
@@ -139,33 +138,55 @@ async function mat_adicionarLinhaGrade(registro) {
     let hiddens;
 
     hiddens = `<div id="mat_material_hiddens_${id_linha_hiddens}">
-                    <input type="hidden" name="mat_material_id[]" id="mat_material_id_${id_linha_hiddens}" value="${material_id}">
-                    <input type="hidden" name="mat_material_categoria_name[]" id="mat_material_categoria_name_${id_linha_hiddens}" value="${material_categoria_name}">
-                    <input type="hidden" name="mat_material_name[]" id="mat_material_name_${id_linha_hiddens}" value="${material_name}">
-                    <input type="hidden" name="mat_material_numero_patrimonio[]" id="mat_material_numero_patrimonio_${id_linha_hiddens}" value="${material_numero_patrimonio}">
-                    <input type="hidden" name="mat_material_valor_unitario[]" id="mat_material_valor_unitario_${id_linha_hiddens}" value="${material_valor_unitario}">
+                    <input type="hidden" name="mat_material_item_id[]" value="${material_item_id}">
+                    <input type="hidden" name="mat_material_id[]" value="${material_id}">
+                    <input type="hidden" name="mat_material_categoria_name[]" value="${material_categoria_name}">
+                    <input type="hidden" name="mat_material_name[]" value="${material_name}">
+                    <input type="hidden" name="mat_material_numero_patrimonio[]" value="${material_numero_patrimonio}">
+                    <input type="hidden" name="mat_material_valor_unitario[]" value="${material_valor_unitario}">
                 </div>`;
 
     // Adicionar hiddens na div
     mat_camposHiddens.insertAdjacentHTML('beforeend', hiddens);
 }
 
-/*
- * Editar linha da grade Materiais
-*/
-async function mat_editarLinhaGrade(material_id, material_numero_patrimonio, material_valor_unitario) {
-    mat_escolherMaterialId.value = material_id;
-    mat_escolherMaterialNumeroPatrimonio.value = material_numero_patrimonio;
-    mat_escolherMaterialValorUnitario.value = material_valor_unitario;
+/**
+ * Verifica se existem números de patrimônio duplicados na grade
+ * e exibe um alert caso existam.
+ *
+ */
+function mat_verificarDuplicadosPatrimonio() {
+    const patrimonios = [];
+    const duplicados = [];
+
+    document.querySelectorAll('input[name="mat_material_numero_patrimonio[]"]').forEach(input => {
+        const valor = (input.value || '').trim();
+        if (valor !== '') {
+            if (patrimonios.includes(valor) && !duplicados.includes(valor)) {
+                duplicados.push(valor);
+            }
+            patrimonios.push(valor);
+        }
+    });
+
+    if (duplicados.length > 0) {
+        let msg = 'Patrimônio duplicados na grade:\n' + duplicados.map(p => `- ${p}`).join('\n');
+
+        alertSwal('error', 'Materiais Entradas', msg, 'true', 3000);
+
+        return true;
+    }
+
+    return false;
 }
 
 /*
  * Excluir linha da grade Materiais
  * @PARAM op: 1(Abre modal de confirmação)  2(Não abre modal de confirmação)
 */
-async function mat_removerLinhaGrade(op, material_id) {
-    let linha = document.getElementById('mat_materialLinha_' + material_id);
-    let hiddens = document.getElementById('mat_material_hiddens_' + material_id);
+async function mat_removerLinhaGrade(op, id_linha_hiddens) {
+    let linha = document.getElementById('mat_materialLinha_' + id_linha_hiddens);
+    let hiddens = document.getElementById('mat_material_hiddens_' + id_linha_hiddens);
 
     if (linha && hiddens) {
         if (op == 1) {
@@ -230,6 +251,158 @@ async function mat_colocarTotalGeralGrade() {
 }
 // Grade de Materiais - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // Grade de Materiais - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Modal - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+function validar_frm_upload_nota_fiscal() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: upload_nota_fiscal_material_entrada_id (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_nota_fiscal_material_entrada_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Material Entrada requerido.'+'<br>';
+    }
+
+    //Campo: men_nota_fiscal_file (arquivo PDF requerido)
+    if (validacao({op:16, id:'men_nota_fiscal_file'}) === false) {
+        validacao_ok = false;
+        mensagem += 'Arquivo PDF requerido.'+'<br>';
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+function materialEntradaModalInfoControle(op, id='') {
+    var div_dados = document.getElementById('md_men_div_dados');
+    var div_nota_fiscal = document.getElementById('md_men_div_nota_fiscal');
+
+    //Dados
+    if (op == 1) {
+        div_dados.classList.remove('d-none');
+        div_dados.classList.add('d-lg-flex');
+
+        div_nota_fiscal.classList.remove('d-lg-flex');
+        div_nota_fiscal.classList.add('d-none');
+
+        materialEntradaModalInfoDados(id);
+    }
+
+    // Nota Fiscal
+    if (op == 2) {
+        div_dados.classList.remove('d-lg-flex');
+        div_dados.classList.add('d-none');
+
+        div_nota_fiscal.classList.remove('d-none');
+        div_nota_fiscal.classList.add('d-lg-flex');
+    }
+}
+
+async function materialEntradaModalInfoDados(id='') {
+    if (id == '') {id = document.getElementById('mi_men_material_entrada_id').value;}
+
+    //Abrir Modal
+    var modalEl = document.getElementById('material_entrada_modal_info');
+    if (!modalEl.classList.contains('show')) {
+        new bootstrap.Modal(document.getElementById('material_entrada_modal_info')).show();
+        ajustarMargensModalsInfo({ modalId:'material_entrada_modal_info', top:20, right:20, bottom:20, left:20 });
+    }
+
+    //Limpando dados
+    let elementos = document.querySelectorAll('.clearClass');
+    elementos.forEach(elemento => {elemento.src = ''; elemento.innerHTML = '';});
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'materiais_entradas/modalInfo/modal_info/'+id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        // Lendo json
+        let json = data;
+
+        // Lendo dados material_entrada
+        let material_entrada = json.material_entrada;
+
+        // Passando dados material_entrada''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        // Header
+        document.getElementById('mi_men_header_nome').innerHTML = 'Nota Fiscal: '+material_entrada.nf_numero;
+
+        // id's
+        document.getElementById('mi_men_material_entrada_id').value = material_entrada.id;
+        document.getElementById('upload_nota_fiscal_material_entrada_id').value = material_entrada.id;
+
+        // Dados
+        document.getElementById('mi_men_empresa_nome').value = material_entrada.empresaName;
+        document.getElementById('mi_men_fornecedor_nome').value = material_entrada.fornecedor_nome;
+        document.getElementById('mi_men_fornecedor_cnpj').value = material_entrada.fornecedor_cnpj;
+        document.getElementById('mi_men_nf_numero').value = material_entrada.nf_numero;
+        document.getElementById('mi_men_nf_serie').value = material_entrada.nf_serie;
+        document.getElementById('mi_men_nf_chave_acesso').value = material_entrada.nf_chave_acesso;
+        document.getElementById('mi_men_data_emissao').value = material_entrada.data_emissao;
+        document.getElementById('mi_men_valor_desconto').value = material_entrada.valor_desconto;
+        document.getElementById('mi_men_valor_total').value = material_entrada.valor_total;
+
+        // PDF
+        materialEntradaModalInfoPdf(material_entrada.nf_pdf_caminho);
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    }).catch(error => {
+        alert('Erro materialEntradaModalInfo: '+error);
+    });
+}
+
+async function materialEntradaModalInfoPdf(caminhoPdf) {
+    // Limpar view do pdf anterior
+    document.getElementById('div_mem_mostrar_pdf').innerHTML = '';
+
+    let linkPdf = 'Não encontrado';
+
+    if (caminhoPdf) {
+        // ve se arquivo existe
+        var arquivo_existe = await arquivoExiste(caminhoPdf);
+        if (arquivo_existe === true) {
+            // PDF no Modal
+            materialEntradaModalInfoMostrarPdf(caminhoPdf);
+
+            // PDF em outra Aba do navegador
+            linkPdf = `<a href="#" onclick="materialEntradaModalInfoMostrarPdf('${caminhoPdf}', true);">Visualizar Nota Fiscal</a>`;
+        }
+    }
+
+    document.getElementById('label_mem_nota_fiscal_arquivo').innerHTML = linkPdf;
+}
+
+async function materialEntradaModalInfoMostrarPdf(caminhoPdf, novaAba = false) {
+    if (!caminhoPdf) {return;}
+
+    if (novaAba) {
+        window.open(caminhoPdf, '_blank');
+    } else {
+        const div = document.getElementById('div_mem_mostrar_pdf');
+        if (!div) {return;}
+
+        // ve se arquivo existe
+        var arquivo_existe = await arquivoExiste(caminhoPdf);
+        if (arquivo_existe === true) {
+            div.innerHTML = `<iframe src="${caminhoPdf}" width="100%" height="100%" style="border:none;"></iframe>`;
+        }
+    }
+}
+// Modal - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 // DOMContentLoaded - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // DOMContentLoaded - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -316,6 +489,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
         function adicionar() {
             mat_adicionarLinhaGrade({
+                material_item_id: '',
                 material_id: material_selected.dataset.material_id,
                 material_categoria_name: material_selected.dataset.material_categoria_name,
                 material_name: material_selected.dataset.material_name,
@@ -328,24 +502,62 @@ document.addEventListener('DOMContentLoaded', function(event) {
             mat_escolherMaterialValorUnitario.value = '';
             mat_ordenarLinhasGrade();
 
+            mat_verificarDuplicadosPatrimonio();
+
             // Colocar Total Geral
             mat_colocarTotalGeralGrade();
         }
 
-        if (mat_existeMaterialGrade(material_selected.dataset.material_id)) {
-            const confirmed = await alertSwalConfirmacao('Este material já foi adicionado. Confirma alteração?');
-            if (!confirmed) {
-                return;
-            }
-
-            await mat_removerLinhaGrade(2, material_selected.dataset.material_id);
-            adicionar();
-        } else {
-            adicionar();
-        }
+        adicionar();
     });
     // Grade de Materiais - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     // Grade de Materiais - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    // Modal - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    // Modal - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: frm_upload_nota_fiscal_men_executar
+    document.getElementById('frm_upload_nota_fiscal_men_executar').addEventListener('click', function() {
+        //FormData
+        var formulario = document.getElementById('frm_upload_nota_fiscal_men');
+        var formData = new FormData(formulario);
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+        var upload_nota_fiscal_material_entrada_id = document.getElementById('upload_nota_fiscal_material_entrada_id').value;
+
+        //Criticando campos
+        if (validar_frm_upload_nota_fiscal() === false) {return false;}
+
+        //Acessar rota
+        fetch(url_atual+'materiais_entradas/uploadNotaFiscal/upload_nota_fiscal', {
+            method: 'POST',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        }).then(response => {
+            return response.json();
+        }).then(async data => {
+            //Lendo dados
+            if (data.success) {
+                formulario.reset();
+
+                // PDF
+                await materialEntradaModalInfoPdf(data.nf_pdf_caminho);
+                await materialEntradaModalInfoMostrarPdf(data.nf_pdf_caminho);
+
+                alertSwal('success', 'Materiais Entradas', data.success, 'true', 20000);
+            } else if (data.error) {
+                alertSwal('warning', 'Materiais Entradas', data.error, 'true', 20000);
+            } else {
+                alert('Erro interno');
+            }
+        }).catch(error => {
+            alert('Erro Materiais Entradas Upload Nota Fiscal PDF: '+error);
+        });
+    });
+    // Modal - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    // Modal - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 });
 // DOMContentLoaded - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // DOMContentLoaded - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

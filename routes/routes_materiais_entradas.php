@@ -12,4 +12,8 @@ Route::prefix('materiais_entradas')->group(function () {
     Route::post('/{id}', [MaterialEntradaController::class, 'update'])->name('materiais_entradas.update');
     Route::delete('/{id}', [MaterialEntradaController::class, 'destroy'])->name('materiais_entradas.destroy');
     Route::get('/filter/{array_dados}', [MaterialEntradaController::class, 'filter'])->name('materiais_entradas.filter');
+
+    // Modal
+    Route::get('/modalInfo/modal_info/{id}', [MaterialEntradaController::class, 'modal_info'])->name('materiais_entradas.modal_info');
+    Route::post('/uploadNotaFiscal/upload_nota_fiscal', [MaterialEntradaController::class, 'upload_nota_fiscal'])->name('materiais_entradas.upload_nota_fiscal');
 });

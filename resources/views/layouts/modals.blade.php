@@ -1697,4 +1697,138 @@
             </div>
         </div>
     @endif
+
+    @if($se_prefixPermissaoSubmodulo == 'materiais_entradas')
+        <!-- Material Entrada Modal Info -->
+        <div class="modal fade" id="material_entrada_modal_info" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-light">
+                    <div class="modal-header" style="background-color: #2a3042;">
+                        <!-- Header -->
+                        <div class="row col-12">
+                            <div class="col-12 order-1 order-lg-1 col-lg-3">
+                                <div class="d-flex">
+                                    <div class="flex-grow-1 align-self-center">
+                                        <div>
+                                            <h5 class="mb-2" style="color: #ffac31 !important;">INFORMAÇÕES MATERIAIS ENTRADAS</h5>
+                                            <h6 class="mb-1" style="color: #ffffff !important;" id="mi_men_header_nome"></h6>
+                                            <div class="clearfix mt-2">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="bx bxs-cog align-middle me-1"></i> Opções
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-start">
+                                                        <a class="dropdown-item" href="#" onclick="materialEntradaModalInfoControle(1);">Dados</a>
+                                                        <a class="dropdown-item" href="#" onclick="materialEntradaModalInfoControle(2);">Nota Fiscal</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#" data-bs-dismiss="modal">Fechar</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 order-3 order-lg-2 col-lg-9 align-self-center">
+                                <div class="text-lg-center mt-4 mt-lg-0">
+                                    <div class="row text-center font-size-12">&nbsp;</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Header END -->
+                    </div>
+                    <div class="modal-body d-lg-flex flex-lg-column flex-grow-1 px-4">
+                        <!-- Material Entrada ID -->
+                        <input type="hidden" id="mi_men_material_entrada_id" name="mi_men_material_entrada_id" value="0">
+
+                        <!-- Dados -->
+                        <div class="row d-lg-flex flex-lg-grow-1" id="md_men_div_dados">
+                            <div class="card mb-0">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4"><i class="fa fa-database"></i>&nbsp;&nbsp;Dados</h5>
+                                    <div class="row">
+                                        <div class="col-lg-9 mb-3">
+                                            <label class="form-label small">{{ __('Empresa') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_men_empresa_nome" readonly>
+                                        </div>
+                                        <div class="col-lg-9 mb-3">
+                                            <label class="form-label small">{{ __('Fornecedor') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_men_fornecedor_nome" readonly>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="form-label small">{{ __('Fornecedor CNPJ') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_men_fornecedor_cnpj" readonly>
+                                        </div>
+                                        <div class="col-lg-2 mb-3">
+                                            <label class="form-label small">{{ __('NF Número') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_men_nf_numero" readonly>
+                                        </div>
+                                        <div class="col-lg-2 mb-3">
+                                            <label class="form-label small">{{ __('NF Série') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_men_nf_serie" readonly>
+                                        </div>
+                                        <div class="col-lg-6 mb-3">
+                                            <label class="form-label small">{{ __('NF Chave Acesso') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_men_nf_chave_acesso" readonly>
+                                        </div>
+                                        <div class="col-lg-2 mb-3">
+                                            <label class="form-label small">{{ __('Data emissão') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_men_data_emissao" readonly>
+                                        </div>
+                                        <div class="col-lg-2 mb-3">
+                                            <label class="form-label small">{{ __('Valor Desconto') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_men_valor_desconto" readonly>
+                                        </div>
+                                        <div class="col-lg-2 mb-3">
+                                            <label class="form-label small">{{ __('Valor Total da Nota') }}</label>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_men_valor_total" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Dados END -->
+
+                        <!-- Nota Fiscal -->
+                        <div class="row d-lg-flex flex-lg-grow-1" id="md_men_div_nota_fiscal">
+                            <div class="card mb-0">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Nota Fiscal</h5>
+
+                                    <div class="row">
+                                        @if(\App\Facades\Permissoes::permissao(['materiais_entradas_edit']))
+                                            <div class="col-12 col-lg-12 pe-5">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-4 col-lg-4">
+                                                        <form enctype="multipart/form-data" id="frm_upload_nota_fiscal_men">
+                                                            <input type="hidden" id="upload_nota_fiscal_material_entrada_id" name="upload_nota_fiscal_material_entrada_id" value="">
+
+                                                            <div class="col-12 mb-5">
+                                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_nota_fiscal_men_executar" name="frm_upload_nota_fiscal_men_executar">Incluir Nota Fiscal</button>
+                                                            </div>
+                                                            <div class="row" id="div_frm_upload_nota_fiscal_men_executar">
+                                                                <div class="col-12 mb-3">
+                                                                    <label class="form-label">Nota Fiscal (Arquivo)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-danger" id="label_mem_nota_fiscal_arquivo"></span></label>
+                                                                    <input type="file" class="form-control form-control-sm" name="men_nota_fiscal_file" id="men_nota_fiscal_file" accept=".pdf">
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-12 col-md-8 col-lg-8 d-flex justify-content-center align-items-center">
+                                                        <div class="col-8" id="div_mem_mostrar_pdf" style="height: 400px;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Nota Fiscal END -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>

@@ -18,12 +18,12 @@
                         <!-- edit or delete -->
                         @if(\App\Facades\Permissoes::permissao(['edit']))
                             <!-- Botão Alterar Registro -->
-                                <x-button-crud op="2" onclick="crudEdit(0)" />
+                                <x-button-crud op="2" onclick="crudEdit(0)" id="btnCrudAlterarRegistro2" />
                         @endif
 
                         @if(\App\Facades\Permissoes::permissao(['destroy']))
                             <!-- Botão Excluir Registro -->
-                                <x-button-crud op="3" onclick="crudDelete(0);" />
+                                <x-button-crud op="3" onclick="crudDelete(0);" id="btnCrudExcluirRegistro2" />
                         @endif
 
                         <!-- Botão Cancelar Operação -->

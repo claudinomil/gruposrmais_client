@@ -46,12 +46,12 @@
                     </div>
 
                     <!-- Tabela (Componente Blade) -->
-                    <x-table-crud-ajax :numCols="3" :colsNames="[__('Fornecedor'), __('Ações')]" />
+                    <x-table-crud-ajax :numCols="4" :colsNames="['#', __('Fornecedor'), __('NF Número'), __('NF Série'), __('Ações')]" />
                     <input type="hidden" id="crudPrefixPermissaoSubmodulo" name="crudPrefixPermissaoSubmodulo" value="{{$se_prefixPermissaoSubmodulo}}">
                     <input type="hidden" id="crudNameSubmodulo" name="crudNameSubmodulo" value="{{$se_nameSubmodulo}}">
                     <input type="hidden" id="crudNameFormSubmodulo" name="crudNameFormSubmodulo" value="{{$se_nameFormSubmodulo}}">
                     <input type="hidden" id="crudFieldsFormSubmodulo" name="crudFieldsFormSubmodulo" value="{{$crudFieldsFormSubmodulo}}">
-                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="fornecedorName,action">
+                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="info,fornecedorName,nf_numero,nf_serie,action">
                 </div>
             </div>
         </div>

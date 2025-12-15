@@ -18,13 +18,14 @@ class MaterialEntradaController extends Controller
     //Dados Auxiliares
     public $fornecedores;
     public $materiais;
+    public $estoques_locais;
 
     public function __construct()
     {
-        $this->middleware('check-permissao:materiais_entradas_list', ['only' => ['index', 'filter']]);
+        $this->middleware('check-permissao:materiais_entradas_list', ['only' => ['index', 'filter', 'modal_info']]);
         $this->middleware('check-permissao:materiais_entradas_create', ['only' => ['create', 'store']]);
         $this->middleware('check-permissao:materiais_entradas_show', ['only' => ['show']]);
-        $this->middleware('check-permissao:materiais_entradas_edit', ['only' => ['edit', 'update']]);
+        $this->middleware('check-permissao:materiais_entradas_edit', ['only' => ['edit', 'update', 'upload_nota_fiscal']]);
         $this->middleware('check-permissao:materiais_entradas_destroy', ['only' => ['destroy']]);
     }
 
@@ -39,6 +40,13 @@ class MaterialEntradaController extends Controller
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
+                    ->editColumn('info', function ($row) {
+                        $retorno = "<div class='text-center'>";
+                        $retorno .= "<a href='#' onclick='materialEntradaModalInfoControle(1, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
+                        $retorno .= "</div>";
+
+                        return $retorno;
+                    })
                     ->addColumn('action', function ($row, Request $request) {
                         return $this->columnAction($row['id']);
                     })
@@ -56,7 +64,8 @@ class MaterialEntradaController extends Controller
 
             return view('materiais_entradas.index', [
                 'fornecedores' => $this->fornecedores,
-                'materiais' => $this->materiais
+                'materiais' => $this->materiais,
+                'estoques_locais' => $this->estoques_locais
             ]);
         }
     }
@@ -216,6 +225,13 @@ class MaterialEntradaController extends Controller
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
+                    ->editColumn('info', function ($row) {
+                        $retorno = "<div class='text-center'>";
+                        $retorno .= "<a href='#' onclick='materialEntradaModalInfoControle(1, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
+                        $retorno .= "</div>";
+
+                        return $retorno;
+                    })
                     ->addColumn('action', function ($row, Request $request) {
                         return $this->columnAction($row['id']);
                     })
@@ -229,6 +245,89 @@ class MaterialEntradaController extends Controller
             }
         } else {
             return view('materiais_entradas.index');
+        }
+    }
+
+    public function modal_info($id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'materiais_entradas/modalInfo/modal_info/' . $id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Modal Info.';
+            }
+        }
+    }
+
+    public function upload_nota_fiscal(Request $request)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Variavel controle
+            $error = false;
+
+            //Verificando e fazendo Upload do PDF
+            if ($request->hasFile('men_nota_fiscal_file')) {
+                //material_entrada_id
+                $id = $request['upload_nota_fiscal_material_entrada_id'];
+
+                //buscar dados formulario
+                $arquivo_tmp = $_FILES["men_nota_fiscal_file"]["tmp_name"];
+                $arquivo_real = $_FILES["men_nota_fiscal_file"]["name"];
+                $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
+                $arquivo_type = $_FILES["men_nota_fiscal_file"]["type"];
+                $arquivo_size = $_FILES['men_nota_fiscal_file']['size'];
+
+                if ($arquivo_type == 'application/pdf') {
+                    if (copy($arquivo_tmp, "build/assets/pdfs/materiais_entradas/$arquivo_real")) {
+                        if (file_exists("build/assets/pdfs/materiais_entradas/" . $arquivo_real)) {
+                            //renomear para nome id_$id_nota_fiscal
+                            $name = 'id_' . $id . '_nota_fiscal';
+                            $pdf = "build/assets/pdfs/materiais_entradas/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+                            $de = "build/assets/pdfs/materiais_entradas/$arquivo_real";
+                            $pa = $pdf;
+
+                            try {
+                                rename($de, $pa);
+                            } catch (\Exception $e) {
+                                $error = true;
+                            }
+                        }
+                    }
+                } else {
+                    return response()->json(['error' => 'Escolha um arquivo pdf válido x.']);
+                }
+            } else {
+                return response()->json(['error' => 'Escolha um arquivo pdf válido y.']);
+            }
+
+            if (!$error) {
+                //Salvar Dados na tabela materiais_entradas_nota_fiscal
+                $data = array();
+                $data['material_entrada_id'] = $request['upload_nota_fiscal_material_entrada_id'];
+                $data['nf_pdf_caminho'] = $pdf;
+
+                //Buscando dados Api_Data() - Atualizar Registro
+                $this->responseApi(1, 12, 'materiais_entradas/uploadNotaFiscal/upload_nota_fiscal', '', '', $data);
+
+                //Registro recebido com sucesso
+                if ($this->code == 2000) {
+                    return response()->json(['success' => $this->message, 'nf_pdf_caminho' => $pdf]);
+                } else {
+                    return response()->json(['error' => 'Erro Interno Upload Nota Fiscal PDF.']);
+                }
+            } else {
+                return response()->json(['error' => 'PDF (Nome, Tamanho ou Tipo) inválida.']);
+            }
+        } else {
+            return response()->json(['error' => 'Erro na requisição Upload Nota Fiscal PDF']);
         }
     }
 }

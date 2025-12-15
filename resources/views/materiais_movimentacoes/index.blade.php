@@ -30,12 +30,12 @@
                                 <!-- Filtro no Banco -->
                                 <div class="col-12 col-md-6 float-end">
                                     <input type="hidden" id="filter-crud-filter_crud_tipo_condicao" value="1">
-                                    <input type="hidden" id="filter-crud-filter_crud_campo_pesquisar" value="fornecedores.name">
+                                    <input type="hidden" id="filter-crud-filter_crud_campo_pesquisar" value="materiais_entrdas_itens.material_name">
                                     <input type="hidden" id="filter-crud-filter_crud_operacao_realizar" value="1">
 
                                     @php
                                         $selectCampoPesquisar = [
-                                        ['value' => 'fornecedores.name', 'descricao' => __('Fornecedor')]
+                                        ['value' => 'materiais_entrdas_itens.material_name', 'descricao' => __('Material')]
                                         ];
                                     @endphp
 
@@ -46,12 +46,12 @@
                     </div>
 
                     <!-- Tabela (Componente Blade) -->
-                    <x-table-crud-ajax :numCols="3" :colsNames="[__('Fornecedor'), __('Ações')]" />
+                    <x-table-crud-ajax :numCols="3" :colsNames="[__('Origem'), __('Destino'), __('Quantidade'), __('Ações')]" />
                     <input type="hidden" id="crudPrefixPermissaoSubmodulo" name="crudPrefixPermissaoSubmodulo" value="{{$se_prefixPermissaoSubmodulo}}">
                     <input type="hidden" id="crudNameSubmodulo" name="crudNameSubmodulo" value="{{$se_nameSubmodulo}}">
                     <input type="hidden" id="crudNameFormSubmodulo" name="crudNameFormSubmodulo" value="{{$se_nameFormSubmodulo}}">
                     <input type="hidden" id="crudFieldsFormSubmodulo" name="crudFieldsFormSubmodulo" value="{{$crudFieldsFormSubmodulo}}">
-                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="fornecedorName,action">
+                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="quantidade,quantidade,quantidade,action">
                 </div>
             </div>
         </div>

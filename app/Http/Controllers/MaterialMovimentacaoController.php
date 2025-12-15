@@ -16,8 +16,7 @@ class MaterialMovimentacaoController extends Controller
     public $content;
 
     //Dados Auxiliares
-    public $fornecedores;
-    public $materiais;
+    public $estoques_locais;
 
     public function __construct()
     {
@@ -55,8 +54,7 @@ class MaterialMovimentacaoController extends Controller
             $this->responseApi(2, 10, 'materiais_movimentacoes/auxiliary/tables', '', '', '');
 
             return view('materiais_movimentacoes.index', [
-                'fornecedores' => $this->fornecedores,
-                'materiais' => $this->materiais
+                'estoques_locais' => $this->estoques_locais
             ]);
         }
     }
@@ -97,23 +95,9 @@ class MaterialMovimentacaoController extends Controller
             //Registro recebido com sucesso
             if ($this->code == 2000) {
                 //Preparando Dados para a View''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                //data_emissao
-                if ($this->content['data_emissao'] != '') {
-                    $this->content['data_emissao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_emissao'], 0, 10))->format('d/m/Y');
-                }
-
-                //valor_desconto
-                if ($this->content['valor_desconto'] != '') {
-                    $this->content['valor_desconto'] = number_format($this->content['valor_desconto'], 2, ",", ".");
-                } else {
-                    $this->content['valor_desconto'] = 0;
-                }
-
-                //valor_total
-                if ($this->content['valor_total'] != '') {
-                    $this->content['valor_total'] = number_format($this->content['valor_total'], 2, ",", ".");
-                } else {
-                    $this->content['valor_total'] = 0;
+                //data_movimentacao
+                if ($this->content['data_movimentacao'] != '') {
+                    $this->content['data_movimentacao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_movimentacao'], 0, 10))->format('d/m/Y');
                 }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -136,23 +120,9 @@ class MaterialMovimentacaoController extends Controller
             //Registro recebido com sucesso
             if ($this->code == 2000) {
                 //Preparando Dados para a View''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                //data_emissao
-                if ($this->content['data_emissao'] != '') {
-                    $this->content['data_emissao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_emissao'], 0, 10))->format('d/m/Y');
-                }
-
-                //valor_desconto
-                if ($this->content['valor_desconto'] != '') {
-                    $this->content['valor_desconto'] = number_format($this->content['valor_desconto'], 2, ",", ".");
-                } else {
-                    $this->content['valor_desconto'] = 0;
-                }
-
-                //valor_total
-                if ($this->content['valor_total'] != '') {
-                    $this->content['valor_total'] = number_format($this->content['valor_total'], 2, ",", ".");
-                } else {
-                    $this->content['valor_total'] = 0;
+                //data_movimentacao
+                if ($this->content['data_movimentacao'] != '') {
+                    $this->content['data_movimentacao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_movimentacao'], 0, 10))->format('d/m/Y');
                 }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 

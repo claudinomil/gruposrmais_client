@@ -121,6 +121,12 @@ class EstoqueLocalController extends Controller
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            // Verificar se id é 1 ou 2 e não deixar editar/deletar pois são almoxarifados das Empresas''
+            if ($id == 1 or $id == 2) {
+                return response()->json(['error' => 'Registro não pode ser Editado nem Deletado.']);
+            }
+            //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
             //Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 2, 'estoques_locais', $id, '', '');
 
@@ -139,6 +145,12 @@ class EstoqueLocalController extends Controller
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            // Verificar se id é 1 ou 2 e não deixar editar/deletar pois são almoxarifados das Empresas''
+            if ($id == 1 or $id == 2) {
+                return response()->json(['error' => 'Registro não pode ser Editado nem Deletado.']);
+            }
+            //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
             //Buscando dados Api_Data() - Alterar Registro
             $this->responseApi(1, 5, 'estoques_locais', $id, '', $request->all());
 
@@ -159,6 +171,12 @@ class EstoqueLocalController extends Controller
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            // Verificar se id é 1 ou 2 e não deixar editar/deletar pois são almoxarifados das Empresas''
+            if ($id == 1 or $id == 2) {
+                return response()->json(['error' => 'Registro não pode ser Editado nem Deletado.']);
+            }
+            //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
             //Buscando dados Api_Data() - Deletar Registro
             $this->responseApi(1, 6, 'estoques_locais', $id, '', '');
 

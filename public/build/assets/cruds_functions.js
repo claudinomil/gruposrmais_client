@@ -309,10 +309,24 @@ async function crudTable(route, fieldsColumns='', pageLength=25) {
         serverSide: false,
         pageLength: pageLength,
         ajax: route,
-        columns: fieldsColumns
+        columns: fieldsColumns,
+
+        // Após terminar a Grade de Registros
+        initComplete: function(settings, json) {
+            // Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            const prefPermSubm = document.getElementById('crudPrefixPermissaoSubmodulo');
+
+            if (prefPermSubm) {
+                if (prefPermSubm.value === 'estoques_locais') {
+                    // Controle Grade
+                    controleGrade();
+                }
+            }
+            //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        }
     });
 
-    //Configuração
+    // Configuração
     crudConfiguracao({p_fieldsDisabled:false});
 }
 
@@ -339,6 +353,11 @@ function crudCreate() {
             crudConfiguracao({p_frm_operacao:'create', p_fieldsDisabled:false, p_crudFormButtons1:'show', p_crudFormButtons2:'hide', p_crudTable:'hide', p_crudForm:'show', p_removeMask:true, p_putMask:true});
 
             //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            if (prefixPermissaoSubmodulo == 'estoques_locais') {
+                // Controle Tela
+                controleForm();
+            }
+
             if (prefixPermissaoSubmodulo == 'grupos') {
                 elementos = document.getElementsByClassName('markUnmarkAll');
                 elementos.forEach(function(elemento) {elemento.style.display = 'block';});
@@ -592,6 +611,23 @@ function crudView(registro_id) {
             });
 
             //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            if (prefixPermissaoSubmodulo == 'estoques_locais') {
+                // Botões Controle
+                let btnAlterar = document.getElementById('btnCrudAlterarRegistro2');
+                let btnExcluir = document.getElementById('btnCrudExcluirRegistro2');
+
+                btnAlterar.style.display = '';
+                btnExcluir.style.display = '';
+
+                if (registro_id == 1 || registro_id == 2) {
+                    btnAlterar.style.display = 'none';
+                    btnExcluir.style.display = 'none';
+                }
+
+                // Controle Tela
+                controleForm();
+            }
+
             if (prefixPermissaoSubmodulo == 'grupos') {
                 elementos = document.getElementsByClassName('markUnmarkAll');
                 elementos.forEach(function(elemento) {elemento.style.display = 'block';});
@@ -1023,6 +1059,7 @@ function crudView(registro_id) {
                 material_entrada_itens.forEach(function (item) {
                     // Adicionar linha na grade
                     mat_adicionarLinhaGrade({
+                        material_item_id: item.id,
                         material_id: item.material_id,
                         material_categoria_name: item.material_categoria_name,
                         material_name: item.material_name,
@@ -1030,6 +1067,8 @@ function crudView(registro_id) {
                         material_valor_unitario: item.material_valor_unitario
                     });
                 });
+
+                mat_verificarDuplicadosPatrimonio();
 
                 // Colocar Total Geral
                 mat_colocarTotalGeralGrade();
@@ -1118,6 +1157,11 @@ async function crudEdit(registro_id) {
             });
 
             //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            if (prefixPermissaoSubmodulo == 'estoques_locais') {
+                // Controle Tela
+                controleForm();
+            }
+
             if (prefixPermissaoSubmodulo == 'grupos') {
                 elementos = document.getElementsByClassName('markUnmarkAll');
                 elementos.forEach(function(elemento) {elemento.style.display = 'block';});
@@ -1556,6 +1600,7 @@ async function crudEdit(registro_id) {
                 material_entrada_itens.forEach(function (item) {
                     // Adicionar linha na grade
                     mat_adicionarLinhaGrade({
+                        material_item_id: item.id,
                         material_id: item.material_id,
                         material_categoria_name: item.material_categoria_name,
                         material_name: item.material_name,
@@ -1563,6 +1608,8 @@ async function crudEdit(registro_id) {
                         material_valor_unitario: item.material_valor_unitario
                     });
                 });
+
+                mat_verificarDuplicadosPatrimonio();
 
                 // Colocar Total Geral
                 mat_colocarTotalGeralGrade();
@@ -1589,6 +1636,11 @@ async function crudEdit(registro_id) {
             crudConfiguracao({p_removeMask:true, p_putMask:true});
 
             alertSwal('warning', "Registro não encontrado", '', 'true', 2000);
+        } else if (data.error) {
+            //Configuração
+            crudConfiguracao({p_removeMask:true, p_putMask:true});
+
+            alertSwal('warning', data.error, '', 'true', 2000);
         } else if (data.error_permissao) {
             //Configuração
             crudConfiguracao({p_removeMask:true, p_putMask:true});

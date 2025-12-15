@@ -157,6 +157,7 @@ export default defineConfig({
                 {src: 'resources/assets_template/pdfs/visitas_tecnicas/pdf.pdf', dest: 'assets/pdfs/visitas_tecnicas'},
                 {src: 'resources/assets_template/pdfs/funcionarios/pdf.pdf', dest: 'assets/pdfs/funcionarios'},
                 {src: 'resources/assets_template/pdfs/clientes_executivos/pdf.pdf', dest: 'assets/pdfs/clientes_executivos'},
+                {src: 'resources/assets_template/pdfs/materiais_entradas/pdf.pdf', dest: 'assets/pdfs/materiais_entradas'},
 
                 {src: 'resources/assets_template/qrcodes/clientes_executivos/qrcode.pdf', dest: 'assets/qrcodes/clientes_executivos'},
                 {src: 'resources/assets_template/qrcodes/funcionarios/qrcode.pdf', dest: 'assets/qrcodes/funcionarios'},

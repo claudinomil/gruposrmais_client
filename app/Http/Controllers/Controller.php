@@ -128,19 +128,19 @@ class Controller extends BaseController
 
         if ($botoes == 1 or $botoes == 4 or $botoes == 5 or $botoes == 7) {
             if (Permissoes::permissao(['show'])) {
-                $btn .= '<div class="col-12 col-md-4 pb-2"><button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Registro" onclick="crudView(' . $id . ');"><i class="fa fa-eye font-size-18"></i></button></div>';
+                $btn .= '<div class="col-12 col-md-4 pb-2"><button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Registro" onclick="crudView(' . $id . ');" id="btnCrudViewGradeId'. $id .'"><i class="fa fa-eye font-size-18"></i></button></div>';
             }
         }
 
         if ($botoes == 2 or $botoes == 4 or $botoes == 6 or $botoes == 7) {
             if (Permissoes::permissao(['edit'])) {
-                $btn .= '<div class="col-12 col-md-4 pb-2"><button type="button" class="btn btn-outline-primary text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Alterar Registro" onclick="crudEdit(' . $id . ');"><i class="fas fa-pencil-alt font-size-18"></i></button></div>';
+                $btn .= '<div class="col-12 col-md-4 pb-2"><button type="button" class="btn btn-outline-primary text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Alterar Registro" onclick="crudEdit(' . $id . ');" id="btnCrudEditGradeId'. $id .'"><i class="fas fa-pencil-alt font-size-18"></i></button></div>';
             }
         }
 
         if ($botoes == 3 or $botoes == 5 or $botoes == 6 or $botoes == 7) {
             if (Permissoes::permissao(['destroy'])) {
-                $btn .= '<div class="col-12 col-md-4 pb-2"><button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Registro" onclick="crudDelete(' . $id . ');"><i class="fa fa-trash-alt font-size-18"></i></button></div>';
+                $btn .= '<div class="col-12 col-md-4 pb-2"><button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Registro" onclick="crudDelete(' . $id . ');" id="btnCrudDeleteGradeId'. $id .'"><i class="fa fa-trash-alt font-size-18"></i></button></div>';
             }
         }
 
