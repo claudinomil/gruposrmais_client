@@ -125,7 +125,7 @@ function crudConfiguracao({p_frm_operacao=null, p_fieldsDisabled=null, p_crudFor
 }
 
 //Preencher Formulario
-function crudPreencherFormulario(campo, dados) {
+async function crudPreencherFormulario(campo, dados) {
     var campo_formulario = campo;
     var campo_tabela = campo;
 
@@ -554,6 +554,11 @@ function crudCreate() {
             if (prefixPermissaoSubmodulo == 'materiais_entradas') {
                 // Preparando Tela
                 mat_controleDisplay();
+            }
+
+            if (prefixPermissaoSubmodulo == 'materiais_movimentacoes') {
+                // Limpar Grade
+                document.getElementById('divMateriaisMovimentacao').innerHTML = '';
             }
 
             if (prefixPermissaoSubmodulo == 'pontos_interesse') {
@@ -1074,6 +1079,10 @@ function crudView(registro_id) {
                 mat_colocarTotalGeralGrade();
                 // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            }
+
+            if (prefixPermissaoSubmodulo == 'materiais_movimentacoes') {
+                grade_materiais();
             }
 
             if (prefixPermissaoSubmodulo == 'pontos_interesse') {

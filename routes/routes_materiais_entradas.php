@@ -16,4 +16,7 @@ Route::prefix('materiais_entradas')->group(function () {
     // Modal
     Route::get('/modalInfo/modal_info/{id}', [MaterialEntradaController::class, 'modal_info'])->name('materiais_entradas.modal_info');
     Route::post('/uploadNotaFiscal/upload_nota_fiscal', [MaterialEntradaController::class, 'upload_nota_fiscal'])->name('materiais_entradas.upload_nota_fiscal');
+
+    // Executar Entrada
+    Route::get('/executar_entrada/{id}', [MaterialEntradaController::class, 'executar_entrada'])->name('materiais_entradas.executar_entrada');
 });

@@ -16,6 +16,41 @@ function validar_frm_materiais_entradas() {
         mensagem += 'Fornecedor requerido.'+'<br>';
     }
 
+    // Campo: fornecedor_id (empresas)
+    const forn_id = document.getElementById('fornecedor_id');
+
+    if (forn_id.value != 1 && forn_id.value != 2 && forn_id.value != 3) {
+        // Campo: nf_numero (requerido)
+        if (validacao({op:1, value:document.getElementById('nf_numero').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'NF Número.'+'<br>';
+        }
+
+        // Campo: nf_serie (requerido)
+        if (validacao({op:1, value:document.getElementById('nf_serie').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'NF Série.'+'<br>';
+        }
+    } else {
+        // Campo: nf_numero
+        document.getElementById('nf_numero').value = '';
+
+        // Campo: nf_serie
+        document.getElementById('nf_serie').value = '';
+    }
+
+    // Campo: data_emissao (requerido)
+    if (validacao({op:1, value:document.getElementById('data_emissao').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Data Emissão requerido.'+'<br>';
+    } else {
+        // Campo: data_emissao (Data Válida)
+        if (validacao({op:8, value:document.getElementById('data_emissao').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Data Emissão Inválida.'+'<br>';
+        }
+    }
+
     // Campo: estoque_local_id (requerido)
     if (validacao({op:1, value:document.getElementById('estoque_local_id').value}) === false) {
         validacao_ok = false;
@@ -403,6 +438,29 @@ async function materialEntradaModalInfoMostrarPdf(caminhoPdf, novaAba = false) {
 }
 // Modal - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // Modal - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Diversas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Diversas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function div_executarEntrada(id=0) {
+    const confirmed = await alertSwalConfirmacao();
+
+    if (confirmed) {
+        const response = await fetch(`materiais_entradas/executar_entrada/${id}`, {
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            }
+        });
+
+        const { message: message } = await response.json();
+
+        alert(message);
+
+        document.getElementById('frm_materiais_entradas').submit();
+    }
+}
+// Diversas - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Diversas - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 // DOMContentLoaded - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // DOMContentLoaded - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

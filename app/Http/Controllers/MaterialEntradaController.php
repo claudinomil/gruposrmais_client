@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\Permissoes;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Carbon;
 
@@ -48,7 +48,18 @@ class MaterialEntradaController extends Controller
                         return $retorno;
                     })
                     ->addColumn('action', function ($row, Request $request) {
-                        return $this->columnAction($row['id']);
+                        // Botões CRUD
+                        $btnsCrud = $this->columnAction($row['id']);
+
+                        // Botão Executar Entrada
+                        $btnExecutarEntrada = '';
+                        if ($row['executada'] == 0) {
+                            if (Permissoes::permissao(['edit'])) {
+                                $btnExecutarEntrada .= '<div class="col-12 py-2 text-center"><button type="button" class="btn btn-warning btn-sm text-white" title="Executar Entrada" onclick="div_executarEntrada('.$row['id'].')">Executar Entrada</button></div>';
+                            }
+                        }
+
+                        return $btnsCrud.$btnExecutarEntrada;
                     })
                     ->rawColumns(['action'])
                     ->escapeColumns([])
@@ -233,7 +244,18 @@ class MaterialEntradaController extends Controller
                         return $retorno;
                     })
                     ->addColumn('action', function ($row, Request $request) {
-                        return $this->columnAction($row['id']);
+                        // Botões CRUD
+                        $btnsCrud = $this->columnAction($row['id']);
+
+                        // Botão Executar Entrada
+                        $btnExecutarEntrada = '';
+                        if ($row['executada'] == 0) {
+                            if (Permissoes::permissao(['edit'])) {
+                                $btnExecutarEntrada .= '<div class="col-12 py-2 text-center"><button type="button" class="btn btn-warning btn-sm text-white" title="Executar Entrada" onclick="div_executarEntrada('.$row['id'].')">Executar Entrada</button></div>';
+                            }
+                        }
+
+                        return $btnsCrud.$btnExecutarEntrada;
                     })
                     ->rawColumns(['action'])
                     ->escapeColumns([])
@@ -328,6 +350,22 @@ class MaterialEntradaController extends Controller
             }
         } else {
             return response()->json(['error' => 'Erro na requisição Upload Nota Fiscal PDF']);
+        }
+    }
+
+    public function executar_entrada($id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Incluir Registro
+            $this->responseApi(1, 10, 'materiais_entradas/executar_entrada/'.$id, '', '', '');
+
+            //Registro criado com sucesso
+            if ($this->code) {
+                return response()->json(['message' => $this->message]);
+            }
+
+            return response()->json(['message' => 'Erro interno (Executar Entrada)']);
         }
     }
 }

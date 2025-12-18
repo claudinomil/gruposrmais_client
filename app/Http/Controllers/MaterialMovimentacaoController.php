@@ -20,11 +20,9 @@ class MaterialMovimentacaoController extends Controller
 
     public function __construct()
     {
-        $this->middleware('check-permissao:materiais_movimentacoes_list', ['only' => ['index', 'filter']]);
+        $this->middleware('check-permissao:materiais_movimentacoes_list', ['only' => ['index', 'filter', 'materiais_entradas_itens']]);
         $this->middleware('check-permissao:materiais_movimentacoes_create', ['only' => ['create', 'store']]);
         $this->middleware('check-permissao:materiais_movimentacoes_show', ['only' => ['show']]);
-        $this->middleware('check-permissao:materiais_movimentacoes_edit', ['only' => ['edit', 'update']]);
-        $this->middleware('check-permissao:materiais_movimentacoes_destroy', ['only' => ['destroy']]);
     }
 
     public function index(Request $request)
@@ -38,8 +36,47 @@ class MaterialMovimentacaoController extends Controller
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
+                    ->editColumn('data_movimentacao', function ($row) {
+                        $retorno = date('d/m/Y', strtotime($row['data_movimentacao']));
+
+                        return $retorno;
+                    })
+                    ->editColumn('origem', function ($row) {
+                        $origemEstoqueLocalName = $row['origemEstoqueLocalName'];
+                        $origemEstoqueName = $row['origemEstoqueName'];
+                        $origemEmpresaName = $row['origemEmpresaName'];
+                        $origemClienteName = $row['origemClienteName'];
+
+                        $retorno = "Local: ".$origemEstoqueLocalName."<br>";
+                        $retorno .= "Estoque: ".$origemEstoqueName."<br>";
+
+                        if ($row['origemEstoqueId'] == 1) {
+                            $retorno .= "Empresa: ".$origemEmpresaName;
+                        } else {
+                            $retorno .= "Cliente: ".$origemClienteName;
+                        }
+
+                        return $retorno;
+                    })
+                    ->editColumn('destino', function ($row) {
+                        $destinoEstoqueLocalName = $row['destinoEstoqueLocalName'];
+                        $destinoEstoqueName = $row['destinoEstoqueName'];
+                        $destinoEmpresaName = $row['destinoEmpresaName'];
+                        $destinoClienteName = $row['destinoClienteName'];
+
+                        $retorno = "Local: ".$destinoEstoqueLocalName."<br>";
+                        $retorno .= "Estoque: ".$destinoEstoqueName."<br>";
+
+                        if ($row['destinoEstoqueId'] == 1) {
+                            $retorno .= "Empresa: ".$destinoEmpresaName;
+                        } else {
+                            $retorno .= "Cliente: ".$destinoClienteName;
+                        }
+
+                        return $retorno;
+                    })
                     ->addColumn('action', function ($row, Request $request) {
-                        return $this->columnAction($row['id']);
+                        return $this->columnAction($row['id'], 1);
                     })
                     ->rawColumns(['action'])
                     ->escapeColumns([])
@@ -110,71 +147,6 @@ class MaterialMovimentacaoController extends Controller
         }
     }
 
-    public function edit(Request $request, $id)
-    {
-        //Verificando Origem enviada pelo Fetch
-        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
-            $this->responseApi(1, 2, 'materiais_movimentacoes', $id, '', '');
-
-            //Registro recebido com sucesso
-            if ($this->code == 2000) {
-                //Preparando Dados para a View''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                //data_movimentacao
-                if ($this->content['data_movimentacao'] != '') {
-                    $this->content['data_movimentacao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_movimentacao'], 0, 10))->format('d/m/Y');
-                }
-                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                return response()->json(['success' => $this->content]);
-            } else if ($this->code == 4040) { //Registro não encontrado
-                return response()->json(['error_not_found' => $this->message]);
-            } else {
-                abort(500, 'Erro Interno Materiais Movimentacoes');
-            }
-        }
-    }
-
-    public function update(Request $request, $id)
-    {
-        //Verificando Origem enviada pelo Fetch
-        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Alterar Registro
-            $this->responseApi(1, 5, 'materiais_movimentacoes', $id, '', $request->all());
-
-            //Registro alterado com sucesso
-            if ($this->code == 2000) {
-                return response()->json(['success' => $this->message]);
-            } else if ($this->code == 2020) { //Falha na validação dos dados
-                return response()->json(['error_validation' => $this->validation]);
-            } else if ($this->code == 4040) { //Registro não encontrado
-                return response()->json(['error_not_found' => $this->message]);
-            } else {
-                abort(500, 'Erro Interno Materiais Movimentacoes');
-            }
-        }
-    }
-
-    public function destroy(Request $request, $id)
-    {
-        //Verificando Origem enviada pelo Fetch
-        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Deletar Registro
-            $this->responseApi(1, 6, 'materiais_movimentacoes', $id, '', '');
-
-            //Registro deletado com sucesso
-            if ($this->code == 2000) {
-                return response()->json(['success' => $this->message]);
-            } else if ($this->code == 2040) { //Registro não excluído - pertence a relacionamento com outra(s) tabela(s)
-                return response()->json(['error' => $this->message]);
-            } else if ($this->code == 4040) { //Registro não encontrado
-                return response()->json(['error' => $this->message]);
-            } else {
-                abort(500, 'Erro Interno Materiais Movimentacoes');
-            }
-        }
-    }
-
     public function filter(Request $request, $array_dados)
     {
         //Requisição Ajax
@@ -186,6 +158,45 @@ class MaterialMovimentacaoController extends Controller
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
+                    ->editColumn('data_movimentacao', function ($row) {
+                        $retorno = date('d/m/Y', strtotime($row['data_movimentacao']));
+
+                        return $retorno;
+                    })
+                    ->editColumn('origem', function ($row) {
+                        $origemEstoqueLocalName = $row['origemEstoqueLocalName'];
+                        $origemEstoqueName = $row['origemEstoqueName'];
+                        $origemEmpresaName = $row['origemEmpresaName'];
+                        $origemClienteName = $row['origemClienteName'];
+
+                        $retorno = "Local: ".$origemEstoqueLocalName."<br>";
+                        $retorno .= "Estoque: ".$origemEstoqueName."<br>";
+
+                        if ($row['origemEstoqueId'] == 1) {
+                            $retorno .= "Empresa: ".$origemEmpresaName;
+                        } else {
+                            $retorno .= "Cliente: ".$origemClienteName;
+                        }
+
+                        return $retorno;
+                    })
+                    ->editColumn('destino', function ($row) {
+                        $destinoEstoqueLocalName = $row['destinoEstoqueLocalName'];
+                        $destinoEstoqueName = $row['destinoEstoqueName'];
+                        $destinoEmpresaName = $row['destinoEmpresaName'];
+                        $destinoClienteName = $row['destinoClienteName'];
+
+                        $retorno = "Local: ".$destinoEstoqueLocalName."<br>";
+                        $retorno .= "Estoque: ".$destinoEstoqueName."<br>";
+
+                        if ($row['destinoEstoqueId'] == 1) {
+                            $retorno .= "Empresa: ".$destinoEmpresaName;
+                        } else {
+                            $retorno .= "Cliente: ".$destinoClienteName;
+                        }
+
+                        return $retorno;
+                    })
                     ->addColumn('action', function ($row, Request $request) {
                         return $this->columnAction($row['id']);
                     })
@@ -199,6 +210,22 @@ class MaterialMovimentacaoController extends Controller
             }
         } else {
             return view('materiais_movimentacoes.index');
+        }
+    }
+
+    public function materiais_entradas_itens(Request $request, $operacao, $estoque_local_id, $material_movimentacao_id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Lista de Registros
+            $this->responseApi(1, 10, 'materiais_movimentacoes/materiais_entradas_itens/'.$operacao.'/'.$estoque_local_id.'/'.$material_movimentacao_id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            }
+
+            return response()->json([]);
         }
     }
 }
