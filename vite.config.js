@@ -49,6 +49,7 @@ export default defineConfig({
                 {src: 'resources/assets_template/js/scripts_dashboards.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_dashboards2.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_dashboards3.js', dest: 'assets'},
+                {src: 'resources/assets_template/js/scripts_patrimonio.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_materiais.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_materiais_entradas.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_materiais_movimentacoes.js', dest: 'assets'},

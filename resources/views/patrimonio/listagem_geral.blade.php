@@ -22,7 +22,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="table-responsive">
-                                <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100 small">
+                                <table class="table table-bordered dt-responsive nowrap w-100 small class-datatable-1">
                                     <thead>
                                         <tr>
                                             <th class="text-center">#</th>
@@ -87,7 +87,7 @@
     @endif
 @endsection
 
-
-<script>
-$(document).ready(function(){$("#datatable").DataTable(),$("#datatable-buttons").DataTable({lengthChange:!1,buttons:["copy","excel","pdf","colvis"]}).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"),$(".dataTables_length select").addClass("form-select form-select-sm")});
-</script>
+@section('script')
+    <!-- scripts_patrimonio.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_patrimonio.js')}}"></script>
+@endsection
