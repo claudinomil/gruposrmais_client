@@ -554,6 +554,9 @@ function crudCreate() {
             if (prefixPermissaoSubmodulo == 'materiais_entradas') {
                 // Preparando Tela
                 mat_controleDisplay();
+
+                // Preparando Botões
+                mat_controleBotoes(0);
             }
 
             if (prefixPermissaoSubmodulo == 'materiais_movimentacoes') {
@@ -1054,6 +1057,9 @@ function crudView(registro_id) {
             if (prefixPermissaoSubmodulo == 'materiais_entradas') {
                 // Preparando Tela
                 mat_controleDisplay();
+
+                // Preparando Botões
+                mat_controleBotoes(data.success['executada']);
 
                 // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1599,6 +1605,9 @@ async function crudEdit(registro_id) {
             if (prefixPermissaoSubmodulo == 'materiais_entradas') {
                 // Preparando Tela
                 mat_controleDisplay();
+
+                // Preparando Botões
+                mat_controleBotoes(0);
 
                 // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

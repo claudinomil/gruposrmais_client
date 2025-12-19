@@ -82,6 +82,33 @@ function validar_frm_materiais_entradas() {
 
 // Elementos Globais
 const frm_operacao = document.getElementById('frm_operacao');
+
+/*
+ * Controlar Botões
+*/
+function mat_controleBotoes(executada) {
+    // Botão CRUD Edit
+    const btnCrudButtonEdit = document.getElementById('btnCrudButtonEdit');
+
+    if (btnCrudButtonEdit) {
+        btnCrudButtonEdit.style.display = '';
+
+        if (executada == 1) {
+            btnCrudButtonEdit.style.display = 'none';
+        }
+    }
+
+    // Botão CRUD Delete
+    const btnCrudButtonDelete = document.getElementById('btnCrudButtonDelete');
+
+    if (btnCrudButtonDelete) {
+        btnCrudButtonDelete.style.display = '';
+
+        if (executada == 1) {
+            btnCrudButtonDelete.style.display = 'none';
+        }
+    }
+}
 // Dados Principais - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // Dados Principais - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 

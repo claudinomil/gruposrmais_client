@@ -49,7 +49,11 @@ class MaterialEntradaController extends Controller
                     })
                     ->addColumn('action', function ($row, Request $request) {
                         // Botões CRUD
-                        $btnsCrud = $this->columnAction($row['id']);
+                        if ($row['executada'] == 1) {
+                            $btnsCrud = $this->columnAction($row['id'], 1);
+                        } else {
+                            $btnsCrud = $this->columnAction($row['id']);
+                        }
 
                         // Botão Executar Entrada
                         $btnExecutarEntrada = '';
@@ -245,7 +249,11 @@ class MaterialEntradaController extends Controller
                     })
                     ->addColumn('action', function ($row, Request $request) {
                         // Botões CRUD
-                        $btnsCrud = $this->columnAction($row['id']);
+                        if ($row['executada'] == 1) {
+                            $btnsCrud = $this->columnAction($row['id'], 1);
+                        } else {
+                            $btnsCrud = $this->columnAction($row['id']);
+                        }
 
                         // Botão Executar Entrada
                         $btnExecutarEntrada = '';

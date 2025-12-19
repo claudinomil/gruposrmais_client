@@ -34,4 +34,20 @@ class PatrimonioController extends Controller
 
         return view('patrimonio.informacao', compact('material_numero_patrimonio', 'dados'));
     }
+
+    public function listagem_geral()
+    {
+        // Buscando dados Api_Data()
+        $this->responseApi(1, 10, 'patrimonio/listagem_geral', '', '', '');
+
+        // Dados
+        $dados = [];
+
+        // Dados recebidos com sucesso
+        if ($this->code == 2000) {
+            $dados = $this->content;
+        }
+
+        return view('patrimonio.listagem_geral', compact('dados'));
+    }
 }

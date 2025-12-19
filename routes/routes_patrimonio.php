@@ -5,4 +5,5 @@ use App\Http\Controllers\PatrimonioController;
 // Patrimonio
 Route::prefix('patrimonio')->group(function () {
     Route::get('/informacao/{material_numero_patrimonio}', [PatrimonioController::class, 'informacao'])->name('patrimonio.informacao');
+    Route::get('/listagem_geral', [PatrimonioController::class, 'listagem_geral'])->name('patrimonio.listagem_geral');
 });
