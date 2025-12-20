@@ -39,10 +39,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-6 col-md-5">
+                            <div class="col-12 col-md-5">
                                 <img src="{{ asset($material_fotografia) }}" alt="" width="250px">
                             </div>
-                            <div class="col-6 col-md-7">
+                            <div class="col-12 col-md-7">
                                 <div class="mt-4 mt-xl-3">
                                     <h4 class="mt-1 mb-3">{{ $material_nome }}</h4>
                                     <div class="row mb-3">
