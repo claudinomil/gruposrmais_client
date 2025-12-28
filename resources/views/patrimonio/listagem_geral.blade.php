@@ -22,12 +22,14 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="table-responsive">
-                                <table class="table table-bordered dt-responsive nowrap w-100 small class-datatable-1">
-                                    <thead>
+                                <table class="table mb-0 nowrap w-100 small class-datatable-1">
+                                    <thead class="table-light">
                                         <tr>
                                             <th class="text-center">#</th>
                                             <th class="text-center">PATRIMÔNIO</th>
                                             <th>MATERIAL</th>
+                                            <th>AQUISIÇÃO</th>
+                                            <th>VALOR</th>
                                             <th>LOCAL</th>
                                             <th class="text-center">SITUAÇÃO</th>
                                         </tr>
@@ -48,6 +50,8 @@
                                             $material_estoque_nome = $material['estoque'];
                                             $material_local_empresa = $material['local_empresa'];
                                             $material_local_cliente = $material['local_cliente'];
+                                            $material_data_aquisicao = $material['data_emissao'];
+                                            $material_valor_unitario = $material['valor_unitario'];
 
                                             if ($material_estoque_id == 1) {
                                                 $local = $material_estoque_nome.': '.$material_local_empresa.' - '.$material_local;
@@ -65,7 +69,9 @@
                                             <tr>
                                                 <th class="text-center" scope="row"><img src="{{ asset($material_fotografia) }}" alt="product-img" title="product-img" class="rounded avatar-sm"></th>
                                                 <td class="text-center"><b>{{ $material_numero_patrimonio }}</b></td>
-                                                <td><b>{{ $material_nome }}</b><br><br>{{ $material_categoria }}</td>
+                                                <td><b>{{ $material_nome }}</b><br>{{ $material_categoria }}</td>
+                                                <td>{{ \App\Services\SuporteService::getDataFormatada(1, $material_data_aquisicao) }}</td>
+                                                <td>{{ number_format($material_valor_unitario, 2, ",", ".") }}</td>
                                                 <td>{{ $local }}</td>
                                                 <td class="text-center">{!! $situacao !!}</td>
                                             </tr>

@@ -47,6 +47,36 @@ class MaterialEntradaController extends Controller
 
                         return $retorno;
                     })
+                    ->editColumn('fornecedor_patrimonio', function ($row) {
+                        $retorno = $row['fornecedorName'];
+
+                        $materiais_entradas_itens = '<div class="row">';
+
+                        foreach($row['materiais_entradas_itens'] as $item) {
+                            $materiais_entradas_itens .= '<div class="col-12 col-md-4">
+                                                            <div class="row alert alert-success p-1 m-1">
+                                                                <div class="col-2 px-0">
+                                                                    <img src="'.$item['material_fotografia'].'" alt="" class="img-thumbnail avatar-sm">
+                                                                </div>
+                                                                <div class="col-10">
+                                                                    <h6 class="text-truncate small">Patrimônio: '.$item['material_numero_patrimonio'].'</h6>
+                                                                    <p class="text-truncate text-muted small mb-0">'.$item['material_name'].'</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>';
+                        }
+
+                        $materiais_entradas_itens .= '</div>';
+
+                        $retorno .= $materiais_entradas_itens;
+
+                        return $retorno;
+                    })
+                    ->editColumn('nota_fiscal', function ($row) {
+                        $retorno = 'Número: '.$row['nf_numero']."<br>".'Série: '.$row['nf_serie'];
+
+                        return $retorno;
+                    })
                     ->addColumn('action', function ($row, Request $request) {
                         // Botões CRUD
                         if ($row['executada'] == 1) {

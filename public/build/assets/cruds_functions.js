@@ -1116,6 +1116,44 @@ function crudView(registro_id) {
                     }
                 }
             }
+
+            if (prefixPermissaoSubmodulo == 'materiais_controle_situacoes') {
+                // Formatar Tela
+                document.getElementById('divControleSituacoes').style.display = '';
+                document.getElementById('divAlterarSituacaoLocal').style.display = 'none';
+                document.getElementById('divInformacoesGerais').style.display = 'none';
+
+                // Campos
+                document.getElementById('divFotografia').src = data.success['material_fotografia'];
+                document.getElementById('divNumeroPatrimonio').innerHTML = '<b>'+data.success['material_numero_patrimonio']+'</b>';
+                document.getElementById('divMaterialName').innerHTML = '<b>'+data.success['material_nome']+'</b><br>'+data.success['material_categoria'];
+
+                // Local
+                let local = '';
+                if (data.success['material_estoque_id'] == 1) {
+                    local = '<b>'+data.success['material_local']+'</b><br>'+'<span class="small">'+data.success['material_estoque_nome']+': '+data.success['material_local_empresa']+'</span>';
+                } else {
+                    local = '<b>'+data.success['material_local']+'</b><br>'+'<span class="small">'+data.success['material_estoque_nome']+': '+data.success['material_local_cliente']+'</span>';
+                }
+
+                document.getElementById('divLocal').innerHTML = local;
+
+                // Situação Atual
+                let situacao = '';
+                if (data.success['material_situacao_id'] == 1 || data.success['material_situacao_id'] == 2 || data.success['material_situacao_id'] == 5) {
+                    situacao = '<div class="text-center text-success">'+'<b>'+data.success['material_situacao']+'</b>'+'</div>'+'<div class="text-center text-success small">Movimentação Permitida</div>';
+                } else {
+                    situacao = '<div class="text-center text-danger">'+'<b>'+data.success['material_situacao']+'</b>'+'</div>'+'<div class="text-center text-danger small">Movimentação não Permitida</div>';
+                }
+
+                document.getElementById('divSituacaoAtual').innerHTML = situacao;
+
+                // Campos Hiddens
+                document.getElementById('registro_id').value = data.success['material_entrada_item_id'];
+                document.getElementById('material_entrada_item_id').value = data.success['material_entrada_item_id'];
+                document.getElementById('anterior_material_situacao_id').value = data.success['material_situacao_id'];
+                document.getElementById('anterior_estoque_local_id').value = data.success['estoque_local_id'];
+            }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             //Configuração
@@ -1645,6 +1683,44 @@ async function crudEdit(registro_id) {
                     document.getElementById('especialidade_' + item['especialidade_id']).checked = true;
                 });
             }
+
+            if (prefixPermissaoSubmodulo == 'materiais_controle_situacoes') {
+                // Formatar Tela
+                document.getElementById('divControleSituacoes').style.display = 'none';
+                document.getElementById('divAlterarSituacaoLocal').style.display = '';
+                document.getElementById('divInformacoesGerais').style.display = '';
+
+                // Campos
+                document.getElementById('divFotografia').src = data.success['material_fotografia'];
+                document.getElementById('divNumeroPatrimonio').innerHTML = '<b>'+data.success['material_numero_patrimonio']+'</b>';
+                document.getElementById('divMaterialName').innerHTML = '<b>'+data.success['material_nome']+'</b><br>'+data.success['material_categoria'];
+
+                // Local
+                let local = '';
+                if (data.success['material_estoque_id'] == 1) {
+                    local = '<b>'+data.success['material_local']+'</b><br>'+'<span class="small">'+data.success['material_estoque_nome']+': '+data.success['material_local_empresa']+'</span>';
+                } else {
+                    local = '<b>'+data.success['material_local']+'</b><br>'+'<span class="small">'+data.success['material_estoque_nome']+': '+data.success['material_local_cliente']+'</span>';
+                }
+
+                document.getElementById('divLocal').innerHTML = local;
+
+                // Situação Atual
+                let situacao = '';
+                if (data.success['material_situacao_id'] == 1 || data.success['material_situacao_id'] == 2 || data.success['material_situacao_id'] == 5) {
+                    situacao = '<div class="text-center text-success">'+'<b>'+data.success['material_situacao']+'</b>'+'</div>'+'<div class="text-center text-success small">Movimentação Permitida</div>';
+                } else {
+                    situacao = '<div class="text-center text-danger">'+'<b>'+data.success['material_situacao']+'</b>'+'</div>'+'<div class="text-center text-danger small">Movimentação não Permitida</div>';
+                }
+
+                document.getElementById('divSituacaoAtual').innerHTML = situacao;
+
+                // Campos Hiddens
+                document.getElementById('registro_id').value = data.success['material_entrada_item_id'];
+                document.getElementById('material_entrada_item_id').value = data.success['material_entrada_item_id'];
+                document.getElementById('anterior_material_situacao_id').value = data.success['material_situacao_id'];
+                document.getElementById('anterior_estoque_local_id').value = data.success['estoque_local_id'];
+            }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             //Configuração
@@ -1814,6 +1890,11 @@ function crudConfirmOperation() {
                         message += '</div>';
 
                         alertSwal('warning', "Validação", message, 'true', 20000);
+                    } else if (data.error_lock) {
+                        //Configuração
+                        crudConfiguracao({p_removeMask:true, p_putMask:true});
+
+                        alertSwal('warning', "Bloqueio", data.error_lock, 'true', 20000);
                     } else if (data.error_permissao) {
                         //Configuração
                         crudConfiguracao({p_removeMask:true, p_putMask:true});

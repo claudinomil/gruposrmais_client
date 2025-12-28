@@ -116,6 +116,8 @@ class MaterialMovimentacaoController extends Controller
                 return response()->json(['success' => $this->message]);
             } else if ($this->code == 2020) { //Falha na validação dos dados
                 return response()->json(['error_validation' => $this->validation]);
+            } else if ($this->code == 4423) { // Bloqueio Tabela ou Registro
+                return response()->json(['error_lock' => $this->message]);
             } else {
                 abort(500, 'Erro Interno Materiais Movimentacoes');
             }

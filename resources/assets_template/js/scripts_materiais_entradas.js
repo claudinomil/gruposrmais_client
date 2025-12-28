@@ -481,8 +481,6 @@ async function div_executarEntrada(id=0) {
 
         const { message: message } = await response.json();
 
-        alert(message);
-
         document.getElementById('frm_materiais_entradas').submit();
     }
 }
@@ -561,8 +559,10 @@ document.addEventListener('DOMContentLoaded', function(event) {
         if (mat_escolherMaterialValorUnitario.value == '') {
             mensagem_erro += 'Digite um Valor Unitário.<br>';
         }
-        if (mat_escolherMaterialNumeroPatrimonio.value == '') {
+        if (mat_escolherMaterialNumeroPatrimonio.value.trim() === '') {
             mensagem_erro += 'Digite um Número de Patrimônio.<br>';
+        } else if (!/^\d{5}$/.test(mat_escolherMaterialNumeroPatrimonio.value)) {
+            mensagem_erro += 'O Número de Patrimônio deve conter exatamente 5 dígitos numéricos.<br>';
         }
 
         if (mensagem_erro != '') {

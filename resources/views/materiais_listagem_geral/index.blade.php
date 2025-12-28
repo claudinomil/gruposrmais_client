@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title') Materiais Entradas @endsection
+@section('title') Materiais Listagem Geral @endsection
 
 @section('css')
 @endsection
@@ -8,8 +8,8 @@
 @section('content')
 
     @component('components.breadcrumb')
-@section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
-@endcomponent
+        @section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
+    @endcomponent
 
 <div id="crudTable">
     <div class="row">
@@ -21,21 +21,17 @@
                         <div class="col-12">
                             <div class="row">
                                 <!-- Botões -->
-                                <div class="col-12 col-md-6 pb-2">
-                                    @if (\App\Facades\Permissoes::permissao(['create']))
-                                        <x-button-crud op="1" onclick="crudCreate();" />
-                                    @endif
-                                </div>
+                                <div class="col-12 col-md-6 pb-2">&nbsp;</div>
 
                                 <!-- Filtro no Banco -->
                                 <div class="col-12 col-md-6 float-end">
                                     <input type="hidden" id="filter-crud-filter_crud_tipo_condicao" value="1">
-                                    <input type="hidden" id="filter-crud-filter_crud_campo_pesquisar" value="fornecedores.name">
+                                    <input type="hidden" id="filter-crud-filter_crud_campo_pesquisar" value="materiais.name">
                                     <input type="hidden" id="filter-crud-filter_crud_operacao_realizar" value="1">
 
                                     @php
                                         $selectCampoPesquisar = [
-                                        ['value' => 'fornecedores.name', 'descricao' => __('Fornecedor')]
+                                        ['value' => 'materiais.name', 'descricao' => __('Material')]
                                         ];
                                     @endphp
 
@@ -46,23 +42,20 @@
                     </div>
 
                     <!-- Tabela (Componente Blade) -->
-                    <x-table-crud-ajax :numCols="4" :colsNames="['#', __('Fornecedor/Patrimônio'), __('Nota Fiscal'), __('Ações')]" />
+                    <x-table-crud-ajax :numCols="8" :colsNames="['#', __('Patrimônio'), __('Material'), __('Aquisição'), __('Valor'), __('Local'), __('Situação')]" />
                     <input type="hidden" id="crudPrefixPermissaoSubmodulo" name="crudPrefixPermissaoSubmodulo" value="{{$se_prefixPermissaoSubmodulo}}">
                     <input type="hidden" id="crudNameSubmodulo" name="crudNameSubmodulo" value="{{$se_nameSubmodulo}}">
                     <input type="hidden" id="crudNameFormSubmodulo" name="crudNameFormSubmodulo" value="{{$se_nameFormSubmodulo}}">
                     <input type="hidden" id="crudFieldsFormSubmodulo" name="crudFieldsFormSubmodulo" value="{{$crudFieldsFormSubmodulo}}">
-                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="info,fornecedor_patrimonio,nota_fiscal,action">
+                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="fotografia,patrimonio,material,aquisicao,valor,local,situacao">
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Modal -->
-@include('materiais_entradas.form')
 @endsection
 
 @section('script')
-    <!-- scripts_materiais_entradas.js -->
-    <script src="{{ Vite::asset('resources/assets_template/js/scripts_materiais_entradas.js')}}"></script>
+    <!-- scripts_materiais_listagem_geral.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_materiais_listagem_geral.js')}}"></script>
 @endsection
