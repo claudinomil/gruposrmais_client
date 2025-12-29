@@ -58,15 +58,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row pt-4" id="divControleSituacoes">
-                                    <h5 class="pb-4 text-primary"><i class="fas fa-table"></i> {{ __('Controle Situações') }}</h5>
-                                    <div class="col-12"></div>
+                                <div class="row pt-4" id="divPatrimonioSituacoes">
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-table"></i> {{ __('Patrimônio Situações') }}</h5>
+                                    <div class="col-12" id="divPatrimonioSituacoesTable"></div>
                                 </div>
 
                                 <!-- Campos Hiddens -->
-                                <input type="hiddenx" id="material_entrada_item_id" name="material_entrada_item_id" value="">
-                                <input type="hiddenx" id="anterior_material_situacao_id" name="anterior_material_situacao_id" value="0">
-                                <input type="hiddenx" id="anterior_estoque_local_id" name="anterior_estoque_local_id" value="0">
+                                <input type="hidden" id="material_entrada_item_id" name="material_entrada_item_id" value="">
+                                <input type="hidden" id="anterior_material_situacao_id" name="anterior_material_situacao_id" value="0">
+                                <input type="hidden" id="anterior_estoque_local_id" name="anterior_estoque_local_id" value="0">
 
                                 <div class="row pt-4" id="divAlterarSituacaoLocal">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-edit"></i> {{ __('Alterar Situação e/ou Local') }}</h5>
@@ -101,11 +101,15 @@
                                 </div>
                                 <div class="row pt-4" id="divInformacoesGerais">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-list"></i> {{ __('Informações Gerais') }}</h5>
-                                    <div class="form-group col-12 col-md-2 pb-3">
+                                    <div class="form-group col-12 col-md-1 pb-3">
                                         <label class="form-label">{{ __('Data alteração') }}</label>
                                         <input type="text" class="form-control mask_date" id="data_alteracao" name="data_alteracao" readonly>
                                     </div>
-                                    <div class="form-group col-12 col-md-10 pb-3">
+                                    <div class="form-group col-12 col-md-1 pb-3">
+                                        <label class="form-label">{{ __('Hora alteração') }}</label>
+                                        <input type="text" class="form-control" id="hora_alteracao" name="hora_alteracao" readonly>
+                                    </div>
+                                    <div class="form-group col-12 col-md-8 pb-3">
                                         <label class="form-label">{{ __('Observação') }}</label>
                                         <textarea class="form-control" id="observacao" name="observacao" rows="3"></textarea>
                                     </div>

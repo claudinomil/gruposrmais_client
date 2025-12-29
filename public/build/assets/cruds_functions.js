@@ -1119,7 +1119,7 @@ function crudView(registro_id) {
 
             if (prefixPermissaoSubmodulo == 'materiais_controle_situacoes') {
                 // Formatar Tela
-                document.getElementById('divControleSituacoes').style.display = '';
+                document.getElementById('divPatrimonioSituacoes').style.display = '';
                 document.getElementById('divAlterarSituacaoLocal').style.display = 'none';
                 document.getElementById('divInformacoesGerais').style.display = 'none';
 
@@ -1153,6 +1153,9 @@ function crudView(registro_id) {
                 document.getElementById('material_entrada_item_id').value = data.success['material_entrada_item_id'];
                 document.getElementById('anterior_material_situacao_id').value = data.success['material_situacao_id'];
                 document.getElementById('anterior_estoque_local_id').value = data.success['estoque_local_id'];
+
+                // Patrimônio Situações Table
+                patrimonioSituacoesTable(data.success['material_entrada_item_id']);
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -1686,7 +1689,7 @@ async function crudEdit(registro_id) {
 
             if (prefixPermissaoSubmodulo == 'materiais_controle_situacoes') {
                 // Formatar Tela
-                document.getElementById('divControleSituacoes').style.display = 'none';
+                document.getElementById('divPatrimonioSituacoes').style.display = 'none';
                 document.getElementById('divAlterarSituacaoLocal').style.display = '';
                 document.getElementById('divInformacoesGerais').style.display = '';
 

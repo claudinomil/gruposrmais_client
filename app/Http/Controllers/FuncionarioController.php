@@ -86,7 +86,7 @@ class FuncionarioController extends Controller
             }
         } else {
             //Gerar QRCode Cartões Emergenciais
-            //SuporteFacade::setGerarQRCodesCartoesEmergenciais();
+            SuporteFacade::setGerarQRCodesCartoesEmergenciais();
 
             //Buscando dados Api_Data() - Auxiliary Tables (Combobox)
             $this->responseApi(2, 10, 'funcionarios/auxiliary/tables', '', '', '');
