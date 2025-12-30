@@ -1779,7 +1779,7 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
                 if (registro.material_fotografia) {
                     try {
                         registro.material_fotografia_base64 = await carregarImgBase64(
-                            'http://gruposrmais-client.test/' + registro.material_fotografia
+                            registro.material_fotografia
                         );
                     } catch (err) {
                         console.warn('Erro ao carregar imagem:', err);
