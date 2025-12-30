@@ -13,7 +13,9 @@ async function relatorios() {
 
         const grupo_relatorios = data.success.grupo_relatorios;
 
-        let relatorios = '';
+        document.getElementById('divRelatorios').innerHTML = '';
+
+        let relatorio = '';
 
         let num = 0;
 
@@ -21,26 +23,36 @@ async function relatorios() {
             const relatorioNome = await traduzirViaLocale(grupo_relatorio['relatorio_name']);
             num++;
 
-            relatorios += `<div class="col-12 col-md-3">
-                            <div class="card">
-                                <div class="card-body" style="padding: 0.5rem 0.5rem !important;">
-                                    <div class="row">
-                                        <div class="col-3 col-md-3 text-center">
-                                            <i class="bx bx-printer display-6"></i>
-                                        </div>
-                                        <div class="col-9 col-md-9">
-                                            <h5 class="text-truncate">${relatorioNome}</h5>
-                                            <button type="button" class="btn btn-light btn-sm w-xs" onclick="relatorio${grupo_relatorio['relatorio_id']}(1, '${grupo_relatorio['relatorio_name']}');">
-                                                Filtro
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`;
-        }
+            // relatorios += `<div class="col-12 col-md-3">
+            //                 <div class="card">
+            //                     <div class="card-body" style="padding: 0.5rem 0.5rem !important;">
+            //                         <div class="row">
+            //                             <div class="col-3 col-md-3 text-center">
+            //                                 <i class="bx bx-printer font-size-24"></i>
+            //                             </div>
+            //                             <div class="col-9 col-md-9">
+            //                                 <h5 class="text-truncate">${relatorioNome}</h5>
+            //                                 <button type="button" class="btn btn-light btn-sm w-xs" onclick="relatorio${grupo_relatorio['relatorio_id']}(1, '${grupo_relatorio['relatorio_name']}');">
+            //                                     Filtro
+            //                                 </button>
+            //                             </div>
+            //                         </div>
+            //                     </div>
+            //                 </div>
+            //             </div>`;
 
-        document.getElementById('divRelatorios').innerHTML = relatorios;
+            relatorio = `<div class="col-12 col-md-3">
+                            <a href="#" onclick="relatorio${grupo_relatorio['relatorio_id']}(1, '${grupo_relatorio['relatorio_name']}');">
+                                <div class="alert alert-primary fade show font-size-12 ps-2" role="alert">
+                                    <i class="bx bxs-printer font-size-14 ms-0 me-2"></i>${relatorioNome}
+                                </div>
+                            </a>
+                        </div>`;
+
+            document.getElementById('divRelatorios').insertAdjacentHTML('beforeend', relatorio);
+
+
+        }
     } catch (error) {
             console.error('Erro ao carregar relatórios:', error);
     }
@@ -373,6 +385,37 @@ function relatorio9(op=1, relatorio_name='') {
 
             //Fechar Modal
             document.getElementById('modal_relatorio9_cancelar').click();
+        });
+    }
+}
+
+function relatorio10(op=1, relatorio_name='') {
+    if (op == 1) {
+        //Título Modal
+        document.getElementById('modal_relatorio10_titulo').innerHTML = relatorio_name;
+
+        //Abrir Modal
+        new bootstrap.Modal(document.getElementById('modal_relatorio10')).show();
+    } else {
+        //URL
+        var url = window.location.protocol+'//'+window.location.host+'/';
+
+        return new Promise(function(resolve, reject) {
+            //Dados
+            $.get(url+'relatorios/relatorio10'+'/'+$('#modal_relatorio10_material_id').val()+'/'+$('#modal_relatorio10_material_categoria_id').val()+'/'+$('#modal_relatorio10_estoque_local_id').val()+'/'+$('#modal_relatorio10_empresa_id').val()+'/'+$('#modal_relatorio10_cliente_id').val()+'/'+$('#modal_relatorio10_material_situacao_id').val()+'/'+$('#modal_relatorio10_idioma').val(), function (data) {
+                if (data.success) {
+                    resolve(data.success);
+                } else {
+                    alert(data.error);
+                    resolve([]);
+                }
+            });
+        }).then(function (data) {
+            //Gerar PDF
+            gerarPDFRelatorio({x_relatorio:10, x_dados:data, x_idioma:$('#modal_relatorio10_idioma').val()});
+
+            //Fechar Modal
+            document.getElementById('modal_relatorio10_cancelar').click();
         });
     }
 }
@@ -1641,6 +1684,177 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
         //Relatório 9 - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         //Relatório 9 - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+        //Relatório 10 - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Relatório 10 - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        if (x_relatorio == 10) {
+            //Cabeçalho e rodapé
+            await adicionarCabecalhoRodape(pageTopo, pageRodape);
+
+            //Texto
+            texto = 'SISTEMA SAC';
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ' '+texto;
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:marginTop, x_fontSize:12, x_fontStyle:'bold', x_align:'left', x_fundo:true, x_fundo_cor:2});
+
+            //Texto
+            texto = 'ADMINISTRAÇÃO E CONTROLE';
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = texto+' ';
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:marginTop, x_fontSize:12, x_fontStyle:'bold', x_align:'right'});
+
+            //Texto
+            texto = 'Parâmetros: '+dados.relatorio_parametros;
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ' '+texto;
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:marginTop+10, x_fontSize:10, x_align:'left', x_fundo:true, x_fundo_cor:1});
+
+            //Texto
+            texto = dados.relatorio_data+' às '+dados.relatorio_hora;
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = texto+' ';
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_marginTop:marginTop+10, x_fontSize:10, x_align:'right'});
+
+            //Tabela - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            //Tabela - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            //Texto
+            texto = dados.relatorio_nome;
+            if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
+            texto = ' '+texto;
+            await inserirTexto({x_texto:texto, x_spacingBetweenTexts:4, x_fontSize:12, x_fontStyle:'bold', x_fundo:true});
+
+            var tabelaHTML = `<table>
+                            <thead>
+                                <tr>
+                                    <th>&nbsp;#&nbsp;</th>
+                                    <th>&nbsp;PATRIMÔNIO&nbsp;</th>
+                                    <th>&nbsp;MATERIAL&nbsp;</th>
+                                    <th>&nbsp;LOCAL&nbsp;</th>
+                                    <th>&nbsp;SITUAÇÃO&nbsp;</th>
+                                </tr>
+                            </thead>
+                        <tbody>`;
+
+            var qtdLinhasTabela = 1;
+
+            var registros = dados.relatorio_registros;
+
+            registros.forEach(function (dado, index) {
+                //Dados para preencher na linha da grade
+                var patrimonio = dado.material_numero_patrimonio;
+                var material = dado.material_nome+'<br><br>'+dado.material_categoria;
+
+                var local = '';
+                if (dado.material_estoque_id == 1) {
+                    local = dado.material_local+'<br><br>'+dado.material_estoque_nome+': '+dado.material_local_empresa;
+                } else {
+                    local = dado.material_local+'<br><br>'+dado.material_estoque_nome+': '+dado.material_local_cliente;
+                }
+
+                var situacao = '';
+                if (dado.material_situacao_id == 1 || dado.material_situacao_id == 2 || dado.material_situacao_id == 5) {
+                    situacao = dado.material_situacao+'<br><br>'+dado+'Movimentação Permitida';
+                } else {
+                    situacao = dado.material_situacao;
+                }
+
+                tabelaHTML += `<tr data-index="${index}">
+                                <td></td>
+                                <td>${patrimonio ? patrimonio : ''}</td>
+                                <td>${material ? material : ''}</td>
+                                <td>${local ? local : ''}</td>
+                                <td>${situacao ? situacao : ''}</td>
+                            </tr>`;
+
+                qtdLinhasTabela++;
+            });
+
+            tabelaHTML += `</tbody>
+                    </table>`;
+
+            qtdLinhasTabela++;
+            qtdLinhasTabela++;
+
+            // Carregar Img Base64
+            for (const registro of registros) {
+                if (registro.material_fotografia) {
+                    try {
+                        registro.material_fotografia_base64 = await carregarImgBase64(
+                            'http://gruposrmais-client.test/' + registro.material_fotografia
+                        );
+                    } catch (err) {
+                        console.warn('Erro ao carregar imagem:', err);
+                    }
+                }
+            }
+
+            //Criando um elemento temporário para converter a string em HTML real
+            var div = document.createElement('div');
+            if (traducao == 'en') {tabelaHTML = await traduzirTextoGoogle(tabelaHTML);}
+            div.innerHTML = tabelaHTML;
+            var tabela = div.querySelector('table');
+
+            //Converte a tabela para PDF usando autoTable
+            doc.autoTable({
+                html: tabela, // Usa a tabela do HTML
+                startY: novaMarginTop - 5, // Define onde começa a tabela no PDF
+                margin: { top: 50, left: 15, right: 15, bottom: 40 }, // <-- reserva espaço pro rodapé
+                useCss: true, // Permite que os estilos CSS sejam considerados
+                styles: {
+                    fontStyle: "normal",
+                    fontSize: 8,
+                    textColor: [0, 0, 0], // Cor do texto preto
+                    lineColor: [121, 130, 156], // Cor da borda cinza escuro (#79829c)
+                    lineWidth: 0.2, // Espessura da borda
+                    cellPadding: 2,
+                },
+                headStyles: {
+                    fontStyle: "bold",
+                    fontSize: 8,
+                    fillColor: [242, 206, 237],
+                    textColor: [0, 0, 0]
+                },
+                alternateRowStyles: {
+                    fillColor: [255, 255, 255], // Cor de fundo alternada para as linhas
+                },
+                columnStyles: {
+                    0: { halign: "center", cellWidth: 15 },
+                    1: { halign: "center", minCellWidth: 25, fontStyle: "bold" },
+                    2: { halign: "left", minCellWidth: 25 },
+                    3: { halign: "left", minCellWidth: 25 }
+
+                },
+                didDrawPage: function (data) {
+                    adicionarCabecalhoRodape(pageTopo, pageRodape);
+                },
+                didParseCell: function (data) {
+                    data.cell.styles.cellPadding = 2;
+                },
+                didDrawCell: function (data) {
+                    if (data.section === 'body' && data.column.index === 0) {
+                        const rowElement = data.cell.raw && data.cell.raw.parentElement;
+                        if (!rowElement) return;
+
+                        const rowIndex = parseInt(rowElement.getAttribute('data-index'));
+                        const registro = registros[rowIndex];
+                        if (registro && registro.material_fotografia_base64) {
+                            const imgW = 8;
+                            const imgH = 8;
+                            const x = data.cell.x + (data.cell.width - imgW) / 2;
+                            const y = data.cell.y + (data.cell.height - imgH) / 2;
+                            doc.addImage(registro.material_fotografia_base64, 'PNG', x, y, imgW, imgH);
+                        }
+                    }
+                }
+            });
+
+            //Nova margem topo para depois da tabela
+            novaMarginTop = novaMarginTop + (qtdLinhasTabela*6.3) + 5;
+            //Tabela - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            //Tabela - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        }
+        //Relatório 10 - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Relatório 10 - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
         //Gerar o pdf, abrir em uma outra aba e colocar link para download - Início'''''''''''''''''''''''''''''''''''''
         //Gerar o pdf, abrir em uma outra aba e colocar link para download - Início'''''''''''''''''''''''''''''''''''''
         const pdfBlob = doc.output('blob');
@@ -1662,6 +1876,24 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
     }
     //Gerando PDF - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     //Gerando PDF - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+}
+
+async function carregarImgBase64(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = url;
+        img.onload = function () {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            const dataURL = canvas.toDataURL('image/png');
+            resolve(dataURL);
+        };
+        img.onerror = reject;
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {

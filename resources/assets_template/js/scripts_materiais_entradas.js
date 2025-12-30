@@ -19,7 +19,7 @@ function validar_frm_materiais_entradas() {
     // Campo: fornecedor_id (empresas)
     const forn_id = document.getElementById('fornecedor_id');
 
-    if (forn_id.value != 1 && forn_id.value != 2 && forn_id.value != 3) {
+    if (forn_id.value != 777 && forn_id.value != 888 && forn_id.value != 999) {
         // Campo: nf_numero (requerido)
         if (validacao({op:1, value:document.getElementById('nf_numero').value}) === false) {
             validacao_ok = false;

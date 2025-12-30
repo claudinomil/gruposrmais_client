@@ -10,8 +10,18 @@
 @section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
 @endcomponent
 
-<div class="row">
-    <div class="row pt-3" id="divRelatorios">Aguarde...</div>
+<div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="row pt-3" id="divRelatorios">Aguarde...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal Relatorio 1 -->
@@ -341,6 +351,89 @@
                 <div class="col-12 text-end">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio9_cancelar">{{ __('Cancelar') }}</button>
                     <button type="button" class="btn btn-primary" onclick="relatorio9(2)">{{ __('Gerar') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Relatorio 10 -->
+<div class="modal fade bs-example-modal-sm" id="modal_relatorio10" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_relatorio10_titulo">Xxxxxxxxxxxx</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-12 pb-3">
+                        <label class="form-label">{{ __('Material') }}</label>
+                        <select class="form-select" name="modal_relatorio10_material_id" id="modal_relatorio10_material_id">
+                            <option value="0">{{ __('Todos os Materiais') }}</option>
+                            @foreach ($materiais as $material)
+                                <option value="{{$material['id']}}">{{$material['name']}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-12 pb-3">
+                        <label class="form-label">{{ __('Categoria') }}</label>
+                        <select class="form-select" name="modal_relatorio10_material_categoria_id" id="modal_relatorio10_material_categoria_id">
+                            <option value="0">{{ __('Todas as Categorias') }}</option>
+                            @foreach ($materiais_categorias as $material_categoria)
+                                <option value="{{$material_categoria['id']}}">{{$material_categoria['name']}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-12 pb-3">
+                        <label class="form-label">{{ __('Local') }}</label>
+                        <select class="form-select" name="modal_relatorio10_estoque_local_id" id="modal_relatorio10_estoque_local_id">
+                            <option value="0">{{ __('Todos os Locais') }}</option>
+                            @foreach ($estoques_locais as $estoque_local)
+                                <option value="{{$estoque_local['id']}}">{{$estoque_local['name']}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-12 pb-3">
+                        <label class="form-label">{{ __('Empresa') }}</label>
+                        <select class="form-select" name="modal_relatorio10_empresa_id" id="modal_relatorio10_empresa_id">
+                            <option value="0">{{ __('Todas as Empresas') }}</option>
+                            @foreach ($empresas as $empresa)
+                                <option value="{{$empresa['id']}}">{{$empresa['name']}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-12 pb-3">
+                        <label class="form-label">{{ __('Cliente') }}</label>
+                        <select class="form-select" name="modal_relatorio10_cliente_id" id="modal_relatorio10_cliente_id">
+                            <option value="0">{{ __('Todos os Clientes') }}</option>
+                            @foreach ($clientes as $cliente)
+                                <option value="{{$cliente['id']}}">{{$cliente['name']}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-12 pb-3">
+                        <label class="form-label">{{ __('Situação') }}</label>
+                        <select class="form-select" name="modal_relatorio10_material_situacao_id" id="modal_relatorio10_material_situacao_id">
+                            <option value="0">{{ __('Todas as Situações') }}</option>
+                            @foreach ($materiais_situacoes as $material_situacao)
+                                <option value="{{$material_situacao['id']}}">{{$material_situacao['name']}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-12 pb-3">
+                        <label class="form-label">{{ __('Idioma') }}</label>
+                        <select class="form-select" name="modal_relatorio10_idioma" id="modal_relatorio10_idioma">
+                            <option value="1">{{ __('Português') }}</option>
+                            <option value="2">{{ __('Inglês') }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-12 text-end">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_relatorio10_cancelar">{{ __('Cancelar') }}</button>
+                    <button type="button" class="btn btn-primary" onclick="relatorio10(2)">{{ __('Gerar') }}</button>
                 </div>
             </div>
         </div>

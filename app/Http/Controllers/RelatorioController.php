@@ -22,7 +22,7 @@ class RelatorioController extends Controller
     public function index()
     {
         //Gerar QRCode Cartões Emergenciais
-        SuporteFacade::setGerarQRCodesCartoesEmergenciais();
+        //SuporteFacade::setGerarQRCodesCartoesEmergenciais();
 
         //Buscando dados Api_Data()
         $this->responseApi(1, 1, 'relatorios', '', '', '');
@@ -37,6 +37,12 @@ class RelatorioController extends Controller
             $funcionarios = $this->content['funcionarios'];
             $pontos_tipos = $this->content['pontos_tipos'];
             $pontos_naturezas = $this->content['pontos_naturezas'];
+            $materiais_categorias = $this->content['materiais_categorias'];
+            $materiais = $this->content['materiais'];
+            $estoques_locais = $this->content['estoques_locais'];
+            $empresas = $this->content['empresas'];
+            $clientes = $this->content['clientes'];
+            $materiais_situacoes = $this->content['materiais_situacoes'];
         } else {
             $grupos = [];
             $situacoes = [];
@@ -47,6 +53,12 @@ class RelatorioController extends Controller
             $funcionarios = [];
             $pontos_tipos = [];
             $pontos_naturezas = [];
+            $materiais_categorias = [];
+            $materiais = [];
+            $estoques_locais = [];
+            $empresas = [];
+            $clientes = [];
+            $materiais_situacoes = [];
         }
 
         return view('relatorios.index', [
@@ -58,7 +70,13 @@ class RelatorioController extends Controller
             'clientes_executivos' => $clientes_executivos,
             'funcionarios' => $funcionarios,
             'pontos_tipos' => $pontos_tipos,
-            'pontos_naturezas' => $pontos_naturezas
+            'pontos_naturezas' => $pontos_naturezas,
+            'materiais_categorias' => $materiais_categorias,
+            'materiais' => $materiais,
+            'estoques_locais' => $estoques_locais,
+            'empresas' => $empresas,
+            'clientes' => $clientes,
+            'materiais_situacoes' => $materiais_situacoes
         ]);
     }
 
@@ -159,6 +177,22 @@ class RelatorioController extends Controller
         if ($request->ajax()) {
             //Buscando dados Api_Data() - Dados
             $this->responseApi(1, 10, 'relatorios/relatorio9/' . $idioma, '', '', '');
+
+            //Dados recebidos com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            } else {
+                return response()->json(['error' => 'Erro Interno Relatórios']);
+            }
+        }
+    }
+
+    public function relatorio10(Request $request, $material_id, $material_categoria_id, $estoque_local_id, $empresa_id, $cliente_id, $material_situacao_id, $idioma)
+    {
+        //Requisição Ajax
+        if ($request->ajax()) {
+            //Buscando dados Api_Data() - Dados
+            $this->responseApi(1, 10, 'relatorios/relatorio10'.'/'.$material_id.'/'.$material_categoria_id.'/'.$estoque_local_id.'/'.$empresa_id.'/'.$cliente_id.'/'.$material_situacao_id.'/'.$idioma, '', '', '');
 
             //Dados recebidos com sucesso
             if ($this->code == 2000) {
