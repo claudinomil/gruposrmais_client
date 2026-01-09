@@ -123,7 +123,7 @@ class Menu
                     //31 : Pontos de Interesse
                     //if ($submodulo['id'] == 31) {$permitido = false;}
 
-                    //32 : Materiais
+                    //32 : Produtos
                     //if ($submodulo['id'] == 32) {$permitido = false;}
 
                     //33 : Brigadas de Incêndios

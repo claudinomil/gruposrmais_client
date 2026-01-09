@@ -368,20 +368,20 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="form-group col-12 pb-3">
-                        <label class="form-label">{{ __('Material') }}</label>
-                        <select class="form-select" name="modal_relatorio10_material_id" id="modal_relatorio10_material_id">
-                            <option value="0">{{ __('Todos os Materiais') }}</option>
-                            @foreach ($materiais as $material)
-                                <option value="{{$material['id']}}">{{$material['name']}}</option>
+                        <label class="form-label">{{ __('Produto') }}</label>
+                        <select class="form-select" name="modal_relatorio10_produto_id" id="modal_relatorio10_produto_id">
+                            <option value="0">{{ __('Todos os Produtos') }}</option>
+                            @foreach ($produtos as $produto)
+                                <option value="{{$produto['id']}}">{{$produto['name']}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group col-12 pb-3">
                         <label class="form-label">{{ __('Categoria') }}</label>
-                        <select class="form-select" name="modal_relatorio10_material_categoria_id" id="modal_relatorio10_material_categoria_id">
+                        <select class="form-select" name="modal_relatorio10_produto_categoria_id" id="modal_relatorio10_produto_categoria_id">
                             <option value="0">{{ __('Todas as Categorias') }}</option>
-                            @foreach ($materiais_categorias as $material_categoria)
-                                <option value="{{$material_categoria['id']}}">{{$material_categoria['name']}}</option>
+                            @foreach ($produtos_categorias as $produto_categoria)
+                                <option value="{{$produto_categoria['id']}}">{{$produto_categoria['name']}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -414,10 +414,10 @@
                     </div>
                     <div class="form-group col-12 pb-3">
                         <label class="form-label">{{ __('Situação') }}</label>
-                        <select class="form-select" name="modal_relatorio10_material_situacao_id" id="modal_relatorio10_material_situacao_id">
+                        <select class="form-select" name="modal_relatorio10_produto_situacao_id" id="modal_relatorio10_produto_situacao_id">
                             <option value="0">{{ __('Todas as Situações') }}</option>
-                            @foreach ($materiais_situacoes as $material_situacao)
-                                <option value="{{$material_situacao['id']}}">{{$material_situacao['name']}}</option>
+                            @foreach ($produtos_situacoes as $produto_situacao)
+                                <option value="{{$produto_situacao['id']}}">{{$produto_situacao['name']}}</option>
                             @endforeach
                         </select>
                     </div>

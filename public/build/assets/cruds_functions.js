@@ -546,22 +546,22 @@ function crudCreate() {
             if (prefixPermissaoSubmodulo == 'brigadas_incendios') {
                 // Preparando Tela
                 controleDisplay();
-                mat_controleDisplay();
+                pro_controleDisplay();
                 esc_controleDisplay();
                 ger_controleDisplay();
             }
 
-            if (prefixPermissaoSubmodulo == 'materiais_entradas') {
+            if (prefixPermissaoSubmodulo == 'produtos_entradas') {
                 // Preparando Tela
-                mat_controleDisplay();
+                pro_controleDisplay();
 
                 // Preparando Botões
-                mat_controleBotoes(0);
+                pro_controleBotoes(0);
             }
 
-            if (prefixPermissaoSubmodulo == 'materiais_movimentacoes') {
+            if (prefixPermissaoSubmodulo == 'produtos_movimentacoes') {
                 // Limpar Grade
-                document.getElementById('divMateriaisMovimentacao').innerHTML = '';
+                document.getElementById('divProdutosMovimentacao').innerHTML = '';
             }
 
             if (prefixPermissaoSubmodulo == 'pontos_interesse') {
@@ -997,27 +997,27 @@ function crudView(registro_id) {
             if (prefixPermissaoSubmodulo == 'brigadas_incendios') {
                 // Preparando Tela
                 controleDisplay();
-                mat_controleDisplay();
+                pro_controleDisplay();
                 esc_controleDisplay();
                 ger_controleDisplay();
 
-                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                // Colocar Materiais da Brigada Incêndio
-                const brigada_incendio_materiais = data.success['brigada_incendio_materiais'];
+                // Colocar Produtos da Brigada Incêndio
+                const brigada_incendio_produtos = data.success['brigada_incendio_produtos'];
 
-                brigada_incendio_materiais.forEach(function (item) {
+                brigada_incendio_produtos.forEach(function (item) {
                     // Adicionar linha na grade
-                    mat_adicionarLinhaGrade({
-                        material_id: item.material_id,
-                        material_categoria_name: item.material_categoria_name,
-                        material_name: item.material_name,
-                        material_quantidade: item.material_quantidade
+                    pro_adicionarLinhaGrade({
+                        produto_id: item.produto_id,
+                        produto_categoria_name: item.produto_categoria_name,
+                        produto_name: item.produto_name,
+                        produto_quantidade: item.produto_quantidade
                     });
                 });
-                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 // Grade de Escalas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 // Grade de Escalas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1054,41 +1054,43 @@ function crudView(registro_id) {
                 // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
-            if (prefixPermissaoSubmodulo == 'materiais_entradas') {
+            if (prefixPermissaoSubmodulo == 'produtos_entradas') {
                 // Preparando Tela
-                mat_controleDisplay();
+                pro_controleDisplay();
 
                 // Preparando Botões
-                mat_controleBotoes(data.success['executada']);
+                pro_controleBotoes(data.success['executada']);
 
-                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                // Colocar Materiais Entradas Itens
-                const material_entrada_itens = data.success['material_entrada_itens'];
+                // Colocar Produtos Entradas Itens
+                const produto_entrada_itens = data.success['produto_entrada_itens'];
 
-                material_entrada_itens.forEach(function (item) {
+                produto_entrada_itens.forEach(function (item) {
                     // Adicionar linha na grade
-                    mat_adicionarLinhaGrade({
-                        material_item_id: item.id,
-                        material_id: item.material_id,
-                        material_categoria_name: item.material_categoria_name,
-                        material_name: item.material_name,
-                        material_numero_patrimonio: item.material_numero_patrimonio,
-                        material_valor_unitario: item.material_valor_unitario
+                    pro_adicionarLinhaGrade({
+                        produto_item_id: item.id,
+                        produto_id: item.produto_id,
+                        produto_categoria_name: item.produto_categoria_name,
+                        produto_name: item.produto_name,
+                        produto_tipo_id: item.produto_tipo_id,
+                        produto_tipo_name: item.produto_tipo_name,
+                        produto_numero_patrimonio: item.produto_numero_patrimonio,
+                        produto_valor_unitario: item.produto_valor_unitario
                     });
                 });
 
-                mat_verificarDuplicadosPatrimonio();
+                pro_verificarDuplicadosPatrimonio();
 
                 // Colocar Total Geral
-                mat_colocarTotalGeralGrade();
-                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                pro_colocarTotalGeralGrade();
+                // Grade de Produtos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
-            if (prefixPermissaoSubmodulo == 'materiais_movimentacoes') {
-                grade_materiais();
+            if (prefixPermissaoSubmodulo == 'produtos_movimentacoes') {
+                grade_produtos();
             }
 
             if (prefixPermissaoSubmodulo == 'pontos_interesse') {
@@ -1117,45 +1119,45 @@ function crudView(registro_id) {
                 }
             }
 
-            if (prefixPermissaoSubmodulo == 'materiais_controle_situacoes') {
+            if (prefixPermissaoSubmodulo == 'produtos_controle_situacoes') {
                 // Formatar Tela
                 document.getElementById('divPatrimonioSituacoes').style.display = '';
                 document.getElementById('divAlterarSituacaoLocal').style.display = 'none';
                 document.getElementById('divInformacoesGerais').style.display = 'none';
 
                 // Campos
-                document.getElementById('divFotografia').src = data.success['material_fotografia'];
-                document.getElementById('divNumeroPatrimonio').innerHTML = '<b>'+data.success['material_numero_patrimonio']+'</b>';
-                document.getElementById('divMaterialName').innerHTML = '<b>'+data.success['material_nome']+'</b><br>'+data.success['material_categoria'];
+                document.getElementById('divFotografia').src = data.success['produto_fotografia'];
+                document.getElementById('divNumeroPatrimonio').innerHTML = '<b>'+data.success['produto_numero_patrimonio']+'</b>';
+                document.getElementById('divProdutoName').innerHTML = '<b>'+data.success['produto_nome']+'</b><br>'+data.success['produto_categoria'];
 
                 // Local
                 let local = '';
-                if (data.success['material_estoque_id'] == 1) {
-                    local = '<b>'+data.success['material_local']+'</b><br>'+'<span class="small">'+data.success['material_estoque_nome']+': '+data.success['material_local_empresa']+'</span>';
+                if (data.success['produto_estoque_id'] == 1) {
+                    local = '<b>'+data.success['produto_local']+'</b><br>'+'<span class="small">'+data.success['produto_estoque_nome']+': '+data.success['produto_local_empresa']+'</span>';
                 } else {
-                    local = '<b>'+data.success['material_local']+'</b><br>'+'<span class="small">'+data.success['material_estoque_nome']+': '+data.success['material_local_cliente']+'</span>';
+                    local = '<b>'+data.success['produto_local']+'</b><br>'+'<span class="small">'+data.success['produto_estoque_nome']+': '+data.success['produto_local_cliente']+'</span>';
                 }
 
                 document.getElementById('divLocal').innerHTML = local;
 
                 // Situação Atual
                 let situacao = '';
-                if (data.success['material_situacao_id'] == 1 || data.success['material_situacao_id'] == 2 || data.success['material_situacao_id'] == 5) {
-                    situacao = '<div class="text-center text-success">'+'<b>'+data.success['material_situacao']+'</b>'+'</div>'+'<div class="text-center text-success small">Movimentação Permitida</div>';
+                if (data.success['produto_situacao_id'] == 1 || data.success['produto_situacao_id'] == 2 || data.success['produto_situacao_id'] == 5) {
+                    situacao = '<div class="text-center text-success">'+'<b>'+data.success['produto_situacao']+'</b>'+'</div>'+'<div class="text-center text-success small">Movimentação Permitida</div>';
                 } else {
-                    situacao = '<div class="text-center text-danger">'+'<b>'+data.success['material_situacao']+'</b>'+'</div>'+'<div class="text-center text-danger small">Movimentação não Permitida</div>';
+                    situacao = '<div class="text-center text-danger">'+'<b>'+data.success['produto_situacao']+'</b>'+'</div>'+'<div class="text-center text-danger small">Movimentação não Permitida</div>';
                 }
 
                 document.getElementById('divSituacaoAtual').innerHTML = situacao;
 
                 // Campos Hiddens
-                document.getElementById('registro_id').value = data.success['material_entrada_item_id'];
-                document.getElementById('material_entrada_item_id').value = data.success['material_entrada_item_id'];
-                document.getElementById('anterior_material_situacao_id').value = data.success['material_situacao_id'];
+                document.getElementById('registro_id').value = data.success['produto_entrada_item_id'];
+                document.getElementById('produto_entrada_item_id').value = data.success['produto_entrada_item_id'];
+                document.getElementById('anterior_produto_situacao_id').value = data.success['produto_situacao_id'];
                 document.getElementById('anterior_estoque_local_id').value = data.success['estoque_local_id'];
 
                 // Patrimônio Situações Table
-                patrimonioSituacoesTable(data.success['material_entrada_item_id']);
+                patrimonioSituacoesTable(data.success['produto_entrada_item_id']);
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -1586,27 +1588,27 @@ async function crudEdit(registro_id) {
             if (prefixPermissaoSubmodulo == 'brigadas_incendios') {
                 // Preparando Tela
                 controleDisplay();
-                mat_controleDisplay();
+                pro_controleDisplay();
                 esc_controleDisplay();
                 ger_controleDisplay();
 
-                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                // Colocar Materiais da Brigada Incêndio
-                const brigada_incendio_materiais = data.success['brigada_incendio_materiais'];
+                // Colocar Produtos da Brigada Incêndio
+                const brigada_incendio_produtos = data.success['brigada_incendio_produtos'];
 
-                brigada_incendio_materiais.forEach(function (item) {
+                brigada_incendio_produtos.forEach(function (item) {
                     // Adicionar linha na grade
-                    mat_adicionarLinhaGrade({
-                        material_id: item.material_id,
-                        material_categoria_name: item.material_categoria_name,
-                        material_name: item.material_name,
-                        material_quantidade: item.material_quantidade
+                    pro_adicionarLinhaGrade({
+                        produto_id: item.produto_id,
+                        produto_categoria_name: item.produto_categoria_name,
+                        produto_name: item.produto_name,
+                        produto_quantidade: item.produto_quantidade
                     });
                 });
-                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 // Grade de Escalas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 // Grade de Escalas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1643,37 +1645,39 @@ async function crudEdit(registro_id) {
                 // Grade de Geradas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
-            if (prefixPermissaoSubmodulo == 'materiais_entradas') {
+            if (prefixPermissaoSubmodulo == 'produtos_entradas') {
                 // Preparando Tela
-                mat_controleDisplay();
+                pro_controleDisplay();
 
                 // Preparando Botões
-                mat_controleBotoes(0);
+                pro_controleBotoes(0);
 
-                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                // Grade de Materiais - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                // Colocar Materiais Entradas Itens
-                const material_entrada_itens = data.success['material_entrada_itens'];
+                // Colocar Produtos Entradas Itens
+                const produto_entrada_itens = data.success['produto_entrada_itens'];
 
-                material_entrada_itens.forEach(function (item) {
+                produto_entrada_itens.forEach(function (item) {
                     // Adicionar linha na grade
-                    mat_adicionarLinhaGrade({
-                        material_item_id: item.id,
-                        material_id: item.material_id,
-                        material_categoria_name: item.material_categoria_name,
-                        material_name: item.material_name,
-                        material_numero_patrimonio: item.material_numero_patrimonio,
-                        material_valor_unitario: item.material_valor_unitario
+                    pro_adicionarLinhaGrade({
+                        produto_item_id: item.id,
+                        produto_id: item.produto_id,
+                        produto_categoria_name: item.produto_categoria_name,
+                        produto_name: item.produto_name,
+                        produto_tipo_id: item.produto_tipo_id,
+                        produto_tipo_name: item.produto_tipo_name,
+                        produto_numero_patrimonio: item.produto_numero_patrimonio,
+                        produto_valor_unitario: item.produto_valor_unitario
                     });
                 });
 
-                mat_verificarDuplicadosPatrimonio();
+                pro_verificarDuplicadosPatrimonio();
 
                 // Colocar Total Geral
-                mat_colocarTotalGeralGrade();
-                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                // Grade de Materiais - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                pro_colocarTotalGeralGrade();
+                // Grade de Produtos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Grade de Produtos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             }
 
             if (prefixPermissaoSubmodulo == 'pontos_interesse') {
@@ -1687,41 +1691,41 @@ async function crudEdit(registro_id) {
                 });
             }
 
-            if (prefixPermissaoSubmodulo == 'materiais_controle_situacoes') {
+            if (prefixPermissaoSubmodulo == 'produtos_controle_situacoes') {
                 // Formatar Tela
                 document.getElementById('divPatrimonioSituacoes').style.display = 'none';
                 document.getElementById('divAlterarSituacaoLocal').style.display = '';
                 document.getElementById('divInformacoesGerais').style.display = '';
 
                 // Campos
-                document.getElementById('divFotografia').src = data.success['material_fotografia'];
-                document.getElementById('divNumeroPatrimonio').innerHTML = '<b>'+data.success['material_numero_patrimonio']+'</b>';
-                document.getElementById('divMaterialName').innerHTML = '<b>'+data.success['material_nome']+'</b><br>'+data.success['material_categoria'];
+                document.getElementById('divFotografia').src = data.success['produto_fotografia'];
+                document.getElementById('divNumeroPatrimonio').innerHTML = '<b>'+data.success['produto_numero_patrimonio']+'</b>';
+                document.getElementById('divProdutoName').innerHTML = '<b>'+data.success['produto_nome']+'</b><br>'+data.success['produto_categoria'];
 
                 // Local
                 let local = '';
-                if (data.success['material_estoque_id'] == 1) {
-                    local = '<b>'+data.success['material_local']+'</b><br>'+'<span class="small">'+data.success['material_estoque_nome']+': '+data.success['material_local_empresa']+'</span>';
+                if (data.success['produto_estoque_id'] == 1) {
+                    local = '<b>'+data.success['produto_local']+'</b><br>'+'<span class="small">'+data.success['produto_estoque_nome']+': '+data.success['produto_local_empresa']+'</span>';
                 } else {
-                    local = '<b>'+data.success['material_local']+'</b><br>'+'<span class="small">'+data.success['material_estoque_nome']+': '+data.success['material_local_cliente']+'</span>';
+                    local = '<b>'+data.success['produto_local']+'</b><br>'+'<span class="small">'+data.success['produto_estoque_nome']+': '+data.success['produto_local_cliente']+'</span>';
                 }
 
                 document.getElementById('divLocal').innerHTML = local;
 
                 // Situação Atual
                 let situacao = '';
-                if (data.success['material_situacao_id'] == 1 || data.success['material_situacao_id'] == 2 || data.success['material_situacao_id'] == 5) {
-                    situacao = '<div class="text-center text-success">'+'<b>'+data.success['material_situacao']+'</b>'+'</div>'+'<div class="text-center text-success small">Movimentação Permitida</div>';
+                if (data.success['produto_situacao_id'] == 1 || data.success['produto_situacao_id'] == 2 || data.success['produto_situacao_id'] == 5) {
+                    situacao = '<div class="text-center text-success">'+'<b>'+data.success['produto_situacao']+'</b>'+'</div>'+'<div class="text-center text-success small">Movimentação Permitida</div>';
                 } else {
-                    situacao = '<div class="text-center text-danger">'+'<b>'+data.success['material_situacao']+'</b>'+'</div>'+'<div class="text-center text-danger small">Movimentação não Permitida</div>';
+                    situacao = '<div class="text-center text-danger">'+'<b>'+data.success['produto_situacao']+'</b>'+'</div>'+'<div class="text-center text-danger small">Movimentação não Permitida</div>';
                 }
 
                 document.getElementById('divSituacaoAtual').innerHTML = situacao;
 
                 // Campos Hiddens
-                document.getElementById('registro_id').value = data.success['material_entrada_item_id'];
-                document.getElementById('material_entrada_item_id').value = data.success['material_entrada_item_id'];
-                document.getElementById('anterior_material_situacao_id').value = data.success['material_situacao_id'];
+                document.getElementById('registro_id').value = data.success['produto_entrada_item_id'];
+                document.getElementById('produto_entrada_item_id').value = data.success['produto_entrada_item_id'];
+                document.getElementById('anterior_produto_situacao_id').value = data.success['produto_situacao_id'];
                 document.getElementById('anterior_estoque_local_id').value = data.success['estoque_local_id'];
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

@@ -17,7 +17,7 @@ class BrigadaIncendioController extends Controller
 
     //Dados Auxiliares
     public $clientes;
-    public $materiais;
+    public $produtos;
     public $escala_tipos;
 
     public function __construct()
@@ -45,13 +45,13 @@ class BrigadaIncendioController extends Controller
                     })
                     ->editColumn('brigada_incendio', function ($row) {
                         $retorno = "Brigada Incêndio nº.&nbsp;".$row['numero_brigada_incendio']."/".$row['ano_brigada_incendio'];
-                        
+
                         return $retorno;
                     })
                     ->rawColumns(['action'])
                     ->escapeColumns([])
                     ->make(true);
-                    
+
                 return $allData;
             } else {
                 abort(500, 'Erro Interno Brigadas Incêndios');
@@ -62,7 +62,7 @@ class BrigadaIncendioController extends Controller
 
             return view('brigadas_incendios.index', [
                 'clientes' => $this->clientes,
-                'materiais' => $this->materiais,
+                'produtos' => $this->produtos,
                 'escala_tipos' => $this->escala_tipos
             ]);
         }
@@ -124,7 +124,7 @@ class BrigadaIncendioController extends Controller
                     $this->content['data_finalizacao'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_finalizacao'], 0, 10))->format('d/m/Y');
                 }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                
+
                 return response()->json(['success' => $this->content]);
             } else if ($this->code == 4040) { //Registro não encontrado
                 return response()->json(['error_not_found' => $this->message]);
@@ -230,13 +230,13 @@ class BrigadaIncendioController extends Controller
                     })
                     ->editColumn('brigada_incendio', function ($row) {
                         $retorno = "Brigada Incêndio nº.&nbsp;".$row['numero_brigada_incendio']."/".$row['ano_brigada_incendio'];
-                        
+
                         return $retorno;
                     })
                     ->rawColumns(['action'])
                     ->escapeColumns([])
                     ->make(true);
-                    
+
                 return $allData;
             } else {
                 abort(500, 'Erro Interno Brigadas Incêndios');

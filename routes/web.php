@@ -138,14 +138,14 @@ require __DIR__ . '/routes_pontos_interesse.php';
 //Visitas Técnicas
 require __DIR__ . '/routes_visitas_tecnicas.php';
 
-//Materiais
-require __DIR__ . '/routes_materiais.php';
+//Produtos
+require __DIR__ . '/routes_produtos.php';
 
-// Materiais Entradas
-require __DIR__ . '/routes_materiais_entradas.php';
+// Produtos Entradas
+require __DIR__ . '/routes_produtos_entradas.php';
 
-// Materiais Movimentacoes
-require __DIR__ . '/routes_materiais_movimentacoes.php';
+// Produtos Movimentacoes
+require __DIR__ . '/routes_produtos_movimentacoes.php';
 
 //Brigadas Incendios
 require __DIR__ . '/routes_brigadas_incendios.php';
@@ -162,11 +162,11 @@ require __DIR__ . '/routes_z_testes.php';
 // Patrimonio
 require __DIR__.'/routes_patrimonio.php';
 
-// Materiais Controle Situações
-require __DIR__.'/routes_materiais_controle_situacoes.php';
+// Produtos Controle Situações
+require __DIR__.'/routes_produtos_controle_situacoes.php';
 
-// Materiais Listagem Geral
-require __DIR__.'/routes_materiais_listagem_geral.php';
+// Produtos Listagem Geral
+require __DIR__.'/routes_produtos_listagem_geral.php';
 
 //Verificar se arquivo existe'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Route::get('/arquivo_existe', function (Illuminate\Http\Request $request) {

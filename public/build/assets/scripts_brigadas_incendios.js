@@ -23,7 +23,7 @@ function validar_frm_brigadas_incendios() {
             mensagem += 'Data abertura inválida.'+'<br>';
         }
     }
-    
+
     // Campo: data_prevista (Data Válida)
     if (validacao({op:1, value:document.getElementById('data_prevista').value}) === true) {
         if (validacao({op:8, value:document.getElementById('data_prevista').value}) === false) {
@@ -31,7 +31,7 @@ function validar_frm_brigadas_incendios() {
             mensagem += 'Data prevista inválida.'+'<br>';
         }
     }
-    
+
     // Campo: data_conclusao (Data Válida)
     if (validacao({op:1, value:document.getElementById('data_conclusao').value}) === true) {
         if (validacao({op:8, value:document.getElementById('data_conclusao').value}) === false) {
@@ -39,7 +39,7 @@ function validar_frm_brigadas_incendios() {
             mensagem += 'Data conclusão inválida.'+'<br>';
         }
     }
-    
+
     // Campo: data_finalizacao (Data Válida)
     if (validacao({op:1, value:document.getElementById('data_finalizacao').value}) === true) {
         if (validacao({op:8, value:document.getElementById('data_finalizacao').value}) === false) {
@@ -47,7 +47,7 @@ function validar_frm_brigadas_incendios() {
             mensagem += 'Data finalização inválida.'+'<br>';
         }
     }
-    
+
     // Mensagem
     if (validacao_ok === false) {
         var texto = '<div class="pt-3">';
@@ -67,7 +67,7 @@ const divInformacoesGerais = document.getElementById('divInformacoesGerais');
 
 /*
  * Controlar Parte Principal da tela
- * @PARAM op = 1(Create)  2(View)  3(Edit) 
+ * @PARAM op = 1(Create)  2(View)  3(Edit)
 */
 function controleDisplay() {
     if (frm_operacao.value == 'create') {divInformacoesGerais.style.display = 'none';}
@@ -77,48 +77,48 @@ function controleDisplay() {
 // Dados Principais - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // Dados Principais - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-// Grade de Materiais - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-// Grade de Materiais - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Grade de Produtos - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Grade de Produtos - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 // Elementos Globais
-const mat_divMateriais = document.getElementById('mat_divMateriais');
-const mat_divEscolherMaterial = document.getElementById('mat_divEscolherMaterial');
-const mat_escolherMaterialId = document.getElementById('mat_escolherMaterialId');
-const mat_escolherMaterialQuantidade = document.getElementById('mat_escolherMaterialQuantidade');
-const mat_btnAdicionar = document.getElementById('mat_btnAdicionar');
-const mat_thOpcoes = document.getElementById('mat_thOpcoes');
-const mat_gradeTbody = document.getElementById('mat_gradeTbody');
-const mat_camposHiddens = document.getElementById('mat_camposHiddens');
+const pro_divProdutos = document.getElementById('pro_divProdutos');
+const pro_divEscolherProduto = document.getElementById('pro_divEscolherProduto');
+const pro_escolherProdutoId = document.getElementById('pro_escolherProdutoId');
+const pro_escolherProdutoQuantidade = document.getElementById('pro_escolherProdutoQuantidade');
+const pro_btnAdicionar = document.getElementById('pro_btnAdicionar');
+const pro_thOpcoes = document.getElementById('pro_thOpcoes');
+const pro_gradeTbody = document.getElementById('pro_gradeTbody');
+const pro_camposHiddens = document.getElementById('pro_camposHiddens');
 
 /*
- * Controlar Parte da tela que trata de Materiais
+ * Controlar Parte da tela que trata de Produtos
 */
-function mat_controleDisplay() {
-    // Limpar mat_gradeTbody
-    mat_gradeTbody.innerHTML = '';
+function pro_controleDisplay() {
+    // Limpar pro_gradeTbody
+    pro_gradeTbody.innerHTML = '';
 
-    // Limpar mat_camposHiddens
-    mat_camposHiddens.innerHTML = '';
+    // Limpar pro_camposHiddens
+    pro_camposHiddens.innerHTML = '';
 
     if (frm_operacao.value == 'create') {
-        mat_divEscolherMaterial.style.display = '';
-        mat_thOpcoes.style.display = '';
+        pro_divEscolherProduto.style.display = '';
+        pro_thOpcoes.style.display = '';
     }
     if (frm_operacao.value == 'view') {
-        mat_divEscolherMaterial.style.display = 'none';
-        mat_thOpcoes.style.display = 'none';
+        pro_divEscolherProduto.style.display = 'none';
+        pro_thOpcoes.style.display = 'none';
     }
     if (frm_operacao.value == 'edit') {
-        mat_divEscolherMaterial.style.display = '';
-        mat_thOpcoes.style.display = '';
+        pro_divEscolherProduto.style.display = '';
+        pro_thOpcoes.style.display = '';
     }
 }
 
 /*
- * Verificar se Material já existe na grade
+ * Verificar se Produto já existe na grade
 */
-function mat_existeMaterialGrade(material_id) {
-    if (document.getElementById("mat_materialLinha_" + material_id)) {
+function pro_existeProdutoGrade(produto_id) {
+    if (document.getElementById("pro_produtoLinha_" + produto_id)) {
         return true;
     } else {
         return false;
@@ -127,34 +127,34 @@ function mat_existeMaterialGrade(material_id) {
 
 /*
  * Adicionar linha na grade
- * @PARAM registro: recebe material_id, material_categoria_name, material_name, material_quantidade
+ * @PARAM registro: recebe produto_id, produto_categoria_name, produto_name, produto_quantidade
 */
-async function mat_adicionarLinhaGrade(registro) {
+async function pro_adicionarLinhaGrade(registro) {
     // Dados para preenchera linha da grade
-    let material_id = registro.material_id;
-    let material_categoria_name = registro.material_categoria_name;
-    let material_name = registro.material_name;
-    let material_quantidade = registro.material_quantidade;
+    let produto_id = registro.produto_id;
+    let produto_categoria_name = registro.produto_categoria_name;
+    let produto_name = registro.produto_name;
+    let produto_quantidade = registro.produto_quantidade;
 
-    let ordenar = material_categoria_name+' '+material_name;
-    let id_linha_hiddens = material_id;
-    
+    let ordenar = produto_categoria_name+' '+produto_name;
+    let id_linha_hiddens = produto_id;
+
     // Montar Linha
     let linha;
 
-    linha = `<tr class="tr_material_linha" id="mat_materialLinha_${id_linha_hiddens}" data-material_id="${material_id}" data-ordenar="${ordenar}">
+    linha = `<tr class="tr_produto_linha" id="pro_produtoLinha_${id_linha_hiddens}" data-produto_id="${produto_id}" data-ordenar="${ordenar}">
                 <td class="p-2 text-start align-middle">
-                    <div class="text-black">${material_categoria_name}</div>
-                    <div class="text-primary">${material_name}</div>
+                    <div class="text-black">${produto_categoria_name}</div>
+                    <div class="text-primary">${produto_name}</div>
                 </td>
-                <td class="p-2 text-center align-middle text-nowrap">${material_quantidade}</td>`;
+                <td class="p-2 text-center align-middle text-nowrap">${produto_quantidade}</td>`;
 
     if (frm_operacao.value != 'view') {
         linha += `<td class="p-2 text-center align-middle text-nowrap">
-                        <button type="button" class="btn btn-sm btn-primary text-write py-1" title="Editar Material da Grade" onclick="mat_editarLinhaGrade(${material_id}, ${material_quantidade});">
+                        <button type="button" class="btn btn-sm btn-primary text-write py-1" title="Editar Produto da Grade" onclick="pro_editarLinhaGrade(${produto_id}, ${produto_quantidade});">
                             <i class="fas fa-pen"></i>
                         </button>
-                        <button type="button" class="btn btn-sm btn-danger text-write py-1" title="Retirar Material da Grade" onclick="mat_removerLinhaGrade(1, ${material_id});">
+                        <button type="button" class="btn btn-sm btn-danger text-write py-1" title="Retirar Produto da Grade" onclick="pro_removerLinhaGrade(1, ${produto_id});">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </td>`;
@@ -163,37 +163,37 @@ async function mat_adicionarLinhaGrade(registro) {
     linha += `</tr>`;
 
     // Adicionar linha na grade
-    mat_gradeTbody.insertAdjacentHTML('beforeend', linha);
+    pro_gradeTbody.insertAdjacentHTML('beforeend', linha);
 
     // Montar campos hidden
     let hiddens;
 
-    hiddens = `<div id="mat_material_hiddens_${id_linha_hiddens}">
-                    <input type="hidden" name="mat_material_id[]" id="mat_material_id_${id_linha_hiddens}" value="${material_id}">
-                    <input type="hidden" name="mat_material_categoria_name[]" id="mat_material_categoria_name_${id_linha_hiddens}" value="${material_categoria_name}">
-                    <input type="hidden" name="mat_material_name[]" id="mat_material_name_${id_linha_hiddens}" value="${material_name}">
-                    <input type="hidden" name="mat_material_quantidade[]" id="mat_material_quantidade_${id_linha_hiddens}" value="${material_quantidade}">
+    hiddens = `<div id="pro_produto_hiddens_${id_linha_hiddens}">
+                    <input type="hidden" name="pro_produto_id[]" id="pro_produto_id_${id_linha_hiddens}" value="${produto_id}">
+                    <input type="hidden" name="pro_produto_categoria_name[]" id="pro_produto_categoria_name_${id_linha_hiddens}" value="${produto_categoria_name}">
+                    <input type="hidden" name="pro_produto_name[]" id="pro_produto_name_${id_linha_hiddens}" value="${produto_name}">
+                    <input type="hidden" name="pro_produto_quantidade[]" id="pro_produto_quantidade_${id_linha_hiddens}" value="${produto_quantidade}">
                 </div>`;
 
     // Adicionar hiddens na div
-    mat_camposHiddens.insertAdjacentHTML('beforeend', hiddens);
+    pro_camposHiddens.insertAdjacentHTML('beforeend', hiddens);
 }
 
 /*
- * Editar linha da grade Materiais
+ * Editar linha da grade Produtos
 */
-async function mat_editarLinhaGrade(material_id, material_quantidade) {
-    mat_escolherMaterialId.value = material_id;
-    mat_escolherMaterialQuantidade.value = material_quantidade;
+async function pro_editarLinhaGrade(produto_id, produto_quantidade) {
+    pro_escolherProdutoId.value = produto_id;
+    pro_escolherProdutoQuantidade.value = produto_quantidade;
 }
 
 /*
- * Excluir linha da grade Materiais
+ * Excluir linha da grade Produtos
  * @PARAM op: 1(Abre modal de confirmação)  2(Não abre modal de confirmação)
 */
-async function mat_removerLinhaGrade(op, material_id) {
-    let linha = document.getElementById('mat_materialLinha_' + material_id);
-    let hiddens = document.getElementById('mat_material_hiddens_' + material_id);
+async function pro_removerLinhaGrade(op, produto_id) {
+    let linha = document.getElementById('pro_produtoLinha_' + produto_id);
+    let hiddens = document.getElementById('pro_produto_hiddens_' + produto_id);
 
     if (linha && hiddens) {
         if (op == 1) {
@@ -203,7 +203,7 @@ async function mat_removerLinhaGrade(op, material_id) {
                 hiddens.remove();
             }
         }
-        
+
         if (op == 2) {
             linha.remove();
             hiddens.remove();
@@ -212,10 +212,10 @@ async function mat_removerLinhaGrade(op, material_id) {
 }
 
 /*
- * Ordenas linhas na grade Materiais
+ * Ordenas linhas na grade Produtos
 */
-async function mat_ordenarLinhasGrade() {
-    let linhas = Array.from(mat_gradeTbody.querySelectorAll('.tr_material_linha'));
+async function pro_ordenarLinhasGrade() {
+    let linhas = Array.from(pro_gradeTbody.querySelectorAll('.tr_produto_linha'));
 
     linhas.sort((a, b) => {
         let valA = a.dataset.ordenar.toLowerCase();
@@ -224,11 +224,11 @@ async function mat_ordenarLinhasGrade() {
     });
 
     // Remove as linhas do tbody e reinsere na ordem
-    mat_gradeTbody.innerHTML = "";
-    linhas.forEach(linha => mat_gradeTbody.appendChild(linha));
+    pro_gradeTbody.innerHTML = "";
+    linhas.forEach(linha => pro_gradeTbody.appendChild(linha));
 }
-// Grade de Materiais - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-// Grade de Materiais - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Grade de Produtos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Grade de Produtos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 // Grade de Escalas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // Grade de Escalas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -268,12 +268,12 @@ function esc_controleDisplay() {
         esc_divEscolherEscala.style.display = '';
         esc_thOpcoes.style.display = '';
     }
-    
+
     if (frm_operacao.value == 'view') {
         esc_divEscolherEscala.style.display = 'none';
         esc_thOpcoes.style.display = 'none';
     }
-    
+
     if (frm_operacao.value == 'edit') {
         esc_divEscolherEscala.style.display = '';
         esc_thOpcoes.style.display = '';
@@ -331,7 +331,7 @@ async function esc_adicionarLinhaGrade(registro) {
                     <div><strong>Qtd Brig/Total: </strong>${quantidade_brigadistas_total}</div>
                     <div><strong>Hr Iní. Ala 1 : </strong>${hora_inicio_ala_1}</div>
                 </td>`;
-                
+
     // Preparar coluna Brigadistas
     linha += `<td class="p-2 text-end">
                 <div class="table-responsive">
@@ -501,7 +501,7 @@ async function esc_removerLinhaGrade(op, escala_tipo_id, posto) {
                 hiddens.remove();
             }
         }
-        
+
         if (op == 2) {
             linha.remove();
             hiddens.remove();
@@ -579,7 +579,7 @@ async function esc_modalBrigadistasDadosMontar() {
 
                 // Montar Linha
                 let linha = '';
-                
+
                 linha = `<div class="form-group col-10 pb-3">
                             <select class="form-select form-select-sm" name="esc_escolherFuncionarioId_${num}" id="esc_escolherFuncionarioId_${num}" onchange="esc_modalBrigadistasDadosValidar();">
                                 <option value="">Brigadista...</option>`;
@@ -593,7 +593,7 @@ async function esc_modalBrigadistasDadosMontar() {
                         <div class="form-group col-2 pb-3">
                             <input type="text" class="form-control form-control-sm text-center" name="esc_escolherFuncionarioAla_${num}" id="esc_escolherFuncionarioAla_${num}" value="${ala}" readonly>
                         </div>`;
-                        
+
                 // Adicionar linha
                 esc_modalBrigadistasDados.insertAdjacentHTML('beforeend', linha);
             }
@@ -696,12 +696,12 @@ function ger_controleDisplay() {
         ger_divEscolherGerada.style.display = '';
         ger_thOpcoes.style.display = '';
     }
-    
+
     if (frm_operacao.value == 'view') {
         ger_divEscolherGerada.style.display = 'none';
         ger_thOpcoes.style.display = 'none';
     }
-    
+
     if (frm_operacao.value == 'edit') {
         ger_divEscolherGerada.style.display = '';
         ger_thOpcoes.style.display = '';
@@ -747,7 +747,7 @@ async function ger_adicionarLinhaGrade(registro) {
                     <div><strong>Data Início   : </strong>${data_inicio}</div>
                     <div><strong>Data Término   : </strong>${data_termino}</div>
                 </td>`;
-                
+
     // Preparar coluna Brigadistas
     linha += `<td class="p-2 text-end">
                 <div class="table-responsive">
@@ -870,7 +870,7 @@ async function ger_removerLinhaGrade(op, escala_tipo_id, posto) {
                 hiddens.remove();
             }
         }
-        
+
         if (op == 2) {
             linha.remove();
             hiddens.remove();
@@ -1004,17 +1004,17 @@ document.addEventListener('DOMContentLoaded', function(event) {
         }
     });
 
-    // Grade de Materiais - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    // Grade de Materiais - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    // Grade de Produtos - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    // Grade de Produtos - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
     // Adicionar na grade
-    mat_btnAdicionar.addEventListener('click', async function() {
+    pro_btnAdicionar.addEventListener('click', async function() {
         let mensagem_erro = '';
 
-        if (mat_escolherMaterialId.value == '') {
-            mensagem_erro += 'Escolha um Material.<br>';
+        if (pro_escolherProdutoId.value == '') {
+            mensagem_erro += 'Escolha um Produto.<br>';
         }
-        if (mat_escolherMaterialQuantidade.value == '') {
+        if (pro_escolherProdutoQuantidade.value == '') {
             mensagem_erro += 'Digite uma Quantidade.<br>';
         }
 
@@ -1023,35 +1023,35 @@ document.addEventListener('DOMContentLoaded', function(event) {
             return;
         }
 
-        let material_selected = mat_escolherMaterialId.options[mat_escolherMaterialId.selectedIndex];
+        let produto_selected = pro_escolherProdutoId.options[pro_escolherProdutoId.selectedIndex];
 
         function adicionar() {
-            mat_adicionarLinhaGrade({
-                material_id: material_selected.dataset.material_id,
-                material_categoria_name: material_selected.dataset.material_categoria_name,
-                material_name: material_selected.dataset.material_name,
-                material_quantidade: mat_escolherMaterialQuantidade.value
+            pro_adicionarLinhaGrade({
+                produto_id: produto_selected.dataset.produto_id,
+                produto_categoria_name: produto_selected.dataset.produto_categoria_name,
+                produto_name: produto_selected.dataset.produto_name,
+                produto_quantidade: pro_escolherProdutoQuantidade.value
             });
 
-            mat_escolherMaterialId.value = '';
-            mat_escolherMaterialQuantidade.value = '';
-            mat_ordenarLinhasGrade();
+            pro_escolherProdutoId.value = '';
+            pro_escolherProdutoQuantidade.value = '';
+            pro_ordenarLinhasGrade();
         }
 
-        if (mat_existeMaterialGrade(material_selected.dataset.material_id)) {
-            const confirmed = await alertSwalConfirmacao('Este material já foi adicionado. Confirma alteração?');
+        if (pro_existeProdutoGrade(produto_selected.dataset.produto_id)) {
+            const confirmed = await alertSwalConfirmacao('Este produto já foi adicionado. Confirma alteração?');
             if (!confirmed) {
                 return;
             }
 
-            await mat_removerLinhaGrade(2, material_selected.dataset.material_id);
+            await pro_removerLinhaGrade(2, produto_selected.dataset.produto_id);
             adicionar();
         } else {
             adicionar();
         }
     });
-    // Grade de Materiais - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    // Grade de Materiais - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    // Grade de Produtos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    // Grade de Produtos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
     // Grade de Escalas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     // Grade de Escalas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1086,7 +1086,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
         // Verificando Brigadistas (Testar se tem esc_escolherFuncionarioId_1)
         let eBrigadista_1 = document.getElementById('esc_escolherFuncionarioId_1');
-        
+
         if (!eBrigadista_1) {
             mensagem_erro += 'Escolha os brigadistas para a escala.<br>';
         } else {
@@ -1157,7 +1157,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
     // Grade de Geradas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     // Grade de Geradas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    
+
     // Adicionar na grade
     ger_btnAdicionar.addEventListener('click', async function() {
         let mensagem_erro = '';
@@ -1185,12 +1185,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
                 mensagem_erro += 'Data Término Inválida.<br>';
             }
         }
-        
+
         if (mensagem_erro != '') {
             alertSwal('error', 'Brigadas Incêndios', mensagem_erro, 'true', 2000);
             return;
         }
-        
+
         let escala_modelo_selected = ger_escolherEscalaModelo.options[ger_escolherEscalaModelo.selectedIndex];
 
         async function adicionar() {
@@ -1213,10 +1213,10 @@ document.addEventListener('DOMContentLoaded', function(event) {
             ger_escolherEscalaModelo.value = '';
             ger_escolherDataInicio.value = '';
             ger_escolherDataTermino.value = '';
-            
+
             ger_ordenarLinhasGrade();
         }
-        
+
         adicionar();
     });
     // Grade de Geradas - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

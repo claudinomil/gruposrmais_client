@@ -29,7 +29,7 @@
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    
+
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
@@ -86,7 +86,7 @@
                                         <label class="form-label">{{ __('Cliente') }}</label>
                                         <select class="form-control" name="cliente_id" id="cliente_id">
                                             <option value="">{{ __('Selecione...') }}</option>
-                                            
+
                                             @foreach ($clientes as $cliente)
                                                 <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
                                             @endforeach
@@ -137,32 +137,32 @@
                                         <input type="text" class="form-control text-uppercase" id="cliente_uf" name="cliente_uf" readonly>
                                     </div>
                                 </div>
-                                
+
                                 <div class="row">
-                                    <!-- Materiais -->
-                                    <div class="col-12 col-md-5" id="mat_divMateriais">
+                                    <!-- Produtos -->
+                                    <div class="col-12 col-md-5" id="pro_divProdutos">
                                         <div class="row pt-4">
-                                            <h5 class="pb-4 text-primary"><i class="fas fa-table"></i> {{ __('Materiais') }}</h5>
-                                            <div class="row col-12" id="mat_divEscolherMaterial">
+                                            <h5 class="pb-4 text-primary"><i class="fas fa-table"></i> {{ __('Produtos') }}</h5>
+                                            <div class="row col-12" id="pro_divEscolherProduto">
                                                 <div class="form-group col-7 col-md-9 pb-3">
-                                                    <label class="form-label small">{{ __('Material') }}</label>
-                                                    <select class="form-select form-select-sm" name="mat_escolherMaterialId" id="mat_escolherMaterialId">
+                                                    <label class="form-label small">{{ __('Produto') }}</label>
+                                                    <select class="form-select form-select-sm" name="pro_escolherProdutoId" id="pro_escolherProdutoId">
                                                         <option value="">{{ __('Selecione...') }}</option>
-                                                        
-                                                        @foreach ($materiais as $material)
-                                                            <option value="{{ $material['id'] }}" data-material_id="{{ $material['id'] }}" data-material_name="{{ $material['name'] }}" data-material_categoria_name="{{ $material['materialCategoriaName'] }}">{{ $material['materialCategoriaName'].' - '.$material['name'] }}</option>
+
+                                                        @foreach ($produtos as $produto)
+                                                            <option value="{{ $produto['id'] }}" data-produto_id="{{ $produto['id'] }}" data-produto_name="{{ $produto['name'] }}" data-produto_categoria_name="{{ $produto['produtoCategoriaName'] }}">{{ $produto['produtoCategoriaName'].' - '.$produto['name'] }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-3 col-md-2 pb-3">
                                                     <label class="form-label small">{{ __('Qtd') }}</label>
-                                                    <input type="text" class="form-control form-control-sm text-center mask_numero_inteiro" name="mat_escolherMaterialQuantidade" id="mat_escolherMaterialQuantidade">
+                                                    <input type="text" class="form-control form-control-sm text-center mask_numero_inteiro" name="pro_escolherProdutoQuantidade" id="pro_escolherProdutoQuantidade">
                                                 </div>
                                                 <div class="form-group col-2 col-md-1 pb-3">
                                                     <label class="form-label">&nbsp;</label>
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <x-button-crud op="99" class="btn-sm" model="1" bgColor="success" textColor="write" id="mat_btnAdicionar" name="mat_btnAdicionar" title="Adicionar Material na Grade" image="fas fa-check" />
+                                                            <x-button-crud op="99" class="btn-sm" model="1" bgColor="success" textColor="write" id="pro_btnAdicionar" name="pro_btnAdicionar" title="Adicionar Produto na Grade" image="fas fa-check" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -171,20 +171,20 @@
                                                 <table class="table table-striped mb-0 small">
                                                     <thead class="table-primary">
                                                         <tr>
-                                                            <th class="p-3">{{ __('MATERIAL') }}</th>
+                                                            <th class="p-3">{{ __('PRODUTO') }}</th>
                                                             <th class="p-3 text-center">{{ __('QTD') }}</th>
-                                                            <th class="p-3 text-center" id="mat_thOpcoes"></th>
+                                                            <th class="p-3 text-center" id="pro_thOpcoes"></th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="mat_gradeTbody"></tbody>
+                                                    <tbody id="pro_gradeTbody"></tbody>
                                                 </table>
                                             </div>
-                                            
-                                            <!-- Campos hiddens para salvar na tabela brigadas_incendios_materiais -->
-                                            <div id="mat_camposHiddens"></div>
+
+                                            <!-- Campos hiddens para salvar na tabela brigadas_incendios_produtos -->
+                                            <div id="pro_camposHiddens"></div>
                                         </div>
                                     </div>
-                                    
+
                                     <!-- Escalas -->
                                     <div class="col-12 col-md-7" id="esc_divEscalas">
                                         <div class="row pt-4">
@@ -194,7 +194,7 @@
                                                     <label class="form-label small">{{ __('Tipo') }}</label>
                                                     <select class="form-select form-select-sm" name="esc_escolherEscalaTipoId" id="esc_escolherEscalaTipoId">
                                                         <option value="">{{ __('Selecione...') }}</option>
-                                                        
+
                                                         @foreach ($escala_tipos as $escala_tipo)
                                                             <option value="{{ $escala_tipo['id'] }}" data-escala_tipo_id="{{ $escala_tipo['id'] }}" data-escala_tipo_name="{{ $escala_tipo['name'] }}" data-escala_tipo_quantidade_alas="{{ $escala_tipo['quantidade_alas'] }}" data-escala_tipo_quantidade_horas_trabalhadas="{{ $escala_tipo['quantidade_horas_trabalhadas'] }}" data-escala_tipo_quantidade_horas_descanso="{{ $escala_tipo['quantidade_horas_descanso'] }}">{{ $escala_tipo['name'] }}</option>
                                                         @endforeach
@@ -239,7 +239,7 @@
                                                     <tbody id="esc_gradeTbody"></tbody>
                                                 </table>
                                             </div>
-                                            
+
                                             <!-- Campos hiddens para salvar na tabela brigadas_incendios_escalas -->
                                             <div id="esc_camposHiddens"></div>
                                         </div>
@@ -255,7 +255,7 @@
                                                     <div class="modal-body">
                                                         <input type="hidden" id="esc_modalEscalaTipoIdCtrl" value="0">
                                                         <input type="hidden" id="esc_modalQuantidadeBrigadistasPorAlaCtrl" value="0">
-                                                        
+
                                                         <div class="row pb-2">
                                                             <div class="col-10"><strong>BRIGADISTA</strong></div>
                                                             <div class="col-2 text-center"><strong>ALA</strong></div>
@@ -269,7 +269,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!-- Geradas -->
                                     <div class="col-12 col-md-12" id="ger_divGeradas">
                                         <div class="row pt-4">
@@ -308,13 +308,13 @@
                                                     <tbody id="ger_gradeTbody"></tbody>
                                                 </table>
                                             </div>
-                                            
+
                                             <!-- Campos hiddens para salvar na tabela brigadas_incendios_escalas -->
                                             <div id="ger_camposHiddens"></div>
                                         </div>
                                     </div>
                                 </div>
-                            
+
                             </div>
                         </fieldset>
                     </form>

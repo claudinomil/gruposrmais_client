@@ -98,9 +98,10 @@ class Controller extends BaseController
             if (isset($response['content']['pix_tipos'])) {$this->pix_tipos = $response['content']['pix_tipos'];}
             if (isset($response['content']['atestado_saude_ocupacional_tipos'])) {$this->atestado_saude_ocupacional_tipos = $response['content']['atestado_saude_ocupacional_tipos'];}
             if (isset($response['content']['visita_tecnica_perguntas'])) {$this->visita_tecnica_perguntas = $response['content']['visita_tecnica_perguntas'];}
-            if (isset($response['content']['material_categorias'])) {$this->material_categorias = $response['content']['material_categorias'];}
-            if (isset($response['content']['material_situacoes'])) {$this->material_situacoes = $response['content']['material_situacoes'];}
-            if (isset($response['content']['materiais'])) {$this->materiais = $response['content']['materiais'];}
+            if (isset($response['content']['produto_categorias'])) {$this->produto_categorias = $response['content']['produto_categorias'];}
+            if (isset($response['content']['produto_situacoes'])) {$this->produto_situacoes = $response['content']['produto_situacoes'];}
+            if (isset($response['content']['produtos'])) {$this->produtos = $response['content']['produtos'];}
+            if (isset($response['content']['produto_tipos'])) {$this->produto_tipos = $response['content']['produto_tipos'];}
             if (isset($response['content']['escala_tipos'])) {$this->escala_tipos = $response['content']['escala_tipos'];}
             if (isset($response['content']['especialidades'])) {$this->especialidades = $response['content']['especialidades'];}
             if (isset($response['content']['cores'])) {$this->cores = $response['content']['cores'];}

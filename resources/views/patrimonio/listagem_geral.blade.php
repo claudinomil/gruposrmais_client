@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    @if ($dados['materiais'] !== null)
+    @if ($dados['produtos'] !== null)
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
@@ -27,7 +27,7 @@
                                         <tr>
                                             <th class="text-center">#</th>
                                             <th class="text-center">PATRIMÔNIO</th>
-                                            <th>MATERIAL</th>
+                                            <th>PRODUTO</th>
                                             <th>AQUISIÇÃO</th>
                                             <th>VALOR</th>
                                             <th>LOCAL</th>
@@ -35,43 +35,43 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($dados['materiais'] as $material)
+                                        @foreach($dados['produtos'] as $produto)
                                             @php
-                                            $material_nome = $material['nome'];
-                                            $material_descricao = $material['descricao'];
-                                            $material_fotografia = $material['fotografia'];
-                                            $material_ca = $material['ca'];
-                                            $material_categoria = $material['categoria'];
-                                            $material_numero_patrimonio = $material['numero_patrimonio'];
-                                            $material_local = $material['local'];
-                                            $material_situacao_id = $material['situacao_id'];
-                                            $material_situacao = $material['situacao'];
-                                            $material_estoque_id = $material['estoque_id'];
-                                            $material_estoque_nome = $material['estoque'];
-                                            $material_local_empresa = $material['local_empresa'];
-                                            $material_local_cliente = $material['local_cliente'];
-                                            $material_data_aquisicao = $material['data_emissao'];
-                                            $material_valor_unitario = $material['valor_unitario'];
+                                            $produto_nome = $produto['nome'];
+                                            $produto_descricao = $produto['descricao'];
+                                            $produto_fotografia = $produto['fotografia'];
+                                            $produto_ca = $produto['ca'];
+                                            $produto_categoria = $produto['categoria'];
+                                            $produto_numero_patrimonio = $produto['numero_patrimonio'];
+                                            $produto_local = $produto['local'];
+                                            $produto_situacao_id = $produto['situacao_id'];
+                                            $produto_situacao = $produto['situacao'];
+                                            $produto_estoque_id = $produto['estoque_id'];
+                                            $produto_estoque_nome = $produto['estoque'];
+                                            $produto_local_empresa = $produto['local_empresa'];
+                                            $produto_local_cliente = $produto['local_cliente'];
+                                            $produto_data_aquisicao = $produto['data_emissao'];
+                                            $produto_valor_unitario = $produto['valor_unitario'];
 
-                                            if ($material_estoque_id == 1) {
-                                                $local = $material_estoque_nome.': '.$material_local_empresa.' - '.$material_local;
+                                            if ($produto_estoque_id == 1) {
+                                                $local = $produto_estoque_nome.': '.$produto_local_empresa.' - '.$produto_local;
                                             } else {
-                                                $local = $material_estoque_nome.': '.$material_local_cliente.' - '.$material_local;
+                                                $local = $produto_estoque_nome.': '.$produto_local_cliente.' - '.$produto_local;
                                             }
 
-                                            if ($material_situacao_id == 1 or $material_situacao_id == 2 or $material_situacao_id == 5) {
-                                                $situacao = '<div class="text-success">'.'<b>'.$material_situacao.'</b>'.'</div>'.'<div>Movimentação Permitida</div>';
+                                            if ($produto_situacao_id == 1 or $produto_situacao_id == 2 or $produto_situacao_id == 5) {
+                                                $situacao = '<div class="text-success">'.'<b>'.$produto_situacao.'</b>'.'</div>'.'<div>Movimentação Permitida</div>';
                                             } else {
-                                                $situacao = '<div class="text-danger">'.'<b>'.$material_situacao.'</b>'.'</div>';
+                                                $situacao = '<div class="text-danger">'.'<b>'.$produto_situacao.'</b>'.'</div>';
                                             }
                                             @endphp
 
                                             <tr>
-                                                <th class="text-center" scope="row"><img src="{{ asset($material_fotografia) }}" alt="product-img" title="product-img" class="rounded avatar-sm"></th>
-                                                <td class="text-center"><b>{{ $material_numero_patrimonio }}</b></td>
-                                                <td><b>{{ $material_nome }}</b><br>{{ $material_categoria }}</td>
-                                                <td>{{ \App\Services\SuporteService::getDataFormatada(1, $material_data_aquisicao) }}</td>
-                                                <td>{{ number_format($material_valor_unitario, 2, ",", ".") }}</td>
+                                                <th class="text-center" scope="row"><img src="{{ asset($produto_fotografia) }}" alt="product-img" title="product-img" class="rounded avatar-sm"></th>
+                                                <td class="text-center"><b>{{ $produto_numero_patrimonio }}</b></td>
+                                                <td><b>{{ $produto_nome }}</b><br>{{ $produto_categoria }}</td>
+                                                <td>{{ \App\Services\SuporteService::getDataFormatada(1, $produto_data_aquisicao) }}</td>
+                                                <td>{{ number_format($produto_valor_unitario, 2, ",", ".") }}</td>
                                                 <td>{{ $local }}</td>
                                                 <td class="text-center">{!! $situacao !!}</td>
                                             </tr>

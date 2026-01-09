@@ -402,7 +402,7 @@ function relatorio10(op=1, relatorio_name='') {
 
         return new Promise(function(resolve, reject) {
             //Dados
-            $.get(url+'relatorios/relatorio10'+'/'+$('#modal_relatorio10_material_id').val()+'/'+$('#modal_relatorio10_material_categoria_id').val()+'/'+$('#modal_relatorio10_estoque_local_id').val()+'/'+$('#modal_relatorio10_empresa_id').val()+'/'+$('#modal_relatorio10_cliente_id').val()+'/'+$('#modal_relatorio10_material_situacao_id').val()+'/'+$('#modal_relatorio10_idioma').val(), function (data) {
+            $.get(url+'relatorios/relatorio10'+'/'+$('#modal_relatorio10_produto_id').val()+'/'+$('#modal_relatorio10_produto_categoria_id').val()+'/'+$('#modal_relatorio10_estoque_local_id').val()+'/'+$('#modal_relatorio10_empresa_id').val()+'/'+$('#modal_relatorio10_cliente_id').val()+'/'+$('#modal_relatorio10_produto_situacao_id').val()+'/'+$('#modal_relatorio10_idioma').val(), function (data) {
                 if (data.success) {
                     resolve(data.success);
                 } else {
@@ -1727,7 +1727,7 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
                                 <tr>
                                     <th>&nbsp;#&nbsp;</th>
                                     <th>&nbsp;PATRIMÔNIO&nbsp;</th>
-                                    <th>&nbsp;MATERIAL&nbsp;</th>
+                                    <th>&nbsp;PRODUTO&nbsp;</th>
                                     <th>&nbsp;LOCAL&nbsp;</th>
                                     <th>&nbsp;SITUAÇÃO&nbsp;</th>
                                 </tr>
@@ -1740,27 +1740,27 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
 
             registros.forEach(function (dado, index) {
                 //Dados para preencher na linha da grade
-                var patrimonio = dado.material_numero_patrimonio;
-                var material = dado.material_nome+'<br><br>'+dado.material_categoria;
+                var patrimonio = dado.produto_numero_patrimonio;
+                var produto = dado.produto_nome+'<br><br>'+dado.produto_categoria;
 
                 var local = '';
-                if (dado.material_estoque_id == 1) {
-                    local = dado.material_local+'<br><br>'+dado.material_estoque_nome+': '+dado.material_local_empresa;
+                if (dado.produto_estoque_id == 1) {
+                    local = dado.produto_local+'<br><br>'+dado.produto_estoque_nome+': '+dado.produto_local_empresa;
                 } else {
-                    local = dado.material_local+'<br><br>'+dado.material_estoque_nome+': '+dado.material_local_cliente;
+                    local = dado.produto_local+'<br><br>'+dado.produto_estoque_nome+': '+dado.produto_local_cliente;
                 }
 
                 var situacao = '';
-                if (dado.material_situacao_id == 1 || dado.material_situacao_id == 2 || dado.material_situacao_id == 5) {
-                    situacao = dado.material_situacao+'<br><br>'+dado+'Movimentação Permitida';
+                if (dado.produto_situacao_id == 1 || dado.produto_situacao_id == 2 || dado.produto_situacao_id == 5) {
+                    situacao = dado.produto_situacao+'<br><br>'+dado+'Movimentação Permitida';
                 } else {
-                    situacao = dado.material_situacao;
+                    situacao = dado.produto_situacao;
                 }
 
                 tabelaHTML += `<tr data-index="${index}">
                                 <td></td>
                                 <td>${patrimonio ? patrimonio : ''}</td>
-                                <td>${material ? material : ''}</td>
+                                <td>${produto ? produto : ''}</td>
                                 <td>${local ? local : ''}</td>
                                 <td>${situacao ? situacao : ''}</td>
                             </tr>`;
@@ -1776,10 +1776,10 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
 
             // Carregar Img Base64
             for (const registro of registros) {
-                if (registro.material_fotografia) {
+                if (registro.produto_fotografia) {
                     try {
-                        registro.material_fotografia_base64 = await carregarImgBase64(
-                            registro.material_fotografia
+                        registro.produto_fotografia_base64 = await carregarImgBase64(
+                            registro.produto_fotografia
                         );
                     } catch (err) {
                         console.warn('Erro ao carregar imagem:', err);
@@ -1836,12 +1836,12 @@ async function gerarPDFRelatorio({x_relatorio=0, x_dados='', x_idioma=1}) {
 
                         const rowIndex = parseInt(rowElement.getAttribute('data-index'));
                         const registro = registros[rowIndex];
-                        if (registro && registro.material_fotografia_base64) {
+                        if (registro && registro.produto_fotografia_base64) {
                             const imgW = 8;
                             const imgH = 8;
                             const x = data.cell.x + (data.cell.width - imgW) / 2;
                             const y = data.cell.y + (data.cell.height - imgH) / 2;
-                            doc.addImage(registro.material_fotografia_base64, 'PNG', x, y, imgW, imgH);
+                            doc.addImage(registro.produto_fotografia_base64, 'PNG', x, y, imgW, imgH);
                         }
                     }
                 }

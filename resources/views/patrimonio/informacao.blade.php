@@ -5,21 +5,21 @@
 @endsection
 
 @section('content')
-    @if ($dados['material'] !== null)
+    @if ($dados['produto'] !== null)
         @php
-        $material = $dados['material'];
+        $produto = $dados['produto'];
 
-        $material_nome = $material['nome'];
-        $material_descricao = $material['descricao'];
-        $material_fotografia = $material['fotografia'];
-        $material_ca = $material['ca'];
-        $material_categoria = $material['categoria'];
-        $material_numero_patrimonio = $material['numero_patrimonio'];
-        $material_local = $material['local'];
-        $material_situacao = $material['situacao'];
-        $material_estoque_id = $material['estoque_id'];
-        $material_local_empresa = $material['local_empresa'];
-        $material_local_cliente = $material['local_cliente'];
+        $produto_nome = $produto['nome'];
+        $produto_descricao = $produto['descricao'];
+        $produto_fotografia = $produto['fotografia'];
+        $produto_ca = $produto['ca'];
+        $produto_categoria = $produto['categoria'];
+        $produto_numero_patrimonio = $produto['numero_patrimonio'];
+        $produto_local = $produto['local'];
+        $produto_situacao = $produto['situacao'];
+        $produto_estoque_id = $produto['estoque_id'];
+        $produto_local_empresa = $produto['local_empresa'];
+        $produto_local_cliente = $produto['local_cliente'];
 
         $movimentacoes = $dados['movimentacoes'];
         @endphp
@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="pt-2">
-                        <h2><img src="{{ asset('build/assets/images/materiais/material-0.png') }}" alt="" width="50px">{{ __('Informação Patrimônio') }}: {{ $material_numero_patrimonio }} - {{ $material_nome }}</h2>
+                        <h2><img src="{{ asset('build/assets/images/produtos/produto-0.png') }}" alt="" width="50px">{{ __('Informação Patrimônio') }}: {{ $produto_numero_patrimonio }} - {{ $produto_nome }}</h2>
                     </div>
                 </div>
             </div>
@@ -40,27 +40,27 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 col-md-5">
-                                <img src="{{ asset($material_fotografia) }}" alt="" width="250px">
+                                <img src="{{ asset($produto_fotografia) }}" alt="" width="250px">
                             </div>
                             <div class="col-12 col-md-7">
                                 <div class="mt-4 mt-xl-3">
-                                    <h4 class="mt-1 mb-3">{{ $material_nome }}</h4>
+                                    <h4 class="mt-1 mb-3">{{ $produto_nome }}</h4>
                                     <div class="row mb-3">
                                         <div class="col-md-12">
-                                            <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> Patrimônio: {{ $material_numero_patrimonio }}</p>
-                                            <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> Categoria: {{ $material_categoria }}</p>
-                                            <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> CA: {{ $material_ca }}</p>
-                                            <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> Local: {{ $material_local }}</p>
+                                            <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> Patrimônio: {{ $produto_numero_patrimonio }}</p>
+                                            <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> Categoria: {{ $produto_categoria }}</p>
+                                            <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> CA: {{ $produto_ca }}</p>
+                                            <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> Local: {{ $produto_local }}</p>
 
-                                            @if ($material_estoque_id == 1)
-                                                <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> Empresa: {{ $material_local_empresa }}</p>
+                                            @if ($produto_estoque_id == 1)
+                                                <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> Empresa: {{ $produto_local_empresa }}</p>
                                             @endif
 
-                                            @if ($material_estoque_id == 2)
-                                                <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> Cliente: {{ $material_local_cliente }}</p>
+                                            @if ($produto_estoque_id == 2)
+                                                <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> Cliente: {{ $produto_local_cliente }}</p>
                                             @endif
 
-                                            <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> Situação: {{ $material_situacao }}</p>
+                                            <p class="text-muted"><i class="fas fa-check-double font-size-12 align-middle text-primary me-1"></i> Situação: {{ $produto_situacao }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -118,7 +118,7 @@
     @else
         <div class="col-12">
             <div class="pt-2">
-                <h2><img src="{{ asset('build/assets/images/materiais/material-0.png') }}" alt="" width="50px">{{ __('Informação Patrimônio') }}: {{ $material_numero_patrimonio }} - {{ __('Não encontrado') }}</h2>
+                <h2><img src="{{ asset('build/assets/images/produtos/produto-0.png') }}" alt="" width="50px">{{ __('Informação Patrimônio') }}: {{ $produto_numero_patrimonio }} - {{ __('Não encontrado') }}</h2>
             </div>
         </div>
     @endif

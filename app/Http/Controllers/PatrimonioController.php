@@ -17,10 +17,10 @@ class PatrimonioController extends Controller
         //$this->middleware('check-permissao:xxxxx_list', ['only' => ['informacao']]);
     }
 
-    public function informacao($material_numero_patrimonio)
+    public function informacao($produto_numero_patrimonio)
     {
         // Buscando dados Api_Data()
-        $this->responseApi(1, 10, 'patrimonio/informacao/'.$material_numero_patrimonio, '', '', '');
+        $this->responseApi(1, 10, 'patrimonio/informacao/'.$produto_numero_patrimonio, '', '', '');
 
         // Dados
         $dados = [];
@@ -32,7 +32,7 @@ class PatrimonioController extends Controller
 
         //dd($dados);
 
-        return view('patrimonio.informacao', compact('material_numero_patrimonio', 'dados'));
+        return view('patrimonio.informacao', compact('produto_numero_patrimonio', 'dados'));
     }
 
     public function listagem_geral()
@@ -51,12 +51,12 @@ class PatrimonioController extends Controller
         return view('patrimonio.listagem_geral', compact('dados'));
     }
 
-    public function patrimonio_situacoes($material_entrada_item_id)
+    public function patrimonio_situacoes($produto_entrada_item_id)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data() - Registro pelo id
-            $this->responseApi(1, 10, 'patrimonio/patrimonio_situacoes/'.$material_entrada_item_id, '', '', '');
+            $this->responseApi(1, 10, 'patrimonio/patrimonio_situacoes/'.$produto_entrada_item_id, '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {

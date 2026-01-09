@@ -1581,9 +1581,9 @@
         </div>
     @endif
 
-    @if($se_prefixPermissaoSubmodulo == 'materiais')
-        <!-- Material Modal Info -->
-        <div class="modal fade" id="material_modal_info" tabindex="-1" aria-hidden="true">
+    @if($se_prefixPermissaoSubmodulo == 'produtos')
+        <!-- Produto Modal Info -->
+        <div class="modal fade" id="produto_modal_info" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content bg-light">
                     <div class="modal-header" style="background-color: #2a3042;">
@@ -1592,20 +1592,20 @@
                             <div class="col-8 order-1 order-lg-1 col-lg-4">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
-                                        <img src="build/assets/images/materiais/material-0.png" alt="" class="avatar-lg rounded-circle img-thumbnail clearClass" id="mi_mat_fotografia_header">
+                                        <img src="build/assets/images/produtos/produto-0.png" alt="" class="avatar-lg rounded-circle img-thumbnail clearClass" id="mi_pro_fotografia_header">
                                     </div>
                                     <div class="flex-grow-1 align-self-center">
                                         <div>
-                                            <h5 class="mb-2" style="color: #ffac31 !important;">INFORMAÇÕES MATERIAIS</h5>
-                                            <h6 class="mb-1" style="color: #ffffff !important;" id="mi_mat_header_nome"></h6>
+                                            <h5 class="mb-2" style="color: #ffac31 !important;">INFORMAÇÕES PRODUTOS</h5>
+                                            <h6 class="mb-1" style="color: #ffffff !important;" id="mi_pro_header_nome"></h6>
                                             <div class="clearfix mt-2">
                                                 <div class="dropdown">
                                                     <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         <i class="bx bxs-cog align-middle me-1"></i> Opções
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-end">
-                                                        <a class="dropdown-item" href="#" onclick="materialModalInfoControle(1);">Fotografias</a>
-                                                        <a class="dropdown-item" href="#" onclick="materialModalInfoControle(2);">Dados</a>
+                                                        <a class="dropdown-item" href="#" onclick="produtoModalInfoControle(1);">Fotografias</a>
+                                                        <a class="dropdown-item" href="#" onclick="produtoModalInfoControle(2);">Dados</a>
                                                         <div class="dropdown-divider"></div>
                                                         <a class="dropdown-item" href="#" data-bs-dismiss="modal">Fechar</a>
                                                     </div>
@@ -1624,11 +1624,11 @@
                         <!-- Header END -->
                     </div>
                     <div class="modal-body d-lg-flex flex-lg-column flex-grow-1 px-4">
-                        <!-- Material ID -->
-                        <input type="hidden" id="mi_mat_material_id" name="mi_mat_material_id" value="0">
+                        <!-- Produto ID -->
+                        <input type="hidden" id="mi_pro_produto_id" name="mi_pro_produto_id" value="0">
 
                         <!-- Fotografias -->
-                        <div class="row d-lg-flex flex-lg-grow-1" id="md_mat_div_fotografias">
+                        <div class="row d-lg-flex flex-lg-grow-1" id="md_pro_div_fotografias">
                             <div class="card mb-0">
                                 <div class="card-body">
                                     <h5 class="card-title mb-4"><i class="bx bxs-file-plus"></i>&nbsp;&nbsp;Fotografias</h5>
@@ -1637,19 +1637,19 @@
                                         <div class="col-12 col-lg-6 pe-5">
                                             <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTOGRAFIA</h6>
                                             <div class="col-12" style="height: 270px;">
-                                                <img src="" alt="" class="img-fluid clearClass" style="max-height: 250px !important;" id="mi_mat_fotografia">
+                                                <img src="" alt="" class="img-fluid clearClass" style="max-height: 250px !important;" id="mi_pro_fotografia">
                                             </div>
 
-                                            @if(\App\Facades\Permissoes::permissao(['materiais_edit']))
-                                                <form enctype="multipart/form-data" id="frm_upload_fotografia_mat">
-                                                    <input type="hidden" id="upload_fotografia_material_id" name="upload_fotografia_material_id" value="">
+                                            @if(\App\Facades\Permissoes::permissao(['produtos_edit']))
+                                                <form enctype="multipart/form-data" id="frm_upload_fotografia_pro">
+                                                    <input type="hidden" id="upload_fotografia_produto_id" name="upload_fotografia_produto_id" value="">
 
                                                     <div class="col-12 mb-2">
-                                                        <button type="button" class="btn btn-success btn-sm" id="frm_upload_fotografia_mat_executar" name="frm_upload_fotografia_mat_executar">Enviar Fotografia</button>
+                                                        <button type="button" class="btn btn-success btn-sm" id="frm_upload_fotografia_pro_executar" name="frm_upload_fotografia_pro_executar">Enviar Fotografia</button>
                                                     </div>
 
                                                     <div class="col-12 mb-3">
-                                                        <input type="file" class="form-control form-control-sm" name="mat_fotografia_file" accept=".png, .jpg, .jpeg" id="mat_fotografia_file">
+                                                        <input type="file" class="form-control form-control-sm" name="pro_fotografia_file" accept=".png, .jpg, .jpeg" id="pro_fotografia_file">
                                                     </div>
                                                 </form>
                                             @endif
@@ -1661,30 +1661,30 @@
                         <!-- Fotografias END -->
 
                         <!-- Dados -->
-                        <div class="row d-lg-flex flex-lg-grow-1" id="md_mat_div_dados">
+                        <div class="row d-lg-flex flex-lg-grow-1" id="md_pro_div_dados">
                             <div class="card mb-0">
                                 <div class="card-body">
                                     <h5 class="card-title mb-4"><i class="fa fa-database"></i>&nbsp;&nbsp;Dados</h5>
                                     <div class="row">
                                         <div class="col-lg-3 mb-3">
                                             <label class="form-label small">{{ __('Categoria') }}</label>
-                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_mat_categoria" readonly>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_pro_categoria" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
                                             <label class="form-label small">{{ __('Nome') }}</label>
-                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_mat_nome" readonly>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_pro_nome" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
                                             <label class="form-label small">{{ __('COR') }}</label>
-                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_mat_cor" readonly>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_pro_cor" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
                                             <label class="form-label small">{{ __('CA') }}</label>
-                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_mat_ca" readonly>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_pro_ca" readonly>
                                         </div>
                                         <div class="col-lg-3 mb-3">
                                             <label class="form-label small">{{ __('DESCRIÇÃO') }}</label>
-                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_mat_descricao" readonly>
+                                            <input type="text" class="form-control form-control-sm clearClass" id="mi_pro_descricao" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -1698,9 +1698,9 @@
         </div>
     @endif
 
-    @if($se_prefixPermissaoSubmodulo == 'materiais_entradas')
-        <!-- Material Entrada Modal Info -->
-        <div class="modal fade" id="material_entrada_modal_info" tabindex="-1" aria-hidden="true">
+    @if($se_prefixPermissaoSubmodulo == 'produtos_entradas')
+        <!-- Produto Entrada Modal Info -->
+        <div class="modal fade" id="produto_entrada_modal_info" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content bg-light">
                     <div class="modal-header" style="background-color: #2a3042;">
@@ -1710,7 +1710,7 @@
                                 <div class="d-flex">
                                     <div class="flex-grow-1 align-self-center">
                                         <div>
-                                            <h5 class="mb-2" style="color: #ffac31 !important;">INFORMAÇÕES MATERIAIS ENTRADAS</h5>
+                                            <h5 class="mb-2" style="color: #ffac31 !important;">INFORMAÇÕES PRODUTOS ENTRADAS</h5>
                                             <h6 class="mb-1" style="color: #ffffff !important;" id="mi_men_header_nome"></h6>
                                             <div class="clearfix mt-2">
                                                 <div class="dropdown">
@@ -1718,8 +1718,8 @@
                                                         <i class="bx bxs-cog align-middle me-1"></i> Opções
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-start">
-                                                        <a class="dropdown-item" href="#" onclick="materialEntradaModalInfoControle(1);">Dados</a>
-                                                        <a class="dropdown-item" href="#" onclick="materialEntradaModalInfoControle(2);">Nota Fiscal</a>
+                                                        <a class="dropdown-item" href="#" onclick="produtoEntradaModalInfoControle(1);">Dados</a>
+                                                        <a class="dropdown-item" href="#" onclick="produtoEntradaModalInfoControle(2);">Nota Fiscal</a>
                                                         <div class="dropdown-divider"></div>
                                                         <a class="dropdown-item" href="#" data-bs-dismiss="modal">Fechar</a>
                                                     </div>
@@ -1738,8 +1738,8 @@
                         <!-- Header END -->
                     </div>
                     <div class="modal-body d-lg-flex flex-lg-column flex-grow-1 px-4">
-                        <!-- Material Entrada ID -->
-                        <input type="hidden" id="mi_men_material_entrada_id" name="mi_men_material_entrada_id" value="0">
+                        <!-- Produto Entrada ID -->
+                        <input type="hidden" id="mi_men_produto_entrada_id" name="mi_men_produto_entrada_id" value="0">
 
                         <!-- Dados -->
                         <div class="row d-lg-flex flex-lg-grow-1" id="md_men_div_dados">
@@ -1796,12 +1796,12 @@
                                     <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Nota Fiscal</h5>
 
                                     <div class="row">
-                                        @if(\App\Facades\Permissoes::permissao(['materiais_entradas_edit']))
+                                        @if(\App\Facades\Permissoes::permissao(['produtos_entradas_edit']))
                                             <div class="col-12 col-lg-12 pe-5">
                                                 <div class="row">
                                                     <div class="col-12 col-md-4 col-lg-4">
                                                         <form enctype="multipart/form-data" id="frm_upload_nota_fiscal_men">
-                                                            <input type="hidden" id="upload_nota_fiscal_material_entrada_id" name="upload_nota_fiscal_material_entrada_id" value="">
+                                                            <input type="hidden" id="upload_nota_fiscal_produto_entrada_id" name="upload_nota_fiscal_produto_entrada_id" value="">
 
                                                             <div class="col-12 mb-5">
                                                                 <button type="button" class="btn btn-success btn-sm" id="frm_upload_nota_fiscal_men_executar" name="frm_upload_nota_fiscal_men_executar">Incluir Nota Fiscal</button>
