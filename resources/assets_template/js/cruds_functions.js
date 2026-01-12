@@ -992,6 +992,7 @@ function crudView(registro_id) {
                 vtt1_formVisualizar2.style.display = 'none';
                 vtt1_formVisualizar3.style.display = 'none';
                 vtt1_formVisualizar4.style.display = 'none';
+                vtt1_divPerguntas.innerHTML = '';
                 vtt1_divPerguntas.style.display = 'none';
 
                 if (visita_tecnica_tipo_id.value == 1) {
@@ -1029,6 +1030,7 @@ function crudView(registro_id) {
                 vtt2_formVisualizar2.style.display = 'none';
                 vtt2_formVisualizar3.style.display = 'none';
                 vtt2_formVisualizar4.style.display = 'none';
+                vtt2_divPerguntas.innerHTML = '';
                 vtt2_divPerguntas.style.display = 'none';
 
                 if (visita_tecnica_tipo_id.value == 2) {
@@ -1641,7 +1643,8 @@ async function crudEdit(registro_id) {
                 vtt1_formVisualizar2.style.display = 'none';
                 vtt1_formVisualizar3.style.display = 'none';
                 vtt1_formVisualizar4.style.display = 'none';
-                // vtt1_divPerguntas.style.display = 'none';
+                vtt1_divPerguntas.innerHTML = '';
+                vtt1_divPerguntas.style.display = 'none';
 
                 if (visita_tecnica_tipo_id.value == 1) {
                     // Acertos no Formulário
@@ -1660,7 +1663,7 @@ async function crudEdit(registro_id) {
                     // Montar Perguntas
                     const htmlPerguntas = vtt1_gerarHtmlPerguntas(visitas_tecnicas_dados, data.success['vt_cs']);
 
-                    // vtt1_divPerguntas.style.display = '';
+                    vtt1_divPerguntas.style.display = '';
                     vtt1_divPerguntas.innerHTML = htmlPerguntas;
                 }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1682,6 +1685,7 @@ async function crudEdit(registro_id) {
                 vtt2_formVisualizar2.style.display = 'none';
                 vtt2_formVisualizar3.style.display = 'none';
                 vtt2_formVisualizar4.style.display = 'none';
+                vtt2_divPerguntas.innerHTML = '';
                 vtt2_divPerguntas.style.display = 'none';
 
                 if (visita_tecnica_tipo_id.value == 2) {

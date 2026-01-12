@@ -396,7 +396,7 @@ function vtt1_formControle(op) {
     let informacoesGerais = document.getElementById('vtt1_divInformacoesGerais');
     let clientes = document.getElementById('vtt1_divClientes');
     let responsavel = document.getElementById('vtt1_divResponsavel');
-    let finalizar = document.getElementById('vtt1_divFinaçizar');
+    let finalizar = document.getElementById('vtt1_divFinalizar');
     let perguntas = document.getElementById('vtt1_divPerguntas');
 
     informacoesGerais.style.display = 'none';

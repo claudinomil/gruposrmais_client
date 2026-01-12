@@ -205,7 +205,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row pt-4" id="vtt1_divFinaçizar">
+                                <div class="row pt-4" id="vtt1_divFinalizar">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-hourglass-end"></i> Finalizar</h5>
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Nível</label>
@@ -370,7 +370,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row pt-4" id="vtt2_divFinaçizar">
+                                <div class="row pt-4" id="vtt2_divFinalizar">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-hourglass-end"></i> Finalizar</h5>
                                     <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">Nível</label>
