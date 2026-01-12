@@ -710,8 +710,8 @@ function vtt2_pdfInserir(pdfUrl) {
 }
 
 function vtt2_removerFotografia(button) {
-    const visita_tecnica_dado_id = button.dataset.visita_tecnica_dado_id;
-    const slot = button.dataset.slot;
+    const visita_tecnica_dado_id = button.dataset.vtt2_visita_tecnica_dado_id;
+    const slot = button.dataset.vtt2_slot;
 
     vtt2_visitaTecnicaDadoId = visita_tecnica_dado_id;
 
@@ -747,8 +747,8 @@ function vtt2_removerFotografia(button) {
 }
 
 function vtt2_removerPdf(button) {
-    const visita_tecnica_dado_id = button.dataset.visita_tecnica_dado_id;
-    const slot = button.dataset.slot;
+    const visita_tecnica_dado_id = button.dataset.vtt2_visita_tecnica_dado_id;
+    const slot = button.dataset.vtt2_slot;
 
     vtt2_visitaTecnicaDadoId = visita_tecnica_dado_id;
 
@@ -784,8 +784,8 @@ function vtt2_removerPdf(button) {
 }
 
 function vtt2_visualizarFotografia(button) {
-    const visita_tecnica_dado_id = button.dataset.visita_tecnica_dado_id;
-    const slot = button.dataset.slot;
+    const visita_tecnica_dado_id = button.dataset.vtt2_visita_tecnica_dado_id;
+    const slot = button.dataset.vtt2_slot;
 
     vtt2_visitaTecnicaDadoId = visita_tecnica_dado_id;
 
@@ -800,8 +800,8 @@ function vtt2_visualizarFotografia(button) {
 }
 
 function vtt2_visualizarPdf(button) {
-    const visita_tecnica_dado_id = button.dataset.visita_tecnica_dado_id;
-    const slot = button.dataset.slot;
+    const visita_tecnica_dado_id = button.dataset.vtt2_visita_tecnica_dado_id;
+    const slot = button.dataset.vtt2_slot;
 
     vtt2_visitaTecnicaDadoId = visita_tecnica_dado_id;
 
@@ -899,7 +899,7 @@ function vtt2_observacaoFotografiaPdfShow() {
     const observacaoFotografiasPdfs = document.querySelectorAll('.classObservacaoFotografiaPdf');
 
     observacaoFotografiasPdfs.forEach(element => {
-        const visita_tecnica_dado_id = element.getAttribute('data-visita_tecnica_dado_id');
+        const visita_tecnica_dado_id = element.getAttribute('data-vtt2_visita_tecnica_dado_id');
 
         var observacao_texto = document.getElementById('vtt2_observacao_texto_'+visita_tecnica_dado_id).value;
         var fotografia_1 = document.getElementById('vtt2_fotografia_'+visita_tecnica_dado_id+'_1').value;
@@ -1092,7 +1092,7 @@ function vtt2_gerarHtmlPerguntas(visitas_tecnicas_dados) {
 
         html += `
             </div>
-            <div class="row classObservacaoFotografiaPdf" id="vtt2_divObservacaoFotografiaPdf_${dado.id}" data-visita_tecnica_dado_id="${dado.id}" style="display: ${vtt2_divObservacaoFotografiaPdf_display};">
+            <div class="row classObservacaoFotografiaPdf" id="vtt2_divObservacaoFotografiaPdf_${dado.id}" data-vtt2_visita_tecnica_dado_id="${dado.id}" style="display: ${vtt2_divObservacaoFotografiaPdf_display};">
                 <hr class="ms-3 my-2" />`;
 
         //Observação
@@ -1133,14 +1133,14 @@ function vtt2_gerarHtmlPerguntas(visitas_tecnicas_dados) {
                 //html
                 html += `
                     <div class="m-2 d-inline-block text-center position-relative container-foto" style="${display_fotografia}">
-                        <button type="button" class="btn btn-sm btn-success position-absolute top-0 start-0 p-0 px-1 visualizar-foto" style="${display_fotografia}" data-visita_tecnica_dado_id="${dado.id}" data-slot="${i}"><i class="fas fa-search"></i></button>
+                        <button type="button" class="btn btn-sm btn-success position-absolute top-0 start-0 p-0 px-1 visualizar-foto" style="${display_fotografia}" data-vtt2_visita_tecnica_dado_id="${dado.id}" data-vtt2_slot="${i}"><i class="fas fa-search"></i></button>
                         <img src="${campo_fotografia}" class="img-thumbnail img-foto" style="width: 70px; height: 70px; object-fit: cover; ${display_fotografia}" name="vtt2_img_${dado.id}_${i}" id="vtt2_img_${dado.id}_${i}">
                         <input type="hidden" name="vtt2_fotografia_${dado.id}_${i}" id="vtt2_fotografia_${dado.id}_${i}" value="${campo_fotografia}">
                 `;
 
                 if (operacao != 'view') {
                     html += `
-                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 p-0 px-1 remover-foto" style="${display_fotografia}" data-visita_tecnica_dado_id="${dado.id}" data-slot="${i}"><i class="fas fa-times"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 p-0 px-1 remover-foto" style="${display_fotografia}" data-vtt2_visita_tecnica_dado_id="${dado.id}" data-vtt2_slot="${i}"><i class="fas fa-times"></i></button>
                     `;
                 }
 
@@ -1183,14 +1183,14 @@ function vtt2_gerarHtmlPerguntas(visitas_tecnicas_dados) {
                 //html
                 html += `
                     <div class="m-2 d-inline-block text-center position-relative container-pdf" style="${display_pdf}">
-                        <button type="button" class="btn btn-sm btn-success position-absolute top-0 start-0 p-0 px-1 visualizar-pdf" style="${display_pdf}" data-visita_tecnica_dado_id="${dado.id}" data-slot="${i}"><i class="fas fa-search"></i></button>
+                        <button type="button" class="btn btn-sm btn-success position-absolute top-0 start-0 p-0 px-1 visualizar-pdf" style="${display_pdf}" data-vtt2_visita_tecnica_dado_id="${dado.id}" data-vtt2_slot="${i}"><i class="fas fa-search"></i></button>
                         <img src="${url_atual+'build/assets/images/image_pdf.png'}" class="img-thumbnail img-pdf" style="width: 70px; height: 70px; object-fit: cover; ${display_pdf}" name="vtt2_img_pdf_${dado.id}_${i}" id="vtt2_img_pdf_${dado.id}_${i}">
                         <input type="hidden" name="vtt2_pdf_${dado.id}_${i}" id="vtt2_pdf_${dado.id}_${i}" value="${campo_pdf}">
                 `;
 
                 if (operacao != 'view') {
                     html += `
-                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 p-0 px-1 remover-pdf" style="${display_pdf}" data-visita_tecnica_dado_id="${dado.id}" data-slot="${i}"><i class="fas fa-times"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 p-0 px-1 remover-pdf" style="${display_pdf}" data-vtt2_visita_tecnica_dado_id="${dado.id}" data-vtt2_slot="${i}"><i class="fas fa-times"></i></button>
                     `;
                 }
 
