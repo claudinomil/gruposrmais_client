@@ -58,12 +58,12 @@ class VisitaTecnicaController extends Controller
                             $retorno .= "   <a href='#' title='Visita Técnica Completa em PDF' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"pt\", 1);'><i class='fa fa-file-pdf fa-2x text-danger'></i></a>";
                             $retorno .= "   <a href='#' title='Visita Técnica Completa em PDF (Inglês)' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"en\", 1);'><i class='fa fa-file-pdf fa-2x text-primary'></i></a>";
                         }
-                        
+
                         if ($row['vt_cs'] == 2) {
                             $retorno .= "   <a href='#' title='Visita Técnica Sintética em PDF' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"pt\", 2);'><i class='fa fa-file-pdf fa-2x text-danger'></i></a>";
                             $retorno .= "   <a href='#' title='Visita Técnica Sintética em PDF (Inglês)' onclick='gerar_visita_tecnica(".$row['id'].", ".$row['visita_tecnica_tipo_id'].", \"en\", 2);'><i class='fa fa-file-pdf fa-2x text-primary'></i></a>";
                         }
-                        
+
                         $retorno .= "    </div>";
                         $retorno .= "    <div class='col-10'>";
                         $retorno .= "       Visita Técnica nº.&nbsp;".$row['numero_visita_tecnica']."/".$row['ano_visita_tecnica'];
@@ -378,6 +378,9 @@ class VisitaTecnicaController extends Controller
         }
     }
 
+    // Funções VTT1 - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    // Funções VTT1 - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     public function vtt1_updatePergunta(Request $request, $visita_tecnica_dado_id)
     {
         //Verificando Origem enviada pelo Fetch
@@ -512,4 +515,146 @@ class VisitaTecnicaController extends Controller
             }
         }
     }
+    // Funções VTT1 - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    // Funções VTT1 - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    // Funções VTT2 - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    // Funções VTT2 - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    public function vtt2_updatePergunta(Request $request, $visita_tecnica_dado_id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Alterar Registro
+            $this->responseApi(1, 11, 'visitas_tecnicas/vtt2/pergunta/updatePergunta/'.$visita_tecnica_dado_id, '', '', $request->all());
+
+            //Registro alterado com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->message]);
+            } else if ($this->code == 2040) {
+                return response()->json(['error' => $this->message]);
+            } else {
+                abort(500, 'Erro Interno Client');
+            }
+        }
+    }
+
+    public function vtt2_uploadFotografia(Request $request, $visita_tecnica_dado_id, $slot)
+    {
+        $request->validate([
+            'foto' => 'required|image|max:5120'
+        ]);
+
+        $file = $request->file('foto');
+        $nomeArquivo = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_fotografia_{$slot}.".$file->getClientOriginalExtension();
+        $caminho = "build/assets/images/visitas_tecnicas/$nomeArquivo";
+
+        // Salva o arquivo (use public_path() pois você não está usando Storage)
+        $file->move(public_path('build/assets/images/visitas_tecnicas'), $nomeArquivo);
+
+        //Return
+        return response()->json(['success' => true, 'path' => asset($caminho)]);
+    }
+
+    public function vtt2_removerFotografia(Request $request, $visita_tecnica_dado_id, $slot)
+    {
+        $caminho = 'build/assets/images/visitas_tecnicas/';
+
+        $nomeArquivo1 = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_fotografia_{$slot}.jpg";
+        $nomeArquivo2 = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_fotografia_{$slot}.jpeg";
+        $nomeArquivo3 = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_fotografia_{$slot}.png";
+        $nomeArquivo4 = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_fotografia_{$slot}.gif";
+
+        //Remove o arquivo do disco, se existir
+        if ($caminho.$nomeArquivo1 && file_exists(public_path($caminho.$nomeArquivo1))) {@unlink(public_path($caminho.$nomeArquivo1));}
+        if ($caminho.$nomeArquivo2 && file_exists(public_path($caminho.$nomeArquivo2))) {@unlink(public_path($caminho.$nomeArquivo2));}
+        if ($caminho.$nomeArquivo3 && file_exists(public_path($caminho.$nomeArquivo3))) {@unlink(public_path($caminho.$nomeArquivo3));}
+        if ($caminho.$nomeArquivo4 && file_exists(public_path($caminho.$nomeArquivo4))) {@unlink(public_path($caminho.$nomeArquivo4));}
+
+        return response()->json(['success' => true, 'xxxx' => $nomeArquivo1]);
+    }
+
+    public function vtt2_uploadPdf(Request $request, $visita_tecnica_dado_id, $slot)
+    {
+        $request->validate([
+            'pdf' => 'required|file|mimes:pdf|max:10240' // até 10 MB por exemplo
+        ]);
+
+        $file = $request->file('pdf');
+        $nomeArquivo = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_pdf_{$slot}." . $file->getClientOriginalExtension();
+        $caminho = "build/assets/pdfs/visitas_tecnicas/$nomeArquivo";
+
+        // Salva o arquivo
+        $file->move(public_path('build/assets/pdfs/visitas_tecnicas'), $nomeArquivo);
+
+        // Retorna caminho completo acessível via URL
+        return response()->json(['success' => true, 'path' => asset($caminho)]);
+    }
+
+    public function vtt2_removerPdf(Request $request, $visita_tecnica_dado_id, $slot)
+    {
+        $caminho = 'build/assets/pdfs/visitas_tecnicas/';
+
+        $nomeArquivo = "visitas_tecnicas_dados_{$visita_tecnica_dado_id}_pdf_{$slot}.pdf";
+
+        $fullPath = public_path($caminho . $nomeArquivo);
+
+        if (file_exists($fullPath)) {
+            @unlink($fullPath);
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Arquivo não encontrado']);
+    }
+
+    public function vtt2_atualizar_pergunta(Request $request, $id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Acertos nos nomes dos campos
+            $request['titulo'] = $request['titulo_'.$id];
+            $request['subtitulo'] = $request['subtitulo_'.$id];
+            $request['pergunta'] = $request['pergunta_'.$id];
+            $request['visita_tecnica_tipo_id'] = $request['visita_tecnica_tipo_id_'.$id];
+            $request['completa'] = $request['completa_'.$id];
+            $request['completa_ordem'] = $request['completa_ordem_'.$id];
+            $request['sintetica'] = $request['sintetica_'.$id];
+            $request['sintetica_ordem'] = $request['sintetica_ordem_'.$id];
+            $request['opcoes'] = $request['opcoes_'.$id];
+
+            //Buscando dados Api_Data() - Alterar Registro
+            $this->responseApi(1, 11, 'visitas_tecnicas/vtt2/visitas_tecnicas_perguntas/atualizar_pergunta/'.$id, '', '', $request->all());
+
+            //Registro alterado com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->message]);
+            } else if ($this->code == 2020) { //Falha na validação dos dados
+                return response()->json(['error_validation' => $this->validation]);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                return response()->json(['error_not_found' => $this->message]);
+            } else {
+                abort(500, 'Erro Interno Funcionário');
+            }
+        }
+    }
+
+    public function vtt2_perguntas_completa_sintetica($vt_cs)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'visitas_tecnicas/vtt2/visitas_tecnicas_perguntas/perguntas_completa_sintetica/'.$vt_cs, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            } else if ($this->code == 4040) {
+                return response()->json(['error_not_found' => $this->message]);
+            } else {
+                abort(500, 'Erro Interno Client');
+            }
+        }
+    }
+    // Funções VTT2 - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    // Funções VTT2 - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 }

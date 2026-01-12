@@ -35,9 +35,10 @@
                                             <div class="col-2">
                                                 <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Executar Visita Técnica"><i class="bx bx-plus"></i></button>
                                                 <div class="dropdown-menu dropdown-menu-end" id="visita_tecnica_dropdown">
-                                                    <a class="dropdown-item small text-success fw-bolder" href="#" data-visita_tecnica_tipo_id="1" data-vt_cs="1">Executar Visita Técnica de Exaustão Completa</a>
-                                                    <a class="dropdown-item small text-warning fw-bolder" href="#" data-visita_tecnica_tipo_id="1" data-vt_cs="2">Executar Visita Técnica de Exaustão Sintética</a>
-                                                    <a class="dropdown-item small text-primary fw-bolder" href="#" data-visita_tecnica_tipo_id="2" data-vt_cs="1">Executar Visita Técnica de Incêndio</a>
+                                                    <a class="dropdown-item small text-success" href="#" data-visita_tecnica_tipo_id="1" data-vt_cs="1">Executar Visita Técnica de Exaustão Completa</a>
+                                                    <a class="dropdown-item small text-warning" href="#" data-visita_tecnica_tipo_id="1" data-vt_cs="2">Executar Visita Técnica de Exaustão Sintética</a>
+                                                    <a class="dropdown-item small text-danger" href="#" data-visita_tecnica_tipo_id="2" data-vt_cs="1">Executar Visita Técnica de Incêndio Completa</a>
+                                                    <a class="dropdown-item small text-primary" href="#" data-visita_tecnica_tipo_id="2" data-vt_cs="2">Executar Visita Técnica de Incêndio Sintética</a>
                                                 </div>
                                             </div>
                                             <div class="col-2">

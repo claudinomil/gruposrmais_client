@@ -1,4 +1,4 @@
-let visitaTecnicaDadoId = 0; //Id da Pergunta que está sendo manipulada na tabela visitas_tecnicas_dados
+let vtt1_visitaTecnicaDadoId = 0; //Id da Pergunta que está sendo manipulada na tabela visitas_tecnicas_dados
 
 function vtt1_validar_frm_visitas_tecnicas() {
     var validacao_ok = true;
@@ -435,9 +435,9 @@ function vtt1_formControle(op) {
 function vtt1_abrirModalObservacao(visita_tecnica_dado_id) {
     event.preventDefault();
 
-    visitaTecnicaDadoId = visita_tecnica_dado_id;
+    vtt1_visitaTecnicaDadoId = visita_tecnica_dado_id;
 
-    document.getElementById('vtt1_modal_observacao_texto').value = document.getElementById('vtt1_observacao_texto_'+visitaTecnicaDadoId).value;
+    document.getElementById('vtt1_modal_observacao_texto').value = document.getElementById('vtt1_observacao_texto_'+vtt1_visitaTecnicaDadoId).value;
 
     new bootstrap.Modal(document.getElementById('vtt1_modalObservacao')).show();
 
@@ -448,7 +448,7 @@ function vtt1_abrirModalObservacao(visita_tecnica_dado_id) {
 function vtt1_abrirModalFotografia(visita_tecnica_dado_id) {
     event.preventDefault();
 
-    visitaTecnicaDadoId = visita_tecnica_dado_id;
+    vtt1_visitaTecnicaDadoId = visita_tecnica_dado_id;
 
     document.getElementById('vtt1_modalFotografiaFile').value = '';
 
@@ -461,7 +461,7 @@ function vtt1_abrirModalFotografia(visita_tecnica_dado_id) {
 function vtt1_abrirModalPdf(visita_tecnica_dado_id) {
     event.preventDefault();
 
-    visitaTecnicaDadoId = visita_tecnica_dado_id;
+    vtt1_visitaTecnicaDadoId = visita_tecnica_dado_id;
 
     document.getElementById('vtt1_modalPdfFile').value = '';
 
@@ -476,8 +476,8 @@ function vtt1_observacaoEnviar() {
         if (!confirm('Tem certeza que deseja enviar uma Observação vazia?')) return;
     }
 
-    document.getElementById('vtt1_divObservacaoTexto_'+visitaTecnicaDadoId).innerHTML = document.getElementById('vtt1_modal_observacao_texto').value;
-    document.getElementById('vtt1_observacao_texto_'+visitaTecnicaDadoId).value = document.getElementById('vtt1_modal_observacao_texto').value;
+    document.getElementById('vtt1_divObservacaoTexto_'+vtt1_visitaTecnicaDadoId).innerHTML = document.getElementById('vtt1_modal_observacao_texto').value;
+    document.getElementById('vtt1_observacao_texto_'+vtt1_visitaTecnicaDadoId).value = document.getElementById('vtt1_modal_observacao_texto').value;
 
     //Show classObservacaoFotografiaPdf
     vtt1_observacaoFotografiaPdfShow();
@@ -486,7 +486,7 @@ function vtt1_observacaoEnviar() {
     bootstrap.Modal.getInstance(document.getElementById('vtt1_modalObservacao')).hide();
 
     //Salvar
-    vtt1_salvarDadosPergunta(visitaTecnicaDadoId);
+    vtt1_salvarDadosPergunta(vtt1_visitaTecnicaDadoId);
 }
 
 function vtt1_fotografiaEnviar(fileInput) {
@@ -541,7 +541,7 @@ function vtt1_fotografiaEnviar(fileInput) {
 
     function uploadFoto(blob) {
         // Encontra o próximo slot livre
-        const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
+        const container = document.getElementById(`vtt1_divFotografiaFotos_${vtt1_visitaTecnicaDadoId}`);
         const fotoContainers = container.querySelectorAll('.container-foto');
 
         let slotLivre = null;
@@ -562,7 +562,7 @@ function vtt1_fotografiaEnviar(fileInput) {
         const formData = new FormData();
         formData.append('foto', blob, 'foto.jpg'); // pode passar nome opcional
 
-        fetch('visitas_tecnicas/vtt1/pergunta/uploadFotografia/' + visitaTecnicaDadoId + '/' + slotLivre, {
+        fetch('visitas_tecnicas/vtt1/pergunta/uploadFotografia/' + vtt1_visitaTecnicaDadoId + '/' + slotLivre, {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
@@ -608,7 +608,7 @@ function vtt1_pdfEnviar(fileInput) {
 
     function uploadPdf(pdfFile) {
         // Encontra o próximo slot livre
-        const container = document.getElementById(`vtt1_divPdf_${visitaTecnicaDadoId}`);
+        const container = document.getElementById(`vtt1_divPdf_${vtt1_visitaTecnicaDadoId}`);
         const pdfContainers = container.querySelectorAll('.container-pdf');
 
         let slotLivre = null;
@@ -628,7 +628,7 @@ function vtt1_pdfEnviar(fileInput) {
         const formData = new FormData();
         formData.append('pdf', pdfFile, 'documento.pdf');
 
-        fetch('visitas_tecnicas/vtt1/pergunta/uploadPdf/' + visitaTecnicaDadoId + '/' + slotLivre, {
+        fetch('visitas_tecnicas/vtt1/pergunta/uploadPdf/' + vtt1_visitaTecnicaDadoId + '/' + slotLivre, {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
@@ -655,12 +655,12 @@ function vtt1_pdfEnviar(fileInput) {
 }
 
 function vtt1_fotografiaInserir(imagemUrl) {
-    const container = document.getElementById(`vtt1_divFotografiaFotos_${visitaTecnicaDadoId}`);
+    const container = document.getElementById(`vtt1_divFotografiaFotos_${vtt1_visitaTecnicaDadoId}`);
     if (!container) return;
 
     for (let i = 1; i <= 3; i++) {
-        const img = document.getElementById(`vtt1_img_${visitaTecnicaDadoId}_${i}`);
-        const inputHidden = document.getElementById(`vtt1_fotografia_${visitaTecnicaDadoId}_${i}`);
+        const img = document.getElementById(`vtt1_img_${vtt1_visitaTecnicaDadoId}_${i}`);
+        const inputHidden = document.getElementById(`vtt1_fotografia_${vtt1_visitaTecnicaDadoId}_${i}`);
 
         if (inputHidden && !inputHidden.value) {
             img.src = imagemUrl;
@@ -677,19 +677,19 @@ function vtt1_fotografiaInserir(imagemUrl) {
     }
 
     //Salvar
-    vtt1_salvarDadosPergunta(visitaTecnicaDadoId);
+    vtt1_salvarDadosPergunta(vtt1_visitaTecnicaDadoId);
 }
 
 function vtt1_pdfInserir(pdfUrl) {
-    const container = document.getElementById(`vtt1_divPdf_${visitaTecnicaDadoId}`);
+    const container = document.getElementById(`vtt1_divPdf_${vtt1_visitaTecnicaDadoId}`);
     if (!container) return;
 
     //URL
     var url_atual = window.location.protocol + '//' + window.location.host + '/';
 
     for (let i = 1; i <= 3; i++) {
-        const embed = document.getElementById(`vtt1_img_pdf_${visitaTecnicaDadoId}_${i}`);
-        const inputHidden = document.getElementById(`vtt1_pdf_${visitaTecnicaDadoId}_${i}`);
+        const embed = document.getElementById(`vtt1_img_pdf_${vtt1_visitaTecnicaDadoId}_${i}`);
+        const inputHidden = document.getElementById(`vtt1_pdf_${vtt1_visitaTecnicaDadoId}_${i}`);
 
         if (inputHidden && !inputHidden.value) {
             embed.src = url_atual+'build/assets/images/image_pdf.png';
@@ -706,14 +706,14 @@ function vtt1_pdfInserir(pdfUrl) {
     }
 
     //Salvar
-    vtt1_salvarDadosPergunta(visitaTecnicaDadoId);
+    vtt1_salvarDadosPergunta(vtt1_visitaTecnicaDadoId);
 }
 
 function vtt1_removerFotografia(button) {
     const visita_tecnica_dado_id = button.dataset.visita_tecnica_dado_id;
     const slot = button.dataset.slot;
 
-    visitaTecnicaDadoId = visita_tecnica_dado_id;
+    vtt1_visitaTecnicaDadoId = visita_tecnica_dado_id;
 
     fetch(`visitas_tecnicas/vtt1/pergunta/removerFotografia/${visita_tecnica_dado_id}/${slot}`, {
         method: 'POST',
@@ -738,7 +738,7 @@ function vtt1_removerFotografia(button) {
                 container.querySelector('.remover-foto').style.display = 'none';
 
                 //Salvar
-                vtt1_salvarDadosPergunta(visitaTecnicaDadoId);
+                vtt1_salvarDadosPergunta(vtt1_visitaTecnicaDadoId);
             } else {
                 alert('Erro ao remover imagem.');
             }
@@ -750,7 +750,7 @@ function vtt1_removerPdf(button) {
     const visita_tecnica_dado_id = button.dataset.visita_tecnica_dado_id;
     const slot = button.dataset.slot;
 
-    visitaTecnicaDadoId = visita_tecnica_dado_id;
+    vtt1_visitaTecnicaDadoId = visita_tecnica_dado_id;
 
     fetch(`visitas_tecnicas/vtt1/pergunta/removerPdf/${visita_tecnica_dado_id}/${slot}`, {
         method: 'POST',
@@ -775,7 +775,7 @@ function vtt1_removerPdf(button) {
                 container.querySelector('.remover-pdf').style.display = 'none';
 
                 //Salvar
-                vtt1_salvarDadosPergunta(visitaTecnicaDadoId);
+                vtt1_salvarDadosPergunta(vtt1_visitaTecnicaDadoId);
             } else {
                 alert('Erro ao remover PDF.');
             }
@@ -787,7 +787,7 @@ function vtt1_visualizarFotografia(button) {
     const visita_tecnica_dado_id = button.dataset.visita_tecnica_dado_id;
     const slot = button.dataset.slot;
 
-    visitaTecnicaDadoId = visita_tecnica_dado_id;
+    vtt1_visitaTecnicaDadoId = visita_tecnica_dado_id;
 
     const img = document.getElementById(`vtt1_img_${visita_tecnica_dado_id}_${slot}`);
     const imgUrl = img.src;
@@ -803,7 +803,7 @@ function vtt1_visualizarPdf(button) {
     const visita_tecnica_dado_id = button.dataset.visita_tecnica_dado_id;
     const slot = button.dataset.slot;
 
-    visitaTecnicaDadoId = visita_tecnica_dado_id;
+    vtt1_visitaTecnicaDadoId = visita_tecnica_dado_id;
 
     const embed = document.getElementById(`vtt1_pdf_${visita_tecnica_dado_id}_${slot}`);
     const pdfUrl = embed.value;
@@ -819,42 +819,42 @@ function vtt1_salvarDadosPergunta(visita_tecnica_dado_id) {
     //Mostrar vtt1_divBloqueio para bloquear interações
     document.getElementById('vtt1_divBloqueio').style.display = 'block';
 
-    visitaTecnicaDadoId = visita_tecnica_dado_id;
+    vtt1_visitaTecnicaDadoId = visita_tecnica_dado_id;
 
     //Verificar Hiddens
-    var visita_tecnica_id = document.getElementById('vtt1_visita_tecnica_id_'+visitaTecnicaDadoId).value;
-    var titulo = document.getElementById('vtt1_titulo_'+visitaTecnicaDadoId).value;
-    var subtitulo = document.getElementById('vtt1_subtitulo_'+visitaTecnicaDadoId).value;
-    var pergunta = document.getElementById('vtt1_pergunta_'+visitaTecnicaDadoId).value;
+    var visita_tecnica_id = document.getElementById('vtt1_visita_tecnica_id_'+vtt1_visitaTecnicaDadoId).value;
+    var titulo = document.getElementById('vtt1_titulo_'+vtt1_visitaTecnicaDadoId).value;
+    var subtitulo = document.getElementById('vtt1_subtitulo_'+vtt1_visitaTecnicaDadoId).value;
+    var pergunta = document.getElementById('vtt1_pergunta_'+vtt1_visitaTecnicaDadoId).value;
 
     //Verificar Resposta
     var resposta = 0;
 
-    if (document.getElementById('vtt1_resposta_'+visitaTecnicaDadoId+'_1').checked) {resposta = 1;}
-    if (document.getElementById('vtt1_resposta_'+visitaTecnicaDadoId+'_2').checked) {resposta = 2;}
-    if (document.getElementById('vtt1_resposta_'+visitaTecnicaDadoId+'_3').checked) {resposta = 3;}
+    if (document.getElementById('vtt1_resposta_'+vtt1_visitaTecnicaDadoId+'_1').checked) {resposta = 1;}
+    if (document.getElementById('vtt1_resposta_'+vtt1_visitaTecnicaDadoId+'_2').checked) {resposta = 2;}
+    if (document.getElementById('vtt1_resposta_'+vtt1_visitaTecnicaDadoId+'_3').checked) {resposta = 3;}
 
     //Verificar Quantidade
-    var quantidade = document.getElementById('vtt1_quantidade_'+visitaTecnicaDadoId).value;
+    var quantidade = document.getElementById('vtt1_quantidade_'+vtt1_visitaTecnicaDadoId).value;
 
     //Verificar Observação
-    var observacao = document.getElementById('vtt1_observacao_texto_'+visitaTecnicaDadoId).value;
+    var observacao = document.getElementById('vtt1_observacao_texto_'+vtt1_visitaTecnicaDadoId).value;
 
     //Verificar Fotografias
-    var fotografia_1 = document.getElementById('vtt1_fotografia_'+visitaTecnicaDadoId+'_1').value;
-    var fotografia_2 = document.getElementById('vtt1_fotografia_'+visitaTecnicaDadoId+'_2').value;
-    var fotografia_3 = document.getElementById('vtt1_fotografia_'+visitaTecnicaDadoId+'_3').value;
+    var fotografia_1 = document.getElementById('vtt1_fotografia_'+vtt1_visitaTecnicaDadoId+'_1').value;
+    var fotografia_2 = document.getElementById('vtt1_fotografia_'+vtt1_visitaTecnicaDadoId+'_2').value;
+    var fotografia_3 = document.getElementById('vtt1_fotografia_'+vtt1_visitaTecnicaDadoId+'_3').value;
 
     //Verificar PDFs
-    var pdf_1 = document.getElementById('vtt1_pdf_'+visitaTecnicaDadoId+'_1').value;
-    var pdf_2 = document.getElementById('vtt1_pdf_'+visitaTecnicaDadoId+'_2').value;
-    var pdf_3 = document.getElementById('vtt1_pdf_'+visitaTecnicaDadoId+'_3').value;
+    var pdf_1 = document.getElementById('vtt1_pdf_'+vtt1_visitaTecnicaDadoId+'_1').value;
+    var pdf_2 = document.getElementById('vtt1_pdf_'+vtt1_visitaTecnicaDadoId+'_2').value;
+    var pdf_3 = document.getElementById('vtt1_pdf_'+vtt1_visitaTecnicaDadoId+'_3').value;
 
     //Montar dados e Salvar na tabela'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     let payload = {visita_tecnica_id, titulo, subtitulo, pergunta, resposta, quantidade, observacao, fotografia_1, fotografia_2, fotografia_3, pdf_1, pdf_2, pdf_3};
 
     //Acessar rota
-    fetch('visitas_tecnicas/vtt1/pergunta/updatePergunta/'+visitaTecnicaDadoId, {
+    fetch('visitas_tecnicas/vtt1/pergunta/updatePergunta/'+vtt1_visitaTecnicaDadoId, {
         method: 'POST',
         headers: {
             'REQUEST-ORIGIN': 'fetch',
@@ -887,7 +887,7 @@ function vtt1_salvarDadosPergunta(visita_tecnica_dado_id) {
 
 function vtt1_posicionarPergunta() {
     //Posicionar elemento no topo
-    const elemento = document.getElementById('vtt1_divPergunta_' + visitaTecnicaDadoId);
+    const elemento = document.getElementById('vtt1_divPergunta_' + vtt1_visitaTecnicaDadoId);
     const posicao = elemento.getBoundingClientRect().top + window.pageYOffset;
     window.scrollTo({
         top: posicao - 100,  // 100px acima do elemento
@@ -1285,7 +1285,7 @@ async function vtt1_gerarPDF(visita_tecnica_id=0, traducao='pt', vt_cs) {
         async function noCacheUrl(url) {
             return url + '?_=' + new Date().getTime();
         }
-        
+
         async function adicionarCabecalhoRodape(topo, rodape) {
             topo = await noCacheUrl(topo);
             rodape = await noCacheUrl(rodape);
@@ -1953,7 +1953,7 @@ async function vtt1_gerarPDF(visita_tecnica_id=0, traducao='pt', vt_cs) {
             nivel_fillcolor = [255, 0, 0];
             nivel_color = [255, 255, 255];
         }
-        
+
         let tabelaDados2 =[[nivel, classificacao]];
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 

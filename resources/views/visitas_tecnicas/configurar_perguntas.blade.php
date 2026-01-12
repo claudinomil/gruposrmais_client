@@ -53,7 +53,7 @@
                                                 $selected = ($registro['visita_tecnica_tipo_id'] == $visita_tecnica_tipo['id']) ? 'selected' : '';
                                             @endphp
 
-                                            <option class="small" value="{{ $visita_tecnica_tipo['id'] }}">{{ $visita_tecnica_tipo['name'] }}</option>
+                                            <option class="small" value="{{ $visita_tecnica_tipo['id'] }}" {{ $selected }}>{{ $visita_tecnica_tipo['name'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>

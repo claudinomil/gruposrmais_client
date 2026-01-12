@@ -972,26 +972,85 @@ function crudView(registro_id) {
             }
 
             if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
-                //View divVTT1''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                if (document.getElementById('visita_tecnica_tipo_id').value == 1) {
-                    //Acertos no Formulário
-                    document.getElementById('vtt1_divClienteId').style.display = 'none';
-                    document.getElementById('vtt1_divResponsavelFuncionarioId').style.display = 'none';
+                // visita_tecnica_tipo_id
+                const visita_tecnica_tipo_id = document.getElementById('visita_tecnica_tipo_id');
 
-                    //Visita Técnica Dados
+                // View divVTT1'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                // Global Elementos vtt1
+                const vtt1_divClienteId = document.getElementById('vtt1_divClienteId');
+                const vtt1_divResponsavelFuncionarioId = document.getElementById('vtt1_divResponsavelFuncionarioId');
+                const vtt1_formVisualizar1 = document.getElementById('vtt1_formVisualizar1');
+                const vtt1_formVisualizar2 = document.getElementById('vtt1_formVisualizar2');
+                const vtt1_formVisualizar3 = document.getElementById('vtt1_formVisualizar3');
+                const vtt1_formVisualizar4 = document.getElementById('vtt1_formVisualizar4');
+                const vtt1_divPerguntas = document.getElementById('vtt1_divPerguntas');
+
+                vtt1_divClienteId.style.display = 'none';
+                vtt1_divResponsavelFuncionarioId.style.display = 'none';
+                vtt1_formVisualizar1.style.display = 'none';
+                vtt1_formVisualizar2.style.display = 'none';
+                vtt1_formVisualizar3.style.display = 'none';
+                vtt1_formVisualizar4.style.display = 'none';
+                vtt1_divPerguntas.style.display = 'none';
+
+                if (visita_tecnica_tipo_id.value == 1) {
+                    // Acertos no Dropdown
+                    vtt1_formVisualizar1.style.display = '';
+                    vtt1_formVisualizar2.style.display = '';
+                    vtt1_formVisualizar3.style.display = '';
+                    vtt1_formVisualizar4.style.display = '';
+
+                    // Visita Técnica Dados
                     var visitas_tecnicas_dados = data.success['visitas_tecnicas_dados'];
 
-                    //Montar Perguntas
+                    // Montar Perguntas
                     const htmlPerguntas = vtt1_gerarHtmlPerguntas(visitas_tecnicas_dados);
-                    document.getElementById('vtt1_divPerguntas').innerHTML = htmlPerguntas;
+
+                    vtt1_divPerguntas.style.display = '';
+                    vtt1_divPerguntas.innerHTML = htmlPerguntas;
                 }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                //View divVTT2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // View divVTT2'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                // Global Elementos vtt2
+                const vtt2_divClienteId = document.getElementById('vtt2_divClienteId');
+                const vtt2_divResponsavelFuncionarioId = document.getElementById('vtt2_divResponsavelFuncionarioId');
+                const vtt2_formVisualizar1 = document.getElementById('vtt2_formVisualizar1');
+                const vtt2_formVisualizar2 = document.getElementById('vtt2_formVisualizar2');
+                const vtt2_formVisualizar3 = document.getElementById('vtt2_formVisualizar3');
+                const vtt2_formVisualizar4 = document.getElementById('vtt2_formVisualizar4');
+                const vtt2_divPerguntas = document.getElementById('vtt2_divPerguntas');
+
+                vtt2_divClienteId.style.display = 'none';
+                vtt2_divResponsavelFuncionarioId.style.display = 'none';
+                vtt2_formVisualizar1.style.display = 'none';
+                vtt2_formVisualizar2.style.display = 'none';
+                vtt2_formVisualizar3.style.display = 'none';
+                vtt2_formVisualizar4.style.display = 'none';
+                vtt2_divPerguntas.style.display = 'none';
+
+                if (visita_tecnica_tipo_id.value == 2) {
+                    // Acertos no Dropdown
+                    vtt2_formVisualizar1.style.display = '';
+                    vtt2_formVisualizar2.style.display = '';
+                    vtt2_formVisualizar3.style.display = '';
+                    vtt2_formVisualizar4.style.display = '';
+
+                    // Visita Técnica Dados
+                    var visitas_tecnicas_dados = data.success['visitas_tecnicas_dados'];
+
+                    // Montar Perguntas
+                    const htmlPerguntas = vtt2_gerarHtmlPerguntas(visitas_tecnicas_dados);
+
+                    vtt2_divPerguntas.style.display = '';
+                    vtt2_divPerguntas.innerHTML = htmlPerguntas;
+                }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 //Campo: visita_tecnica_tipo_id (forçar change)
-                document.getElementById('visita_tecnica_tipo_id').dispatchEvent(new Event('change'));
+                visita_tecnica_tipo_id.dispatchEvent(new Event('change'));
             }
 
             if (prefixPermissaoSubmodulo == 'brigadas_incendios') {
@@ -1562,27 +1621,93 @@ async function crudEdit(registro_id) {
             }
 
             if (prefixPermissaoSubmodulo == 'visitas_tecnicas') {
-                //Edit divVTT1''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                if (document.getElementById('visita_tecnica_tipo_id').value == 1) {
-                    //Acertos no Formulário
-                    document.getElementById('visita_tecnica_tipo_id').disabled = true;
-                    document.getElementById('vtt1_divClienteId').style.display = 'none';
-                    document.getElementById('vtt1_divResponsavelFuncionarioId').style.display = '';
+                // visita_tecnica_tipo_id
+                const visita_tecnica_tipo_id = document.getElementById('visita_tecnica_tipo_id');
 
-                    //Visita Técnica Dados
+                // View divVTT1'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                // Global Elementos vtt1
+                const vtt1_divClienteId = document.getElementById('vtt1_divClienteId');
+                const vtt1_divResponsavelFuncionarioId = document.getElementById('vtt1_divResponsavelFuncionarioId');
+                const vtt1_formVisualizar1 = document.getElementById('vtt1_formVisualizar1');
+                const vtt1_formVisualizar2 = document.getElementById('vtt1_formVisualizar2');
+                const vtt1_formVisualizar3 = document.getElementById('vtt1_formVisualizar3');
+                const vtt1_formVisualizar4 = document.getElementById('vtt1_formVisualizar4');
+                const vtt1_divPerguntas = document.getElementById('vtt1_divPerguntas');
+
+                vtt1_divClienteId.style.display = 'none';
+                vtt1_divResponsavelFuncionarioId.style.display = 'none';
+                vtt1_formVisualizar1.style.display = 'none';
+                vtt1_formVisualizar2.style.display = 'none';
+                vtt1_formVisualizar3.style.display = 'none';
+                vtt1_formVisualizar4.style.display = 'none';
+                // vtt1_divPerguntas.style.display = 'none';
+
+                if (visita_tecnica_tipo_id.value == 1) {
+                    // Acertos no Formulário
+                    visita_tecnica_tipo_id.disabled = true;
+                    vtt1_divResponsavelFuncionarioId.style.display = '';
+
+                    // Acertos no Dropdown
+                    vtt1_formVisualizar1.style.display = '';
+                    vtt1_formVisualizar2.style.display = '';
+                    vtt1_formVisualizar3.style.display = '';
+                    vtt1_formVisualizar4.style.display = '';
+
+                    // Visita Técnica Dados
                     var visitas_tecnicas_dados = data.success['visitas_tecnicas_dados'];
 
-                    //Montar Perguntas
+                    // Montar Perguntas
                     const htmlPerguntas = vtt1_gerarHtmlPerguntas(visitas_tecnicas_dados, data.success['vt_cs']);
-                    document.getElementById('vtt1_divPerguntas').innerHTML = htmlPerguntas;
+
+                    // vtt1_divPerguntas.style.display = '';
+                    vtt1_divPerguntas.innerHTML = htmlPerguntas;
                 }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                //Edit divVTT2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // View divVTT2'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                // Global Elementos vtt2
+                const vtt2_divClienteId = document.getElementById('vtt2_divClienteId');
+                const vtt2_divResponsavelFuncionarioId = document.getElementById('vtt2_divResponsavelFuncionarioId');
+                const vtt2_formVisualizar1 = document.getElementById('vtt2_formVisualizar1');
+                const vtt2_formVisualizar2 = document.getElementById('vtt2_formVisualizar2');
+                const vtt2_formVisualizar3 = document.getElementById('vtt2_formVisualizar3');
+                const vtt2_formVisualizar4 = document.getElementById('vtt2_formVisualizar4');
+                const vtt2_divPerguntas = document.getElementById('vtt2_divPerguntas');
+
+                vtt2_divClienteId.style.display = 'none';
+                vtt2_divResponsavelFuncionarioId.style.display = 'none';
+                vtt2_formVisualizar1.style.display = 'none';
+                vtt2_formVisualizar2.style.display = 'none';
+                vtt2_formVisualizar3.style.display = 'none';
+                vtt2_formVisualizar4.style.display = 'none';
+                vtt2_divPerguntas.style.display = 'none';
+
+                if (visita_tecnica_tipo_id.value == 2) {
+                    // Acertos no Formulário
+                    visita_tecnica_tipo_id.disabled = true;
+                    vtt2_divResponsavelFuncionarioId.style.display = '';
+
+                    // Acertos no Dropdown
+                    vtt2_formVisualizar1.style.display = '';
+                    vtt2_formVisualizar2.style.display = '';
+                    vtt2_formVisualizar3.style.display = '';
+                    vtt2_formVisualizar4.style.display = '';
+
+                    // Visita Técnica Dados
+                    var visitas_tecnicas_dados = data.success['visitas_tecnicas_dados'];
+
+                    // Montar Perguntas
+                    const htmlPerguntas = vtt2_gerarHtmlPerguntas(visitas_tecnicas_dados, data.success['vt_cs']);
+
+                    vtt2_divPerguntas.style.display = '';
+                    vtt2_divPerguntas.innerHTML = htmlPerguntas;
+                }
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 //Campo: visita_tecnica_tipo_id (forçar change)
-                document.getElementById('visita_tecnica_tipo_id').dispatchEvent(new Event('change'));
+                visita_tecnica_tipo_id.dispatchEvent(new Event('change'));
             }
 
             if (prefixPermissaoSubmodulo == 'brigadas_incendios') {
