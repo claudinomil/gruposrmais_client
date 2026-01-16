@@ -8,7 +8,7 @@ function gerar_visita_tecnica(visita_tecnica_id=0, visita_tecnica_tipo_id=0, tra
     if (visita_tecnica_tipo_id == 0) {visita_tecnica_tipo_id = document.getElementById('visita_tecnica_tipo_id').value;}
 
     if (visita_tecnica_tipo_id == 1) {vtt1_visitaTecnicaGerarPdf(visita_tecnica_id, traducao, vt_cs);}
-    if (visita_tecnica_tipo_id == 2) {vtt2_visita_tecnica_gerar_pdf(visita_tecnica_id, traducao, vt_cs);}
+    if (visita_tecnica_tipo_id == 2) {vtt2_visitaTecnicaGerarPdf(visita_tecnica_id, traducao, vt_cs);}
 }
 
 async function executarVisitaTecnica(cliente_id, visita_tecnica_tipo_id, vt_cs) {

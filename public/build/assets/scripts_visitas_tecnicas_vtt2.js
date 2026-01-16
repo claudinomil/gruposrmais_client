@@ -1513,7 +1513,7 @@ async function vtt2_gerarPDF(visita_tecnica_id=0, traducao='pt', vt_cs) {
         await inserirRetangulo({xPos:marginLeft, yPos:novaMarginTop, width:textWidth, height:5, cor: 1, style:'F'});
 
         //Texto
-        texto = ' RELATÓRIO DO SISTEMA DE VISTORIA TÉCNICA DE EXAUSTÃO MECÂNICA COZINHA PROFISSIONAL';
+        texto = ' RELATÓRIO DO SISTEMA DE VISTORIA TÉCNICA DE INCÊNDIO';
         if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
         await inserirTexto({texto:texto, xPos:marginLeft, yPos:novaMarginTop-1, fontSize:9, alterarNovaMarginTop:false});
 
@@ -1583,7 +1583,7 @@ async function vtt2_gerarPDF(visita_tecnica_id=0, traducao='pt', vt_cs) {
         await inserirTexto({texto:texto, xPos:marginLeft, yPos:novaMarginTop-1, fontSize:10});
 
         //Texto
-        texto = 'O sistema de vistoria técnica de exaustão mecânica em cozinhas profissionais tem como objetivo assegurar que os equipamentos e instalações responsáveis pela remoção de vapores, fumaça, gordura e calor estejam operando de forma eficiente, segura e em conformidade com as legislações e normas técnicas vigentes, tais como:';
+        texto = 'O sistema de vistoria técnica de incêndio tem como objetivo ...:';
         if (traducao == 'en') {texto = await traduzirTextoGoogle(texto);}
         await inserirTexto({texto:texto, xPos:marginLeft, yPos:novaMarginTop, align:'justify', fontSize:10});
 
