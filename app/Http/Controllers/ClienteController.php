@@ -512,6 +512,71 @@ class ClienteController extends Controller
         }
     }
 
+    public function upload_logotipo_menu(Request $request)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Variavel controle
+            $error = false;
+
+            //Verificando e fazendo Upload do Arquivo
+            if ($request->hasFile('cli_logotipo_menu_file')) {
+                //cliente_id
+                $id = $request['upload_logotipo_menu_cliente_id'];
+
+                //buscar dados formulario
+                $arquivo_tmp = $_FILES["cli_logotipo_menu_file"]["tmp_name"];
+                $arquivo_real = $_FILES["cli_logotipo_menu_file"]["name"];
+                $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
+                $arquivo_type = $_FILES["cli_logotipo_menu_file"]["type"];
+                $arquivo_size = $_FILES['cli_logotipo_menu_file']['size'];
+
+                if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
+                    if (copy($arquivo_tmp, "build/assets/images/clientes/$arquivo_real")) {
+                        if (file_exists("build/assets/images/clientes/" . $arquivo_real)) {
+                            //renomear para logotipo_menu_ID
+                            $name = 'logotipo_menu_' . $id;
+                            $img = "build/assets/images/clientes/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+                            $de = "build/assets/images/clientes/$arquivo_real";
+                            $pa = $img;
+
+                            try {
+                                rename($de, $pa);
+                            } catch (\Exception $e) {
+                                $error = true;
+                            }
+                        }
+                    }
+                } else {
+                    return response()->json(['error' => 'Escolha um arquivo válido.']);
+                }
+            } else {
+                return response()->json(['error' => 'Escolha um arquivo válido.']);
+            }
+
+            if (!$error) {
+                //Salvar Dados na tabela clientes
+                $data = array();
+                $data['cliente_id'] = $request['upload_logotipo_menu_cliente_id'];
+                $data['logotipo_menu'] = $img;
+
+                //Buscando dados Api_Data() - Atualizar Registro
+                $this->responseApi(1, 12, 'clientes/uploadLogotipo/upload_logotipo_menu', '', '', $data);
+
+                //Registro recebido com sucesso
+                if ($this->code == 2000) {
+                    return response()->json(['success' => $this->message]);
+                } else {
+                    return response()->json(['error' => 'Erro Interno Upload Logotipo Menu.']);
+                }
+            } else {
+                return response()->json(['error' => 'IMG (Nome, Tamanho ou Tipo) inválida.']);
+            }
+        } else {
+            return response()->json(['error' => 'Erro na requisição Upload Logotipo Menu']);
+        }
+    }
+
     public function upload_documento(Request $request)
     {
         //Verificando Origem enviada pelo Fetch

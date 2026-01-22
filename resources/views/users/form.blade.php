@@ -29,7 +29,7 @@
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    
+
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
@@ -48,16 +48,6 @@
                                         <input type="text" class="form-control text-uppercase" id="name" name="name" required="required">
                                     </div>
                                     <div class="form-group col-12 col-md-4 pb-3">
-                                        <label class="form-label">Funcionário</label>
-                                        <select class="form-control select2" name="funcionario_id" id="funcionario_id">
-                                            <option value="">{{ __('Selecione...') }}</option>
-
-                                            @foreach ($funcionarios as $key => $funcionario)
-                                                <option value="{{ $funcionario['id'] }}">{{ $funcionario['name'] }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">{{ __('Grupo') }}</label>
                                         <select class="form-control" name="grupo_id" id="grupo_id">
                                             <option value="">{{ __('Selecione...') }}</option>
@@ -74,6 +64,26 @@
 
                                             @foreach ($situacoes as $situacao)
                                                 <option value="{{ $situacao['id'] }}">{{ $situacao['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">Funcionário</label>
+                                        <select class="form-control select2" name="funcionario_id" id="funcionario_id">
+                                            <option value="">{{ __('Selecione...') }}</option>
+
+                                            @foreach ($funcionarios as $funcionario)
+                                                <option value="{{ $funcionario['id'] }}">{{ $funcionario['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">Cliente</label>
+                                        <select class="form-control select2" name="cliente_id" id="cliente_id">
+                                            <option value="">{{ __('Selecione...') }}</option>
+
+                                            @foreach ($clientes as $cliente)
+                                                <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>

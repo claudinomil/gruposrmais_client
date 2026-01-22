@@ -19,6 +19,7 @@ Route::prefix('clientes')->group(function () {
     Route::post('/uploadLogotipo/upload_logotipo_principal', [ClienteController::class, 'upload_logotipo_principal'])->name('clientes.upload_logotipo_principal');
     Route::post('/uploadLogotipo/upload_logotipo_relatorios', [ClienteController::class, 'upload_logotipo_relatorios'])->name('clientes.upload_logotipo_relatorios');
     Route::post('/uploadLogotipo/upload_logotipo_cartao_emergencial', [ClienteController::class, 'upload_logotipo_cartao_emergencial'])->name('clientes.upload_logotipo_cartao_emergencial');
+    Route::post('/uploadLogotipo/upload_logotipo_menu', [ClienteController::class, 'upload_logotipo_menu'])->name('clientes.upload_logotipo_menu');
     Route::post('/uploadDocumento/upload_documento', [ClienteController::class, 'upload_documento'])->name('clientes.upload_documento');
     Route::get('/modalInfo/documentos/{cliente_id}', [ClienteController::class, 'documentos'])->name('clientes.documentos');
     Route::delete('/modalInfo/deletar_documento/{cliente_documento_id}', [ClienteController::class, 'deletar_documento'])->name('clientes.deletar_documento');

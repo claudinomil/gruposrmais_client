@@ -21,19 +21,7 @@
                         <div class="col-12">
                             <div class="row">
                                 <!-- Botões -->
-                                <div class="col-12 col-md-6 pb-2">
-                                    @if (\App\Facades\Permissoes::permissao(['create']))
-                                    <x-button-crud op="1" onclick="crudCreate();" />
-                                    @endif
-
-                                    <!-- Ações para serem feitas com Funcionários -->
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Ações com Funcionários <i class="mdi mdi-chevron-down"></i></button>
-                                        <div class="dropdown-menu dropdown-menu-dark">
-                                            <a class="dropdown-item" href="#" id="funcionario_acao_1_dropdown">Contrato Carnaval 2025</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="col-12 col-md-6 pb-2">&nbsp;</div>
 
                                 <!-- Filtro no Banco -->
                                 <div class="col-12 col-md-6 float-end">
@@ -94,8 +82,8 @@
 <!-- QRCode.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-<!-- scripts_funcionarios.js -->
-<script src="{{ Vite::asset('resources/assets_template/js/scripts_funcionarios.js')}}"></script>
+<!-- scripts_clientes_funcionarios.js -->
+<script src="{{ Vite::asset('resources/assets_template/js/scripts_clientes_funcionarios.js')}}"></script>
 @endsection
 
 @section('script-bottom')

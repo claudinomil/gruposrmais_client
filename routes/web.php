@@ -1,144 +1,108 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\App;
+// Suporte Geral
+require __DIR__.'/routes_suporte_geral.php';
 
-//Rota inicial
-Route::get('/', function () {
-    //return view('welcome');
-    return redirect()->route('login');
-});
-
-//Locale
-Route::get('/locale', function () {
-    return response()->json(['locale' => app()->getLocale()]);
-});
-
-//Traduzir frase/palavra conforme locale do sistema
-Route::get('/translate', function () {
-    $chave = Request::get('key');
-
-    if (!$chave) {return response()->json(['translation' => '']);}
-
-    $locale = App::getLocale();
-    $arquivo = resource_path("lang/{$locale}.json");
-
-    if (!File::exists($arquivo)) {return response()->json(['translation' => '']);}
-
-    $conteudo = json_decode(File::get($arquivo), true);
-
-    if (array_key_exists($chave, $conteudo)) {
-        return response()->json(['translation' => $conteudo[$chave]]);
-    } else {
-        return response()->json(['translation' => $chave]);
-    }
-});
-
-//Buscar dados de um CNPJ na receitaws.com.br
-Route::get('/receitaws/consulta-cnpj/{cnpj}', [\App\Services\SuporteService::class, 'consultarCNPJ']);
-
-//Administrador
+// Administrador
 require __DIR__.'/routes_administrador.php';
 
-//Rotas de auth
+// Rotas de auth
 require __DIR__.'/routes_auth.php';
 
-//Rotas Language Translation
+// Rotas Language Translation
 require __DIR__ . '/routes_translation.php';
 
-//Empresas
+// Empresas
 require __DIR__ . '/routes_empresas.php';
 
-//Emails
+// Emails
 require __DIR__ . '/routes_emails.php';
 
-//Transacoes
+// Transacoes
 require __DIR__ . '/routes_transacoes.php';
 
-//Groups
+// Groups
 require __DIR__ . '/routes_grupos.php';
 
-//Users
+// Users
 require __DIR__ . '/routes_users.php';
 
-//Bancos
+// Bancos
 require __DIR__ . '/routes_bancos.php';
 
-//Departamentos
+// Departamentos
 require __DIR__ . '/routes_departamentos.php';
 
-//Funcionarios
+// Funcionarios
 require __DIR__ . '/routes_funcionarios.php';
 
-//Generos
+// Generos
 require __DIR__ . '/routes_generos.php';
 
-//EstadosCivis
+// EstadosCivis
 require __DIR__ . '/routes_estados_civis.php';
 
-//Nacionalidades
+// Nacionalidades
 require __DIR__ . '/routes_nacionalidades.php';
 
-//Naturalidades
+// Naturalidades
 require __DIR__ . '/routes_naturalidades.php';
 
-//Funcoes
+// Funcoes
 require __DIR__ . '/routes_funcoes.php';
 
-//Escolaridades
+// Escolaridades
 require __DIR__ . '/routes_escolaridades.php';
 
-//Identityorgans
+// Identityorgans
 require __DIR__ . '/routes_identidade_orgaos.php';
 
-//Clientes
+// Clientes
 require __DIR__ . '/routes_clientes.php';
 
-//Dashboards
+// Dashboards
 require __DIR__ . '/routes_dashboards.php';
 
-//Dashboards2
+// Dashboards2
 require __DIR__ . '/routes_dashboards2.php';
 
-//Dashboards3
+// Dashboards3
 require __DIR__ . '/routes_dashboards3.php';
 
-//Fornecedores
+// Fornecedores
 require __DIR__ . '/routes_fornecedores.php';
 
-//Serviços Tipos
+// Serviços Tipos
 require __DIR__ . '/routes_servico_tipos.php';
 
-//Serviços
+// Serviços
 require __DIR__ . '/routes_servicos.php';
 
-//Ordens Servicos
+// Ordens Servicos
 require __DIR__ . '/routes_ordens_servicos.php';
 
-//Propostas
+// Propostas
 require __DIR__ . '/routes_propostas.php';
 
-//Veículos
+// Veículos
 require __DIR__ . '/routes_veiculos.php';
 
-//Clientes Executivos
+// Clientes Executivos
 require __DIR__ . '/routes_clientes_executivos.php';
 
-//Relatórios
+// Relatórios
 require __DIR__ . '/routes_relatorios.php';
 
-//Mapas
+// Mapas
 require __DIR__ . '/routes_mapas.php';
 
-//Mapas Pontos Interesse
+// Mapas Pontos Interesse
 require __DIR__ . '/routes_pontos_interesse.php';
 
-//Visitas Técnicas
+// Visitas Técnicas
 require __DIR__ . '/routes_visitas_tecnicas.php';
 
-//Produtos
+// Produtos
 require __DIR__ . '/routes_produtos.php';
 
 // Produtos Entradas
@@ -147,17 +111,14 @@ require __DIR__ . '/routes_produtos_entradas.php';
 // Produtos Movimentacoes
 require __DIR__ . '/routes_produtos_movimentacoes.php';
 
-//Brigadas Incendios
+// Brigadas Incendios
 require __DIR__ . '/routes_brigadas_incendios.php';
 
 // Estoques Locais
 require __DIR__ . '/routes_estoques_locais.php';
 
-//Diversos
+// Diversos
 require __DIR__ . '/routes_guests.php';
-
-//Testes
-require __DIR__ . '/routes_z_testes.php';
 
 // Patrimonio
 require __DIR__.'/routes_patrimonio.php';
@@ -168,47 +129,14 @@ require __DIR__.'/routes_produtos_controle_situacoes.php';
 // Produtos Listagem Geral
 require __DIR__.'/routes_produtos_listagem_geral.php';
 
-//Verificar se arquivo existe'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-Route::get('/arquivo_existe', function (Illuminate\Http\Request $request) {
-    $arquivo = $request->query('arquivo');
+// Rotas Domínio Clientes - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Rotas Domínio Clientes - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-    // Verificar variavel
-    if (!isset($arquivo) || $arquivo === null || $arquivo === '') {
-        return 'error';
-    }
+// Clientes Dashboards
+require __DIR__ . '/routes_clientes_dashboards.php';
 
-    // Ver se existe
-    $path = public_path($arquivo);
-    return file_exists($path) ? 'success' : 'error';
-});
-//''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Clientes Funcionários
+require __DIR__ . '/routes_clientes_funcionarios.php';
 
-//Limpar Caches via Navegador - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-Route::get('/clear-all-cache', function() {
-    $retorno = '';
-
-    //Limpar cache do aplicativo:
-    Artisan::call('cache:clear');
-    $retorno .= 'cache:clear'.'<br>';
-
-    //Limpar cache de rota:
-    Artisan::call('route:cache');
-    $retorno .= 'route:cache'.'<br>';
-
-    //Limpar cache de configuração:
-    Artisan::call('config:cache');
-    $retorno .= 'config:cache'.'<br>';
-
-    //Clear view cache:
-    Artisan::call('view:clear');
-    $retorno .= 'view:clear'.'<br>';
-
-    //Limpe todo o aplicativo de todos os tipos de cache:
-    Artisan::call('optimize:clear');
-    $retorno .= 'optimize:clear'.'<br>';
-
-    echo $retorno;
-
-    return redirect('/');
-});
-//Limpar Caches via Navegador - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Rotas Domínio Clientes - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Rotas Domínio Clientes - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

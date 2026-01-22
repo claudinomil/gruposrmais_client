@@ -16,7 +16,10 @@
                             <div class="row">
                                 <div class="col-7">
                                     <div class="text-primary p-4">
-                                        <h5 class="text-primary"> Redefinir senha</h5>
+                                        <h5 class="text-primary">Redefinir senha</h5>
+                                        <div class="pt-1">
+                                            <img src="{{ asset('build/assets/images/image_logo_previnir.png') }}" width="100">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-5 align-self-end">
@@ -25,10 +28,8 @@
                             </div>
                         </div>
                         <div class="card-body pt-0">
-                            <div>
-                                <div class="auth-logo">
-                                    <img src="{{ asset('build/assets/images/image_logo_login.png') }}" style="margin-top: -90px;">
-                                </div>
+                            <div class="pt-3 pb-5">
+                                <img src="{{ asset('build/assets/images/image_logo_login.png') }}" width="120">
                             </div>
                             <div class="p-2">
                                 <div class="alert alert-success text-center mb-4" role="alert">Digite seu e-mail e as instruções serão enviadas para você!</div>

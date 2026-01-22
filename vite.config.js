@@ -89,6 +89,11 @@ export default defineConfig({
                 {src: 'resources/assets_template/js/scripts_visitas_tecnicas.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_visitas_tecnicas_vtt1.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_visitas_tecnicas_vtt2.js', dest: 'assets'},
+
+                // scripts Domínio Clientes
+                {src: 'resources/assets_template/js/scripts_clientes_dashboards.js', dest: 'assets'},
+                {src: 'resources/assets_template/js/scripts_clientes_funcionarios.js', dest: 'assets'},
+
                 {src: 'resources/assets_template/libs/jspdf/jspdf.js', dest: 'assets'},
                 {src: 'resources/assets_template/libs/jspdf/jspdf_autotable.js', dest: 'assets'},
                 {src: 'resources/assets_template/images/clientes/cliente-0.png', dest: 'assets/images/clientes'},
@@ -117,9 +122,12 @@ export default defineConfig({
                 {src: 'resources/assets_template/images/image_logo_layout_light_menu.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/image_logo_layout_light_menu_min.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/image_logo_login.png', dest: 'assets/images'},
+                {src: 'resources/assets_template/images/clientes/logotipo_principal-0.png', dest: 'assets/images/clientes'},
+                {src: 'resources/assets_template/images/clientes/logotipo_menu-0.png', dest: 'assets/images/clientes'},
                 {src: 'resources/assets_template/images/image_logo_qrcode.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/image_logo_relatorio.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/image_logo.png', dest: 'assets/images'},
+                {src: 'resources/assets_template/images/image_logo_previnir.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/megamenu-img.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/profile-img.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/welcome_logo.png', dest: 'assets/images'},

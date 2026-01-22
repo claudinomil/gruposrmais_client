@@ -1220,6 +1220,35 @@ function crudView(registro_id) {
                 // Patrimônio Situações Table
                 patrimonioSituacoesTable(data.success['produto_entrada_item_id']);
             }
+
+            if (prefixPermissaoSubmodulo == 'clientes_funcionarios') {
+                // mi_fun_funcionario_id
+                document.getElementById('mi_fun_funcionario_id').value = registro_id;
+
+                // Doenças e Doenças Família'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                document.getElementById('doenca_diabetes').checked = false;
+                document.getElementById('doenca_hipertensao').checked = false;
+                document.getElementById('doenca_asma').checked = false;
+                document.getElementById('doenca_renal').checked = false;
+                document.getElementById('doenca_cardiaca').checked = false;
+                document.getElementById('doenca_familia_diabetes').checked = false;
+                document.getElementById('doenca_familia_hipertensao').checked = false;
+                document.getElementById('doenca_familia_epilepsia').checked = false;
+                document.getElementById('doenca_familia_cardiaca').checked = false;
+                document.getElementById('doenca_familia_cancer').checked = false;
+
+                if (data.success['doenca_diabetes'] == 1) {document.getElementById('doenca_diabetes').checked = true;}
+                if (data.success['doenca_hipertensao'] == 1) {document.getElementById('doenca_hipertensao').checked = true;}
+                if (data.success['doenca_asma'] == 1) {document.getElementById('doenca_asma').checked = true;}
+                if (data.success['doenca_renal'] == 1) {document.getElementById('doenca_renal').checked = true;}
+                if (data.success['doenca_cardiaca'] == 1) {document.getElementById('doenca_cardiaca').checked = true;}
+                if (data.success['doenca_familia_diabetes'] == 1) {document.getElementById('doenca_familia_diabetes').checked = true;}
+                if (data.success['doenca_familia_hipertensao'] == 1) {document.getElementById('doenca_familia_hipertensao').checked = true;}
+                if (data.success['doenca_familia_epilepsia'] == 1) {document.getElementById('doenca_familia_epilepsia').checked = true;}
+                if (data.success['doenca_familia_cardiaca'] == 1) {document.getElementById('doenca_familia_cardiaca').checked = true;}
+                if (data.success['doenca_familia_cancer'] == 1) {document.getElementById('doenca_familia_cancer').checked = true;}
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             //Configuração

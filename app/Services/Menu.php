@@ -9,11 +9,31 @@ class Menu
     public function getMenu($tp)
     {
         $menu = '';
+        $titulo_menu = session('gsrm_empresa');
 
         //Módulos e Submódulos
         $modulos = session('se_userLoggedMenuModulos');
         $submodulos = session('se_userLoggedMenuSubmodulos');
         $dashboards = session('se_userDashboards');
+
+        // Verificar se é um Domínio Cliente'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        if (session()->has('gsrm_cliente_id') && session('gsrm_cliente_id') != 0) {
+            $titulo_menu = $titulo_menu = session('gsrm_cliente_name');
+
+            // // Alterar array $submodulos''''''''''''''''''''''''''''''''''''''''''''''''''''
+            // $idsManter = [14, 17, 22]; // IDs que você quer manter
+
+            // $submodulos = array_filter($submodulos, function ($sub) use ($idsManter) {
+            //     return in_array($sub['id'], $idsManter);
+            // });
+
+            // // Reindexa o array (opcional)
+            // $submodulos = array_values($submodulos);
+
+
+            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        }
+        //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         //Pegar Id do Modulo Ativo
         $moduloIdActive = 0;
@@ -27,7 +47,7 @@ class Menu
         //Menu Verticarl
         if ($tp == 1) {
             $menu .= "<ul class='metismenu list-unstyled' id='side-menu'>
-                        <li class='text-light text-center font-size-22 pb-2'>".session('gsrm_empresa')."</li>";
+                        <li class='text-light text-center font-size-22 pb-2'>" . $titulo_menu . "</li>";
         }
 
         //Menu Horizontal
@@ -94,7 +114,9 @@ class Menu
                     //if ($submodulo['id'] == 19) {$permitido = false;}
 
                     //20 : Serviços
-                    if ($submodulo['id'] == 20) {$permitido = false;}
+                    if ($submodulo['id'] == 20) {
+                        $permitido = false;
+                    }
 
                     //21 : Propostas
                     //if ($submodulo['id'] == 21) {$permitido = false;}
@@ -135,7 +157,9 @@ class Menu
 
                         // Verificar se o Usuário tem Gráficos para mostrar esse Dashboard
                         foreach ($dashboards as $dashboard) {
-                            if ($dashboard['dashboard'] == 1) {$permitido = true;}
+                            if ($dashboard['dashboard'] == 1) {
+                                $permitido = true;
+                            }
                         }
                     }
 
@@ -145,7 +169,9 @@ class Menu
 
                         // Verificar se o Usuário tem Gráficos para mostrar esse Dashboard
                         foreach ($dashboards as $dashboard) {
-                            if ($dashboard['dashboard'] == 2) {$permitido = true;}
+                            if ($dashboard['dashboard'] == 2) {
+                                $permitido = true;
+                            }
                         }
                     }
 
@@ -155,7 +181,9 @@ class Menu
 
                         // Verificar se o Usuário tem Gráficos para mostrar esse Dashboard
                         foreach ($dashboards as $dashboard) {
-                            if ($dashboard['dashboard'] == 3) {$permitido = true;}
+                            if ($dashboard['dashboard'] == 3) {
+                                $permitido = true;
+                            }
                         }
                     }
                     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -206,13 +234,19 @@ class Menu
                             or $submodulo['id'] == 26
                             or $submodulo['id'] == 30
                             or $submodulo['id'] == 33
-                        ) {$submodulo_menu_status = $desenvolvimento;}
+                        ) {
+                            $submodulo_menu_status = $desenvolvimento;
+                        }
 
                         //Teste
-                        if ($submodulo['id'] == 0) {$submodulo_menu_status = $teste;}
+                        if ($submodulo['id'] == 0) {
+                            $submodulo_menu_status = $teste;
+                        }
 
                         //Novo
-                        if ($submodulo['id'] == 0) {$submodulo_menu_status = $novo;}
+                        if ($submodulo['id'] == 0) {
+                            $submodulo_menu_status = $novo;
+                        }
                         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                         //Menu Verticarl

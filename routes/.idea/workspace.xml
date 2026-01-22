@@ -546,7 +546,6 @@
       <change beforePath="$PROJECT_DIR$/../resources/views/veiculos/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/veiculos/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../resources/views/visitas_tecnicas/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/visitas_tecnicas/form.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../resources/views/visitas_tecnicas/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/visitas_tecnicas/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resources/views/z_testes/teste1.html" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/z_testes/teste1.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes_APAGARVT.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/routes_funcionarios.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes_funcionarios.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes_visitas_tecnicas.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes_visitas_tecnicas.php" afterDir="false" />

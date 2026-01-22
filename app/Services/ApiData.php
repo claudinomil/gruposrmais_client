@@ -14,7 +14,8 @@ class ApiData
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
                     'Authorization' => 'Bearer '.session('access_token'),
-                    'X-Empresa-Id' => session('gsrm_empresa_id')
+                    'X-Empresa-Id' => session('gsrm_empresa_id'),
+                    'X-Cliente-Id' => session('gsrm_cliente_id')
                 ])->withOptions(
                 [
                     'verify' => false,

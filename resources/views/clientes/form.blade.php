@@ -29,7 +29,7 @@
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    
+
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
@@ -217,6 +217,14 @@
                                     <div class="form-group col-12 col-md-4 pb-3 pessoa_juridica">
                                         <label class="form-label">{{ __('Inscrição Municipal') }}</label>
                                         <input type="text" class="form-control" id="inscricao_municipal" name="inscricao_municipal">
+                                    </div>
+                                </div>
+
+                                <div class="row pt-4">
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-home"></i> Domínio para acesso ao Sistema</h5>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">{{ __('Domínio') }}</label>
+                                        <input type="text" class="form-control" id="dominio" name="dominio">
                                     </div>
                                 </div>
 

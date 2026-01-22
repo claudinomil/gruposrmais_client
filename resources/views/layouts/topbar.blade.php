@@ -3,20 +3,28 @@
         <div class="d-flex">
             <div class="navbar-brand-box">
                 <a href="index" class="logo" id="aLogoDark">
-                    <span class="logo-sm">
-                        <img src="{{ asset('build/assets/images/image_logo_layout_dark_menu_min.png') }}" alt="" height="70" id="appImgLogoLayoutDarkMenuMin">
+                    <span class="logo-sm" style="margin-left: -15px;">
+                        <img src="{{ asset('build/assets/images/image_logo_layout_dark_menu_min.png') }}" width="50">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ asset('build/assets/images/image_logo_layout_dark_menu.png') }}" alt="" height="35" id="appImgLogoLayoutDarkMenu">
+                        @if(session()->has('gsrm_cliente_id') && session('gsrm_cliente_id') == 0)
+                        <img src="{{ asset('build/assets/images/image_logo_layout_dark_menu.png') }}" height="35">
+                        @else
+                        <img src="{{ asset(session('gsrm_cliente_logotipo_menu')) }}" width="120">
+                        @endif
                     </span>
                 </a>
 
                 <a href="index" class="logo" id="aLogoLight">
-                    <span class="logo-sm">
-                        <img src="{{ asset('build/assets/images/image_logo_layout_light_menu_min.png') }}" alt="" height="70" id="appImgLogoLayoutLightMenuMin">
+                    <span class="logo-sm" style="margin-left: -15px;">
+                        <img src="{{ asset('build/assets/images/image_logo_layout_light_menu_min.png') }}" width="50">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ asset('build/assets/images/image_logo_layout_light_menu.png') }}" alt="" height="35" id="appImgLogoLayoutLightMenu">
+                        @if(session()->has('gsrm_cliente_id') && session('gsrm_cliente_id') == 0)
+                        <img src="{{ asset('build/assets/images/image_logo_layout_light_menu.png') }}" height="35">
+                        @else
+                        <img src="{{ asset(session('gsrm_cliente_logotipo_menu')) }}" width="120">
+                        @endif
                     </span>
                 </a>
             </div>

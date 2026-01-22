@@ -332,7 +332,30 @@ function validar_frm_upload_logotipo_cartao_emergencial() {
     return validacao_ok;
 }
 
-function clienteModalInfoControle(op, id='') {
+function validar_frm_upload_logotipo_menu() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: cli_logotipo_menu_file (arquivo requerido)
+    if (validacao({op:18, id:'cli_logotipo_menu_file'}) === false) {
+        validacao_ok = false;
+        mensagem += 'Arquivo requerido.'+'<br>';
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+function clienteModalInfoControle(op, id = '') {
     var div_logotipos = document.getElementById('md_cli_div_logotipos');
     var div_dados = document.getElementById('md_cli_div_dados');
     var div_documentos = document.getElementById('md_cli_div_documentos');
@@ -594,7 +617,7 @@ async function clienteModalInfoDados(id='') {
         document.getElementById('mi_cli_header_nome').innerHTML = cliente.name;
 
         //Logotipo Principal
-        var logotipo_principal = url_atual+'build/assets/images/clientes/cliente-0.png';
+        var logotipo_principal = url_atual+'build/assets/images/clientes/logotipo_principal-0.png';
         if (cliente.logotipo_principal) {logotipo_principal = cliente.logotipo_principal;}
         document.getElementById('mi_cli_logotipo').src = logotipo_principal;
         document.getElementById('mi_cli_logotipo_principal').src = logotipo_principal;
@@ -608,6 +631,11 @@ async function clienteModalInfoDados(id='') {
         var logotipo_cartao_emergencial = url_atual+'build/assets/images/clientes/cliente-0.png';
         if (cliente.logotipo_cartao_emergencial) {logotipo_cartao_emergencial = cliente.logotipo_cartao_emergencial;}
         document.getElementById('mi_cli_logotipo_cartao_emergencial').src = logotipo_cartao_emergencial;
+
+        //Logotipo Menu
+        var logotipo_menu = url_atual+'build/assets/images/clientes/logotipo_menu-0.png';
+        if (cliente.logotipo_menu) { logotipo_menu = cliente.logotipo_menu; }
+        document.getElementById('mi_cli_logotipo_menu').src = logotipo_menu;
 
         //Cliente id
         document.getElementById('mi_cli_cliente_id').value = cliente.id;
@@ -632,6 +660,9 @@ async function clienteModalInfoDados(id='') {
 
         //Logotipo Cartão Emergencial
         document.getElementById('upload_logotipo_cartao_emergencial_cliente_id').value = cliente.id;
+
+        //Logotipo Menu
+        document.getElementById('upload_logotipo_menu_cliente_id').value = cliente.id;
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     }).catch(error => {
         alert('Erro clienteModalInfo: '+error);
@@ -1240,6 +1271,57 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
         }).catch(error => {
             alert('Erro Clientes Upload Logotipo Cartão Emergencial: '+error);
+        });
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: frm_upload_logotipo_menu_cli_executar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    document.getElementById('frm_upload_logotipo_menu_cli_executar').addEventListener('click', function() {
+        //FormData
+        var formulario = document.getElementById('frm_upload_logotipo_menu_cli');
+        var formData = new FormData(formulario);
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+        var upload_documentos_cliente_id = document.getElementById('upload_logotipo_menu_cliente_id').value;
+
+        //Tratar Botões
+        document.getElementById('frm_upload_logotipo_menu_cli_executar').style.display = 'block';
+
+        //Criticando campos
+        if (validar_frm_upload_logotipo_menu() === false) {return false;}
+
+        //Acessar rota
+        fetch(url_atual+'clientes/uploadLogotipo/upload_logotipo_menu', {
+            method: 'POST',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            //Lendo dados
+            if (data.success) {
+                //Atualizando Logotipos menu
+                const fileInput = document.getElementById('cli_logotipo_menu_file');
+                const file = fileInput.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        document.getElementById('mi_cli_logotipo_menu').src = reader.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+                //Reset Form
+                formulario.reset();
+            } else if (data.error) {
+                alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+            } else {
+                alert('Erro interno');
+            }
+        }).catch(error => {
+            alert('Erro Clientes Upload Logotipo Menu: '+error);
         });
     });
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
