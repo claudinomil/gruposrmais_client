@@ -691,7 +691,7 @@ function clienteModalInfoDocumentos(cliente_id='') {
 
         //Montar Grade
         if (clientes_documentos.length > 0) {
-            grade += '<table class="table align-middle table-nowrap table-check table-sm class-datatable-3">';
+            grade += '<table class="table align-middle table-nowrap table-check table-sm">';
             grade += '  <thead class="table-light">';
             grade += '      <tr>';
             grade += '          <th scope="col">Documento</th>';
@@ -790,10 +790,12 @@ function clienteModalInfoDocumentos(cliente_id='') {
 function clienteModalInfoDocumentosFiltrar(documento_fonte_id) {
     const todasLinhas = document.querySelectorAll("#cli_documentos_grade table tbody tr");
 
+    // Primeiro: mostra todas as linhas
+    todasLinhas.forEach(linha => linha.style.display = '');
+
+    // Depois: aplica o filtro
     todasLinhas.forEach(linha => {
-        if (linha.classList.contains(`documento_fonte_${documento_fonte_id}`)) {
-            linha.style.display = '';
-        } else {
+        if (!linha.classList.contains(`documento_fonte_${documento_fonte_id}`)) {
             linha.style.display = 'none';
         }
     });
