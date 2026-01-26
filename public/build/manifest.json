@@ -573,6 +573,11 @@
 "file": "assets/scripts_clientes_funcionarios.js",
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_clientes_funcionarios.js"
+},
+"resources/assets_template/js/scripts_clientes_relatorios.js": {
+"file": "assets/scripts_clientes_relatorios.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_clientes_relatorios.js"
 }
 
 }

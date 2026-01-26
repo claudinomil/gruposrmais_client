@@ -32,14 +32,7 @@
                                     @php
                                     $selectCampoPesquisar = [
                                     ['value' => 'funcionarios.name', 'descricao' => __('Nome')],
-                                    ['value' => 'funcionarios.identidade', 'descricao' => __('Identidade')],
-                                    ['value' => 'identidade_orgaos.name', 'descricao' => __('Órgão Identidade')],
-                                    ['value' => 'funcionarios.cpf', 'descricao' => __('CPF')],
-                                    ['value' => 'generos.name', 'descricao' => __('Gênero')],
-                                    ['value' => 'estados_civis.name', 'descricao' => __('Estado Civil')],
-                                    ['value' => 'funcionarios.mae', 'descricao' => __('Mãe')],
-                                    ['value' => 'funcionarios.pai', 'descricao' => __('Pai')],
-                                    ['value' => 'funcionarios.email', 'descricao' => __('E-mail')]
+                                    ['value' => 'funcionarios.cpf', 'descricao' => __('CPF')]
                                     ];
                                     @endphp
 
@@ -63,7 +56,7 @@
 </div>
 
 <!-- Modal -->
-@include('funcionarios.form')
+@include('clientes_funcionarios.form')
 @endsection
 
 @section('script')

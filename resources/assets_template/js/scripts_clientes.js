@@ -691,7 +691,7 @@ function clienteModalInfoDocumentos(cliente_id='') {
 
         //Montar Grade
         if (clientes_documentos.length > 0) {
-            grade += '<table class="table align-middle table-nowrap table-check table-sm">';
+            grade += '<table class="table align-middle table-nowrap table-check table-sm">'; //NÃO COLOCAR DATATABLE POIS O FILTRO NÃO FUNCIONA
             grade += '  <thead class="table-light">';
             grade += '      <tr>';
             grade += '          <th scope="col">Documento</th>';
@@ -755,7 +755,7 @@ function clienteModalInfoDocumentos(cliente_id='') {
             //Lendo json
             let documento_fontes = data.documento_fontes;
 
-            documentoFonteFiltro += '<div class="row my-2 d-flex">';
+            documentoFonteFiltro += '<div class="row g-3">';
 
             //Varrer
             documento_fontes.forEach(dado => {
@@ -764,11 +764,24 @@ function clienteModalInfoDocumentos(cliente_id='') {
                 let qtd_registros = clientes_documentos.filter(reg => reg.documento_fonte_id === documento_fonte_id);
 
                 if (qtd_registros.length > 0) {
-                    if (idPrimeiroFiltro == 0) {idPrimeiroFiltro = documento_fonte_id;}
+                    if (idPrimeiroFiltro == 0) { idPrimeiroFiltro = documento_fonte_id; }
 
-                    documentoFonteFiltro += `   <div class="col-4 col-lg-3">`;
-                    documentoFonteFiltro += `       <button type="button" class="btn btn-warning text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Filtar Documentos" onclick="clienteModalInfoDocumentosFiltrar(${documento_fonte_id});">${documento_fonte_name} (${qtd_registros.length})</button>`;
-                    documentoFonteFiltro += `   </div>`;
+                    documentoFonteFiltro += `
+                        <div class="col-12 col-lg-6">
+                            <button type="button"
+                                class="btn btn-warning text-center btn-sm w-100"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Filtrar Documentos"
+                                onclick="clienteModalInfoDocumentosFiltrar(${documento_fonte_id});">
+                                ${documento_fonte_name} (${qtd_registros.length})
+                            </button>
+                        </div>
+                    `;
+
+                    // documentoFonteFiltro += `   <div class="col-4 col-lg-3">`;
+                    // documentoFonteFiltro += `       <button type="button" class="btn btn-warning text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Filtar Documentos" onclick="clienteModalInfoDocumentosFiltrar(${documento_fonte_id});">${documento_fonte_name} (${qtd_registros.length})</button>`;
+                    // documentoFonteFiltro += `   </div>`;
                 }
             });
 

@@ -29,7 +29,7 @@
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    
+
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
@@ -171,7 +171,7 @@
 
                             <div class="row mt-4">
                                 <div class="form-group col-12 col-md-6 pb-3">
-                                    <label class="form-label text-success pb-3">Relatórios</label>
+                                    <label class="form-label text-success pb-3">Relatórios Sistema Padrão</label>
 
                                     @foreach ($relatorios as $relatorio)
                                         @php
@@ -179,24 +179,64 @@
                                             if ($relatorio['descricao'] != '') {$descricao = ' ('.$relatorio['descricao'].')';}
                                         @endphp
 
-                                        <div class="col-12">
-                                            <div class="form-check form-checkbox-outline form-check-success mb-3">
-                                                <input class="form-check-input grupo_relatorios" type="checkbox" id="relatorio_{{ $relatorio['id'] }}" name="relatorio_{{ $relatorio['id'] }}" value="{{ $relatorio['id'] }}">
-                                                <label class="form-check-label" for="relatorio_{{ $relatorio['id'] }}">{{ $relatorio['name'].$descricao }}</label>
+                                        @if($relatorio['sistema'] == 1)
+                                            <div class="col-12">
+                                                <div class="form-check form-checkbox-outline form-check-success mb-3">
+                                                    <input class="form-check-input grupo_relatorios" type="checkbox" id="relatorio_{{ $relatorio['id'] }}" name="relatorio_{{ $relatorio['id'] }}" value="{{ $relatorio['id'] }}">
+                                                    <label class="form-check-label" for="relatorio_{{ $relatorio['id'] }}">{{ $relatorio['name'].$descricao }}</label>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     @endforeach
                                 </div>
                                 <div class="form-group col-12 col-md-6 pb-3">
-                                    <label class="form-label text-success pb-3">Gráficos</label>
+                                    <label class="form-label text-success pb-3">Gráficos Sistema Padrão</label>
 
                                     @foreach ($graficos as $grafico)
-                                        <div class="col-12">
-                                            <div class="form-check form-checkbox-outline form-check-success mb-3">
-                                                <input class="form-check-input grupo_graficos" type="checkbox" id="grafico_{{ $grafico['id'] }}" name="grafico_{{ $grafico['id'] }}" value="{{ $grafico['id'] }}">
-                                                <label class="form-check-label" for="grafico_{{ $grafico['id'] }}">{{ $grafico['name'] }}</label>
+                                        @if($grafico['sistema'] == 1)
+                                            <div class="col-12">
+                                                <div class="form-check form-checkbox-outline form-check-success mb-3">
+                                                    <input class="form-check-input grupo_graficos" type="checkbox" id="grafico_{{ $grafico['id'] }}" name="grafico_{{ $grafico['id'] }}" value="{{ $grafico['id'] }}">
+                                                    <label class="form-check-label" for="grafico_{{ $grafico['id'] }}">{{ $grafico['name'] }}</label>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="form-group col-12 col-md-6 pb-3">
+                                    <label class="form-label text-primary pb-3">Relatórios Sistema Clientes</label>
+
+                                    @foreach ($relatorios as $relatorio)
+                                        @php
+                                            $descricao = '';
+                                            if ($relatorio['descricao'] != '') {$descricao = ' ('.$relatorio['descricao'].')';}
+                                        @endphp
+
+                                        @if($relatorio['sistema'] == 2)
+                                            <div class="col-12">
+                                                <div class="form-check form-checkbox-outline form-check-success mb-3">
+                                                    <input class="form-check-input grupo_relatorios" type="checkbox" id="relatorio_{{ $relatorio['id'] }}" name="relatorio_{{ $relatorio['id'] }}" value="{{ $relatorio['id'] }}">
+                                                    <label class="form-check-label" for="relatorio_{{ $relatorio['id'] }}">{{ $relatorio['name'].$descricao }}</label>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                <div class="form-group col-12 col-md-6 pb-3">
+                                    <label class="form-label text-primary pb-3">Gráficos Sistema Clientes</label>
+
+                                    @foreach ($graficos as $grafico)
+                                        @if($grafico['sistema'] == 2)
+                                            <div class="col-12">
+                                                <div class="form-check form-checkbox-outline form-check-success mb-3">
+                                                    <input class="form-check-input grupo_graficos" type="checkbox" id="grafico_{{ $grafico['id'] }}" name="grafico_{{ $grafico['id'] }}" value="{{ $grafico['id'] }}">
+                                                    <label class="form-check-label" for="grafico_{{ $grafico['id'] }}">{{ $grafico['name'] }}</label>
+                                                </div>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>

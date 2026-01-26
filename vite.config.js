@@ -92,7 +92,8 @@ export default defineConfig({
 
                 // scripts Domínio Clientes
                 {src: 'resources/assets_template/js/scripts_clientes_dashboards.js', dest: 'assets'},
-                {src: 'resources/assets_template/js/scripts_clientes_funcionarios.js', dest: 'assets'},
+                { src: 'resources/assets_template/js/scripts_clientes_funcionarios.js', dest: 'assets' },
+                {src: 'resources/assets_template/js/scripts_clientes_relatorios.js', dest: 'assets'},
 
                 {src: 'resources/assets_template/libs/jspdf/jspdf.js', dest: 'assets'},
                 {src: 'resources/assets_template/libs/jspdf/jspdf_autotable.js', dest: 'assets'},

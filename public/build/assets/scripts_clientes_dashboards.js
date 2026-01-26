@@ -31,77 +31,7 @@ async function dashboard_graficos() {
 
 // Funções para chamada dos Gráficos com nome dashboard_grafico_id - Início''''''''''''''''''''''''''''
 // Funções para chamada dos Gráficos com nome dashboard_grafico_id - Início''''''''''''''''''''''''''''
-async function dashboard_grafico_1(grafico_id, grafico_name, grafico_tipo) {
-    // Global
-    const graficoData = {
-        usuarios_quantidade: [],
-        usuarios_grupos: []
-    };
-
-    const response = await fetch('clientes_dashboards/grafico/dados/'+grafico_id, {
-        method: 'GET',
-        headers: { 'REQUEST-ORIGIN': 'fetch' }
-    });
-
-    const dados = await response.json();
-
-    // Atualiza apenas os campos existentes
-    for (const key in graficoData) {
-        if (Object.hasOwn(dados, key)) {
-            graficoData[key] = dados[key];
-        }
-    }
-
-    // Dados Gráfico
-    const dados_grafico = graficoData.usuarios_grupos.map(item => ({
-        name: primeiraMaiuscula(item.name),
-        value: item.quantidade
-    }));
-
-    // Renderizando
-    if (grafico_tipo == 1) {
-        await dashboardsChartPieSimple({id:'dashboard_grafico_1', titleText:grafico_name, titleSubText:graficoData.usuarios_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4', heightDivGrafico:350});
-    } else if (grafico_tipo == 2) {
-        await dashboardsChartBarSimple({id:'dashboard_grafico_1', titleText:grafico_name, titleSubText:graficoData.usuarios_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4', heightDivGrafico:350});
-    } else {}
-}
-
-async function dashboard_grafico_2(grafico_id, grafico_name, grafico_tipo) {
-    // Global
-    const graficoData = {
-        usuarios_quantidade: [],
-        usuarios_situacoes: []
-    };
-
-    const response = await fetch('clientes_dashboards/grafico/dados/'+grafico_id, {
-        method: 'GET',
-        headers: { 'REQUEST-ORIGIN': 'fetch' }
-    });
-
-    const dados = await response.json();
-
-    // Atualiza apenas os campos existentes
-    for (const key in graficoData) {
-        if (Object.hasOwn(dados, key)) {
-            graficoData[key] = dados[key];
-        }
-    }
-
-    // Dados Gráfico
-    const dados_grafico = graficoData.usuarios_situacoes.map(item => ({
-        name: primeiraMaiuscula(item.name),
-        value: item.quantidade
-    }));
-
-    // Renderizando
-    if (grafico_tipo == 1) {
-        await dashboardsChartPieSimple({id:'dashboard_grafico_2', titleText:grafico_name, titleSubText:graficoData.usuarios_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4', heightDivGrafico:350});
-    } else if (grafico_tipo == 2) {
-        await dashboardsChartBarSimple({id:'dashboard_grafico_2', titleText:grafico_name, titleSubText:graficoData.usuarios_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4', heightDivGrafico:350});
-    } else {}
-}
-
-async function dashboard_grafico_3(grafico_id, grafico_name, grafico_tipo) {
+async function dashboard_grafico_11(grafico_id, grafico_name, grafico_tipo) {
     // Global
     const graficoData = {
         funcionarios_quantidade: [],
@@ -136,7 +66,7 @@ async function dashboard_grafico_3(grafico_id, grafico_name, grafico_tipo) {
     } else {}
 }
 
-async function dashboard_grafico_4(grafico_id, grafico_name, grafico_tipo) {
+async function dashboard_grafico_12(grafico_id, grafico_name, grafico_tipo) {
     // Global
     const graficoData = {
         funcionarios_quantidade: [],
@@ -171,7 +101,7 @@ async function dashboard_grafico_4(grafico_id, grafico_name, grafico_tipo) {
     } else {}
 }
 
-async function dashboard_grafico_5(grafico_id, grafico_name, grafico_tipo) {
+async function dashboard_grafico_13(grafico_id, grafico_name, grafico_tipo) {
     // Global
     const graficoData = {
         funcionarios_quantidade: [],
@@ -206,147 +136,7 @@ async function dashboard_grafico_5(grafico_id, grafico_name, grafico_tipo) {
     } else {}
 }
 
-async function dashboard_grafico_6(grafico_id, grafico_name, grafico_tipo) {
-    // Global
-    const graficoData = {
-        clientes_quantidade: [],
-        clientes_status: []
-    };
-
-    const response = await fetch('clientes_dashboards/grafico/dados/'+grafico_id, {
-        method: 'GET',
-        headers: { 'REQUEST-ORIGIN': 'fetch' }
-    });
-
-    const dados = await response.json();
-
-    // Atualiza apenas os campos existentes
-    for (const key in graficoData) {
-        if (Object.hasOwn(dados, key)) {
-            graficoData[key] = dados[key];
-        }
-    }
-
-    // Dados Gráfico
-    const dados_grafico = graficoData.clientes_status.map(item => ({
-        name: primeiraMaiuscula(item.name),
-        value: item.quantidade
-    }));
-
-    // Renderizando
-    if (grafico_tipo == 1) {
-        await dashboardsChartPieSimple({id:'dashboard_grafico_6', titleText:grafico_name, titleSubText:graficoData.clientes_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4', heightDivGrafico:350});
-    } else if (grafico_tipo == 2) {
-        await dashboardsChartBarSimple({id:'dashboard_grafico_6', titleText:grafico_name, titleSubText:graficoData.clientes_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4', heightDivGrafico:350});
-    } else {}
-}
-
-async function dashboard_grafico_7(grafico_id, grafico_name, grafico_tipo) {
-    // Global
-    const graficoData = {
-        clientes_quantidade: [],
-        clientes_tipos: []
-    };
-
-    const response = await fetch('clientes_dashboards/grafico/dados/'+grafico_id, {
-        method: 'GET',
-        headers: { 'REQUEST-ORIGIN': 'fetch' }
-    });
-
-    const dados = await response.json();
-
-    // Atualiza apenas os campos existentes
-    for (const key in graficoData) {
-        if (Object.hasOwn(dados, key)) {
-            graficoData[key] = dados[key];
-        }
-    }
-
-    // Dados Gráfico
-    const dados_grafico = graficoData.clientes_tipos.map(item => ({
-        name: primeiraMaiuscula(item.name),
-        value: item.quantidade
-    }));
-
-    // Renderizando
-    if (grafico_tipo == 1) {
-        await dashboardsChartPieSimple({id:'dashboard_grafico_7', titleText:grafico_name, titleSubText:graficoData.clientes_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4', heightDivGrafico:350});
-    } else if (grafico_tipo == 2) {
-        await dashboardsChartBarSimple({id:'dashboard_grafico_7', titleText:grafico_name, titleSubText:graficoData.clientes_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4', heightDivGrafico:350});
-    } else {}
-}
-
-async function dashboard_grafico_8(grafico_id, grafico_name, grafico_tipo) {
-    // Global
-    const graficoData = {
-        transacoes_quantidade: [],
-        transacoes_operacoes: []
-    };
-
-    const response = await fetch('clientes_dashboards/grafico/dados/'+grafico_id, {
-        method: 'GET',
-        headers: { 'REQUEST-ORIGIN': 'fetch' }
-    });
-
-    const dados = await response.json();
-
-    // Atualiza apenas os campos existentes
-    for (const key in graficoData) {
-        if (Object.hasOwn(dados, key)) {
-            graficoData[key] = dados[key];
-        }
-    }
-
-    // Dados Gráfico
-    const dados_grafico = graficoData.transacoes_operacoes.map(item => ({
-        name: primeiraMaiuscula(item.name),
-        value: item.quantidade
-    }));
-
-    // Renderizando
-    if (grafico_tipo == 1) {
-        await dashboardsChartPieSimple({id:'dashboard_grafico_8', titleText:grafico_name, titleSubText:graficoData.transacoes_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4', heightDivGrafico:350});
-    } else if (grafico_tipo == 2) {
-        await dashboardsChartBarSimple({id:'dashboard_grafico_8', titleText:grafico_name, titleSubText:graficoData.transacoes_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4', heightDivGrafico:350});
-    } else {}
-}
-
-async function dashboard_grafico_9(grafico_id, grafico_name, grafico_tipo) {
-    // Global
-    const graficoData = {
-        transacoes_quantidade: [],
-        transacoes_submodulos: []
-    };
-
-    const response = await fetch('clientes_dashboards/grafico/dados/'+grafico_id, {
-        method: 'GET',
-        headers: { 'REQUEST-ORIGIN': 'fetch' }
-    });
-
-    const dados = await response.json();
-
-    // Atualiza apenas os campos existentes
-    for (const key in graficoData) {
-        if (Object.hasOwn(dados, key)) {
-            graficoData[key] = dados[key];
-        }
-    }
-
-    // Dados Gráfico
-    const dados_grafico = graficoData.transacoes_submodulos.map(item => ({
-        name: primeiraMaiuscula(item.name),
-        value: item.quantidade
-    }));
-
-    // Renderizando
-    if (grafico_tipo == 1) {
-        await dashboardsChartPieSimple({id:'dashboard_grafico_9', titleText:grafico_name, titleSubText:graficoData.transacoes_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4', heightDivGrafico:350});
-    } else if (grafico_tipo == 2) {
-        await dashboardsChartBarSimple({id:'dashboard_grafico_9', titleText:grafico_name, titleSubText:graficoData.transacoes_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4', heightDivGrafico:350});
-    } else {}
-}
-
-async function dashboard_grafico_10(grafico_id, grafico_name, grafico_tipo) {
+async function dashboard_grafico_14(grafico_id, grafico_name, grafico_tipo) {
     // Global
     const graficoData = {
         operacoes_propostas_quantidade: [],

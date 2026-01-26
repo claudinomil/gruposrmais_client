@@ -243,7 +243,7 @@ function crudLimparFormulario(nomeFormulario) {
         elemento.dispatchEvent(event);
     });
 
-    //Limpar Formulário
+    // Limpar Formulário
     var formulario = document.getElementById(nomeFormulario);
     var elementos = formulario.elements;
 
@@ -603,20 +603,22 @@ function crudView(registro_id) {
     }).then(response => {
         return response.json();
     }).then(data => {
-        //Lendo dados
+        // Lendo dados
         if (data.success) {
-            //Limpar Formulario
+            // Limpar Formulario
             crudLimparFormulario(nameFormSubmodulo);
 
-            //Configuração
-            crudConfiguracao({p_frm_operacao:'view', p_fieldsDisabled:true, p_crudFormButtons1:'hide', p_crudFormButtons2:'show', p_crudTable:'hide', p_crudForm:'show', p_removeMask:true, p_putMask:true});
+            // Configuração
+            crudConfiguracao({ p_frm_operacao: 'view', p_fieldsDisabled: true, p_crudFormButtons1: 'hide', p_crudFormButtons2: 'show', p_crudTable: 'hide', p_crudForm: 'show', p_removeMask: true, p_putMask: true });
 
-            //preencher formulário
-            let input = document.getElementById('crudFieldsFormSubmodulo').value;
-            let crudFieldsFormSubmodulo = input.split(',');
-            crudFieldsFormSubmodulo.forEach(function (field) {
-                crudPreencherFormulario(field, data.success);
-            });
+            // preencher formulário
+            if (prefixPermissaoSubmodulo != 'clientes_funcionarios') {
+                let input = document.getElementById('crudFieldsFormSubmodulo').value;
+                let crudFieldsFormSubmodulo = input.split(',');
+                crudFieldsFormSubmodulo.forEach(function (field) {
+                    crudPreencherFormulario(field, data.success);
+                });
+            }
 
             //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             if (prefixPermissaoSubmodulo == 'estoques_locais') {
@@ -1222,32 +1224,51 @@ function crudView(registro_id) {
             }
 
             if (prefixPermissaoSubmodulo == 'clientes_funcionarios') {
-                // mi_fun_funcionario_id
-                document.getElementById('mi_fun_funcionario_id').value = registro_id;
+                // Preencher Formulario
+                const dados = data.success;
 
-                // Doenças e Doenças Família'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                document.getElementById('doenca_diabetes').checked = false;
-                document.getElementById('doenca_hipertensao').checked = false;
-                document.getElementById('doenca_asma').checked = false;
-                document.getElementById('doenca_renal').checked = false;
-                document.getElementById('doenca_cardiaca').checked = false;
-                document.getElementById('doenca_familia_diabetes').checked = false;
-                document.getElementById('doenca_familia_hipertensao').checked = false;
-                document.getElementById('doenca_familia_epilepsia').checked = false;
-                document.getElementById('doenca_familia_cardiaca').checked = false;
-                document.getElementById('doenca_familia_cancer').checked = false;
+                document.getElementById('registro_id').value = dados['id'];
+                document.getElementById('name').value = dados['name'];
+                document.getElementById('cpf').value = dados['cpf'];
+                document.getElementById('empresa').value = dados['empresaName'];
+                document.getElementById('tomador_servico_cliente').value = dados['tomadorServicoClienteName'];
+                document.getElementById('contratacao_tipo').value = dados['contratacaoTipoName'];
+                document.getElementById('funcao').value = dados['funcaoName'];
+                document.getElementById('departamento').value = dados['departamentoName'];
+                document.getElementById('nome_profissional').value = dados['nome_profissional'];
+                document.getElementById('data_nascimento').value = formatarData(2, dados['data_nascimento']);
+                document.getElementById('genero').value = dados['generoName'];
 
-                if (data.success['doenca_diabetes'] == 1) {document.getElementById('doenca_diabetes').checked = true;}
-                if (data.success['doenca_hipertensao'] == 1) {document.getElementById('doenca_hipertensao').checked = true;}
-                if (data.success['doenca_asma'] == 1) {document.getElementById('doenca_asma').checked = true;}
-                if (data.success['doenca_renal'] == 1) {document.getElementById('doenca_renal').checked = true;}
-                if (data.success['doenca_cardiaca'] == 1) {document.getElementById('doenca_cardiaca').checked = true;}
-                if (data.success['doenca_familia_diabetes'] == 1) {document.getElementById('doenca_familia_diabetes').checked = true;}
-                if (data.success['doenca_familia_hipertensao'] == 1) {document.getElementById('doenca_familia_hipertensao').checked = true;}
-                if (data.success['doenca_familia_epilepsia'] == 1) {document.getElementById('doenca_familia_epilepsia').checked = true;}
-                if (data.success['doenca_familia_cardiaca'] == 1) {document.getElementById('doenca_familia_cardiaca').checked = true;}
-                if (data.success['doenca_familia_cancer'] == 1) {document.getElementById('doenca_familia_cancer').checked = true;}
+
+
+
+                // // mi_fun_funcionario_id
+                // document.getElementById('mi_fun_funcionario_id').value = registro_id;
+
+                // // Doenças e Doenças Família'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // document.getElementById('doenca_diabetes').checked = false;
+                // document.getElementById('doenca_hipertensao').checked = false;
+                // document.getElementById('doenca_asma').checked = false;
+                // document.getElementById('doenca_renal').checked = false;
+                // document.getElementById('doenca_cardiaca').checked = false;
+                // document.getElementById('doenca_familia_diabetes').checked = false;
+                // document.getElementById('doenca_familia_hipertensao').checked = false;
+                // document.getElementById('doenca_familia_epilepsia').checked = false;
+                // document.getElementById('doenca_familia_cardiaca').checked = false;
+                // document.getElementById('doenca_familia_cancer').checked = false;
+
+                // if (data.success['doenca_diabetes'] == 1) {document.getElementById('doenca_diabetes').checked = true;}
+                // if (data.success['doenca_hipertensao'] == 1) {document.getElementById('doenca_hipertensao').checked = true;}
+                // if (data.success['doenca_asma'] == 1) {document.getElementById('doenca_asma').checked = true;}
+                // if (data.success['doenca_renal'] == 1) {document.getElementById('doenca_renal').checked = true;}
+                // if (data.success['doenca_cardiaca'] == 1) {document.getElementById('doenca_cardiaca').checked = true;}
+                // if (data.success['doenca_familia_diabetes'] == 1) {document.getElementById('doenca_familia_diabetes').checked = true;}
+                // if (data.success['doenca_familia_hipertensao'] == 1) {document.getElementById('doenca_familia_hipertensao').checked = true;}
+                // if (data.success['doenca_familia_epilepsia'] == 1) {document.getElementById('doenca_familia_epilepsia').checked = true;}
+                // if (data.success['doenca_familia_cardiaca'] == 1) {document.getElementById('doenca_familia_cardiaca').checked = true;}
+                // if (data.success['doenca_familia_cancer'] == 1) {document.getElementById('doenca_familia_cancer').checked = true;}
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
