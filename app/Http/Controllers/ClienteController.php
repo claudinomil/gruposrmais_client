@@ -22,10 +22,8 @@ class ClienteController extends Controller
     public $bancos;
     public $identidade_orgaos;
     public $identidade_estados;
-    public $edificacao_classificacoes;
-    public $incendio_riscos;
-    public $seguranca_medidas;
     public $documentos;
+    public $documentos_exigidos;
 
     public function __construct()
     {
@@ -99,10 +97,8 @@ class ClienteController extends Controller
                 'bancos' => $this->bancos,
                 'identidade_orgaos' => $this->identidade_orgaos,
                 'identidade_estados' => $this->identidade_estados,
-                'edificacao_classificacoes' => $this->edificacao_classificacoes,
-                'incendio_riscos' => $this->incendio_riscos,
-                'seguranca_medidas' => $this->seguranca_medidas,
-                'documentos' => $this->documentos
+                'documentos' => $this->documentos,
+                'documentos_exigidos' => $this->documentos_exigidos
             ]);
         }
     }
@@ -623,11 +619,12 @@ class ClienteController extends Controller
                 //Salvar Dados na tabela clientes_documentos
                 $data = array();
                 $data['cliente_id'] = $request['upload_documentos_cliente_id'];
-                $data['acao'] = $request['upload_documentos_cli_acao'];
                 $data['name'] = $name;
                 $data['documento_id'] = $request['cli_documentos_documento_id'];
                 $data['caminho'] = $pdf;
-                $data['data_documento'] = $request['cli_documentos_data_documento'];
+                $data['descricao'] = $request['cli_documentos_descricao'];
+                $data['data_emissao'] = $request['cli_documentos_data_emissao'];
+                $data['data_vencimento'] = $request['cli_documentos_data_vencimento'];
                 $data['aviso'] = $request['cli_documentos_aviso'];
 
                 //Buscando dados Api_Data() - Atualizar Registro
@@ -665,6 +662,58 @@ class ClienteController extends Controller
         }
     }
 
+    public function documentos_exigidos($cliente_id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'clientes/modalInfo/documentos_exigidos/' . $cliente_id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Documentos Exigidos Pdf.';
+            }
+        }
+    }
+
+    public function documentos_exigidos_dados($cliente_id)
+    {
+        // Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            // Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'clientes/modalInfo/documentos_exigidos_dados/' . $cliente_id, '', '', '');
+
+            // Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else {
+                return json_encode([]);
+            }
+        }
+    }
+
+    public function documentos_exigidos_save(Request $request)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Salvar Registros
+            $this->responseApi(1, 12, 'clientes/modalInfo/documentos_exigidos_save', '', '', $request->all());
+
+            //Registro criado com sucesso
+            if ($this->code == 2010) {
+                return response()->json(['success' => $this->message]);
+            } else if ($this->code == 2020) { //Falha na validação dos dados
+                return response()->json(['error_validation' => $this->validation]);
+            } else {
+                abort(500, 'Erro Interno Client');
+            }
+        }
+    }
+
     public function deletar_documento($cliente_documento_id)
     {
         //Buscando dados Api_Data() - Deletar Registro
@@ -685,56 +734,98 @@ class ClienteController extends Controller
         }
     }
 
-    public function servicos($cliente_id)
+    public function propostas($cliente_id)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data() - Registro pelo id
-            $this->responseApi(1, 10, 'clientes/modalInfo/servicos/' . $cliente_id, '', '', '');
+            $this->responseApi(1, 10, 'clientes/modalInfo/propostas/' . $cliente_id, '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
-            } else if ($this->code == 4040) { //Registro não encontrado
-                echo 'Registro não encontrado.';
             } else {
-                echo 'Erro Interno Serviços Pdf.';
+                return json_encode([]);
             }
         }
     }
 
-    public function clientes($cliente_id)
+    public function ordens_servicos($cliente_id)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data() - Registro pelo id
-            $this->responseApi(1, 10, 'clientes/modalInfo/clientes/' . $cliente_id, '', '', '');
+            $this->responseApi(1, 10, 'clientes/modalInfo/ordens_servicos/' . $cliente_id, '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
-            } else if ($this->code == 4040) { //Registro não encontrado
-                echo 'Registro não encontrado.';
             } else {
-                echo 'Erro Interno Serviços Pdf.';
+                return json_encode([]);
             }
         }
     }
 
-    public function visita_tecnica(Request $request, $id)
+    public function visitas_tecnicas($cliente_id)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data() - Registro pelo id
-            $this->responseApi(1, 10, 'clientes/visita_tecnica/'.$id, '', '', '');
+            $this->responseApi(1, 10, 'clientes/modalInfo/visitas_tecnicas/' . $cliente_id, '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
-                return response()->json(['success' => $this->content]);
-            } else if ($this->code == 4040) { //Registro não encontrado
-                return response()->json(['error_not_found' => $this->message]);
+                return json_encode($this->content);
             } else {
-                abort(500, 'Erro Interno Client');
+                return json_encode([]);
+            }
+        }
+    }
+
+    public function brigadas_incendios($cliente_id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'clientes/modalInfo/brigadas_incendios/' . $cliente_id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else {
+                return json_encode([]);
+            }
+        }
+    }
+
+    public function clientes_rede($cliente_id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'clientes/modalInfo/clientes_rede/' . $cliente_id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else {
+                return json_encode([]);
+            }
+        }
+    }
+
+    public function clientes_principal($cliente_id)
+    {
+        //Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'clientes/modalInfo/clientes_principal/' . $cliente_id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else {
+                return json_encode([]);
             }
         }
     }

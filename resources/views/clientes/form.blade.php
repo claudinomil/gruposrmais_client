@@ -86,7 +86,7 @@
                                         <label class="form-label" id="label_data_nascimento">{{ __('Nascimento') }}</label>
                                         <input type="text" class="form-control mask_date" id="data_nascimento" name="data_nascimento">
                                     </div>
-                                    <div class="form-group col-12 col-md-4 pb-3">
+                                    <div class="form-group col-12 col-md-6 pb-3">
                                         <label class="form-label">{{ __('Cliente Principal') }}</label>
                                         <select class="select2 form-control" name="principal_cliente_id" id="principal_cliente_id">
                                             <option value="">{{ __('Selecione...') }}</option>
@@ -97,7 +97,7 @@
 
                                         </select>
                                     </div>
-                                    <div class="form-group col-12 col-md-4 pb-3">
+                                    <div class="form-group col-12 col-md-6 pb-3">
                                         <label class="form-label">{{ __('Cliente Rede') }}</label>
                                         <select class="select2 form-control" name="rede_cliente_id" id="rede_cliente_id">
                                             <option value="">{{ __('Selecione...') }}</option>
@@ -219,15 +219,6 @@
                                         <input type="text" class="form-control" id="inscricao_municipal" name="inscricao_municipal">
                                     </div>
                                 </div>
-
-                                <div class="row pt-4">
-                                    <h5 class="pb-4 text-primary"><i class="fas fa-home"></i> Domínio para acesso ao Sistema</h5>
-                                    <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label">{{ __('Domínio') }}</label>
-                                        <input type="text" class="form-control" id="dominio" name="dominio">
-                                    </div>
-                                </div>
-
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-house-user"></i> Endereço</h5>
                                     <div class="form-group col-12 col-md-4 pb-3">
@@ -292,102 +283,16 @@
                                         <input type="text" class="form-control text-uppercase" id="uf_cobranca" name="uf_cobranca" readonly="readonly">
                                     </div>
                                 </div>
-
-                                <div class="row pt-4 pessoa_juridica">
-                                    <h5 class="pb-4 text-primary"><i class="fas fa-clipboard"></i> Classificação (DECRETO Nº 42, DE 17 DE DEZEMBRO DE 2018)</h5>
-                                    <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">{{ __('Número Pavimentos') }}</label>
-                                        <input type="number" class="form-control" id="numero_pavimentos" name="numero_pavimentos" min="1" step="1" value="1">
+                                <div class="row pt-4">
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-envelope-open-text"></i> {{ __('Outros Dados') }}</h5>
+                                    <div class="form-group col-12 col-md-6 pb-3">
+                                        <label class="form-label">{{ __('E-mail para avisos do Sistema') }}</label>
+                                        <input type="email" class="form-control text-lowercase mask_email" id="email_avisos" name="email_avisos">
                                     </div>
-                                    <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">{{ __('Altura') }}</label>
-                                        <input type="text" class="form-control mask_money" id="altura" name="altura">
+                                    <div class="form-group col-12 col-md-6 pb-3">
+                                        <label class="form-label">{{ __('Domínio para acesso ao Sistema') }}</label>
+                                        <input type="text" class="form-control" id="dominio" name="dominio">
                                     </div>
-                                    <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">{{ __('ATC (m²)') }}</label>
-                                        <input type="text" class="form-control mask_money" id="area_total_construida" name="area_total_construida">
-                                    </div>
-                                    <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">{{ __('Lotação') }}</label>
-                                        <input type="number" class="form-control" id="lotacao" name="lotacao" min="1" step="1" value="1">
-                                    </div>
-                                    <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">{{ __('Carga Incêndio') }}</label>
-                                        <input type="number" class="form-control" id="carga_incendio" name="carga_incendio" step="1" value="">
-                                    </div>
-                                    <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">{{ __('Risco Incêndio') }}</label>
-                                        <select class="select2 form-control" name="incendio_risco_id" id="incendio_risco_id">
-                                            <option value="">{{ __('Selecione...') }}</option>
-
-                                            @foreach ($incendio_riscos as $key => $incendio_risco)
-                                                <option value="{{ $incendio_risco['id'] }}">{{ $incendio_risco['name'] }}</option>
-                                            @endforeach
-
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-12 col-md-12 pb-3">
-                                        <label class="form-label">{{ __('Classificação Edificação') }}</label>
-                                        <select class="select2 form-control" name="edificacao_classificacao_id" id="edificacao_classificacao_id">
-                                            <option value="">{{ __('Selecione...') }}</option>
-                                            @foreach ($edificacao_classificacoes as $key => $edificacao_classificacao)
-                                                <option value="{{ $edificacao_classificacao['id'] }}"
-                                                        data-grupo="{{ $edificacao_classificacao['grupo'] }}"
-                                                        data-ocupacao-uso="{{ $edificacao_classificacao['ocupacao_uso'] }}"
-                                                        data-divisao="{{ $edificacao_classificacao['divisao'] }}"
-                                                        data-descricao="{{ $edificacao_classificacao['descricao'] }}"
-                                                >{{ $edificacao_classificacao['divisao']. ' | '.$edificacao_classificacao['ocupacao_uso']. ' | '.$edificacao_classificacao['descricao'] }}</option>
-                                            @endforeach
-
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">{{ __('Grupo') }}</label>
-                                        <input type="text" class="form-control" id="grupo" name="grupo" readonly>
-                                    </div>
-                                    <div class="form-group col-6 col-md-2 pb-3">
-                                        <label class="form-label">{{ __('Divisão') }}</label>
-                                        <input type="text" class="form-control" id="divisao" name="divisao" readonly>
-                                    </div>
-                                    <div class="form-group col-12 col-md-3 pb-3">
-                                        <label class="form-label">{{ __('Ocupação') }}</label>
-                                        <input type="text" class="form-control" id="ocupacao_uso" name="ocupacao_uso" readonly>
-                                    </div>
-                                    <div class="form-group col-12 col-md-5 pb-3">
-                                        <label class="form-label">{{ __('Descrição') }}</label>
-                                        <input type="text" class="form-control" id="descricao" name="descricao" readonly>
-                                    </div>
-
-                                    @for($pavimento=1; $pavimento<=50; $pavimento++)
-                                        <div class="row pt-3" style="display:none;" id="divMedidasSeguranca{{$pavimento}}">
-                                            <h6 class="pb-3 text-success"><i class="fa fa-fire-extinguisher"></i> Medidas de Segurança - Pavimento {{$pavimento}}</h6>
-
-                                            @foreach ($seguranca_medidas as $key => $seguranca_medida)
-                                                <div class="col-12 col-md-6 pb-3 divSegurancaMedida divSegurancaMedida{{$pavimento.$seguranca_medida['id']}}" style="display: none;">
-                                                    <div class="col-12 alert alert-primary">
-                                                        <div class="form-check form-switch mb-3">
-                                                            <input class="form-check-input cbSegurancaMedida" type="checkbox" id="seguranca_medida_{{$pavimento.'_'.$seguranca_medida['id']}}" name="seguranca_medida_{{$pavimento.'_'.$seguranca_medida['id']}}">
-                                                            <label class="form-check-label" for="seguranca_medida_{{$pavimento.'_'.$seguranca_medida['id']}}">{{ucfirst(mb_strtolower($seguranca_medida['name']))}}</label>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="form-group col-12 col-md-3 pb-3">
-                                                                <label class="form-label">{{ __('Qtd') }}</label>
-                                                                <input type="number" class="form-control text-small quantidadeSegurancaMedida" id="quantidade_{{$pavimento.'_'.$seguranca_medida['id']}}" name="quantidade_{{$pavimento.'_'.$seguranca_medida['id']}}" step="1">
-                                                            </div>
-                                                            <div class="form-group col-12 col-md-9 pb-3">
-                                                                <label class="form-label">{{ __('Tipo') }}</label>
-                                                                <input type="text" class="form-control text-uppercase tipoSegurancaMedida" id="tipo_{{$pavimento.'_'.$seguranca_medida['id']}}" name="tipo_{{$pavimento.'_'.$seguranca_medida['id']}}">
-                                                            </div>
-                                                            <div class="form-group col-12 col-md-12 pb-3">
-                                                                <label class="form-label">{{ __('Observação') }}</label>
-                                                                <textarea class="form-control observacaoSegurancaMedida" id="observacao_{{$pavimento.'_'.$seguranca_medida['id']}}" name="observacao_{{$pavimento.'_'.$seguranca_medida['id']}}" rows="2"></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @endfor
                                 </div>
                             </div>
                         </fieldset>

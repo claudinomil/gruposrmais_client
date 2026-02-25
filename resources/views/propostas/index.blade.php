@@ -69,6 +69,9 @@
 
     <!-- scripts_propostas.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_propostas.js')}}"></script>
+
+    <!-- scripts_propostas_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_propostas_pdfs.js')}}"></script>
 @endsection
 
 @section('script-bottom')

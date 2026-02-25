@@ -2224,6 +2224,19 @@ function validacao({op=0, value='', minCaracteres=0, maxCaracteres=0, id=''}) {
 
         return true;
     }
+
+    // Campo com duas decimais (valores monetários)
+    if (op == 19) {
+        // Expressão regular que verifica se a entrada é um valor decimal de 0,00 até infinito
+        regex = /^\d+(,\d{2})$/;
+
+        // Verificando
+        if (regex.test(value) === true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 //Código para Acessar Câmera Frontal e Traseira - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -2558,43 +2571,6 @@ function alertSwalConfirmacao(message = '') {
     }).then(result => result.isConfirmed);
 }
 
-// function alertSwalConfirmacao(callback, message='') {
-//     if (message == '') {message = 'Confirma operação?';}
-
-//     Swal.fire({
-//         title: message,
-//         text: '',
-//         icon: 'question',
-//         showDenyButton: true,
-//         confirmButtonText: '<i class="fa fa-thumbs-up"></i> Confirmar',
-//         confirmButtonColor: '#38c172',
-//         denyButtonText: `<i class="fa fa-thumbs-down"></i> Cancelar`,
-//         denyButtonColor: '#e3342f',
-//         customClass: {
-//             container: '...',
-//             popup: 'small',
-//             header: '...',
-//             title: 'h5',
-//             closeButton: '...',
-//             icon: 'small',
-//             image: '...',
-//             content: '...',
-//             htmlContainer: '...',
-//             input: '...',
-//             inputLabel: '...',
-//             validationMessage: '...',
-//             actions: '...',
-//             confirmButton: 'btn btn-success',
-//             denyButton: '...',
-//             cancelButton: 'btn btn-primary',
-//             loader: '...',
-//             footer: '....'
-//         }
-//     }).then((confirmed) => {
-//         callback(confirmed && confirmed.value == true);
-//     });
-// }
-
 //Modal de Confirmação com submit
 function alertSwalConfirmacaoSubmit(frm_name) {
     Swal.fire({
@@ -2630,24 +2606,6 @@ function alertSwalConfirmacaoSubmit(frm_name) {
         $('#'+frm_name).submit();
     });
 }
-
-//Modal de Confirmação para Exclusão de Registro - (CRUD)
-// function alertSwalConfirmacaoExclusaoRegistro(id, descricao) {
-//     Swal.fire({
-//         title: 'Confirma exclusão do registro?',
-//         text: descricao,
-//         icon: 'warning',
-//         showDenyButton: true,
-//         confirmButtonText: '<i class="fa fa-thumbs-up"></i> Confirmar',
-//         confirmButtonColor: '#38c172',
-//         denyButtonText: `<i class="fa fa-thumbs-down"></i> Cancelar`,
-//         denyButtonColor: '#e3342f'
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             Livewire.emit("destroy", id);
-//         }
-//     });
-// }
 
 //Modal para Mensagens
 function alertSwal(icon='success', title='', html='', showConfirmButton=false, timer=2000) {
@@ -2917,32 +2875,12 @@ function moeda2float(moeda){
 }
 
 function aplicarMascaraJs(value, pattern) {
+    if (value === null || value === undefined || value === '') {return '';}
+
     let i = 0;
     const v = value.toString();
     return pattern.replace(/#/g, () => v[i++] || '');
 }
-
-//Funções para o Submódulo Clientes - INÍCIO''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//Funções para o Submódulo Clientes - INÍCIO''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-function pavimentosShowHide() {
-    numero_pavimentos = $('#numero_pavimentos').val();
-
-    for(i=1; i<=50; i++) {
-        if (numero_pavimentos >= i) {
-            $('#divMedidasSeguranca' + i).show();
-        } else {
-            $('#divMedidasSeguranca'+i).hide();
-
-            //Limpar campos do Pavimento que deu hide
-            $('#divMedidasSeguranca'+i+' .cbSegurancaMedida').prop('checked', false);
-            $('#divMedidasSeguranca'+i+' .quantidadeSegurancaMedida').val('');
-            $('#divMedidasSeguranca'+i+' .tipoSegurancaMedida').val('');
-            $('#divMedidasSeguranca'+i+' .observacaoSegurancaMedida').val('');
-        }
-    }
-}
-//Funções para o Submódulo Clientes - FIM'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-//Funções para o Submódulo Clientes - FIM'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 // Diversas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // Diversas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

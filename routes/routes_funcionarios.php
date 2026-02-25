@@ -21,7 +21,6 @@ Route::prefix('funcionarios')->group(function () {
     Route::post('/uploadDocumento/upload_documento', [FuncionarioController::class, 'upload_documento'])->name('funcionarios.upload_documento');
     Route::get('/modalInfo/documentos/{funcionario_id}', [FuncionarioController::class, 'documentos'])->name('funcionarios.documentos');
     Route::delete('/modalInfo/deletar_documento/{funcionario_documento_id}', [FuncionarioController::class, 'deletar_documento'])->name('funcionarios.deletar_documento');
-    Route::get('/modalInfo/tomadores_servicos/{funcionario_id}', [FuncionarioController::class, 'tomadores_servicos'])->name('funcionarios.tomadores_servicos');
     Route::get('/modalInfo/verificar_documentos_mensais/{funcionario_id}/{mes}/{ano}', [FuncionarioController::class, 'verificar_documentos_mensais'])->name('funcionarios.verificar_documentos_mensais');
     Route::post('/uploadDocumentoMensal/upload_documento_mensal', [FuncionarioController::class, 'upload_documento_mensal'])->name('funcionarios.upload_documento_mensal');
     Route::get('/modalInfo/documentos_mensais/{funcionario_id}', [FuncionarioController::class, 'documentos_mensais'])->name('funcionarios.documentos_mensais');

@@ -18,7 +18,7 @@
                                     <div class="text-primary p-4">
                                         <h5 class="text-primary">Bem vindo de volta !</h5>
                                         <div class="pt-1">
-                                            <img src="{{ asset('build/assets/images/image_logo_previnir.png') }}" width="100">
+                                            <img src="{{ asset('build/assets/images/image_logo_previnir.png') }}" height="30">
                                         </div>
                                     </div>
                                 </div>
@@ -30,15 +30,19 @@
                         <div class="card-body pt-0">
                             <div class="pt-3 pb-5">
                                 @if(session()->has('gsrm_cliente_id') && session('gsrm_cliente_id') == 0)
-                                <img src="{{ asset('build/assets/images/image_logo_login.png') }}" width="120">
+                                <img src="{{ asset('build/assets/images/image_logo_login.png') }}" height="40">
                                 @else
-                                <img src="{{ asset(session('gsrm_cliente_logotipo_principal')) }}" width="120">
+                                <img src="{{ asset(session('gsrm_cliente_logotipo_principal')) }}" height="40">
                                 @endif
                             </div>
                             <div class="p-0">
                                 <!-- Erros -->
                                 @if (isset($error) and $error != '')
                                 <div class="alert alert-danger mt-1">{{ $error }}</div>
+                                @endif
+
+                                @if (session()->has('error_timeout'))
+                                <div class="alert alert-danger mt-1">{{ session('error_timeout') }}</div>
                                 @endif
 
                                 @if (Session::has('message'))

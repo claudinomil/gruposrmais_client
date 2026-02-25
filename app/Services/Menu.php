@@ -186,6 +186,29 @@ class Menu
                             }
                         }
                     }
+
+                    // Proibir Submódulos para outro usuário'''''''''''''''''''''''
+                    if (session('se_userLoggedData.id') !== 1) {
+                        // 44 : Edificações
+                        if ($submodulo['id'] == 44) {$permitido = false;}
+
+                        // 45 : Edificações - Pavimentos
+                        if ($submodulo['id'] == 45) {$permitido = false;}
+
+                        // 46 : Edificações - Locais
+                        if ($submodulo['id'] == 46) {$permitido = false;}
+
+                        // 47 : Mapas Preventivos
+                        if ($submodulo['id'] == 47) {$permitido = false;}
+
+                        // 48 : Medidas Segurança
+                        if ($submodulo['id'] == 48) {$permitido = false;}
+
+                        // 49 : Sistemas Preventivo
+                        if ($submodulo['id'] == 49) {$permitido = false;}
+                    }
+                    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
                     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                     if ($permitido) {

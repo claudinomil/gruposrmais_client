@@ -331,7 +331,7 @@ async function crudTable(route, fieldsColumns='', pageLength=25) {
 }
 
 //Create
-function crudCreate() {
+async function crudCreate() {
     //Variáveis
     let prefixPermissaoSubmodulo = document.getElementById('crudPrefixPermissaoSubmodulo').value;
     let nameSubmodulo = document.getElementById('crudNameSubmodulo').value;
@@ -343,7 +343,7 @@ function crudCreate() {
         headers: {'REQUEST-ORIGIN': 'fetch'}
     }).then(response => {
         return response.json();
-    }).then(data => {
+    }).then(async (data) => {
         //Lendo dados
         if (data.success) {
             //Limpar Formulario
@@ -353,6 +353,21 @@ function crudCreate() {
             crudConfiguracao({p_frm_operacao:'create', p_fieldsDisabled:false, p_crudFormButtons1:'show', p_crudFormButtons2:'hide', p_crudTable:'hide', p_crudForm:'show', p_removeMask:true, p_putMask:true});
 
             //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            if (prefixPermissaoSubmodulo == 'edificacoes') {
+                // Iniciar campos
+                document.getElementById('pavimentos').value = 1;
+                document.getElementById('mezaninos').value = 0;
+                document.getElementById('coberturas').value = 0;
+                document.getElementById('areas_tecnicas').value = 0;
+                document.getElementById('altura').value = 0;
+                document.getElementById('area_total_construida').value = 0;
+                document.getElementById('lotacao').value = 0;
+
+                // Montar Níveis
+                document.getElementById('divEdificacaoNiveis').innerHTML = '';
+                await montarEdificacaoNiveis({ v_div_edificacao_niveis: 'divEdificacaoNiveis' });
+            }
+
             if (prefixPermissaoSubmodulo == 'estoques_locais') {
                 // Controle Tela
                 controleForm();
@@ -418,19 +433,8 @@ function crudCreate() {
             }
 
             if (prefixPermissaoSubmodulo == 'clientes') {
+                // link_copiar_endereco
                 document.getElementById('link_copiar_endereco').style.display = '';
-
-                //Deixar todos os checkbox de Medidas de Segurança'''''''''''''''''''
-                elementos = document.getElementsByClassName('divSegurancaMedida');
-                elementos.forEach(function(elemento) {elemento.style.display = 'block';});
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                //desmarcar checkbox'''''''''''''''''''''''''''''''''''''''''''''''''
-                elementos = document.getElementsByClassName('cbSegurancaMedida');
-                elementos.forEach(function(elemento) {elemento.checked = false;});
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                pavimentosShowHide();
             }
 
             if (prefixPermissaoSubmodulo == 'clientes_executivos') {
@@ -586,7 +590,7 @@ function crudCreate() {
 }
 
 //View
-function crudView(registro_id) {
+async function crudView(registro_id) {
     //Campo hidden registro_id
     document.getElementById('registro_id').value = registro_id;
 
@@ -602,7 +606,7 @@ function crudView(registro_id) {
         headers: {'REQUEST-ORIGIN': 'fetch'}
     }).then(response => {
         return response.json();
-    }).then(data => {
+    }).then(async (data) => {
         // Lendo dados
         if (data.success) {
             // Limpar Formulario
@@ -621,6 +625,14 @@ function crudView(registro_id) {
             }
 
             //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            if (prefixPermissaoSubmodulo == 'edificacoes') {
+                // Montar Div Níveis
+                document.getElementById('divEdificacaoNiveis').innerHTML = '';
+                await montarEdificacaoNiveis({ v_div_edificacao_niveis: 'divEdificacaoNiveis' });
+                await preencherEdificacaoNiveis(registro_id);
+                readonlyEdificacaoNiveis(true);
+            }
+
             if (prefixPermissaoSubmodulo == 'estoques_locais') {
                 // Botões Controle
                 let btnAlterar = document.getElementById('btnCrudAlterarRegistro2');
@@ -699,15 +711,15 @@ function crudView(registro_id) {
 
                 //Liberar campos frm_upload_documentos_fun
                 document.getElementById('upload_documentos_funcionario_id').disabled = false;
-                document.getElementById('upload_documentos_fun_acao').disabled = false;
-                document.getElementById('fun_documentos_data_documento').disabled = false;
+                document.getElementById('fun_documentos_descricao').disabled = false;
+                document.getElementById('fun_documentos_data_emissao').disabled = false;
+                document.getElementById('fun_documentos_data_vencimento').disabled = false;
                 document.getElementById('fun_documentos_aviso').disabled = false;
                 document.getElementById('fun_documentos_file').disabled = false;
                 document.getElementById('fun_documentos_documento_id').disabled = false;
 
                 // Liberar campos frm_upload_documentos_mensais_fun
                 document.getElementById('upload_documentos_mensais_funcionario_id').disabled = false;
-                document.getElementById('upload_documentos_mensais_fun_acao').disabled = false;
                 document.getElementById('fun_documentos_mensais_mes').disabled = false;
                 document.getElementById('fun_documentos_mensais_ano').disabled = false;
 
@@ -737,45 +749,17 @@ function crudView(registro_id) {
             }
 
             if (prefixPermissaoSubmodulo == 'clientes') {
+                // link_copiar_endereco
                 document.getElementById('link_copiar_endereco').style.display = 'none';
 
                 //Liberar campos frm_upload_documentos_cli
                 document.getElementById('upload_documentos_cliente_id').disabled = false;
-                document.getElementById('upload_documentos_cli_acao').disabled = false;
                 document.getElementById('cli_documentos_documento_id').disabled = false;
-                document.getElementById('cli_documentos_data_documento').disabled = false;
+                document.getElementById('cli_documentos_descricao').disabled = false;
+                document.getElementById('cli_documentos_data_emissao').disabled = false;
+                document.getElementById('cli_documentos_data_vencimento').disabled = false;
                 document.getElementById('cli_documentos_aviso').disabled = false;
                 document.getElementById('cli_documentos_file').disabled = false;
-
-                //Hide em todos os checkbox de Medidas de Segurança''''''''''''''''''
-                elementos = document.getElementsByClassName('divSegurancaMedida');
-                elementos.forEach(function(elemento) {elemento.style.display = 'nome';});
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                //desmarcar checkbox'''''''''''''''''''''''''''''''''''''''''''''''''
-                elementos = document.getElementsByClassName('cbSegurancaMedida');
-                elementos.forEach(function(elemento) {elemento.checked = false;});
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                //varrer os checkbox'''''''''''''''''''''''''''''''''''''''''''''''''
-                cliente_seguranca_medidas = data.success['cliente_seguranca_medidas'];
-
-                cliente_seguranca_medidas.forEach(function(item) {
-                    //marcar como checado
-                    document.getElementById('seguranca_medida_'+item.pavimento+'_'+item.seguranca_medida_id).checked = true;
-
-                    //Outros campos
-                    document.getElementById('quantidade_'+item.pavimento+'_'+item.seguranca_medida_id).value = item.quantidade;
-                    document.getElementById('tipo_'+item.pavimento+'_'+item.seguranca_medida_id).value = item.tipo;
-                    document.getElementById('observacao_'+item.pavimento+'_'+item.seguranca_medida_id).value = item.observacao;
-
-                    //dar show
-                    elementos = document.getElementsByClassName('divSegurancaMedida'+item.pavimento+item.seguranca_medida_id);
-                    elementos.forEach(function(elemento) {elemento.style.display = 'block';});
-                });
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                pavimentosShowHide();
             }
 
             if (prefixPermissaoSubmodulo == 'clientes_executivos') {
@@ -1231,7 +1215,6 @@ function crudView(registro_id) {
                 document.getElementById('name').value = dados['name'];
                 document.getElementById('cpf').value = dados['cpf'];
                 document.getElementById('empresa').value = dados['empresaName'];
-                document.getElementById('tomador_servico_cliente').value = dados['tomadorServicoClienteName'];
                 document.getElementById('contratacao_tipo').value = dados['contratacaoTipoName'];
                 document.getElementById('funcao').value = dados['funcaoName'];
                 document.getElementById('departamento').value = dados['departamentoName'];
@@ -1309,7 +1292,7 @@ async function crudEdit(registro_id) {
         headers: {'REQUEST-ORIGIN': 'fetch'}
     }).then(response => {
         return response.json();
-    }).then(data => {
+    }).then(async (data) => {
         //Lendo dados
         if (data.success) {
             //Limpar Formulario
@@ -1326,6 +1309,13 @@ async function crudEdit(registro_id) {
             });
 
             //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            if (prefixPermissaoSubmodulo == 'edificacoes') {
+                // Montar Div Níveis
+                document.getElementById('divEdificacaoNiveis').innerHTML = '';
+                await montarEdificacaoNiveis({ v_div_edificacao_niveis: 'divEdificacaoNiveis' });
+                await preencherEdificacaoNiveis(registro_id);
+            }
+
             if (prefixPermissaoSubmodulo == 'estoques_locais') {
                 // Controle Tela
                 controleForm();
@@ -1422,37 +1412,8 @@ async function crudEdit(registro_id) {
             }
 
             if (prefixPermissaoSubmodulo == 'clientes') {
+                // link_copiar_endereco
                 document.getElementById('link_copiar_endereco').style.display = '';
-
-                //Hide em todos os checkbox de Medidas de Segurança''''''''''''''''''
-                elementos = document.getElementsByClassName('divSegurancaMedida');
-                elementos.forEach(function(elemento) {elemento.style.display = 'block';});
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                //desmarcar checkbox'''''''''''''''''''''''''''''''''''''''''''''''''
-                elementos = document.getElementsByClassName('cbSegurancaMedida');
-                elementos.forEach(function(elemento) {elemento.checked = false;});
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                //varrer os checkbox'''''''''''''''''''''''''''''''''''''''''''''''''
-                cliente_seguranca_medidas = data.success['cliente_seguranca_medidas'];
-
-                cliente_seguranca_medidas.forEach(function(item) {
-                    //marcar como checado
-                    document.getElementById('seguranca_medida_'+item.pavimento+'_'+item.seguranca_medida_id).checked = true;
-
-                    //Outros campos
-                    document.getElementById('quantidade_'+item.pavimento+'_'+item.seguranca_medida_id).value = item.quantidade;
-                    document.getElementById('tipo_'+item.pavimento+'_'+item.seguranca_medida_id).value = item.tipo;
-                    document.getElementById('observacao_'+item.pavimento+'_'+item.seguranca_medida_id).value = item.observacao;
-
-                    //dar show
-                    elementos = document.getElementsByClassName('divSegurancaMedida'+item.pavimento+item.seguranca_medida_id);
-                    elementos.forEach(function(elemento) {elemento.style.display = 'block';});
-                });
-                //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                pavimentosShowHide();
             }
 
             if (prefixPermissaoSubmodulo == 'clientes_executivos') {
@@ -1983,6 +1944,11 @@ async function crudDelete(registro_id) {
                 crudTable(prefixPermissaoSubmodulo);
             } else if (data.error_permissao) {
                 alertSwal('warning', "Permissão Negada", '', 'true', 2000);
+            } else if (data.error_lock) {
+                // Configuração
+                crudConfiguracao({ p_removeMask: true, p_putMask: true });
+
+                alertSwal('warning', "Bloqueio", data.error_lock, 'true', 20000);
             } else {
                 alert('Erro interno');
             }
@@ -2157,6 +2123,11 @@ function crudConfirmOperation() {
                         message += '</div>';
 
                         alertSwal('warning', "Validação", message, 'true', 20000);
+                    } else if (data.error_lock) {
+                        // Configuração
+                        crudConfiguracao({ p_removeMask: true, p_putMask: true });
+
+                        alertSwal('warning', "Bloqueio", data.error_lock, 'true', 20000);
                     } else if (data.error_not_found) {
                         //Configuração
                         crudConfiguracao({p_removeMask:true, p_putMask:true});

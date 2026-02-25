@@ -71,6 +71,35 @@
 @endsection
 
 @section('script')
+    <!-- Incluir a CDN do jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- scripts_propostas_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_propostas_pdfs.js')}}"></script>
+
+    <!-- scripts_ordens_servicos_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_pdfs.js')}}"></script>
+
+    <!-- scripts_ordens_servicos_ost1_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost1_pdfs.js')}}"></script>
+
+    <!-- scripts_ordens_servicos_ost2_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost2_pdfs.js')}}"></script>
+
+    <!-- scripts_ordens_servicos_ost3_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost3_pdfs.js')}}"></script>
+
+    <!-- scripts_visitas_tecnicas_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_visitas_tecnicas_pdfs.js')}}"></script>
+
+    <!-- scripts_visitas_tecnicas_vtt1_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_visitas_tecnicas_vtt1_pdfs.js')}}"></script>
+
+    <!-- scripts_visitas_tecnicas_vtt2_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_visitas_tecnicas_vtt2_pdfs.js')}}"></script>
+
+
     <!-- scripts_clientes.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_clientes.js')}}"></script>
 @endsection

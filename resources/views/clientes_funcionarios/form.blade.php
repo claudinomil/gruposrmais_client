@@ -34,10 +34,6 @@
                                     <input type="text" class="form-control" id="empresa" name="empresa" readonly>
                                 </div>
                                 <div class="form-group col-12 col-md-4 pb-3">
-                                    <label class="form-label">{{ __('Tomador de Serviço') }}</label>
-                                    <input type="text" class="form-control" id="tomador_servico_cliente" name="tomador_servico_cliente" readonly>
-                                </div>
-                                <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">{{ __('Tipo Contratação') }}</label>
                                     <input type="text" class="form-control" id="contratacao_tipo" name="contratacao_tipo" readonly>
                                 </div>

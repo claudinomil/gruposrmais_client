@@ -6,6 +6,7 @@ use App\Facades\SuporteFacade;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -129,11 +130,27 @@ class LoginController extends Controller
         }
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        //Buscando dados Api_Data() - Fazer Logout
+        // Fazer logout na API
         $this->responseApi(1, 7, '', '', '', '');
 
+        // Expirou se_userLastActivityTime
+        session()->forget('se_userLastActivityTime');
+
+        // Verifica origem
+        if ($request->motivo === 'timeout') {
+            // error_timeout
+            session(['error_timeout' => 'Sua sessão expirou por inatividade.']);
+
+            // Redirecionar
+            return redirect('/');
+        }
+
+        // Expirou error_timeout
+        session()->forget('error_timeout');
+
+        // Redirecionar
         return redirect('/');
     }
 }

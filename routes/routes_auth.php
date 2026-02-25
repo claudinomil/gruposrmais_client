@@ -45,7 +45,7 @@ Route::get('login/{dominio}', function ($dominio) {
 
 // Login
 Route::get('login', [LoginController::class, 'login'])->name('login');
-Route::post('login', [LoginController::class, 'loginApi']);
+Route::post('login', [LoginController::class, 'loginApi'])->name('loginApi');
 
 // Outras rotas sobre passwords
 Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
@@ -63,6 +63,6 @@ Route::post('code-confirm-email', [ConfirmEmailController::class, 'submitCodeCon
 //Logado''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 //Logout
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

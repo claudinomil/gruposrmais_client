@@ -8,11 +8,11 @@
             <tbody>
             <tr>
                 <td align="">
-                    <img src="{{ asset('build/assets/images/image_logo_email.png') }}" alt="" height="100">
+                    <img src="https://sistema.gruposrmais.com.br/build/assets/images/image_logo_email.png" alt="Logo" height="90">
                 </td>
             </tr>
             <tr>
-                <td align="" style="color: deepskyblue; font-family: arial;">
+                <td align="" style="color: black; font-family: arial;">
                     <h3>Seu E-mail foi cadastrado como Usuário do Sistema do Grupo SR+.</h3>
                 </td>
             </tr>

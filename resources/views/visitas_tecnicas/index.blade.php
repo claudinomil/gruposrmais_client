@@ -94,12 +94,21 @@
     <!-- scripts_visitas_tecnicas.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_visitas_tecnicas.js')}}"></script>
 
+    <!-- scripts_visitas_tecnicas_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_visitas_tecnicas_pdfs.js')}}"></script>
+
     <!-- scripts_visitas_tecnicas_vtt1.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_visitas_tecnicas_vtt1.js')}}"></script>
 
+    <!-- scripts_visitas_tecnicas_vtt1_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_visitas_tecnicas_vtt1_pdfs.js')}}"></script>
+
     <!-- scripts_visitas_tecnicas_vtt2.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_visitas_tecnicas_vtt2.js')}}"></script>
-@endsection
+
+    <!-- scripts_visitas_tecnicas_vtt2_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_visitas_tecnicas_vtt2_pdfs.js')}}"></script>
+    @endsection
 
 @section('script-bottom')
 @endsection

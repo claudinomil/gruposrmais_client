@@ -8,9 +8,9 @@
                     </span>
                     <span class="logo-lg">
                         @if(session()->has('gsrm_cliente_id') && session('gsrm_cliente_id') == 0)
-                        <img src="{{ asset('build/assets/images/image_logo_layout_dark_menu.png') }}" height="35">
+                        <img src="{{ asset('build/assets/images/image_logo_layout_dark_menu.png') }}" height="40">
                         @else
-                        <img src="{{ asset(session('gsrm_cliente_logotipo_menu')) }}" width="120">
+                        <img src="{{ asset(session('gsrm_cliente_logotipo_menu')) }}" height="40">
                         @endif
                     </span>
                 </a>
@@ -19,11 +19,11 @@
                     <span class="logo-sm" style="margin-left: -15px;">
                         <img src="{{ asset('build/assets/images/image_logo_layout_light_menu_min.png') }}" width="50">
                     </span>
-                    <span class="logo-lg">
+                    <span class="logo-lg mt-5">
                         @if(session()->has('gsrm_cliente_id') && session('gsrm_cliente_id') == 0)
-                        <img src="{{ asset('build/assets/images/image_logo_layout_light_menu.png') }}" height="35">
+                        <img src="{{ asset('build/assets/images/image_logo_layout_light_menu.png') }}" height="40">
                         @else
-                        <img src="{{ asset(session('gsrm_cliente_logotipo_menu')) }}" width="120">
+                        <img src="{{ asset(session('gsrm_cliente_logotipo_menu')) }}" height="40">
                         @endif
                     </span>
                 </a>
@@ -65,7 +65,7 @@
 
                     {{-- Menu Logout --}}
                     <a class="dropdown-item text-danger" href="javascript:void();" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span key="t-logout">Logout</span></a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    <form id="logout-form" action="{{ route('logout') }}" method="GET" style="display: none;">
                         @csrf
                     </form>
                 </div>

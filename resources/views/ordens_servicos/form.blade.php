@@ -29,7 +29,7 @@
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    
+
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
@@ -59,7 +59,7 @@
                             <!-- ORDEM DE SERVIÇO TIPO 2 - INÍCIO------------------------------------------------------>
                             <div class="row mt-4" id="divOST2">
                                 <div class="row pt-4" id="ost2_divOrdemServicoInformacoesGerais">
-                                    <h5 class="pb-4 text-primary"><i class="fas fa-list"></i>{{ __(' Informações Gerais') }}</h5>
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-list"></i>{{ __('Informações Gerais') }}</h5>
                                     <div class="form-group col-12 col-md-2 pb-3">
                                         <label class="form-label">Status</label>
                                         <select class="form-select" name="ost2_ordem_servico_status_id" id="ost2_ordem_servico_status_id">

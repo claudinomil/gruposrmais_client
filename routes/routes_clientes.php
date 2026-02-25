@@ -23,8 +23,15 @@ Route::prefix('clientes')->group(function () {
     Route::post('/uploadDocumento/upload_documento', [ClienteController::class, 'upload_documento'])->name('clientes.upload_documento');
     Route::get('/modalInfo/documentos/{cliente_id}', [ClienteController::class, 'documentos'])->name('clientes.documentos');
     Route::delete('/modalInfo/deletar_documento/{cliente_documento_id}', [ClienteController::class, 'deletar_documento'])->name('clientes.deletar_documento');
-    Route::get('/modalInfo/servicos/{cliente_id}', [ClienteController::class, 'servicos'])->name('clientes.servicos');
-    Route::get('/modalInfo/clientes/{cliente_id}', [ClienteController::class, 'clientes'])->name('clientes.clientes');
 
-    Route::get('/visita_tecnica/{id}', [ClienteController::class, 'visita_tecnica'])->name('clientes.visita_tecnica');
+    Route::get('/modalInfo/documentos_exigidos/{cliente_id}', [ClienteController::class, 'documentos_exigidos'])->name('clientes.documentos_exigidos');
+    Route::get('/modalInfo/documentos_exigidos_dados/{cliente_id}', [ClienteController::class, 'documentos_exigidos_dados'])->name('clientes.documentos_exigidos_dados');
+    Route::post('/modalInfo/documentos_exigidos_save', [ClienteController::class, 'documentos_exigidos_save'])->name('clientes.documentos_exigidos_save');
+
+    Route::get('/modalInfo/propostas/{cliente_id}', [ClienteController::class, 'propostas'])->name('clientes.propostas');
+    Route::get('/modalInfo/ordens_servicos/{cliente_id}', [ClienteController::class, 'ordens_servicos'])->name('clientes.ordens_servicos');
+    Route::get('/modalInfo/visitas_tecnicas/{cliente_id}', [ClienteController::class, 'visitas_tecnicas'])->name('clientes.visitas_tecnicas');
+    Route::get('/modalInfo/brigadas_incendios/{cliente_id}', [ClienteController::class, 'brigadas_incendios'])->name('clientes.brigadas_incendios');
+    Route::get('/modalInfo/clientes_rede/{cliente_id}', [ClienteController::class, 'clientes_rede'])->name('clientes.clientes_rede');
+    Route::get('/modalInfo/clientes_principal/{cliente_id}', [ClienteController::class, 'clientes_principal'])->name('clientes.clientes_principal');
 });

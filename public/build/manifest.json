@@ -409,20 +409,40 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_ordens_servicos.js"
 },
+"resources/assets_template/js/scripts_ordens_servicos_pdfs.js": {
+"file": "assets/scripts_ordens_servicos_pdfs.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_ordens_servicos_pdfs.js"
+},
 "resources/assets_template/js/scripts_ordens_servicos_ost1.js": {
 "file": "assets/scripts_ordens_servicos_ost1.js",
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_ordens_servicos_ost1.js"
+},
+"resources/assets_template/js/scripts_ordens_servicos_ost1_pdfs.js": {
+"file": "assets/scripts_ordens_servicos_ost1_pdfs.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_ordens_servicos_ost1_pdfs.js"
 },
 "resources/assets_template/js/scripts_ordens_servicos_ost2.js": {
 "file": "assets/scripts_ordens_servicos_ost2.js",
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_ordens_servicos_ost2.js"
 },
+"resources/assets_template/js/scripts_ordens_servicos_ost2_pdfs.js": {
+"file": "assets/scripts_ordens_servicos_ost2_pdfs.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_ordens_servicos_ost2_pdfs.js"
+},
 "resources/assets_template/js/scripts_ordens_servicos_ost3.js": {
 "file": "assets/scripts_ordens_servicos_ost3.js",
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_ordens_servicos_ost3.js"
+},
+"resources/assets_template/js/scripts_ordens_servicos_ost3_pdfs.js": {
+"file": "assets/scripts_ordens_servicos_ost3_pdfs.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_ordens_servicos_ost3_pdfs.js"
 },
 "resources/assets_template/js/scripts_empresas.js": {
 "file": "assets/scripts_empresas.js",
@@ -539,20 +559,40 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_propostas.js"
 },
+"resources/assets_template/js/scripts_propostas_pdfs.js": {
+"file": "assets/scripts_propostas_pdfs.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_propostas_pdfs.js"
+},
 "resources/assets_template/js/scripts_visitas_tecnicas.js": {
 "file": "assets/scripts_visitas_tecnicas.js",
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_visitas_tecnicas.js"
+},
+"resources/assets_template/js/scripts_visitas_tecnicas_pdfs.js": {
+"file": "assets/scripts_visitas_tecnicas_pdfs.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_visitas_tecnicas_pdfs.js"
 },
 "resources/assets_template/js/scripts_visitas_tecnicas_vtt1.js": {
  "file": "assets/scripts_visitas_tecnicas_vtt1.js",
  "isEntry": true,
  "src": "resources/assets_template/js/scripts_visitas_tecnicas_vtt1.js"
 },
+"resources/assets_template/js/scripts_visitas_tecnicas_vtt1_pdfs.js": {
+ "file": "assets/scripts_visitas_tecnicas_vtt1_pdfs.js",
+ "isEntry": true,
+ "src": "resources/assets_template/js/scripts_visitas_tecnicas_vtt1_pdfs.js"
+},
 "resources/assets_template/js/scripts_visitas_tecnicas_vtt2.js": {
  "file": "assets/scripts_visitas_tecnicas_vtt2.js",
  "isEntry": true,
  "src": "resources/assets_template/js/scripts_visitas_tecnicas_vtt2.js"
+},
+"resources/assets_template/js/scripts_visitas_tecnicas_vtt2_pdfs.js": {
+ "file": "assets/scripts_visitas_tecnicas_vtt2_pdfs.js",
+ "isEntry": true,
+ "src": "resources/assets_template/js/scripts_visitas_tecnicas_vtt2_pdfs.js"
 },
 "resources/assets_template/libs/jspdf/jspdf.js": {
 "file": "assets/jspdf.js",
@@ -578,6 +618,31 @@
 "file": "assets/scripts_clientes_relatorios.js",
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_clientes_relatorios.js"
+},
+"resources/assets_template/js/scripts_medidas_seguranca.js": {
+"file": "assets/scripts_medidas_seguranca.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_medidas_seguranca.js"
+},
+"resources/assets_template/js/scripts_sistemas_preventivos.js": {
+"file": "assets/scripts_sistemas_preventivos.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_sistemas_preventivos.js"
+},
+"resources/assets_template/js/scripts_edificacoes.js": {
+"file": "assets/scripts_edificacoes.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_edificacoes.js"
+},
+"resources/assets_template/js/scripts_edificacoes_locais.js": {
+"file": "assets/scripts_edificacoes_locais.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_edificacoes_locais.js"
+},
+"resources/assets_template/js/scripts_mapas_preventivos.js": {
+"file": "assets/scripts_mapas_preventivos.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_mapas_preventivos.js"
 }
 
 }

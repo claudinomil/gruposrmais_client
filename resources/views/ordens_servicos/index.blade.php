@@ -70,14 +70,26 @@
     <!-- scripts_ordens_servicos.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos.js')}}"></script>
 
+    <!-- scripts_ordens_servicos_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_pdfs.js')}}"></script>
+
     <!-- scripts_ordens_servicos_ost1.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost1.js')}}"></script>
+
+    <!-- scripts_ordens_servicos_ost1_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost1_pdfs.js')}}"></script>
 
     <!-- scripts_ordens_servicos_ost2.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost2.js')}}"></script>
 
+    <!-- scripts_ordens_servicos_ost2_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost2_pdfs.js')}}"></script>
+
     <!-- scripts_ordens_servicos_ost3.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost3.js')}}"></script>
+
+    <!-- scripts_ordens_servicos_ost3_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost3_pdfs.js')}}"></script>
 @endsection
 
 @section('script-bottom')

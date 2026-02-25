@@ -129,6 +129,27 @@ require __DIR__.'/routes_produtos_controle_situacoes.php';
 // Produtos Listagem Geral
 require __DIR__.'/routes_produtos_listagem_geral.php';
 
+// Medidas Segurança
+require __DIR__.'/routes_medidas_seguranca.php';
+
+// Sistemas Preventivo
+require __DIR__.'/routes_sistemas_preventivos.php';
+
+// Edificações
+require __DIR__.'/routes_edificacoes.php';
+
+// Edificações Locais
+require __DIR__.'/routes_edificacoes_locais.php';
+
+// Mapas Preventivos
+require __DIR__.'/routes_mapas_preventivos.php';
+
+
+
+
+
+
+
 // Rotas Domínio Clientes - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // Rotas Domínio Clientes - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 

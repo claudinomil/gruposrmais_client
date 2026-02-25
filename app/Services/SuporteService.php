@@ -32,9 +32,15 @@ class SuporteService
         $isTab = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "tablet"));
         $isDesk = !$isMob && !$isTab;
 
-        if ($isMob) {return 'mobile';}
-        if ($isTab) {return 'tablet';}
-        if ($isDesk) {return 'desktop';}
+        if ($isMob) {
+            return 'mobile';
+        }
+        if ($isTab) {
+            return 'tablet';
+        }
+        if ($isDesk) {
+            return 'desktop';
+        }
     }
 
     /*
@@ -59,7 +65,7 @@ class SuporteService
         $clientes_executivos = $clientes_executivos->json();
 
         foreach ($clientes_executivos as $clientes_executivo) {
-            if (!file_exists('build/assets/qrcodes/clientes_executivos/qrcode_cartao_emergencial_pt_'.$clientes_executivo['id'].'.png')) {
+            if (!file_exists('build/assets/qrcodes/clientes_executivos/qrcode_cartao_emergencial_pt_' . $clientes_executivo['id'] . '.png')) {
                 //Gerar QRCode PNG (Português)
                 $label_text = '';
                 $code_content = $url . '/guests/validar_cartao_emergencial/clientes_executivos/pt/' . $clientes_executivo['id'];
@@ -84,7 +90,7 @@ class SuporteService
         $funcionarios = $funcionarios->json();
 
         foreach ($funcionarios as $funcionario) {
-            if (!file_exists('build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_pt_'.$funcionario['id'].'.png')) {
+            if (!file_exists('build/assets/qrcodes/funcionarios/qrcode_cartao_emergencial_pt_' . $funcionario['id'] . '.png')) {
                 //Gerar QRCode PNG (Português)
                 $label_text = '';
                 $code_content = $url . '/guests/validar_cartao_emergencial/funcionarios/pt/' . $funcionario['id'];
@@ -105,7 +111,8 @@ class SuporteService
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     }
 
-    function traduzirTextoGoogle($texto, $idiomaOrigem = 'pt', $idiomaDestino = 'en') {
+    function traduzirTextoGoogle($texto, $idiomaOrigem = 'pt', $idiomaDestino = 'en')
+    {
         if (empty($texto)) {
             return '';
         }
@@ -148,7 +155,8 @@ class SuporteService
         }
     }
 
-    public function formatarCNPJ($cnpj) {
+    public function formatarCNPJ($cnpj)
+    {
         // Remove qualquer caractere que não seja número
         $cnpj = preg_replace('/\D/', '', $cnpj);
 
@@ -161,7 +169,8 @@ class SuporteService
         return preg_replace('/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/', '$1.$2.$3/$4-$5', $cnpj);
     }
 
-    public function formatarCPF($cpf) {
+    public function formatarCPF($cpf)
+    {
         $cpf = preg_replace('/\D/', '', $cpf);
         if (strlen($cpf) !== 11) return $cpf;
 
@@ -237,18 +246,52 @@ class SuporteService
             $data = null;
         } else {
             //Retorna no formato (99/99/9999)
-            if ($op == 1) {$data = $dia.'/'.$mes.'/'.$ano;}
+            if ($op == 1) {
+                $data = $dia . '/' . $mes . '/' . $ano;
+            }
 
             //Retorna no formato (99-99-9999)
-            if ($op == 2) {$data = $dia.'-'.$mes.'-'.$ano;}
+            if ($op == 2) {
+                $data = $dia . '-' . $mes . '-' . $ano;
+            }
 
             //Retorna no formato (9999/99/99)
-            if ($op == 3) {$data = $ano.'/'.$mes.'/'.$dia;}
+            if ($op == 3) {
+                $data = $ano . '/' . $mes . '/' . $dia;
+            }
 
             //Retorna no formato (9999-99-99)
-            if ($op == 4) {$data = $ano.'-'.$mes.'-'.$dia;}
+            if ($op == 4) {
+                $data = $ano . '-' . $mes . '-' . $dia;
+            }
         }
 
         return $data;
+    }
+
+    static function getPrimeiraMaiuscula($texto)
+    {
+        // Lista de palavras que devem permanecer em minúsculas
+        $minusculas = ['de', 'da', 'do', 'das', 'dos', 'em', 'no', 'na', 'nos', 'nas', 'por', 'para', 'com', 'sem', 'a', 'e', 'o', 'as', 'os', 'um', 'uma', 'uns', 'umas', 'ao', 'aos'];
+
+        // Garante que o texto esteja em UTF-8 e em minúsculas
+        $texto = mb_strtolower(trim($texto), 'UTF-8');
+
+        // Quebra o texto em palavras
+        $palavras = explode(' ', $texto);
+
+        // Formata palavra por palavra
+        foreach ($palavras as $i => $palavra) {
+            // Mantém a palavra em minúscula se estiver na lista e não for a primeira
+            if ($i > 0 && in_array($palavra, $minusculas)) {
+                $palavras[$i] = $palavra;
+            } else {
+                // Primeira letra maiúscula (mantendo acentuação)
+                $palavras[$i] = mb_convert_case($palavra, MB_CASE_TITLE, 'UTF-8');
+            }
+        }
+
+        // Junta novamente as palavras formatadas
+        return implode(' ', $palavras);
     }
 }

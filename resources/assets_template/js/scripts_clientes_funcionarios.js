@@ -160,7 +160,6 @@ async function funcionarioModalInfoDados(id='') {
         document.getElementById('mi_fun_nome').value = funcionario.name;
         document.getElementById('mi_fun_cpf').value = funcionario.cpf;
         document.getElementById('mi_fun_empresa').value = funcionario.empresaName;
-        document.getElementById('mi_fun_tomador_servico_cliente').value = funcionario.tomadorServicoClienteName;
         document.getElementById('mi_fun_contratacao_tipo').value = funcionario.contratacaoTipoName;
         document.getElementById('mi_fun_funcao').value = funcionario.funcaoName;
         document.getElementById('mi_fun_departamento').value = funcionario.departamentoName;
@@ -199,7 +198,8 @@ function funcionarioModalInfoDocumentos(funcionario_id = '') {
             grade += '  <thead class="table-light">';
             grade += '      <tr>';
             grade += '          <th scope="col">Documento</th>';
-            grade += '          <th scope="col">Data</th>';
+            grade += '          <th scope="col">Emissão</th>';
+            grade += '          <th scope="col">Vencimento</th>';
             grade += '          <th scope="col">Aviso</th>';
             grade += '          <th scope="col">Ações</th>';
             grade += '      </tr>';
@@ -214,7 +214,7 @@ function funcionarioModalInfoDocumentos(funcionario_id = '') {
                 //Aviso
                 let aviso_texto = '';
 
-                if (dado.aviso == 0) {aviso_texto = 'Nenhum Aviso';}
+                if (dado.aviso == 0) {aviso_texto = '';}
                 if (dado.aviso == 1) {aviso_texto = 'Avisar a cada 1 mês';}
                 if (dado.aviso == 2) {aviso_texto = 'Avisar a cada 3 meses';}
                 if (dado.aviso == 3) {aviso_texto = 'Avisar a cada 6 meses';}
@@ -234,7 +234,8 @@ function funcionarioModalInfoDocumentos(funcionario_id = '') {
                 //TR
                 grade += '<tr class="documento_fonte_'+dado.documento_fonte_id+'">';
                 grade += '  <td>'+documentoName+'</td>';
-                grade += '  <td>'+formatarData(2, dado.data_documento)+'</td>';
+                grade += '  <td>' + formatarData(2, dado.data_emissao) + '</td>';
+                grade += '  <td>'+formatarData(2, dado.data_vencimento)+'</td>';
                 grade += '  <td>'+aviso_texto+'</td>';
                 grade += '  <td>'+acoes+'</td>';
                 grade += '</tr>';

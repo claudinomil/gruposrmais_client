@@ -69,8 +69,10 @@ class Controller extends BaseController
             if (isset($response['content']['servico_status'])) {$this->servico_status = $response['content']['servico_status'];}
             if (isset($response['content']['servicos'])) {$this->servicos = $response['content']['servicos'];}
             if (isset($response['content']['edificacao_classificacoes'])) {$this->edificacao_classificacoes = $response['content']['edificacao_classificacoes'];}
+            if (isset($response['content']['edificacoes_niveis'])) {$this->edificacoes_niveis = $response['content']['edificacoes_niveis'];}
+            if (isset($response['content']['edificacoes_locais'])) {$this->edificacoes_locais = $response['content']['edificacoes_locais'];}
             if (isset($response['content']['incendio_riscos'])) {$this->incendio_riscos = $response['content']['incendio_riscos'];}
-            if (isset($response['content']['seguranca_medidas'])) {$this->seguranca_medidas = $response['content']['seguranca_medidas'];}
+            if (isset($response['content']['medidas_seguranca'])) {$this->medidas_seguranca = $response['content']['medidas_seguranca'];}
             if (isset($response['content']['visita_tecnica_status'])) {$this->visita_tecnica_status = $response['content']['visita_tecnica_status'];}
             if (isset($response['content']['visita_tecnica_tipos'])) {$this->visita_tecnica_tipos = $response['content']['visita_tecnica_tipos'];}
             if (isset($response['content']['visitas_tecnicas_dados'])) {$this->visitas_tecnicas_dados = $response['content']['visitas_tecnicas_dados'];}
@@ -93,6 +95,7 @@ class Controller extends BaseController
             if (isset($response['content']['pontos_naturezas'])) {$this->pontos_naturezas = $response['content']['pontos_naturezas'];}
             if (isset($response['content']['ordens_servicos'])) {$this->ordens_servicos = $response['content']['ordens_servicos'];}
             if (isset($response['content']['documentos'])) {$this->documentos = $response['content']['documentos'];}
+            if (isset($response['content']['documentos_exigidos'])) {$this->documentos_exigidos = $response['content']['documentos_exigidos'];}
             if (isset($response['content']['motivos_demissoes'])) {$this->motivos_demissoes = $response['content']['motivos_demissoes'];}
             if (isset($response['content']['motivos_afastamentos'])) {$this->motivos_afastamentos = $response['content']['motivos_afastamentos'];}
             if (isset($response['content']['pix_tipos'])) {$this->pix_tipos = $response['content']['pix_tipos'];}
@@ -107,6 +110,7 @@ class Controller extends BaseController
             if (isset($response['content']['cores'])) {$this->cores = $response['content']['cores'];}
             if (isset($response['content']['estoques'])) {$this->estoques = $response['content']['estoques'];}
             if (isset($response['content']['estoques_locais'])) {$this->estoques_locais = $response['content']['estoques_locais'];}
+            if (isset($response['content']['sistemas_preventivos'])) {$this->sistemas_preventivos = $response['content']['sistemas_preventivos'];}
         }
     }
 

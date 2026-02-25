@@ -37,7 +37,7 @@ class FuncionarioController extends Controller
 
     public function __construct()
     {
-        $this->middleware('check-permissao:list', ['only' => ['index', 'filter', 'modal_info', 'estatisticas', 'documentos', 'documentos_mensais', 'verificar_documentos_mensais', 'cartoes_emergenciais_dados', 'tomadores_servicos']]);
+        $this->middleware('check-permissao:list', ['only' => ['index', 'filter', 'modal_info', 'estatisticas', 'documentos', 'documentos_mensais', 'verificar_documentos_mensais', 'cartoes_emergenciais_dados']]);
         $this->middleware('check-permissao:create', ['only' => ['create', 'store']]);
         $this->middleware('check-permissao:show', ['only' => ['show']]);
         $this->middleware('check-permissao:edit', ['only' => ['edit', 'update', 'upload_fotografia_documento', 'upload_fotografia_cartao_emergencial', 'upload_documento', 'upload_documento_mensal']]);
@@ -555,11 +555,12 @@ class FuncionarioController extends Controller
                 //Salvar Dados na tabela funcionarios_documentos
                 $data = array();
                 $data['funcionario_id'] = $request['upload_documentos_funcionario_id'];
-                $data['acao'] = $request['upload_documentos_fun_acao'];
                 $data['name'] = $name;
                 $data['documento_id'] = $request['fun_documentos_documento_id'];
                 $data['caminho'] = $pdf;
-                $data['data_documento'] = $request['fun_documentos_data_documento'];
+                $data['descricao'] = $request['fun_documentos_descricao'];
+                $data['data_emissao'] = $request['fun_documentos_data_emissao'];
+                $data['data_vencimento'] = $request['fun_documentos_data_vencimento'];
                 $data['aviso'] = $request['fun_documentos_aviso'];
 
                 //Buscando dados Api_Data() - Atualizar Registro
@@ -614,24 +615,6 @@ class FuncionarioController extends Controller
             return response()->json(['success' => $this->message]);
         } else {
             return response()->json(['error' => $this->message]);
-        }
-    }
-
-    public function tomadores_servicos($funcionario_id)
-    {
-        //Verificando Origem enviada pelo Fetch
-        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
-            $this->responseApi(1, 10, 'funcionarios/modalInfo/tomadores_servicos/' . $funcionario_id, '', '', '');
-
-            //Registro recebido com sucesso
-            if ($this->code == 2000) {
-                return json_encode($this->content);
-            } else if ($this->code == 4040) { //Registro não encontrado
-                echo 'Registro não encontrado.';
-            } else {
-                echo 'Erro Interno Serviços Pdf.';
-            }
         }
     }
 
@@ -693,7 +676,6 @@ class FuncionarioController extends Controller
                         // Monta os dados para API
                         $data = [
                             'funcionario_id' => $idFuncionario,
-                            'acao' => $request['upload_documentos_mensais_fun_acao'],
                             'documento_mensal_funcionario_id' => $indice,
                             'mes' => $request['fun_documentos_mensais_mes'],
                             'ano' => $request['fun_documentos_mensais_ano'],
@@ -727,81 +709,6 @@ class FuncionarioController extends Controller
                     'sucessos' => $sucessos,
                 ]);
             }
-
-
-
-
-
-
-
-
-
-            // //Variavel controle
-            // $error = false;
-
-            // //Verificando e fazendo Upload do PDF
-            // if ($request->hasFile('fun_documentos_mensais_file_')) {
-            //     //funcionario_id
-            //     $id = $request['upload_documentos_mensais_funcionario_id'];
-
-            //     //buscar dados formulario
-            //     $arquivo_tmp = $_FILES["fun_documentos_mensais_file_"]["tmp_name"];
-            //     $arquivo_real = $_FILES["fun_documentos_mensais_file_"]["name"];
-            //     $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
-            //     $arquivo_type = $_FILES["fun_documentos_mensais_file_"]["type"];
-            //     $arquivo_size = $_FILES['fun_documentos_mensais_file_']['size'];
-
-            //     if ($arquivo_type == 'application/pdf') {
-            //         if (copy($arquivo_tmp, "build/assets/pdfs/funcionarios/$arquivo_real")) {
-            //             if (file_exists("build/assets/pdfs/funcionarios/" . $arquivo_real)) {
-            //                 //renomear para nome id_$id_documento_mensal_YmdHis
-            //                 $name = 'id_' . $id . '_documento_mensal_' . date('YmdHis');
-            //                 $pdf = "build/assets/pdfs/funcionarios/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
-            //                 $de = "build/assets/pdfs/funcionarios/$arquivo_real";
-            //                 $pa = $pdf;
-
-            //                 try {
-            //                     rename($de, $pa);
-            //                 } catch (\Exception $e) {
-            //                     $error = true;
-            //                 }
-            //             }
-            //         }
-            //     } else {
-            //         return response()->json(['error' => 'Escolha um arquivo pdf válido.']);
-            //     }
-            // } else {
-            //     return response()->json(['error' => 'Escolha um arquivo pdf válido.']);
-            // }
-
-            // if (!$error) {
-            //     //Salvar Dados na tabela funcionarios_documentos_mensais
-            //     $data = array();
-            //     $data['funcionario_id'] = $request['upload_documentos_mensais_funcionario_id'];
-            //     $data['acao'] = $request['upload_documentos_mensais_fun_acao'];
-            //     $data['documento_mensal_funcionario_id'] = $request['fun_documentos_mensais_documento_id'];
-            //     $data['mes'] = $request['fun_documentos_mensais_mes'];
-            //     $data['ano'] = $request['fun_documentos_mensais_ano'];
-            //     $data['caminho'] = $pdf;
-
-            //     //Buscando dados Api_Data() - Atualizar Registro
-            //     $this->responseApi(1, 12, 'funcionarios/uploadDocumentoMensal/upload_documento_mensal', '', '', $data);
-
-            //     //Registro recebido com sucesso
-            //     if ($this->code == 2000) {
-            //         return response()->json(['success' => $this->message]);
-            //     } else {
-            //         return response()->json(['error' => 'Erro Interno Upload Documento Mensal PDF.']);
-            //     }
-            // } else {
-            //     return response()->json(['error' => 'PDF (Nome, Tamanho ou Tipo) inválida.']);
-            // }
-
-
-
-
-
-
         } else {
             return response()->json(['error' => 'Erro na requisição Upload Documento Mensal PDF']);
         }
