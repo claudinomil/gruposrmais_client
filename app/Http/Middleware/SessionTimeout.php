@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Session;
 
 class SessionTimeout
 {
-    private $timeout = 300; //1800; // em segundos
+    private $timeout = 1800; // em segundos
     private $except = ['/', 'rota_entrada_1', 'rota_entrada_2', 'login', 'loginApi', 'logout']; // rotas ignoradas
 
     public function handle($request, Closure $next)
