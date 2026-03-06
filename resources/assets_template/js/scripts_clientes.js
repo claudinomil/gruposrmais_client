@@ -1,3 +1,5 @@
+// Formulário Padrão - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Formulário Padrão - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 function validar_frm_clientes() {
     var validacao_ok = true;
     var mensagem = '';
@@ -222,59 +224,390 @@ function validar_frm_clientes() {
     return validacao_ok;
 }
 
-function validar_frm_upload_documentos() {
-    var validacao_ok = true;
-    var mensagem = '';
+// Acertar formulário para entrada de dados de pessoa Jurídica e Física
+async function acertarFormulario() {
+    if ($('#tipo').val() == 1) {
+        $('.pessoa_juridica').show();
+        $('.pessoa_fisica').hide();
 
-    //Campo: upload_documentos_cliente_id (requerido)
-    if (validacao({op:1, value:document.getElementById('upload_documentos_cliente_id').value}) === false) {
-        validacao_ok = false;
-        mensagem += 'Cliente requerido.'+'<br>';
+        var texto = await traduzirViaLocale('Data Abertura');
+
+        $('#label_data_nascimento').html(texto);
     }
 
-    //Campo: cli_documentos_documento_id (requerido)
-    if (validacao({op:1, value:document.getElementById('cli_documentos_documento_id').value}) === false) {
-        validacao_ok = false;
-        mensagem += 'Documento requerido.'+'<br>';
+    if ($('#tipo').val() == 2) {
+        $('.pessoa_juridica').hide();
+        $('.pessoa_fisica').show();
+
+        var texto = await traduzirViaLocale('Data Nascimento');
+
+        $('#label_data_nascimento').html(texto);
     }
-
-    //Campo: cli_documentos_data_emissao (não requerido / Data Válida)
-    if (validacao({op:1, value:document.getElementById('cli_documentos_data_emissao').value}) === true) {
-        //Campo: cli_documentos_data_emissao (Data Válida)
-        if (validacao({op:8, value:document.getElementById('cli_documentos_data_emissao').value}) === false) {
-            validacao_ok = false;
-            mensagem += 'Data emissão Inválida.'+'<br>';
-        }
-    }
-
-    //Campo: cli_documentos_data_vencimento (não requerido / Data Válida)
-    if (validacao({op:1, value:document.getElementById('cli_documentos_data_vencimento').value}) === true) {
-        //Campo: cli_documentos_data_vencimento (Data Válida)
-        if (validacao({op:8, value:document.getElementById('cli_documentos_data_vencimento').value}) === false) {
-            validacao_ok = false;
-            mensagem += 'Data vencimento Inválida.'+'<br>';
-        }
-    }
-
-    //Campo: cli_documentos_file (arquivo PDF requerido)
-    if (validacao({op:16, id:'cli_documentos_file'}) === false) {
-        validacao_ok = false;
-        mensagem += 'Arquivo PDF requerido.'+'<br>';
-    }
-
-    //Mensagem
-    if (validacao_ok === false) {
-        var texto = '<div class="pt-3">';
-        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
-        texto += '</div>';
-
-        alertSwal('warning', 'Validação', texto, 'true', 5000);
-    }
-
-    //Retorno
-    return validacao_ok;
 }
 
+function DOMContentLoadedFormularioPadrao() {
+    document.getElementById('link_copiar_endereco').addEventListener('click', function (event) {
+        event.preventDefault();
+
+        //Endereço
+        document.getElementById('cep_cobranca').value = document.getElementById('cep').value;
+        document.getElementById('numero_cobranca').value = document.getElementById('numero').value;
+        document.getElementById('complemento_cobranca').value = document.getElementById('complemento').value;
+        document.getElementById('logradouro_cobranca').value = document.getElementById('logradouro').value;
+        document.getElementById('bairro_cobranca').value = document.getElementById('bairro').value;
+        document.getElementById('localidade_cobranca').value = document.getElementById('localidade').value;
+        document.getElementById('uf_cobranca').value = document.getElementById('uf').value;
+    });
+
+    $('#tipo').change(function (e) {
+        //Acertar formulário
+        acertarFormulario();
+    });
+
+    $(function () {
+        //Header
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        //API CNPJ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        $('#link_api_buscar').click(function () {
+            //Buscando valor
+            var cnpj = $('#cnpj').val();
+
+            //Validando
+            if ($('#cnpj').hasClass('is-invalid')) {
+                alert($('#cnpj-error').html());
+                return;
+            } else if (cnpj == '') {
+                alert('Informe um CNPJ.');
+                return;
+            }
+
+            //Limpando mascara
+            cnpj = cnpj.replace(/[^\d]+/g, "");
+
+            // Indo buscar dados
+            getReceitaWSCNPJ(cnpj).then(dados_cnpj => {
+                if (dados_cnpj.status == 'OK') {
+                    $('#td_api_situacao').html(dados_cnpj.situacao);
+                    $('#hidden_api_situacao').val(dados_cnpj.situacao);
+                    $('#td_api_tipo').html(dados_cnpj.tipo);
+                    $('#hidden_api_tipo').val(dados_cnpj.tipo);
+                    $('#td_api_natureza_juridica').html(dados_cnpj.natureza_juridica);
+                    $('#hidden_api_natureza_juridica').val(dados_cnpj.natureza_juridica);
+                    $('#td_api_nome').html(dados_cnpj.nome);
+                    $('#hidden_api_nome').val(dados_cnpj.nome);
+                    $('#td_api_fantasia').html(dados_cnpj.fantasia);
+                    $('#hidden_api_fantasia').val(dados_cnpj.fantasia);
+                    $('#td_api_cnpj').html(dados_cnpj.cnpj);
+                    $('#hidden_api_cnpj').val(dados_cnpj.cnpj);
+                    $('#td_api_abertura').html(dados_cnpj.abertura);
+                    $('#hidden_api_abertura').val(dados_cnpj.abertura);
+                    $('#td_api_cep').html(dados_cnpj.cep.replace(/[^\d]+/g, ""));
+                    $('#hidden_api_cep').val(dados_cnpj.cep.replace(/[^\d]+/g, ""));
+                    $('#td_api_telefone').html(dados_cnpj.telefone);
+                    $('#hidden_api_telefone').val(dados_cnpj.telefone);
+                    $('#td_api_email').html(dados_cnpj.email);
+                    $('#hidden_api_email').val(dados_cnpj.email);
+                    $('#td_api_logradouro').html(dados_cnpj.logradouro);
+                    $('#hidden_api_logradouro').val(dados_cnpj.logradouro);
+                    $('#td_api_numero').html(dados_cnpj.numero);
+                    $('#hidden_api_numero').val(dados_cnpj.numero);
+                    $('#td_api_complemento').html(dados_cnpj.complemento);
+                    $('#hidden_api_complemento').val(dados_cnpj.complemento);
+                    $('#td_api_bairro').html(dados_cnpj.bairro);
+                    $('#hidden_api_bairro').val(dados_cnpj.bairro);
+                    $('#td_api_municipio').html(dados_cnpj.municipio);
+                    $('#hidden_api_municipio').val(dados_cnpj.municipio);
+                    $('#td_api_uf').html(dados_cnpj.uf);
+                    $('#hidden_api_uf').val(dados_cnpj.uf);
+
+                    //abrir modal
+                    $('#modal_api').modal('show');
+                }
+            });
+        });
+
+        $('.button_api_copiar').click(function () {
+            $('#name').val($('#hidden_api_nome').val());
+            $('#nome_fantasia').val($('#hidden_api_fantasia').val());
+            $('#data_nascimento').val($('#hidden_api_abertura').val());
+            $('#cep').val($('#hidden_api_cep').val());
+            $('#telefone_1').val($('#hidden_api_telefone').val());
+            $('#email').val($('#hidden_api_email').val());
+            $('#logradouro').val($('#hidden_api_logradouro').val());
+            $('#numero').val($('#hidden_api_numero').val());
+            $('#complemento').val($('#hidden_api_complemento').val());
+            $('#bairro').val($('#hidden_api_bairro').val());
+            $('#localidade').val($('#hidden_api_municipio').val());
+            $('#uf').val($('#hidden_api_uf').val());
+
+            //fechar modal
+            $('#modal_api').modal('hide');
+        });
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    });
+}
+// Formulário Padrão - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Formulário Padrão - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Modal INFO - Funções - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Funções - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoControle(op, id = '') {
+    if (id == '') { id = document.getElementById('mi_cli_cliente_id').value; }
+
+    // Elementos
+    var div_logotipos = document.getElementById('md_cli_div_logotipos');
+    var div_dados = document.getElementById('md_cli_div_dados');
+    var div_documentos = document.getElementById('md_cli_div_documentos');
+    var div_editar_documentos = document.getElementById('md_cli_div_editar_documentos');
+    var div_propostas = document.getElementById('md_cli_div_propostas');
+    var div_ordens_servicos = document.getElementById('md_cli_div_ordens_servicos');
+    var div_visitas_tecnicas = document.getElementById('md_cli_div_visitas_tecnicas');
+    var div_brigadas_incendios = document.getElementById('md_cli_div_brigadas_incendios');
+    var div_clientes_rede = document.getElementById('md_cli_div_clientes_rede');
+    var div_clientes_principal = document.getElementById('md_cli_div_clientes_principal');
+    var div_editar_documentos_exigidos = document.getElementById('md_cli_div_editar_documentos_exigidos');
+    var div_documentos_exigidos = document.getElementById('md_cli_div_documentos_exigidos');
+    var div_lojas = document.getElementById('md_cli_div_lojas');
+    var div_editar_lojas = document.getElementById('md_cli_div_editar_lojas');
+    var div_editar_sistemas_preventivos = document.getElementById('md_cli_div_editar_sistemas_preventivos');
+    var div_sistemas_preventivos = document.getElementById('md_cli_div_sistemas_preventivos');
+
+    // Divs ClassList
+    if (div_logotipos) {
+        div_logotipos.classList.remove('d-lg-flex');
+        div_logotipos.classList.add('d-none');
+    }
+
+    div_dados.classList.remove('d-lg-flex');
+    div_dados.classList.add('d-none');
+
+    div_documentos.classList.remove('d-lg-flex');
+    div_documentos.classList.add('d-none');
+
+    if (div_editar_documentos) {
+        div_editar_documentos.classList.remove('d-lg-flex');
+        div_editar_documentos.classList.add('d-none');
+    }
+
+    div_propostas.classList.remove('d-lg-flex');
+    div_propostas.classList.add('d-none');
+
+    div_ordens_servicos.classList.remove('d-lg-flex');
+    div_ordens_servicos.classList.add('d-none');
+
+    div_visitas_tecnicas.classList.remove('d-lg-flex');
+    div_visitas_tecnicas.classList.add('d-none');
+
+    div_brigadas_incendios.classList.remove('d-lg-flex');
+    div_brigadas_incendios.classList.add('d-none');
+
+    div_clientes_rede.classList.remove('d-lg-flex');
+    div_clientes_rede.classList.add('d-none');
+
+    div_clientes_principal.classList.remove('d-lg-flex');
+    div_clientes_principal.classList.add('d-none');
+
+    if (div_editar_documentos_exigidos) {
+        div_editar_documentos_exigidos.classList.remove('d-lg-flex');
+        div_editar_documentos_exigidos.classList.add('d-none');
+    }
+
+    div_documentos_exigidos.classList.remove('d-lg-flex');
+    div_documentos_exigidos.classList.add('d-none');
+
+    div_lojas.classList.remove('d-lg-flex');
+    div_lojas.classList.add('d-none');
+
+    if (div_editar_lojas) {
+        div_editar_lojas.classList.remove('d-lg-flex');
+        div_editar_lojas.classList.add('d-none');
+    }
+
+    if (div_editar_sistemas_preventivos) {
+        div_editar_sistemas_preventivos.classList.remove('d-lg-flex');
+        div_editar_sistemas_preventivos.classList.add('d-none');
+    }
+
+    div_sistemas_preventivos.classList.remove('d-lg-flex');
+    div_sistemas_preventivos.classList.add('d-none');
+
+    // Estatisticas
+    await clienteModalInfoEstatisticas(id);
+
+    // Logotipos
+    if (op == 1) {
+        div_logotipos.classList.remove('d-none');
+        div_logotipos.classList.add('d-lg-flex');
+    }
+
+    // Dados
+    if (op == 2) {
+        div_dados.classList.remove('d-none');
+        div_dados.classList.add('d-lg-flex');
+
+        await clienteModalInfoDados(id);
+    }
+
+    // Documentos
+    if (op == 3) {
+        div_documentos.classList.remove('d-none');
+        div_documentos.classList.add('d-lg-flex');
+
+        await clienteModalInfoDocumentos(id);
+    }
+
+    // Editar Documentos
+    if (op == 6) {
+        div_editar_documentos.classList.remove('d-none');
+        div_editar_documentos.classList.add('d-lg-flex');
+    }
+
+    // Propostas
+    if (op == 7) {
+        div_propostas.classList.remove('d-none');
+        div_propostas.classList.add('d-lg-flex');
+
+        await clienteModalInfoPropostas(id);
+    }
+
+    // Ordens Serviços
+    if (op == 8) {
+        div_ordens_servicos.classList.remove('d-none');
+        div_ordens_servicos.classList.add('d-lg-flex');
+
+        await clienteModalInfoOrdensServicos(id);
+    }
+
+    // Visitas Técnicas
+    if (op == 9) {
+        div_visitas_tecnicas.classList.remove('d-none');
+        div_visitas_tecnicas.classList.add('d-lg-flex');
+
+        await clienteModalInfoVisitasTecnicas(id);
+    }
+
+    // Brigadas Incêndios
+    if (op == 10) {
+        div_brigadas_incendios.classList.remove('d-none');
+        div_brigadas_incendios.classList.add('d-lg-flex');
+
+        await clienteModalInfoBrigadasIncendios(id);
+    }
+
+    // Rede
+    if (op == 11) {
+        div_clientes_rede.classList.remove('d-none');
+        div_clientes_rede.classList.add('d-lg-flex');
+
+        await clienteModalInfoClientesRede(id);
+    }
+
+    // Principal
+    if (op == 12) {
+        div_clientes_principal.classList.remove('d-none');
+        div_clientes_principal.classList.add('d-lg-flex');
+
+        await clienteModalInfoClientesPrincipal(id);
+    }
+
+    // Editar Documentos Exigidos
+    if (op == 13) {
+        div_editar_documentos_exigidos.classList.remove('d-none');
+        div_editar_documentos_exigidos.classList.add('d-lg-flex');
+
+        await clienteModalInfoEditarDocumentosExigidos(id);
+    }
+
+    // Documentos Exigidos
+    if (op == 14) {
+        div_documentos_exigidos.classList.remove('d-none');
+        div_documentos_exigidos.classList.add('d-lg-flex');
+
+        await clienteModalInfoDocumentosExigidos(id);
+    }
+
+    // Editar Lojas
+    if (op == 15) {
+        div_editar_lojas.classList.remove('d-none');
+        div_editar_lojas.classList.add('d-lg-flex');
+    }
+
+    // Lojas
+    if (op == 16) {
+        div_lojas.classList.remove('d-none');
+        div_lojas.classList.add('d-lg-flex');
+
+        await clienteModalInfoLojas(id);
+    }
+
+    // Editar Sistemas Preventivos
+    if (op == 17) {
+        div_editar_sistemas_preventivos.classList.remove('d-none');
+        div_editar_sistemas_preventivos.classList.add('d-lg-flex');
+    }
+
+    // Sistemas Preventivos
+    if (op == 18) {
+        div_sistemas_preventivos.classList.remove('d-none');
+        div_sistemas_preventivos.classList.add('d-lg-flex');
+
+        await clienteModalInfoSistemasPreventivos(id);
+    }
+}
+// Modal INFO - Funções - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Funções - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Modal INFO - Estatísticas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Estatísticas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoEstatisticas(id = '') {
+    if (id === '') {
+        id = document.getElementById('mi_cli_cliente_id').value;
+    }
+
+    const url_atual = `${window.location.protocol}//${window.location.host}/`;
+
+    try {
+        const response = await fetch(`${url_atual}clientes/modalInfo/estatisticas/${id}`, {
+            method: 'GET',
+            headers: { 'REQUEST-ORIGIN': 'fetch' }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const estatisticas = await response.json();
+
+        // Atualizar elementos da tela
+        document.getElementById('md_cli_estatisticas_documentos').innerHTML = estatisticas.documentos;
+        document.getElementById('md_cli_estatisticas_lojas').innerHTML = estatisticas.lojas;
+        document.getElementById('md_cli_estatisticas_lojas_qtd').value = estatisticas.lojas;
+        document.getElementById('md_cli_estatisticas_visitas_tecnicas').innerHTML = estatisticas.visitas_tecnicas;
+        document.getElementById('md_cli_estatisticas_ordens_servicos').innerHTML = estatisticas.ordens_servicos;
+        document.getElementById('md_cli_estatisticas_brigadas_incendios').innerHTML = estatisticas.brigadas_incendios;
+        document.getElementById('md_cli_estatisticas_propostas').innerHTML = estatisticas.propostas;
+        document.getElementById('md_cli_estatisticas_clientes_rede').innerHTML = estatisticas.clientes_rede;
+        document.getElementById('md_cli_estatisticas_clientes_principal').innerHTML = estatisticas.clientes_principal;
+        document.getElementById('md_cli_estatisticas_documentos_exigidos').innerHTML = estatisticas.documentos_exigidos;
+        document.getElementById('md_cli_estatisticas_sistemas_preventivos').innerHTML = estatisticas.sistemas_preventivos;
+
+        // retornando algo para o await do chamador "esperar"
+        return true;
+    } catch (error) {
+        alert('Erro clienteModalInfoEstatisticas: ' + error.message);
+        throw error; // repassa o erro para o chamador se quiser tratar lá
+    }
+}
+// Modal INFO - Estatísticas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Estatísticas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Modal INFO - Logotipos - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Logotipos - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 function validar_frm_upload_logotipo_principal() {
     var validacao_ok = true;
     var mensagem = '';
@@ -367,185 +700,240 @@ function validar_frm_upload_logotipo_menu() {
     return validacao_ok;
 }
 
-async function clienteModalInfoControle(op, id = '') {
-    if (id == '') { id = document.getElementById('mi_cli_cliente_id').value; }
+function DOMContentLoadedLogotipoPrincipal() {
+    const frm_upload_logotipo_principal_cli_executar = document.getElementById('frm_upload_logotipo_principal_cli_executar');
 
-    // Elementos
-    var div_logotipos = document.getElementById('md_cli_div_logotipos');
-    var div_dados = document.getElementById('md_cli_div_dados');
-    var div_documentos = document.getElementById('md_cli_div_documentos');
-    var div_incluir_documentos = document.getElementById('md_cli_div_incluir_documentos');
-    var div_propostas = document.getElementById('md_cli_div_propostas');
-    var div_ordens_servicos = document.getElementById('md_cli_div_ordens_servicos');
-    var div_visitas_tecnicas = document.getElementById('md_cli_div_visitas_tecnicas');
-    var div_brigadas_incendios = document.getElementById('md_cli_div_brigadas_incendios');
-    var div_clientes_rede = document.getElementById('md_cli_div_clientes_rede');
-    var div_clientes_principal = document.getElementById('md_cli_div_clientes_principal');
-    var div_documentos_exigidos = document.getElementById('md_cli_div_documentos_exigidos');
+    if (frm_upload_logotipo_principal_cli_executar) {
+        frm_upload_logotipo_principal_cli_executar.addEventListener('click', function () {
+            //FormData
+            var formulario = document.getElementById('frm_upload_logotipo_principal_cli');
+            var formData = new FormData(formulario);
+            var url_atual = window.location.protocol + '//' + window.location.host + '/';
 
-    // Divs ClassList
-    if (div_logotipos) {
-        div_logotipos.classList.remove('d-lg-flex');
-        div_logotipos.classList.add('d-none');
+            //Tratar Botões
+            frm_upload_logotipo_principal_cli_executar.style.display = 'block';
+
+            //Criticando campos
+            if (validar_frm_upload_logotipo_principal() === false) { return false; }
+
+            //Acessar rota
+            fetch(url_atual + 'clientes/uploadLogotipo/upload_logotipo_principal', {
+                method: 'POST',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                //Lendo dados
+                if (data.success) {
+                    //Atualizando Logotipos principal
+                    const fileInput = document.getElementById('cli_logotipo_principal_file');
+                    if (fileInput) {
+                        const file = fileInput.files[0];
+                        if (file) {
+                            var reader = new FileReader();
+                            reader.onload = function () {
+                                document.getElementById('mi_cli_logotipo').src = reader.result;
+                                document.getElementById('mi_cli_logotipo_principal').src = reader.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    }
+
+                    //Reset Form
+                    formulario.reset();
+                } else if (data.error) {
+                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                } else {
+                    alert('Erro interno');
+                }
+            }).catch(error => {
+                alert('Erro Clientes Upload Logotipo Principal: ' + error);
+            });
+        });
     }
-
-    div_dados.classList.remove('d-lg-flex');
-    div_dados.classList.add('d-none');
-
-    div_documentos.classList.remove('d-lg-flex');
-    div_documentos.classList.add('d-none');
-
-    if (div_incluir_documentos) {
-        div_incluir_documentos.classList.remove('d-lg-flex');
-        div_incluir_documentos.classList.add('d-none');
-    }
-
-    div_propostas.classList.remove('d-lg-flex');
-    div_propostas.classList.add('d-none');
-
-    div_ordens_servicos.classList.remove('d-lg-flex');
-    div_ordens_servicos.classList.add('d-none');
-
-    div_visitas_tecnicas.classList.remove('d-lg-flex');
-    div_visitas_tecnicas.classList.add('d-none');
-
-    div_brigadas_incendios.classList.remove('d-lg-flex');
-    div_brigadas_incendios.classList.add('d-none');
-
-    div_clientes_rede.classList.remove('d-lg-flex');
-    div_clientes_rede.classList.add('d-none');
-
-    div_clientes_principal.classList.remove('d-lg-flex');
-    div_clientes_principal.classList.add('d-none');
-
-    if (div_documentos_exigidos) {
-        div_documentos_exigidos.classList.remove('d-lg-flex');
-        div_documentos_exigidos.classList.add('d-none');
-    }
-    // Logotipos
-    if (op == 1) {
-        div_logotipos.classList.remove('d-none');
-        div_logotipos.classList.add('d-lg-flex');
-    }
-
-    // Dados
-    if (op == 2) {
-        div_dados.classList.remove('d-none');
-        div_dados.classList.add('d-lg-flex');
-
-        clienteModalInfoDados(id);
-    }
-
-    // Documentos
-    if (op == 3) {
-        div_documentos.classList.remove('d-none');
-        div_documentos.classList.add('d-lg-flex');
-
-        clienteModalInfoDocumentos(id);
-    }
-
-    // Incluir Documentos
-    if (op == 6) {
-        div_incluir_documentos.classList.remove('d-none');
-        div_incluir_documentos.classList.add('d-lg-flex');
-    }
-
-    // Propostas
-    if (op == 7) {
-        div_propostas.classList.remove('d-none');
-        div_propostas.classList.add('d-lg-flex');
-
-        clienteModalInfoPropostas(id);
-    }
-
-    // Ordens Serviços
-    if (op == 8) {
-        div_ordens_servicos.classList.remove('d-none');
-        div_ordens_servicos.classList.add('d-lg-flex');
-
-        clienteModalInfoOrdensServicos(id);
-    }
-
-    // Visitas Técnicas
-    if (op == 9) {
-        div_visitas_tecnicas.classList.remove('d-none');
-        div_visitas_tecnicas.classList.add('d-lg-flex');
-
-        clienteModalInfoVisitasTecnicas(id);
-    }
-
-    // Brigadas Incêndios
-    if (op == 10) {
-        div_brigadas_incendios.classList.remove('d-none');
-        div_brigadas_incendios.classList.add('d-lg-flex');
-
-        clienteModalInfoBrigadasIncendios(id);
-    }
-
-    // Rede
-    if (op == 11) {
-        div_clientes_rede.classList.remove('d-none');
-        div_clientes_rede.classList.add('d-lg-flex');
-
-        clienteModalInfoClientesRede(id);
-    }
-
-    // Principal
-    if (op == 12) {
-        div_clientes_principal.classList.remove('d-none');
-        div_clientes_principal.classList.add('d-lg-flex');
-
-        clienteModalInfoClientesPrincipal(id);
-    }
-
-    // Documentos Exigidos
-    if (op == 13) {
-        div_documentos_exigidos.classList.remove('d-none');
-        div_documentos_exigidos.classList.add('d-lg-flex');
-
-        clienteModalInfoDocumentosExigidos(id);
-    }
-
-    clienteModalInfoEstatisticas(id);
 }
 
-// Modal Clientes
-// Estatisticas
-function clienteModalInfoEstatisticas(id='') {
-    if (id == '') {id = document.getElementById('mi_cli_cliente_id').value;}
+function DOMContentLoadedLogotipoRelatorios() {
+    const frm_upload_logotipo_relatorios_cli_executar = document.getElementById('frm_upload_logotipo_relatorios_cli_executar');
 
-    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+    if (frm_upload_logotipo_relatorios_cli_executar) {
+        frm_upload_logotipo_relatorios_cli_executar.addEventListener('click', function () {
+            //FormData
+            var formulario = document.getElementById('frm_upload_logotipo_relatorios_cli');
+            var formData = new FormData(formulario);
+            var url_atual = window.location.protocol + '//' + window.location.host + '/';
 
-    //Acessar rota
-    fetch(url_atual+'clientes/modalInfo/estatisticas/'+id, {
-        method: 'GET',
-        headers: {'REQUEST-ORIGIN': 'fetch'}
-    }).then(response => {
-        return response.json();
-    }).then(data => {
-        //Lendo json
-        let json = data;
+            //Tratar Botões
+            frm_upload_logotipo_relatorios_cli_executar.style.display = 'block';
 
-        //Lendo dados cliente
-        let estatisticas = json;
+            //Criticando campos
+            if (validar_frm_upload_logotipo_relatorios() === false) { return false; }
 
-        //Header
-        document.getElementById('md_cli_estatisticas_documentos').innerHTML = estatisticas.documentos;
-        document.getElementById('md_cli_estatisticas_visitas_tecnicas').innerHTML = estatisticas.visitas_tecnicas;
-        document.getElementById('md_cli_estatisticas_ordens_servicos').innerHTML = estatisticas.ordens_servicos;
-        document.getElementById('md_cli_estatisticas_brigadas_incendios').innerHTML = estatisticas.brigadas_incendios;
-        document.getElementById('md_cli_estatisticas_propostas').innerHTML = estatisticas.propostas;
-        document.getElementById('md_cli_estatisticas_clientes_rede').innerHTML = estatisticas.clientes_rede;
-        document.getElementById('md_cli_estatisticas_clientes_principal').innerHTML = estatisticas.clientes_principal;
-        document.getElementById('md_cli_estatisticas_documentos_exigidos').innerHTML = estatisticas.documentos_exigidos;
-    }).catch(error => {
-        alert('Erro clienteModalInfoEstatisticas: '+error);
-    });
+            //Acessar rota
+            fetch(url_atual + 'clientes/uploadLogotipo/upload_logotipo_relatorios', {
+                method: 'POST',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                //Lendo dados
+                if (data.success) {
+                    //Atualizando Logotipos relatorios
+                    const fileInput = document.getElementById('cli_logotipo_relatorios_file');
+                    if (fileInput) {
+                        const file = fileInput.files[0];
+                        if (file) {
+                            var reader = new FileReader();
+                            reader.onload = function () {
+                                document.getElementById('mi_cli_logotipo_relatorios').src = reader.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    }
+
+                    //Reset Form
+                    formulario.reset();
+                } else if (data.error) {
+                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                } else {
+                    alert('Erro interno');
+                }
+            }).catch(error => {
+                alert('Erro Clientes Upload Logotipo Relatório: ' + error);
+            });
+        });
+    }
 }
 
-// Modal Clientes
-// Dados
-async function clienteModalInfoDados(id='') {
+function DOMContentLoadedLogotipoCartaoEmergencial() {
+    const frm_upload_logotipo_cartao_emergencial_cli_executar = document.getElementById('frm_upload_logotipo_cartao_emergencial_cli_executar');
+
+    if (frm_upload_logotipo_cartao_emergencial_cli_executar) {
+        frm_upload_logotipo_cartao_emergencial_cli_executar.addEventListener('click', function () {
+            //FormData
+            var formulario = document.getElementById('frm_upload_logotipo_cartao_emergencial_cli');
+            var formData = new FormData(formulario);
+            var url_atual = window.location.protocol + '//' + window.location.host + '/';
+
+            //Tratar Botões
+            frm_upload_logotipo_cartao_emergencial_cli_executar.style.display = 'block';
+
+            //Criticando campos
+            if (validar_frm_upload_logotipo_cartao_emergencial() === false) { return false; }
+
+            //Acessar rota
+            fetch(url_atual + 'clientes/uploadLogotipo/upload_logotipo_cartao_emergencial', {
+                method: 'POST',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                //Lendo dados
+                if (data.success) {
+                    //Atualizando Logotipos cartao_emergencial
+                    const fileInput = document.getElementById('cli_logotipo_cartao_emergencial_file');
+                    if (fileInput) {
+                        const file = fileInput.files[0];
+                        if (file) {
+                            var reader = new FileReader();
+                            reader.onload = function () {
+                                document.getElementById('mi_cli_logotipo').src = reader.result;
+                                document.getElementById('mi_cli_logotipo_cartao_emergencial').src = reader.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    }
+
+                    //Reset Form
+                    formulario.reset();
+                } else if (data.error) {
+                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                } else {
+                    alert('Erro interno');
+                }
+            }).catch(error => {
+                alert('Erro Clientes Upload Logotipo Cartão Emergencial: ' + error);
+            });
+        });
+    }
+}
+
+function DOMContentLoadedLogotipoMenu() {
+    const frm_upload_logotipo_menu_cli_executar = document.getElementById('frm_upload_logotipo_menu_cli_executar');
+
+    if (frm_upload_logotipo_menu_cli_executar) {
+        frm_upload_logotipo_menu_cli_executar.addEventListener('click', function () {
+            //FormData
+            var formulario = document.getElementById('frm_upload_logotipo_menu_cli');
+            var formData = new FormData(formulario);
+            var url_atual = window.location.protocol + '//' + window.location.host + '/';
+
+            //Tratar Botões
+            frm_upload_logotipo_menu_cli_executar.style.display = 'block';
+
+            //Criticando campos
+            if (validar_frm_upload_logotipo_menu() === false) { return false; }
+
+            //Acessar rota
+            fetch(url_atual + 'clientes/uploadLogotipo/upload_logotipo_menu', {
+                method: 'POST',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                //Lendo dados
+                if (data.success) {
+                    //Atualizando Logotipos menu
+                    const fileInput = document.getElementById('cli_logotipo_menu_file');
+                    if (fileInput) {
+                        const file = fileInput.files[0];
+                        if (file) {
+                            var reader = new FileReader();
+                            reader.onload = function () {
+                                document.getElementById('mi_cli_logotipo_menu').src = reader.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    }
+
+                    //Reset Form
+                    formulario.reset();
+                } else if (data.error) {
+                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                } else {
+                    alert('Erro interno');
+                }
+            }).catch(error => {
+                alert('Erro Clientes Upload Logotipo Menu: ' + error);
+            });
+        });
+    }
+}
+// Modal INFO - Logotipos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Logotipos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Modal INFO - Dados - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Dados - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoDados(id = '', retornoControle = 0) {
+    // Estatisticas
+    await clienteModalInfoEstatisticas(id);
+
     if (id == '') {id = document.getElementById('mi_cli_cliente_id').value;}
 
     //Abrir Modal
@@ -593,8 +981,8 @@ async function clienteModalInfoDados(id='') {
             document.getElementById('div_cli_dados_data').innerHTML = 'Data Nascimento';
         }
 
-        //Campo cli_documentos_documento_id''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        const selectDocumento = document.getElementById('cli_documentos_documento_id');
+        //Campo cli_editar_documentos_documento_id''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        const selectDocumento = document.getElementById('cli_editar_documentos_documento_id');
         if (selectDocumento) {
             const options = selectDocumento.querySelectorAll('option');
 
@@ -657,7 +1045,7 @@ async function clienteModalInfoDados(id='') {
         document.getElementById('mi_cli_data_nascimento').value = formatarData(2, cliente.data_nascimento);
 
         // Documentos
-        if (document.getElementById('upload_documentos_cliente_id')) { document.getElementById('upload_documentos_cliente_id').value = cliente.id; }
+        if (document.getElementById('editar_documentos_cliente_id')) { document.getElementById('editar_documentos_cliente_id').value = cliente.id; }
 
         // Logotipo Principal
         if (document.getElementById('upload_logotipo_principal_cliente_id')) { document.getElementById('upload_logotipo_principal_cliente_id').value = cliente.id; }
@@ -672,172 +1060,210 @@ async function clienteModalInfoDados(id='') {
         if (document.getElementById('upload_logotipo_menu_cliente_id')) { document.getElementById('upload_logotipo_menu_cliente_id').value = cliente.id; }
 
         // Documentos Exigidos
-        if (document.getElementById('documentos_exigidos_cliente_id')) { document.getElementById('documentos_exigidos_cliente_id').value = cliente.id; }
+        if (document.getElementById('editar_documentos_exigidos_cliente_id')) { document.getElementById('editar_documentos_exigidos_cliente_id').value = cliente.id; }
+
+        // Lojas
+        if (document.getElementById('editar_lojas_cliente_id')) { document.getElementById('editar_lojas_cliente_id').value = cliente.id; }
+
+        // Sistemas Preventivos
+        if (document.getElementById('editar_sistemas_preventivos_cliente_id')) { document.getElementById('editar_sistemas_preventivos_cliente_id').value = cliente.id; }
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        // Verificar se precisa da opção Lojas''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        let lojas_salvas = Number(document.getElementById('md_cli_estatisticas_lojas_qtd').value);
+
+        const aNumeroLojas = document.getElementById('aNumeroLojas');
+
+        aNumeroLojas.style.display = 'none';
+
+        const numero_lojas = Number(cliente.numero_lojas);
+
+        if (!isNaN(numero_lojas) && !isNaN(lojas_salvas)) {
+            if (numero_lojas > 0 && lojas_salvas < numero_lojas) { aNumeroLojas.style.display = 'block'; }
+        }
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     }).catch(error => {
-        alert('Erro clienteModalInfoDados: '+error);
+        alert('Erro clienteModalInfoDados: ' + error);
+    }).finally(async () => {
+        // Retornar para outro controle
+        if (retornoControle != 0) {
+            await clienteModalInfoControle(retornoControle);
+        }
     });
 }
+// Modal INFO - Dados - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Dados - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-// Modal Clientes
-// Documentos
-function clienteModalInfoDocumentos(cliente_id = '') {
-    if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
+// Modal INFO - Editar Documentos - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Editar Documentos - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+function validar_frm_editar_documentos() {
+    var validacao_ok = true;
+    var mensagem = '';
 
-    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+    //Campo: editar_documentos_cliente_id (requerido)
+    if (validacao({op:1, value:document.getElementById('editar_documentos_cliente_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Cliente requerido.'+'<br>';
+    }
 
-    //Acessar rota
-    fetch(url_atual+'clientes/modalInfo/documentos/'+cliente_id, {
-        method: 'GET',
-        headers: {'REQUEST-ORIGIN': 'fetch'}
-    }).then(response => {
-        return response.json();
-    }).then(data => {
-        //Lendo json
-        let clientes_documentos = data.clientes_documentos;
+    //Campo: cli_editar_documentos_documento_id (requerido)
+    if (validacao({op:1, value:document.getElementById('cli_editar_documentos_documento_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Documento requerido.'+'<br>';
+    }
 
-        // Permissões
-        let permissoes = data.permissoes;
-        const permissao_list = permissoes.some(p => p.permissao === 'clientes_list');
-        const permissao_destroy = permissoes.some(p => p.permissao === 'clientes_destroy');
+    //Campo: cli_editar_documentos_data_emissao (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('cli_editar_documentos_data_emissao').value}) === true) {
+        //Campo: cli_editar_documentos_data_emissao (Data Válida)
+        if (validacao({op:8, value:document.getElementById('cli_editar_documentos_data_emissao').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Data emissão Inválida.'+'<br>';
+        }
+    }
 
-        //Grade
-        let grade = '';
+    //Campo: cli_editar_documentos_data_vencimento (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('cli_editar_documentos_data_vencimento').value}) === true) {
+        //Campo: cli_editar_documentos_data_vencimento (Data Válida)
+        if (validacao({op:8, value:document.getElementById('cli_editar_documentos_data_vencimento').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Data vencimento Inválida.'+'<br>';
+        }
+    }
 
-        //Montar Grade
-        if (clientes_documentos.length > 0) {
-            grade += '<table class="table align-middle table-nowrap table-check table-sm">'; //NÃO COLOCAR DATATABLE POIS O FILTRO NÃO FUNCIONA
-            grade += '  <thead class="table-light">';
-            grade += '      <tr>';
-            grade += '          <th scope="col">Documento</th>';
-            grade += '          <th scope="col">Descrição</th>';
-            grade += '          <th scope="col">Emissão</th>';
-            grade += '          <th scope="col">Vencimento</th>';
-            grade += '          <th scope="col">Aviso</th>';
-            grade += '          <th scope="col">Ações</th>';
-            grade += '      </tr>';
-            grade += '  </thead>';
-            grade += '  <tbody>';
+    //Campo: cli_editar_documentos_file (arquivo PDF requerido)
+    // if (validacao({op:16, id:'cli_editar_documentos_file'}) === false) {
+    //     validacao_ok = false;
+    //     mensagem += 'Arquivo PDF requerido.'+'<br>';
+    // }
 
-            //Varrer
-            clientes_documentos.forEach(dado => {
-                //Documento
-                let documentoName = dado.documentoName;
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
 
-                //Aviso
-                let aviso_texto = '';
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
 
-                if (dado.aviso == 0) {aviso_texto = '';}
-                if (dado.aviso == 1) {aviso_texto = 'Avisar a cada 1 mês';}
-                if (dado.aviso == 2) {aviso_texto = 'Avisar a cada 3 meses';}
-                if (dado.aviso == 3) {aviso_texto = 'Avisar a cada 6 meses';}
-                if (dado.aviso == 4) {aviso_texto = 'Avisar a cada 1 ano';}
-                if (dado.aviso == 5) {aviso_texto = 'Avisar a cada 3 anos';}
-                if (dado.aviso == 6) { aviso_texto = 'Avisar a cada 6 anos'; }
+    //Retorno
+    return validacao_ok;
+}
 
-                // Ações
-                let acoes = '';
+function DOMContentLoadedEditarDocumentos() {
+    const frm_editar_documentos_cli_botao_salvar_operacao = document.getElementById('frm_editar_documentos_cli_botao_salvar_operacao');
 
-                acoes += '<div class="row">';
+    if (frm_editar_documentos_cli_botao_salvar_operacao) {
+        frm_editar_documentos_cli_botao_salvar_operacao.addEventListener('click', function () {
+            // FormData
+            var formulario = document.getElementById('frm_editar_documentos_cli');
+            var formData = new FormData(formulario);
+            var url_atual = window.location.protocol + '//' + window.location.host + '/';
+            var editar_documentos_cliente_id = document.getElementById('editar_documentos_cliente_id').value;
 
-                if (permissao_list) {
-                    acoes += '  <div class="col-6">';
-                    acoes += '      <button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Documento" onclick="window.open(\'' + dado.caminho + '\', \'_blank\');"><i class="fa fa-file-pdf font-size-18"></i></button>';
-                    acoes += '  </div>';
+            // Criticando campos
+            if (validar_frm_editar_documentos() === false) { return false; }
+
+            // Acessar rota
+            fetch(url_atual + 'clientes/editarDocumento/editar_documento', {
+                method: 'POST',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            }).then(response => {
+                return response.json();
+            }).then(async data => {
+                // Lendo dados
+                if (data.success) {
+                    // Montando Grade de Documentos PDF
+                    clienteModalInfoDocumentos(editar_documentos_cliente_id);
+
+                    formulario.reset();
+
+                    alertSwal('success', 'Clientes', data.success, 'true', 20000);
+
+                    // Atualizar chamando função Dados e Montar Grade
+                    await clienteModalInfoDados(editar_documentos_cliente_id, 3);
+                } else if (data.error) {
+                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                } else {
+                    alert('Erro interno');
                 }
-
-                if (permissao_destroy) {
-                    acoes += '  <div class="col-6">';
-                    acoes += '      <button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Documento" onclick="clienteModalInfoDocumentosDeletar(' + dado.id + ');"><i class="fa fa-trash-alt font-size-18"></i></button>';
-                    acoes += '  </div>';
-                }
-
-                acoes += '</div>';
-
-                // TR
-                grade += '<tr class="documento_fonte_'+dado.documento_fonte_id+'">';
-                grade += '  <td>'+documentoName+'</td>';
-                grade += '  <td>'+dado.descricao+'</td>';
-                grade += '  <td>' + formatarData(2, dado.data_emissao) + '</td>';
-                grade += '  <td>'+formatarData(2, dado.data_vencimento)+'</td>';
-                grade += '  <td>'+aviso_texto+'</td>';
-                grade += '  <td>'+acoes+'</td>';
-                grade += '</tr>';
+            }).catch(error => {
+                alert('Erro Clientes Editar Documento PDF: ' + error);
             });
-
-            grade += '  </tbody>';
-            grade += '</table>';
-        } else {
-            grade = 'Nenhum documento encontrado.';
-        }
-
-        //Retornar Grade
-        document.getElementById('cli_documentos_grade').innerHTML = grade;
-
-        //Colocar Botões para filtro dos documentos quanto a Fonte
-        var documentoFonteFiltro = '';
-        var idPrimeiroFiltro = 0; // Guardar um id para depois que a grade for mostrada executar o primeiro Filtro)
-        if (grade != 'Nenhum documento encontrado.') {
-            //Lendo json
-            let documento_fontes = data.documento_fontes;
-
-            documentoFonteFiltro += '<div class="row g-3">';
-
-            //Varrer
-            documento_fontes.forEach(dado => {
-                let documento_fonte_id = dado.id;
-                let documento_fonte_name = dado.name;
-                let qtd_registros = clientes_documentos.filter(reg => reg.documento_fonte_id === documento_fonte_id);
-
-                if (qtd_registros.length > 0) {
-                    if (idPrimeiroFiltro == 0) { idPrimeiroFiltro = documento_fonte_id; }
-
-                    documentoFonteFiltro += `
-                        <div class="col-12 col-lg-6">
-                            <button type="button"
-                                class="btn btn-warning text-center btn-sm w-100"
-                                data-bs-toggle="tooltip"
-                                data-bs-placement="top"
-                                title="Filtrar Documentos"
-                                onclick="clienteModalInfoDocumentosFiltrar(${documento_fonte_id});">
-                                ${documento_fonte_name} (${qtd_registros.length})
-                            </button>
-                        </div>
-                    `;
-                }
-            });
-
-            documentoFonteFiltro += '</div>';
-        }
-
-        //Retornar Documento Filtro (Botões)
-        document.getElementById('cli_documentos_grade_botoes').innerHTML = documentoFonteFiltro;
-
-        //Primeiro Filtro
-        clienteModalInfoDocumentosFiltrar(idPrimeiroFiltro);
-    }).catch(error => {
-        alert('Erro clienteModalInfoDocumentos: '+error);
-    }).finally(() => {
-        configurarDataTable(3);
-    });
+        });
+    }
 }
 
-function clienteModalInfoDocumentosFiltrar(documento_fonte_id) {
-    const todasLinhas = document.querySelectorAll("#cli_documentos_grade table tbody tr");
+async function clienteModalInfoEditarDocumentosCreate() {
+    const frm_editar_documentos_cli = document.getElementById('frm_editar_documentos_cli');
+    const frm_editar_documentos_cli_botao_salvar_operacao = document.getElementById('frm_editar_documentos_cli_botao_salvar_operacao');
+    const cli_editar_documentos_cliente_documento_id = document.getElementById('cli_editar_documentos_cliente_documento_id');
+    const cli_editar_documentos_operacao = document.getElementById('cli_editar_documentos_operacao');
+    const div_editar_documentos_pdf_atual = document.getElementById('div_editar_documentos_pdf_atual');
 
-    // Primeiro: mostra todas as linhas
-    todasLinhas.forEach(linha => linha.style.display = '');
+    // Formulário
+    frm_editar_documentos_cli.reset();
 
-    // Depois: aplica o filtro
-    todasLinhas.forEach(linha => {
-        if (!linha.classList.contains(`documento_fonte_${documento_fonte_id}`)) {
-            linha.style.display = 'none';
-        }
-    });
+    // Botão
+    frm_editar_documentos_cli_botao_salvar_operacao.classList.remove('btn-primary');
+    frm_editar_documentos_cli_botao_salvar_operacao.classList.add('btn-success');
+    frm_editar_documentos_cli_botao_salvar_operacao.innerHTML = 'Salvar Operação (Incluir)';
+
+    // Campos
+    cli_editar_documentos_cliente_documento_id.value = 0;
+    cli_editar_documentos_operacao.value = 'create';
+
+    // PDF
+    div_editar_documentos_pdf_atual.style.display = 'none';
+
+    await clienteModalInfoControle(6);
 }
 
-//Função para deletar documento da grade
-async function clienteModalInfoDocumentosDeletar(cliente_documento_id) {
+async function clienteModalInfoEditarDocumentosEdit(cliente_documento_id, documento_id, descricao, aviso, data_emissao, data_vencimento, caminho) {
+    const frm_editar_documentos_cli = document.getElementById('frm_editar_documentos_cli');
+    const frm_editar_documentos_cli_botao_salvar_operacao = document.getElementById('frm_editar_documentos_cli_botao_salvar_operacao');
+    const cli_editar_documentos_cliente_documento_id = document.getElementById('cli_editar_documentos_cliente_documento_id');
+    const cli_editar_documentos_operacao = document.getElementById('cli_editar_documentos_operacao');
+    const cli_editar_documentos_documento_id = document.getElementById('cli_editar_documentos_documento_id');
+    const cli_editar_documentos_descricao = document.getElementById('cli_editar_documentos_descricao');
+    const cli_editar_documentos_aviso = document.getElementById('cli_editar_documentos_aviso');
+    const cli_editar_documentos_data_emissao = document.getElementById('cli_editar_documentos_data_emissao');
+    const cli_editar_documentos_data_vencimento = document.getElementById('cli_editar_documentos_data_vencimento');
+    const div_editar_documentos_pdf_atual = document.getElementById('div_editar_documentos_pdf_atual');
+    const a_editar_documentos_pdf_atual = document.getElementById('a_editar_documentos_pdf_atual');
+
+    // Formulário
+    frm_editar_documentos_cli.reset();
+
+    // Botão
+    frm_editar_documentos_cli_botao_salvar_operacao.classList.remove('btn-success');
+    frm_editar_documentos_cli_botao_salvar_operacao.classList.add('btn-primary');
+    frm_editar_documentos_cli_botao_salvar_operacao.innerHTML = 'Salvar Operação (Alterar)';
+
+    // Campos
+    cli_editar_documentos_cliente_documento_id.value = cliente_documento_id;
+    cli_editar_documentos_operacao.value = 'edit';
+    cli_editar_documentos_documento_id.value = documento_id;
+    cli_editar_documentos_descricao.value = descricao;
+    cli_editar_documentos_aviso.value = aviso;
+    cli_editar_documentos_data_emissao.value = formatarData(2, data_emissao);
+    cli_editar_documentos_data_vencimento.value = formatarData(2, data_vencimento);
+
+    // PDF
+    div_editar_documentos_pdf_atual.style.display = 'none';
+
+    if (typeof caminho === 'string' && caminho.trim() !== '') {
+        div_editar_documentos_pdf_atual.style.display = '';
+        a_editar_documentos_pdf_atual.href = caminho;
+    }
+
+    await clienteModalInfoControle(6);
+}
+
+async function clienteModalInfoEditarDocumentosDeletar(cliente_documento_id) {
     //Confirmação de Delete
     const confirmed = await alertSwalConfirmacao();
     if (confirmed) {
@@ -852,7 +1278,7 @@ async function clienteModalInfoDocumentosDeletar(cliente_documento_id) {
             }
         }).then(response => {
             return response.json();
-        }).then(data => {
+        }).then(async data => {
             //Lendo dados
             if (data.success) {
                 alertSwal('success', 'Clientes', data.success, 'true', 2000);
@@ -860,8 +1286,8 @@ async function clienteModalInfoDocumentosDeletar(cliente_documento_id) {
                 //Dados
                 let cliente_id = document.getElementById('mi_cli_cliente_id').value;
 
-                //Montar Grade
-                clienteModalInfoDocumentos(cliente_id);
+                // Atualizar chamando função Dados e Montar Grade
+                await clienteModalInfoDados(cliente_id, 3);
             } else if (data.error) {
                 alertSwal('error', 'Clientes', data.error, 'true', 2000);
             } else if (data.error_permissao) {
@@ -870,14 +1296,1173 @@ async function clienteModalInfoDocumentosDeletar(cliente_documento_id) {
                 alert('Erro interno');
             }
         }).catch(error => {
-            alert('Erro clienteModalInfoDocumentosDeletar:'+error);
+            alert('Erro clienteModalInfoEditarDocumentosDeletar:'+error);
+        });
+    }
+}
+// Modal INFO - Editar Documentos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Editar Documentos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Modal INFO - Documentos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Documentos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoDocumentos(cliente_id = '') {
+    if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    // Acessar rota
+    fetch(url_atual+'clientes/modalInfo/documentos/'+cliente_id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        // Lendo json
+        let clientes_documentos = data.clientes_documentos;
+
+        // Permissões
+        let permissoes = data.permissoes;
+        const permissao_list = permissoes.some(p => p.permissao === 'clientes_list');
+        const permissao_show = permissoes.some(p => p.permissao === 'clientes_show');
+        const permissao_edit = permissoes.some(p => p.permissao === 'clientes_edit');
+        const permissao_destroy = permissoes.some(p => p.permissao === 'clientes_destroy');
+
+        // Grade
+        let grade = '';
+
+        // Montar Grade
+        if (clientes_documentos.length > 0) {
+            grade += '<table class="table align-middle table-nowrap table-check table-sm">'; //NÃO COLOCAR DATATABLE POIS O FILTRO NÃO FUNCIONA
+            grade += '  <thead class="table-light">';
+            grade += '      <tr>';
+            grade += '          <th scope="col">Documento</th>';
+            grade += '          <th scope="col">Descrição</th>';
+            grade += '          <th scope="col">Emissão</th>';
+            grade += '          <th scope="col">Vencimento</th>';
+            grade += '          <th scope="col">Aviso</th>';
+            grade += '          <th class="text-center" scope="col">Ações</th>';
+            grade += '      </tr>';
+            grade += '  </thead>';
+            grade += '  <tbody>';
+
+            // Varrer
+            clientes_documentos.forEach(dado => {
+                // Dados
+                let documentoName = dado.documentoName;
+                let descricao = dado.descricao ?? '';
+                let data_emissao = dado.data_emissao ?? '';
+                let data_vencimento = dado.data_vencimento ?? '';
+                let caminho = dado.caminho ?? '';
+                let aviso = dado.aviso ?? '';
+
+                // Aviso
+                let aviso_texto = '';
+
+                if (aviso == 1) {aviso_texto = 'Avisar a cada 1 mês';}
+                if (aviso == 2) {aviso_texto = 'Avisar a cada 3 meses';}
+                if (aviso == 3) {aviso_texto = 'Avisar a cada 6 meses';}
+                if (aviso == 4) {aviso_texto = 'Avisar a cada 1 ano';}
+                if (aviso == 5) {aviso_texto = 'Avisar a cada 3 anos';}
+                if (aviso == 6) {aviso_texto = 'Avisar a cada 6 anos';}
+
+                // Ações
+                let acoes = ``;
+
+                acoes += `<div class="d-flex justify-content-center gap-2">`;
+
+                if (permissao_show) {
+                    if (caminho != '') {
+                        acoes += `<button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Documento PDF" onclick="window.open('${caminho}', '_blank');">`;
+                        acoes += `<i class="fa fa-file-pdf font-size-18"></i></button>`;
+                    }
+                }
+
+                if (permissao_edit) {
+                    acoes += `<button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Dados" onclick="clienteModalInfoEditarDocumentosEdit(${dado.id}, ${dado.documento_id}, '${descricao}', ${aviso}, '${data_emissao}', '${data_vencimento}', '${caminho}');">`;
+                    acoes += `<i class="fas fa-pencil-alt"></i></button>`;
+                }
+
+                if (permissao_destroy) {
+                    acoes += `<button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Dados e Documento PDF" onclick="clienteModalInfoEditarDocumentosDeletar('${dado.id}');">`;
+                    acoes += `<i class="fa fa-trash-alt font-size-18"></i></button>`;
+                }
+
+                acoes += `</div>`;
+
+                // TR
+                grade += '<tr class="documento_fonte_'+dado.documento_fonte_id+'">';
+                grade += '  <td>'+documentoName+'</td>';
+                grade += '  <td>'+descricao+'</td>';
+                grade += '  <td>' + formatarData(2, data_emissao) + '</td>';
+                grade += '  <td>'+formatarData(2, data_vencimento)+'</td>';
+                grade += '  <td>'+aviso_texto+'</td>';
+                grade += '  <td>'+acoes+'</td>';
+                grade += '</tr>';
+            });
+
+            grade += '  </tbody>';
+            grade += '</table>';
+        } else {
+            grade = 'Nenhum documento encontrado.';
+        }
+
+        // Retornar Grade
+        document.getElementById('cli_documentos_grade').innerHTML = grade;
+
+        // Colocar Botões para filtro dos documentos quanto a Fonte
+        var documentoFonteFiltro = '';
+        var idPrimeiroFiltro = 0; // Guardar um id para depois que a grade for mostrada executar o primeiro Filtro)
+        if (grade != 'Nenhum documento encontrado.') {
+            // Lendo json
+            let documento_fontes = data.documento_fontes;
+
+            documentoFonteFiltro += '<div class="col-12 order-3 order-lg-2 align-self-center">';
+            documentoFonteFiltro += '   <div class="text-lg-center mt-4 mt-lg-0">';
+            documentoFonteFiltro += '       <div class="d-flex flex-wrap justify-content-start gap-2">';
+
+            // Varrer
+            documento_fontes.forEach(dado => {
+                let documento_fonte_id = dado.id;
+                let documento_fonte_name = dado.name;
+                let qtd_registros = clientes_documentos.filter(reg => reg.documento_fonte_id === documento_fonte_id);
+
+                if (qtd_registros.length > 0) {
+                    if (idPrimeiroFiltro == 0) { idPrimeiroFiltro = documento_fonte_id; }
+
+                    documentoFonteFiltro += `
+                            <button type="button"
+                                class="btn btn-warning btn-sm flex-fill text-center py-2 font-size-10"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Filtrar Documentos"
+                                onclick="clienteModalInfoDocumentosFiltrar(${documento_fonte_id});">
+                                ${documento_fonte_name} (${qtd_registros.length})
+                            </button>`;
+                }
+            });
+
+            documentoFonteFiltro += '       </div>';
+            documentoFonteFiltro += '   </div>';
+            documentoFonteFiltro += '</div>';
+        }
+
+        // Retornar Documento Filtro (Botões)
+        document.getElementById('cli_documentos_grade_botoes').innerHTML = documentoFonteFiltro;
+
+        // Primeiro Filtro
+        clienteModalInfoDocumentosFiltrar(idPrimeiroFiltro);
+    }).catch(error => {
+        alert('Erro clienteModalInfoDocumentos: '+error);
+    }).finally(() => {
+        configurarDataTable(3);
+    });
+}
+
+async function clienteModalInfoDocumentosFiltrar(documento_fonte_id) {
+    const todasLinhas = document.querySelectorAll("#cli_documentos_grade table tbody tr");
+
+    // Primeiro: mostra todas as linhas
+    todasLinhas.forEach(linha => linha.style.display = '');
+
+    // Depois: aplica o filtro
+    todasLinhas.forEach(linha => {
+        if (!linha.classList.contains(`documento_fonte_${documento_fonte_id}`)) {
+            linha.style.display = 'none';
+        }
+    });
+}
+// Modal INFO - Documentos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Documentos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Modal INFO - Editar Sistemas Preventivos - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Editar Sistemas Preventivos - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+function validar_frm_editar_sistemas_preventivos() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    // Campo: editar_sistemas_preventivos_cliente_id (requerido)
+    if (validacao({op:1, value:document.getElementById('editar_sistemas_preventivos_cliente_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Cliente requerido.'+'<br>';
+    }
+
+    // Campo: cli_editar_sistemas_preventivos_medida_seguranca_id (requerido)
+    if (validacao({op:1, value:document.getElementById('cli_editar_sistemas_preventivos_medida_seguranca_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Medida Segurança requerido.'+'<br>';
+    }
+
+    // Campo: cli_editar_sistemas_preventivos_name (requerido)
+    if (validacao({op:1, value:document.getElementById('cli_editar_sistemas_preventivos_name').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Sistema Preventivo (Nome) requerido.'+'<br>';
+    }
+
+    // Campo: cli_editar_sistemas_preventivos_sistema_preventivo_numero (requerido)
+    if (validacao({op:1, value:document.getElementById('cli_editar_sistemas_preventivos_sistema_preventivo_numero').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Sistema Preventivo (Número) requerido.'+'<br>';
+    } else {
+        // Campo: cli_editar_sistemas_preventivos_sistema_preventivo_numero (mínimo de 7 caracteres)
+        if (validacao({ op: 2, value: document.getElementById('cli_editar_sistemas_preventivos_sistema_preventivo_numero').value, minCaracteres: 7 }) === false) {
+            validacao_ok = false;
+            mensagem += 'Sistema Preventivo (Número) precisa ter 7 números.' + '<br>';
+        }
+
+        // Campo: cli_editar_sistemas_preventivos_sistema_preventivo_numero (máximo de 7 caracteres)
+        if (validacao({ op: 3, value: document.getElementById('cli_editar_sistemas_preventivos_sistema_preventivo_numero').value, maxCaracteres: 7 }) === false) {
+            validacao_ok = false;
+            mensagem += 'Sistema Preventivo (Número) precisa ter 7 números.' + '<br>';
+        }
+
+        // Campo: cli_editar_sistemas_preventivos_sistema_preventivo_numero (somente números)
+        if (validacao({ op: 4, value: document.getElementById('cli_editar_sistemas_preventivos_sistema_preventivo_numero').value }) === false) {
+            validacao_ok = false;
+            mensagem += 'Sistema Preventivo (Número) só pode conter dígitos de 0 a 9.' + '<br>';
+        }
+    }
+
+    // Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    // Retorno
+    return validacao_ok;
+}
+
+function DOMContentLoadedEditarSistemasPreventivos() {
+    const frm_editar_sistemas_preventivos_cli_botao_salvar_operacao = document.getElementById('frm_editar_sistemas_preventivos_cli_botao_salvar_operacao');
+
+    if (frm_editar_sistemas_preventivos_cli_botao_salvar_operacao) {
+        frm_editar_sistemas_preventivos_cli_botao_salvar_operacao.addEventListener('click', function () {
+            // FormData
+            var formulario = document.getElementById('frm_editar_sistemas_preventivos_cli');
+            var formData = new FormData(formulario);
+            var url_atual = window.location.protocol + '//' + window.location.host + '/';
+            var editar_sistemas_preventivos_cliente_id = document.getElementById('editar_sistemas_preventivos_cliente_id').value;
+
+            // Criticando campos
+            if (validar_frm_editar_sistemas_preventivos() === false) { return false; }
+
+            // Acessar rota
+            fetch(url_atual + 'clientes/editarSistemaPreventivo/editar_sistema_preventivo', {
+                method: 'POST',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            }).then(response => {
+                return response.json();
+            }).then(async data => {
+                // Lendo dados
+                if (data.success) {
+                    // Montando Grade de Sistemas Preventivos
+                    clienteModalInfoSistemasPreventivos(editar_sistemas_preventivos_cliente_id);
+
+                    formulario.reset();
+
+                    alertSwal('success', 'Clientes', data.success, 'true', 20000);
+
+                    // Atualizar chamando função Dados e Montar Grade
+                    await clienteModalInfoDados(editar_sistemas_preventivos_cliente_id, 18);
+                } else if (data.error) {
+                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                } else {
+                    alert('Erro interno');
+                }
+            }).catch(error => {
+                alert('Erro DOMContentLoadedEditarSistemasPreventivos: ' + error);
+            });
         });
     }
 }
 
-// Modal Clientes
-// Propostas
-function clienteModalInfoPropostas(cliente_id = '') {
+async function clienteModalInfoEditarSistemasPreventivosCreate() {
+    const frm_editar_sistemas_preventivos_cli = document.getElementById('frm_editar_sistemas_preventivos_cli');
+    const frm_editar_sistemas_preventivos_cli_botao_salvar_operacao = document.getElementById('frm_editar_sistemas_preventivos_cli_botao_salvar_operacao');
+    const cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id = document.getElementById('cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id');
+    const cli_editar_sistemas_preventivos_operacao = document.getElementById('cli_editar_sistemas_preventivos_operacao');
+    const div_editar_sistemas_preventivos_fotografia_atual = document.getElementById('div_editar_sistemas_preventivos_fotografia_atual');
+
+    // Formulário
+    frm_editar_sistemas_preventivos_cli.reset();
+
+    // Botão
+    frm_editar_sistemas_preventivos_cli_botao_salvar_operacao.classList.remove('btn-primary');
+    frm_editar_sistemas_preventivos_cli_botao_salvar_operacao.classList.add('btn-success');
+    frm_editar_sistemas_preventivos_cli_botao_salvar_operacao.innerHTML = 'Salvar Operação (Incluir)';
+
+    // Campos
+    cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id.value = 0;
+    cli_editar_sistemas_preventivos_operacao.value = 'create';
+
+    // Fotografia
+    div_editar_sistemas_preventivos_fotografia_atual.style.display = 'none';
+
+    await clienteModalInfoControle(17);
+}
+
+async function clienteModalInfoEditarSistemasPreventivosEdit(cliente_sistema_preventivo_id, medida_seguranca_id, name, descricao, sistema_preventivo_numero, fotografia) {
+    const frm_editar_sistemas_preventivos_cli = document.getElementById('frm_editar_sistemas_preventivos_cli');
+    const frm_editar_sistemas_preventivos_cli_botao_salvar_operacao = document.getElementById('frm_editar_sistemas_preventivos_cli_botao_salvar_operacao');
+    const cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id = document.getElementById('cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id');
+    const cli_editar_sistemas_preventivos_operacao = document.getElementById('cli_editar_sistemas_preventivos_operacao');
+    const cli_editar_sistemas_preventivos_medida_seguranca_id = document.getElementById('cli_editar_sistemas_preventivos_medida_seguranca_id');
+    const cli_editar_sistemas_preventivos_name = document.getElementById('cli_editar_sistemas_preventivos_name');
+    const cli_editar_sistemas_preventivos_descricao = document.getElementById('cli_editar_sistemas_preventivos_descricao');
+    const cli_editar_sistemas_preventivos_sistema_preventivo_numero = document.getElementById('cli_editar_sistemas_preventivos_sistema_preventivo_numero');
+    const cli_editar_sistemas_preventivos_fotografia = document.getElementById('cli_editar_sistemas_preventivos_fotografia');
+    const div_editar_sistemas_preventivos_fotografia_atual = document.getElementById('div_editar_sistemas_preventivos_fotografia_atual');
+    const a_editar_sistemas_preventivos_fotografia_atual = document.getElementById('a_editar_sistemas_preventivos_fotografia_atual');
+
+    // Formulário
+    frm_editar_sistemas_preventivos_cli.reset();
+
+    // Botão
+    frm_editar_sistemas_preventivos_cli_botao_salvar_operacao.classList.remove('btn-success');
+    frm_editar_sistemas_preventivos_cli_botao_salvar_operacao.classList.add('btn-primary');
+    frm_editar_sistemas_preventivos_cli_botao_salvar_operacao.innerHTML = 'Salvar Operação (Alterar)';
+
+    // Campos
+    cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id.value = cliente_sistema_preventivo_id;
+    cli_editar_sistemas_preventivos_operacao.value = 'edit';
+    cli_editar_sistemas_preventivos_medida_seguranca_id.value = medida_seguranca_id;
+    cli_editar_sistemas_preventivos_name.value = name;
+    cli_editar_sistemas_preventivos_descricao.value = descricao;
+    cli_editar_sistemas_preventivos_sistema_preventivo_numero.value = sistema_preventivo_numero;
+
+    // Fotografia
+    div_editar_sistemas_preventivos_fotografia_atual.style.display = 'none';
+
+    if (typeof fotografia === 'string' && fotografia.trim() !== '') {
+        div_editar_sistemas_preventivos_fotografia_atual.style.display = '';
+        a_editar_sistemas_preventivos_fotografia_atual.href = fotografia;
+    }
+
+    await clienteModalInfoControle(17);
+}
+
+async function clienteModalInfoEditarSistemasPreventivosDeletar(cliente_sistema_preventivo_id) {
+    // Confirmação de Delete
+    const confirmed = await alertSwalConfirmacao();
+    if (confirmed) {
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+        // Acessar rota
+        fetch(url_atual+'clientes/modalInfo/deletar_sistema_preventivo/'+cliente_sistema_preventivo_id, {
+            method: 'DELETE',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }).then(response => {
+            return response.json();
+        }).then(async data => {
+            // Lendo dados
+            if (data.success) {
+                alertSwal('success', 'Clientes', data.success, 'true', 2000);
+
+                //Dados
+                let cliente_id = document.getElementById('mi_cli_cliente_id').value;
+
+                // Atualizar chamando função Dados e Montar Grade
+                await clienteModalInfoDados(cliente_id, 18);
+            } else if (data.error) {
+                alertSwal('error', 'Clientes', data.error, 'true', 2000);
+            } else if (data.error_permissao) {
+                alertSwal('warning', "Permissão Negada", '', 'true', 2000);
+            } else {
+                alert('Erro interno');
+            }
+        }).catch(error => {
+            alert('Erro clienteModalInfoEditarSistemasPreventivosDeletar:'+error);
+        });
+    }
+}
+// Modal INFO - Editar Sistemas Preventivos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Editar Sistemas Preventivos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Modal INFO - Sistemas Preventivos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Sistemas Preventivos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoSistemasPreventivos(cliente_id = '') {
+    if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    // Acessar rota
+    fetch(url_atual+'clientes/modalInfo/sistemas_preventivos/'+cliente_id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        // Lendo json
+        let clientes_sistemas_preventivos = data.clientes_sistemas_preventivos;
+
+        // Permissões
+        let permissoes = data.permissoes;
+        const permissao_list = permissoes.some(p => p.permissao === 'clientes_list');
+        const permissao_show = permissoes.some(p => p.permissao === 'clientes_show');
+        const permissao_edit = permissoes.some(p => p.permissao === 'clientes_edit');
+        const permissao_destroy = permissoes.some(p => p.permissao === 'clientes_destroy');
+
+        // Grade
+        let grade = '';
+
+        // Montar Grade
+        if (clientes_sistemas_preventivos.length > 0) {
+            grade += '<table class="table align-middle table-nowrap table-check table-sm">'; //NÃO COLOCAR DATATABLE POIS O FILTRO NÃO FUNCIONA
+            grade += '  <thead class="table-light">';
+            grade += '      <tr>';
+            grade += '          <th scope="col">Medida Segurança</th>';
+            grade += '          <th scope="col">Sistema Preventivo (Nome)</th>';
+            grade += '          <th scope="col">Sistema Preventivo (Descrição)</th>';
+            grade += '          <th scope="col">Sistema Preventivo (Número)</th>';
+            grade += '          <th class="text-center" scope="col">Ações</th>';
+            grade += '      </tr>';
+            grade += '  </thead>';
+            grade += '  <tbody>';
+
+            // Varrer
+            clientes_sistemas_preventivos.forEach(dado => {
+                // Dados
+                let medidaSegurancaName = dado.medidaSegurancaName;
+                let name = dado.name ?? '';
+                let descricao = dado.descricao ?? '';
+                let sistema_preventivo_numero = dado.sistema_preventivo_numero ?? '';
+                let fotografia = dado.fotografia ?? '';
+
+                // Ações
+                let acoes = ``;
+
+                acoes += `<div class="d-flex justify-content-center gap-2">`;
+
+                if (permissao_show) {
+                    if (fotografia != '') {
+                        acoes += `<button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Fotografia" onclick="window.open('${fotografia}', '_blank');">`;
+                        acoes += `<i class="fa fa-file-pdf font-size-18"></i></button>`;
+                    }
+                }
+
+                if (permissao_edit) {
+                    acoes += `<button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Dados" onclick="clienteModalInfoEditarSistemasPreventivosEdit(${dado.id}, ${dado.medida_seguranca_id}, '${name}', '${descricao}', '${sistema_preventivo_numero}', '${fotografia}');">`;
+                    acoes += `<i class="fas fa-pencil-alt"></i></button>`;
+                }
+
+                if (permissao_destroy) {
+                    acoes += `<button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Dados e Fotografia" onclick="clienteModalInfoEditarSistemasPreventivosDeletar('${dado.id}');">`;
+                    acoes += `<i class="fa fa-trash-alt font-size-18"></i></button>`;
+                }
+
+                acoes += `</div>`;
+
+                // TR
+                grade += '<tr class="sistema_preventivo_fonte_' + dado.sistema_preventivo_fonte_id + '">';
+                grade += '  <td>' + medidaSegurancaName + '</td>';
+                grade += '  <td>' + name + '</td>';
+                grade += '  <td>' + descricao + '</td>';
+                grade += '  <td>' + sistema_preventivo_numero + '</td>';
+                grade += '  <td>' + acoes + '</td>';
+                grade += '</tr>';
+            });
+
+            grade += '  </tbody>';
+            grade += '</table>';
+        } else {
+            grade = 'Nenhum sistema preventivo encontrado.';
+        }
+
+        // Retornar Grade
+        document.getElementById('cli_sistemas_preventivos_grade').innerHTML = grade;
+
+        // Colocar Botões para filtro dos sistemas_preventivos quanto a Fonte
+        var sistemaPreventivoFonteFiltro = '';
+        var idPrimeiroFiltro = 0; // Guardar um id para depois que a grade for mostrada executar o primeiro Filtro)
+        if (grade != 'Nenhum documento encontrado.') {
+            // Lendo json
+            let sistema_preventivo_fontes = data.sistema_preventivo_fontes;
+
+            sistemaPreventivoFonteFiltro += '<div class="col-12 order-3 order-lg-2 align-self-center">';
+            sistemaPreventivoFonteFiltro += '   <div class="text-lg-center mt-4 mt-lg-0">';
+            sistemaPreventivoFonteFiltro += '       <div class="d-flex flex-wrap justify-content-start gap-2">';
+
+            // Varrer
+            sistema_preventivo_fontes.forEach(dado => {
+                let sistema_preventivo_fonte_id = dado.id;
+                let sistema_preventivo_fonte_name = dado.name;
+                let qtd_registros = clientes_sistemas_preventivos.filter(reg => reg.sistema_preventivo_fonte_id === sistema_preventivo_fonte_id);
+
+                if (qtd_registros.length > 0) {
+                    if (idPrimeiroFiltro == 0) { idPrimeiroFiltro = sistema_preventivo_fonte_id; }
+
+                    sistemaPreventivoFonteFiltro += `
+                            <button type="button"
+                                class="btn btn-warning btn-sm flex-fill text-center py-2 font-size-10"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Filtrar Sistemas Preventivos"
+                                onclick="clienteModalInfoSistemasPreventivosFiltrar(${sistema_preventivo_fonte_id});">
+                                ${sistema_preventivo_fonte_name} (${qtd_registros.length})
+                            </button>`;
+                }
+            });
+
+            sistemaPreventivoFonteFiltro += '       </div>';
+            sistemaPreventivoFonteFiltro += '   </div>';
+            sistemaPreventivoFonteFiltro += '</div>';
+        }
+
+        // Retornar Sistema Preventivo Filtro (Botões)
+        document.getElementById('cli_sistemas_preventivos_grade_botoes').innerHTML = sistemaPreventivoFonteFiltro;
+
+        // Primeiro Filtro
+        clienteModalInfoSistemasPreventivosFiltrar(idPrimeiroFiltro);
+    }).catch(error => {
+        alert('Erro clienteModalInfoSistemasPreventivos: '+error);
+    }).finally(() => {
+        configurarDataTable(3);
+    });
+}
+
+async function clienteModalInfoSistemasPreventivosFiltrar(sistema_preventivo_fonte_id) {
+    const todasLinhas = document.querySelectorAll("#cli_sistemas_preventivos_grade table tbody tr");
+
+    // Primeiro: mostra todas as linhas
+    todasLinhas.forEach(linha => linha.style.display = '');
+
+    // Depois: aplica o filtro
+    todasLinhas.forEach(linha => {
+        if (!linha.classList.contains(`sistema_preventivo_fonte_${sistema_preventivo_fonte_id}`)) {
+            linha.style.display = 'none';
+        }
+    });
+}
+// Modal INFO - Sistemas Preventivos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Sistemas Preventivos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Modal INFO - Editar Documentos Exigidos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Editar Documentos Exigidos - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoEditarDocumentosExigidos(cliente_id = '') {
+    if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
+
+    var url_atual = window.location.protocol + '//' + window.location.host + '/';
+
+    // Acessar rota
+    fetch(url_atual+'clientes/modalInfo/documentos_exigidos/'+cliente_id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        // Lendo json
+        let documentos_exigidos = data.clientes_documentos_exigidos;
+
+        // Estatisticas
+        clienteModalInfoEstatisticas(cliente_id);
+
+        // Marcar checkboxs
+        documentos_exigidos.forEach(function (item) {
+            document.getElementById(`editar_documentos_exigidos_documento_exigido_id_${item.documento_id}`).checked = true;
+        });
+    }).catch(error => {
+        alert('Erro clienteModalInfoEditarDocumentosExigidos: '+error);
+    }).finally(() => {});
+}
+
+function DOMContentLoadedEditarDocumentosExigidos() {
+    const frm_editar_documentos_exigidos_cli_executar = document.getElementById('frm_editar_documentos_exigidos_cli_executar');
+
+    if (frm_editar_documentos_exigidos_cli_executar) {
+        frm_editar_documentos_exigidos_cli_executar.addEventListener('click', function () {
+            // FormData
+            var formulario = document.getElementById('frm_editar_documentos_exigidos_cli');
+            var formData = new FormData(formulario);
+            var url_atual = window.location.protocol + '//' + window.location.host + '/';
+            var editar_documentos_exigidos_cliente_id = document.getElementById('editar_documentos_exigidos_cliente_id').value;
+
+            // Tratar Botões
+            frm_editar_documentos_exigidos_cli_executar.style.display = 'block';
+
+            // Acessar rota
+            fetch(url_atual + 'clientes/modalInfo/documentos_exigidos_save', {
+                method: 'POST',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            }).then(response => {
+                return response.json();
+            }).then(async data => {
+                // Lendo dados
+                if (data.success) {
+
+                    formulario.reset();
+
+                    // Atualizar chamando função Dados e Montar Grade
+                    await clienteModalInfoDados(editar_documentos_exigidos_cliente_id, 14);
+
+                    alertSwal('success', 'Clientes', data.success, 'true', 20000);
+                } else if (data.error) {
+                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                } else {
+                    alert('Erro interno');
+                }
+            }).catch(error => {
+                alert('Erro Clientes Documentos Exigidos: ' + error);
+            });
+        });
+    }
+}
+// Modal INFO - Editar Documentos Exigidos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Editar Documentos Exigidos - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Modal INFO - Documentos Exigidos - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Documentos Exigidos - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoDocumentosExigidos(cliente_id = '') {
+    if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    // Acessar rota
+    fetch(url_atual+'clientes/modalInfo/documentos_exigidos/'+cliente_id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(async data => {
+        // Lendo json
+        let clientes_documentos_exigidos = data.clientes_documentos_exigidos;
+
+        // Grade
+        let grade = '';
+
+        // Montar Grade
+        if (clientes_documentos_exigidos.length > 0) {
+            grade += '<table class="table align-middle table-nowrap table-check table-sm">'; //NÃO COLOCAR DATATABLE POIS O FILTRO NÃO FUNCIONA
+            grade += '  <thead class="table-light">';
+            grade += '      <tr>';
+            grade += '          <th scope="col" class="text-center" style="width: 30px">Status</th>';
+            grade += '          <th scope="col">Documento</th>';
+            grade += '          <th scope="col">Ações</th>';
+            grade += '      </tr>';
+            grade += '  </thead>';
+            grade += '  <tbody>';
+
+            // Varrer
+            for (const dado of clientes_documentos_exigidos) {
+                // Documento
+                let documentoName = dado.documentoName;
+
+                // Documento Caminho
+                let documento_caminho = dado.clienteDocumentoCaminho;
+
+                // Status
+                let status = '<span class="badge rounded-pill bg-danger" key="t-new">&nbsp;</span>';
+                var arquivo_existe = await arquivoExiste(documento_caminho);
+                if (arquivo_existe === true) { status = '<span class="badge rounded-pill bg-success" key="t-new">&nbsp;</span>'; }
+
+                // Ações
+                let acoes = '';
+
+                acoes += '<div class="row">';
+
+                if (arquivo_existe === true) {
+                    acoes += '  <div class="col-6">';
+                    acoes += '      <button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Documento" onclick="window.open(\'' + documento_caminho + '\', \'_blank\');"><i class="fa fa-file-pdf font-size-18"></i></button>';
+                    acoes += '  </div>';
+                }
+
+                acoes += '</div>';
+
+                // TR
+                grade += '<tr class="documento_fonte_'+dado.documento_fonte_id+'">';
+                grade += '  <td class="text-center">' + status + '</td>';
+                grade += '  <td>' + documentoName + '</td>';
+                grade += '  <td>' + acoes + '</td>';
+                grade += '</tr>';
+            }
+
+            grade += '  </tbody>';
+            grade += '</table>';
+        } else {
+            grade = 'Nenhum documento exigido encontrado.';
+        }
+
+        // Retornar Grade
+        document.getElementById('cli_documentos_exigidos_grade').innerHTML = grade;
+
+        // Colocar Botões para filtro dos documentos quanto a Fonte
+        var documentoFonteFiltro = '';
+        var idPrimeiroFiltro = 0; // Guardar um id para depois que a grade for mostrada executar o primeiro Filtro)
+        if (grade != 'Nenhum documento exigido encontrado.') {
+            // Lendo json
+            let documento_fontes = data.documento_fontes;
+
+            documentoFonteFiltro += '<div class="col-12 order-3 order-lg-2 align-self-center">';
+            documentoFonteFiltro += '   <div class="text-lg-center mt-4 mt-lg-0">';
+            documentoFonteFiltro += '       <div class="d-flex flex-wrap justify-content-start gap-2">';
+
+            // Varrer
+            documento_fontes.forEach(dado => {
+                let documento_fonte_id = dado.id;
+                let documento_fonte_name = dado.name;
+                let qtd_registros = clientes_documentos_exigidos.filter(reg => reg.documento_fonte_id === documento_fonte_id);
+
+                if (qtd_registros.length > 0) {
+                    if (idPrimeiroFiltro == 0) { idPrimeiroFiltro = documento_fonte_id; }
+
+                    documentoFonteFiltro += `
+                            <button type="button"
+                                class="btn btn-warning btn-sm flex-fill text-center py-2 font-size-10"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Filtrar Documentos"
+                                onclick="clienteModalInfoDocumentosExigidosFiltrar(${documento_fonte_id});">
+                                ${documento_fonte_name} (${qtd_registros.length})
+                            </button>`;
+                }
+            });
+
+            documentoFonteFiltro += '       </div>';
+            documentoFonteFiltro += '   </div>';
+            documentoFonteFiltro += '</div>';
+        }
+
+        // Retornar Documento Filtro (Botões)
+        document.getElementById('cli_documentos_exigidos_grade_botoes').innerHTML = documentoFonteFiltro;
+
+        // Primeiro Filtro
+        clienteModalInfoDocumentosExigidosFiltrar(idPrimeiroFiltro);
+    }).catch(error => {
+        alert('Erro clienteModalInfoDocumentosExigidos: '+error);
+    }).finally(() => {
+        configurarDataTable(3);
+    });
+}
+
+async function clienteModalInfoDocumentosExigidosFiltrar(documento_fonte_id) {
+    const todasLinhas = document.querySelectorAll("#cli_documentos_exigidos_grade table tbody tr");
+
+    // Primeiro: mostra todas as linhas
+    todasLinhas.forEach(linha => linha.style.display = '');
+
+    // Depois: aplica o filtro
+    todasLinhas.forEach(linha => {
+        if (!linha.classList.contains(`documento_fonte_${documento_fonte_id}`)) {
+            linha.style.display = 'none';
+        }
+    });
+}
+// Modal INFO - Documentos Exigidos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Documentos Exigidos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Modal INFO - Editar Lojas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Editar Lojas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+function validar_frm_editar_lojas() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    // Campo: editar_lojas_cliente_id (requerido)
+    if (validacao({op:1, value:document.getElementById('editar_lojas_cliente_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Cliente requerido.'+'<br>';
+    }
+
+    // Campo: cli_editar_lojas_luc (requerido)
+    if (validacao({ op: 1, value: document.getElementById('cli_editar_lojas_luc').value }) === false) {
+        validacao_ok = false;
+        mensagem += 'Luc requerido.' + '<br>';
+    }
+
+    // Campo: cli_editar_lojas_ordem (requerido)
+    if (validacao({ op: 1, value: document.getElementById('cli_editar_lojas_ordem').value }) === false) {
+        validacao_ok = false;
+        mensagem += 'Ordem requerido.' + '<br>';
+    }
+
+    // Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    // Retorno
+    return validacao_ok;
+}
+
+function DOMContentLoadedEditarLojas() {
+    const frm_editar_lojas_cli_botao_salvar_operacao = document.getElementById('frm_editar_lojas_cli_botao_salvar_operacao');
+
+    if (frm_editar_lojas_cli_botao_salvar_operacao) {
+        frm_editar_lojas_cli_botao_salvar_operacao.addEventListener('click', function () {
+            // FormData
+            var formulario = document.getElementById('frm_editar_lojas_cli');
+            var formData = new FormData(formulario);
+            var url_atual = window.location.protocol + '//' + window.location.host + '/';
+            var editar_lojas_cliente_id = document.getElementById('editar_lojas_cliente_id').value;
+
+            // Criticando campos
+            if (validar_frm_editar_lojas() === false) { return false; }
+
+            // Acessar rota
+            fetch(url_atual + 'clientes/editarLoja/editar_loja', {
+                method: 'POST',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            }).then(response => {
+                return response.json();
+            }).then(async data => {
+                // Lendo dados
+                if (data.success) {
+                    // Montando Grade de Lojas
+                    clienteModalInfoLojas(editar_lojas_cliente_id);
+
+                    formulario.reset();
+
+                    alertSwal('success', 'Clientes', data.success, 'true', 20000);
+
+                    // Atualizar chamando função Dados e Montar Grade
+                    await clienteModalInfoDados(editar_lojas_cliente_id, 16);
+                } else if (data.error) {
+                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                } else {
+                    alert('Erro interno');
+                }
+            }).catch(error => {
+                alert('Erro Clientes Editar Loja: ' + error);
+            });
+        });
+    }
+}
+
+async function clienteModalInfoEditarLojasCreate() {
+    await clienteModalInfoEditarLojasFiltrarDadosComboBoxes();
+
+    const frm_editar_lojas_cli = document.getElementById('frm_editar_lojas_cli');
+    const frm_editar_lojas_cli_botao_salvar_operacao = document.getElementById('frm_editar_lojas_cli_botao_salvar_operacao');
+    const cli_editar_lojas_cliente_loja_id = document.getElementById('cli_editar_lojas_cliente_loja_id');
+    const cli_editar_lojas_operacao = document.getElementById('cli_editar_lojas_operacao');
+
+    // Formulário
+    frm_editar_lojas_cli.reset();
+
+    // Botão
+    frm_editar_lojas_cli_botao_salvar_operacao.classList.remove('btn-primary');
+    frm_editar_lojas_cli_botao_salvar_operacao.classList.add('btn-success');
+    frm_editar_lojas_cli_botao_salvar_operacao.innerHTML = 'Salvar Operação (Incluir)';
+
+    // Campos
+    cli_editar_lojas_cliente_loja_id.value = 0;
+    cli_editar_lojas_operacao.value = 'create';
+
+    await clienteModalInfoControle(15);
+}
+
+async function clienteModalInfoEditarLojasEdit(cliente_loja_id, edificacao_nivel_id, luc, ordem, subordinado_cliente_id) {
+    await clienteModalInfoEditarLojasFiltrarDadosComboBoxes();
+
+    const frm_editar_lojas_cli = document.getElementById('frm_editar_lojas_cli');
+    const frm_editar_lojas_cli_botao_salvar_operacao = document.getElementById('frm_editar_lojas_cli_botao_salvar_operacao');
+    const cli_editar_lojas_cliente_loja_id = document.getElementById('cli_editar_lojas_cliente_loja_id');
+    const cli_editar_lojas_operacao = document.getElementById('cli_editar_lojas_operacao');
+    const cli_editar_lojas_edificacao_nivel_id = document.getElementById('cli_editar_lojas_edificacao_nivel_id');
+    const cli_editar_lojas_luc = document.getElementById('cli_editar_lojas_luc');
+    const cli_editar_lojas_ordem = document.getElementById('cli_editar_lojas_ordem');
+    const cli_editar_lojas_subordinado_cliente_id = document.getElementById('cli_editar_lojas_subordinado_cliente_id');
+
+    // Formulário
+    frm_editar_lojas_cli.reset();
+
+    // Botão
+    frm_editar_lojas_cli_botao_salvar_operacao.classList.remove('btn-success');
+    frm_editar_lojas_cli_botao_salvar_operacao.classList.add('btn-primary');
+    frm_editar_lojas_cli_botao_salvar_operacao.innerHTML = 'Salvar Operação (Alterar)';
+
+    // Campos
+    cli_editar_lojas_cliente_loja_id.value = cliente_loja_id;
+    cli_editar_lojas_operacao.value = 'edit';
+    cli_editar_lojas_edificacao_nivel_id.value = edificacao_nivel_id;
+    cli_editar_lojas_luc.value = luc;
+    cli_editar_lojas_ordem.value = ordem;
+    cli_editar_lojas_subordinado_cliente_id.value = subordinado_cliente_id;
+
+    await clienteModalInfoControle(15);
+}
+
+async function clienteModalInfoEditarLojasDeletar(cliente_loja_id) {
+    // Confirmação de Delete
+    const confirmed = await alertSwalConfirmacao();
+    if (confirmed) {
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+        // Acessar rota
+        fetch(url_atual+'clientes/modalInfo/deletar_loja/'+cliente_loja_id, {
+            method: 'DELETE',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }).then(response => {
+            return response.json();
+        }).then(async data => {
+            // Lendo dados
+            if (data.success) {
+                alertSwal('success', 'Clientes', data.success, 'true', 2000);
+
+                // Dados
+                let cliente_id = document.getElementById('mi_cli_cliente_id').value;
+
+                // Atualizar chamando função Dados e Montar Grade
+                await clienteModalInfoDados(cliente_id, 16);
+            } else if (data.error) {
+                alertSwal('error', 'Clientes', data.error, 'true', 2000);
+            } else if (data.error_permissao) {
+                alertSwal('warning', "Permissão Negada", '', 'true', 2000);
+            } else {
+                alert('Erro interno');
+            }
+        }).catch(error => {
+            alert('Erro clienteModalInfoEditarLojasDeletar:'+error);
+        });
+    }
+}
+
+async function clienteModalInfoEditarLojasFiltrarDadosComboBoxes() {
+    // Select cli_editar_lojas_edificacao_nivel_id'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    const clienteId = document.getElementById('mi_cli_cliente_id').value;
+    const select_1 = document.getElementById('cli_editar_lojas_edificacao_nivel_id');
+    const opcoes_1 = select_1.querySelectorAll('option');
+
+    // Etapa 1: mostrar todas as opções antes de filtrar
+    opcoes_1.forEach(option => option.hidden = false);
+
+    // Etapa 2: se não houver clienteId, sai sem filtrar (mostra todos)
+    if (!clienteId) {
+        select_1.value = '';
+        return;
+    }
+
+    // Etapa 3: aplicar o filtro
+    opcoes_1.forEach(option => {
+        const dataCliente = option.dataset.cliente_id;
+
+        // Mantém a primeira opção ("Selecione...") sempre visível
+        if (option.value === '') return;
+
+        // Oculta se não pertencer ao Cliente informado
+        if (dataCliente != clienteId) {
+            option.hidden = true;
+        }
+    });
+
+    // Etapa 4: resetar a seleção
+    select_1.value = '';
+    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    // Select cli_editar_lojas_subordinado_cliente_id''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    const principalId = document.getElementById('mi_cli_cliente_id').value;
+    const select_2 = document.getElementById('cli_editar_lojas_subordinado_cliente_id');
+    const opcoes_2 = select_2.querySelectorAll('option');
+
+    // Etapa 1: mostrar todas as opções antes de filtrar
+    opcoes_2.forEach(option => option.hidden = false);
+
+    // Etapa 2: se não houver principalId, sai sem filtrar (mostra todos)
+    if (!principalId) {
+        select_2.value = '';
+        return;
+    }
+
+    // Etapa 3: aplicar o filtro
+    opcoes_2.forEach(option => {
+        const dataPrincipal = option.dataset.principal_cliente_id;
+
+        // Mantém a primeira opção ("Selecione...") sempre visível
+        if (option.value === '') return;
+
+        // Oculta se não pertencer ao principal informado
+        if (dataPrincipal != principalId) {
+            option.hidden = true;
+        }
+    });
+
+    // Etapa 4: resetar a seleção
+    select_2.value = '';
+    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+}
+// Modal INFO - Editar Lojas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Editar Lojas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Modal INFO - Lojas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Lojas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoLojas(cliente_id = '') {
+    if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    // Acessar rota
+    fetch(url_atual+'clientes/modalInfo/lojas/'+cliente_id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        // Lendo json
+        let clientes_lojas = data.clientes_lojas;
+
+        // Permissões
+        let permissoes = data.permissoes;
+        const permissao_list = permissoes.some(p => p.permissao === 'clientes_list');
+        const permissao_show = permissoes.some(p => p.permissao === 'clientes_show');
+        const permissao_edit = permissoes.some(p => p.permissao === 'clientes_edit');
+        const permissao_destroy = permissoes.some(p => p.permissao === 'clientes_destroy');
+
+        // Grade
+        let grade = '';
+
+        // Montar Grade
+        if (clientes_lojas.length > 0) {
+            grade += '<table class="table align-middle table-nowrap table-check table-sm">'; //NÃO COLOCAR DATATABLE POIS O FILTRO NÃO FUNCIONA
+            grade += '  <thead class="table-light">';
+            grade += '      <tr>';
+            grade += '          <th scope="col">Edificação Nível</th>';
+            grade += '          <th scope="col">LUC (Loja de Unidade Comercial)</th>';
+            grade += '          <th scope="col">Cliente ocupando a LUC</th>';
+            grade += '          <th scope="col">Ordem</th>';
+            grade += '          <th class="text-center" scope="col">Ações</th>';
+            grade += '      </tr>';
+            grade += '  </thead>';
+            grade += '  <tbody>';
+
+            // Varrer
+            clientes_lojas.forEach(dado => {
+                // Dados
+                let edificacao_nivel_id = dado.edificacao_nivel_id ?? '';
+                let luc = dado.luc ?? '';
+                let ordem = dado.ordem ?? '';
+                let subordinado_cliente_id = dado.subordinado_cliente_id ?? '';
+                let edificacaoName = dado.edificacaoName ?? '';
+                let edificacaoNivelName = dado.edificacaoNivelName ?? '';
+                let subordinadoClienteName = dado.subordinadoClienteName ?? '';
+
+                // Ações
+                let acoes = ``;
+
+                acoes += `<div class="d-flex justify-content-center gap-2">`;
+
+                if (permissao_edit) {
+                    acoes += `<button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Dados" onclick="clienteModalInfoEditarLojasEdit(${dado.id}, ${edificacao_nivel_id}, '${luc}', ${ordem}, ${subordinado_cliente_id});">`;
+                    acoes += `<i class="fas fa-pencil-alt"></i></button>`;
+                }
+
+                if (permissao_destroy) {
+                    acoes += `<button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Dados" onclick="clienteModalInfoEditarLojasDeletar('${dado.id}');">`;
+                    acoes += `<i class="fa fa-trash-alt font-size-18"></i></button>`;
+                }
+
+                acoes += `</div>`;
+
+                // TR
+                grade += '<tr class="loja_fonte_' + dado.edificacaoId + '">';
+                grade += '  <td>' + edificacaoName + ' - ' + edificacaoNivelName + '</td>';
+                grade += '  <td>' + luc + '</td>';
+                grade += '  <td>' + subordinadoClienteName + '</td>';
+                grade += '  <td>' + ordem + '</td>';
+                grade += '  <td>' + acoes + '</td>';
+
+                grade += '</tr>';
+            });
+
+            grade += '  </tbody>';
+            grade += '</table>';
+        } else {
+            grade = 'Nenhuma loja encontrada.';
+        }
+
+        // Retornar Grade
+        document.getElementById('cli_lojas_grade').innerHTML = grade;
+
+        // Colocar Botões para filtro das lojas quanto a Fonte
+        var lojaFonteFiltro = '';
+        var idPrimeiroFiltro = 0; // Guardar um id para depois que a grade for mostrada executar o primeiro Filtro)
+        if (grade != 'Nenhuma loja encontrada.') {
+            // Lendo json
+            let loja_fontes = data.loja_fontes;
+
+            lojaFonteFiltro += '<div class="col-12 order-3 order-lg-2 align-self-center">';
+            lojaFonteFiltro += '   <div class="text-lg-center mt-4 mt-lg-0">';
+            lojaFonteFiltro += '       <div class="d-flex flex-wrap justify-content-start gap-2">';
+
+            // Varrer
+            loja_fontes.forEach(dado => {
+                let loja_fonte_id = dado.id;
+                let loja_fonte_name = dado.name;
+                let qtd_registros = clientes_lojas.filter(reg => reg.edificacaoId === loja_fonte_id);
+
+                if (qtd_registros.length > 0) {
+                    if (idPrimeiroFiltro == 0) { idPrimeiroFiltro = loja_fonte_id; }
+
+                    lojaFonteFiltro += `
+                            <button type="button"
+                                class="btn btn-warning btn-sm flex-fill text-center py-2 font-size-10"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Filtrar Lojas"
+                                onclick="clienteModalInfoLojasFiltrar(${loja_fonte_id});">
+                                ${loja_fonte_name} (${qtd_registros.length})
+                            </button>`;
+                }
+            });
+
+            lojaFonteFiltro += '       </div>';
+            lojaFonteFiltro += '   </div>';
+            lojaFonteFiltro += '</div>';
+        }
+
+        // Retornar Loja Filtro (Botões)
+        document.getElementById('cli_lojas_grade_botoes').innerHTML = lojaFonteFiltro;
+
+        // Primeiro Filtro
+        clienteModalInfoLojasFiltrar(idPrimeiroFiltro);
+    }).catch(error => {
+        alert('Erro clienteModalInfoLojas: '+error);
+    }).finally(() => {
+        configurarDataTable(3);
+    });
+}
+
+async function clienteModalInfoLojasFiltrar(loja_fonte_id) {
+    const todasLinhas = document.querySelectorAll("#cli_lojas_grade table tbody tr");
+
+    // Primeiro: mostra todas as linhas
+    todasLinhas.forEach(linha => linha.style.display = '');
+
+    // Depois: aplica o filtro
+    todasLinhas.forEach(linha => {
+        if (!linha.classList.contains(`loja_fonte_${loja_fonte_id}`)) {
+            linha.style.display = 'none';
+        }
+    });
+}
+// Modal INFO - Lojas - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Lojas - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+// Modal INFO - Propostas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Propostas - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoPropostas(cliente_id = '') {
     if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
 
     var url_atual = window.location.protocol + '//' + window.location.host + '/';
@@ -929,10 +2514,12 @@ function clienteModalInfoPropostas(cliente_id = '') {
         alert('Erro clienteModalInfoPropostas: '+error);
     }).finally(() => {});
 }
+// Modal INFO - Propostas - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Propostas - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-// Modal Clientes
-// Ordens Serviços
-function clienteModalInfoOrdensServicos(cliente_id = '') {
+// Modal INFO - Órdens Serviços - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Órdens Serviços - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoOrdensServicos(cliente_id = '') {
     if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
 
     var url_atual = window.location.protocol + '//' + window.location.host + '/';
@@ -995,10 +2582,12 @@ function clienteModalInfoOrdensServicos(cliente_id = '') {
         alert('Erro clienteModalInfoOrdensServicos: '+error);
     }).finally(() => {});
 }
+// Modal INFO - Órdens Serviços - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Órdens Serviços - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-// Modal Clientes
-// Visitas Técnicas
-function clienteModalInfoVisitasTecnicas(cliente_id = '') {
+// Modal INFO - Visitas Técnicas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Visitas Técnicas - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoVisitasTecnicas(cliente_id = '') {
     if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
 
     var url_atual = window.location.protocol + '//' + window.location.host + '/';
@@ -1079,10 +2668,12 @@ function clienteModalInfoVisitasTecnicas(cliente_id = '') {
         alert('Erro clienteModalInfoVisitasTecnicas: '+error);
     }).finally(() => {});
 }
+// Modal INFO - Visitas Técnicas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Visitas Técnicas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-// Modal Clientes
-// Brigadas Incêndios
-function clienteModalInfoBrigadasIncendios(cliente_id = '') {
+// Modal INFO - Brigadas Incêndios - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Brigadas Incêndios - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoBrigadasIncendios(cliente_id = '') {
     if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
 
     var url_atual = window.location.protocol + '//' + window.location.host + '/';
@@ -1133,10 +2724,12 @@ function clienteModalInfoBrigadasIncendios(cliente_id = '') {
         alert('Erro clienteModalInfoBrigadasIncendios: '+error);
     }).finally(() => {});
 }
+// Modal INFO - Brigadas Incêndios - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Brigadas Incêndios - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-// Modal Clientes
-// Clientes Rede
-function clienteModalInfoClientesRede(cliente_id = '') {
+// Modal INFO - Da Rede - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Da Rede - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoClientesRede(cliente_id = '') {
     if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
 
     var url_atual = window.location.protocol + '//' + window.location.host + '/';
@@ -1185,10 +2778,12 @@ function clienteModalInfoClientesRede(cliente_id = '') {
         alert('Erro clienteModalInfoClientesRede: '+error);
     }).finally(() => {});
 }
+// Modal INFO - Da Rede - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Da Rede - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-// Modal Clientes
-// Clientes Principal
-function clienteModalInfoClientesPrincipal(cliente_id = '') {
+// Modal INFO - Do Principal - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Do Principal - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+async function clienteModalInfoClientesPrincipal(cliente_id = '') {
     if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
 
     var url_atual = window.location.protocol + '//' + window.location.host + '/';
@@ -1237,487 +2832,18 @@ function clienteModalInfoClientesPrincipal(cliente_id = '') {
         alert('Erro clienteModalInfoClientesPrincipal: '+error);
     }).finally(() => {});
 }
+// Modal INFO - Do Principal - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// Modal INFO - Do Principal - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-// Modal Clientes
-// Documentos Exigidos
-function clienteModalInfoDocumentosExigidos(cliente_id = '') {
-    if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
-
-    var url_atual = window.location.protocol + '//' + window.location.host + '/';
-
-    // Acessar rota
-    fetch(url_atual+'clientes/modalInfo/documentos_exigidos_dados/'+cliente_id, {
-        method: 'GET',
-        headers: {'REQUEST-ORIGIN': 'fetch'}
-    }).then(response => {
-        return response.json();
-    }).then(data => {
-        // Lendo json
-        let documentos_exigidos_dados = data;
-
-        // Estatisticas
-        clienteModalInfoEstatisticas(cliente_id);
-
-        // Marcar checkboxs
-        documentos_exigidos_dados.forEach(function (item) {
-            document.getElementById(`documento_exigido_id_${item.documento_id}`).checked = true;
-        });
-    }).catch(error => {
-        alert('Erro clienteModalInfoDocumentosExigidos: '+error);
-    }).finally(() => {});
-}
-
-//Acertar formulário para entrada de dados de pessoa Jurídica e Física
-async function acertarFormulario() {
-    if ($('#tipo').val() == 1) {
-        $('.pessoa_juridica').show();
-        $('.pessoa_fisica').hide();
-
-        var texto = await traduzirViaLocale('Data Abertura');
-
-        $('#label_data_nascimento').html(texto);
-    }
-
-    if ($('#tipo').val() == 2) {
-        $('.pessoa_juridica').hide();
-        $('.pessoa_fisica').show();
-
-        var texto = await traduzirViaLocale('Data Nascimento');
-
-        $('#label_data_nascimento').html(texto);
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function (event) {
-    //Acertar formulário
+document.addEventListener("DOMContentLoaded", () => {
     acertarFormulario();
-
-    // Botão: frm_upload_documentos_cli_executar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    const frm_upload_documentos_cli_executar = document.getElementById('frm_upload_documentos_cli_executar');
-
-    if (frm_upload_documentos_cli_executar) {
-        frm_upload_documentos_cli_executar.addEventListener('click', function () {
-            // FormData
-            var formulario = document.getElementById('frm_upload_documentos_cli');
-            var formData = new FormData(formulario);
-            var url_atual = window.location.protocol + '//' + window.location.host + '/';
-            var upload_documentos_cliente_id = document.getElementById('upload_documentos_cliente_id').value;
-
-            // Tratar Botões
-            frm_upload_documentos_cli_executar.style.display = 'block';
-
-            // Criticando campos
-            if (validar_frm_upload_documentos() === false) { return false; }
-
-            // Acessar rota
-            fetch(url_atual + 'clientes/uploadDocumento/upload_documento', {
-                method: 'POST',
-                headers: {
-                    'REQUEST-ORIGIN': 'fetch',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: formData
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                // Lendo dados
-                if (data.success) {
-                    // Montando Grade de Documentos PDF
-                    clienteModalInfoDocumentos(upload_documentos_cliente_id);
-
-                    formulario.reset();
-
-                    alertSwal('success', 'Clientes', data.success, 'true', 20000);
-
-                    // Estatisticas
-                    clienteModalInfoEstatisticas(upload_documentos_cliente_id);
-                } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
-                } else {
-                    alert('Erro interno');
-                }
-            }).catch(error => {
-                alert('Erro Clientes Upload Documento PDF: ' + error);
-            });
-        });
-    }
-    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    //Botão: frm_upload_logotipo_principal_cli_executar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    const frm_upload_logotipo_principal_cli_executar = document.getElementById('frm_upload_logotipo_principal_cli_executar');
-
-    if (frm_upload_logotipo_principal_cli_executar) {
-        frm_upload_logotipo_principal_cli_executar.addEventListener('click', function () {
-            //FormData
-            var formulario = document.getElementById('frm_upload_logotipo_principal_cli');
-            var formData = new FormData(formulario);
-            var url_atual = window.location.protocol + '//' + window.location.host + '/';
-
-            //Tratar Botões
-            frm_upload_logotipo_principal_cli_executar.style.display = 'block';
-
-            //Criticando campos
-            if (validar_frm_upload_logotipo_principal() === false) { return false; }
-
-            //Acessar rota
-            fetch(url_atual + 'clientes/uploadLogotipo/upload_logotipo_principal', {
-                method: 'POST',
-                headers: {
-                    'REQUEST-ORIGIN': 'fetch',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: formData
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                //Lendo dados
-                if (data.success) {
-                    //Atualizando Logotipos principal
-                    const fileInput = document.getElementById('cli_logotipo_principal_file');
-                    if (fileInput) {
-                        const file = fileInput.files[0];
-                        if (file) {
-                            var reader = new FileReader();
-                            reader.onload = function () {
-                                document.getElementById('mi_cli_logotipo').src = reader.result;
-                                document.getElementById('mi_cli_logotipo_principal').src = reader.result;
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    }
-
-                    //Reset Form
-                    formulario.reset();
-                } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
-                } else {
-                    alert('Erro interno');
-                }
-            }).catch(error => {
-                alert('Erro Clientes Upload Logotipo Principal: ' + error);
-            });
-        });
-    }
-    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    //Botão: frm_upload_logotipo_relatorios_cli_executar''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    const frm_upload_logotipo_relatorios_cli_executar = document.getElementById('frm_upload_logotipo_relatorios_cli_executar');
-
-    if (frm_upload_logotipo_relatorios_cli_executar) {
-        frm_upload_logotipo_relatorios_cli_executar.addEventListener('click', function () {
-            //FormData
-            var formulario = document.getElementById('frm_upload_logotipo_relatorios_cli');
-            var formData = new FormData(formulario);
-            var url_atual = window.location.protocol + '//' + window.location.host + '/';
-
-            //Tratar Botões
-            frm_upload_logotipo_relatorios_cli_executar.style.display = 'block';
-
-            //Criticando campos
-            if (validar_frm_upload_logotipo_relatorios() === false) { return false; }
-
-            //Acessar rota
-            fetch(url_atual + 'clientes/uploadLogotipo/upload_logotipo_relatorios', {
-                method: 'POST',
-                headers: {
-                    'REQUEST-ORIGIN': 'fetch',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: formData
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                //Lendo dados
-                if (data.success) {
-                    //Atualizando Logotipos relatorios
-                    const fileInput = document.getElementById('cli_logotipo_relatorios_file');
-                    if (fileInput) {
-                        const file = fileInput.files[0];
-                        if (file) {
-                            var reader = new FileReader();
-                            reader.onload = function () {
-                                document.getElementById('mi_cli_logotipo_relatorios').src = reader.result;
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    }
-
-                    //Reset Form
-                    formulario.reset();
-                } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
-                } else {
-                    alert('Erro interno');
-                }
-            }).catch(error => {
-                alert('Erro Clientes Upload Logotipo Relatório: ' + error);
-            });
-        });
-    }
-    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    //Botão: frm_upload_logotipo_cartao_emergencial_cli_executar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    const frm_upload_logotipo_cartao_emergencial_cli_executar = document.getElementById('frm_upload_logotipo_cartao_emergencial_cli_executar');
-
-    if (frm_upload_logotipo_cartao_emergencial_cli_executar) {
-        frm_upload_logotipo_cartao_emergencial_cli_executar.addEventListener('click', function () {
-            //FormData
-            var formulario = document.getElementById('frm_upload_logotipo_cartao_emergencial_cli');
-            var formData = new FormData(formulario);
-            var url_atual = window.location.protocol + '//' + window.location.host + '/';
-
-            //Tratar Botões
-            frm_upload_logotipo_cartao_emergencial_cli_executar.style.display = 'block';
-
-            //Criticando campos
-            if (validar_frm_upload_logotipo_cartao_emergencial() === false) { return false; }
-
-            //Acessar rota
-            fetch(url_atual + 'clientes/uploadLogotipo/upload_logotipo_cartao_emergencial', {
-                method: 'POST',
-                headers: {
-                    'REQUEST-ORIGIN': 'fetch',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: formData
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                //Lendo dados
-                if (data.success) {
-                    //Atualizando Logotipos cartao_emergencial
-                    const fileInput = document.getElementById('cli_logotipo_cartao_emergencial_file');
-                    if (fileInput) {
-                        const file = fileInput.files[0];
-                        if (file) {
-                            var reader = new FileReader();
-                            reader.onload = function () {
-                                document.getElementById('mi_cli_logotipo').src = reader.result;
-                                document.getElementById('mi_cli_logotipo_cartao_emergencial').src = reader.result;
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    }
-
-                    //Reset Form
-                    formulario.reset();
-                } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
-                } else {
-                    alert('Erro interno');
-                }
-            }).catch(error => {
-                alert('Erro Clientes Upload Logotipo Cartão Emergencial: ' + error);
-            });
-        });
-    }
-    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    //Botão: frm_upload_logotipo_menu_cli_executar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    const frm_upload_logotipo_menu_cli_executar = document.getElementById('frm_upload_logotipo_menu_cli_executar');
-
-    if (frm_upload_logotipo_menu_cli_executar) {
-        frm_upload_logotipo_menu_cli_executar.addEventListener('click', function () {
-            //FormData
-            var formulario = document.getElementById('frm_upload_logotipo_menu_cli');
-            var formData = new FormData(formulario);
-            var url_atual = window.location.protocol + '//' + window.location.host + '/';
-
-            //Tratar Botões
-            frm_upload_logotipo_menu_cli_executar.style.display = 'block';
-
-            //Criticando campos
-            if (validar_frm_upload_logotipo_menu() === false) { return false; }
-
-            //Acessar rota
-            fetch(url_atual + 'clientes/uploadLogotipo/upload_logotipo_menu', {
-                method: 'POST',
-                headers: {
-                    'REQUEST-ORIGIN': 'fetch',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: formData
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                //Lendo dados
-                if (data.success) {
-                    //Atualizando Logotipos menu
-                    const fileInput = document.getElementById('cli_logotipo_menu_file');
-                    if (fileInput) {
-                        const file = fileInput.files[0];
-                        if (file) {
-                            var reader = new FileReader();
-                            reader.onload = function () {
-                                document.getElementById('mi_cli_logotipo_menu').src = reader.result;
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    }
-
-                    //Reset Form
-                    formulario.reset();
-                } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
-                } else {
-                    alert('Erro interno');
-                }
-            }).catch(error => {
-                alert('Erro Clientes Upload Logotipo Menu: ' + error);
-            });
-        });
-    }
-    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    // Botão: frm_documentos_exigidos_cli_executar''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    const frm_documentos_exigidos_cli_executar = document.getElementById('frm_documentos_exigidos_cli_executar');
-
-    if (frm_documentos_exigidos_cli_executar) {
-        frm_documentos_exigidos_cli_executar.addEventListener('click', function () {
-            // FormData
-            var formulario = document.getElementById('frm_documentos_exigidos_cli');
-            var formData = new FormData(formulario);
-            var url_atual = window.location.protocol + '//' + window.location.host + '/';
-            var documentos_exigidos_cliente_id = document.getElementById('documentos_exigidos_cliente_id').value;
-
-            // Tratar Botões
-            frm_documentos_exigidos_cli_executar.style.display = 'block';
-
-            // Acessar rota
-            fetch(url_atual + 'clientes/modalInfo/documentos_exigidos_save', {
-                method: 'POST',
-                headers: {
-                    'REQUEST-ORIGIN': 'fetch',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: formData
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                // Lendo dados
-                if (data.success) {
-                    formulario.reset();
-
-                    // Montando Grade de Documentos PDF
-                    clienteModalInfoDocumentosExigidos(documentos_exigidos_cliente_id);
-
-                    alertSwal('success', 'Clientes', data.success, 'true', 20000);
-                } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
-                } else {
-                    alert('Erro interno');
-                }
-            }).catch(error => {
-                alert('Erro Clientes Documentos Exigidos: ' + error);
-            });
-        });
-    }
-    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    //Link: link_copiar_endereco''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    document.getElementById('link_copiar_endereco').addEventListener('click', function(event) {
-        event.preventDefault();
-
-        //Endereço
-        document.getElementById('cep_cobranca').value = document.getElementById('cep').value;
-        document.getElementById('numero_cobranca').value = document.getElementById('numero').value;
-        document.getElementById('complemento_cobranca').value = document.getElementById('complemento').value;
-        document.getElementById('logradouro_cobranca').value = document.getElementById('logradouro').value;
-        document.getElementById('bairro_cobranca').value = document.getElementById('bairro').value;
-        document.getElementById('localidade_cobranca').value = document.getElementById('localidade').value;
-        document.getElementById('uf_cobranca').value = document.getElementById('uf').value;
-    });
-    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    $('#tipo').change(function(e) {
-        //Acertar formulário
-        acertarFormulario();
-    });
-
-    $(function () {
-        //Header
-        $.ajaxSetup({
-            headers:{
-                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        //API CNPJ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        $('#link_api_buscar').click(function () {
-            //Buscando valor
-            var cnpj = $('#cnpj').val();
-
-            //Validando
-            if ($('#cnpj').hasClass('is-invalid')) {
-                alert($('#cnpj-error').html());
-                return;
-            } else if (cnpj == '') {
-                alert('Informe um CNPJ.');
-                return;
-            }
-
-            //Limpando mascara
-            cnpj = cnpj.replace(/[^\d]+/g,"");
-
-            // Indo buscar dados
-            getReceitaWSCNPJ(cnpj).then(dados_cnpj => {
-                if (dados_cnpj.status == 'OK') {
-                    $('#td_api_situacao').html(dados_cnpj.situacao);
-                    $('#hidden_api_situacao').val(dados_cnpj.situacao);
-                    $('#td_api_tipo').html(dados_cnpj.tipo);
-                    $('#hidden_api_tipo').val(dados_cnpj.tipo);
-                    $('#td_api_natureza_juridica').html(dados_cnpj.natureza_juridica);
-                    $('#hidden_api_natureza_juridica').val(dados_cnpj.natureza_juridica);
-                    $('#td_api_nome').html(dados_cnpj.nome);
-                    $('#hidden_api_nome').val(dados_cnpj.nome);
-                    $('#td_api_fantasia').html(dados_cnpj.fantasia);
-                    $('#hidden_api_fantasia').val(dados_cnpj.fantasia);
-                    $('#td_api_cnpj').html(dados_cnpj.cnpj);
-                    $('#hidden_api_cnpj').val(dados_cnpj.cnpj);
-                    $('#td_api_abertura').html(dados_cnpj.abertura);
-                    $('#hidden_api_abertura').val(dados_cnpj.abertura);
-                    $('#td_api_cep').html(dados_cnpj.cep.replace(/[^\d]+/g,""));
-                    $('#hidden_api_cep').val(dados_cnpj.cep.replace(/[^\d]+/g,""));
-                    $('#td_api_telefone').html(dados_cnpj.telefone);
-                    $('#hidden_api_telefone').val(dados_cnpj.telefone);
-                    $('#td_api_email').html(dados_cnpj.email);
-                    $('#hidden_api_email').val(dados_cnpj.email);
-                    $('#td_api_logradouro').html(dados_cnpj.logradouro);
-                    $('#hidden_api_logradouro').val(dados_cnpj.logradouro);
-                    $('#td_api_numero').html(dados_cnpj.numero);
-                    $('#hidden_api_numero').val(dados_cnpj.numero);
-                    $('#td_api_complemento').html(dados_cnpj.complemento);
-                    $('#hidden_api_complemento').val(dados_cnpj.complemento);
-                    $('#td_api_bairro').html(dados_cnpj.bairro);
-                    $('#hidden_api_bairro').val(dados_cnpj.bairro);
-                    $('#td_api_municipio').html(dados_cnpj.municipio);
-                    $('#hidden_api_municipio').val(dados_cnpj.municipio);
-                    $('#td_api_uf').html(dados_cnpj.uf);
-                    $('#hidden_api_uf').val(dados_cnpj.uf);
-
-                    //abrir modal
-                    $('#modal_api').modal('show');
-                }
-            });
-        });
-
-        $('.button_api_copiar').click(function () {
-            $('#name').val($('#hidden_api_nome').val());
-            $('#nome_fantasia').val($('#hidden_api_fantasia').val());
-            $('#data_nascimento').val($('#hidden_api_abertura').val());
-            $('#cep').val($('#hidden_api_cep').val());
-            $('#telefone_1').val($('#hidden_api_telefone').val());
-            $('#email').val($('#hidden_api_email').val());
-            $('#logradouro').val($('#hidden_api_logradouro').val());
-            $('#numero').val($('#hidden_api_numero').val());
-            $('#complemento').val($('#hidden_api_complemento').val());
-            $('#bairro').val($('#hidden_api_bairro').val());
-            $('#localidade').val($('#hidden_api_municipio').val());
-            $('#uf').val($('#hidden_api_uf').val());
-
-            //fechar modal
-            $('#modal_api').modal('hide');
-        });
-        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    });
+    DOMContentLoadedEditarDocumentos();
+    DOMContentLoadedEditarDocumentosExigidos();
+    DOMContentLoadedEditarLojas();
+    DOMContentLoadedEditarSistemasPreventivos();
+    DOMContentLoadedLogotipoPrincipal();
+    DOMContentLoadedLogotipoRelatorios();
+    DOMContentLoadedLogotipoCartaoEmergencial();
+    DOMContentLoadedLogotipoMenu();
+    DOMContentLoadedFormularioPadrao();
 });

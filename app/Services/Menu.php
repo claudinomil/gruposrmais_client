@@ -206,6 +206,9 @@ class Menu
 
                         // // 49 : Sistemas Preventivo
                         // if ($submodulo['id'] == 49) {$permitido = false;}
+
+                        // // 50 : Vistorias Sistemas
+                        if ($submodulo['id'] == 50) {$permitido = false;}
                     }
                     //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -257,6 +260,7 @@ class Menu
                             or $submodulo['id'] == 26
                             or $submodulo['id'] == 30
                             or $submodulo['id'] == 33
+                            or $submodulo['id'] == 50
                         ) {
                             $submodulo_menu_status = $desenvolvimento;
                         }

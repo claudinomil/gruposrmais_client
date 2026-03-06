@@ -643,6 +643,11 @@
 "file": "assets/scripts_mapas_preventivos.js",
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_mapas_preventivos.js"
+},
+"resources/assets_template/js/scripts_vistorias_sistemas.js": {
+"file": "assets/scripts_vistorias_sistemas.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_vistorias_sistemas.js"
 }
 
 }

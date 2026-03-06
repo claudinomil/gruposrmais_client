@@ -285,13 +285,21 @@
                                 </div>
                                 <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-envelope-open-text"></i> {{ __('Outros Dados') }}</h5>
-                                    <div class="form-group col-12 col-md-6 pb-3">
+                                    <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">{{ __('E-mail para avisos do Sistema') }}</label>
                                         <input type="email" class="form-control text-lowercase mask_email" id="email_avisos" name="email_avisos">
                                     </div>
-                                    <div class="form-group col-12 col-md-6 pb-3">
+                                    <div class="form-group col-12 col-md-4 pb-3">
                                         <label class="form-label">{{ __('Domínio para acesso ao Sistema') }}</label>
                                         <input type="text" class="form-control" id="dominio" name="dominio">
+                                    </div>
+                                    <div class="form-group col-12 col-md-4 pb-3">
+                                        <label class="form-label">{{ __('Número de Lojas') }}</label>
+                                        <select class="form-control" name="numero_lojas" id="numero_lojas">
+                                            @for($i=0; $i<=300; $i++)
+                                            <option value="{{$i}}">{{$i}}</option>
+                                            @endfor
+                                        </select>
                                     </div>
                                 </div>
                             </div>

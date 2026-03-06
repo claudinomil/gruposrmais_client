@@ -69,6 +69,7 @@ class Controller extends BaseController
             if (isset($response['content']['servico_status'])) {$this->servico_status = $response['content']['servico_status'];}
             if (isset($response['content']['servicos'])) {$this->servicos = $response['content']['servicos'];}
             if (isset($response['content']['edificacao_classificacoes'])) {$this->edificacao_classificacoes = $response['content']['edificacao_classificacoes'];}
+            if (isset($response['content']['edificacoes'])) {$this->edificacoes = $response['content']['edificacoes'];}
             if (isset($response['content']['edificacoes_niveis'])) {$this->edificacoes_niveis = $response['content']['edificacoes_niveis'];}
             if (isset($response['content']['edificacoes_locais'])) {$this->edificacoes_locais = $response['content']['edificacoes_locais'];}
             if (isset($response['content']['incendio_riscos'])) {$this->incendio_riscos = $response['content']['incendio_riscos'];}
@@ -111,6 +112,7 @@ class Controller extends BaseController
             if (isset($response['content']['estoques'])) {$this->estoques = $response['content']['estoques'];}
             if (isset($response['content']['estoques_locais'])) {$this->estoques_locais = $response['content']['estoques_locais'];}
             if (isset($response['content']['sistemas_preventivos'])) {$this->sistemas_preventivos = $response['content']['sistemas_preventivos'];}
+            if (isset($response['content']['vistoria_sistema_status'])) {$this->vistoria_sistema_status = $response['content']['vistoria_sistema_status'];}
         }
     }
 

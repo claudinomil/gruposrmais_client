@@ -101,7 +101,8 @@ export default defineConfig({
                 { src: 'resources/assets_template/js/scripts_sistemas_preventivos.js', dest: 'assets' },
                 { src: 'resources/assets_template/js/scripts_edificacoes.js', dest: 'assets' },
                 {src: 'resources/assets_template/js/scripts_edificacoes_locais.js', dest: 'assets'},
-                {src: 'resources/assets_template/js/scripts_mapas_preventivos.js', dest: 'assets'},
+                { src: 'resources/assets_template/js/scripts_mapas_preventivos.js', dest: 'assets' },
+                {src: 'resources/assets_template/js/scripts_vistorias_sistemas.js', dest: 'assets'},
 
                 // scripts Domínio Clientes
                 {src: 'resources/assets_template/js/scripts_clientes_dashboards.js', dest: 'assets'},
@@ -114,7 +115,8 @@ export default defineConfig({
                 {src: 'resources/assets_template/images/fornecedores/fornecedor-0.png', dest: 'assets/images/fornecedores'},
                 {src: 'resources/assets_template/images/clientes_executivos/cliente_executivo-0.png', dest: 'assets/images/clientes_executivos'},
                 {src: 'resources/assets_template/images/funcionarios/funcionario-0.png', dest: 'assets/images/funcionarios'},
-                {src: 'resources/assets_template/images/produtos/produto-0.png', dest: 'assets/images/produtos'},
+                { src: 'resources/assets_template/images/produtos/produto-0.png', dest: 'assets/images/produtos' },
+                {src: 'resources/assets_template/images/clientes/sistema_preventivo-0.png', dest: 'assets/images/clientes'},
                 {src: 'resources/assets_template/images/users/avatar-0.png', dest: 'assets/images/users'},
                 {src: 'resources/assets_template/images/visitas_tecnicas/visita-tecnica-0.png', dest: 'assets/images/visitas_tecnicas'},
 

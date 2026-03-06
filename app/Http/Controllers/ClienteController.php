@@ -23,7 +23,8 @@ class ClienteController extends Controller
     public $identidade_orgaos;
     public $identidade_estados;
     public $documentos;
-    public $documentos_exigidos;
+    public $edificacoes_niveis;
+    public $medidas_seguranca;
 
     public function __construct()
     {
@@ -98,7 +99,8 @@ class ClienteController extends Controller
                 'identidade_orgaos' => $this->identidade_orgaos,
                 'identidade_estados' => $this->identidade_estados,
                 'documentos' => $this->documentos,
-                'documentos_exigidos' => $this->documentos_exigidos
+                'edificacoes_niveis' => $this->edificacoes_niveis,
+                'medidas_seguranca' => $this->medidas_seguranca
             ]);
         }
     }
@@ -573,29 +575,30 @@ class ClienteController extends Controller
         }
     }
 
-    public function upload_documento(Request $request)
+    public function editar_documento(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Variavel controle
+            // Variavel controle
             $error = false;
+            $pdf = '';
 
-            //Verificando e fazendo Upload do PDF
-            if ($request->hasFile('cli_documentos_file')) {
-                //cliente_id
-                $id = $request['upload_documentos_cliente_id'];
+            // Verificando e fazendo Upload do PDF
+            if ($request->hasFile('cli_editar_documentos_file')) {
+                // cliente_id
+                $id = $request['editar_documentos_cliente_id'];
 
-                //buscar dados formulario
-                $arquivo_tmp = $_FILES["cli_documentos_file"]["tmp_name"];
-                $arquivo_real = $_FILES["cli_documentos_file"]["name"];
+                // buscar dados formulario
+                $arquivo_tmp = $_FILES["cli_editar_documentos_file"]["tmp_name"];
+                $arquivo_real = $_FILES["cli_editar_documentos_file"]["name"];
                 $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
-                $arquivo_type = $_FILES["cli_documentos_file"]["type"];
-                $arquivo_size = $_FILES['cli_documentos_file']['size'];
+                $arquivo_type = $_FILES["cli_editar_documentos_file"]["type"];
+                $arquivo_size = $_FILES['cli_editar_documentos_file']['size'];
 
                 if ($arquivo_type == 'application/pdf') {
                     if (copy($arquivo_tmp, "build/assets/pdfs/clientes/$arquivo_real")) {
                         if (file_exists("build/assets/pdfs/clientes/" . $arquivo_real)) {
-                            //renomear para nome id_$id_documento_YmdHis
+                            // renomear para nome id_$id_documento_YmdHis
                             $name = 'id_' . $id . '_documento_' . date('YmdHis');
                             $pdf = "build/assets/pdfs/clientes/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
                             $de = "build/assets/pdfs/clientes/$arquivo_real";
@@ -611,36 +614,39 @@ class ClienteController extends Controller
                 } else {
                     return response()->json(['error' => 'Escolha um arquivo pdf válido.']);
                 }
-            } else {
-                return response()->json(['error' => 'Escolha um arquivo pdf válido.']);
             }
 
             if (!$error) {
-                //Salvar Dados na tabela clientes_documentos
+                // Salvar Dados na tabela clientes_documentos
                 $data = array();
-                $data['cliente_id'] = $request['upload_documentos_cliente_id'];
-                $data['name'] = $name;
-                $data['documento_id'] = $request['cli_documentos_documento_id'];
-                $data['caminho'] = $pdf;
-                $data['descricao'] = $request['cli_documentos_descricao'];
-                $data['data_emissao'] = $request['cli_documentos_data_emissao'];
-                $data['data_vencimento'] = $request['cli_documentos_data_vencimento'];
-                $data['aviso'] = $request['cli_documentos_aviso'];
+                $data['cliente_id'] = $request['editar_documentos_cliente_id'];
+                $data['cliente_documento_id'] = $request['cli_editar_documentos_cliente_documento_id'];
+                $data['operacao'] = $request['cli_editar_documentos_operacao'];
+                $data['documento_id'] = $request['cli_editar_documentos_documento_id'];
+                $data['descricao'] = $request['cli_editar_documentos_descricao'];
+                $data['aviso'] = $request['cli_editar_documentos_aviso'];
+                $data['data_emissao'] = $request['cli_editar_documentos_data_emissao'];
+                $data['data_vencimento'] = $request['cli_editar_documentos_data_vencimento'];
 
-                //Buscando dados Api_Data() - Atualizar Registro
-                $this->responseApi(1, 12, 'clientes/uploadDocumento/upload_documento', '', '', $data);
+                // se não tem arquivo não manda para não gravar vazio na tabela
+                if ($pdf != '') {
+                    $data['caminho'] = $pdf;
+                }
 
-                //Registro recebido com sucesso
+                // Buscando dados Api_Data() - Atualizar Registro
+                $this->responseApi(1, 12, 'clientes/editarDocumento/editar_documento', '', '', $data);
+
+                // Registro recebido com sucesso
                 if ($this->code == 2000) {
                     return response()->json(['success' => $this->message]);
                 } else {
-                    return response()->json(['error' => 'Erro Interno Upload Documento PDF.']);
+                    return response()->json(['error' => 'Erro Interno editar Documento PDF.']);
                 }
             } else {
                 return response()->json(['error' => 'PDF (Nome, Tamanho ou Tipo) inválida.']);
             }
         } else {
-            return response()->json(['error' => 'Erro na requisição Upload Documento PDF']);
+            return response()->json(['error' => 'Erro na requisição editar Documento PDF']);
         }
     }
 
@@ -662,30 +668,32 @@ class ClienteController extends Controller
         }
     }
 
-    public function documentos_exigidos($cliente_id)
+    public function deletar_documento($cliente_documento_id)
     {
-        //Verificando Origem enviada pelo Fetch
-        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
-            $this->responseApi(1, 10, 'clientes/modalInfo/documentos_exigidos/' . $cliente_id, '', '', '');
+        //Buscando dados Api_Data() - Deletar Registro
+        $this->responseApi(1, 6, 'clientes/modalInfo/deletar_documento', $cliente_documento_id, '', '');
 
-            //Registro recebido com sucesso
-            if ($this->code == 2000) {
-                return json_encode($this->content);
-            } else if ($this->code == 4040) { //Registro não encontrado
-                echo 'Registro não encontrado.';
-            } else {
-                echo 'Erro Interno Documentos Exigidos Pdf.';
+        //Registro deletado com sucesso
+        if ($this->code == 2000) {
+            //Apagar arquivo
+            $caminhoArquivo = $this->content;
+
+            if (file_exists($caminhoArquivo)) {
+                unlink($caminhoArquivo);
             }
+
+            return response()->json(['success' => $this->message]);
+        } else {
+            return response()->json(['error' => $this->message]);
         }
     }
 
-    public function documentos_exigidos_dados($cliente_id)
+    public function documentos_exigidos($cliente_id)
     {
         // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            // Buscando dados Api_Data() - Registro pelo id
-            $this->responseApi(1, 10, 'clientes/modalInfo/documentos_exigidos_dados/' . $cliente_id, '', '', '');
+            //Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'clientes/modalInfo/documentos_exigidos/' . $cliente_id, '', '', '');
 
             // Registro recebido com sucesso
             if ($this->code == 2000) {
@@ -714,18 +722,172 @@ class ClienteController extends Controller
         }
     }
 
-    public function deletar_documento($cliente_documento_id)
+    public function editar_loja(Request $request)
+    {
+        // Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            // Salvar Dados na tabela clientes_lojas
+            $data = array();
+            $data['cliente_id'] = $request['editar_lojas_cliente_id'];
+            $data['cliente_loja_id'] = $request['cli_editar_lojas_cliente_loja_id'];
+            $data['operacao'] = $request['cli_editar_lojas_operacao'];
+            $data['edificacao_nivel_id'] = $request['cli_editar_lojas_edificacao_nivel_id'];
+            $data['luc'] = $request['cli_editar_lojas_luc'];
+            $data['ordem'] = $request['cli_editar_lojas_ordem'];
+            $data['subordinado_cliente_id'] = $request['cli_editar_lojas_subordinado_cliente_id'];
+
+            // Buscando dados Api_Data() - Atualizar Registro
+            $this->responseApi(1, 12, 'clientes/editarLoja/editar_loja', '', '', $data);
+
+            // Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->message]);
+            } else if ($this->code == 2020) {
+                return response()->json(['success' => $this->message]);
+            } else {
+                return response()->json(['error' => 'Erro Interno editar Loja.']);
+            }
+        }
+    }
+
+    public function lojas($cliente_id)
+    {
+        // Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            // Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'clientes/modalInfo/lojas/' . $cliente_id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Lojas.';
+            }
+        }
+    }
+
+    public function deletar_loja($cliente_loja_id)
     {
         //Buscando dados Api_Data() - Deletar Registro
-        $this->responseApi(1, 6, 'clientes/modalInfo/deletar_documento', $cliente_documento_id, '', '');
+        $this->responseApi(1, 6, 'clientes/modalInfo/deletar_loja', $cliente_loja_id, '', '');
 
         //Registro deletado com sucesso
         if ($this->code == 2000) {
-            //Apagar arquivo
+            return response()->json(['success' => $this->message]);
+        } else {
+            return response()->json(['error' => $this->message]);
+        }
+    }
+
+    public function editar_sistema_preventivo(Request $request)
+    {
+        // Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            // Variavel controle
+            $error = false;
+            $img = '';
+
+            // Verificando e fazendo Upload da Fotografia
+            if ($request->hasFile('cli_editar_sistemas_preventivos_fotografia')) {
+                // sistema_preventivo_numero
+                $sistema_preventivo_numero = $request['cli_editar_sistemas_preventivos_sistema_preventivo_numero'];
+
+                // buscar dados formulario
+                $arquivo_tmp = $_FILES["cli_editar_sistemas_preventivos_fotografia"]["tmp_name"];
+                $arquivo_real = $_FILES["cli_editar_sistemas_preventivos_fotografia"]["name"];
+                $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
+                $arquivo_type = $_FILES["cli_editar_sistemas_preventivos_fotografia"]["type"];
+                $arquivo_size = $_FILES['cli_editar_sistemas_preventivos_fotografia']['size'];
+
+                if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
+                    if (copy($arquivo_tmp, "build/assets/images/clientes/$arquivo_real")) {
+                        if (file_exists("build/assets/images/clientes/" . $arquivo_real)) {
+                            // renomear para sistema_preventivo_ID
+                            $name = 'sistema_preventivo_' . $sistema_preventivo_numero;
+                            $img = "build/assets/images/clientes/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
+                            $de = "build/assets/images/clientes/$arquivo_real";
+                            $pa = $img;
+
+                            try {
+                                rename($de, $pa);
+                            } catch (\Exception $e) {
+                                $error = true;
+                            }
+                        }
+                    }
+                } else {
+                    return response()->json(['error' => 'Escolha um arquivo válido.']);
+                }
+            }
+
+            if (!$error) {
+                // Salvar Dados na tabela clientes_documentos
+                $data = array();
+                $data['cliente_id'] = $request['editar_sistemas_preventivos_cliente_id'];
+                $data['cliente_sistema_preventivo_id'] = $request['cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id'];
+                $data['cliente_documento_id'] = $request['cli_editar_documentos_cliente_documento_id'];
+                $data['operacao'] = $request['cli_editar_sistemas_preventivos_operacao'];
+                $data['medida_seguranca_id'] = $request['cli_editar_sistemas_preventivos_medida_seguranca_id'];
+                $data['name'] = $request['cli_editar_sistemas_preventivos_name'];
+                $data['descricao'] = $request['cli_editar_sistemas_preventivos_descricao'];
+                $data['sistema_preventivo_numero'] = $request['cli_editar_sistemas_preventivos_sistema_preventivo_numero'];
+
+                // se não tem arquivo não manda para não gravar vazio na tabela
+                if ($img != '') {
+                    $data['fotografia'] = $img;
+                }
+
+                // Buscando dados Api_Data() - Atualizar Registro
+                $this->responseApi(1, 12, 'clientes/editarSistemaPreventivo/editar_sistema_preventivo', '', '', $data);
+
+                // Registro recebido com sucesso
+                if ($this->code == 2000) {
+                    return response()->json(['success' => $this->message]);
+                } else {
+                    return response()->json(['error' => 'Erro Interno editar Sistema Preventivo.']);
+                }
+            } else {
+                return response()->json(['error' => 'Fotografia (Nome, Tamanho ou Tipo) inválida.']);
+            }
+        } else {
+            return response()->json(['error' => 'Erro na requisição editar Sistema Preventivo']);
+        }
+    }
+
+    public function sistemas_preventivos($cliente_id)
+    {
+        // Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            // Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'clientes/modalInfo/sistemas_preventivos/' . $cliente_id, '', '', '');
+
+            //Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { //Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Sistemas Preventivos Pdf.';
+            }
+        }
+    }
+
+    public function deletar_sistema_preventivo($cliente_sistema_preventivo_id)
+    {
+        // Buscando dados Api_Data() - Deletar Registro
+        $this->responseApi(1, 6, 'clientes/modalInfo/deletar_sistema_preventivo', $cliente_sistema_preventivo_id, '', '');
+
+        // Registro deletado com sucesso
+        if ($this->code == 2000) {
+            // Apagar arquivo
             $caminhoArquivo = $this->content;
 
             if (file_exists($caminhoArquivo)) {
-                unlink($caminhoArquivo);
+                if ($caminhoArquivo != 'build/assets/images/clientes/sistema_preventivo-0.png') {
+                    unlink($caminhoArquivo);
+                }
             }
 
             return response()->json(['success' => $this->message]);
@@ -828,5 +990,21 @@ class ClienteController extends Controller
                 return json_encode([]);
             }
         }
+    }
+
+    public function sistema_preventivo_informacao($sistema_preventivo_numero)
+    {
+        // Buscando dados Api_Data()
+        $this->responseApi(1, 10, 'clientes/sistema_preventivo/informacao/'.$sistema_preventivo_numero, '', '', '');
+
+        // Dados
+        $dados = [];
+
+        // Dados recebidos com sucesso
+        if ($this->code == 2000) {
+            $dados = $this->content;
+        }
+
+        return view('clientes.sistema_preventivo_informacao', compact('sistema_preventivo_numero', 'dados'));
     }
 }

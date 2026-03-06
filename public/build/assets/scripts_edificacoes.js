@@ -443,10 +443,6 @@ async function preencherEdificacaoNiveis(edificacao_id = 0) {
     const response_dados = await response_route.json();
     const dados = response_dados.success;
 
-
-    console.log(dados);
-
-    
     if (!dados || !Array.isArray(dados) || dados.length === 0) {
         console.warn('Nenhum dado de níveis encontrado para preenchimento.');
         return;
@@ -466,7 +462,7 @@ async function preencherEdificacaoNiveis(edificacao_id = 0) {
 
         // Índice
         let indice = edificacaoNivelOrdem;
-        alert(edificacaoNivelAreaConstruida);
+
         // Preencher Campos
         document.getElementById(`span_nivel_nome_${grupo}_${indice}`).innerHTML = edificacaoNivelName;
         document.getElementById(`nivel_nome_${grupo}_${indice}`).value = edificacaoNivelName;

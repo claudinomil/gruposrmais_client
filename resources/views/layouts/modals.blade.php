@@ -479,6 +479,9 @@
                                                             <label class="form-label">Documento (Nome)</label>
                                                             <select class="form-select form-select-sm" name="fun_documentos_documento_id" id="fun_documentos_documento_id">
                                                                 <option value="">{{ __('Selecione...') }}</option>
+                                                                @php
+                                                                $currentFonte = null;
+                                                                @endphp
 
                                                                 @foreach ($documentos as $documento)
                                                                 @php
@@ -488,8 +491,23 @@
                                                                 if ($documento['documento_fonte_id'] == 3) {$class = 'pessoa_juridica';}
                                                                 @endphp
 
-                                                                <option class="{{ $class }}" value="{{ $documento['id'] }}">{{ $documento['name'] }}</option>
-                                                                @endforeach
+                                                                {{-- Abre um novo grupo quando mudar de fonte --}}
+                                                                @if ($currentFonte !== $documento['documento_fonte_id'])
+                                                                @if ($currentFonte !== null)
+                                                                </optgroup>
+                                                                @endif
+                                                                <optgroup label="{{ $documento['documentoFonteName'] }}">
+                                                                    @php
+                                                                    $currentFonte = $documento['documento_fonte_id'];
+                                                                    @endphp
+                                                                    @endif
+
+                                                                    <option class="{{ $class }}" value="{{ $documento['id'] }}">{{ $documento['name'] }}</option>
+                                                                    @endforeach
+
+                                                                    @if ($currentFonte !== null)
+                                                                </optgroup>
+                                                                @endif
                                                             </select>
                                                         </div>
                                                         <div class="col-12 mb-3">
@@ -695,10 +713,20 @@
                                                     <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(2);">Dados</a>
 
                                                     @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
-                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(6);">Incluir Documentos</a>
+                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoEditarDocumentosCreate();">Editar Documentos</a>
                                                     @endif
 
-                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(13);">Documentos Exigidos</a>
+                                                    @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(13);">Editar Documentos Exigidos</a>
+                                                    @endif
+
+                                                    @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoEditarLojasCreate();" id="aNumeroLojas">Editar Lojas</a>
+                                                    @endif
+
+                                                    @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoEditarSistemasPreventivosCreate();">Editar Sistemas Preventivos</a>
+                                                    @endif
 
                                                     <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item" href="#" data-bs-dismiss="modal">Fechar</a>
@@ -724,6 +752,19 @@
                                         <h5 class="mb-0 small text-white" id="md_cli_estatisticas_documentos">0</h5>
                                         <span class="small text-white">Documentos</span>
                                     </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(14);">
+                                        <h5 class="mb-0 small text-white" id="md_cli_estatisticas_documentos_exigidos">0</h5>
+                                        <span class="small text-white">Documentos Exigidos</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(16);">
+                                        <h5 class="mb-0 small text-white" id="md_cli_estatisticas_lojas">0</h5>
+                                        <input type="hidden" id="md_cli_estatisticas_lojas_qtd" name="md_cli_estatisticas_lojas_qtd" value="0">
+                                        <span class="small text-white">Lojas</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(18);">
+                                        <h5 class="mb-0 small text-white" id="md_cli_estatisticas_sistemas_preventivos">0</h5>
+                                        <span class="small text-white">Sistemas Preventivos</span>
+                                    </button>
                                     <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(7);">
                                         <h5 class="mb-0 small text-white" id="md_cli_estatisticas_propostas">0</h5>
                                         <span class="small text-white">Propostas</span>
@@ -747,10 +788,6 @@
                                     <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(12);">
                                         <h5 class="mb-0 small text-white" id="md_cli_estatisticas_clientes_principal">0</h5>
                                         <span class="small text-white">Do Principal</span>
-                                    </button>
-                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(13);">
-                                        <h5 class="mb-0 small text-white" id="md_cli_estatisticas_documentos_exigidos">0</h5>
-                                        <span class="small text-white">Documentos Exigidos</span>
                                     </button>
                                 </div>
                             </div>
@@ -891,31 +928,36 @@
                     </div>
                     <!-- Dados END -->
 
-                    <!-- Incluir Documentos -->
+                    <!-- Editar Documentos -->
                     @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_incluir_documentos">
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_editar_documentos">
                         <div class="card mb-0">
                             <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Incluir Documentos</h5>
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Editar Documentos</h5>
 
                                 <div class="row">
                                     <div class="col-12 col-lg-12 pe-5">
-                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;INCLUSÃO DE DOCUMENTO</h6>
-                                        <form enctype="multipart/form-data" id="frm_upload_documentos_cli">
-                                            <input type="hidden" id="upload_documentos_cliente_id" name="upload_documentos_cliente_id" value="">
+                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;EDIÇÃO DE DOCUMENTO</h6>
+                                        <form enctype="multipart/form-data" id="frm_editar_documentos_cli">
+                                            <input type="hidden" id="editar_documentos_cliente_id" name="editar_documentos_cliente_id" value="">
+                                            <input type="hidden" id="cli_editar_documentos_cliente_documento_id" name="cli_editar_documentos_cliente_documento_id" value="0">
+                                            <input type="hidden" id="cli_editar_documentos_operacao" name="cli_editar_documentos_operacao" value="create">
 
                                             <div class="col-12 mb-5">
-                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_documentos_cli_executar" name="frm_upload_documentos_cli_executar">Incluir Documento</button>
+                                                <button type="button" class="btn btn-success btn-sm" id="frm_editar_documentos_cli_botao_salvar_operacao" name="frm_editar_documentos_cli_botao_salvar_operacao">Salvar Operação</button>
                                             </div>
 
-                                            <div class="row" id="div_frm_upload_documentos_cli_executar">
+                                            <div class="row">
                                                 <div class="col-12 col-lg-4 mb-3">
                                                     <label class="form-label">Documento (Nome)</label>
-                                                    <select class="form-select form-select-sm" name="cli_documentos_documento_id" id="cli_documentos_documento_id">
+                                                    <select class="form-select form-select-sm" name="cli_editar_documentos_documento_id" id="cli_editar_documentos_documento_id">
                                                         <option value="">{{ __('Selecione...') }}</option>
 
-                                                        @foreach ($documentos as $documento)
+                                                        @php
+                                                        $currentFonte = null;
+                                                        @endphp
 
+                                                        @foreach ($documentos as $documento)
                                                         @php
                                                         $class = '';
                                                         if ($documento['documento_fonte_id'] == 1) {$class = 'pessoa_juridica';}
@@ -923,22 +965,38 @@
                                                         if ($documento['documento_fonte_id'] == 3) {$class = 'pessoa_juridica';}
                                                         if ($documento['documento_fonte_id'] == 6) {$class = 'pessoa_juridica';}
                                                         if ($documento['documento_fonte_id'] == 7) {$class = 'pessoa_juridica';}
+                                                        if ($documento['documento_fonte_id'] == 8) {$class = 'pessoa_juridica';}
                                                         @endphp
 
-                                                        <option class="{{ $class }}" value="{{ $documento['id'] }}">{{ $documento['name'] }}</option>
-                                                        @endforeach
+                                                        {{-- Abre um novo grupo quando mudar de fonte --}}
+                                                        @if ($currentFonte !== $documento['documento_fonte_id'])
+                                                        @if ($currentFonte !== null)
+                                                        </optgroup>
+                                                        @endif
+                                                        <optgroup label="{{ $documento['documentoFonteName'] }}">
+                                                            @php
+                                                            $currentFonte = $documento['documento_fonte_id'];
+                                                            @endphp
+                                                            @endif
+
+                                                            <option class="{{ $class }}" value="{{ $documento['id'] }}">{{ $documento['name'] }}</option>
+                                                            @endforeach
+
+                                                            @if ($currentFonte !== null)
+                                                        </optgroup>
+                                                        @endif
                                                     </select>
                                                 </div>
                                                 <div class="col-12 col-lg-4 mb-3">
                                                     <label class="form-label">Documento (Descrição)</label>
-                                                    <input type="text" class="form-control form-control-sm" name="cli_documentos_descricao" id="cli_documentos_descricao" placeholder="Descrição do Documento">
+                                                    <input type="text" class="form-control form-control-sm" name="cli_editar_documentos_descricao" id="cli_editar_documentos_descricao" placeholder="Descrição do Documento">
                                                 </div>
                                                 <div class="col-12 col-lg-4 mb-3">
                                                     <label class="form-label">
                                                         Aviso
                                                         <i class="fa fa-info-circle text-primary ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Avisar Cliente por E-mail depois da Data de Emissão."></i>
                                                     </label>
-                                                    <select class="form-select form-select-sm" name="cli_documentos_aviso" id="cli_documentos_aviso">
+                                                    <select class="form-select form-select-sm" name="cli_editar_documentos_aviso" id="cli_editar_documentos_aviso">
                                                         <option value="0">Nenhum Aviso</option>
                                                         <option value="1">Avisar a cada 1 mês</option>
                                                         <option value="2">Avisar a cada 3 meses</option>
@@ -950,15 +1008,19 @@
                                                 </div>
                                                 <div class="col-12 col-lg-4 mb-3">
                                                     <label class="form-label">Documento (Emissão)</label>
-                                                    <input type="text" class="form-control form-control-sm mask_date" name="cli_documentos_data_emissao" id="cli_documentos_data_emissao" placeholder="Data de Emissão do Documento PDF">
+                                                    <input type="text" class="form-control form-control-sm mask_date" name="cli_editar_documentos_data_emissao" id="cli_editar_documentos_data_emissao" placeholder="Data de Emissão do Documento PDF">
                                                 </div>
                                                 <div class="col-12 col-lg-4 mb-3">
                                                     <label class="form-label">Documento (Vencimento)</label>
-                                                    <input type="text" class="form-control form-control-sm mask_date" name="cli_documentos_data_vencimento" id="cli_documentos_data_vencimento" placeholder="Data de Vencimento do Documento PDF">
+                                                    <input type="text" class="form-control form-control-sm mask_date" name="cli_editar_documentos_data_vencimento" id="cli_editar_documentos_data_vencimento" placeholder="Data de Vencimento do Documento PDF">
                                                 </div>
                                                 <div class="col-12 col-lg-4 mb-3">
                                                     <label class="form-label">Documento (Arquivo)</label>
-                                                    <input type="file" class="form-control form-control-sm" name="cli_documentos_file" id="cli_documentos_file" accept=".pdf">
+                                                    <input type="file" class="form-control form-control-sm" name="cli_editar_documentos_file" id="cli_editar_documentos_file" accept=".pdf">
+                                                    <div id="div_editar_documentos_pdf_atual">
+                                                        <a href="" class="text-primary small" target="_blank" id="a_editar_documentos_pdf_atual">atual.pdf</a>
+                                                        <small class="text-success">&nbsp;&nbsp;&nbsp;Envie um novo arquivo se quiser substituir o atual.</small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </form>
@@ -968,33 +1030,30 @@
                         </div>
                     </div>
                     @endif
-                    <!-- Incluir Documentos END -->
+                    <!-- Editar Documentos END -->
 
-                    <!-- Documentos Exigidos -->
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_documentos_exigidos">
+                    <!-- Editar Documentos Exigidos -->
+                    @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_editar_documentos_exigidos">
                         <div class="card mb-0">
                             <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos Exigidos</h5>
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Editar Documentos Exigidos</h5>
 
                                 <div class="row">
                                     <div class="col-12 col-lg-12 pe-5">
-                                        @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
                                         <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;EDITAR DOCUMENTOS EXIGIDOS</h6>
-                                        @endif
 
-                                        <form id="frm_documentos_exigidos_cli">
-                                            <input type="hidden" id="documentos_exigidos_cliente_id" name="documentos_exigidos_cliente_id" value="">
+                                        <form id="frm_editar_documentos_exigidos_cli">
+                                            <input type="hidden" id="editar_documentos_exigidos_cliente_id" name="editar_documentos_exigidos_cliente_id" value="">
 
-                                            @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
                                             <div class="col-12 mb-5">
-                                                <button type="button" class="btn btn-success btn-sm" id="frm_documentos_exigidos_cli_executar" name="frm_documentos_exigidos_cli_executar">Salvar Documentos Exigidos</button>
+                                                <button type="button" class="btn btn-success btn-sm" id="frm_editar_documentos_exigidos_cli_executar" name="frm_editar_documentos_exigidos_cli_executar">Salvar Documentos Exigidos</button>
                                             </div>
-                                            @endif
 
-                                            <div class="row" id="div_frm_documentos_exigidos_cli_executar">
+                                            <div class="row" id="div_frm_editar_documentos_exigidos_cli_executar">
                                                 @php
-                                                // Agrupa os documentos exigidos por documentoFonteName
-                                                $documentosExigidosAgrupados = collect($documentos_exigidos)->groupBy('documentoFonteName');
+                                                // Agrupa os documentos por documentoFonteName
+                                                $documentosExigidosAgrupados = collect($documentos)->groupBy('documentoFonteName');
                                                 @endphp
 
                                                 @foreach ($documentosExigidosAgrupados as $fonteName => $documentosExigidos)
@@ -1005,8 +1064,8 @@
                                                         @foreach ($documentosExigidos as $documentoExigido)
                                                         <div class="col-12 col-lg-3 mb-2">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" name="documentos_exigidos[]" id="documento_exigido_id_{{ $documentoExigido['id'] }}" value="{{ $documentoExigido['id'] }}">
-                                                                <label class="form-check-label small" for="documento_exigido_id_{{ $documentoExigido['id'] }}">{{ $documentoExigido['name'] }}</label>
+                                                                <input class="form-check-input" type="checkbox" name="editar_documentos_exigidos_documentos_exigidos[]" id="editar_documentos_exigidos_documento_exigido_id_{{ $documentoExigido['id'] }}" value="{{ $documentoExigido['id'] }}">
+                                                                <label class="form-check-label small" for="editar_documentos_exigidos_documento_exigido_id_{{ $documentoExigido['id'] }}">{{ $documentoExigido['name'] }}</label>
                                                             </div>
                                                         </div>
                                                         @endforeach
@@ -1020,7 +1079,130 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Documentos Exigidos END -->
+                    @endif
+                    <!-- Editar Documentos Exigidos END -->
+
+                    <!-- Editar Lojas -->
+                    @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_editar_lojas">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Editar Lojas</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12 pe-5">
+                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;EDIÇÃO DE LOJA</h6>
+                                        <form enctype="multipart/form-data" id="frm_editar_lojas_cli">
+                                            <input type="hidden" id="editar_lojas_cliente_id" name="editar_lojas_cliente_id" value="">
+                                            <input type="hidden" id="cli_editar_lojas_cliente_loja_id" name="cli_editar_lojas_cliente_loja_id" value="0">
+                                            <input type="hidden" id="cli_editar_lojas_operacao" name="cli_editar_lojas_operacao" value="create">
+
+                                            <div class="col-12 mb-5">
+                                                <button type="button" class="btn btn-success btn-sm" id="frm_editar_lojas_cli_botao_salvar_operacao" name="frm_editar_lojas_cli_botao_salvar_operacao">Salvar Operação</button>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Edificação Nível</label>
+                                                    <select class="form-select form-select-sm" name="cli_editar_lojas_edificacao_nivel_id" id="cli_editar_lojas_edificacao_nivel_id">
+                                                        <option value="">{{ __('Selecione...') }}</option>
+
+                                                        @foreach ($edificacoes_niveis as $edificacao_nivel)
+                                                        <option data-cliente_id="{{ $edificacao_nivel['clienteId'] }}" value="{{ $edificacao_nivel['id'] }}">{{ $edificacao_nivel['edificacaoName'] . ' - ' . $edificacao_nivel['name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-lg-3 mb-3">
+                                                    <label class="form-label">LUC (Loja de Unidade Comercial)</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cli_editar_lojas_luc" id="cli_editar_lojas_luc" placeholder="Nome da Loja">
+                                                </div>
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Cliente ocupando a LUC</label>
+                                                    <select class="form-select form-select-sm" name="cli_editar_lojas_subordinado_cliente_id" id="cli_editar_lojas_subordinado_cliente_id">
+                                                        <option value="">{{ __('Selecione...') }}</option>
+
+                                                        @foreach ($clientes as $cliente)
+                                                        <option data-principal_cliente_id="{{ $cliente['principal_cliente_id'] }}"     value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-lg-1 mb-3">
+                                                    <label class="form-label">Ordem</label>
+                                                    <select class="form-select form-select-sm" name="cli_editar_lojas_ordem" id="cli_editar_lojas_ordem">
+                                                        @for($i=0; $i<=300; $i++)
+                                                        <option value="{{$i}}">{{$i}}</option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    <!-- Editar Lojas END -->
+
+                    <!-- Editar Sistemas Preventivos -->
+                    @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_editar_sistemas_preventivos">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Editar Sistemas Preventivos</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12 pe-5">
+                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;EDIÇÃO DE SISTEMAS PREVENTIVOS</h6>
+                                        <form enctype="multipart/form-data" id="frm_editar_sistemas_preventivos_cli">
+                                            <input type="hidden" id="editar_sistemas_preventivos_cliente_id" name="editar_sistemas_preventivos_cliente_id" value="">
+                                            <input type="hidden" id="cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id" name="cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id" value="0">
+                                            <input type="hidden" id="cli_editar_sistemas_preventivos_operacao" name="cli_editar_sistemas_preventivos_operacao" value="create">
+
+                                            <div class="col-12 mb-5">
+                                                <button type="button" class="btn btn-success btn-sm" id="frm_editar_sistemas_preventivos_cli_botao_salvar_operacao" name="frm_editar_sistemas_preventivos_cli_botao_salvar_operacao">Salvar Operação</button>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Medida Segurança</label>
+                                                    <select class="form-select form-select-sm" name="cli_editar_sistemas_preventivos_medida_seguranca_id" id="cli_editar_sistemas_preventivos_medida_seguranca_id">
+                                                        <option value="">{{ __('Selecione...') }}</option>
+
+                                                        @foreach ($medidas_seguranca as $medida_seguranca)
+                                                        <option value="{{ $medida_seguranca['id'] }}">{{ $medida_seguranca['name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Sistema Preventivo (Nome)</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cli_editar_sistemas_preventivos_name" id="cli_editar_sistemas_preventivos_name" placeholder="Nome do Sistema Preventivo">
+                                                </div>
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Sistema Preventivo (Descrição)</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cli_editar_sistemas_preventivos_descricao" id="cli_editar_sistemas_preventivos_descricao" placeholder="Descrição do Sistema Preventivo">
+                                                </div>
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Sistema Preventivo (Número)</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cli_editar_sistemas_preventivos_sistema_preventivo_numero" id="cli_editar_sistemas_preventivos_sistema_preventivo_numero" placeholder="Número do Sistema Preventivo">
+                                                </div>
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Sistema Preventivo (Fotografia)</label>
+                                                    <input type="file" class="form-control form-control-sm" name="cli_editar_sistemas_preventivos_fotografia" id="cli_editar_sistemas_preventivos_fotografia" accept=".png, .jpg, .jpeg">
+                                                    <div id="div_editar_sistemas_preventivos_fotografia_atual">
+                                                        <a href="" class="text-primary small" target="_blank" id="a_editar_sistemas_preventivos_fotografia_atual">atual.pdf</a>
+                                                        <small class="text-success">&nbsp;&nbsp;&nbsp;Envie uma nova fotografia se quiser substituir a atual.</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    <!-- Editar Sistemas Preventivos END -->
 
                     <!-- Documentos -->
                     <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_documentos">
@@ -1041,6 +1223,66 @@
                         </div>
                     </div>
                     <!-- Documentos END -->
+
+                    <!-- Documentos Exigidos -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_documentos_exigidos">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos Exigidos</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12">
+                                        <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE DOCUMENTOS EXIGIDOS</h6>
+
+                                        <div class="col-12 mb-5" id="cli_documentos_exigidos_grade_botoes"></div>
+
+                                        <div id="cli_documentos_exigidos_grade">Nenhum documento exigido encontrado.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Documentos Exigidos END -->
+
+                    <!-- Lojas -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_lojas">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Lojas</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12">
+                                        <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE LOJAS</h6>
+
+                                        <div class="col-12 mb-5" id="cli_lojas_grade_botoes"></div>
+
+                                        <div id="cli_lojas_grade">Nenhuma loja encontrada.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Lojas END -->
+
+                    <!-- Sistemas Preventivos -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_sistemas_preventivos">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Sistemas Preventivos</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12">
+                                        <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE SISTEMAS PREVENTIVOS</h6>
+
+                                        <div class="col-12 mb-5" id="cli_sistemas_preventivos_grade_botoes"></div>
+
+                                        <div id="cli_sistemas_preventivos_grade">Nenhum sistema prevetivo encontrado.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sistemas Preventivos END -->
 
                     <!-- Propostas -->
                     <div class="row d-lg-flex flex-lg-grow-1" id="md_cli_div_propostas">
@@ -1457,6 +1699,9 @@
                                                     <label class="form-label">Documento (Nome)</label>
                                                     <select class="form-select form-select-sm" name="cex_documentos_documento_id" id="cex_documentos_documento_id">
                                                         <option value="">{{ __('Selecione...') }}</option>
+                                                        @php
+                                                        $currentFonte = null;
+                                                        @endphp
 
                                                         @foreach ($documentos as $documento)
                                                         @php
@@ -1466,8 +1711,23 @@
                                                         if ($documento['documento_fonte_id'] == 3) {$class = 'pessoa_juridica';}
                                                         @endphp
 
-                                                        <option class="{{ $class }}" value="{{ $documento['id'] }}">{{ $documento['name'] }}</option>
-                                                        @endforeach
+                                                        {{-- Abre um novo grupo quando mudar de fonte --}}
+                                                        @if ($currentFonte !== $documento['documento_fonte_id'])
+                                                        @if ($currentFonte !== null)
+                                                        </optgroup>
+                                                        @endif
+                                                        <optgroup label="{{ $documento['documentoFonteName'] }}">
+                                                            @php
+                                                            $currentFonte = $documento['documento_fonte_id'];
+                                                            @endphp
+                                                            @endif
+
+                                                            <option class="{{ $class }}" value="{{ $documento['id'] }}">{{ $documento['name'] }}</option>
+                                                            @endforeach
+
+                                                            @if ($currentFonte !== null)
+                                                        </optgroup>
+                                                        @endif
                                                     </select>
                                                 </div>
                                                 <div class="col-12 col-lg-3 mb-3">
