@@ -2228,7 +2228,7 @@ function validacao({op=0, value='', minCaracteres=0, maxCaracteres=0, id=''}) {
     // Campo com duas decimais (valores monetários)
     if (op == 19) {
         // Expressão regular que verifica se a entrada é um valor decimal de 0,00 até infinito
-        regex = /^\d+(,\d{2})$/;
+        regex = /^\d{1,3}(\.\d{3})*,\d{2}$/;
 
         // Verificando
         if (regex.test(value) === true) {

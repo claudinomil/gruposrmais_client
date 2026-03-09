@@ -1065,7 +1065,7 @@
                                                         <div class="col-12 col-lg-3 mb-2">
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox" name="editar_documentos_exigidos_documentos_exigidos[]" id="editar_documentos_exigidos_documento_exigido_id_{{ $documentoExigido['id'] }}" value="{{ $documentoExigido['id'] }}">
-                                                                <label class="form-check-label small" for="editar_documentos_exigidos_documento_exigido_id_{{ $documentoExigido['id'] }}">{{ $documentoExigido['name'] }}</label>
+                                                                <label class="form-check-label small" for="editar_documentos_exigidos_documento_exigido_id_{{ $documentoExigido['id'] }}">{{ strtoupper($documentoExigido['name']) }}</label>
                                                             </div>
                                                         </div>
                                                         @endforeach

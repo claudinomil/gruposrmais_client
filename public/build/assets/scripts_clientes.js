@@ -559,6 +559,18 @@ async function clienteModalInfoControle(op, id = '') {
         await clienteModalInfoSistemasPreventivos(id);
     }
 }
+
+function visualizarCliente(cliente_id) {
+    // modal
+    const modalEl = document.getElementById('cliente_modal_info');
+
+    if (modalEl.classList.contains('show')) {
+        var modal = bootstrap.Modal.getInstance(modalEl);
+        modal.hide();
+
+        crudView(cliente_id);
+    }
+}
 // Modal INFO - Funções - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // Modal INFO - Funções - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -1860,6 +1872,9 @@ async function clienteModalInfoEditarDocumentosExigidos(cliente_id = '') {
     }).then(response => {
         return response.json();
     }).then(data => {
+        // Resetar Formulário
+        document.getElementById('frm_editar_documentos_exigidos_cli').reset();
+
         // Lendo json
         let documentos_exigidos = data.clientes_documentos_exigidos;
 
@@ -2760,9 +2775,11 @@ async function clienteModalInfoClientesRede(cliente_id = '') {
 
             //Varrer
             clientes_rede.forEach(dado => {
+                let verCliente = `<button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Registro" onclick="visualizarCliente(${dado.id});"><i class="fa fa-eye font-size-18"></i></button>`;
+
                 grade += '<tr>';
-                grade += '  <td>'+dado.name+'</td>';
-                grade += '  <td>'+aplicarMascaraJs(dado.cnpj, '##.###.###/####-##')+'</td>';
+                grade += '  <td>' + verCliente + '&nbsp;&nbsp;&nbsp;' + dado.name + '</td>';
+                grade += '  <td>' + aplicarMascaraJs(dado.cnpj, '##.###.###/####-##') + '</td>';
                 grade += '</tr>';
             });
 
@@ -2814,8 +2831,10 @@ async function clienteModalInfoClientesPrincipal(cliente_id = '') {
 
             //Varrer
             clientes_principal.forEach(dado => {
+                let verCliente = `<button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Registro" onclick="visualizarCliente(${dado.id});"><i class="fa fa-eye font-size-18"></i></button>`;
+
                 grade += '<tr>';
-                grade += '  <td>'+dado.name+'</td>';
+                grade += '  <td>'+verCliente+'&nbsp;&nbsp;&nbsp;'+dado.name+'</td>';
                 grade += '  <td>'+aplicarMascaraJs(dado.cnpj, '##.###.###/####-##')+'</td>';
                 grade += '</tr>';
             });

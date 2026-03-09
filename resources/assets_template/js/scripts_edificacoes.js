@@ -210,10 +210,10 @@ function validar_frm_edificacoes() {
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
     // Campo: area_total_construida x area_total_construida_niveis (igual)
-    if (document.getElementById('area_total_construida').value !== document.getElementById('area_total_construida_niveis').value) {
-        validacao_ok = false;
-        mensagem += 'Área Total Construida x Área Total Construida Níveis não podem ser diferentes.' + '<br>';
-    }
+    // if (document.getElementById('area_total_construida').value !== document.getElementById('area_total_construida_niveis').value) {
+    //     validacao_ok = false;
+    //     mensagem += 'Área Total Construida x Área Total Construida Níveis não podem ser diferentes.' + '<br>';
+    // }
 
     // Mensagem
     if (validacao_ok === false) {

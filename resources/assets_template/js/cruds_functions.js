@@ -359,7 +359,7 @@ async function crudCreate() {
                 document.getElementById('mezaninos').value = 0;
                 document.getElementById('coberturas').value = 0;
                 document.getElementById('areas_tecnicas').value = 0;
-                document.getElementById('altura').value = 0;
+                document.getElementById('altura').value = '0,00';
                 document.getElementById('area_total_construida').value = 0;
                 document.getElementById('lotacao').value = 0;
 
