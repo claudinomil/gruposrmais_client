@@ -353,6 +353,12 @@ async function crudCreate() {
             crudConfiguracao({p_frm_operacao:'create', p_fieldsDisabled:false, p_crudFormButtons1:'show', p_crudFormButtons2:'hide', p_crudTable:'hide', p_crudForm:'show', p_removeMask:true, p_putMask:true});
 
             //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            if (prefixPermissaoSubmodulo == 'medidas_seguranca') {
+                // Iniciar campos
+                document.getElementById('name').value = '';
+                document.getElementById('ordem').value = 0;
+            }
+
             if (prefixPermissaoSubmodulo == 'edificacoes') {
                 // Iniciar campos
                 document.getElementById('pavimentos').value = 1;
@@ -615,14 +621,12 @@ async function crudView(registro_id) {
             // Configuração
             crudConfiguracao({ p_frm_operacao: 'view', p_fieldsDisabled: true, p_crudFormButtons1: 'hide', p_crudFormButtons2: 'show', p_crudTable: 'hide', p_crudForm: 'show', p_removeMask: true, p_putMask: true });
 
-            // preencher formulário
-            if (prefixPermissaoSubmodulo != 'clientes_funcionarios') {
-                let input = document.getElementById('crudFieldsFormSubmodulo').value;
-                let crudFieldsFormSubmodulo = input.split(',');
-                crudFieldsFormSubmodulo.forEach(function (field) {
-                    crudPreencherFormulario(field, data.success);
-                });
-            }
+            //preencher formulário
+            let input = document.getElementById('crudFieldsFormSubmodulo').value;
+            let crudFieldsFormSubmodulo = input.split(',');
+            crudFieldsFormSubmodulo.forEach(function (field) {
+                crudPreencherFormulario(field, data.success);
+            });
 
             //Settings Submódulos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             if (prefixPermissaoSubmodulo == 'edificacoes') {
@@ -754,6 +758,7 @@ async function crudView(registro_id) {
 
                 //Liberar campos frm_editar_documentos_cli
                 document.getElementById('editar_documentos_cliente_id').disabled = false;
+                document.getElementById('cli_editar_documentos_edificacao_id').disabled = false;
                 document.getElementById('cli_editar_documentos_documento_id').disabled = false;
                 document.getElementById('cli_editar_documentos_descricao').disabled = false;
                 document.getElementById('cli_editar_documentos_data_emissao').disabled = false;
@@ -1212,53 +1217,6 @@ async function crudView(registro_id) {
 
                 // Patrimônio Situações Table
                 patrimonioSituacoesTable(data.success['produto_entrada_item_id']);
-            }
-
-            if (prefixPermissaoSubmodulo == 'clientes_funcionarios') {
-                // Preencher Formulario
-                const dados = data.success;
-
-                document.getElementById('registro_id').value = dados['id'];
-                document.getElementById('name').value = dados['name'];
-                document.getElementById('cpf').value = dados['cpf'];
-                document.getElementById('empresa').value = dados['empresaName'];
-                document.getElementById('contratacao_tipo').value = dados['contratacaoTipoName'];
-                document.getElementById('funcao').value = dados['funcaoName'];
-                document.getElementById('departamento').value = dados['departamentoName'];
-                document.getElementById('nome_profissional').value = dados['nome_profissional'];
-                document.getElementById('data_nascimento').value = formatarData(2, dados['data_nascimento']);
-                document.getElementById('genero').value = dados['generoName'];
-
-
-
-
-                // // mi_fun_funcionario_id
-                // document.getElementById('mi_fun_funcionario_id').value = registro_id;
-
-                // // Doenças e Doenças Família'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                // document.getElementById('doenca_diabetes').checked = false;
-                // document.getElementById('doenca_hipertensao').checked = false;
-                // document.getElementById('doenca_asma').checked = false;
-                // document.getElementById('doenca_renal').checked = false;
-                // document.getElementById('doenca_cardiaca').checked = false;
-                // document.getElementById('doenca_familia_diabetes').checked = false;
-                // document.getElementById('doenca_familia_hipertensao').checked = false;
-                // document.getElementById('doenca_familia_epilepsia').checked = false;
-                // document.getElementById('doenca_familia_cardiaca').checked = false;
-                // document.getElementById('doenca_familia_cancer').checked = false;
-
-                // if (data.success['doenca_diabetes'] == 1) {document.getElementById('doenca_diabetes').checked = true;}
-                // if (data.success['doenca_hipertensao'] == 1) {document.getElementById('doenca_hipertensao').checked = true;}
-                // if (data.success['doenca_asma'] == 1) {document.getElementById('doenca_asma').checked = true;}
-                // if (data.success['doenca_renal'] == 1) {document.getElementById('doenca_renal').checked = true;}
-                // if (data.success['doenca_cardiaca'] == 1) {document.getElementById('doenca_cardiaca').checked = true;}
-                // if (data.success['doenca_familia_diabetes'] == 1) {document.getElementById('doenca_familia_diabetes').checked = true;}
-                // if (data.success['doenca_familia_hipertensao'] == 1) {document.getElementById('doenca_familia_hipertensao').checked = true;}
-                // if (data.success['doenca_familia_epilepsia'] == 1) {document.getElementById('doenca_familia_epilepsia').checked = true;}
-                // if (data.success['doenca_familia_cardiaca'] == 1) {document.getElementById('doenca_familia_cardiaca').checked = true;}
-                // if (data.success['doenca_familia_cancer'] == 1) {document.getElementById('doenca_familia_cancer').checked = true;}
-                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
             }
             //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 

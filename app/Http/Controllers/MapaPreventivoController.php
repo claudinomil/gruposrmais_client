@@ -15,7 +15,6 @@ class MapaPreventivoController extends Controller
 
     //Dados Auxiliares
     public $edificacoes_locais;
-    public $sistemas_preventivos;
 
     public function __construct()
     {
@@ -63,8 +62,7 @@ class MapaPreventivoController extends Controller
             $this->responseApi(2, 10, 'mapas_preventivos/auxiliary/tables', '', '', '');
 
             return view('mapas_preventivos.index', [
-                'edificacoes_locais' => $this->edificacoes_locais,
-                'sistemas_preventivos' => $this->sistemas_preventivos
+                'edificacoes_locais' => $this->edificacoes_locais
             ]);
         }
     }

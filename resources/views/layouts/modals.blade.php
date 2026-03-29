@@ -721,7 +721,7 @@
                                                     @endif
 
                                                     @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
-                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoEditarLojasCreate();" id="aNumeroLojas">Editar Lojas</a>
+                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoEditarLojasCreate();">Editar Lojas</a>
                                                     @endif
 
                                                     @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
@@ -757,8 +757,7 @@
                                         <span class="small text-white">Documentos Exigidos</span>
                                     </button>
                                     <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(16);">
-                                        <h5 class="mb-0 small text-white" id="md_cli_estatisticas_lojas">0</h5>
-                                        <input type="hidden" id="md_cli_estatisticas_lojas_qtd" name="md_cli_estatisticas_lojas_qtd" value="0">
+                                        <h5 class="mb-0 small text-white">&nbsp;</h5>
                                         <span class="small text-white">Lojas</span>
                                     </button>
                                     <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(18);">
@@ -948,6 +947,16 @@
                                             </div>
 
                                             <div class="row">
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Edificação</label>
+                                                    <select class="form-select form-select-sm" name="cli_editar_documentos_edificacao_id" id="cli_editar_documentos_edificacao_id">
+                                                        <option value="">{{ __('Selecione...') }}</option>
+
+                                                        @foreach ($edificacoes as $edificacao)
+                                                        <option data-cliente_id="{{ $edificacao['cliente_id'] }}" value="{{ $edificacao['id'] }}">{{ $edificacao['name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                                 <div class="col-12 col-lg-4 mb-3">
                                                     <label class="form-label">Documento (Nome)</label>
                                                     <select class="form-select form-select-sm" name="cli_editar_documentos_documento_id" id="cli_editar_documentos_documento_id">
@@ -1164,6 +1173,16 @@
                                             </div>
 
                                             <div class="row">
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Edificação Local</label>
+                                                    <select class="form-select form-select-sm" name="cli_editar_sistemas_preventivos_edificacao_local_id" id="cli_editar_sistemas_preventivos_edificacao_local_id">
+                                                        <option value="">{{ __('Selecione...') }}</option>
+
+                                                        @foreach ($edificacoes_locais as $edificacao_local)
+                                                        <option data-cliente_id="{{ $edificacao_local['clienteId'] }}" value="{{ $edificacao_local['id'] }}">{{ $edificacao_local['edificacaoName'] . ' - ' . $edificacao_local['edificacaoNivelName'] . ' - ' . $edificacao_local['name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                                 <div class="col-12 col-lg-4 mb-3">
                                                     <label class="form-label">Medida Segurança</label>
                                                     <select class="form-select form-select-sm" name="cli_editar_sistemas_preventivos_medida_seguranca_id" id="cli_editar_sistemas_preventivos_medida_seguranca_id">
@@ -2061,198 +2080,6 @@
                         </div>
                     </div>
                     <!-- Nota Fiscal END -->
-
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-
-    @if($se_prefixPermissaoSubmodulo == 'clientes_funcionarios')
-    <!-- Funcionario Modal Info -->
-    <div class="modal fade" id="funcionario_modal_info" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content bg-light">
-                <div class="modal-header" style="background-color: #2a3042;">
-                    <!-- Header -->
-                    <div class="row col-12">
-                        <div class="col-8 order-1 order-lg-1 col-lg-4">
-                            <div class="d-flex">
-                                <div class="flex-shrink-0 me-3">
-                                    <img src="build/assets/images/funcionarios/funcionario-0.png" class="avatar-lg rounded-circle img-thumbnail clearClass" style="width: 100px; height: 100px; object-fit: contain; object-position: center; background-color: #f8f9fa;" id="mi_fun_fotografia">
-                                </div>
-                                <div class="flex-grow-1 align-self-center">
-                                    <div>
-                                        <h5 class="mb-2" style="color: #ffac31 !important;">INFORMAÇÕES FUNCIONÁRIOS</h5>
-                                        <h6 class="mb-1" style="color: #ffffff !important;" id="mi_fun_header_nome"></h6>
-                                        <div class="clearfix mt-2">
-                                            <div class="dropdown">
-                                                <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="bx bxs-cog align-middle me-1"></i> Opções
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-start">
-                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(1);">Fotografias</a>
-                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(2);">Dados</a>
-                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(3);">Documentos</a>
-                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(7);">Documentos Mensais</a>
-                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(6);">Cartão Emergencial</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#" data-bs-dismiss="modal">Fechar</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 order-3 order-lg-2 col-lg-8 align-self-center">
-                            <div class="text-lg-center mt-4 mt-lg-0">
-                                <div class="row text-center font-size-12">&nbsp;</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Header END -->
-                </div>
-                <div class="modal-body d-lg-flex flex-lg-column flex-grow-1 px-4">
-                    <!-- Funcionário ID -->
-                    <input type="hidden" id="mi_fun_funcionario_id" name="mi_fun_funcionario_id" value="0">
-
-                    <!-- Fotografias -->
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_fotografias">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="bx bxs-file-plus"></i>&nbsp;&nbsp;Fotografias</h5>
-
-                                <div class="row">
-                                    <div class="col-12 col-lg-6 pe-5">
-                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTOGRAFIA DOCUMENTO</h6>
-                                        <div class="col-12" style="height: 150px;">
-                                            <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_fun_fotografia_documento">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-6 pe-5">
-                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTOGRAFIA CARTÃO EMERGENCIAL</h6>
-                                        <div class="col-12" style="height: 150px;">
-                                            <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_fun_fotografia_cartao_emergencial">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Fotografias END -->
-
-                    <!-- Dados -->
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_dados">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="fa fa-database"></i>&nbsp;&nbsp;Dados</h5>
-                                <div class="row">
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Nome') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_nome" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('CPF') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_cpf" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Empresa') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_empresa" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Tipo Contratação') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_contratacao_tipo" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Função') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_funcao" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Departamento') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_departamento" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Nome Profissional') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_nome_profissional" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small" id="div_fun_dados_data">{{ __('Nascimento') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_data_nascimento" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Gênero') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_genero" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Dados END -->
-
-                    <!-- Documentos -->
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_documentos">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos</h5>
-
-                                <div class="row">
-                                    <div class="col-12 col-lg-12">
-                                        <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE DOCUMENTOS</h6>
-
-                                        <div class="col-12 mb-5" id="fun_documentos_grade_botoes"></div>
-
-                                        <div id="fun_documentos_grade">Nenhum documento encontrado.</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Documentos END -->
-
-                    <!-- Documentos Mensais -->
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_documentos_mensais">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos Mensais</h5>
-
-                                <div class="row">
-                                    <div class="col-12 col-lg-12">
-                                        <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE DOCUMENTOS MENSAIS</h6>
-
-                                        <div class="col-12 mb-5" id="fun_documentos_mensais_grade_botoes"></div>
-
-                                        <div id="fun_documentos_mensais_grade">Nenhum documento mensal encontrado.</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Documentos Mensais END -->
-
-                    <!-- Cartão Emergencial -->
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_cartao_emergencial">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="fa fa-address-card"></i>&nbsp;&nbsp;Cartão Emergencial</h5>
-
-                                <div class="row">
-                                    <div class="col-12 col-lg-4">
-                                        <h6 class="col-12 mb-4"><i class="bx bx-card font-size-16"></i>&nbsp;&nbsp;PORTUGUÊS</h6>
-
-                                        <div id="fun_cartao_emergencial_1">Cartão 1</div>
-                                    </div>
-                                    <div class="col-12 col-lg-2">&nbsp;</div>
-                                    <div class="col-12 col-lg-4">
-                                        <h6 class="col-12 mb-4"><i class="bx bx-card font-size-16"></i>&nbsp;&nbsp;INGLÊS</h6>
-
-                                        <div id="fun_cartao_emergencial_2">Cartão 2</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Cartão Emergencial END -->
 
                 </div>
             </div>

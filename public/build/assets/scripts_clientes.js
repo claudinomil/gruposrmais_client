@@ -560,6 +560,132 @@ async function clienteModalInfoControle(op, id = '') {
     }
 }
 
+async function clienteModalInfoFiltrarDadosComboBoxes() {
+    // Select cli_editar_sistemas_preventivos_edificacao_local_id''''''''''''''''''''''''''''''''''''''''''''
+    var cliente_id = document.getElementById('mi_cli_cliente_id').value;
+    var select = document.getElementById('cli_editar_sistemas_preventivos_edificacao_local_id');
+    var opcoes = select.querySelectorAll('option');
+
+    // Etapa 1: mostrar todas as opções antes de filtrar
+    opcoes.forEach(option => option.hidden = false);
+
+    // Etapa 2: se não houver cliente_id, sai sem filtrar (mostra todos)
+    if (!cliente_id) {
+        select.value = '';
+        return;
+    }
+
+    // Etapa 3: aplicar o filtro
+    opcoes.forEach(option => {
+        const dataCliente = option.dataset.cliente_id;
+
+        // Mantém a primeira opção ("Selecione...") sempre visível
+        if (option.value === '') return;
+
+        // Oculta se não pertencer ao Cliente informado
+        if (dataCliente != cliente_id) {
+            option.hidden = true;
+        }
+    });
+
+    // Etapa 4: resetar a seleção
+    select.value = '';
+    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    // Select cli_editar_lojas_edificacao_nivel_id'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    var cliente_id = document.getElementById('mi_cli_cliente_id').value;
+    var select = document.getElementById('cli_editar_documentos_edificacao_id');
+    var opcoes = select.querySelectorAll('option');
+
+    // Etapa 1: mostrar todas as opções antes de filtrar
+    opcoes.forEach(option => option.hidden = false);
+
+    // Etapa 2: se não houver cliente_id, sai sem filtrar (mostra todos)
+    if (!cliente_id) {
+        select.value = '';
+        return;
+    }
+
+    // Etapa 3: aplicar o filtro
+    opcoes.forEach(option => {
+        const dataCliente = option.dataset.cliente_id;
+
+        // Mantém a primeira opção ("Selecione...") sempre visível
+        if (option.value === '') return;
+
+        // Oculta se não pertencer ao Cliente informado
+        if (dataCliente != cliente_id) {
+            option.hidden = true;
+        }
+    });
+
+    // Etapa 4: resetar a seleção
+    select.value = '';
+    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    // Select cli_editar_lojas_edificacao_nivel_id'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    var cliente_id = document.getElementById('mi_cli_cliente_id').value;
+    var select = document.getElementById('cli_editar_lojas_edificacao_nivel_id');
+    var opcoes = select.querySelectorAll('option');
+
+    // Etapa 1: mostrar todas as opções antes de filtrar
+    opcoes.forEach(option => option.hidden = false);
+
+    // Etapa 2: se não houver clienteId, sai sem filtrar (mostra todos)
+    if (!cliente_id) {
+        select.value = '';
+        return;
+    }
+
+    // Etapa 3: aplicar o filtro
+    opcoes.forEach(option => {
+        const dataCliente = option.dataset.cliente_id;
+
+        // Mantém a primeira opção ("Selecione...") sempre visível
+        if (option.value === '') return;
+
+        // Oculta se não pertencer ao Cliente informado
+        if (dataCliente != cliente_id) {
+            option.hidden = true;
+        }
+    });
+
+    // Etapa 4: resetar a seleção
+    select.value = '';
+    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    // Select cli_editar_lojas_subordinado_cliente_id''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    var principalId = document.getElementById('mi_cli_cliente_id').value;
+    var select = document.getElementById('cli_editar_lojas_subordinado_cliente_id');
+    var opcoes = select.querySelectorAll('option');
+
+    // Etapa 1: mostrar todas as opções antes de filtrar
+    opcoes.forEach(option => option.hidden = false);
+
+    // Etapa 2: se não houver principalId, sai sem filtrar (mostra todos)
+    if (!principalId) {
+        select.value = '';
+        return;
+    }
+
+    // Etapa 3: aplicar o filtro
+    opcoes.forEach(option => {
+        const dataPrincipal = option.dataset.principal_cliente_id;
+
+        // Mantém a primeira opção ("Selecione...") sempre visível
+        if (option.value === '') return;
+
+        // Oculta se não pertencer ao principal informado
+        if (dataPrincipal != principalId) {
+            option.hidden = true;
+        }
+    });
+
+    // Etapa 4: resetar a seleção
+    select.value = '';
+    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+}
+
 function visualizarCliente(cliente_id) {
     // modal
     const modalEl = document.getElementById('cliente_modal_info');
@@ -597,8 +723,6 @@ async function clienteModalInfoEstatisticas(id = '') {
 
         // Atualizar elementos da tela
         document.getElementById('md_cli_estatisticas_documentos').innerHTML = estatisticas.documentos;
-        document.getElementById('md_cli_estatisticas_lojas').innerHTML = estatisticas.lojas;
-        document.getElementById('md_cli_estatisticas_lojas_qtd').value = estatisticas.lojas;
         document.getElementById('md_cli_estatisticas_visitas_tecnicas').innerHTML = estatisticas.visitas_tecnicas;
         document.getElementById('md_cli_estatisticas_ordens_servicos').innerHTML = estatisticas.ordens_servicos;
         document.getElementById('md_cli_estatisticas_brigadas_incendios').innerHTML = estatisticas.brigadas_incendios;
@@ -1080,23 +1204,12 @@ async function clienteModalInfoDados(id = '', retornoControle = 0) {
         // Sistemas Preventivos
         if (document.getElementById('editar_sistemas_preventivos_cliente_id')) { document.getElementById('editar_sistemas_preventivos_cliente_id').value = cliente.id; }
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-        // Verificar se precisa da opção Lojas''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        let lojas_salvas = Number(document.getElementById('md_cli_estatisticas_lojas_qtd').value);
-
-        const aNumeroLojas = document.getElementById('aNumeroLojas');
-
-        aNumeroLojas.style.display = 'none';
-
-        const numero_lojas = Number(cliente.numero_lojas);
-
-        if (!isNaN(numero_lojas) && !isNaN(lojas_salvas)) {
-            if (numero_lojas > 0 && lojas_salvas < numero_lojas) { aNumeroLojas.style.display = 'block'; }
-        }
-        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     }).catch(error => {
         alert('Erro clienteModalInfoDados: ' + error);
     }).finally(async () => {
+        // Filtrar Combo Boxes para o Cliente chamado no INFO
+        await clienteModalInfoFiltrarDadosComboBoxes();
+
         // Retornar para outro controle
         if (retornoControle != 0) {
             await clienteModalInfoControle(retornoControle);
@@ -1141,12 +1254,6 @@ function validar_frm_editar_documentos() {
             mensagem += 'Data vencimento Inválida.'+'<br>';
         }
     }
-
-    //Campo: cli_editar_documentos_file (arquivo PDF requerido)
-    // if (validacao({op:16, id:'cli_editar_documentos_file'}) === false) {
-    //     validacao_ok = false;
-    //     mensagem += 'Arquivo PDF requerido.'+'<br>';
-    // }
 
     //Mensagem
     if (validacao_ok === false) {
@@ -1234,11 +1341,12 @@ async function clienteModalInfoEditarDocumentosCreate() {
     await clienteModalInfoControle(6);
 }
 
-async function clienteModalInfoEditarDocumentosEdit(cliente_documento_id, documento_id, descricao, aviso, data_emissao, data_vencimento, caminho) {
+async function clienteModalInfoEditarDocumentosEdit(cliente_documento_id, edificacao_id, documento_id, descricao, aviso, data_emissao, data_vencimento, caminho) {
     const frm_editar_documentos_cli = document.getElementById('frm_editar_documentos_cli');
     const frm_editar_documentos_cli_botao_salvar_operacao = document.getElementById('frm_editar_documentos_cli_botao_salvar_operacao');
     const cli_editar_documentos_cliente_documento_id = document.getElementById('cli_editar_documentos_cliente_documento_id');
     const cli_editar_documentos_operacao = document.getElementById('cli_editar_documentos_operacao');
+    const cli_editar_documentos_edificacao_id = document.getElementById('cli_editar_documentos_edificacao_id');
     const cli_editar_documentos_documento_id = document.getElementById('cli_editar_documentos_documento_id');
     const cli_editar_documentos_descricao = document.getElementById('cli_editar_documentos_descricao');
     const cli_editar_documentos_aviso = document.getElementById('cli_editar_documentos_aviso');
@@ -1258,6 +1366,7 @@ async function clienteModalInfoEditarDocumentosEdit(cliente_documento_id, docume
     // Campos
     cli_editar_documentos_cliente_documento_id.value = cliente_documento_id;
     cli_editar_documentos_operacao.value = 'edit';
+    cli_editar_documentos_edificacao_id.value = edificacao_id;
     cli_editar_documentos_documento_id.value = documento_id;
     cli_editar_documentos_descricao.value = descricao;
     cli_editar_documentos_aviso.value = aviso;
@@ -1347,6 +1456,7 @@ async function clienteModalInfoDocumentos(cliente_id = '') {
             grade += '<table class="table align-middle table-nowrap table-check table-sm">'; //NÃO COLOCAR DATATABLE POIS O FILTRO NÃO FUNCIONA
             grade += '  <thead class="table-light">';
             grade += '      <tr>';
+            grade += '          <th scope="col">Edificação</th>';
             grade += '          <th scope="col">Documento</th>';
             grade += '          <th scope="col">Descrição</th>';
             grade += '          <th scope="col">Emissão</th>';
@@ -1360,7 +1470,8 @@ async function clienteModalInfoDocumentos(cliente_id = '') {
             // Varrer
             clientes_documentos.forEach(dado => {
                 // Dados
-                let documentoName = dado.documentoName;
+                let edificacaoName = dado.edificacaoName ?? '';
+                let documentoName = dado.documentoName ?? '';
                 let descricao = dado.descricao ?? '';
                 let data_emissao = dado.data_emissao ?? '';
                 let data_vencimento = dado.data_vencimento ?? '';
@@ -1390,7 +1501,7 @@ async function clienteModalInfoDocumentos(cliente_id = '') {
                 }
 
                 if (permissao_edit) {
-                    acoes += `<button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Dados" onclick="clienteModalInfoEditarDocumentosEdit(${dado.id}, ${dado.documento_id}, '${descricao}', ${aviso}, '${data_emissao}', '${data_vencimento}', '${caminho}');">`;
+                    acoes += `<button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Dados" onclick="clienteModalInfoEditarDocumentosEdit(${dado.id}, ${dado.edificacao_id}, ${dado.documento_id}, '${descricao}', ${aviso}, '${data_emissao}', '${data_vencimento}', '${caminho}');">`;
                     acoes += `<i class="fas fa-pencil-alt"></i></button>`;
                 }
 
@@ -1403,12 +1514,13 @@ async function clienteModalInfoDocumentos(cliente_id = '') {
 
                 // TR
                 grade += '<tr class="documento_fonte_'+dado.documento_fonte_id+'">';
-                grade += '  <td>'+documentoName+'</td>';
-                grade += '  <td>'+descricao+'</td>';
+                grade += '  <td>' + edificacaoName + '</td>';
+                grade += '  <td>' + documentoName + '</td>';
+                grade += '  <td>' + descricao + '</td>';
                 grade += '  <td>' + formatarData(2, data_emissao) + '</td>';
-                grade += '  <td>'+formatarData(2, data_vencimento)+'</td>';
-                grade += '  <td>'+aviso_texto+'</td>';
-                grade += '  <td>'+acoes+'</td>';
+                grade += '  <td>' + formatarData(2, data_vencimento) + '</td>';
+                grade += '  <td>' + aviso_texto + '</td>';
+                grade += '  <td>' + acoes + '</td>';
                 grade += '</tr>';
             });
 
@@ -1620,11 +1732,12 @@ async function clienteModalInfoEditarSistemasPreventivosCreate() {
     await clienteModalInfoControle(17);
 }
 
-async function clienteModalInfoEditarSistemasPreventivosEdit(cliente_sistema_preventivo_id, medida_seguranca_id, name, descricao, sistema_preventivo_numero, fotografia) {
+async function clienteModalInfoEditarSistemasPreventivosEdit(cliente_sistema_preventivo_id, edificacao_local_id, medida_seguranca_id, name, descricao, sistema_preventivo_numero, fotografia) {
     const frm_editar_sistemas_preventivos_cli = document.getElementById('frm_editar_sistemas_preventivos_cli');
     const frm_editar_sistemas_preventivos_cli_botao_salvar_operacao = document.getElementById('frm_editar_sistemas_preventivos_cli_botao_salvar_operacao');
     const cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id = document.getElementById('cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id');
     const cli_editar_sistemas_preventivos_operacao = document.getElementById('cli_editar_sistemas_preventivos_operacao');
+    const cli_editar_sistemas_preventivos_edificacao_local_id = document.getElementById('cli_editar_sistemas_preventivos_edificacao_local_id');
     const cli_editar_sistemas_preventivos_medida_seguranca_id = document.getElementById('cli_editar_sistemas_preventivos_medida_seguranca_id');
     const cli_editar_sistemas_preventivos_name = document.getElementById('cli_editar_sistemas_preventivos_name');
     const cli_editar_sistemas_preventivos_descricao = document.getElementById('cli_editar_sistemas_preventivos_descricao');
@@ -1644,6 +1757,7 @@ async function clienteModalInfoEditarSistemasPreventivosEdit(cliente_sistema_pre
     // Campos
     cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id.value = cliente_sistema_preventivo_id;
     cli_editar_sistemas_preventivos_operacao.value = 'edit';
+    cli_editar_sistemas_preventivos_edificacao_local_id.value = edificacao_local_id;
     cli_editar_sistemas_preventivos_medida_seguranca_id.value = medida_seguranca_id;
     cli_editar_sistemas_preventivos_name.value = name;
     cli_editar_sistemas_preventivos_descricao.value = descricao;
@@ -1732,6 +1846,7 @@ async function clienteModalInfoSistemasPreventivos(cliente_id = '') {
             grade += '<table class="table align-middle table-nowrap table-check table-sm">'; //NÃO COLOCAR DATATABLE POIS O FILTRO NÃO FUNCIONA
             grade += '  <thead class="table-light">';
             grade += '      <tr>';
+            grade += '          <th scope="col">Edificação Local</th>';
             grade += '          <th scope="col">Medida Segurança</th>';
             grade += '          <th scope="col">Sistema Preventivo (Nome)</th>';
             grade += '          <th scope="col">Sistema Preventivo (Descrição)</th>';
@@ -1744,6 +1859,8 @@ async function clienteModalInfoSistemasPreventivos(cliente_id = '') {
             // Varrer
             clientes_sistemas_preventivos.forEach(dado => {
                 // Dados
+                let edificacaoLocal = (dado.edificacaoName ?? '') + ' - ' + (dado.edificacaoNivelName ?? '') + ' - ' + (dado.edificacaoLocalName ?? '');
+                if (edificacaoLocal == ' -  - ') { edificacaoLocal = ''; }
                 let medidaSegurancaName = dado.medidaSegurancaName;
                 let name = dado.name ?? '';
                 let descricao = dado.descricao ?? '';
@@ -1763,7 +1880,7 @@ async function clienteModalInfoSistemasPreventivos(cliente_id = '') {
                 }
 
                 if (permissao_edit) {
-                    acoes += `<button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Dados" onclick="clienteModalInfoEditarSistemasPreventivosEdit(${dado.id}, ${dado.medida_seguranca_id}, '${name}', '${descricao}', '${sistema_preventivo_numero}', '${fotografia}');">`;
+                    acoes += `<button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Dados" onclick="clienteModalInfoEditarSistemasPreventivosEdit(${dado.id}, ${dado.edificacao_local_id}, ${dado.medida_seguranca_id}, '${name}', '${descricao}', '${sistema_preventivo_numero}', '${fotografia}');">`;
                     acoes += `<i class="fas fa-pencil-alt"></i></button>`;
                 }
 
@@ -1776,6 +1893,7 @@ async function clienteModalInfoSistemasPreventivos(cliente_id = '') {
 
                 // TR
                 grade += '<tr class="sistema_preventivo_fonte_' + dado.sistema_preventivo_fonte_id + '">';
+                grade += '  <td>' + edificacaoLocal + '</td>';
                 grade += '  <td>' + medidaSegurancaName + '</td>';
                 grade += '  <td>' + name + '</td>';
                 grade += '  <td>' + descricao + '</td>';
@@ -2090,6 +2208,12 @@ function validar_frm_editar_lojas() {
         mensagem += 'Cliente requerido.'+'<br>';
     }
 
+    // Campo: cli_editar_lojas_edificacao_nivel_id (requerido)
+    if (validacao({ op: 1, value: document.getElementById('cli_editar_lojas_edificacao_nivel_id').value }) === false) {
+        validacao_ok = false;
+        mensagem += 'Edificação Nível requerido.' + '<br>';
+    }
+
     // Campo: cli_editar_lojas_luc (requerido)
     if (validacao({ op: 1, value: document.getElementById('cli_editar_lojas_luc').value }) === false) {
         validacao_ok = false;
@@ -2164,8 +2288,6 @@ function DOMContentLoadedEditarLojas() {
 }
 
 async function clienteModalInfoEditarLojasCreate() {
-    await clienteModalInfoEditarLojasFiltrarDadosComboBoxes();
-
     const frm_editar_lojas_cli = document.getElementById('frm_editar_lojas_cli');
     const frm_editar_lojas_cli_botao_salvar_operacao = document.getElementById('frm_editar_lojas_cli_botao_salvar_operacao');
     const cli_editar_lojas_cliente_loja_id = document.getElementById('cli_editar_lojas_cliente_loja_id');
@@ -2187,8 +2309,6 @@ async function clienteModalInfoEditarLojasCreate() {
 }
 
 async function clienteModalInfoEditarLojasEdit(cliente_loja_id, edificacao_nivel_id, luc, ordem, subordinado_cliente_id) {
-    await clienteModalInfoEditarLojasFiltrarDadosComboBoxes();
-
     const frm_editar_lojas_cli = document.getElementById('frm_editar_lojas_cli');
     const frm_editar_lojas_cli_botao_salvar_operacao = document.getElementById('frm_editar_lojas_cli_botao_salvar_operacao');
     const cli_editar_lojas_cliente_loja_id = document.getElementById('cli_editar_lojas_cliente_loja_id');
@@ -2253,70 +2373,6 @@ async function clienteModalInfoEditarLojasDeletar(cliente_loja_id) {
             alert('Erro clienteModalInfoEditarLojasDeletar:'+error);
         });
     }
-}
-
-async function clienteModalInfoEditarLojasFiltrarDadosComboBoxes() {
-    // Select cli_editar_lojas_edificacao_nivel_id'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    const clienteId = document.getElementById('mi_cli_cliente_id').value;
-    const select_1 = document.getElementById('cli_editar_lojas_edificacao_nivel_id');
-    const opcoes_1 = select_1.querySelectorAll('option');
-
-    // Etapa 1: mostrar todas as opções antes de filtrar
-    opcoes_1.forEach(option => option.hidden = false);
-
-    // Etapa 2: se não houver clienteId, sai sem filtrar (mostra todos)
-    if (!clienteId) {
-        select_1.value = '';
-        return;
-    }
-
-    // Etapa 3: aplicar o filtro
-    opcoes_1.forEach(option => {
-        const dataCliente = option.dataset.cliente_id;
-
-        // Mantém a primeira opção ("Selecione...") sempre visível
-        if (option.value === '') return;
-
-        // Oculta se não pertencer ao Cliente informado
-        if (dataCliente != clienteId) {
-            option.hidden = true;
-        }
-    });
-
-    // Etapa 4: resetar a seleção
-    select_1.value = '';
-    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    // Select cli_editar_lojas_subordinado_cliente_id''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    const principalId = document.getElementById('mi_cli_cliente_id').value;
-    const select_2 = document.getElementById('cli_editar_lojas_subordinado_cliente_id');
-    const opcoes_2 = select_2.querySelectorAll('option');
-
-    // Etapa 1: mostrar todas as opções antes de filtrar
-    opcoes_2.forEach(option => option.hidden = false);
-
-    // Etapa 2: se não houver principalId, sai sem filtrar (mostra todos)
-    if (!principalId) {
-        select_2.value = '';
-        return;
-    }
-
-    // Etapa 3: aplicar o filtro
-    opcoes_2.forEach(option => {
-        const dataPrincipal = option.dataset.principal_cliente_id;
-
-        // Mantém a primeira opção ("Selecione...") sempre visível
-        if (option.value === '') return;
-
-        // Oculta se não pertencer ao principal informado
-        if (dataPrincipal != principalId) {
-            option.hidden = true;
-        }
-    });
-
-    // Etapa 4: resetar a seleção
-    select_2.value = '';
-    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 }
 // Modal INFO - Editar Lojas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // Modal INFO - Editar Lojas - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -2769,17 +2825,19 @@ async function clienteModalInfoClientesRede(cliente_id = '') {
             grade += '      <tr>';
             grade += '          <th scope="col">Cliente</th>';
             grade += '          <th scope="col">CNPJ</th>';
+            grade += '          <th class="text-center" scope="col">Ações</th>';
             grade += '      </tr>';
             grade += '  </thead>';
             grade += '  <tbody>';
 
             //Varrer
             clientes_rede.forEach(dado => {
-                let verCliente = `<button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Registro" onclick="visualizarCliente(${dado.id});"><i class="fa fa-eye font-size-18"></i></button>`;
+                let verCliente = `<button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Registro" onclick="visualizarCliente(${dado.id});"><i class="fa fa-eye"></i></button>`;
 
                 grade += '<tr>';
-                grade += '  <td>' + verCliente + '&nbsp;&nbsp;&nbsp;' + dado.name + '</td>';
+                grade += '  <td>' + dado.name + '</td>';
                 grade += '  <td>' + aplicarMascaraJs(dado.cnpj, '##.###.###/####-##') + '</td>';
+                grade += '  <td class="text-center">' + verCliente + '</td>';
                 grade += '</tr>';
             });
 
@@ -2801,57 +2859,103 @@ async function clienteModalInfoClientesRede(cliente_id = '') {
 // Modal INFO - Do Principal - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // Modal INFO - Do Principal - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 async function clienteModalInfoClientesPrincipal(cliente_id = '') {
-    if (cliente_id == '') { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
+    if (!cliente_id) { cliente_id = document.getElementById('mi_cli_cliente_id').value; }
 
-    var url_atual = window.location.protocol + '//' + window.location.host + '/';
+    const url = `${window.location.origin}/clientes/modalInfo/clientes_principal/${cliente_id}`;
 
-    // Acessar rota
-    fetch(url_atual+'clientes/modalInfo/clientes_principal/'+cliente_id, {
-        method: 'GET',
-        headers: {'REQUEST-ORIGIN': 'fetch'}
-    }).then(response => {
-        return response.json();
-    }).then(data => {
-        //Lendo json
-        let clientes_principal = data;
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: { 'REQUEST-ORIGIN': 'fetch' }
+        });
 
-        //Grade
+        const clientes_principal = await response.json();
+
         let grade = '';
 
-        //Montar Grade
         if (clientes_principal.length > 0) {
-            grade += '<table class="table align-middle table-nowrap table-check table-sm">';
-            grade += '  <thead class="table-light">';
-            grade += '      <tr>';
-            grade += '          <th scope="col">Cliente</th>';
-            grade += '          <th scope="col">CNPJ</th>';
-            grade += '      </tr>';
-            grade += '  </thead>';
-            grade += '  <tbody>';
+            grade += `<table class="table align-middle table-nowrap table-check table-sm">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-center" style="width:30px">Status</th>
+                                <th>Cliente</th>
+                                <th>CNPJ</th>
+                                <th class="text-center" scope="col">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
 
-            //Varrer
-            clientes_principal.forEach(dado => {
-                let verCliente = `<button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Registro" onclick="visualizarCliente(${dado.id});"><i class="fa fa-eye font-size-18"></i></button>`;
+            // buscar todos os percentuais em paralelo
+            const percentuais = await Promise.all(
+                clientes_principal.map(cliente =>
+                    clienteModalInfoClientesPrincipalDocumentosExigidosStatus(cliente.id)
+                )
+            );
 
-                grade += '<tr>';
-                grade += '  <td>'+verCliente+'&nbsp;&nbsp;&nbsp;'+dado.name+'</td>';
-                grade += '  <td>'+aplicarMascaraJs(dado.cnpj, '##.###.###/####-##')+'</td>';
-                grade += '</tr>';
-            });
+            for (let i = 0; i < clientes_principal.length; i++) {
+                const dado = clientes_principal[i];
+                const statusPercentual = percentuais[i];
 
-            grade += '  </tbody>';
-            grade += '</table>';
+                let status = `<span class="badge rounded-pill bg-danger" title="Percentual atingido: ${statusPercentual}%">&nbsp;</span>&nbsp;${statusPercentual}%`;
+
+                if (statusPercentual >= 75 && statusPercentual < 100) {
+                    status = `<span class="badge rounded-pill bg-warning" title="Percentual atingido: ${statusPercentual}%">&nbsp;</span>&nbsp;${statusPercentual}%`;
+                } else if (statusPercentual >= 100) {
+                    status = `<span class="badge rounded-pill bg-success" title="Percentual atingido: ${statusPercentual}%">&nbsp;</span>&nbsp;${statusPercentual}%`;
+                }
+
+                const verCliente = `<button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Registro" onclick="visualizarCliente(${dado.id});"><i class="fa fa-eye"></i></button>`;
+
+                grade += `<tr>
+                            <td>${status}</td>
+                            <td>${dado.name}</td>
+                            <td>${aplicarMascaraJs(dado.cnpj, '##.###.###/####-##')}</td>
+                            <td class="text-center">${verCliente}</td>
+                        </tr>`;
+            }
+
+            grade += `</tbody></table>`;
         } else {
             grade = 'Nenhum registro encontrado.';
         }
 
-        // Retornar Grade
         document.getElementById('cli_clientes_principal_grade').innerHTML = grade;
-    }).catch(error => {
-        alert('Erro clienteModalInfoClientesPrincipal: '+error);
-    }).finally(() => {});
+    } catch (error) {
+        alert('Erro clienteModalInfoClientesPrincipal: ' + error);
+    }
 }
-// Modal INFO - Do Principal - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+async function clienteModalInfoClientesPrincipalDocumentosExigidosStatus(cliente_id) {
+    if (!cliente_id) return 0;
+
+    const url = `${window.location.origin}/clientes/modalInfo/documentos_exigidos/${cliente_id}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: { 'REQUEST-ORIGIN': 'fetch' }
+        });
+
+        const data = await response.json();
+        const documentos = data.clientes_documentos_exigidos || [];
+
+        const qtdDocumentosExigidos = documentos.length;
+
+        // Executa todas as verificações em paralelo
+        const resultados = await Promise.all(
+            documentos.map(dado => arquivoExiste(dado.clienteDocumentoCaminho))
+        );
+
+        const qtdDocumentosExigidosExiste = resultados.filter(Boolean).length;
+
+        const percentual = qtdDocumentosExigidos > 0 ? (qtdDocumentosExigidosExiste / qtdDocumentosExigidos) * 100 : 0;
+
+        return percentual;
+    } catch (error) {
+        alert('Erro clienteModalInfoClientesPrincipalDocumentosExigidosStatus: ' + error);
+        return 0;
+    }
+}// Modal INFO - Do Principal - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // Modal INFO - Do Principal - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 document.addEventListener("DOMContentLoaded", () => {

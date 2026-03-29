@@ -48,16 +48,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-12 col-md-4 pb-3">
-                                    <label class="form-label">{{ __('Sistema Preventivo') }}</label>
-                                    <select class="form-select" name="sistema_preventivo_id" id="sistema_preventivo_id">
-                                        <option value="">{{ __('Selecione...') }}</option>
-
-                                        @foreach ($sistemas_preventivos as $sistema_preventivo)
-                                        <option value="{{ $sistema_preventivo['id'] }}">{{ $sistema_preventivo['name'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
                             </div>
                         </fieldset>
                     </form>

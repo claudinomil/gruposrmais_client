@@ -39,7 +39,5 @@ Route::prefix('clientes')->group(function () {
     Route::get('/modalInfo/clientes_rede/{cliente_id}', [ClienteController::class, 'clientes_rede'])->name('clientes.clientes_rede');
     Route::get('/modalInfo/clientes_principal/{cliente_id}', [ClienteController::class, 'clientes_principal'])->name('clientes.clientes_principal');
 
-
-
     Route::get('/sistema_preventivo/informacao/{sistema_preventivo_numero}', [ClienteController::class, 'sistema_preventivo_informacao'])->name('clientes.sistema_preventivo_informacao');
 });

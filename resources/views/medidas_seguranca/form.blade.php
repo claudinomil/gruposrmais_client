@@ -43,7 +43,11 @@
                                 </div>
                                 <div class="form-group col-12 col-md-2 pb-3">
                                     <label class="form-label">{{ __('Ordem') }}</label>
-                                    <input type="text" class="form-control mask_numero_inteiro" id="ordem" name="ordem" required="required">
+                                    <select class="form-select" name="ordem" id="ordem">
+                                        @for($i=0; $i<=300; $i++)
+                                        <option value="{{$i}}">{{$i}}</option>
+                                        @endfor
+                                    </select>
                                 </div>
                             </div>
                         </fieldset>

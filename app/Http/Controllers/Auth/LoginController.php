@@ -20,7 +20,7 @@ class LoginController extends Controller
     {
         // Verificar sessão gsrm_cliente_id
         if (!session()->has('gsrm_cliente_id')) {
-            // Grava na sessão para domínio de Clientes (RESETAR)
+            // Grava na sessão para domínio de Clientes
             session(['gsrm_cliente_id' => 0, 'gsrm_cliente_name' => '', 'gsrm_cliente_logotipo_principal' => '', 'gsrm_cliente_logotipo_menu' => '']);
         }
 
@@ -47,24 +47,25 @@ class LoginController extends Controller
             ]
         );
 
-        // Verificar se email pertence a um usuário do Cliente
-        if (session()->has('gsrm_cliente_id')) {
-            if (session('gsrm_cliente_id') != 0) {
-                // Buscando dados Api_Data() - Verificar se email pertence a um usuário do Cliente
-                $this->responseApi(1, 10, 'users/email/pertence/'.$request->email.'/'.session('gsrm_cliente_id'), '', '', '');
+        // Verificar se usuário pertence ao Sistema pretendido (Sistema Padrão / Sistema Clientes)'''''''''''''
+        $cliente_id =session('gsrm_cliente_id');
 
-                if ($this->code != 2000) {
-                    $error = 'E-mail não pertence a um Usuário do Cliente.';
+        if ($cliente_id == 0) {$sistema = 1;} else {$sistema = 2;}
 
-                    // Retorno para a view
-                    $empresas = Http::get(env('API_URL') . 'empresas_grupo_srmais')->json();
+        // Buscando dados Api_Data()
+        $this->responseApi(1, 10, 'users/email/pertence/sistema/'.$request->email.'/'.$cliente_id.'/'.$sistema, '', '', '');
 
-                    return view('auth.login', compact('error', 'empresas'));
-                }
-            }
+        if ($this->code != 2000) {
+            $error = $this->message;
+
+            // Retorno para a view
+            $empresas = Http::get(env('API_URL') . 'empresas_grupo_srmais')->json();
+
+            return view('auth.login', compact('error', 'empresas'));
         }
+        //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-        // Buscando dados Api_Data() - Verificar se email já foi confirmado
+        // Buscando dados Api_Data() - Verificar se email já foi confirmado''''''''''''''''''''''''''''''''''''
         $this->responseApi(1, 10, 'users/confirm/' . $request->email, '', '', '');
 
         if ($this->code == 2000) {
@@ -101,15 +102,9 @@ class LoginController extends Controller
             // Trocar Idioma da Sessao
             SuporteFacade::setUserSessionIdioma();
 
-            // Redirecionar
-            if (session()->has('gsrm_cliente_id')) {
-                if (session('gsrm_cliente_id') != 0) {
-                    return redirect('clientes_dashboards');
-                }
-            }
-
             return redirect('dashboards');
         }
+        //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         // E-mail não confirmado
         if ($this->code == 2004) {

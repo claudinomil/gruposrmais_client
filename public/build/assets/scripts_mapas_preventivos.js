@@ -8,12 +8,6 @@ function validar_frm_mapas_preventivos() {
         mensagem += 'Edificação Local requerido.'+'<br>';
     }
 
-    // Campo: sistema_preventivo_id (requerido)
-    if (validacao({op:1, value:document.getElementById('sistema_preventivo_id').value}) === false) {
-        validacao_ok = false;
-        mensagem += 'Sistema Preventivo requerido.'+'<br>';
-    }
-
     // Mensagem
     if (validacao_ok === false) {
         var texto = '<div class="pt-3">';

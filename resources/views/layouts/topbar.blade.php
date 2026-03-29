@@ -53,12 +53,14 @@
                     <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target=".modal-profile" onclick="userProfileData(2,{{session('se_userLoggedData.id')}});"><i class="bx bx-user font-size-16 align-middle me-1"></i> <span key="t-profile">Perfil</span></a>
 
                     {{-- Menu Empresas --}}
-                    @if(count(session('se_userLoggedEmpresas')) > 0)
-                        @foreach(session('se_userLoggedEmpresas') as $empresa)
-                            @if(session('gsrm_empresa_id') != $empresa['id'])
-                                <a href="{{route('users.escolher_empresa', [$empresa['id'], $empresa['name']])}}" class="dropdown-item text-success"><i class="bx bx-repost text-success font-size-16 align-middle me-1"></i> <span>Ir para {{$empresa['name']}}</span></a>
-                            @endif
-                        @endforeach
+                    @if(session('gsrm_cliente_id') == 0)
+                        @if(count(session('se_userLoggedEmpresas')) > 0)
+                            @foreach(session('se_userLoggedEmpresas') as $empresa)
+                                @if(session('gsrm_empresa_id') != $empresa['id'])
+                                    <a href="{{route('users.escolher_empresa', [$empresa['id'], $empresa['name']])}}" class="dropdown-item text-success"><i class="bx bx-repost text-success font-size-16 align-middle me-1"></i> <span>Ir para {{$empresa['name']}}</span></a>
+                                @endif
+                            @endforeach
+                        @endif
                     @endif
 
                     <div class="dropdown-divider"></div>

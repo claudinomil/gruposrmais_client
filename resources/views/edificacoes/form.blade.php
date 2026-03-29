@@ -143,7 +143,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-12 col-md-6 pb-3">
+                                <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">{{ __('Classificação Edificação') }}</label>
                                     <select class="form-select" name="edificacao_classificacao_id" id="edificacao_classificacao_id" onchange="edificacaoClassificacaoCampos()">
                                         <option value="">{{ __('Selecione...') }}</option>

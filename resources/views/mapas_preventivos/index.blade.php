@@ -30,12 +30,12 @@
                                 <!-- Filtro no Banco -->
                                 <div class="col-12 col-md-6 float-end">
                                     <input type="hidden" id="filter-crud-filter_crud_tipo_condicao" value="1">
-                                    <input type="hidden" id="filter-crud-filter_crud_campo_pesquisar" value="sistemas_preventivos.name">
+                                    <input type="hidden" id="filter-crud-filter_crud_campo_pesquisar" value="edificacoes_locais.name">
                                     <input type="hidden" id="filter-crud-filter_crud_operacao_realizar" value="1">
 
                                     @php
                                         $selectCampoPesquisar = [
-                                        ['value' => 'sistemas_preventivos.name', 'descricao' => __('Cliente')]
+                                        ['value' => 'edificacoes_locais.name', 'descricao' => __('Cliente')]
                                         ];
                                     @endphp
 
@@ -46,12 +46,12 @@
                     </div>
 
                     <!-- Tabela (Componente Blade) -->
-                    <x-table-crud-ajax :numCols="5" :colsNames="[__('Edificação'), __('Sistema Preventivo'), __('Ações')]" />
+                    <x-table-crud-ajax :numCols="5" :colsNames="[__('Edificação'), __('Ações')]" />
                     <input type="hidden" id="crudPrefixPermissaoSubmodulo" name="crudPrefixPermissaoSubmodulo" value="{{$se_prefixPermissaoSubmodulo}}">
                     <input type="hidden" id="crudNameSubmodulo" name="crudNameSubmodulo" value="{{$se_nameSubmodulo}}">
                     <input type="hidden" id="crudNameFormSubmodulo" name="crudNameFormSubmodulo" value="{{$se_nameFormSubmodulo}}">
                     <input type="hidden" id="crudFieldsFormSubmodulo" name="crudFieldsFormSubmodulo" value="{{$crudFieldsFormSubmodulo}}">
-                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="edificacao_local,sistemaPreventivoName,action">
+                    <input type="hidden" id="crudFieldsColumnsTable" name="crudFieldsColumnsTable" value="edificacao_local,action">
                 </div>
             </div>
         </div>

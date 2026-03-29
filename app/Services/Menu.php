@@ -19,19 +19,6 @@ class Menu
         // Verificar se é um Domínio Cliente'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         if (session()->has('gsrm_cliente_id') && session('gsrm_cliente_id') != 0) {
             $titulo_menu = $titulo_menu = session('gsrm_cliente_name');
-
-            // // Alterar array $submodulos''''''''''''''''''''''''''''''''''''''''''''''''''''
-            // $idsManter = [14, 17, 22]; // IDs que você quer manter
-
-            // $submodulos = array_filter($submodulos, function ($sub) use ($idsManter) {
-            //     return in_array($sub['id'], $idsManter);
-            // });
-
-            // // Reindexa o array (opcional)
-            // $submodulos = array_values($submodulos);
-
-
-            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         }
         //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 

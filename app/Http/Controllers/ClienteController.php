@@ -23,7 +23,9 @@ class ClienteController extends Controller
     public $identidade_orgaos;
     public $identidade_estados;
     public $documentos;
+    public $edificacoes;
     public $edificacoes_niveis;
+    public $edificacoes_locais;
     public $medidas_seguranca;
 
     public function __construct()
@@ -99,6 +101,8 @@ class ClienteController extends Controller
                 'identidade_orgaos' => $this->identidade_orgaos,
                 'identidade_estados' => $this->identidade_estados,
                 'documentos' => $this->documentos,
+                'edificacoes' => $this->edificacoes,
+                'edificacoes_locais' => $this->edificacoes_locais,
                 'edificacoes_niveis' => $this->edificacoes_niveis,
                 'medidas_seguranca' => $this->medidas_seguranca
             ]);
@@ -622,6 +626,7 @@ class ClienteController extends Controller
                 $data['cliente_id'] = $request['editar_documentos_cliente_id'];
                 $data['cliente_documento_id'] = $request['cli_editar_documentos_cliente_documento_id'];
                 $data['operacao'] = $request['cli_editar_documentos_operacao'];
+                $data['edificacao_id'] = $request['cli_editar_documentos_edificacao_id'];
                 $data['documento_id'] = $request['cli_editar_documentos_documento_id'];
                 $data['descricao'] = $request['cli_editar_documentos_descricao'];
                 $data['aviso'] = $request['cli_editar_documentos_aviso'];
@@ -640,7 +645,7 @@ class ClienteController extends Controller
                 if ($this->code == 2000) {
                     return response()->json(['success' => $this->message]);
                 } else {
-                    return response()->json(['error' => 'Erro Interno editar Documento PDF.']);
+                    return response()->json(['error' => $this->message]);
                 }
             } else {
                 return response()->json(['error' => 'PDF (Nome, Tamanho ou Tipo) inválida.']);
@@ -742,10 +747,8 @@ class ClienteController extends Controller
             // Registro recebido com sucesso
             if ($this->code == 2000) {
                 return response()->json(['success' => $this->message]);
-            } else if ($this->code == 2020) {
-                return response()->json(['success' => $this->message]);
             } else {
-                return response()->json(['error' => 'Erro Interno editar Loja.']);
+                return response()->json(['error' => $this->message]);
             }
         }
     }
@@ -823,12 +826,13 @@ class ClienteController extends Controller
             }
 
             if (!$error) {
-                // Salvar Dados na tabela clientes_documentos
+                // Salvar Dados na tabela clientes_sistemas_preventivos
                 $data = array();
                 $data['cliente_id'] = $request['editar_sistemas_preventivos_cliente_id'];
                 $data['cliente_sistema_preventivo_id'] = $request['cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id'];
                 $data['cliente_documento_id'] = $request['cli_editar_documentos_cliente_documento_id'];
                 $data['operacao'] = $request['cli_editar_sistemas_preventivos_operacao'];
+                $data['edificacao_local_id'] = $request['cli_editar_sistemas_preventivos_edificacao_local_id'];
                 $data['medida_seguranca_id'] = $request['cli_editar_sistemas_preventivos_medida_seguranca_id'];
                 $data['name'] = $request['cli_editar_sistemas_preventivos_name'];
                 $data['descricao'] = $request['cli_editar_sistemas_preventivos_descricao'];
@@ -846,7 +850,7 @@ class ClienteController extends Controller
                 if ($this->code == 2000) {
                     return response()->json(['success' => $this->message]);
                 } else {
-                    return response()->json(['error' => 'Erro Interno editar Sistema Preventivo.']);
+                    return response()->json(['error' => $this->message]);
                 }
             } else {
                 return response()->json(['error' => 'Fotografia (Nome, Tamanho ou Tipo) inválida.']);
@@ -995,7 +999,7 @@ class ClienteController extends Controller
     public function sistema_preventivo_informacao($sistema_preventivo_numero)
     {
         // Buscando dados Api_Data()
-        $this->responseApi(1, 10, 'clientes/sistema_preventivo/informacao/'.$sistema_preventivo_numero, '', '', '');
+        $this->responseApi(1, 10, 'clientes/sistema_preventivo/informacao/' . $sistema_preventivo_numero, '', '', '');
 
         // Dados
         $dados = [];

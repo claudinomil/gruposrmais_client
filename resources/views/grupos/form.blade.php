@@ -37,9 +37,16 @@
                             <input type="hidden" id="registro_id" name="registro_id">
 
                             <div class="row mt-4">
-                                <div class="form-group col-12 col-md-4 pb-3">
+                                <div class="form-group col-12 col-md-6 pb-3">
                                     <label class="form-label">{{ __('Nome') }}</label>
                                     <input type="text" class="form-control text-uppercase" id="name" name="name" required="required">
+                                </div>
+                                <div class="form-group col-12 col-md-6 pb-3">
+                                    <label class="form-label">{{ __('Sistema') }}</label>
+                                    <select class="form-select" name="sistema" id="sistema">
+                                        <option value="1">{{ __('Sistema Padrão') }}</option>
+                                        <option value="2">{{ __('Sistema Clientes') }}</option>
+                                    </select>
                                 </div>
                             </div>
 

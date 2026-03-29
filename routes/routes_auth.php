@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 
 // Rota de Entrada no Sistema Padrão
 Route::get('/', function () {
-    // Grava na sessão para domínio de Clientes (RESETAR)
+    // Grava na sessão para domínio de Clientes
     session(['gsrm_cliente_id' => 0, 'gsrm_cliente_name' => '', 'gsrm_cliente_logotipo_principal' => '', 'gsrm_cliente_logotipo_menu' => '']);
 
     // Ir para tela de Login
@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 // Rota de Entrada no Sistema por Domínio (Cliente)
 Route::get('login/{dominio}', function ($dominio) {
-    // Grava na sessão para domínio de Clientes (RESETAR)
+    // Grava na sessão para domínio de Clientes
     session(['gsrm_cliente_id' => 0, 'gsrm_cliente_name' => '', 'gsrm_cliente_logotipo_principal' => '', 'gsrm_cliente_logotipo_menu' => '']);
 
     // Buscar Cliente pelo dominio
@@ -34,9 +34,11 @@ Route::get('login/{dominio}', function ($dominio) {
         return view('errors.000', ['code' => 404, 'message' => 'Cliente não encontrado para o domínio informado.##'.$dominio, 'backpage' => false]);
     }
 
-    // Grava na sessão para domínio de Clientes (CLIENTE)
+    // Logotipos
     $logotipo_principal = !empty($cliente[0]['logotipo_principal']) ? $cliente[0]['logotipo_principal'] : 'build/assets/images/clientes/logotipo_principal-0.png';
     $logotipo_menu = !empty($cliente[0]['logotipo_menu']) ? $cliente[0]['logotipo_menu'] : 'build/assets/images/clientes/logotipo_menu-0.png';
+
+    // Grava na sessão para domínio de Clientes
     session(['gsrm_cliente_id' => $cliente[0]['id'], 'gsrm_cliente_name' => $cliente[0]['name'], 'gsrm_cliente_logotipo_principal' => $logotipo_principal, 'gsrm_cliente_logotipo_menu' => $logotipo_menu]);
 
     // Ir para tela de Login
