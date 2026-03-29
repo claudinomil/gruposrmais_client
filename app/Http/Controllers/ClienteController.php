@@ -48,6 +48,12 @@ class ClienteController extends Controller
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
+                    ->editColumn('name', function ($row) {
+                        $retorno = "<div class='text-black'>".$row['name']."</div>";
+                        $retorno .= "<div class='text-primary small'>".$row['nome_fantasia']."</div>";
+
+                        return $retorno;
+                    })
                     ->editColumn('perfil', function ($row) {
                         $retorno = "<div class='text-center'>";
                         $retorno .= "<a href='#' onclick='clienteModalInfoControle(2, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
@@ -57,9 +63,9 @@ class ClienteController extends Controller
                     })
                     ->editColumn('cnpj', function ($row) {
                         if ($row['tipo'] == 1) {
-                            $retorno = SuporteFacade::formatarCNPJ($row['cnpj']);
+                            $retorno = "<div style='white-space: nowrap;'>".SuporteFacade::formatarCNPJ($row['cnpj'])."</div>";
                         } else if ($row['tipo'] == 2) {
-                            $retorno = SuporteFacade::formatarCPF($row['cpf']);
+                            $retorno = "<div style='white-space: nowrap;'>".SuporteFacade::formatarCPF($row['cpf'])."</div>";
                         } else {
                             $retorno = '';
                         }
@@ -238,6 +244,12 @@ class ClienteController extends Controller
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
+                    ->editColumn('name', function ($row) {
+                        $retorno = "<div class='text-black'>".$row['name']."</div>";
+                        $retorno .= "<div class='text-primary small'>".$row['nome_fantasia']."</div>";
+
+                        return $retorno;
+                    })
                     ->editColumn('perfil', function ($row) {
                         $retorno = "<div class='text-center'>";
                         $retorno .= "<a href='#' onclick='clienteModalInfoControle(2, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
@@ -247,9 +259,9 @@ class ClienteController extends Controller
                     })
                     ->editColumn('cnpj', function ($row) {
                         if ($row['tipo'] == 1) {
-                            $retorno = SuporteFacade::formatarCNPJ($row['cnpj']);
+                            $retorno = "<div style='white-space: nowrap;'>".SuporteFacade::formatarCNPJ($row['cnpj'])."</div>";
                         } else if ($row['tipo'] == 2) {
-                            $retorno = SuporteFacade::formatarCPF($row['cpf']);
+                            $retorno = "<div style='white-space: nowrap;'>".SuporteFacade::formatarCPF($row['cpf'])."</div>";
                         } else {
                             $retorno = '';
                         }

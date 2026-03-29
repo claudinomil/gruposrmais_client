@@ -1174,7 +1174,7 @@ async function clienteModalInfoDados(id = '', retornoControle = 0) {
         // Dados
         document.getElementById('mi_cli_status').value = status;
         document.getElementById('mi_cli_tipo').value = tipo;
-        document.getElementById('mi_cli_cpf_cnpj').value = cpf_cnpj;
+        document.getElementById('mi_cli_cpf_cnpj').value = aplicarMascaraJs(cpf_cnpj, '##.###.###/####-##');
         document.getElementById('mi_cli_nome').value = cliente.name;
         document.getElementById('mi_cli_telefones').value = formatarTelCel(1, cliente.telefone_1)+'  '+formatarTelCel(1, cliente.telefone_2);
         document.getElementById('mi_cli_celulares').value = formatarTelCel(2, cliente.celular_1)+'  '+formatarTelCel(2, cliente.celular_2);

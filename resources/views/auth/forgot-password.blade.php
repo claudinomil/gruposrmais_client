@@ -18,7 +18,7 @@
                                     <div class="text-primary p-4">
                                         <h5 class="text-primary">Redefinir senha</h5>
                                         <div class="pt-1">
-                                            <img src="{{ asset('build/assets/images/image_logo_previnir.png') }}" width="100">
+                                            <img src="{{ asset('build/assets/images/image_logo_previnir.png') }}" height="50">
                                         </div>
                                     </div>
                                 </div>

@@ -6,8 +6,10 @@
                     @foreach($tableColsNames as $tableColName)
                         @if($tableColName == 'Ações')
                             <th width="140px">{{ mb_strtoupper('Ações') }}</th>
+                        @elseif($tableColName == 'CNPJ')
+                            <th style="white-space: nowrap;">{{mb_strtoupper($tableColName)}}</th>
                         @else
-                            <th nowrap>{{mb_strtoupper($tableColName)}}</th>
+                            <th>{{mb_strtoupper($tableColName)}}</th>
                         @endif
                     @endforeach
                 </tr>
