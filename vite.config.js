@@ -96,6 +96,8 @@ export default defineConfig({
                 {src: 'resources/assets_template/js/scripts_visitas_tecnicas_vtt2_pdfs.js', dest: 'assets'},
                 { src: 'resources/assets_template/js/scripts_medidas_seguranca.js', dest: 'assets' },
                 { src: 'resources/assets_template/js/scripts_edificacoes.js', dest: 'assets' },
+                { src: 'resources/assets_template/js/scripts_equipamentos_preventivos.js', dest: 'assets' },
+                { src: 'resources/assets_template/js/scripts_sistemas_preventivos.js', dest: 'assets' },
                 {src: 'resources/assets_template/js/scripts_edificacoes_locais.js', dest: 'assets'},
                 { src: 'resources/assets_template/js/scripts_mapas_preventivos.js', dest: 'assets' },
                 { src: 'resources/assets_template/js/scripts_vistorias_sistemas.js', dest: 'assets' },

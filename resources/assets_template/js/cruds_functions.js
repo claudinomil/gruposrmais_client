@@ -468,6 +468,10 @@ async function crudCreate() {
                 limparServicosGrade();
             }
 
+            if (prefixPermissaoSubmodulo == 'sistemas_preventivos') {
+                limparEquipamentosPreventivosGrade();
+            }
+
             if (prefixPermissaoSubmodulo == 'ordens_servicos') {
                 //Create divOST2''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 ost2_limparServicosGrade();
@@ -815,6 +819,21 @@ async function crudView(registro_id) {
                     document.getElementById('ts_servico_qtd').value = item.servico_quantidade;
 
                     atualizarServicoGrade(1);
+                });
+            }
+
+            if (prefixPermissaoSubmodulo == 'sistemas_preventivos') {
+                limparEquipamentosPreventivosGrade();
+
+                sistema_preventivo_equipamentos = data.success['sistema_preventivo_equipamentos'];
+
+                sistema_preventivo_equipamentos.forEach(function (item) {
+                    // Dados para preencher na linha da grade
+                    document.getElementById('ep_equipamento_preventivo_id').value = item.equipamento_preventivo_id;
+                    document.getElementById('ep_equipamento_preventivo_nome').value = item.equipamento_preventivo_nome;
+                    document.getElementById('ep_equipamento_preventivo_qtd').value = item.equipamento_preventivo_quantidade;
+
+                    atualizarEquipamentoPreventivoGrade(1);
                 });
             }
 
@@ -1429,6 +1448,21 @@ async function crudEdit(registro_id) {
                     document.getElementById('ts_servico_qtd').value = item.servico_quantidade;
 
                     atualizarServicoGrade(1);
+                });
+            }
+
+            if (prefixPermissaoSubmodulo == 'sistemas_preventivos') {
+                limparEquipamentosPreventivosGrade();
+
+                sistema_preventivo_equipamentos = data.success['sistema_preventivo_equipamentos'];
+
+                sistema_preventivo_equipamentos.forEach(function (item) {
+                    // Dados para preencher na linha da grade
+                    document.getElementById('ep_equipamento_preventivo_id').value = item.equipamento_preventivo_id;
+                    document.getElementById('ep_equipamento_preventivo_nome').value = item.equipamento_preventivo_nome;
+                    document.getElementById('ep_equipamento_preventivo_qtd').value = item.equipamento_preventivo_quantidade;
+
+                    atualizarEquipamentoPreventivoGrade(1);
                 });
             }
 

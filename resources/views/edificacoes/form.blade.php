@@ -40,13 +40,13 @@
 
                             <div class="row pt-4">
                                 <h5 class="pb-4 text-primary"><i class="fas fa-table"></i> {{ __('Cliente') }}</h5>
-                                <div class="form-group col-12 col-md-4 pb-3">
+                                <div class="form-group col-12 col-md-12 pb-3">
                                     <label class="form-label">{{ __('Cliente') }}</label>
                                     <select class="form-select" name="cliente_id" id="cliente_id">
                                         <option value="">{{ __('Selecione...') }}</option>
 
                                         @foreach ($clientes as $key => $cliente)
-                                        <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
+                                        <option value="{{ $cliente['id'] }}">{{ $cliente['name'] . ' - ' . $cliente['cnpj'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>

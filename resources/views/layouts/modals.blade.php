@@ -975,6 +975,7 @@
                                                         if ($documento['documento_fonte_id'] == 6) {$class = 'pessoa_juridica';}
                                                         if ($documento['documento_fonte_id'] == 7) {$class = 'pessoa_juridica';}
                                                         if ($documento['documento_fonte_id'] == 8) {$class = 'pessoa_juridica';}
+                                                        if ($documento['documento_fonte_id'] == 9) {$class = 'pessoa_juridica';}
                                                         @endphp
 
                                                         {{-- Abre um novo grupo quando mudar de fonte --}}

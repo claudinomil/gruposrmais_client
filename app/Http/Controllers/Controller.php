@@ -112,6 +112,8 @@ class Controller extends BaseController
             if (isset($response['content']['estoques'])) {$this->estoques = $response['content']['estoques'];}
             if (isset($response['content']['estoques_locais'])) {$this->estoques_locais = $response['content']['estoques_locais'];}
             if (isset($response['content']['vistoria_sistema_status'])) {$this->vistoria_sistema_status = $response['content']['vistoria_sistema_status'];}
+            if (isset($response['content']['equipamentos_preventivos'])) {$this->equipamentos_preventivos = $response['content']['equipamentos_preventivos'];}
+
         }
     }
 

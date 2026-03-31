@@ -599,6 +599,16 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_edificacoes.js"
 },
+"resources/assets_template/js/scripts_equipamentos_preventivos.js": {
+"file": "assets/scripts_equipamentos_preventivos.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_equipamentos_preventivos.js"
+},
+"resources/assets_template/js/scripts_sistemas_preventivos.js": {
+"file": "assets/scripts_sistemas_preventivos.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_sistemas_preventivos.js"
+},
 "resources/assets_template/js/scripts_edificacoes_locais.js": {
 "file": "assets/scripts_edificacoes_locais.js",
 "isEntry": true,

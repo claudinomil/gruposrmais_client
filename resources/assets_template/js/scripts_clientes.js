@@ -1843,7 +1843,7 @@ async function clienteModalInfoSistemasPreventivos(cliente_id = '') {
 
         // Montar Grade
         if (clientes_sistemas_preventivos.length > 0) {
-            grade += '<table class="table align-middle table-nowrap table-check table-sm">'; //NÃO COLOCAR DATATABLE POIS O FILTRO NÃO FUNCIONA
+            grade += '<table class="table align-middle table-check table-sm">'; //NÃO COLOCAR DATATABLE POIS O FILTRO NÃO FUNCIONA
             grade += '  <thead class="table-light">';
             grade += '      <tr>';
             grade += '          <th scope="col">Edificação Local</th>';
