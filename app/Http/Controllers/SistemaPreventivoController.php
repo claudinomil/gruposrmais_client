@@ -37,6 +37,24 @@ class SistemaPreventivoController extends Controller
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
+                    ->editColumn('name', function ($row) {
+                        $retorno = "<div class='row'>";
+                        $retorno .= "<div class='col-12'>" . $row['name'] . "</div>";
+                        $retorno .= "<br><br>";
+                        $retorno .= "<div class='col-12 text-primary'><b>Equipamentos:</b></div>";
+
+                        $equipamentos = json_decode($row['equipamentos']);
+
+                        if (!is_array($equipamentos)) {$equipamentos = [];}
+
+                        foreach ($equipamentos as $equipamento) {
+                            $retorno .= "<div class='col-12'>" . $equipamento->item . ") " . $equipamento->nome . "</div>";
+                        }
+
+                        $retorno .= "</div>";
+
+                        return $retorno;
+                    })
                     ->addColumn('action', function ($row) {
                         return $this->columnAction($row['id']);
                     })

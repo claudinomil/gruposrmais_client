@@ -295,15 +295,6 @@ async function montarEdificacaoNiveis({ v_cols = 12, v_pavimentos = 0, v_mezanin
     // Ordem fixa desejada
     const ordem = ['pavimentos', 'mezaninos', 'coberturas', 'areas_tecnicas'];
 
-    // Buscar Medidas Segurança para usar no retorno'''''''''''''''''''''''''''''''''''''''''''
-    const response = await fetch('edificacoes/dados/medidas_seguranca', {
-        headers: { 'REQUEST-ORIGIN': 'fetch', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content }
-    });
-
-    const response_dados = await response.json();
-    const medidas_seguranca = response_dados.success;
-    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
     // Percorrer os campos
     campos.forEach(campo => {
         const label = campo.label;
@@ -383,29 +374,6 @@ async function montarEdificacaoNiveis({ v_cols = 12, v_pavimentos = 0, v_mezanin
                 divGrupo += `               m²`;
                 divGrupo += `           </div>`;
                 divGrupo += `       </div>`;
-
-                // Colocando Medidas Segurança'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                let idx = 0;
-
-                divGrupo += `       <div class="row mt-2">`;
-
-                medidas_seguranca.forEach(medida_seguranca => {
-                    idx++;
-
-                    //divGrupo += `       <div class="row mt-2">`;
-                    divGrupo += `           <div class="col-10 col-md-${col5} text-white mt-2 small">`;
-                    divGrupo += `               ${idx}. ${primeiraMaiuscula(medida_seguranca.name)}`;
-                    divGrupo += `               <input type="hidden" id="nivel_medida_seguranca_id_${medida_seguranca.id}_${grupo}_${i}" name="nivel_medida_seguranca_id_${medida_seguranca.id}_${grupo}_${i}" value="${medida_seguranca.id}">`;
-                    divGrupo += `           </div>`;
-                    divGrupo += `           <div class="col-2 col-md-${col6} text-end mt-2">`;
-                    divGrupo += `               <input type="text" class="form-control form-control-sm text-center mask_numero_inteiro" id="nivel_quantidade_medida_seguranca_${medida_seguranca.id}_${grupo}_${i}" name="nivel_quantidade_medida_seguranca_${medida_seguranca.id}_${grupo}_${i}" value="0">`;
-                    divGrupo += `           </div>`;
-                    //divGrupo += `       </div>`;
-                });
-
-                divGrupo += `       </div>`;
-                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
                 divGrupo += `   </div>`;
                 divGrupo += `</div>`;
 
@@ -436,7 +404,7 @@ async function preencherEdificacaoNiveis(edificacao_id = 0) {
     }
 
     // Dados
-    const response_route = await fetch('edificacoes/dados/edificacao_medidas_seguranca/' + edificacao_id, {
+    const response_route = await fetch('edificacoes/dados/edificacao_niveis/' + edificacao_id, {
         headers: { 'REQUEST-ORIGIN': 'fetch', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content }
     });
 
@@ -450,7 +418,7 @@ async function preencherEdificacaoNiveis(edificacao_id = 0) {
 
     // Varrer dados
     dados.forEach(item => {
-        const {edificacao_nivel_id, medida_seguranca_id, edificacaoMedidaSegurancaQuantidade, edificacaoNivelName, edificacaoNivelAreaConstruida, edificacaoNivelOrdem, edificacaoNivelNivel, medidaSegurancaName} = item;
+        const {edificacao_nivel_id, edificacaoNivelName, edificacaoNivelAreaConstruida, edificacaoNivelOrdem, edificacaoNivelNivel} = item;
 
         // Grupos
         let grupo = '';
@@ -467,7 +435,6 @@ async function preencherEdificacaoNiveis(edificacao_id = 0) {
         document.getElementById(`span_nivel_nome_${grupo}_${indice}`).innerHTML = edificacaoNivelName;
         document.getElementById(`nivel_nome_${grupo}_${indice}`).value = edificacaoNivelName;
         document.getElementById(`nivel_area_construida_${grupo}_${indice}`).value = float2moeda(edificacaoNivelAreaConstruida);
-        document.getElementById(`nivel_quantidade_medida_seguranca_${medida_seguranca_id}_${grupo}_${indice}`).value = edificacaoMedidaSegurancaQuantidade;
     });
 
     // Atualizar máscaras se necessário
@@ -477,7 +444,6 @@ async function preencherEdificacaoNiveis(edificacao_id = 0) {
 function readonlyEdificacaoNiveis(readonly = true) {
     const grupos = ['pavimentos', 'mezaninos', 'coberturas', 'areas_tecnicas'];
     const maxNiveis = 50;              // número máximo de níveis (ajuste se quiser)
-    const maxMedidasSeguranca = 50; // ids de 1 a 50
 
     grupos.forEach(grupo => {
         for (let i = 0; i <= maxNiveis; i++) {
@@ -488,15 +454,6 @@ function readonlyEdificacaoNiveis(readonly = true) {
 
             if (campoNome) campoNome.readOnly = readonly;
             if (campoArea) campoArea.readOnly = readonly;
-
-            // Campos das Medidas Segurança (1 a 50)
-            for (let id = 1; id <= maxMedidasSeguranca; id++) {
-                const campoSistema = document.getElementById(`nivel_medida_seguranca_id_${id}_${grupo}_${i}`);
-                const campoQuantidade = document.getElementById(`nivel_quantidade_medida_seguranca_${id}_${grupo}_${i}`);
-
-                if (campoSistema) campoSistema.readOnly = readonly;
-                if (campoQuantidade) campoQuantidade.readOnly = readonly;
-            }
         }
     });
 }

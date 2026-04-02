@@ -13,7 +13,6 @@ Route::prefix('edificacoes')->group(function () {
     Route::delete('/{id}', [EdificacaoController::class, 'destroy'])->name('edificacoes.destroy');
     Route::get('/filter/{array_dados}', [EdificacaoController::class, 'filter'])->name('edificacoes.filter');
 
-    // Outras Rodas de dados
-    Route::get('/dados/medidas_seguranca', [EdificacaoController::class, 'medidas_seguranca'])->name('edificacoes.medidas_seguranca');
-    Route::get('/dados/edificacao_medidas_seguranca/{edificacao_id}', [EdificacaoController::class, 'edificacao_medidas_seguranca'])->name('edificacoes.edificacao_medidas_seguranca');
+    // Outras Rotas de dados
+    Route::get('/dados/edificacao_niveis/{edificacao_id}', [EdificacaoController::class, 'edificacao_niveis'])->name('edificacoes.edificacao_niveis');
 });

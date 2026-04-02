@@ -17,7 +17,6 @@ class EdificacaoController extends Controller
     public $clientes;
     public $edificacao_classificacoes;
     public $incendio_riscos;
-    public $medidas_seguranca;
 
     public function __construct()
     {
@@ -129,8 +128,7 @@ class EdificacaoController extends Controller
             return view('edificacoes.index', [
                 'clientes' => $this->clientes,
                 'edificacao_classificacoes' => $this->edificacao_classificacoes,
-                'incendio_riscos' => $this->incendio_riscos,
-                'medidas_seguranca' => $this->medidas_seguranca
+                'incendio_riscos' => $this->incendio_riscos
             ]);
         }
     }
@@ -354,28 +352,12 @@ class EdificacaoController extends Controller
         }
     }
 
-    public function medidas_seguranca()
+    public function edificacao_niveis($edificacao_id)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data()
-            $this->responseApi(1, 10, 'edificacoes/dados/medidas_seguranca', '', '', '');
-
-            //Registros recebido com sucesso
-            if ($this->code == 2000) {
-                return response()->json(['success' => $this->content]);
-            } else {
-                return response()->json(['success' => []]);
-            }
-        }
-    }
-
-    public function edificacao_medidas_seguranca($edificacao_id)
-    {
-        //Verificando Origem enviada pelo Fetch
-        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data()
-            $this->responseApi(1, 10, 'edificacoes/dados/edificacao_medidas_seguranca/'.$edificacao_id, '', '', '');
+            $this->responseApi(1, 10, 'edificacoes/dados/edificacao_niveis/'.$edificacao_id, '', '', '');
 
             //Registros recebido com sucesso
             if ($this->code == 2000) {
