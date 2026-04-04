@@ -9,7 +9,7 @@
         @php
         $sistema_preventivo = $dados['sistema_preventivo'];
 
-        $sistema_preventivo_nome = $sistema_preventivo['name'];
+        $sistema_preventivo_nome = $sistema_preventivo['sistemaPreventivoName'];
         $sistema_preventivo_descricao = $sistema_preventivo['descricao'];
         $sistema_preventivo_fotografia = $sistema_preventivo['fotografia'];
         $sistema_preventivo_sistema_preventivo_numero = $sistema_preventivo['sistema_preventivo_numero'];
