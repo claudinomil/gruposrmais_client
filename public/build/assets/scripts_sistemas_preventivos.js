@@ -2,16 +2,22 @@ function validar_frm_sistemas_preventivos() {
     var validacao_ok = true;
     var mensagem = '';
 
-    //Campo: medida_seguranca_id (requerido)
+    // Campo: medida_seguranca_id (requerido)
     if (validacao({op:1, value:document.getElementById('medida_seguranca_id').value}) === false) {
         validacao_ok = false;
         mensagem += 'Medida Segurança requerido.'+'<br>';
     }
 
-    //Campo: name (requerido)
+    // Campo: name (requerido)
     if (validacao({op:1, value:document.getElementById('name').value}) === false) {
         validacao_ok = false;
         mensagem += 'Nome requerido.'+'<br>';
+    }
+
+    // Grade de Equipamentos: verificar se tem equipamento na grade
+    if (!document.querySelector("input[name='equipamento_preventivo_id[]']")) {
+        validacao_ok = false;
+        mensagem += 'Escolha pelo menos um Equipamento.' + '<br>';
     }
 
     //Mensagem

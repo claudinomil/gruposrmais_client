@@ -55,7 +55,7 @@
                             </div>
                             <div class="row pt-4">
                                 <h5 class="pb-4 text-primary"><i class="fas fa-table"></i> Equipamentos Preventivos</h5>
-                                <div class="row col-12">
+                                <div class="row col-12" id="divEscolherEquipamento">
                                     <div class="form-group col-12 col-md-8 pb-3">
                                         <label class="form-label">Equipamento</label>
                                         <select class="form-control" name="ep_equipamento_preventivo_id" id="ep_equipamento_preventivo_id">

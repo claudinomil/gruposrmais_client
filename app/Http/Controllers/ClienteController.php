@@ -26,7 +26,7 @@ class ClienteController extends Controller
     public $edificacoes;
     public $edificacoes_niveis;
     public $edificacoes_locais;
-    public $medidas_seguranca;
+    public $sistemas_preventivos;
 
     public function __construct()
     {
@@ -110,7 +110,7 @@ class ClienteController extends Controller
                 'edificacoes' => $this->edificacoes,
                 'edificacoes_locais' => $this->edificacoes_locais,
                 'edificacoes_niveis' => $this->edificacoes_niveis,
-                'medidas_seguranca' => $this->medidas_seguranca
+                'sistemas_preventivos' => $this->sistemas_preventivos
             ]);
         }
     }
@@ -845,8 +845,7 @@ class ClienteController extends Controller
                 $data['cliente_documento_id'] = $request['cli_editar_documentos_cliente_documento_id'];
                 $data['operacao'] = $request['cli_editar_sistemas_preventivos_operacao'];
                 $data['edificacao_local_id'] = $request['cli_editar_sistemas_preventivos_edificacao_local_id'];
-                $data['medida_seguranca_id'] = $request['cli_editar_sistemas_preventivos_medida_seguranca_id'];
-                $data['name'] = $request['cli_editar_sistemas_preventivos_name'];
+                $data['sistema_preventivo_id'] = $request['cli_editar_sistemas_preventivos_sistema_preventivo_id'];
                 $data['descricao'] = $request['cli_editar_sistemas_preventivos_descricao'];
                 $data['sistema_preventivo_numero'] = $request['cli_editar_sistemas_preventivos_sistema_preventivo_numero'];
 

@@ -469,6 +469,8 @@ async function crudCreate() {
             }
 
             if (prefixPermissaoSubmodulo == 'sistemas_preventivos') {
+                document.getElementById('divEscolherEquipamento').style.display = '';
+
                 limparEquipamentosPreventivosGrade();
             }
 
@@ -823,6 +825,8 @@ async function crudView(registro_id) {
             }
 
             if (prefixPermissaoSubmodulo == 'sistemas_preventivos') {
+                document.getElementById('divEscolherEquipamento').style.display = 'none';
+
                 limparEquipamentosPreventivosGrade();
 
                 sistema_preventivo_equipamentos = data.success['sistema_preventivo_equipamentos'];
@@ -1452,6 +1456,8 @@ async function crudEdit(registro_id) {
             }
 
             if (prefixPermissaoSubmodulo == 'sistemas_preventivos') {
+                document.getElementById('divEscolherEquipamento').style.display = '';
+
                 limparEquipamentosPreventivosGrade();
 
                 sistema_preventivo_equipamentos = data.success['sistema_preventivo_equipamentos'];

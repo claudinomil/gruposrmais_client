@@ -1610,16 +1610,10 @@ function validar_frm_editar_sistemas_preventivos() {
         mensagem += 'Cliente requerido.'+'<br>';
     }
 
-    // Campo: cli_editar_sistemas_preventivos_medida_seguranca_id (requerido)
-    if (validacao({op:1, value:document.getElementById('cli_editar_sistemas_preventivos_medida_seguranca_id').value}) === false) {
+    // Campo: cli_editar_sistemas_preventivos_sistema_preventivo_id (requerido)
+    if (validacao({op:1, value:document.getElementById('cli_editar_sistemas_preventivos_sistema_preventivo_id').value}) === false) {
         validacao_ok = false;
-        mensagem += 'Medida Segurança requerido.'+'<br>';
-    }
-
-    // Campo: cli_editar_sistemas_preventivos_name (requerido)
-    if (validacao({op:1, value:document.getElementById('cli_editar_sistemas_preventivos_name').value}) === false) {
-        validacao_ok = false;
-        mensagem += 'Sistema Preventivo (Nome) requerido.'+'<br>';
+        mensagem += 'Sistema Preventivo requerido.'+'<br>';
     }
 
     // Campo: cli_editar_sistemas_preventivos_sistema_preventivo_numero (requerido)
@@ -1732,14 +1726,13 @@ async function clienteModalInfoEditarSistemasPreventivosCreate() {
     await clienteModalInfoControle(17);
 }
 
-async function clienteModalInfoEditarSistemasPreventivosEdit(cliente_sistema_preventivo_id, edificacao_local_id, medida_seguranca_id, name, descricao, sistema_preventivo_numero, fotografia) {
+async function clienteModalInfoEditarSistemasPreventivosEdit(cliente_sistema_preventivo_id, edificacao_local_id, sistema_preventivo_id, descricao, sistema_preventivo_numero, fotografia) {
     const frm_editar_sistemas_preventivos_cli = document.getElementById('frm_editar_sistemas_preventivos_cli');
     const frm_editar_sistemas_preventivos_cli_botao_salvar_operacao = document.getElementById('frm_editar_sistemas_preventivos_cli_botao_salvar_operacao');
     const cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id = document.getElementById('cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id');
     const cli_editar_sistemas_preventivos_operacao = document.getElementById('cli_editar_sistemas_preventivos_operacao');
     const cli_editar_sistemas_preventivos_edificacao_local_id = document.getElementById('cli_editar_sistemas_preventivos_edificacao_local_id');
-    const cli_editar_sistemas_preventivos_medida_seguranca_id = document.getElementById('cli_editar_sistemas_preventivos_medida_seguranca_id');
-    const cli_editar_sistemas_preventivos_name = document.getElementById('cli_editar_sistemas_preventivos_name');
+    const cli_editar_sistemas_preventivos_sistema_preventivo_id = document.getElementById('cli_editar_sistemas_preventivos_sistema_preventivo_id');
     const cli_editar_sistemas_preventivos_descricao = document.getElementById('cli_editar_sistemas_preventivos_descricao');
     const cli_editar_sistemas_preventivos_sistema_preventivo_numero = document.getElementById('cli_editar_sistemas_preventivos_sistema_preventivo_numero');
     const cli_editar_sistemas_preventivos_fotografia = document.getElementById('cli_editar_sistemas_preventivos_fotografia');
@@ -1758,8 +1751,7 @@ async function clienteModalInfoEditarSistemasPreventivosEdit(cliente_sistema_pre
     cli_editar_sistemas_preventivos_cliente_sistema_preventivo_id.value = cliente_sistema_preventivo_id;
     cli_editar_sistemas_preventivos_operacao.value = 'edit';
     cli_editar_sistemas_preventivos_edificacao_local_id.value = edificacao_local_id;
-    cli_editar_sistemas_preventivos_medida_seguranca_id.value = medida_seguranca_id;
-    cli_editar_sistemas_preventivos_name.value = name;
+    cli_editar_sistemas_preventivos_sistema_preventivo_id.value = sistema_preventivo_id;
     cli_editar_sistemas_preventivos_descricao.value = descricao;
     cli_editar_sistemas_preventivos_sistema_preventivo_numero.value = sistema_preventivo_numero;
 
@@ -1862,7 +1854,7 @@ async function clienteModalInfoSistemasPreventivos(cliente_id = '') {
                 let edificacaoLocal = (dado.edificacaoName ?? '') + ' - ' + (dado.edificacaoNivelName ?? '') + ' - ' + (dado.edificacaoLocalName ?? '');
                 if (edificacaoLocal == ' -  - ') { edificacaoLocal = ''; }
                 let medidaSegurancaName = dado.medidaSegurancaName;
-                let name = dado.name ?? '';
+                let sistemaPreventivoName = dado.sistemaPreventivoName;
                 let descricao = dado.descricao ?? '';
                 let sistema_preventivo_numero = dado.sistema_preventivo_numero ?? '';
                 let fotografia = dado.fotografia ?? '';
@@ -1880,7 +1872,7 @@ async function clienteModalInfoSistemasPreventivos(cliente_id = '') {
                 }
 
                 if (permissao_edit) {
-                    acoes += `<button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Dados" onclick="clienteModalInfoEditarSistemasPreventivosEdit(${dado.id}, ${dado.edificacao_local_id}, ${dado.medida_seguranca_id}, '${name}', '${descricao}', '${sistema_preventivo_numero}', '${fotografia}');">`;
+                    acoes += `<button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Dados" onclick="clienteModalInfoEditarSistemasPreventivosEdit(${dado.id}, ${dado.edificacao_local_id}, ${dado.sistema_preventivo_id}, '${descricao}', '${sistema_preventivo_numero}', '${fotografia}');">`;
                     acoes += `<i class="fas fa-pencil-alt"></i></button>`;
                 }
 
@@ -1895,7 +1887,7 @@ async function clienteModalInfoSistemasPreventivos(cliente_id = '') {
                 grade += '<tr class="sistema_preventivo_fonte_' + dado.sistema_preventivo_fonte_id + '">';
                 grade += '  <td>' + edificacaoLocal + '</td>';
                 grade += '  <td>' + medidaSegurancaName + '</td>';
-                grade += '  <td>' + name + '</td>';
+                grade += '  <td>' + sistemaPreventivoName + '</td>';
                 grade += '  <td>' + descricao + '</td>';
                 grade += '  <td>' + sistema_preventivo_numero + '</td>';
                 grade += '  <td>' + acoes + '</td>';
