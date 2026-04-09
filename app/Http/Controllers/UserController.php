@@ -234,8 +234,8 @@ class UserController extends Controller
 
     public function profiledata(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
-        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+        // //Verificando Origem enviada pelo Fetch
+        // if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             $id = $_GET['id'];
 
             //Buscando dados Api_Data() - Registro pelo id
@@ -249,13 +249,13 @@ class UserController extends Controller
             } else {
                 echo 'Erro Interno User.';
             }
-        }
+        // }
     }
 
     public function uploadavatar(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
-        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+        // //Verificando Origem enviada pelo Fetch
+        // if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Variavel controle
             $error = false;
 
@@ -313,13 +313,13 @@ class UserController extends Controller
             } else {
                 echo 'Imagem (Nome, Tamanho ou Tipo) inválida.';
             }
-        }
+        // }
     }
 
     public function editpassword(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
-        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+        // //Verificando Origem enviada pelo Fetch
+        // if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //user_id
             $id = $request['edit_password_user_id'];
 
@@ -341,13 +341,13 @@ class UserController extends Controller
             }
 
             echo $message;
-        }
+        // }
     }
 
     public function editemail(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
-        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+        // //Verificando Origem enviada pelo Fetch
+        // if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //user_id
             $id = $request['edit_email_user_id'];
 
@@ -369,13 +369,13 @@ class UserController extends Controller
             }
 
             echo $message;
-        }
+        // }
     }
 
     public function editmodestyle(Request $request, $mode, $style, $id)
     {
-        //Verificando Origem enviada pelo Fetch
-        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+        // //Verificando Origem enviada pelo Fetch
+        // if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Data
             $data = array();
             $data['layout_mode'] = $mode;
@@ -396,7 +396,7 @@ class UserController extends Controller
             }
 
             echo $message;
-        }
+        // }
     }
 
     public function escolher_empresa($empresa_id, $empresa_name)

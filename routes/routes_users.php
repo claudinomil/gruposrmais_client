@@ -13,7 +13,7 @@ Route::prefix('users')->group(function () {
     Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/filter/{array_dados}', [UserController::class, 'filter'])->name('users.filter');
 
-    Route::post('/uploadavatar', [UserController::class, 'uploadavatar'])->name('users.uploadavatar');
+    Route::post('/info/user/uploadavatar', [UserController::class, 'uploadavatar'])->name('users.uploadavatar');
     Route::post('/editpassword', [UserController::class, 'editpassword'])->name('users.editpassword');
     Route::post('/editemail', [UserController::class, 'editemail'])->name('users.editemail');
 

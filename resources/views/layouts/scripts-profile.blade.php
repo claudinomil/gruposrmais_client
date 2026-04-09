@@ -25,19 +25,21 @@
             $('#buttonUploadAvatarClose').hide();
         });
 
-        $('#frm_upload_avatar').submit(function(e) {
+        $('#btn_upload_avatar').click(function(e) {
             e.preventDefault();
-            let formData = new FormData(this);
+            const frm_upload_avatar = document.getElementById('frm_upload_avatar');
+            let formData = new FormData(frm_upload_avatar);
             $('#frm-upload-avatar-error').text('');
 
             $.ajax({
                 type:'POST',
-                url: '/users/uploadavatar',
+                url: '/users/info/user/uploadavatar',
                 data: formData,
                 cache: false,
                 contentType: false,
                 processData: false,
                 success: function (response) {
+                    console.log(response);
                     alert(response);
 
                     //colocando a imagem na view

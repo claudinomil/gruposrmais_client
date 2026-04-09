@@ -69,16 +69,15 @@
                                         <div class="col-sm-12 pt-4" id="divUploadAvatar" style="display: none;">
                                             <h4 class="text-success"><b>:: </b>Alterar Avatar</h4>
 
-                                            <form method="post" enctype="multipart/form-data" id="frm_upload_avatar">
+                                            <form enctype="multipart/form-data" id="frm_upload_avatar">
                                                 @csrf
-                                                @method('POST')
 
                                                 <input type="hidden" class="jsonUserId" id="upload_avatar_user_id" name="upload_avatar_user_id" value="">
 
                                                 <div class="row mt-4">
                                                     <div class="input-group">
                                                         <input type="file" class="form-control" name="avatar_file" accept=".png, .jpg, .jpeg" id="avatar_file">
-                                                        <button type="submit" class="input-group-text">Upload</button>
+                                                        <button type="button" class="input-group-text" id="btn_upload_avatar">Upload</button>
                                                     </div>
                                                 </div>
 
