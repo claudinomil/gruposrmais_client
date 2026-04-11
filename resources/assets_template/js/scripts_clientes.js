@@ -1816,13 +1816,13 @@ async function clienteModalInfoEditarSistemasPreventivosMostrarEquipamentos(sist
     }).then(response => {
         return response.json();
     }).then(data => {
+        const cli_editar_sistemas_preventivos_equipamentos_preventivos = document.getElementById('cli_editar_sistemas_preventivos_equipamentos_preventivos');
+
+        cli_editar_sistemas_preventivos_equipamentos_preventivos.innerHTML = '';
+
         if (data.success) {
             // Lendo dados
             let equipamentos = data.success;
-
-            const cli_editar_sistemas_preventivos_equipamentos_preventivos = document.getElementById('cli_editar_sistemas_preventivos_equipamentos_preventivos');
-
-            cli_editar_sistemas_preventivos_equipamentos_preventivos.innerHTML = '';
 
             equipamentos.forEach(function (item) {
                 const linha = document.createElement("div");
