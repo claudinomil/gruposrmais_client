@@ -206,4 +206,20 @@ class SistemaPreventivoController extends Controller
             return view('sistemas_preventivos.index');
         }
     }
+
+    public function equipamentos($sistema_preventivo_id)
+    {
+        // Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            // Buscando dados Api_Data() - Lista de Registros
+            $this->responseApi(1, 10, 'sistemas_preventivos/equipamentos/'.$sistema_preventivo_id, '', '', '');
+
+            // Dados recebidos com sucesso
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            }
+
+            return response()->json(['error' => []]);
+        }
+    }
 }

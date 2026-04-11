@@ -12,4 +12,7 @@ Route::prefix('sistemas_preventivos')->group(function () {
     Route::post('/{id}', [SistemaPreventivoController::class, 'update'])->name('sistemas_preventivos.update');
     Route::delete('/{id}', [SistemaPreventivoController::class, 'destroy'])->name('sistemas_preventivos.destroy');
     Route::get('/filter/{array_dados}', [SistemaPreventivoController::class, 'filter'])->name('sistemas_preventivos.filter');
+
+    // Equipamentos
+    Route::get('/equipamentos/{sistema_preventivo_id}', [SistemaPreventivoController::class, 'equipamentos'])->name('sistemas_preventivos.equipamentos');
 });

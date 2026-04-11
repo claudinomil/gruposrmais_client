@@ -1764,6 +1764,8 @@ async function clienteModalInfoEditarSistemasPreventivosEdit(cliente_sistema_pre
     }
 
     await clienteModalInfoControle(17);
+
+    await clienteModalInfoEditarSistemasPreventivosMostrarEquipamentos(sistema_preventivo_id);
 }
 
 async function clienteModalInfoEditarSistemasPreventivosDeletar(cliente_sistema_preventivo_id) {
@@ -1802,6 +1804,38 @@ async function clienteModalInfoEditarSistemasPreventivosDeletar(cliente_sistema_
             alert('Erro clienteModalInfoEditarSistemasPreventivosDeletar:'+error);
         });
     }
+}
+
+async function clienteModalInfoEditarSistemasPreventivosMostrarEquipamentos(sistema_preventivo_id) {
+    var url_atual = window.location.protocol + '//' + window.location.host + '/';
+
+    // Acessar rota
+    fetch(url_atual+'sistemas_preventivos/equipamentos/'+sistema_preventivo_id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        if (data.success) {
+            // Lendo dados
+            let equipamentos = data.success;
+
+            const cli_editar_sistemas_preventivos_equipamentos_preventivos = document.getElementById('cli_editar_sistemas_preventivos_equipamentos_preventivos');
+
+            cli_editar_sistemas_preventivos_equipamentos_preventivos.innerHTML = '';
+
+            equipamentos.forEach(function (item) {
+                const linha = document.createElement("div");
+                linha.classList.add('text-success');
+                linha.style.borderBottom = "1px solid #eee";
+                linha.style.padding = "4px 0";
+                linha.textContent = item.equipamento_preventivo_item+') '+item.equipamentoPreventivoName;
+                cli_editar_sistemas_preventivos_equipamentos_preventivos.appendChild(linha);
+            });
+        }
+    }).catch(error => {
+        alert('Erro clienteModalInfoEditarSistemasPreventivosMostrarEquipamentos: ' + error);
+    }).finally(async () => {});
 }
 // Modal INFO - Editar Sistemas Preventivos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // Modal INFO - Editar Sistemas Preventivos - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

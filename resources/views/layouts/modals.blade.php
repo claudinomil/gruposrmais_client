@@ -1185,13 +1185,17 @@
                                                 </div>
                                                 <div class="col-12 col-lg-4 mb-3">
                                                     <label class="form-label">Sistema Preventivo</label>
-                                                    <select class="form-select form-select-sm" name="cli_editar_sistemas_preventivos_sistema_preventivo_id" id="cli_editar_sistemas_preventivos_sistema_preventivo_id">
+                                                    <select class="form-select form-select-sm" name="cli_editar_sistemas_preventivos_sistema_preventivo_id" id="cli_editar_sistemas_preventivos_sistema_preventivo_id" onclick="clienteModalInfoEditarSistemasPreventivosMostrarEquipamentos(this.value);" onchange="clienteModalInfoEditarSistemasPreventivosMostrarEquipamentos(this.value);">
                                                         <option value="">{{ __('Selecione...') }}</option>
 
                                                         @foreach ($sistemas_preventivos as $sistema_preventivo)
                                                         <option value="{{ $sistema_preventivo['id'] }}">{{ $sistema_preventivo['name'] }}</option>
                                                         @endforeach
                                                     </select>
+                                                </div>
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Sistema Preventivo (Equipamentos)</label>
+                                                    <div id="cli_editar_sistemas_preventivos_equipamentos_preventivos"></div>
                                                 </div>
                                                 <div class="col-12 col-lg-4 mb-3">
                                                     <label class="form-label">Sistema Preventivo (Descrição)</label>
