@@ -1826,7 +1826,7 @@ async function clienteModalInfoEditarSistemasPreventivosMostrarEquipamentos(sist
 
             equipamentos.forEach(function (item) {
                 const linha = document.createElement("div");
-                linha.classList.add('text-success', 'font-size-12');
+                linha.classList.add('text-success', 'font-size-10');
                 linha.style.borderBottom = "1px solid #eee";
                 linha.style.padding = "4px 0";
                 linha.textContent = item.equipamento_preventivo_item+') '+item.equipamentoPreventivoName;
