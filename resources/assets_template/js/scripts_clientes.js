@@ -2852,6 +2852,7 @@ async function clienteModalInfoClientesRede(cliente_id = '') {
             grade += '  <thead class="table-light">';
             grade += '      <tr>';
             grade += '          <th scope="col">Cliente</th>';
+            grade += '          <th scope="col">Nome Fantasia</th>';
             grade += '          <th scope="col">CNPJ</th>';
             grade += '          <th class="text-center" scope="col">Ações</th>';
             grade += '      </tr>';
@@ -2862,8 +2863,11 @@ async function clienteModalInfoClientesRede(cliente_id = '') {
             clientes_rede.forEach(dado => {
                 let verCliente = `<button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Registro" onclick="visualizarCliente(${dado.id});"><i class="fa fa-eye"></i></button>`;
 
+                let nome_fantasia = dado.nome_fantasia || '';
+
                 grade += '<tr>';
                 grade += '  <td>' + dado.name + '</td>';
+                grade += '  <td>' + nome_fantasia + '</td>';
                 grade += '  <td>' + aplicarMascaraJs(dado.cnpj, '##.###.###/####-##') + '</td>';
                 grade += '  <td class="text-center">' + verCliente + '</td>';
                 grade += '</tr>';
@@ -2907,6 +2911,7 @@ async function clienteModalInfoClientesPrincipal(cliente_id = '') {
                             <tr>
                                 <th class="text-center" style="width:30px">Status</th>
                                 <th>Cliente</th>
+                                <th>Nome Fantasia</th>
                                 <th>CNPJ</th>
                                 <th class="text-center" scope="col">Ações</th>
                             </tr>
@@ -2938,9 +2943,12 @@ async function clienteModalInfoClientesPrincipal(cliente_id = '') {
 
                 const verInfoCliente = `<a href="#" onclick="clienteModalInfoControle(2, ${dado.id});"><span class="bg-warning badge"><i class="bx bx-photo-album font-size-16 align-middle me-1"></i>Info</span></a>`;
 
+                let nome_fantasia = dado.nome_fantasia || '';
+
                 grade += `<tr>
                             <td>${status}</td>
                             <td>${dado.name}</td>
+                            <td>${nome_fantasia}</td>
                             <td>${aplicarMascaraJs(dado.cnpj, '##.###.###/####-##')}</td>
                             <td class="text-center align-middle">${verCliente}&nbsp;&nbsp;&nbsp;${verInfoCliente}</td>
                         </tr>`;
