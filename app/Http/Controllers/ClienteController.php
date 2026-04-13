@@ -50,17 +50,30 @@ class ClienteController extends Controller
                     ->editColumn('name', function ($row) {
                         $retorno = "<div class='text-black'>".$row['name']."</div>";
 
+                        // if (!empty($row['nome_fantasia'])) {
+                        //     $retorno .= "<div class='text-primary small'>"."<b>".":: Nome Fantasia: "."</b>".$row['nome_fantasia']."</div>";
+                        // }
+
+                        // if (!empty($row['principalClienteName'])) {
+                        //     $retorno .= "<div class='text-success small'>"."<b>".":: Principal: "."</b>".$row['principalClienteName']."</div>";
+                        // }
+
+                        // if (!empty($row['redeClienteName'])) {
+                        //     $retorno .= "<div class='text-danger small'>"."<b>".":: Rede: "."</b>".$row['redeClienteName']."</div>";
+                        // }
+
                         if (!empty($row['nome_fantasia'])) {
-                            $retorno .= "<div class='text-primary small'>"."<b>".":: Nome Fantasia: "."</b>".$row['nome_fantasia']."</div>";
+                            $retorno .= "<div class='text-primary small'>:: ".$row['nome_fantasia']."</div>";
                         }
 
                         if (!empty($row['principalClienteName'])) {
-                            $retorno .= "<div class='text-success small'>"."<b>".":: Principal: "."</b>".$row['principalClienteName']."</div>";
+                            $retorno .= "<div class='text-primary small'>:: ".$row['principalClienteName']."</div>";
                         }
 
                         if (!empty($row['redeClienteName'])) {
-                            $retorno .= "<div class='text-danger small'>"."<b>".":: Rede: "."</b>".$row['redeClienteName']."</div>";
+                            $retorno .= "<div class='text-primary small'>:: ".$row['redeClienteName']."</div>";
                         }
+
 
                         return $retorno;
                     })
@@ -257,16 +270,28 @@ class ClienteController extends Controller
                     ->editColumn('name', function ($row) {
                         $retorno = "<div class='text-black'>".$row['name']."</div>";
 
+                        // if (!empty($row['nome_fantasia'])) {
+                        //     $retorno .= "<div class='text-primary small'>"."<b>".":: Nome Fantasia: "."</b>".$row['nome_fantasia']."</div>";
+                        // }
+
+                        // if (!empty($row['principalClienteName'])) {
+                        //     $retorno .= "<div class='text-success small'>"."<b>".":: Principal: "."</b>".$row['principalClienteName']."</div>";
+                        // }
+
+                        // if (!empty($row['redeClienteName'])) {
+                        //     $retorno .= "<div class='text-danger small'>"."<b>".":: Rede: "."</b>".$row['redeClienteName']."</div>";
+                        // }
+
                         if (!empty($row['nome_fantasia'])) {
-                            $retorno .= "<div class='text-primary small'>"."<b>".":: Nome Fantasia: "."</b>".$row['nome_fantasia']."</div>";
+                            $retorno .= "<div class='text-primary small'>:: ".$row['nome_fantasia']."</div>";
                         }
 
                         if (!empty($row['principalClienteName'])) {
-                            $retorno .= "<div class='text-success small'>"."<b>".":: Principal: "."</b>".$row['principalClienteName']."</div>";
+                            $retorno .= "<div class='text-primary small'>:: ".$row['principalClienteName']."</div>";
                         }
 
                         if (!empty($row['redeClienteName'])) {
-                            $retorno .= "<div class='text-danger small'>"."<b>".":: Rede: "."</b>".$row['redeClienteName']."</div>";
+                            $retorno .= "<div class='text-primary small'>:: ".$row['redeClienteName']."</div>";
                         }
 
                         return $retorno;

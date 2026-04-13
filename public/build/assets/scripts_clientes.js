@@ -731,6 +731,7 @@ async function clienteModalInfoEstatisticas(id = '') {
         document.getElementById('md_cli_estatisticas_clientes_principal').innerHTML = estatisticas.clientes_principal;
         document.getElementById('md_cli_estatisticas_documentos_exigidos').innerHTML = estatisticas.documentos_exigidos;
         document.getElementById('md_cli_estatisticas_sistemas_preventivos').innerHTML = estatisticas.sistemas_preventivos;
+        document.getElementById('md_cli_estatisticas_lojas').innerHTML = estatisticas.lojas;
 
         // retornando algo para o await do chamador "esperar"
         return true;

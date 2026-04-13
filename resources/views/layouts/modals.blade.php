@@ -708,8 +708,9 @@
                                                     <i class="bx bxs-cog align-middle me-1"></i> Opções
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-start">
-                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(1);">Logotipos</a>
-                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(2);">Dados</a>
+                                                    @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
+                                                    <a class="dropdown-item" href="#" onclick="clienteModalInfoControle(1);">Editar Logotipos</a>
+                                                    @endif
 
                                                     @if(\App\Facades\Permissoes::permissao(['clientes_edit']))
                                                     <a class="dropdown-item" href="#" onclick="clienteModalInfoEditarDocumentosCreate();">Editar Documentos</a>
@@ -739,13 +740,13 @@
                         <div class="col-12 order-3 order-lg-2 col-lg-8 align-self-center">
                             <div class="text-lg-center mt-4 mt-lg-0">
                                 <div class="d-flex flex-wrap justify-content-start gap-2">
-                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(1);">
-                                        <h5 class="mb-0 small text-white">&nbsp;</h5>
-                                        <span class="small text-white">Logotipos</span>
-                                    </button>
                                     <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(2);">
                                         <h5 class="mb-0 small text-white">&nbsp;</h5>
                                         <span class="small text-white">Dados</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(1);">
+                                        <h5 class="mb-0 small text-white">&nbsp;</h5>
+                                        <span class="small text-white">Logotipos</span>
                                     </button>
                                     <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(3);">
                                         <h5 class="mb-0 small text-white" id="md_cli_estatisticas_documentos">0</h5>
@@ -756,7 +757,7 @@
                                         <span class="small text-white">Documentos Exigidos</span>
                                     </button>
                                     <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(16);">
-                                        <h5 class="mb-0 small text-white">&nbsp;</h5>
+                                        <h5 class="mb-0 small text-white" id="md_cli_estatisticas_lojas">0</h5>
                                         <span class="small text-white">Lojas</span>
                                     </button>
                                     <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="clienteModalInfoControle(18);">
