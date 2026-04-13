@@ -2439,7 +2439,7 @@ async function clienteModalInfoLojas(cliente_id = '') {
             grade += '          <th scope="col">Edificação Nível</th>';
             grade += '          <th scope="col">LUC</th>';
             grade += '          <th scope="col">Cliente</th>';
-            grade += '          <th scope="col">Ordem</th>';
+            grade += '          <th scope="col">Nome Fantasia</th>';
             grade += '          <th class="text-center" scope="col">Ações</th>';
             grade += '      </tr>';
             grade += '  </thead>';
@@ -2455,6 +2455,7 @@ async function clienteModalInfoLojas(cliente_id = '') {
                 let edificacaoName = dado.edificacaoName ?? '';
                 let edificacaoNivelName = dado.edificacaoNivelName ?? '';
                 let subordinadoClienteName = dado.subordinadoClienteName ?? '';
+                let subordinadoClienteNomeFantasia = dado.subordinadoClienteNomeFantasia ?? '';
 
                 // Ações
                 let acoes = ``;
@@ -2478,7 +2479,7 @@ async function clienteModalInfoLojas(cliente_id = '') {
                 grade += '  <td>' + edificacaoName + ' - ' + edificacaoNivelName + '</td>';
                 grade += '  <td>' + luc + '</td>';
                 grade += '  <td>' + subordinadoClienteName + '</td>';
-                grade += '  <td>' + ordem + '</td>';
+                grade += '  <td>' + subordinadoClienteNomeFantasia + '</td>';
                 grade += '  <td>' + acoes + '</td>';
 
                 grade += '</tr>';
