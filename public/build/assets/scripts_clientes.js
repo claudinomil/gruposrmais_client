@@ -2437,8 +2437,8 @@ async function clienteModalInfoLojas(cliente_id = '') {
             grade += '  <thead class="table-light">';
             grade += '      <tr>';
             grade += '          <th scope="col">Edificação Nível</th>';
-            grade += '          <th scope="col">LUC (Loja de Unidade Comercial)</th>';
-            grade += '          <th scope="col">Cliente ocupando a LUC</th>';
+            grade += '          <th scope="col">LUC</th>';
+            grade += '          <th scope="col">Cliente</th>';
             grade += '          <th scope="col">Ordem</th>';
             grade += '          <th class="text-center" scope="col">Ações</th>';
             grade += '      </tr>';
