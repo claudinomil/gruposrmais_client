@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Facades\Permissoes;
 use App\Facades\SuporteFacade;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -50,7 +49,18 @@ class ClienteController extends Controller
                     ->addIndexColumn()
                     ->editColumn('name', function ($row) {
                         $retorno = "<div class='text-black'>".$row['name']."</div>";
-                        $retorno .= "<div class='text-primary small'>".$row['nome_fantasia']."</div>";
+
+                        if (!empty($row['nome_fantasia'])) {
+                            $retorno .= "<div class='text-primary small'>"."<b>".":: Nome Fantasia: "."</b>".$row['nome_fantasia']."</div>";
+                        }
+
+                        if (!empty($row['principalClienteName'])) {
+                            $retorno .= "<div class='text-success small'>"."<b>".":: Principal: "."</b>".$row['principalClienteName']."</div>";
+                        }
+
+                        if (!empty($row['redeClienteName'])) {
+                            $retorno .= "<div class='text-danger small'>"."<b>".":: Rede: "."</b>".$row['redeClienteName']."</div>";
+                        }
 
                         return $retorno;
                     })
@@ -246,7 +256,18 @@ class ClienteController extends Controller
                     ->addIndexColumn()
                     ->editColumn('name', function ($row) {
                         $retorno = "<div class='text-black'>".$row['name']."</div>";
-                        $retorno .= "<div class='text-primary small'>".$row['nome_fantasia']."</div>";
+
+                        if (!empty($row['nome_fantasia'])) {
+                            $retorno .= "<div class='text-primary small'>"."<b>".":: Nome Fantasia: "."</b>".$row['nome_fantasia']."</div>";
+                        }
+
+                        if (!empty($row['principalClienteName'])) {
+                            $retorno .= "<div class='text-success small'>"."<b>".":: Principal: "."</b>".$row['principalClienteName']."</div>";
+                        }
+
+                        if (!empty($row['redeClienteName'])) {
+                            $retorno .= "<div class='text-danger small'>"."<b>".":: Rede: "."</b>".$row['redeClienteName']."</div>";
+                        }
 
                         return $retorno;
                     })

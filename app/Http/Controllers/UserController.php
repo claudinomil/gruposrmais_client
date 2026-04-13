@@ -2,13 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Facades\SuporteFacade;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Vite;
-use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -61,6 +56,10 @@ class UserController extends Controller
                     })
                     ->editColumn('usuario', function ($row) {
                         $retorno = $row['name']."<br>"."<span class='text-success'>:: ".$row['grupoName']."</span>";
+
+                        if (isset($row['clienteName'])) {
+                            $retorno .= "<br>"."<b>".":: Cliente: "."</b>"."<span class='text-primary'>".$row['clienteName']."</span>";
+                        }
 
                         return $retorno;
                     })
@@ -213,6 +212,15 @@ class UserController extends Controller
                         $retorno .= "<br>";
                         $retorno .= "<a href='#' data-bs-toggle='modal' data-bs-target='.modal-profile' onclick='userProfileData(1, ".$row['id'].");'><span class='bg-success badge'><i class='bx bx-user font-size-16 align-middle me-1'></i>Perfil</span></a>";
                         $retorno .= "</div>";
+
+                        return $retorno;
+                    })
+                    ->editColumn('usuario', function ($row) {
+                        $retorno = $row['name']."<br>"."<span class='text-success'>:: ".$row['grupoName']."</span>";
+
+                        if (isset($row['clienteName'])) {
+                            $retorno .= "<br>"."<b>".":: Cliente: "."</b>"."<span class='text-primary'>".$row['clienteName']."</span>";
+                        }
 
                         return $retorno;
                     })
