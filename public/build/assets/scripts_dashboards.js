@@ -64,21 +64,23 @@ async function dashboardGerarUnico(id) {
     const fn = await window['dashboard_grafico_' + id];
 
     if (typeof fn === 'function') {
-        fn(id, nome, tipo);
+        await fn(id, nome, tipo);
     }
 }
 
-function dashboardGerarSelecionados() {
-    document.querySelectorAll('.grafico-check').forEach(check => {
+async function dashboardGerarSelecionados() {
+    const checks = document.querySelectorAll('.grafico-check');
+
+    for (const check of checks) {
         const id = check.dataset.id;
 
         if (check.checked) {
-            dashboardGerarUnico(id);
+            await dashboardGerarUnico(id);
         } else {
             const el = document.getElementById(`dashboard_grafico_${id}`);
             if (el) el.style.display = 'none';
         }
-    });
+    }
 }
 
 function dashboardToggleAll(status) {
@@ -87,7 +89,7 @@ function dashboardToggleAll(status) {
     });
 }
 
-function garantirContainerGrafico(id, classDiv, height) {
+async function garantirContainerGrafico(id, classDiv, height) {
     let el = document.getElementById(`dashboard_grafico_${id}`);
 
     if (!el) {
@@ -612,11 +614,9 @@ async function dashboard_grafico_14(grafico_id, grafico_name, grafico_tipo) {
 async function dashboard_grafico_15(grafico_id, grafico_name, grafico_tipo) {
     // Global
     const graficoData = {
-        operacoes_propostas_quantidade: [],
-        operacoes_brigadas_incendios_quantidade: [],
-        operacoes_visitas_tecnicas_quantidade: [],
-        operacoes_ordens_servicos_quantidade: [],
-        operacoes_total_quantidade: []
+        lojas_ocupadas: [],
+        lojas_desocupadas: [],
+        lojas_total: []
     };
 
     const response = await fetch('dashboards/grafico/dados/'+grafico_id, {
@@ -635,17 +635,15 @@ async function dashboard_grafico_15(grafico_id, grafico_name, grafico_tipo) {
 
     // Dados Gráfico
     const dados_grafico = [
-        { name: 'Propostas', value: graficoData.operacoes_propostas_quantidade },
-        { name: 'Brigadas Incêndios', value: graficoData.operacoes_brigadas_incendios_quantidade },
-        { name: 'Visitas Técnicas', value: graficoData.operacoes_visitas_tecnicas_quantidade },
-        { name: 'Ordens Serviços', value: graficoData.operacoes_ordens_servicos_quantidade }
+        { name: 'Lojas Ocupadas', value: graficoData.lojas_ocupadas },
+        { name: 'Lojas Desocupadas', value: graficoData.lojas_desocupadas }
     ];
 
     // Renderizando
     if (grafico_tipo == 1) {
-        await dashboardsChartPieSimple({id:'dashboard_grafico_'+grafico_id, titleText:grafico_name, titleSubText:graficoData.operacoes_total_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4 p-0 p-2', heightDivGrafico:350});
+        await dashboardsChartPieSimple({id:'dashboard_grafico_'+grafico_id, titleText:grafico_name, titleSubText:graficoData.lojas_total+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4 p-0 p-2', heightDivGrafico:350});
     } else if (grafico_tipo == 2) {
-        await dashboardsChartBarSimple({id:'dashboard_grafico_'+grafico_id, titleText:grafico_name, titleSubText:graficoData.operacoes_total_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4 p-0 p-2', heightDivGrafico:350});
+        await dashboardsChartBarSimple({id:'dashboard_grafico_'+grafico_id, titleText:grafico_name, titleSubText:graficoData.lojas_total+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name, graficoTipo:grafico_tipo, classDivGrafico:'col-12 col-md-4 p-0 p-2', heightDivGrafico:350});
     } else {}
 }
 
@@ -694,7 +692,7 @@ async function dashboard_grafico_16(grafico_id, grafico_name, grafico_tipo) {
 async function dashboardsChartPieSimple({id='', titleText='', titleSubText='', legenda='bottom', dados=[], graficoId=0, graficoName='', graficoTipo=0, classDivGrafico='col-12 col-md-4', heightDivGrafico=350}) {
     if (id == '') { return; }
 
-    const el = garantirContainerGrafico(graficoId, classDivGrafico, heightDivGrafico);
+    const el = await garantirContainerGrafico(graficoId, classDivGrafico, heightDivGrafico);
 
     // Verificar se precisa criar elemento div no DOM para renderizar gráfico
     if (!document.getElementById(id)) {
@@ -831,7 +829,7 @@ async function dashboardsChartPieSimple({id='', titleText='', titleSubText='', l
 async function dashboardsChartBarSimple({id='', titleText='', titleSubText='', dados=[], graficoId=0, graficoName='', graficoTipo=0, classDivGrafico='col-12 col-md-4', heightDivGrafico=350}) {
     if (id == '') { return; }
 
-    const el = garantirContainerGrafico(graficoId, classDivGrafico, heightDivGrafico);
+    const el = await garantirContainerGrafico(graficoId, classDivGrafico, heightDivGrafico);
 
     // Verificar se precisa criar elemento div no DOM para renderizar gráfico
     // if (!document.getElementById(id)) {

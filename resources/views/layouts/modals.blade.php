@@ -1123,11 +1123,11 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-12 col-lg-3 mb-3">
-                                                    <label class="form-label">LUC (Loja de Unidade Comercial)</label>
+                                                    <label class="form-label">LUC</label>
                                                     <input type="text" class="form-control form-control-sm" name="cli_editar_lojas_luc" id="cli_editar_lojas_luc" placeholder="Nome da Loja">
                                                 </div>
                                                 <div class="col-12 col-lg-4 mb-3">
-                                                    <label class="form-label">Cliente ocupando a LUC</label>
+                                                    <label class="form-label">Cliente</label>
                                                     <select class="form-select form-select-sm" name="cli_editar_lojas_subordinado_cliente_id" id="cli_editar_lojas_subordinado_cliente_id">
                                                         <option value="">{{ __('Selecione...') }}</option>
 

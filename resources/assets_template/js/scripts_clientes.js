@@ -2437,8 +2437,8 @@ async function clienteModalInfoLojas(cliente_id = '') {
             grade += '  <thead class="table-light">';
             grade += '      <tr>';
             grade += '          <th scope="col">Edificação Nível</th>';
-            grade += '          <th scope="col">LUC (Loja de Unidade Comercial)</th>';
-            grade += '          <th scope="col">Cliente ocupando a LUC</th>';
+            grade += '          <th scope="col">LUC</th>';
+            grade += '          <th scope="col">Cliente</th>';
             grade += '          <th scope="col">Ordem</th>';
             grade += '          <th class="text-center" scope="col">Ações</th>';
             grade += '      </tr>';
@@ -2921,7 +2921,9 @@ async function clienteModalInfoClientesPrincipal(cliente_id = '') {
 
             for (let i = 0; i < clientes_principal.length; i++) {
                 const dado = clientes_principal[i];
-                const statusPercentual = percentuais[i];
+                let statusPercentual = percentuais[i];
+
+                statusPercentual = statusPercentual.toFixed(2);
 
                 let status = `<span class="badge rounded-pill bg-danger" title="Percentual atingido: ${statusPercentual}%">&nbsp;</span>&nbsp;${statusPercentual}%`;
 
@@ -2933,11 +2935,13 @@ async function clienteModalInfoClientesPrincipal(cliente_id = '') {
 
                 const verCliente = `<button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Registro" onclick="visualizarCliente(${dado.id});"><i class="fa fa-eye"></i></button>`;
 
+                const verInfoCliente = `<a href="#" onclick="clienteModalInfoControle(2, ${dado.id});"><span class="bg-warning badge"><i class="bx bx-photo-album font-size-16 align-middle me-1"></i>Info</span></a>`;
+
                 grade += `<tr>
                             <td>${status}</td>
                             <td>${dado.name}</td>
                             <td>${aplicarMascaraJs(dado.cnpj, '##.###.###/####-##')}</td>
-                            <td class="text-center">${verCliente}</td>
+                            <td class="text-center align-middle">${verCliente}&nbsp;&nbsp;&nbsp;${verInfoCliente}</td>
                         </tr>`;
             }
 
