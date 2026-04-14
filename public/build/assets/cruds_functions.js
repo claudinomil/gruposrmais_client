@@ -763,21 +763,62 @@ async function crudView(registro_id) {
                 document.getElementById('link_copiar_endereco').style.display = 'none';
 
                 //Liberar campos frm_editar_documentos_cli
-                document.getElementById('editar_documentos_cliente_id').disabled = false;
-                document.getElementById('cli_editar_documentos_edificacao_id').disabled = false;
-                document.getElementById('cli_editar_documentos_documento_id').disabled = false;
-                document.getElementById('cli_editar_documentos_descricao').disabled = false;
-                document.getElementById('cli_editar_documentos_data_emissao').disabled = false;
-                document.getElementById('cli_editar_documentos_data_vencimento').disabled = false;
-                document.getElementById('cli_editar_documentos_aviso').disabled = false;
-                document.getElementById('cli_editar_documentos_file').disabled = false;
+
+                // document.getElementById('editar_documentos_cliente_id').disabled = false;
+                // document.getElementById('cli_editar_documentos_edificacao_id').disabled = false;
+                // document.getElementById('cli_editar_documentos_documento_id').disabled = false;
+                // document.getElementById('cli_editar_documentos_descricao').disabled = false;
+                // document.getElementById('cli_editar_documentos_data_emissao').disabled = false;
+                // document.getElementById('cli_editar_documentos_data_vencimento').disabled = false;
+                // document.getElementById('cli_editar_documentos_aviso').disabled = false;
+                // document.getElementById('cli_editar_documentos_file').disabled = false;
+
+                var el = document.getElementById('editar_documentos_cliente_id');
+                if (el) el.disabled = false;
+
+                var el = document.getElementById('cli_editar_documentos_edificacao_id');
+                if (el) el.disabled = false;
+
+                var el = document.getElementById('cli_editar_documentos_documento_id');
+                if (el) el.disabled = false;
+
+                var el = document.getElementById('cli_editar_documentos_descricao');
+                if (el) el.disabled = false;
+
+                var el = document.getElementById('cli_editar_documentos_data_emissao');
+                if (el) el.disabled = false;
+
+                var el = document.getElementById('cli_editar_documentos_data_vencimento');
+                if (el) el.disabled = false;
+
+                var el = document.getElementById('cli_editar_documentos_aviso');
+                if (el) el.disabled = false;
+
+                var el = document.getElementById('cli_editar_documentos_file');
+                if (el) el.disabled = false;
 
                 // Liberar campos frm_editar_lojas_cli
-                document.getElementById('editar_lojas_cliente_id').disabled = false;
-                document.getElementById('cli_editar_lojas_edificacao_nivel_id').disabled = false;
-                document.getElementById('cli_editar_lojas_luc').disabled = false;
-                document.getElementById('cli_editar_lojas_ordem').disabled = false;
-                document.getElementById('cli_editar_lojas_subordinado_cliente_id').disabled = false;
+
+                // document.getElementById('editar_lojas_cliente_id').disabled = false;
+                // document.getElementById('cli_editar_lojas_edificacao_nivel_id').disabled = false;
+                // document.getElementById('cli_editar_lojas_luc').disabled = false;
+                // document.getElementById('cli_editar_lojas_ordem').disabled = false;
+                // document.getElementById('cli_editar_lojas_subordinado_cliente_id').disabled = false;
+
+                var el = document.getElementById('editar_lojas_cliente_id');
+                if (el) el.disabled = false;
+
+                var el = document.getElementById('cli_editar_lojas_edificacao_nivel_id');
+                if (el) el.disabled = false;
+
+                var el = document.getElementById('cli_editar_lojas_luc');
+                if (el) el.disabled = false;
+
+                var el = document.getElementById('cli_editar_lojas_ordem');
+                if (el) el.disabled = false;
+
+                var el = document.getElementById('cli_editar_lojas_subordinado_cliente_id');
+                if (el) el.disabled = false;
             }
 
             if (prefixPermissaoSubmodulo == 'clientes_executivos') {
