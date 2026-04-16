@@ -3,9 +3,9 @@
         <div id="sidebar-menu">@php echo \App\Facades\Menu::getMenu(1) @endphp</div>
 
         @if(session('gsrm_cliente_id') != 0)
-        <div class="text-center">
+        <!-- <div class="text-center">
             <img src="{{ asset('build/assets/images/image_logo_layout_light_menu.png') }}" height="40">
-        </div>
+        </div> -->
         @endif
     </div>
 </div>

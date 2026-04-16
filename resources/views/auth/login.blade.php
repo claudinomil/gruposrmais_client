@@ -32,7 +32,7 @@
                                 @if(session()->has('gsrm_cliente_id') && session('gsrm_cliente_id') == 0)
                                 <img src="{{ asset('build/assets/images/image_logo_login.png') }}" height="40">
                                 @else
-                                <img src="{{ asset(session('gsrm_cliente_logotipo_principal')) }}" height="40">
+                                <img src="{{ asset(session('gsrm_cliente_logotipo_principal')) }}" height="60">
                                 @endif
                             </div>
                             <div class="p-0">
