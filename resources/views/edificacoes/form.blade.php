@@ -143,6 +143,10 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="form-group col-12 col-md-2 pb-3">
+                                    <label class="form-label">{{ __("LUC's") }}</label>
+                                    <input type="text" class="form-control mask_numero_inteiro" id="quantidade_lucs" name="quantidade_lucs" required>
+                                </div>
                                 <div class="form-group col-12 col-md-4 pb-3">
                                     <label class="form-label">{{ __('Classificação Edificação') }}</label>
                                     <select class="form-select" name="edificacao_classificacao_id" id="edificacao_classificacao_id" onchange="edificacaoClassificacaoCampos()">

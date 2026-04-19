@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class DashboardController_ANTERIOR extends Controller
 {
     //Variaveis de Retorno da API
     public $message;
@@ -23,12 +23,12 @@ class DashboardController extends Controller
         return view('dashboards.index');
     }
 
-    public function graficos($grafico_grupo_id)
+    public function graficos()
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data()
-            $this->responseApi(1, 10, 'dashboards/graficos/'.$grafico_grupo_id, '', '', '');
+            $this->responseApi(1, 10, 'dashboards/graficos', '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {

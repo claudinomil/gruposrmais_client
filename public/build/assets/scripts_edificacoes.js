@@ -68,6 +68,18 @@ function validar_frm_edificacoes() {
         mensagem += 'Risco Incêndio requerido.'+'<br>';
     }
 
+    // Campo: quantidade_lucs (requerido)
+    if (validacao({ op: 1, value: document.getElementById('quantidade_lucs').value }) === false) {
+        validacao_ok = false;
+        mensagem += 'LUCs requerido.' + '<br>';
+    } else {
+        // Campo: quantidade_lucs (número inteiro)
+        if (validacao({ op: 4, value: document.getElementById('quantidade_lucs').value }) === false) {
+            validacao_ok = false;
+            mensagem += 'LUCs tem que ser um número inteiro.' + '<br>';
+        }
+    }
+
     // Campo: edificacao_classificacao_id (requerido)
     if (validacao({op:1, value:document.getElementById('edificacao_classificacao_id').value}) === false) {
         validacao_ok = false;

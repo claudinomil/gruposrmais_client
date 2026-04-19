@@ -12,22 +12,20 @@
 
 <div id="crudTable">
     <div class="row">
-        <div class="row" id="containerGraficos"></div>
+        <div class="row" id="divGraficos"></div>
     </div>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="containerControle">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="dashboardCanvas">
         <div class="offcanvas-header">
             <h5>Gerar Gráficos</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="mb-4 col-12" id="containerControleGrupos">&nbsp;</div>
-
-            <div class="mb-4 d-flex gap-1">
-                <button class="btn btn-sm btn-primary" onclick="gerarGraficosSelecionados()">Gerar Selecionados</button>
-                <button class="btn btn-sm btn-secondary" onclick="alternarTodos(true)">Marcar Todos</button>
-                <button class="btn btn-sm btn-secondary" onclick="alternarTodos(false)">Desmarcar Todos</button>
+            <div class="mb-4 d-flex gap-2">
+                <button class="btn btn-sm btn-primary" onclick="dashboardGerarSelecionados()">Gerar Selecionados</button>
+                <button class="btn btn-sm btn-secondary" onclick="dashboardToggleAll(true)">Marcar Todos</button>
+                <button class="btn btn-sm btn-secondary" onclick="dashboardToggleAll(false)">Desmarcar Todos</button>
             </div>
-            <div id="containerControleGraficos"></div>
+            <div id="dashboardCanvasContent"></div>
         </div>
     </div>
 </div>

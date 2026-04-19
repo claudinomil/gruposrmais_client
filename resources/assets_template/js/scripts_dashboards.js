@@ -1,8 +1,8 @@
-async function dashboardCanvas() {
+async function prepararContainers(grafico_grupo_id=0) {
     try {
-        const response = await fetch('dashboards/graficos', {
-            method: 'GET',
-            headers: { 'REQUEST-ORIGIN': 'fetch' },
+        const response = await fetch(`dashboards/graficos/${grafico_grupo_id}`, {
+            method: "GET",
+            headers: { "REQUEST-ORIGIN": "fetch" },
         });
 
         if (!response.ok) {
@@ -10,17 +10,46 @@ async function dashboardCanvas() {
         }
 
         const dados = await response.json();
-        const grupos = dados.grupos_graficos;
 
-        const container = document.getElementById('dashboardCanvasContent');
-        container.innerHTML = '';
+        // containerControleGrupos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        const grafico_grupos = dados.grafico_grupos;
+
+        const containerControleGrupos = document.getElementById("containerControleGrupos");
+        containerControleGrupos.innerHTML = "";
+
+        let dropdownGrupos = `<div class="dropdown">
+                                        <button type="button" class="btn btn-light col-12" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="mdi mdi-select-group font-size-18 me-1"></i> <span class="d-none d-sm-inline-block">Grupos <i class="mdi mdi-chevron-down"></i></span></button>
+                                        <div class="dropdown-menu col-12 text-center">`;
+
+        grafico_grupos.forEach((c) => {
+            dropdownGrupos += `<a class="dropdown-item" href="#" onclick="prepararContainers(${c.id})">${c.name}</a>`;
+        });
+
+        dropdownGrupos += `<div class="dropdown-divider"></div>`;
+
+        dropdownGrupos += `<a class="dropdown-item" href="#" onclick="prepararContainers(0)">Mostrar todos</a>`;
+
+        dropdownGrupos += `     </div>
+                                    </div>`;
+
+        containerControleGrupos.innerHTML = dropdownGrupos;
+        //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        // containerControleGraficos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        const grupo_graficos = dados.grupo_graficos;
+
+        const containerControleGraficos = document.getElementById("containerControleGraficos");
+        containerControleGraficos.innerHTML = "";
 
         // Ordenar
-        grupos.sort((a, b) => a.grafico_ordem_visualizacao - b.grafico_ordem_visualizacao);
+        grupo_graficos.sort(
+            (a, b) =>
+                a.grafico_ordem_visualizacao - b.grafico_ordem_visualizacao,
+        );
 
-        grupos.forEach(g => {
-            const row = document.createElement('div');
-            row.className = 'mb-2';
+        grupo_graficos.forEach((g) => {
+            const row = document.createElement("div");
+            row.className = "mb-2";
 
             row.innerHTML = `
                 <div class="row align-items-center">
@@ -30,32 +59,85 @@ async function dashboardCanvas() {
                     </div>
                     <div class="col-3">
                         <select class="form-select form-select-sm" id="tipo_${g.grafico_id}">
-                            <option value="1" ${g.grafico_tipo == 1 ? 'selected' : ''}>Pizza</option>
-                            <option value="2" ${g.grafico_tipo == 2 ? 'selected' : ''}>Barra</option>
+                            <option value="1" ${g.grafico_tipo == 1 ? "selected" : ""}>Pizza</option>
+                            <option value="2" ${g.grafico_tipo == 2 ? "selected" : ""}>Barra</option>
                         </select>
                     </div>
                     <div class="col-2">
-                        <button class="btn btn-sm btn-success" onclick="dashboardGerarUnico(${g.grafico_id})">Gerar</button>
+                        <button class="btn btn-sm btn-success" onclick="gerarGraficoUnico(${g.grafico_id})">Gerar</button>
                     </div>
                 </div>
             `;
 
-            container.appendChild(row);
+            containerControleGraficos.appendChild(row);
         });
+        //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+        // containerGraficos'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        const containerGraficos = document.getElementById('containerGraficos');
+
+        containerGraficos.innerHTML = "";
+
+        grupo_graficos.forEach((g) => {
+            el = document.createElement('div');
+            el.id = `dashboard_grafico_${g.grafico_id}`;
+            el.className = 'col-12 col-md-4 p-0 p-2';
+            el.style.height = '350px';
+
+            containerGraficos.appendChild(el);
+        });
+        //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     } catch (erro) {
-        console.error('Erro ao carregar gráfico:', erro);
+        console.error("Erro prepararContainers:", erro);
+    } finally {
+        // criarBotaoControle
+        await criarBotaoControle();
+
+        // Gerar Gráficos Selecionados
+        await gerarGraficosSelecionados();
     }
 }
 
-async function dashboardGerarUnico(id) {
+function alternarTodos(status) {
+    document.querySelectorAll('.grafico-check').forEach(check => {
+        check.checked = status;
+    });
+}
+
+async function criarBotaoControle() {
+    const divBreadcrumbRight = document.getElementById('divBreadcrumbRight');
+    const canvas = document.getElementById('containerControle');
+
+    // cria instância do offcanvas
+    const offcanvas = new bootstrap.Offcanvas(canvas);
+
+    // cria botão
+    const botao = document.createElement('button');
+
+    botao.type = 'button';
+    botao.className = 'btn btn-sm btn-warning';
+    botao.textContent = 'Controle';
+
+    // adiciona no divBreadcrumbRight
+    divBreadcrumbRight.innerHTML = '';
+    divBreadcrumbRight.appendChild(botao);
+
+    // controla abrir/fechar
+    botao.addEventListener('click', () => {
+        offcanvas.show();
+    });
+}
+
+async function gerarGraficoUnico(id) {
     const check = document.getElementById(`check_${id}`);
 
-    const el = document.getElementById(`dashboard_grafico_${id}`);
+    const container_grafico = document.getElementById(`dashboard_grafico_${id}`);
 
     if (!check.checked) {
-        if (el) el.style.display = 'none';
+        if (container_grafico) container_grafico.style.display = 'none';
         return;
+    } else {
+        container_grafico.style.display = '';
     }
 
     const nome = check.dataset.name;
@@ -68,45 +150,19 @@ async function dashboardGerarUnico(id) {
     }
 }
 
-async function dashboardGerarSelecionados() {
+async function gerarGraficosSelecionados() {
     const checks = document.querySelectorAll('.grafico-check');
 
     for (const check of checks) {
         const id = check.dataset.id;
 
         if (check.checked) {
-            await dashboardGerarUnico(id);
+            await gerarGraficoUnico(id);
         } else {
             const el = document.getElementById(`dashboard_grafico_${id}`);
             if (el) el.style.display = 'none';
         }
     }
-}
-
-function dashboardToggleAll(status) {
-    document.querySelectorAll('.grafico-check').forEach(check => {
-        check.checked = status;
-    });
-}
-
-async function garantirContainerGrafico(id, classDiv, height) {
-    let el = document.getElementById(`dashboard_grafico_${id}`);
-
-    if (!el) {
-        const container = document.getElementById('divGraficos');
-
-        el = document.createElement('div');
-        el.id = `dashboard_grafico_${id}`;
-        el.className = classDiv || 'col-12 col-md-4 p-0 p-2';
-        el.style.height = height ? height + 'px' : '350px';
-
-        container.appendChild(el);
-    }
-
-    // sempre garante visível ao gerar
-    el.style.display = '';
-
-    return el;
 }
 
 // Funções para chamada dos Gráficos com nome dashboard_grafico_id - Início''''''''''''''''''''''''''''
@@ -688,17 +744,6 @@ async function dashboard_grafico_16(grafico_id, grafico_name, grafico_tipo) {
 async function dashboardsChartPieSimple({id='', titleText='', titleSubText='', legenda='bottom', dados=[], graficoId=0, graficoName='', graficoTipo=0, classDivGrafico='col-12 col-md-4', heightDivGrafico=350}) {
     if (id == '') { return; }
 
-    const el = await garantirContainerGrafico(graficoId, classDivGrafico, heightDivGrafico);
-
-    // Verificar se precisa criar elemento div no DOM para renderizar gráfico
-    if (!document.getElementById(id)) {
-        // Criando div no DOM para renderizar gráfico
-        const col = document.createElement("div");
-        col.className = classDivGrafico;
-        col.innerHTML = `<div class="card"><div class="card-body p-0 p-2" style="height: ${heightDivGrafico}px;" id="${id}"></div></div>`;
-        document.getElementById('divGraficos').appendChild(col);
-    }
-
     // Chart
     var chartDom = document.getElementById(id);
 
@@ -779,16 +824,6 @@ async function dashboardsChartPieSimple({id='', titleText='', titleSubText='', l
             right: -10,
             top: 0,
             feature: {
-                myConfig: {
-                    show: true,
-                    title: 'Configurações',
-                    icon: 'path://M487.4 315.7l-42.6-24.6a193.5 193.5 0 0 0-14.6-35.4l24.1-41.7a16 16 0 0 0-2.7-19.4l-45.3-45.3a16 16 0 0 0-19.4-2.7l-41.7 24.1a193.5 193.5 0 0 0-35.4-14.6l-6.5-48.9A16 16 0 0 0 288 96h-64a16 16 0 0 0-15.9 13.5l-6.5 48.9a193.5 193.5 0 0 0-35.4 14.6l-41.7-24.1a16 16 0 0 0-19.4 2.7L60 196.9a16 16 0 0 0-2.7 19.4l24.1 41.7a193.5 193.5 0 0 0-14.6 35.4l-48.9 6.5A16 16 0 0 0 0 320v64a16 16 0 0 0 13.5 15.9l48.9 6.5a193.5 193.5 0 0 0 14.6 35.4l-24.1 41.7a16 16 0 0 0 2.7 19.4l45.3 45.3a16 16 0 0 0 19.4 2.7l41.7-24.1a193.5 193.5 0 0 0 35.4 14.6l6.5 48.9A16 16 0 0 0 224 608h64a16 16 0 0 0 15.9-13.5l6.5-48.9a193.5 193.5 0 0 0 35.4-14.6l41.7 24.1a16 16 0 0 0 19.4-2.7l45.3-45.3a16 16 0 0 0 2.7-19.4l-24.1-41.7a193.5 193.5 0 0 0 14.6-35.4l48.9-6.5A16 16 0 0 0 512 384v-64a16 16 0 0 0-13.5-15.9zM256 416a96 96 0 1 1 0-192 96 96 0 0 1 0 192z',
-                    onclick: function () {
-                        const canvas = document.getElementById('dashboardCanvas');
-                        const offcanvas = new bootstrap.Offcanvas(canvas);
-                        offcanvas.show();
-                    }
-                },
                 saveAsImage: { title: 'Save Image' }
             }
         },
@@ -825,17 +860,6 @@ async function dashboardsChartPieSimple({id='', titleText='', titleSubText='', l
 async function dashboardsChartBarSimple({id='', titleText='', titleSubText='', dados=[], graficoId=0, graficoName='', graficoTipo=0, classDivGrafico='col-12 col-md-4', heightDivGrafico=350}) {
     if (id == '') { return; }
 
-    const el = await garantirContainerGrafico(graficoId, classDivGrafico, heightDivGrafico);
-
-    // Verificar se precisa criar elemento div no DOM para renderizar gráfico
-    // if (!document.getElementById(id)) {
-    //     // Criando div no DOM para renderizar gráfico
-    //     const col = document.createElement("div");
-    //     col.className = classDivGrafico;
-    //     col.innerHTML = `<div class="card"><div class="card-body p-0 p-2" style="height: ${heightDivGrafico}px;" id="${id}"></div></div>`;
-    //     document.getElementById('divGraficos').appendChild(col);
-    // }
-
     // Chart
     var chartDom = document.getElementById(id);
 
@@ -866,16 +890,6 @@ async function dashboardsChartBarSimple({id='', titleText='', titleSubText='', d
             right: -10,
             top: 0,
             feature: {
-                myConfig: {
-                    show: true,
-                    title: 'Configurações',
-                    icon: 'path://M487.4 315.7l-42.6-24.6a193.5 193.5 0 0 0-14.6-35.4l24.1-41.7a16 16 0 0 0-2.7-19.4l-45.3-45.3a16 16 0 0 0-19.4-2.7l-41.7 24.1a193.5 193.5 0 0 0-35.4-14.6l-6.5-48.9A16 16 0 0 0 288 96h-64a16 16 0 0 0-15.9 13.5l-6.5 48.9a193.5 193.5 0 0 0-35.4 14.6l-41.7-24.1a16 16 0 0 0-19.4 2.7L60 196.9a16 16 0 0 0-2.7 19.4l24.1 41.7a193.5 193.5 0 0 0-14.6 35.4l-48.9 6.5A16 16 0 0 0 0 320v64a16 16 0 0 0 13.5 15.9l48.9 6.5a193.5 193.5 0 0 0 14.6 35.4l-24.1 41.7a16 16 0 0 0 2.7 19.4l45.3 45.3a16 16 0 0 0 19.4 2.7l41.7-24.1a193.5 193.5 0 0 0 35.4 14.6l6.5 48.9A16 16 0 0 0 224 608h64a16 16 0 0 0 15.9-13.5l6.5-48.9a193.5 193.5 0 0 0 35.4-14.6l41.7 24.1a16 16 0 0 0 19.4-2.7l45.3-45.3a16 16 0 0 0 2.7-19.4l-24.1-41.7a193.5 193.5 0 0 0 14.6-35.4l48.9-6.5A16 16 0 0 0 512 384v-64a16 16 0 0 0-13.5-15.9zM256 416a96 96 0 1 1 0-192 96 96 0 0 1 0 192z',
-                    onclick: function () {
-                        const canvas = document.getElementById('dashboardCanvas');
-                        const offcanvas = new bootstrap.Offcanvas(canvas);
-                        offcanvas.show();
-                    }
-                },
                 saveAsImage: { title: 'Save Image' }
             }
         },
@@ -920,10 +934,7 @@ async function dashboardsChartBarSimple({id='', titleText='', titleSubText='', d
     option && myChart.setOption(option);
 }
 
-document.addEventListener('DOMContentLoaded', async function () {
-    // Montar Canvas
-    await dashboardCanvas();
-
-    // Gerar Gráficos Selecionados
-    dashboardGerarSelecionados();
+document.addEventListener("DOMContentLoaded", async function () {
+    // Preparar Containers
+    await prepararContainers(1);
 });
