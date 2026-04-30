@@ -33,6 +33,12 @@
                 <i class="fa fa-fw fa-bars"></i>
             </button>
 
+            <!-- start page title -->
+            <div class="align-self-center">
+                <h4 class="mb-sm-0 font-size-18">@yield('topbar_title')</h4>
+            </div>
+            <!-- end page title -->
+
             <div class="d-none d-lg-block ms-2">&nbsp;</div>
         </div>
         <div class="d-flex">

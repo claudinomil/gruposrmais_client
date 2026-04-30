@@ -1232,6 +1232,12 @@ function validar_frm_editar_documentos() {
         mensagem += 'Cliente requerido.'+'<br>';
     }
 
+    //Campo: cli_editar_documentos_edificacao_id (requerido)
+    if (validacao({op:1, value:document.getElementById('cli_editar_documentos_edificacao_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Edificação requerido.'+'<br>';
+    }
+
     //Campo: cli_editar_documentos_documento_id (requerido)
     if (validacao({op:1, value:document.getElementById('cli_editar_documentos_documento_id').value}) === false) {
         validacao_ok = false;
@@ -1609,6 +1615,12 @@ function validar_frm_editar_sistemas_preventivos() {
     if (validacao({op:1, value:document.getElementById('editar_sistemas_preventivos_cliente_id').value}) === false) {
         validacao_ok = false;
         mensagem += 'Cliente requerido.'+'<br>';
+    }
+
+    // Campo: cli_editar_sistemas_preventivos_edificacao_local_id (requerido)
+    if (validacao({op:1, value:document.getElementById('cli_editar_sistemas_preventivos_edificacao_local_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Edificação Local requerido.'+'<br>';
     }
 
     // Campo: cli_editar_sistemas_preventivos_sistema_preventivo_id (requerido)

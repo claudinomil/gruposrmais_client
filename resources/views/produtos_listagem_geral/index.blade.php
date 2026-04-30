@@ -2,14 +2,20 @@
 
 @section('title') Produtos Listagem Geral @endsection
 
+@section('topbar_title')
+{{ __('Produtos Listagem Geral') }}
+@endsection
+
 @section('css')
 @endsection
 
 @section('content')
 
-    @component('components.breadcrumb')
-        @section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
-    @endcomponent
+{{--
+@component('components.breadcrumb')
+@section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
+@endcomponent
+--}}
 
 <div id="crudTable">
     <div class="row">

@@ -1,15 +1,21 @@
 @extends('layouts.app')
 
-@section('title') Edificações @endsection
+@section('title') Edificações Locais @endsection
+
+@section('topbar_title')
+{{ __('Edificações Locais') }}
+@endsection
 
 @section('css')
 @endsection
 
 @section('content')
 
-    @component('components.breadcrumb')
+{{--
+@component('components.breadcrumb')
 @section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
 @endcomponent
+--}}
 
 <div id="crudTable">
     <div class="row">

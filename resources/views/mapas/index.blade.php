@@ -2,13 +2,20 @@
 
 @section('title') Mapas @endsection
 
+@section('topbar_title')
+{{ __('Mapas') }}
+@endsection
+
 @section('css')
 @endsection
 
 @section('content')
-    @component('components.breadcrumb')
-        @section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
-    @endcomponent
+
+{{--
+@component('components.breadcrumb')
+@section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
+@endcomponent
+--}}
 
     <div class="row">
         <div class="col-12">

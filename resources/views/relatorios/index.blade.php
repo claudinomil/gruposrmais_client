@@ -2,13 +2,20 @@
 
 @section('title') Relatorios @endsection
 
+@section('topbar_title')
+{{ __('Relatorios') }}
+@endsection
+
 @section('css')
 @endsection
 
 @section('content')
-    @component('components.breadcrumb')
+
+{{--
+@component('components.breadcrumb')
 @section('page_title') {{ __(\App\Facades\Breadcrumb::getCurrentPageTitle()) }} @endsection
 @endcomponent
+--}}
 
 <div>
     <div class="row">
