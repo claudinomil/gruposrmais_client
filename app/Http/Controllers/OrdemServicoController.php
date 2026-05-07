@@ -53,6 +53,7 @@ class OrdemServicoController extends Controller
                         if ($row['ordem_servico_tipo_id'] == 1) {$cor = 'text-success';}
                         if ($row['ordem_servico_tipo_id'] == 2) {$cor = 'text-primary';}
                         if ($row['ordem_servico_tipo_id'] == 3) {$cor = 'text-info';}
+                        if ($row['ordem_servico_tipo_id'] == 4) {$cor = 'text-warning';}
 
                         $retorno = "<div class='row'>";
                         $retorno .= "    <div class='col-2'>";
@@ -115,6 +116,7 @@ class OrdemServicoController extends Controller
             if ($request['ordem_servico_tipo_id'] == 1) {$prefixo = 'ost1_';}
             if ($request['ordem_servico_tipo_id'] == 2) {$prefixo = 'ost2_';}
             if ($request['ordem_servico_tipo_id'] == 3) {$prefixo = 'ost3_';}
+            if ($request['ordem_servico_tipo_id'] == 4) {$prefixo = 'ost4_';}
 
             if ($prefixo != '') {
                 foreach ($data as $key => $value) {
@@ -278,6 +280,7 @@ class OrdemServicoController extends Controller
             if ($request['ordem_servico_tipo_id'] == 1) {$prefixo = 'ost1_';}
             if ($request['ordem_servico_tipo_id'] == 2) {$prefixo = 'ost2_';}
             if ($request['ordem_servico_tipo_id'] == 3) {$prefixo = 'ost3_';}
+            if ($request['ordem_servico_tipo_id'] == 4) {$prefixo = 'ost4_';}
 
             if ($prefixo != '') {
                 foreach ($data as $key => $value) {
@@ -347,6 +350,7 @@ class OrdemServicoController extends Controller
                         if ($row['ordem_servico_tipo_id'] == 1) {$cor = 'text-success';}
                         if ($row['ordem_servico_tipo_id'] == 2) {$cor = 'text-primary';}
                         if ($row['ordem_servico_tipo_id'] == 3) {$cor = 'text-info';}
+                        if ($row['ordem_servico_tipo_id'] == 4) {$cor = 'text-warning';}
 
                         $retorno = "<div class='row'>";
                         $retorno .= "    <div class='col-2'>";

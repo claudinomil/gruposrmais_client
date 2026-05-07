@@ -96,6 +96,12 @@
 
     <!-- scripts_ordens_servicos_ost3_pdfs.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost3_pdfs.js')}}"></script>
+
+    <!-- scripts_ordens_servicos_ost4.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost4.js')}}"></script>
+
+    <!-- scripts_ordens_servicos_ost4_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost4_pdfs.js')}}"></script>
 @endsection
 
 @section('script-bottom')

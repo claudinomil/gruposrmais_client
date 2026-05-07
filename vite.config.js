@@ -71,6 +71,8 @@ export default defineConfig({
                 {src: 'resources/assets_template/js/scripts_ordens_servicos_ost2_pdfs.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_ordens_servicos_ost3.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_ordens_servicos_ost3_pdfs.js', dest: 'assets'},
+                {src: 'resources/assets_template/js/scripts_ordens_servicos_ost4.js', dest: 'assets'},
+                {src: 'resources/assets_template/js/scripts_ordens_servicos_ost4_pdfs.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_fornecedores.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_generos.js', dest: 'assets'},
                 {src: 'resources/assets_template/js/scripts_grupos.js', dest: 'assets'},

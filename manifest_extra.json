@@ -213,6 +213,16 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_ordens_servicos_ost3_pdfs.js"
 },
+"resources/assets_template/js/scripts_ordens_servicos_ost4.js": {
+"file": "assets/scripts_ordens_servicos_ost4.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_ordens_servicos_ost4.js"
+},
+"resources/assets_template/js/scripts_ordens_servicos_ost4_pdfs.js": {
+"file": "assets/scripts_ordens_servicos_ost4_pdfs.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_ordens_servicos_ost4_pdfs.js"
+},
 "resources/assets_template/js/scripts_empresas.js": {
 "file": "assets/scripts_empresas.js",
 "isEntry": true,

@@ -136,9 +136,10 @@ async function crudPreencherFormulario(campo, dados) {
         if (document.getElementById('crudPrefixPermissaoSubmodulo').value == 'ordens_servicos') {
             var ost = '';
 
-            if (dados['ordem_servico_tipo_id'] == 1) {ost = 'ost1_';}
-            if (dados['ordem_servico_tipo_id'] == 2) {ost = 'ost2_';}
-            if (dados['ordem_servico_tipo_id'] == 3) {ost = 'ost3_';}
+            if (dados['ordem_servico_tipo_id'] == 1) { ost = 'ost1_'; }
+            if (dados['ordem_servico_tipo_id'] == 2) { ost = 'ost2_'; }
+            if (dados['ordem_servico_tipo_id'] == 3) { ost = 'ost3_'; }
+            if (dados['ordem_servico_tipo_id'] == 4) { ost = 'ost4_'; }
 
             if (campo_formulario == 'numero_ordem_servico') {campo_formulario = ost+campo_formulario;}
             if (campo_formulario == 'ano_ordem_servico') {campo_formulario = ost+campo_formulario;}
@@ -540,6 +541,59 @@ async function crudCreate() {
                     document.getElementById('ost3_ts_servico_hiddens').innerHTML = hiddens;
                 }).catch(error => {
                     alert('Erro OrdemServicoOST3:'+error);
+                });
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                //Create divOST4''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                ost4_limparDestinosGrade();
+                ost4_limparVeiculosGrade();
+                ost4_limparFuncionariosGrade();
+                ost4_limparEquipesGrade();
+
+                //hide div campos Escolher
+                document.getElementById('ost4_te_divDestinoEscolher').style.display = '';
+                document.getElementById('ost4_te_divVeiculoEscolher').style.display = '';
+                document.getElementById('ost4_te_divFuncionarioEscolher').style.display = '';
+                document.getElementById('ost4_te_divEquipeEscolher').style.display = '';
+
+
+                //Iniciar alguns campos
+                document.getElementById('ost4_ordem_servico_prioridade_id').value = 1;
+
+                //Hide no Informações Gerais
+                document.getElementById('ost4_divOrdemServicoInformacoesGerais').style.display = 'none';
+
+                //Grade Serviços (ost4_ts_servico_hiddens e ost4_ts_servico_nome)
+                //Route: servicos/id
+                fetch('servicos/8', {
+                    method: 'GET',
+                    headers: {
+                        'REQUEST-ORIGIN': 'fetch',
+                        'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                }).then(response => {
+                    return response.json();
+                }).then(data => {
+                    var servico = data.success;
+                    var servico_id = servico.id;
+                    var servico_nome = servico.name;
+
+                    //ost4_ts_servico_nome
+                    document.getElementById('ost4_ts_servico_nome').value = servico_nome;
+
+                    //ost4_ts_servico_hiddens
+                    hiddens = "<div id='ost4_ts_servico_hiddens_" + servico_id + "'>";
+                    hiddens += "<input class='servico_item_hiddens' type='hidden' name='ost4_servico_item[]' id='ost4_servico_item' value='1'>";
+                    hiddens += "<input type='hidden' name='ost4_servico_id[]' id='ost4_servico_id' value='"+servico_id+"'>";
+                    hiddens += "<input type='hidden' name='ost4_servico_nome[]' id='ost4_servico_nome' value='"+servico_nome+"'>";
+                    hiddens += "<input type='hidden' name='ost4_responsavel_funcionario_id[]' id='ost4_responsavel_funcionario_id' value=''>";
+                    hiddens += "<input type='hidden' name='ost4_responsavel_funcionario_nome[]' id='ost4_responsavel_funcionario_nome' value=''>";
+                    hiddens += "</div>";
+
+                    //Adicionar hiddens na div
+                    document.getElementById('ost4_ts_servico_hiddens').innerHTML = hiddens;
+                }).catch(error => {
+                    alert('Erro OrdemServicoOST4:'+error);
                 });
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -1027,6 +1081,124 @@ async function crudView(registro_id) {
 
                 //Show no Informações Gerais
                 document.getElementById('ost3_divOrdemServicoInformacoesGerais').style.display = '';
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                //View divOST4''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //Grade Serviços (ost4_ts_servico_hiddens, ost4_ts_servico_nome e ost4_ts_responsavel_funcionario_id)
+                ordem_servico_servicos = data.success['ordem_servico_servicos'];
+
+                ordem_servico_servicos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    var servico_id = item.servico_id;
+                    var servico_nome = item.servico_nome;
+                    var responsavel_funcionario_id = item.responsavel_funcionario_id ?? '';
+                    var responsavel_funcionario_nome = item.responsavel_funcionario_nome ?? '';
+
+                    //ost4_ts_servico_nome
+                    document.getElementById('ost4_ts_servico_nome').value = servico_nome;
+
+                    //ost4_ts_responsavel_funcionario_id
+                    document.getElementById('ost4_ts_responsavel_funcionario_id').value = responsavel_funcionario_id;
+
+                    //ost4_ts_servico_hiddens
+                    var hiddens = "<div id='ost4_ts_servico_hiddens_" + servico_id + "'>";
+                    hiddens += "<input class='servico_item_hiddens' type='hidden' name='ost4_servico_item[]' id='ost4_servico_item' value='1'>";
+                    hiddens += "<input type='hidden' name='ost4_servico_id[]' id='ost4_servico_id' value='"+servico_id+"'>";
+                    hiddens += "<input type='hidden' name='ost4_servico_nome[]' id='ost4_servico_nome' value='"+servico_nome+"'>";
+                    hiddens += "<input type='hidden' name='ost4_responsavel_funcionario_id[]' id='ost4_responsavel_funcionario_id' value='"+responsavel_funcionario_id+"'>";
+                    hiddens += "<input type='hidden' name='ost4_responsavel_funcionario_nome[]' id='ost4_responsavel_funcionario_nome' value='"+responsavel_funcionario_nome+"'>";
+                    hiddens += "</div>";
+
+                    //Adicionar hiddens na div
+                    document.getElementById('ost4_ts_servico_hiddens').innerHTML = hiddens;
+                });
+
+                //Grade Destinos
+                ost4_limparDestinosGrade();
+
+                ordem_servico_destinos = data.success['ordem_servico_destinos'];
+
+                ordem_servico_destinos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost4_te_destino_ordem').value = item.destino_ordem;
+                    document.getElementById('ost4_te_destino_cep').value = item.destino_cep;
+                    document.getElementById('ost4_te_destino_logradouro').value = item.destino_logradouro;
+                    document.getElementById('ost4_te_destino_bairro').value = item.destino_bairro;
+                    document.getElementById('ost4_te_destino_localidade').value = item.destino_localidade;
+                    document.getElementById('ost4_te_destino_uf').value = item.destino_uf;
+                    document.getElementById('ost4_te_destino_numero').value = item.destino_numero;
+                    document.getElementById('ost4_te_destino_complemento').value = item.destino_complemento;
+
+                    ost4_atualizarDestinoGrade(1, ordem_servico_destinos);
+                });
+
+                ost4_atualizarDestinoEscolher(0);
+
+                document.getElementById('ost4_te_divDestinoEscolher').style.display = 'none';
+
+                //Grade Veículos
+                ost4_limparVeiculosGrade();
+
+                ordem_servico_veiculos = data.success['ordem_servico_veiculos'];
+
+                ordem_servico_veiculos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost4_te_veiculo_id').value = item.veiculo_id;
+                    document.getElementById('ost4_te_veiculo_marca').value = item.veiculo_marca;
+                    document.getElementById('ost4_te_veiculo_modelo').value = item.veiculo_modelo;
+                    document.getElementById('ost4_te_veiculo_placa').value = item.veiculo_placa;
+                    document.getElementById('ost4_te_veiculo_combustivel').value = item.veiculo_combustivel;
+
+                    ost4_atualizarVeiculoGrade(1);
+                });
+
+                ost4_atualizarVeiculoEscolher(0);
+
+                document.getElementById('ost4_te_divVeiculoEscolher').style.display = 'none';
+
+                //Montar combos veiculos
+                ost4_atualizarComboVeiculosFuncionario();
+                ost4_atualizarComboVeiculosEquipe();
+
+                //Grade Funcionarios
+                ost4_limparFuncionariosGrade();
+
+                ordem_servico_funcionarios = data.success['ordem_servico_funcionarios'];
+
+                ordem_servico_funcionarios.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost4_te_funcionario_id').value = item.funcionario_id;
+                    document.getElementById('ost4_te_funcionario_nome').value = item.funcionario_nome;
+                    document.getElementById('ost4_te_funcionario_veiculo_id').value = item.funcionario_veiculo_id;
+
+                    ost4_atualizarFuncionarioGrade(1);
+                });
+
+                ost4_atualizarFuncionarioEscolher(0);
+
+                document.getElementById('ost4_te_divFuncionarioEscolher').style.display = 'none';
+
+                //Grade Equipes
+                ost4_limparEquipesGrade();
+
+                ordem_servico_equipes = data.success['ordem_servico_equipes'];
+
+                ordem_servico_equipes.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost4_te_equipe_funcionario_id').value = item.equipe_funcionario_id;
+                    document.getElementById('ost4_te_equipe_funcionario_nome').value = item.equipe_funcionario_nome;
+                    document.getElementById('ost4_te_equipe_funcionario_funcao').value = item.equipe_funcionario_funcao;
+                    document.getElementById('ost4_te_equipe_funcionario_veiculo_id').value = item.equipe_funcionario_veiculo_id;
+
+                    ost4_atualizarEquipeGrade(1);
+                });
+
+                ost4_atualizarEquipeEscolher(0);
+
+                document.getElementById('ost4_te_divEquipeEscolher').style.display = 'none';
+
+                //Show no Informações Gerais
+                document.getElementById('ost4_divOrdemServicoInformacoesGerais').style.display = '';
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 //Campo: ordem_servico_tipo_id (forçar change)
@@ -1658,6 +1830,124 @@ async function crudEdit(registro_id) {
 
                 //Show no Informações Gerais
                 document.getElementById('ost3_divOrdemServicoInformacoesGerais').style.display = '';
+                //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                //Edit divOST4''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                //Grade Serviços (ost4_ts_servico_hiddens, ost4_ts_servico_nome e ost4_ts_responsavel_funcionario_id)
+                ordem_servico_servicos = data.success['ordem_servico_servicos'];
+
+                ordem_servico_servicos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    var servico_id = item.servico_id;
+                    var servico_nome = item.servico_nome;
+                    var responsavel_funcionario_id = item.responsavel_funcionario_id ?? '';
+                    var responsavel_funcionario_nome = item.responsavel_funcionario_nome ?? '';
+
+                    //ost4_ts_servico_nome
+                    document.getElementById('ost4_ts_servico_nome').value = servico_nome;
+
+                    //ost4_ts_responsavel_funcionario_id
+                    document.getElementById('ost4_ts_responsavel_funcionario_id').value = responsavel_funcionario_id;
+
+                    //ost4_ts_servico_hiddens
+                    var hiddens = "<div id='ost4_ts_servico_hiddens_" + servico_id + "'>";
+                    hiddens += "<input class='servico_item_hiddens' type='hidden' name='ost4_servico_item[]' id='ost4_servico_item' value='1'>";
+                    hiddens += "<input type='hidden' name='ost4_servico_id[]' id='ost4_servico_id' value='"+servico_id+"'>";
+                    hiddens += "<input type='hidden' name='ost4_servico_nome[]' id='ost4_servico_nome' value='"+servico_nome+"'>";
+                    hiddens += "<input type='hidden' name='ost4_responsavel_funcionario_id[]' id='ost4_responsavel_funcionario_id' value='"+responsavel_funcionario_id+"'>";
+                    hiddens += "<input type='hidden' name='ost4_responsavel_funcionario_nome[]' id='ost4_responsavel_funcionario_nome' value='"+responsavel_funcionario_nome+"'>";
+                    hiddens += "</div>";
+
+                    //Adicionar hiddens na div
+                    document.getElementById('ost4_ts_servico_hiddens').innerHTML = hiddens;
+                });
+
+                //Grade Destinos
+                ost4_limparDestinosGrade();
+
+                ordem_servico_destinos = data.success['ordem_servico_destinos'];
+
+                ordem_servico_destinos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost4_te_destino_ordem').value = item.destino_ordem;
+                    document.getElementById('ost4_te_destino_cep').value = item.destino_cep;
+                    document.getElementById('ost4_te_destino_logradouro').value = item.destino_logradouro;
+                    document.getElementById('ost4_te_destino_bairro').value = item.destino_bairro;
+                    document.getElementById('ost4_te_destino_localidade').value = item.destino_localidade;
+                    document.getElementById('ost4_te_destino_uf').value = item.destino_uf;
+                    document.getElementById('ost4_te_destino_numero').value = item.destino_numero;
+                    document.getElementById('ost4_te_destino_complemento').value = item.destino_complemento;
+
+                    ost4_atualizarDestinoGrade(1, ordem_servico_destinos);
+                });
+
+                ost4_atualizarDestinoEscolher(0);
+
+                document.getElementById('ost4_te_divDestinoEscolher').style.display = '';
+
+                //Grade Veículos
+                ost4_limparVeiculosGrade();
+
+                ordem_servico_veiculos = data.success['ordem_servico_veiculos'];
+
+                ordem_servico_veiculos.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost4_te_veiculo_id').value = item.veiculo_id;
+                    document.getElementById('ost4_te_veiculo_marca').value = item.veiculo_marca;
+                    document.getElementById('ost4_te_veiculo_modelo').value = item.veiculo_modelo;
+                    document.getElementById('ost4_te_veiculo_placa').value = item.veiculo_placa;
+                    document.getElementById('ost4_te_veiculo_combustivel').value = item.veiculo_combustivel;
+
+                    ost4_atualizarVeiculoGrade(1);
+                });
+
+                ost4_atualizarVeiculoEscolher(0);
+
+                document.getElementById('ost4_te_divVeiculoEscolher').style.display = '';
+
+                //Montar combos veiculos
+                ost4_atualizarComboVeiculosFuncionario();
+                ost4_atualizarComboVeiculosEquipe();
+
+                //Grade Funcionarios
+                ost4_limparFuncionariosGrade();
+
+                ordem_servico_funcionarios = data.success['ordem_servico_funcionarios'];
+
+                ordem_servico_funcionarios.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost4_te_funcionario_id').value = item.funcionario_id;
+                    document.getElementById('ost4_te_funcionario_nome').value = item.funcionario_nome;
+                    document.getElementById('ost4_te_funcionario_veiculo_id').value = item.funcionario_veiculo_id;
+
+                    ost4_atualizarFuncionarioGrade(1);
+                });
+
+                ost4_atualizarFuncionarioEscolher(0);
+
+                document.getElementById('ost4_te_divFuncionarioEscolher').style.display = '';
+
+                //Grade Equipes
+                ost4_limparEquipesGrade();
+
+                ordem_servico_equipes = data.success['ordem_servico_equipes'];
+
+                ordem_servico_equipes.forEach(function (item) {
+                    //Dados para preencher na linha da grade
+                    document.getElementById('ost4_te_equipe_funcionario_id').value = item.equipe_funcionario_id;
+                    document.getElementById('ost4_te_equipe_funcionario_nome').value = item.equipe_funcionario_nome;
+                    document.getElementById('ost4_te_equipe_funcionario_funcao').value = item.equipe_funcionario_funcao;
+                    document.getElementById('ost4_te_equipe_funcionario_veiculo_id').value = item.equipe_funcionario_veiculo_id;
+
+                    ost4_atualizarEquipeGrade(1);
+                });
+
+                ost4_atualizarEquipeEscolher(0);
+
+                document.getElementById('ost4_te_divEquipeEscolher').style.display = '';
+
+                //Show no Informações Gerais
+                document.getElementById('ost4_divOrdemServicoInformacoesGerais').style.display = '';
                 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 //Campo: ordem_servico_tipo_id''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

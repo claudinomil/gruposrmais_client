@@ -96,6 +96,9 @@
     <!-- scripts_ordens_servicos_ost3_pdfs.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost3_pdfs.js')}}"></script>
 
+    <!-- scripts_ordens_servicos_ost4_pdfs.js -->
+    <script src="{{ Vite::asset('resources/assets_template/js/scripts_ordens_servicos_ost4_pdfs.js')}}"></script>
+
     <!-- scripts_visitas_tecnicas_pdfs.js -->
     <script src="{{ Vite::asset('resources/assets_template/js/scripts_visitas_tecnicas_pdfs.js')}}"></script>
 
