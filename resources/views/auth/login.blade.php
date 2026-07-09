@@ -141,15 +141,17 @@
                 empresa_id.value = 1;
             }
 
-            // Dados caso entre no Desenvolvimento
+            // Dados caso entre no Desenvolvimento ou Produção
             if (url_atual == 'http://gruposrmais-client.test/') {
                 document.getElementById('empresa_id').value = 1;
                 document.getElementById('email').value = 'claudinomoraes@yahoo.com.br';
                 document.getElementById('password').value = '12345678';
                 document.getElementById('idioma').value = 'pt_BR';
-
-                document.getElementById('btn_Login').focus();
+            } else {
+                document.getElementById('idioma').value = 'pt_BR';
             }
+
+            document.getElementById('btn_Login').focus();
         });
     </script>
     @endsection

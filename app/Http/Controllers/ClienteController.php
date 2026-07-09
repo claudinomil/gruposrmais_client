@@ -59,9 +59,10 @@ class ClienteController extends Controller
                         }
 
                         if (!empty($row['redeClienteName'])) {
-                            $retorno .= "<div class='text-primary small'>:: ".$row['redeClienteName']."</div>";
-                        }
+                            $redeClienteNomeFantasia = !empty($row['redeClienteNomeFantasia']) ? ' - ' . $row['redeClienteNomeFantasia'] : '';
 
+                            $retorno .= "<div class='text-primary small'>:: ".$row['redeClienteName'].$redeClienteNomeFantasia."</div>";
+                        }
 
                         return $retorno;
                     })
@@ -274,9 +275,10 @@ class ClienteController extends Controller
                         }
 
                         if (!empty($row['redeClienteName'])) {
-                            $retorno .= "<div class='text-primary small'>:: ".$row['redeClienteName']."</div>";
-                        }
+                            $redeClienteNomeFantasia = !empty($row['redeClienteNomeFantasia']) ? ' - ' . $row['redeClienteNomeFantasia'] : '';
 
+                            $retorno .= "<div class='text-primary small'>:: ".$row['redeClienteName'].$redeClienteNomeFantasia."</div>";
+                        }
 
                         return $retorno;
                     })

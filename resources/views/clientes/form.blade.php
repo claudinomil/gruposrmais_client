@@ -92,7 +92,13 @@
                                             <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($clientes as $key => $cliente)
-                                                <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
+                                                <option value="{{ $cliente['id'] }}">
+                                                    {{ $cliente['name'] }}
+
+                                                    @if(!empty($cliente['nome_fantasia']))
+                                                     - {{ $cliente['nome_fantasia'] }}
+                                                    @endif
+                                                </option>
                                             @endforeach
 
                                         </select>
@@ -103,7 +109,13 @@
                                             <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($clientes as $key => $cliente)
-                                                <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
+                                                <option value="{{ $cliente['id'] }}">
+                                                    {{ $cliente['name'] }}
+
+                                                    @if(!empty($cliente['nome_fantasia']))
+                                                     - {{ $cliente['nome_fantasia'] }}
+                                                    @endif
+                                                </option>
                                             @endforeach
 
                                         </select>
