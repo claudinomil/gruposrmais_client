@@ -83,7 +83,13 @@
                                             <option value="">{{ __('Selecione...') }}</option>
 
                                             @foreach ($clientes as $cliente)
-                                                <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
+                                                <option value="{{ $cliente['id'] }}">
+                                                    {{ $cliente['name'] }}
+
+                                                    @if(!empty($cliente['nome_fantasia']))
+                                                     - {{ $cliente['nome_fantasia'] }}
+                                                    @endif
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
