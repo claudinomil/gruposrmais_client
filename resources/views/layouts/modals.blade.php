@@ -131,12 +131,18 @@
                                                     </div>
                                                     <div class="form-group col-12 pb-3">
                                                         <label class="form-label">Senha Nova</label>
-                                                        <input type="password" class="form-control" id="new_password" name="new_password">
+                                                        <div class="input-group auth-pass-inputgroup">
+                                                            <input type="password" class="form-control" id="new_password" name="new_password">
+                                                            <button class="btn btn-light " type="button" id="new_password-addon"><i class="mdi mdi-eye-outline"></i></button>
+                                                        </div>
                                                         <span class="col-12 text-danger font-size-11" id="new-password-error"></span>
                                                     </div>
                                                     <div class="form-group col-12 pb-3">
                                                         <label class="form-label">Confirmar Senha Nova</label>
-                                                        <input type="password" class="form-control" id="confirm_new_password" name="confirm_new_password">
+                                                        <div class="input-group auth-pass-inputgroup">
+                                                            <input type="password" class="form-control" id="confirm_new_password" name="confirm_new_password">
+                                                            <button class="btn btn-light " type="button" id="confirm_new_password-addon"><i class="mdi mdi-eye-outline"></i></button>
+                                                        </div>
                                                         <span class="col-12 text-danger font-size-11" id="confirm-new-password-error"></span>
                                                     </div>
                                                     <div class="form-group col-12 pb-3">
@@ -696,7 +702,8 @@
                         <div class="col-8 order-1 order-lg-1 col-lg-4">
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
-                                    <img src="build/assets/images/clientes/cliente-0.png" class="avatar-lg rounded-circle img-thumbnail clearClass" style="width: 100px; height: 100px; object-fit: contain; object-position: center; background-color: #f8f9fa;" id="mi_cli_logotipo">
+                                    <img src="build/assets/images/clientes/cliente-0.png" style="max-height: 80px; max-width: 170px;" id="mi_cli_logotipo">
+                                    <!-- <img src="build/assets/images/clientes/cliente-0.png" class="avatar-lg rounded-circle img-thumbnail clearClass" style="width: 100px; height: 100px; object-fit: contain; object-position: center; background-color: #f8f9fa;" id="mi_cli_logotipo"> -->
                                 </div>
                                 <div class="flex-grow-1 align-self-center">
                                     <div>

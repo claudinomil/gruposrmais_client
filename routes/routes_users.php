@@ -14,7 +14,7 @@ Route::prefix('users')->group(function () {
     Route::get('/filter/{array_dados}', [UserController::class, 'filter'])->name('users.filter');
 
     Route::post('/info/user/uploadavatar', [UserController::class, 'uploadavatar'])->name('users.uploadavatar');
-    Route::post('/editpassword', [UserController::class, 'editpassword'])->name('users.editpassword');
+    Route::post('/perfil/editpassword', [UserController::class, 'editpassword'])->name('users.editpassword');
     Route::post('/editemail', [UserController::class, 'editemail'])->name('users.editemail');
 
     Route::put('/editmodestyle/{mode}/{style}/{id}', [UserController::class, 'editmodestyle'])->name('users.editmodestyle');

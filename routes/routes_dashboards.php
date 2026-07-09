@@ -23,6 +23,6 @@ Route::prefix('dashboards')->group(function () {
     Route::get('/grafico/dados/grafico_11/{cliente_id}/{edificacao_id}/{edificacao_nivel_id}', [DashboardController::class, 'grafico_11_dados'])->name('dashboards.grafico_11_dados');
     Route::get('/grafico/dados/grafico_12/{cliente_id}/{edificacao_id}/{edificacao_nivel_id}', [DashboardController::class, 'grafico_12_dados'])->name('dashboards.grafico_12_dados');
     Route::get('/grafico/dados/grafico_13/{cliente_id}/{edificacao_id}/{edificacao_nivel_id}', [DashboardController::class, 'grafico_13_dados'])->name('dashboards.grafico_13_dados');
-    Route::get('/grafico/dados/grafico_14', [DashboardController::class, 'grafico_14_dados'])->name('dashboards.grafico_14_dados');
-    Route::get('/grafico/dados/grafico_15', [DashboardController::class, 'grafico_15_dados'])->name('dashboards.grafico_15_dados');
+    Route::get('/grafico/dados/grafico_14/{cliente_id}/{edificacao_id}/{edificacao_nivel_id}', [DashboardController::class, 'grafico_14_dados'])->name('dashboards.grafico_14_dados');
+    Route::get('/grafico/dados/grafico_15/{cliente_id}/{edificacao_id}/{edificacao_nivel_id}', [DashboardController::class, 'grafico_15_dados'])->name('dashboards.grafico_15_dados');
 });

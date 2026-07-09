@@ -296,10 +296,9 @@ async function prepararContainerInformacoes(grafico_grupo_id = 0) {
                 const documentos_exigidos_lancados     = dados?.documentos_exigidos_lancados     ?? 0;
                 const documentos_exigidos_vencidos     = dados?.documentos_exigidos_vencidos     ?? 0;
                 const documentos_exigidos_nao_vencidos = dados?.documentos_exigidos_nao_vencidos ?? 0;
-                const lucs_quantidade                  = dados?.lucs_quantidade                  ?? 0;
-                const lucs_ocupadas                    = dados?.lucs_ocupadas                    ?? 0;
-                const lucs_desocupadas                 = dados?.lucs_desocupadas                 ?? 0;
-                const quantidade_lojas = dados?.quantidade_lojas ?? 0;
+                const lojas_quantidade                  = dados?.lojas_quantidade                  ?? 0;
+                const lojas_ocupadas                    = dados?.lojas_ocupadas                    ?? 0;
+                const lojas_desocupadas = dados?.lojas_desocupadas ?? 0;
                 const quantidade_sistemas_preventivos = dados?.quantidade_sistemas_preventivos ?? 0;
 
                 // Documentos Exigidos Lançados''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -362,32 +361,32 @@ async function prepararContainerInformacoes(grafico_grupo_id = 0) {
                 await dashboardsChartInfo1({ backGround: backGround, avatarCor: avatarCor, avatarIcone: avatarIcone, informacaoPrincipal: informacaoPrincipal, informacaoValor: informacaoValor, informacaoValorCor: informacaoValorCor, informacaoDescricao: informacaoDescricao });
                 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                // LUCs Ocupadas'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                var informacaoValor = lucs_quantidade === 0 ? 0 : (lucs_ocupadas * 100) / lucs_quantidade;
+                // Lojas Ocupadas''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                var informacaoValor = lojas_quantidade === 0 ? 0 : (lojas_ocupadas * 100) / lojas_quantidade;
                 informacaoValor = informacaoValor.toFixed(2);
 
                 backGround = 'success';
                 avatarCor = 'success';
                 avatarIcone = 'fas fa-grip-vertical';
-                informacaoPrincipal = 'LUCs Ocupadas';
+                informacaoPrincipal = 'Lojas Ocupadas';
                 informacaoValor = informacaoValor + ' %';
                 informacaoValorCor = 'dark';
-                informacaoDescricao = lucs_ocupadas + ' de ' + lucs_quantidade;
+                informacaoDescricao = lojas_ocupadas + ' de ' + lojas_quantidade;
 
                 await dashboardsChartInfo1({ backGround: backGround, avatarCor: avatarCor, avatarIcone: avatarIcone, informacaoPrincipal: informacaoPrincipal, informacaoValor: informacaoValor, informacaoValorCor: informacaoValorCor, informacaoDescricao: informacaoDescricao });
                 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                // LUCs Desocupadas''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                var informacaoValor = lucs_quantidade === 0 ? 0 : (lucs_desocupadas * 100) / lucs_quantidade;
+                // Lojas Desocupadas'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                var informacaoValor = lojas_quantidade === 0 ? 0 : (lojas_desocupadas * 100) / lojas_quantidade;
                 informacaoValor = informacaoValor.toFixed(2);
 
                 backGround = 'danger';
                 avatarCor = 'danger';
                 avatarIcone = 'fas fa-grip-vertical';
-                informacaoPrincipal = 'LUCs Desocupadas';
+                informacaoPrincipal = 'Lojas Desocupadas';
                 informacaoValor = informacaoValor + ' %';
                 informacaoValorCor = 'dark';
-                informacaoDescricao = lucs_desocupadas + ' de ' + lucs_quantidade;
+                informacaoDescricao = lojas_desocupadas + ' de ' + lojas_quantidade;
 
                 await dashboardsChartInfo1({ backGround: backGround, avatarCor: avatarCor, avatarIcone: avatarIcone, informacaoPrincipal: informacaoPrincipal, informacaoValor: informacaoValor, informacaoValorCor: informacaoValorCor, informacaoDescricao: informacaoDescricao });
                 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -397,7 +396,7 @@ async function prepararContainerInformacoes(grafico_grupo_id = 0) {
                 avatarCor = 'info';
                 avatarIcone = 'fas fa-store-alt';
                 informacaoPrincipal = 'Lojas';
-                informacaoValor = quantidade_lojas;
+                informacaoValor = lojas_ocupadas;
                 informacaoValorCor = 'dark';
                 informacaoDescricao = '&nbsp;';
 
@@ -841,13 +840,14 @@ async function dashboard_grafico_10(grafico_id, grafico_name, grafico_tipo) {
         await dashboardsChartBarSimple({id:'dashboard_grafico_'+grafico_id, titleText:grafico_name, titleSubText:graficoData.operacoes_total_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name});
     } else {}
 }
-// Gráfico id=11 (Cliente Edificação - LUCs Ocupados)
+
+// Gráfico id=11 (Cliente Edificação - Ocupação das Lojas)
 async function dashboard_grafico_11(grafico_id, grafico_name, grafico_tipo) {
     // Global
     const graficoData = {
-        lucs_quantidade: 0,
-        lucs_ocupadas: 0,
-        lucs_desocupadas: 0
+        lojas_quantidade: 0,
+        lojas_ocupadas: 0,
+        lojas_desocupadas: 0
     };
 
     const response = await fetch(`dashboards/grafico/dados/grafico_11/${clienteId.value}/${edificacaoId.value}/${edificacaoNivelId.value}`, {
@@ -866,15 +866,15 @@ async function dashboard_grafico_11(grafico_id, grafico_name, grafico_tipo) {
 
     // Dados Gráfico
     const dados_grafico = [
-        { name: 'LUCs Ocupadas', value: graficoData.lucs_ocupadas },
-        { name: 'LUCs Desocupadas', value: graficoData.lucs_desocupadas }
+        { name: 'Lojas Ocupadas', value: graficoData.lojas_ocupadas },
+        { name: 'Lojas Desocupadas', value: graficoData.lojas_desocupadas }
     ];
 
     // Renderizando
     if (grafico_tipo == 1) {
-        await dashboardsChartPieSimple({id:'dashboard_grafico_'+grafico_id, titleText:grafico_name, titleSubText:graficoData.lucs_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name});
+        await dashboardsChartPieSimple({id:'dashboard_grafico_'+grafico_id, titleText:grafico_name, titleSubText:graficoData.lojas_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name});
     } else if (grafico_tipo == 2) {
-        await dashboardsChartBarSimple({id:'dashboard_grafico_'+grafico_id, titleText:grafico_name, titleSubText:graficoData.lucs_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name});
+        await dashboardsChartBarSimple({id:'dashboard_grafico_'+grafico_id, titleText:grafico_name, titleSubText:graficoData.lojas_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name});
     } else {}
 }
 
@@ -956,11 +956,75 @@ async function dashboard_grafico_13(grafico_id, grafico_name, grafico_tipo) {
     } else {}
 }
 
-async function dashboard_grafico_14(grafico_id, grafico_name, grafico_tipo) { }
+// Gráfico id=14 (Cliente Edificação - Distribuição de Lojas por Nível)
+async function dashboard_grafico_14(grafico_id, grafico_name, grafico_tipo) {
+    // Global
+    const graficoData = {
+        lojas_quantidade: [],
+        lojas_niveis: []
+    };
 
-async function dashboard_grafico_15(grafico_id, grafico_name, grafico_tipo) {}
+    const response = await fetch(`dashboards/grafico/dados/grafico_14/${clienteId.value}/${edificacaoId.value}/${edificacaoNivelId.value}`, {
+        method: 'GET',
+        headers: { 'REQUEST-ORIGIN': 'fetch' }
+    });
 
-async function dashboard_grafico_16(grafico_id, grafico_name, grafico_tipo) {}
+    const dados = await response.json();
+
+    // Atualiza apenas os campos existentes
+    for (const key in graficoData) {
+        if (Object.hasOwn(dados, key)) {
+            graficoData[key] = dados[key];
+        }
+    }
+
+    // Dados Gráfico
+    const dados_grafico = graficoData.lojas_niveis.map(item => ({
+        name: primeiraMaiuscula(item.name),
+        value: item.quantidade
+    }));
+
+    // Renderizando
+    if (grafico_tipo == 1) {
+        await dashboardsChartPieSimple({id:'dashboard_grafico_'+grafico_id, titleText:grafico_name, titleSubText:graficoData.lojas_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name});
+    } else if (grafico_tipo == 2) {
+        await dashboardsChartBarSimple({id:'dashboard_grafico_'+grafico_id, titleText:grafico_name, titleSubText:graficoData.lojas_quantidade+' Registros', dados:dados_grafico, graficoId:grafico_id, graficoName:grafico_name});
+    } else {}
+}
+
+// Gráfico id=15 (Cliente Edificação - Documentos Exigidos por Tipo)
+async function dashboard_grafico_15(grafico_id, grafico_name, grafico_tipo) {
+    // Global
+    const graficoData = {
+        lojas_quantidade: 0,
+        lojas_niveis: []
+    };
+
+    const response = await fetch(`dashboards/grafico/dados/grafico_15/${clienteId.value}/${edificacaoId.value}/${edificacaoNivelId.value}`, {
+        method: 'GET',
+        headers: { 'REQUEST-ORIGIN': 'fetch' }
+    });
+
+    const dados = await response.json();
+
+    // Atualiza apenas os campos existentes
+    for (const key in graficoData) {
+        if (Object.hasOwn(dados, key)) {
+            graficoData[key] = dados[key];
+        }
+    }
+
+    // Dados do gráfico
+    const dados_grafico = graficoData.lojas_niveis.map(item => ({
+        name: primeiraMaiuscula(item.name),
+        series: item.series || {}
+    }));
+
+    // Renderizando
+    await dashboardsChartBarStackedHorizontal({ id: 'dashboard_grafico_' + grafico_id, titleText: grafico_name, titleSubText: graficoData.lojas_quantidade + ' Registros', dados: dados_grafico, graficoId: grafico_id, graficoName: grafico_name });
+}
+
+async function dashboard_grafico_16(grafico_id, grafico_name, grafico_tipo) { }
 // Funções para chamada dos Gráficos com nome dashboard_grafico_id - Fim'''''''''''''''''''''''''''''''
 // Funções para chamada dos Gráficos com nome dashboard_grafico_id - Fim'''''''''''''''''''''''''''''''
 
@@ -1199,6 +1263,133 @@ async function dashboardsChartBarSimple({id='', titleText='', titleSubText='', d
 
         // Aplica a configuração ao gráfico
     option && myChart.setOption(option);
+}
+
+async function dashboardsChartBarStackedHorizontal({ id = '', titleText = '', titleSubText = '', dados = [], graficoId = 0, graficoName = '' }) {
+    if (id == '') { return; }
+
+    // Chart
+    var chartDom = document.getElementById(id);
+
+    // Se já existe um gráfico nesse elemento, destruir
+    if (echarts.getInstanceByDom(chartDom)) {echarts.dispose(chartDom);}
+
+    // Iniciar
+    var myChart = echarts.init(chartDom);
+
+    // Opções
+    var option;
+
+    // Title'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    titleConfig = {title: {show: false}};
+
+    if (titleText != '') {
+        titleConfig = { title: { textStyle: { fontSize: 14 }, text: titleText.toUpperCase(), subtext: titleSubText, left: 'center' } };
+    }
+    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    // Monta option usando as configurações calculadas
+    /* Estrutura esperada em "dados":
+        [
+            {
+                name: 'Janeiro',
+                series: {
+                    'Pago': 120,
+                    'Pendente': 50,
+                    'Cancelado': 20
+                }
+            },
+            {
+                name: 'Fevereiro',
+                series: {
+                    'Pago': 200,
+                    'Pendente': 80,
+                    'Cancelado': 10
+                }
+            }
+        ]
+    */
+
+    // Categorias do eixo Y
+    var categorias = dados.map(item => item.name);
+
+    // Descobrir todas as séries existentes
+    var seriesNames = [];
+
+    dados.forEach(item => {
+        if (!item.series) { return; }
+
+        Object.keys(item.series).forEach(nomeSerie => {
+            if (!seriesNames.includes(nomeSerie)) {
+                seriesNames.push(nomeSerie);
+            }
+        });
+    });
+
+    // Montar séries dinamicamente
+    var series = seriesNames.map(nomeSerie => {
+        return {
+            name: nomeSerie,
+            type: 'bar',
+            stack: 'total',
+            label: {
+                show: true,
+                fontSize: 10
+            },
+            emphasis: {
+                focus: 'series'
+            },
+            data: dados.map(item => {
+                return item.series[nomeSerie] ?? 0;
+            })
+        };
+    });
+
+    // Opções do gráfico
+    var option = {
+        textStyle: {
+            fontSize: 10
+        },
+        ...titleConfig,
+        backgroundColor: '#ffffff',
+        toolbox: {
+            orient: 'vertical',
+            right: -10,
+            top: 0,
+            feature: {
+                saveAsImage: {
+                    title: 'Save Image'
+                }
+            }
+        },
+        tooltip: {
+            trigger: 'axis',
+            textStyle: {
+                fontSize: 10
+            },
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {},
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value'
+        },
+        yAxis: {
+            type: 'category',
+            data: categorias
+        },
+        series: series
+    };
+
+    // Aplicar gráfico
+    myChart.setOption(option);
 }
 // Funções de Modelos de Gráficos (Info, Pizza, Bar, etc) - Fim''''''''''''''''''''''''''''''''''''''''
 // Funções de Modelos de Gráficos (Info, Pizza, Bar, etc) - Fim''''''''''''''''''''''''''''''''''''''''

@@ -168,8 +168,8 @@
                 validacao = false;
             }
 
-            if ($('#new_password').val().length < 10 || $('#new_password').val().length > 20) {
-                $('#new-password-error').text('Campo precisa ter entre 10 e 20 caracteres.');
+            if ($('#new_password').val().length < 8 || $('#new_password').val().length > 20) {
+                $('#new-password-error').text('Campo precisa ter entre 8 e 20 caracteres.');
                 validacao = false;
             }
 
@@ -178,8 +178,8 @@
                 validacao = false;
             }
 
-            if ($('#confirm_new_password').val().length < 10 || $('#confirm_new_password').val().length > 20) {
-                $('#confirm-new-password-error').text('Campo precisa ter entre 10 e 20 caracteres.');
+            if ($('#confirm_new_password').val().length < 8 || $('#confirm_new_password').val().length > 20) {
+                $('#confirm-new-password-error').text('Campo precisa ter entre 8 e 20 caracteres.');
                 validacao = false;
             }
 
@@ -193,7 +193,7 @@
 
             $.ajax({
                 type:'POST',
-                url: '/users/editpassword',
+                url: '/users/perfil/editpassword',
                 data: formData,
                 cache: false,
                 contentType: false,

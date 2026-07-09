@@ -30,9 +30,9 @@
                         <div class="card-body pt-0">
                             <div class="pt-3 pb-5">
                                 @if(session()->has('gsrm_cliente_id') && session('gsrm_cliente_id') == 0)
-                                <img src="{{ asset('build/assets/images/image_logo_login.png') }}" height="40">
+                                <img src="{{ asset('build/assets/images/image_logo_login.png') }}" style="max-height: 70px; max-width: 200px;">
                                 @else
-                                <img src="{{ asset(session('gsrm_cliente_logotipo_principal')) }}" height="60">
+                                <img src="{{ asset(session('gsrm_cliente_logotipo_principal')) }}" style="max-height: 70px; max-width: 200px;">
                                 @endif
                             </div>
                             <div class="p-0">

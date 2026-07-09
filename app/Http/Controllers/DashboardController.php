@@ -274,12 +274,12 @@ class DashboardController extends Controller
         }
     }
 
-    public function grafico_14_dados()
+    public function grafico_14_dados($cliente_id, $edificacao_id, $edificacao_nivel_id)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data()
-            $this->responseApi(1, 10, 'dashboards/grafico/dados/grafico_14', '', '', '');
+            $this->responseApi(1, 10, 'dashboards/grafico/dados/grafico_14/'.$cliente_id.'/'.$edificacao_id.'/'.$edificacao_nivel_id, '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
@@ -290,12 +290,12 @@ class DashboardController extends Controller
         }
     }
 
-    public function grafico_15_dados()
+    public function grafico_15_dados($cliente_id, $edificacao_id, $edificacao_nivel_id)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             //Buscando dados Api_Data()
-            $this->responseApi(1, 10, 'dashboards/grafico/dados/grafico_15', '', '', '');
+            $this->responseApi(1, 10, 'dashboards/grafico/dados/grafico_15/'.$cliente_id.'/'.$edificacao_id.'/'.$edificacao_nivel_id, '', '', '');
 
             //Registro recebido com sucesso
             if ($this->code == 2000) {
