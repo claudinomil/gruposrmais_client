@@ -34,7 +34,7 @@ class Menu
         //Menu Verticarl
         if ($tp == 1) {
             $menu .= "<ul class='metismenu list-unstyled' id='side-menu'>
-                        <li class='text-light text-center font-size-22 pb-2'>" . $titulo_menu . "</li>";
+                        <li class='text-light text-center font-size-16 pb-2'>" . $titulo_menu . "</li>";
         }
 
         //Menu Horizontal
