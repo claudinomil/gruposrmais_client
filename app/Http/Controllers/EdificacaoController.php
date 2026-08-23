@@ -42,6 +42,9 @@ class EdificacaoController extends Controller
                         $retorno = "<div class='text-nowrap'>";
                         $retorno .= $row['clienteName'];
                         $retorno .= "</div>";
+                        $retorno .= "<div class='text-nowrap text-success'>";
+                        $retorno .= $row['clienteNomeFantasia'];
+                        $retorno .= "</div>";
 
                         return $retorno;
                     })
