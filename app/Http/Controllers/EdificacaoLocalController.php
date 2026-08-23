@@ -41,6 +41,7 @@ class EdificacaoLocalController extends Controller
                         $retorno .= "   <div class='col-12'><b>Nível&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> "."<span class='text-warning'>".$row['edificacaoNivelName']."</span>"."</div>";
                         $retorno .= "   <div class='col-12'><b>Edificação&nbsp;&nbsp;:</b> "."<span class='text-success'>".$row['edificacaoName']."</span>"."</div>";
                         $retorno .= "   <div class='col-12'><b>Cliente&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> "."<span class='text-primary'>".$row['clienteName']."</span>"."</div>";
+                        $retorno .= "   <div class='col-12'><b>N.Fantasia&nbsp;:</b> "."<span class='text-primary'>".$row['clienteNomeFantasia']."</span>"."</div>";
                         $retorno .= "</div>";
 
                         return $retorno;
@@ -190,6 +191,7 @@ class EdificacaoLocalController extends Controller
                         $retorno .= "   <div class='col-12'><b>Nível&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> "."<span class='text-warning'>".$row['edificacaoNivelName']."</span>"."</div>";
                         $retorno .= "   <div class='col-12'><b>Edificação&nbsp;&nbsp;:</b> "."<span class='text-success'>".$row['edificacaoName']."</span>"."</div>";
                         $retorno .= "   <div class='col-12'><b>Cliente&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> "."<span class='text-primary'>".$row['clienteName']."</span>"."</div>";
+                        $retorno .= "   <div class='col-12'><b>N.Fantasia&nbsp;:</b> "."<span class='text-primary'>".$row['clienteNomeFantasia']."</span>"."</div>";
                         $retorno .= "</div>";
 
                         return $retorno;

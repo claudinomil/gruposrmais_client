@@ -34,7 +34,7 @@
                                                 <select class="form-select" name="cliente_id" id="cliente_id">
                                                     <option value="">Escolha o Cliente...</option>
                                                     @foreach ($clientes as $cliente)
-                                                        <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
+                                                        <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }} ({{ $cliente['nome_fantasia'] }})</option>
                                                     @endforeach
                                                 </select>
                                             </div>

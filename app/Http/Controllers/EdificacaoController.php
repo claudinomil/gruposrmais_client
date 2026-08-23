@@ -221,6 +221,8 @@ class EdificacaoController extends Controller
                 return response()->json(['success' => $this->message]);
             } else if ($this->code == 2020) { //Falha na validação dos dados
                 return response()->json(['error_validation' => $this->validation]);
+            } else if ($this->code == 2040) { //Registro não excluído - pertence a relacionamento com outra(s) tabela(s)
+                return response()->json(['error' => $this->message]);
             } else if ($this->code == 4040) { //Registro não encontrado
                 return response()->json(['error_not_found' => $this->message]);
             } else if ($this->code == 4423) { // Bloqueio Tabela ou Registro

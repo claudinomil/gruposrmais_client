@@ -62,7 +62,7 @@
                                                 <option value="0">{{ __('Selecione...') }}</option>
 
                                                 @foreach ($clientes as $cliente)
-                                                <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }}</option>
+                                                <option value="{{ $cliente['id'] }}">{{ $cliente['name'] }} ({{ $cliente['nome_fantasia'] }})</option>
                                                 @endforeach
                                             </select>
                                         </div>
