@@ -144,7 +144,7 @@ async function prepararContainerInformacoes(grafico_grupo_id = 0) {
     if (grafico_grupo_id == 0) { return; }
 
     try {
-        const response = await fetch(`dashboards/grupo/informacoes/${grafico_grupo_id}/1/${edificacaoId.value}/${edificacaoNivelId.value}`, {
+        const response = await fetch(`dashboards/grupo/informacoes/${grafico_grupo_id}/${clienteId.value}/${edificacaoId.value}/${edificacaoNivelId.value}`, {
             method: "GET",
             headers: { "REQUEST-ORIGIN": "fetch" },
         });
