@@ -703,7 +703,6 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <img src="build/assets/images/clientes/cliente-0.png" style="max-height: 80px; max-width: 170px;" id="mi_cli_logotipo">
-                                    <!-- <img src="build/assets/images/clientes/cliente-0.png" class="avatar-lg rounded-circle img-thumbnail clearClass" style="width: 100px; height: 100px; object-fit: contain; object-position: center; background-color: #f8f9fa;" id="mi_cli_logotipo"> -->
                                 </div>
                                 <div class="flex-grow-1 align-self-center">
                                     <div>

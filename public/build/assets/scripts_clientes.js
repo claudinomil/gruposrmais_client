@@ -883,7 +883,7 @@ function DOMContentLoadedLogotipoPrincipal() {
                     //Reset Form
                     formulario.reset();
                 } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                    alertSwal('warning', 'Clientes', data.error, 'true', 3000);
                 } else {
                     alert('Erro interno');
                 }
@@ -939,7 +939,7 @@ function DOMContentLoadedLogotipoRelatorios() {
                     //Reset Form
                     formulario.reset();
                 } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                    alertSwal('warning', 'Clientes', data.error, 'true', 3000);
                 } else {
                     alert('Erro interno');
                 }
@@ -996,7 +996,7 @@ function DOMContentLoadedLogotipoCartaoEmergencial() {
                     //Reset Form
                     formulario.reset();
                 } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                    alertSwal('warning', 'Clientes', data.error, 'true', 3000);
                 } else {
                     alert('Erro interno');
                 }
@@ -1052,7 +1052,7 @@ function DOMContentLoadedLogotipoMenu() {
                     //Reset Form
                     formulario.reset();
                 } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                    alertSwal('warning', 'Clientes', data.error, 'true', 3000);
                 } else {
                     alert('Erro interno');
                 }
@@ -1145,8 +1145,9 @@ async function clienteModalInfoDados(id = '', retornoControle = 0) {
         //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         //Passando dados cliente''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        //Header
-        document.getElementById('mi_cli_header_nome').innerHTML = cliente.name;
+        // Header
+        var mi_cli_header_nome = cliente.name + (cliente.nome_fantasia ? '<br>' + '<span class="text-success font-size-11">'+cliente.nome_fantasia+'</span>' : '');
+        document.getElementById('mi_cli_header_nome').innerHTML = mi_cli_header_nome;
 
         //Logotipo Principal
         var logotipo_principal = url_atual+'build/assets/images/clientes/logotipo_principal-0.png';
@@ -1307,12 +1308,12 @@ function DOMContentLoadedEditarDocumentos() {
 
                     formulario.reset();
 
-                    alertSwal('success', 'Clientes', data.success, 'true', 20000);
+                    alertSwal('success', 'Clientes', data.success, 'true', 3000);
 
                     // Atualizar chamando função Dados e Montar Grade
                     await clienteModalInfoDados(editar_documentos_cliente_id, 3);
                 } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                    alertSwal('warning', 'Clientes', data.error, 'true', 3000);
                 } else {
                     alert('Erro interno');
                 }
@@ -1460,7 +1461,7 @@ async function clienteModalInfoDocumentos(cliente_id = '') {
 
         // Montar Grade
         if (clientes_documentos.length > 0) {
-            grade += '<table class="table align-middle table-nowrap table-check table-sm">'; //NÃO COLOCAR DATATABLE POIS O FILTRO NÃO FUNCIONA
+            grade += '<table class="table table-check table-sm">'; //NÃO COLOCAR DATATABLE POIS O FILTRO NÃO FUNCIONA
             grade += '  <thead class="table-light">';
             grade += '      <tr>';
             grade += '          <th scope="col">Edificação</th>';
@@ -1502,6 +1503,9 @@ async function clienteModalInfoDocumentos(cliente_id = '') {
 
                 if (permissao_show) {
                     if (caminho != '') {
+                        acoes += `<button type="button" class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Baixar Documento PDF" onclick="baixarArquivo('${caminho}', 'documento.pdf');">`;
+                        acoes += `<i class="fa fa-download font-size-18"></i></button>`;
+
                         acoes += `<button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Documento PDF" onclick="window.open('${caminho}', '_blank');">`;
                         acoes += `<i class="fa fa-file-pdf font-size-18"></i></button>`;
                     }
@@ -1519,15 +1523,22 @@ async function clienteModalInfoDocumentos(cliente_id = '') {
 
                 acoes += `</div>`;
 
+                // Acertos
+                if (data_emissao != '') {
+                    var data_vencimento_texto = data_vencimento ? formatarData(2, data_vencimento) : '<span class="text-success">Permanente</span>';
+                } else {
+                    var data_vencimento_texto = formatarData(2, data_vencimento);
+                }
+
                 // TR
                 grade += '<tr class="documento_fonte_'+dado.documento_fonte_id+'">';
-                grade += '  <td>' + edificacaoName + '</td>';
+                grade += '  <td class="text-nowrap">' + edificacaoName + '</td>';
                 grade += '  <td>' + documentoName + '</td>';
                 grade += '  <td>' + descricao + '</td>';
-                grade += '  <td>' + formatarData(2, data_emissao) + '</td>';
-                grade += '  <td>' + formatarData(2, data_vencimento) + '</td>';
-                grade += '  <td>' + aviso_texto + '</td>';
-                grade += '  <td>' + acoes + '</td>';
+                grade += '  <td class="text-nowrap">' + formatarData(2, data_emissao) + '</td>';
+                grade += '  <td class="text-nowrap">' + data_vencimento_texto + '</td>';
+                grade += '  <td class="text-nowrap">' + aviso_texto + '</td>';
+                grade += '  <td class="text-nowrap">' + acoes + '</td>';
                 grade += '</tr>';
             });
 
@@ -1698,12 +1709,12 @@ function DOMContentLoadedEditarSistemasPreventivos() {
 
                     formulario.reset();
 
-                    alertSwal('success', 'Clientes', data.success, 'true', 20000);
+                    alertSwal('success', 'Clientes', data.success, 'true', 3000);
 
                     // Atualizar chamando função Dados e Montar Grade
                     await clienteModalInfoDados(editar_sistemas_preventivos_cliente_id, 18);
                 } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                    alertSwal('warning', 'Clientes', data.error, 'true', 3000);
                 } else {
                     alert('Erro interno');
                 }
@@ -2080,9 +2091,9 @@ function DOMContentLoadedEditarDocumentosExigidos() {
                     // Atualizar chamando função Dados e Montar Grade
                     await clienteModalInfoDados(editar_documentos_exigidos_cliente_id, 14);
 
-                    alertSwal('success', 'Clientes', data.success, 'true', 20000);
+                    alertSwal('success', 'Clientes', data.success, 'true', 3000);
                 } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                    alertSwal('warning', 'Clientes', data.error, 'true', 3000);
                 } else {
                     alert('Erro interno');
                 }
@@ -2310,12 +2321,12 @@ function DOMContentLoadedEditarLojas() {
 
                     formulario.reset();
 
-                    alertSwal('success', 'Clientes', data.success, 'true', 20000);
+                    alertSwal('success', 'Clientes', data.success, 'true', 3000);
 
                     // Atualizar chamando função Dados e Montar Grade
                     await clienteModalInfoDados(editar_lojas_cliente_id, 16);
                 } else if (data.error) {
-                    alertSwal('warning', 'Clientes', data.error, 'true', 20000);
+                    alertSwal('warning', 'Clientes', data.error, 'true', 3000);
                 } else {
                     alert('Erro interno');
                 }

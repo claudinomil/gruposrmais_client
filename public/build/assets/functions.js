@@ -2549,12 +2549,12 @@ function checkedPermissaoTable(opClick, submodulo_id) {
 }
 
 //Modal de Confirmação
-function alertSwalConfirmacao(message = '') {
+function alertSwalConfirmacao({ message = '', text = '' }) {
     if (message == '') { message = 'Confirma operação?'; }
 
     return Swal.fire({
         title: message,
-        text: '',
+        html: text,
         icon: 'question',
         showDenyButton: true,
         confirmButtonText: '<i class="fa fa-thumbs-up"></i> Confirmar',
@@ -3318,6 +3318,76 @@ function primeiraMaiuscula(frase) {
             return palavra.charAt(0).toUpperCase() + palavra.slice(1);
         })
         .join(' ');
+}
+
+// Baixar arquivo
+async function baixarArquivo(caminho, nomeArquivo) {
+    try {
+        const response = await fetch(caminho);
+
+        if (!response.ok) {
+            switch (response.status) {
+                case 400:
+                    alert('Requisição inválida.');
+                    break;
+
+                case 401:
+                    alert('Você não está autenticado.');
+                    break;
+
+                case 403:
+                    alert('Você não tem permissão para acessar este arquivo.');
+                    break;
+
+                case 404:
+                    alert('Arquivo não encontrado.');
+                    break;
+
+                case 419:
+                    alert('Sessão expirada. Atualize a página e tente novamente.');
+                    break;
+
+                case 500:
+                    alert('Erro interno do servidor.');
+                    break;
+
+                default:
+                    alert(`Não foi possível baixar o arquivo. Erro ${response.status}.`);
+            }
+
+            console.error('Erro ao baixar arquivo:', {
+                status: response.status,
+                statusText: response.statusText,
+                caminho: caminho
+            });
+
+            return;
+        }
+
+        const blob = await response.blob();
+
+        if (blob.size === 0) {
+            alert('O arquivo está vazio.');
+            return;
+        }
+
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = nomeArquivo;
+
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        URL.revokeObjectURL(url);
+
+    } catch (error) {
+        console.error('Erro ao baixar arquivo:', error);
+
+        alert('Não foi possível acessar o arquivo. Verifique sua conexão ou se o endereço do arquivo está correto.');
+    }
 }
 
 //Corrigir rotação da Foto para apresentação visual - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

@@ -2241,9 +2241,10 @@ async function crudDelete(registro_id) {
     let prefixPermissaoSubmodulo = document.getElementById('crudPrefixPermissaoSubmodulo').value;
     let nameSubmodulo = document.getElementById('crudNameSubmodulo').value;
     let nameFormSubmodulo = document.getElementById('crudNameFormSubmodulo').value;
+    const texto_dialogo_exclusao = document.getElementById('texto_dialogo_exclusao');
 
     //Confirmação de Delete
-    const confirmed = await alertSwalConfirmacao();
+    const confirmed = await alertSwalConfirmacao({ message: 'Confirma Exclusão ?', text:texto_dialogo_exclusao.innerHTML });
     if (confirmed) {
         //Configuração - Retirar DIV Botões e colocar DIV Loading
         crudConfiguracao({p_crudFormButtons1:'hide', p_crudFormAjaxLoading:'show'});

@@ -377,7 +377,7 @@ async function montarEdificacaoNiveis({ v_cols = 12, v_pavimentos = 0, v_mezanin
                 divGrupo += `       <h5 class="mb-4 text-white"><i class="mdi mdi-bullseye-arrow me-3"></i> <span id="span_nivel_nome_${grupo}_${i}">${label_singular} ${i}</span></h5>`;
                 divGrupo += `       <div class="row">`;
                 divGrupo += `           <div class="col-12 col-md-${col2} mb-2">`;
-                divGrupo += `               <input type="text" id="nivel_id_${grupo}_${i}" name="nivel_id_${grupo}_${i}" value="">`;
+                divGrupo += `               <input type="hidden" id="nivel_id_${grupo}_${i}" name="nivel_id_${grupo}_${i}" value="">`;
                 divGrupo += `               <input type="text" class="form-control form-control-sm" id="nivel_nome_${grupo}_${i}" name="nivel_nome_${grupo}_${i}" oninput="atualizarNomeNivel('nivel_nome_${grupo}_${i}', 'span_nivel_nome_${grupo}_${i}')" placeholder="Digite o Nome ${label_singular}" value="${label_singular} ${i}">`;
                 divGrupo += `           </div>`;
                 divGrupo += `           <div class="col-10 col-md-${col3} mb-2">`;

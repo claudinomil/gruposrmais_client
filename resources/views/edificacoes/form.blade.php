@@ -45,8 +45,8 @@
                                     <select class="form-select" name="cliente_id" id="cliente_id">
                                         <option value="">{{ __('Selecione...') }}</option>
 
-                                        @foreach ($clientes as $key => $cliente)
-                                        <option value="{{ $cliente['id'] }}">{{ $cliente['name'] . ' - ' . $cliente['cnpj'] }}</option>
+                                        @foreach ($clientes as $cliente)
+                                        <option value="{{ $cliente['id'] }}">{{ $cliente['name'] . ' - ' . $cliente['nome_fantasia'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>

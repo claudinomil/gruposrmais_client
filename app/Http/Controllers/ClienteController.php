@@ -9,13 +9,13 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ClienteController extends Controller
 {
-    //Variaveis de Retorno da API
+    // Variaveis de Retorno da API
     public $message;
     public $code;
     public $validation;
     public $content;
 
-    //Dados Auxiliares
+    // Dados Auxiliares
     public $clientes;
     public $generos;
     public $bancos;
@@ -38,12 +38,12 @@ class ClienteController extends Controller
 
     public function index(Request $request)
     {
-        //Requisição Ajax
+        // Requisição Ajax
         if ($request->ajax()) {
-            //Buscando dados Api_Data() - Lista de Registros
+            // Buscando dados Api_Data() - Lista de Registros
             $this->responseApi(1, 1, 'clientes', '', '', '');
 
-            //Dados recebidos com sucesso
+            // Dados recebidos com sucesso
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
@@ -96,7 +96,14 @@ class ClienteController extends Controller
                         return $retorno;
                     })
                     ->addColumn('action', function ($row, Request $request) {
-                        return $this->columnAction($row['id']);
+                        $retorno = '<span style="display:none" id="texto_dialogo_exclusao">';
+                        $retorno .= '<div class="text-center text-primary font-size-12">'.$row['name'].'</div>';
+                        $retorno .= '<div class="text-center text-success font-size-11">'.$row['nome_fantasia'].'</div>';
+                        $retorno .= '</span>';
+
+                        $retorno .= $this->columnAction($row['id']);
+
+                        return $retorno;
                     })
                     ->setRowClass(function ($row) {
                         if ($row['id'] == session('gsrm_cliente_id')) {
@@ -114,10 +121,10 @@ class ClienteController extends Controller
                 abort(500, 'Erro Interno Client');
             }
         } else {
-            //Buscando dados Api_Data() - Auxiliary Tables (Combobox)
+            // Buscando dados Api_Data() - Auxiliary Tables (Combobox)
             $this->responseApi(2, 10, 'clientes/auxiliary/tables', '', '', '');
 
-            //chamar view
+            // chamar view
             return view('clientes.index', [
                 'evento' => 'index',
                 'clientes' => $this->clientes,
@@ -136,7 +143,7 @@ class ClienteController extends Controller
 
     public function create(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             return response()->json(['success' => true]);
         }
@@ -144,15 +151,15 @@ class ClienteController extends Controller
 
     public function store(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Incluir Registro
+            // Buscando dados Api_Data() - Incluir Registro
             $this->responseApi(1, 4, 'clientes', '', '', $request->all());
 
-            //Registro criado com sucesso
+            // Registro criado com sucesso
             if ($this->code == 2010) {
                 return response()->json(['success' => $this->message]);
-            } else if ($this->code == 2020) { //Falha na validação dos dados
+            } else if ($this->code == 2020) { // Falha na validação dos dados
                 return response()->json(['error_validation' => $this->validation]);
             } else {
                 abort(500, 'Erro Interno Client');
@@ -160,16 +167,16 @@ class ClienteController extends Controller
         }
     }
 
-    public function show(Request $request, $id)
+    public function show(Request $request, int $id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
+            // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 2, 'clientes', $id, '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
-                //Preparando Dados para a View
+                // Preparando Dados para a View
                 if ($this->content['data_nascimento'] != '') {
                     $this->content['data_nascimento'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_nascimento'], 0, 10))->format('d/m/Y');
                 }
@@ -178,7 +185,7 @@ class ClienteController extends Controller
                 }
 
                 return response()->json(['success' => $this->content]);
-            } else if ($this->code == 4040) { //Registro não encontrado
+            } else if ($this->code == 4040) { // Registro não encontrado
                 return response()->json(['error_not_found' => $this->message]);
             } else {
                 abort(500, 'Erro Interno Client');
@@ -186,16 +193,16 @@ class ClienteController extends Controller
         }
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Request $request, int $id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
+            // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 2, 'clientes', $id, '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
-                //Preparando Dados para a View
+                // Preparando Dados para a View
                 if ($this->content['data_nascimento'] != '') {
                     $this->content['data_nascimento'] = Carbon::createFromFormat('Y-m-d', substr($this->content['data_nascimento'], 0, 10))->format('d/m/Y');
                 }
@@ -204,7 +211,7 @@ class ClienteController extends Controller
                 }
 
                 return response()->json(['success' => $this->content]);
-            } else if ($this->code == 4040) { //Registro não encontrado
+            } else if ($this->code == 4040) { // Registro não encontrado
                 return response()->json(['error_not_found' => $this->message]);
             } else {
                 abort(500, 'Erro Interno Client');
@@ -212,19 +219,19 @@ class ClienteController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Alterar Registro
+            // Buscando dados Api_Data() - Alterar Registro
             $this->responseApi(1, 5, 'clientes', $id, '', $request->all());
 
-            //Registro alterado com sucesso
+            // Registro alterado com sucesso
             if ($this->code == 2000) {
                 return response()->json(['success' => $this->message]);
-            } else if ($this->code == 2020) { //Falha na validação dos dados
+            } else if ($this->code == 2020) { // Falha na validação dos dados
                 return response()->json(['error_validation' => $this->validation]);
-            } else if ($this->code == 4040) { //Registro não encontrado
+            } else if ($this->code == 4040) { // Registro não encontrado
                 return response()->json(['error_not_found' => $this->message]);
             } else {
                 abort(500, 'Erro Interno Client');
@@ -232,19 +239,19 @@ class ClienteController extends Controller
         }
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, int $id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Deletar Registro
+            // Buscando dados Api_Data() - Deletar Registro
             $this->responseApi(1, 6, 'clientes', $id, '', '');
 
-            //Registro deletado com sucesso
+            // Registro deletado com sucesso
             if ($this->code == 2000) {
                 return response()->json(['success' => $this->message]);
-            } else if ($this->code == 2040) { //Registro não excluído - pertence a relacionamento com outra(s) tabela(s)
+            } else if ($this->code == 2040) { // Registro não excluído - pertence a relacionamento com outra(s) tabela(s)
                 return response()->json(['error' => $this->message]);
-            } else if ($this->code == 4040) { //Registro não encontrado
+            } else if ($this->code == 4040) { // Registro não encontrado
                 return response()->json(['error' => $this->message]);
             } else {
                 abort(500, 'Erro Interno Client');
@@ -252,14 +259,14 @@ class ClienteController extends Controller
         }
     }
 
-    public function filter(Request $request, $array_dados)
+    public function filter(Request $request, ?string $array_dados)
     {
-        //Requisição Ajax
+        // Requisição Ajax
         if ($request->ajax()) {
-            //Buscando dados Api_Data() - Pesquisar Registros
+            // Buscando dados Api_Data() - Pesquisar Registros
             $this->responseApi(1, 3, 'clientes', '', $array_dados, '');
 
-            //Dados recebidos com sucesso
+            // Dados recebidos com sucesso
             if ($this->code == 2000) {
                 $allData = DataTables::of($this->content)
                     ->addIndexColumn()
@@ -334,17 +341,17 @@ class ClienteController extends Controller
         }
     }
 
-    public function modal_info($id)
+    public function modal_info(int $id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
+            // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 10, 'clientes/modalInfo/modal_info/' . $id, '', '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
-            } else if ($this->code == 4040) { //Registro não encontrado
+            } else if ($this->code == 4040) { // Registro não encontrado
                 echo 'Registro não encontrado.';
             } else {
                 echo 'Erro Interno Modal Info.';
@@ -352,17 +359,17 @@ class ClienteController extends Controller
         }
     }
 
-    public function estatisticas($id)
+    public function estatisticas(int $id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
+            // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 10, 'clientes/modalInfo/estatisticas/' . $id, '', '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
-            } else if ($this->code == 4040) { //Registro não encontrado
+            } else if ($this->code == 4040) { // Registro não encontrado
                 echo 'Registro não encontrado.';
             } else {
                 echo 'Erro Interno Modal Info.';
@@ -372,17 +379,18 @@ class ClienteController extends Controller
 
     public function upload_logotipo_principal(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Variavel controle
+            // Variavel controle
             $error = false;
+            $img = null;
 
-            //Verificando e fazendo Upload do Arquivo
+            // Verificando e fazendo Upload do Arquivo
             if ($request->hasFile('cli_logotipo_principal_file')) {
-                //cliente_id
+                // cliente_id
                 $id = $request['upload_logotipo_principal_cliente_id'];
 
-                //buscar dados formulario
+                // buscar dados formulario
                 $arquivo_tmp = $_FILES["cli_logotipo_principal_file"]["tmp_name"];
                 $arquivo_real = $_FILES["cli_logotipo_principal_file"]["name"];
                 $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
@@ -392,7 +400,7 @@ class ClienteController extends Controller
                 if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
                     if (copy($arquivo_tmp, "build/assets/images/clientes/$arquivo_real")) {
                         if (file_exists("build/assets/images/clientes/" . $arquivo_real)) {
-                            //renomear para logotipo_principal_ID
+                            // renomear para logotipo_principal_ID
                             $name = 'logotipo_principal_' . $id;
                             $img = "build/assets/images/clientes/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
                             $de = "build/assets/images/clientes/$arquivo_real";
@@ -413,15 +421,15 @@ class ClienteController extends Controller
             }
 
             if (!$error) {
-                //Salvar Dados na tabela clientes
+                // Salvar Dados na tabela clientes
                 $data = array();
                 $data['cliente_id'] = $request['upload_logotipo_principal_cliente_id'];
                 $data['logotipo_principal'] = $img;
 
-                //Buscando dados Api_Data() - Atualizar Registro
+                // Buscando dados Api_Data() - Atualizar Registro
                 $this->responseApi(1, 12, 'clientes/uploadLogotipo/upload_logotipo_principal', '', '', $data);
 
-                //Registro recebido com sucesso
+                // Registro recebido com sucesso
                 if ($this->code == 2000) {
                     return response()->json(['success' => $this->message]);
                 } else {
@@ -437,17 +445,18 @@ class ClienteController extends Controller
 
     public function upload_logotipo_relatorios(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Variavel controle
+            // Variavel controle
             $error = false;
+            $img = null;
 
-            //Verificando e fazendo Upload do Arquivo
+            // Verificando e fazendo Upload do Arquivo
             if ($request->hasFile('cli_logotipo_relatorios_file')) {
-                //cliente_id
+                // cliente_id
                 $id = $request['upload_logotipo_relatorios_cliente_id'];
 
-                //buscar dados formulario
+                // buscar dados formulario
                 $arquivo_tmp = $_FILES["cli_logotipo_relatorios_file"]["tmp_name"];
                 $arquivo_real = $_FILES["cli_logotipo_relatorios_file"]["name"];
                 $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
@@ -457,7 +466,7 @@ class ClienteController extends Controller
                 if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
                     if (copy($arquivo_tmp, "build/assets/images/clientes/$arquivo_real")) {
                         if (file_exists("build/assets/images/clientes/" . $arquivo_real)) {
-                            //renomear para logotipo_relatorios_ID
+                            // renomear para logotipo_relatorios_ID
                             $name = 'logotipo_relatorios_' . $id;
                             $img = "build/assets/images/clientes/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
                             $de = "build/assets/images/clientes/$arquivo_real";
@@ -478,15 +487,15 @@ class ClienteController extends Controller
             }
 
             if (!$error) {
-                //Salvar Dados na tabela clientes
+                // Salvar Dados na tabela clientes
                 $data = array();
                 $data['cliente_id'] = $request['upload_logotipo_relatorios_cliente_id'];
                 $data['logotipo_relatorios'] = $img;
 
-                //Buscando dados Api_Data() - Atualizar Registro
+                // Buscando dados Api_Data() - Atualizar Registro
                 $this->responseApi(1, 12, 'clientes/uploadLogotipo/upload_logotipo_relatorios', '', '', $data);
 
-                //Registro recebido com sucesso
+                // Registro recebido com sucesso
                 if ($this->code == 2000) {
                     return response()->json(['success' => $this->message]);
                 } else {
@@ -502,17 +511,18 @@ class ClienteController extends Controller
 
     public function upload_logotipo_cartao_emergencial(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Variavel controle
+            // Variavel controle
             $error = false;
+            $img = null;
 
-            //Verificando e fazendo Upload do Arquivo
+            // Verificando e fazendo Upload do Arquivo
             if ($request->hasFile('cli_logotipo_cartao_emergencial_file')) {
-                //cliente_id
+                // cliente_id
                 $id = $request['upload_logotipo_cartao_emergencial_cliente_id'];
 
-                //buscar dados formulario
+                // buscar dados formulario
                 $arquivo_tmp = $_FILES["cli_logotipo_cartao_emergencial_file"]["tmp_name"];
                 $arquivo_real = $_FILES["cli_logotipo_cartao_emergencial_file"]["name"];
                 $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
@@ -522,7 +532,7 @@ class ClienteController extends Controller
                 if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
                     if (copy($arquivo_tmp, "build/assets/images/clientes/$arquivo_real")) {
                         if (file_exists("build/assets/images/clientes/" . $arquivo_real)) {
-                            //renomear para logotipo_cartao_emergencial_ID
+                            // renomear para logotipo_cartao_emergencial_ID
                             $name = 'logotipo_cartao_emergencial_' . $id;
                             $img = "build/assets/images/clientes/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
                             $de = "build/assets/images/clientes/$arquivo_real";
@@ -543,15 +553,15 @@ class ClienteController extends Controller
             }
 
             if (!$error) {
-                //Salvar Dados na tabela clientes
+                // Salvar Dados na tabela clientes
                 $data = array();
                 $data['cliente_id'] = $request['upload_logotipo_cartao_emergencial_cliente_id'];
                 $data['logotipo_cartao_emergencial'] = $img;
 
-                //Buscando dados Api_Data() - Atualizar Registro
+                // Buscando dados Api_Data() - Atualizar Registro
                 $this->responseApi(1, 12, 'clientes/uploadLogotipo/upload_logotipo_cartao_emergencial', '', '', $data);
 
-                //Registro recebido com sucesso
+                // Registro recebido com sucesso
                 if ($this->code == 2000) {
                     return response()->json(['success' => $this->message]);
                 } else {
@@ -567,17 +577,18 @@ class ClienteController extends Controller
 
     public function upload_logotipo_menu(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Variavel controle
+            // Variavel controle
             $error = false;
+            $img = null;
 
-            //Verificando e fazendo Upload do Arquivo
+            // Verificando e fazendo Upload do Arquivo
             if ($request->hasFile('cli_logotipo_menu_file')) {
-                //cliente_id
+                // cliente_id
                 $id = $request['upload_logotipo_menu_cliente_id'];
 
-                //buscar dados formulario
+                // buscar dados formulario
                 $arquivo_tmp = $_FILES["cli_logotipo_menu_file"]["tmp_name"];
                 $arquivo_real = $_FILES["cli_logotipo_menu_file"]["name"];
                 $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
@@ -587,7 +598,7 @@ class ClienteController extends Controller
                 if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
                     if (copy($arquivo_tmp, "build/assets/images/clientes/$arquivo_real")) {
                         if (file_exists("build/assets/images/clientes/" . $arquivo_real)) {
-                            //renomear para logotipo_menu_ID
+                            // renomear para logotipo_menu_ID
                             $name = 'logotipo_menu_' . $id;
                             $img = "build/assets/images/clientes/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
                             $de = "build/assets/images/clientes/$arquivo_real";
@@ -608,15 +619,15 @@ class ClienteController extends Controller
             }
 
             if (!$error) {
-                //Salvar Dados na tabela clientes
+                // Salvar Dados na tabela clientes
                 $data = array();
                 $data['cliente_id'] = $request['upload_logotipo_menu_cliente_id'];
                 $data['logotipo_menu'] = $img;
 
-                //Buscando dados Api_Data() - Atualizar Registro
+                // Buscando dados Api_Data() - Atualizar Registro
                 $this->responseApi(1, 12, 'clientes/uploadLogotipo/upload_logotipo_menu', '', '', $data);
 
-                //Registro recebido com sucesso
+                // Registro recebido com sucesso
                 if ($this->code == 2000) {
                     return response()->json(['success' => $this->message]);
                 } else {
@@ -706,17 +717,17 @@ class ClienteController extends Controller
         }
     }
 
-    public function documentos($cliente_id)
+    public function documentos(int $cliente_id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
+            // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 10, 'clientes/modalInfo/documentos/' . $cliente_id, '', '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
-            } else if ($this->code == 4040) { //Registro não encontrado
+            } else if ($this->code == 4040) { // Registro não encontrado
                 echo 'Registro não encontrado.';
             } else {
                 echo 'Erro Interno Documentos Pdf.';
@@ -724,14 +735,14 @@ class ClienteController extends Controller
         }
     }
 
-    public function deletar_documento($cliente_documento_id)
+    public function deletar_documento(int $cliente_documento_id)
     {
-        //Buscando dados Api_Data() - Deletar Registro
+        // Buscando dados Api_Data() - Deletar Registro
         $this->responseApi(1, 6, 'clientes/modalInfo/deletar_documento', $cliente_documento_id, '', '');
 
-        //Registro deletado com sucesso
+        // Registro deletado com sucesso
         if ($this->code == 2000) {
-            //Apagar arquivo
+            // Apagar arquivo
             $caminhoArquivo = $this->content;
 
             if (file_exists($caminhoArquivo)) {
@@ -744,11 +755,11 @@ class ClienteController extends Controller
         }
     }
 
-    public function documentos_exigidos($cliente_id)
+    public function documentos_exigidos(int $cliente_id)
     {
         // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
+            // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 10, 'clientes/modalInfo/documentos_exigidos/' . $cliente_id, '', '', '');
 
             // Registro recebido com sucesso
@@ -762,15 +773,15 @@ class ClienteController extends Controller
 
     public function documentos_exigidos_save(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Salvar Registros
+            // Buscando dados Api_Data() - Salvar Registros
             $this->responseApi(1, 12, 'clientes/modalInfo/documentos_exigidos_save', '', '', $request->all());
 
-            //Registro criado com sucesso
+            // Registro criado com sucesso
             if ($this->code == 2010) {
                 return response()->json(['success' => $this->message]);
-            } else if ($this->code == 2020) { //Falha na validação dos dados
+            } else if ($this->code == 2020) { // Falha na validação dos dados
                 return response()->json(['error_validation' => $this->validation]);
             } else {
                 abort(500, 'Erro Interno Client');
@@ -804,17 +815,17 @@ class ClienteController extends Controller
         }
     }
 
-    public function lojas($cliente_id)
+    public function lojas(int $cliente_id)
     {
         // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 10, 'clientes/modalInfo/lojas/' . $cliente_id, '', '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
-            } else if ($this->code == 4040) { //Registro não encontrado
+            } else if ($this->code == 4040) { // Registro não encontrado
                 echo 'Registro não encontrado.';
             } else {
                 echo 'Erro Interno Lojas.';
@@ -822,12 +833,12 @@ class ClienteController extends Controller
         }
     }
 
-    public function deletar_loja($cliente_loja_id)
+    public function deletar_loja(int $cliente_loja_id)
     {
-        //Buscando dados Api_Data() - Deletar Registro
+        // Buscando dados Api_Data() - Deletar Registro
         $this->responseApi(1, 6, 'clientes/modalInfo/deletar_loja', $cliente_loja_id, '', '');
 
-        //Registro deletado com sucesso
+        // Registro deletado com sucesso
         if ($this->code == 2000) {
             return response()->json(['success' => $this->message]);
         } else {
@@ -910,17 +921,17 @@ class ClienteController extends Controller
         }
     }
 
-    public function sistemas_preventivos($cliente_id)
+    public function sistemas_preventivos(int $cliente_id)
     {
         // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
             // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 10, 'clientes/modalInfo/sistemas_preventivos/' . $cliente_id, '', '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
-            } else if ($this->code == 4040) { //Registro não encontrado
+            } else if ($this->code == 4040) { // Registro não encontrado
                 echo 'Registro não encontrado.';
             } else {
                 echo 'Erro Interno Sistemas Preventivos Pdf.';
@@ -928,7 +939,7 @@ class ClienteController extends Controller
         }
     }
 
-    public function deletar_sistema_preventivo($cliente_sistema_preventivo_id)
+    public function deletar_sistema_preventivo(int $cliente_sistema_preventivo_id)
     {
         // Buscando dados Api_Data() - Deletar Registro
         $this->responseApi(1, 6, 'clientes/modalInfo/deletar_sistema_preventivo', $cliente_sistema_preventivo_id, '', '');
@@ -950,14 +961,14 @@ class ClienteController extends Controller
         }
     }
 
-    public function propostas($cliente_id)
+    public function propostas(int $cliente_id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
+            // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 10, 'clientes/modalInfo/propostas/' . $cliente_id, '', '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
             } else {
@@ -966,14 +977,14 @@ class ClienteController extends Controller
         }
     }
 
-    public function ordens_servicos($cliente_id)
+    public function ordens_servicos(int $cliente_id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
+            // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 10, 'clientes/modalInfo/ordens_servicos/' . $cliente_id, '', '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
             } else {
@@ -982,14 +993,14 @@ class ClienteController extends Controller
         }
     }
 
-    public function visitas_tecnicas($cliente_id)
+    public function visitas_tecnicas(int $cliente_id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
+            // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 10, 'clientes/modalInfo/visitas_tecnicas/' . $cliente_id, '', '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
             } else {
@@ -998,14 +1009,14 @@ class ClienteController extends Controller
         }
     }
 
-    public function brigadas_incendios($cliente_id)
+    public function brigadas_incendios(int $cliente_id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
+            // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 10, 'clientes/modalInfo/brigadas_incendios/' . $cliente_id, '', '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
             } else {
@@ -1014,14 +1025,14 @@ class ClienteController extends Controller
         }
     }
 
-    public function clientes_rede($cliente_id)
+    public function clientes_rede(int $cliente_id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
+            // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 10, 'clientes/modalInfo/clientes_rede/' . $cliente_id, '', '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
             } else {
@@ -1030,14 +1041,14 @@ class ClienteController extends Controller
         }
     }
 
-    public function clientes_principal($cliente_id)
+    public function clientes_principal(int $cliente_id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
+            // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 10, 'clientes/modalInfo/clientes_principal/' . $cliente_id, '', '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
             } else {
@@ -1046,7 +1057,7 @@ class ClienteController extends Controller
         }
     }
 
-    public function sistema_preventivo_informacao($sistema_preventivo_numero)
+    public function sistema_preventivo_informacao(string $sistema_preventivo_numero)
     {
         // Buscando dados Api_Data()
         $this->responseApi(1, 10, 'clientes/sistema_preventivo/informacao/' . $sistema_preventivo_numero, '', '', '');
