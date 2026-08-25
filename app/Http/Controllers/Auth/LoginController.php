@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Facades\ApiData;
 use App\Facades\SuporteFacade;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -102,7 +102,40 @@ class LoginController extends Controller
             // Trocar Idioma da Sessao
             SuporteFacade::setUserSessionIdioma();
 
-            return redirect('dashboards');
+            // Verificar Aviso para o Usuário''''''''''''''''''''''''''''''''''''''''''
+            $aviso = false;
+            $aviso_titulo = 'Aviso de Documento(s) Vencido(s) para a(s) Unidade(s):';
+            $aviso_mensagem = '';
+
+            // Aviso de Documento(s) Vencido(s)
+            $response = ApiData::getData(10, 'clientes/modalInfo/documentos_vencidos', 0, [], []);
+            $documentos = $response['content'];
+
+            $ln = 0;
+
+            foreach($documentos as $documento) {
+                if (getDiferencaDiasHoje($documento['data_vencimento']) < 0) {
+                    $aviso = true;
+                    $ln++;
+
+                    $aviso_mensagem .= '<div>
+                                            <span class="text-truncate font-size-12">'.$ln.') '.$documento['clienteName'].'</span>
+                                            <br>
+                                            <span class="text-success font-size-11 mb-0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$documento['clienteNomeFantasia'].'</span>
+                                        </div>';
+                }
+            }
+            //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+            // Redirecionar para Dashboards
+            if ($aviso) {
+                return redirect('dashboards')
+                    ->with('modalAviso', true)
+                    ->with('aviso_titulo', $aviso_titulo)
+                    ->with('aviso_mensagem', $aviso_mensagem);
+            } else {
+                return redirect('dashboards');
+            }
         }
         //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 

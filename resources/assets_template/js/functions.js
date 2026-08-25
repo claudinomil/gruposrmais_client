@@ -3390,6 +3390,20 @@ async function baixarArquivo(caminho, nomeArquivo) {
     }
 }
 
+// Retorna a diferença em dias para data de hoje
+// @PARAM data : yyyy-mm-dd
+function diferencaDiasHoje(data) {
+    const [ano, mes, dia] = data.split('-').map(Number);
+
+    const dataInformada = new Date(ano, mes - 1, dia);
+    const hoje = new Date();
+
+    hoje.setHours(0, 0, 0, 0);
+    dataInformada.setHours(0, 0, 0, 0);
+
+    return Math.round((dataInformada - hoje) / (1000 * 60 * 60 * 24));
+}
+
 //Corrigir rotação da Foto para apresentação visual - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //Corrigir rotação da Foto para apresentação visual - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 function carregarImagemComoBase64(url) {

@@ -1445,7 +1445,7 @@ async function clienteModalInfoDocumentos(cliente_id = '') {
         headers: {'REQUEST-ORIGIN': 'fetch'}
     }).then(response => {
         return response.json();
-    }).then(data => {
+    }).then(async data => {
         // Lendo json
         let clientes_documentos = data.clientes_documentos;
 
@@ -1476,7 +1476,7 @@ async function clienteModalInfoDocumentos(cliente_id = '') {
             grade += '  <tbody>';
 
             // Varrer
-            clientes_documentos.forEach(dado => {
+            for (const dado of clientes_documentos) {
                 // Dados
                 let edificacaoName = dado.edificacaoName ?? '';
                 let documentoName = dado.documentoName ?? '';
@@ -1530,17 +1530,26 @@ async function clienteModalInfoDocumentos(cliente_id = '') {
                     var data_vencimento_texto = formatarData(2, data_vencimento);
                 }
 
+                // Status Data Vencimento
+                if (diferencaDiasHoje(data_vencimento) > 0) {
+                    data_vencimento_texto = `<span style="text-decoration: underline; text-decoration-color: #34c38f; text-decoration-thickness: 3px; text-underline-offset: 4px;">${data_vencimento_texto}</span>`;
+                } else if (diferencaDiasHoje(data_vencimento) == 0) {
+                    data_vencimento_texto = `<span style="text-decoration: underline; text-decoration-color: #f1b44c; text-decoration-thickness: 3px; text-underline-offset: 4px;">${data_vencimento_texto}</span>`;
+                } else if (diferencaDiasHoje(data_vencimento) < 0) {
+                    data_vencimento_texto = `<span style="text-decoration: underline; text-decoration-color: #f46a6a; text-decoration-thickness: 3px; text-underline-offset: 4px;">${data_vencimento_texto}</span>`;
+                }
+
                 // TR
-                grade += '<tr class="documento_fonte_'+dado.documento_fonte_id+'">';
+                grade += '<tr class="documento_fonte_' + dado.documento_fonte_id + '">';
                 grade += '  <td class="text-nowrap">' + edificacaoName + '</td>';
                 grade += '  <td>' + documentoName + '</td>';
                 grade += '  <td>' + descricao + '</td>';
                 grade += '  <td class="text-nowrap">' + formatarData(2, data_emissao) + '</td>';
-                grade += '  <td class="text-nowrap">' + data_vencimento_texto + '</td>';
+                grade += '  <td class="text-nowrap">' + status + data_vencimento_texto + '</td>';
                 grade += '  <td class="text-nowrap">' + aviso_texto + '</td>';
                 grade += '  <td class="text-nowrap">' + acoes + '</td>';
                 grade += '</tr>';
-            });
+            }
 
             grade += '  </tbody>';
             grade += '</table>';

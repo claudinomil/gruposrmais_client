@@ -64,12 +64,12 @@
                             <div class="chase-dot"></div>
                         </div>
                     </div>
-                    
+
                     <div class="container-fluid">
                         <input type="hidden" id="user_email" value="{{ session('se_userLoggedData.email') }}">
                         @yield('content')
                     </div>
-                    
+
                     @include('layouts.footer')
                 </div>
             </div>
@@ -99,5 +99,33 @@
 
         <!-- Área escondida para aviso na tela temporariamente -->
         <div id="loading-aviso-tmp" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); color: white; font-size: 20px; text-align: center; padding-top: 20%; z-index: 9999;">&nbsp;</div>
+
+        <!-- Aviso para Usuário do Grupo DOMÍNIO CLIENTES -->
+        @if (session('modalAviso'))
+        <div class="modal fade" id="modalAviso" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg">
+                    <div class="modal-body text-center p-3">
+                        <div class="mb-3">
+                            <i id="modalAvisoIcone" class="fas fa-info-circle text-warning" style="font-size: 60px;"></i>
+                        </div>
+                        <h6 id="modalAvisoTitulo" class="mb-5"></h6>
+                        <div class="text-start" id="modalAvisoMensagem"></div>
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <button type="button" class="btn btn-success px-4 font-size-12" onclick="window.location.href='{{ route('clientes.index') }}'">Ir para Clientes</button>
+                            <button type="button" class="btn btn-secondary px-4 font-size-12" data-bs-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById('modalAvisoTitulo').innerHTML = @json(session('aviso_titulo'));
+            document.getElementById('modalAvisoMensagem').innerHTML = @json(session('aviso_mensagem'));
+            const modal = new bootstrap.Modal(document.getElementById('modalAviso'));
+            modal.show();
+        </script>
+        @endif
     </body>
 </html>
