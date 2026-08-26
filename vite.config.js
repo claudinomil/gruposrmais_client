@@ -138,7 +138,7 @@ export default defineConfig({
                 {src: 'resources/assets_template/images/image_logo_qrcode.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/image_logo_relatorio.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/image_logo.png', dest: 'assets/images'},
-                {src: 'resources/assets_template/images/image_logo_previnir.png', dest: 'assets/images'},
+                {src: 'resources/assets_template/images/image_logo_prevenir.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/megamenu-img.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/profile-img.png', dest: 'assets/images'},
                 {src: 'resources/assets_template/images/welcome_logo.png', dest: 'assets/images'},
