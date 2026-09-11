@@ -17,7 +17,28 @@
 @endcomponent
 --}}
 
+
+
+
+
+
 <div id="crudTable">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <script>
+                        alert('Registro não encontrado!!!');
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="crudTableXXXXX" style="display: none;">
     <div class="row">
         <div class="col-12">
             <div class="card">
