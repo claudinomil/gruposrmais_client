@@ -28,7 +28,7 @@
             <div class="card">
                 <div class="card-body">
                     <script>
-                        alert('Registro não encontrado!!!');
+                        alert('Registro não encontrado.');
                     </script>
                 </div>
             </div>
