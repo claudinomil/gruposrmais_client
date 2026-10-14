@@ -62,6 +62,8 @@ class Controller extends BaseController
             if (isset($response['content']['transacoes'])) {$this->transacoes = $response['content']['transacoes'];}
             if (isset($response['content']['users'])) {$this->users = $response['content']['users'];}
             if (isset($response['content']['clientes'])) {$this->clientes = $response['content']['clientes'];}
+            if (isset($response['content']['tomadores_servicos'])) {$this->tomadores_servicos = $response['content']['tomadores_servicos'];}
+            if (isset($response['content']['uniformes'])) {$this->uniformes = $response['content']['uniformes'];}
             if (isset($response['content']['fornecedores'])) {$this->fornecedores = $response['content']['fornecedores'];}
             if (isset($response['content']['responsavel_funcionarios'])) {$this->responsavel_funcionarios = $response['content']['responsavel_funcionarios'];}
             if (isset($response['content']['contratacao_tipos'])) {$this->contratacao_tipos = $response['content']['contratacao_tipos'];}
@@ -79,7 +81,6 @@ class Controller extends BaseController
             if (isset($response['content']['visita_tecnica_tipos'])) {$this->visita_tecnica_tipos = $response['content']['visita_tecnica_tipos'];}
             if (isset($response['content']['visitas_tecnicas_dados'])) {$this->visitas_tecnicas_dados = $response['content']['visitas_tecnicas_dados'];}
             if (isset($response['content']['sistema_acessos'])) {$this->sistema_acessos = $response['content']['sistema_acessos'];}
-            if (isset($response['content']['funcionario_acao_1_funcionarios'])) {$this->funcionario_acao_1_funcionarios = $response['content']['funcionario_acao_1_funcionarios'];}
             if (isset($response['content']['ordem_servico_prioridades'])) {$this->ordem_servico_prioridades = $response['content']['ordem_servico_prioridades'];}
             if (isset($response['content']['ordem_servico_tipos'])) {$this->ordem_servico_tipos = $response['content']['ordem_servico_tipos'];}
             if (isset($response['content']['ordem_servico_status'])) {$this->ordem_servico_status = $response['content']['ordem_servico_status'];}

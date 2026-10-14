@@ -29,18 +29,21 @@ class FuncionarioController extends Controller
     public $bancos;
     public $documentos;
     public $clientes;
+    public $funcionarios;
+    public $uniformes;
     public $motivos_demissoes;
     public $motivos_afastamentos;
     public $pix_tipos;
     public $atestado_saude_ocupacional_tipos;
     public $empresas;
+    public $tomadores_servicos;
 
     public function __construct()
     {
         $this->middleware('check-permissao:list', ['only' => ['index', 'filter', 'modal_info', 'estatisticas', 'documentos', 'documentos_mensais', 'verificar_documentos_mensais', 'cartoes_emergenciais_dados']]);
         $this->middleware('check-permissao:create', ['only' => ['create', 'store']]);
         $this->middleware('check-permissao:show', ['only' => ['show']]);
-        $this->middleware('check-permissao:edit', ['only' => ['edit', 'update', 'upload_fotografia_documento', 'upload_fotografia_cartao_emergencial', 'upload_documento', 'upload_documento_mensal']]);
+        $this->middleware('check-permissao:edit', ['only' => ['edit', 'update', 'upload_fotografia_documento', 'upload_fotografia_cartao_emergencial', 'upload_documento_mensal']]);
         $this->middleware('check-permissao:destroy', ['only' => ['destroy', 'deletar_documento', 'deletar_documento_mensal']]);
     }
 
@@ -57,10 +60,25 @@ class FuncionarioController extends Controller
                     ->addIndexColumn()
                     ->editColumn('fotografia_documento', function ($row) {
                         $retorno = "<div class='text-center'>";
-                        $retorno .= "<img src='" . asset($row['fotografia_documento']) . "' alt='' class='img-thumbnail avatar-sm' id='datatable_fotografia_documento_funcionario_id_" . $row['id'] . "'>";
-                        $retorno .= "<br>";
+
+                        $fotografia = $row['fotografia_documento'];
+
+                        if (!empty($fotografia) && file_exists(public_path($fotografia))) {
+                            $retorno .= "<img src='" . asset($fotografia) . "' alt='' class='img-thumbnail avatar-sm' id='datatable_fotografia_documento_funcionario_id_" . $row['id'] . "'>";
+                            $retorno .= "<br>";
+                        }
+
                         $retorno .= "<a href='#' onclick='funcionarioModalInfoControle(2, " . $row['id'] . ");'><span class='bg-warning badge'><i class='bx bx-photo-album font-size-16 align-middle me-1'></i>Info</span></a>";
                         $retorno .= "</div>";
+
+                        return $retorno;
+                    })
+                    ->editColumn('funcionario', function ($row) {
+                        $retorno = "<div class='text-black'>".$row['name']."</div>";
+
+                        if (!empty($row['tomadorServicoClienteName'])) {
+                            $retorno .= "<div class='text-primary small'>:: ".$row['tomadorServicoClienteName']."</div>";
+                        }
 
                         return $retorno;
                     })
@@ -105,11 +123,14 @@ class FuncionarioController extends Controller
                 'bancos' => $this->bancos,
                 'documentos' => $this->documentos,
                 'clientes' => $this->clientes,
+                'funcionarios' => $this->funcionarios,
+                'uniformes' => $this->uniformes,
                 'motivos_demissoes' => $this->motivos_demissoes,
                 'motivos_afastamentos' => $this->motivos_afastamentos,
                 'pix_tipos' => $this->pix_tipos,
                 'atestado_saude_ocupacional_tipos' => $this->atestado_saude_ocupacional_tipos,
-                'empresas' => $this->empresas
+                'empresas' => $this->empresas,
+                'tomadores_servicos' => $this->tomadores_servicos
             ]);
         }
     }
@@ -318,6 +339,15 @@ class FuncionarioController extends Controller
 
                         return $retorno;
                     })
+                    ->editColumn('funcionario', function ($row) {
+                        $retorno = "<div class='text-black'>".$row['name']."</div>";
+
+                        if (!empty($row['tomadorServicoClienteName'])) {
+                            $retorno .= "<div class='text-primary small'>:: ".$row['tomadorServicoClienteName']."</div>";
+                        }
+
+                        return $retorno;
+                    })
                     ->editColumn('data_nascimento', function ($row) {
                         if ($row['data_nascimento'] !== null) {
                             $retorno = date('d/m/Y', strtotime($row['data_nascimento']));
@@ -381,17 +411,18 @@ class FuncionarioController extends Controller
 
     public function upload_fotografia_documento(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Variavel controle
+            // Variavel controle
             $error = false;
+            $img = null;
 
-            //Verificando e fazendo Upload do Arquivo
+            // Verificando e fazendo Upload do Arquivo
             if ($request->hasFile('fun_fotografia_documento_file')) {
-                //funcionario_id
+                // funcionario_id
                 $id = $request['upload_fotografia_documento_funcionario_id'];
 
-                //buscar dados formulario
+                // buscar dados formulario
                 $arquivo_tmp = $_FILES["fun_fotografia_documento_file"]["tmp_name"];
                 $arquivo_real = $_FILES["fun_fotografia_documento_file"]["name"];
                 $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
@@ -401,7 +432,7 @@ class FuncionarioController extends Controller
                 if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
                     if (copy($arquivo_tmp, "build/assets/images/funcionarios/$arquivo_real")) {
                         if (file_exists("build/assets/images/funcionarios/" . $arquivo_real)) {
-                            //renomear para fotografia_documento_ID
+                            // renomear para fotografia_documento_ID
                             $name = 'fotografia_documento_' . $id;
                             $img = "build/assets/images/funcionarios/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
                             $de = "build/assets/images/funcionarios/$arquivo_real";
@@ -422,15 +453,15 @@ class FuncionarioController extends Controller
             }
 
             if (!$error) {
-                //Salvar Dados na tabela funcionarios
+                // Salvar Dados na tabela funcionarios
                 $data = array();
                 $data['funcionario_id'] = $request['upload_fotografia_documento_funcionario_id'];
                 $data['fotografia_documento'] = $img;
 
-                //Buscando dados Api_Data() - Atualizar Registro
+                // Buscando dados Api_Data() - Atualizar Registro
                 $this->responseApi(1, 12, 'funcionarios/uploadFotografia/upload_fotografia_documento', '', '', $data);
 
-                //Registro recebido com sucesso
+                // Registro recebido com sucesso
                 if ($this->code == 2000) {
                     return response()->json(['success' => $this->message]);
                 } else {
@@ -446,17 +477,18 @@ class FuncionarioController extends Controller
 
     public function upload_fotografia_cartao_emergencial(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Variavel controle
+            // Variavel controle
             $error = false;
+            $img = null;
 
-            //Verificando e fazendo Upload do Arquivo
+            // Verificando e fazendo Upload do Arquivo
             if ($request->hasFile('fun_fotografia_cartao_emergencial_file')) {
-                //funcionario_id
+                // funcionario_id
                 $id = $request['upload_fotografia_cartao_emergencial_funcionario_id'];
 
-                //buscar dados formulario
+                // buscar dados formulario
                 $arquivo_tmp = $_FILES["fun_fotografia_cartao_emergencial_file"]["tmp_name"];
                 $arquivo_real = $_FILES["fun_fotografia_cartao_emergencial_file"]["name"];
                 $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
@@ -466,7 +498,7 @@ class FuncionarioController extends Controller
                 if ($arquivo_type == 'image/png' or $arquivo_type == 'image/jpeg' or $arquivo_type == 'image/gif') {
                     if (copy($arquivo_tmp, "build/assets/images/funcionarios/$arquivo_real")) {
                         if (file_exists("build/assets/images/funcionarios/" . $arquivo_real)) {
-                            //renomear para fotografia_cartao_emergencial_ID
+                            // renomear para fotografia_cartao_emergencial_ID
                             $name = 'fotografia_cartao_emergencial_' . $id;
                             $img = "build/assets/images/funcionarios/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
                             $de = "build/assets/images/funcionarios/$arquivo_real";
@@ -487,15 +519,15 @@ class FuncionarioController extends Controller
             }
 
             if (!$error) {
-                //Salvar Dados na tabela funcionarios
+                // Salvar Dados na tabela funcionarios
                 $data = array();
                 $data['funcionario_id'] = $request['upload_fotografia_cartao_emergencial_funcionario_id'];
                 $data['fotografia_cartao_emergencial'] = $img;
 
-                //Buscando dados Api_Data() - Atualizar Registro
+                // Buscando dados Api_Data() - Atualizar Registro
                 $this->responseApi(1, 12, 'funcionarios/uploadFotografia/upload_fotografia_cartao_emergencial', '', '', $data);
 
-                //Registro recebido com sucesso
+                // Registro recebido com sucesso
                 if ($this->code == 2000) {
                     return response()->json(['success' => $this->message]);
                 } else {
@@ -509,29 +541,30 @@ class FuncionarioController extends Controller
         }
     }
 
-    public function upload_documento(Request $request)
+    public function editar_documento(Request $request)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Variavel controle
+            // Variavel controle
             $error = false;
+            $pdf = '';
 
-            //Verificando e fazendo Upload do PDF
-            if ($request->hasFile('fun_documentos_file')) {
-                //funcionario_id
-                $id = $request['upload_documentos_funcionario_id'];
+            // Verificando e fazendo Upload do PDF
+            if ($request->hasFile('fun_editar_documentos_file')) {
+                // funcionario_id
+                $id = $request['editar_documentos_funcionario_id'];
 
-                //buscar dados formulario
-                $arquivo_tmp = $_FILES["fun_documentos_file"]["tmp_name"];
-                $arquivo_real = $_FILES["fun_documentos_file"]["name"];
+                // buscar dados formulario
+                $arquivo_tmp = $_FILES["fun_editar_documentos_file"]["tmp_name"];
+                $arquivo_real = $_FILES["fun_editar_documentos_file"]["name"];
                 $arquivo_real = utf8_decode('tmp_' . $arquivo_real);
-                $arquivo_type = $_FILES["fun_documentos_file"]["type"];
-                $arquivo_size = $_FILES['fun_documentos_file']['size'];
+                $arquivo_type = $_FILES["fun_editar_documentos_file"]["type"];
+                $arquivo_size = $_FILES['fun_editar_documentos_file']['size'];
 
                 if ($arquivo_type == 'application/pdf') {
                     if (copy($arquivo_tmp, "build/assets/pdfs/funcionarios/$arquivo_real")) {
                         if (file_exists("build/assets/pdfs/funcionarios/" . $arquivo_real)) {
-                            //renomear para nome id_$id_documento_YmdHis
+                            // renomear para nome id_$id_documento_YmdHis
                             $name = 'id_' . $id . '_documento_' . date('YmdHis');
                             $pdf = "build/assets/pdfs/funcionarios/" . $name . '.' . pathinfo($arquivo_real, PATHINFO_EXTENSION);
                             $de = "build/assets/pdfs/funcionarios/$arquivo_real";
@@ -547,50 +580,54 @@ class FuncionarioController extends Controller
                 } else {
                     return response()->json(['error' => 'Escolha um arquivo pdf válido.']);
                 }
-            } else {
-                return response()->json(['error' => 'Escolha um arquivo pdf válido.']);
             }
 
             if (!$error) {
-                //Salvar Dados na tabela funcionarios_documentos
+                // Salvar Dados na tabela funcionarios_documentos
                 $data = array();
-                $data['funcionario_id'] = $request['upload_documentos_funcionario_id'];
-                $data['name'] = $name;
-                $data['documento_id'] = $request['fun_documentos_documento_id'];
-                $data['caminho'] = $pdf;
-                $data['descricao'] = $request['fun_documentos_descricao'];
-                $data['data_emissao'] = $request['fun_documentos_data_emissao'];
-                $data['data_vencimento'] = $request['fun_documentos_data_vencimento'];
-                $data['aviso'] = $request['fun_documentos_aviso'];
+                $data['funcionario_id'] = $request['editar_documentos_funcionario_id'];
+                $data['funcionario_documento_id'] = $request['fun_editar_documentos_funcionario_documento_id'];
+                $data['operacao'] = $request['fun_editar_documentos_operacao'];
+                $data['edificacao_id'] = $request['fun_editar_documentos_edificacao_id'];
+                $data['documento_id'] = $request['fun_editar_documentos_documento_id'];
+                $data['descricao'] = $request['fun_editar_documentos_descricao'];
+                $data['aviso'] = $request['fun_editar_documentos_aviso'];
+                $data['data_emissao'] = $request['fun_editar_documentos_data_emissao'];
+                $data['data_vencimento'] = $request['fun_editar_documentos_data_vencimento'];
 
-                //Buscando dados Api_Data() - Atualizar Registro
-                $this->responseApi(1, 12, 'funcionarios/uploadDocumento/upload_documento', '', '', $data);
+                // se não tem arquivo não manda para não gravar vazio na tabela
+                if ($pdf != '') {
+                    $data['caminho'] = $pdf;
+                }
 
-                //Registro recebido com sucesso
+                // Buscando dados Api_Data() - Atualizar Registro
+                $this->responseApi(1, 12, 'funcionarios/editarDocumento/editar_documento', '', '', $data);
+
+                // Registro recebido com sucesso
                 if ($this->code == 2000) {
                     return response()->json(['success' => $this->message]);
                 } else {
-                    return response()->json(['error' => 'Erro Interno Upload Documento PDF.']);
+                    return response()->json(['error' => $this->message]);
                 }
             } else {
                 return response()->json(['error' => 'PDF (Nome, Tamanho ou Tipo) inválida.']);
             }
         } else {
-            return response()->json(['error' => 'Erro na requisição Upload Documento PDF']);
+            return response()->json(['error' => 'Erro na requisição editar Documento PDF']);
         }
     }
 
-    public function documentos($funcionario_id)
+    public function documentos(int $funcionario_id)
     {
-        //Verificando Origem enviada pelo Fetch
+        // Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registro pelo id
+            // Buscando dados Api_Data() - Registro pelo id
             $this->responseApi(1, 10, 'funcionarios/modalInfo/documentos/' . $funcionario_id, '', '', '');
 
-            //Registro recebido com sucesso
+            // Registro recebido com sucesso
             if ($this->code == 2000) {
                 return json_encode($this->content);
-            } else if ($this->code == 4040) { //Registro não encontrado
+            } else if ($this->code == 4040) { // Registro não encontrado
                 echo 'Registro não encontrado.';
             } else {
                 echo 'Erro Interno Documentos Pdf.';
@@ -598,14 +635,32 @@ class FuncionarioController extends Controller
         }
     }
 
-    public function deletar_documento($funcionario_documento_id)
+    public function entregas_uniformes(int $funcionario_id)
     {
-        //Buscando dados Api_Data() - Deletar Registro
+        // Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            // Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'funcionarios/modalInfo/entregas_uniformes/' . $funcionario_id, '', '', '');
+
+            // Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else if ($this->code == 4040) { // Registro não encontrado
+                echo 'Registro não encontrado.';
+            } else {
+                echo 'Erro Interno Entregas Uniformes Pdf.';
+            }
+        }
+    }
+
+    public function deletar_documento(int $funcionario_documento_id)
+    {
+        // Buscando dados Api_Data() - Deletar Registro
         $this->responseApi(1, 6, 'funcionarios/modalInfo/deletar_documento', $funcionario_documento_id, '', '');
 
-        //Registro deletado com sucesso
+        // Registro deletado com sucesso
         if ($this->code == 2000) {
-            //Apagar arquivo
+            // Apagar arquivo
             $caminhoArquivo = $this->content;
 
             if (file_exists($caminhoArquivo)) {
@@ -639,25 +694,27 @@ class FuncionarioController extends Controller
                         // Dados do formulário
                         $idFuncionario = $request['upload_documentos_mensais_funcionario_id'];
                         $arquivoTmp = $_FILES[$key]["tmp_name"];
-                        $arquivoReal = $_FILES[$key]["name"];
-                        $arquivoReal = utf8_decode('tmp_' . $arquivoReal);
+                        $arquivoReal = 'tmp_' . $_FILES[$key]["name"];
                         $arquivoType = $_FILES[$key]["type"];
+
+                        // Nome da Label no Formulário
+                        $documento_mensal_name = $request['fun_documentos_mensais_name_'.$indice];
 
                         // Verifica tipo do arquivo
                         if ($arquivoType != 'application/pdf') {
-                            $erros[] = "Arquivo '$arquivoReal' não é um PDF válido.";
+                            $erros[] = "Arquivo '$documento_mensal_name' não é um PDF válido.";
                             continue;
                         }
 
                         // Faz upload para pasta temporária
                         if (!copy($arquivoTmp, "build/assets/pdfs/funcionarios/$arquivoReal")) {
-                            $erros[] = "Falha ao copiar o arquivo '$arquivoReal'.";
+                            $erros[] = "Falha ao copiar o arquivo '$documento_mensal_name'.";
                             continue;
                         }
 
                         // Verifica se o arquivo foi realmente salvo
                         if (!file_exists("build/assets/pdfs/funcionarios/$arquivoReal")) {
-                            $erros[] = "Arquivo '$arquivoReal' não encontrado após upload.";
+                            $erros[] = "Arquivo '$documento_mensal_name' não encontrado após upload.";
                             continue;
                         }
 
@@ -669,7 +726,7 @@ class FuncionarioController extends Controller
                         try {
                             rename($origem, $novoCaminho);
                         } catch (\Exception $e) {
-                            $erros[] = "Falha ao renomear '$arquivoReal'.";
+                            $erros[] = "Falha ao renomear '$documento_mensal_name'.";
                             continue;
                         }
 
@@ -686,12 +743,18 @@ class FuncionarioController extends Controller
                         $this->responseApi(1, 12, 'funcionarios/uploadDocumentoMensal/upload_documento_mensal', '', '', $data);
 
                         if ($this->code == 2000) {
-                            $sucessos[] = "Arquivo '{$arquivoReal}' enviado e salvo com sucesso.";
+                            $sucessos[] = "Arquivo '{$documento_mensal_name}' enviado e salvo com sucesso.";
                         } else {
-                            $erros[] = "Falha ao registrar '{$arquivoReal}' na API.";
+                            $erros[] = "Falha ao registrar '{$documento_mensal_name}' na API.";
                         }
                     } else {
-                        $erros[] = "Nenhum arquivo recebido para o campo '$key'.";
+                        // Extrai o sufixo (ex: 3 em fun_documentos_mensais_file_3)
+                        $indice = str_replace('fun_documentos_mensais_file_', '', $key);
+
+                        // Nome da Label no Formulário
+                        $documento_mensal_name = $request['fun_documentos_mensais_name_'.$indice];
+
+                        $erros[] = "Nenhum arquivo recebido para o campo '$documento_mensal_name'.";
                     }
                 }
             }
@@ -714,7 +777,7 @@ class FuncionarioController extends Controller
         }
     }
 
-    public function verificar_documentos_mensais($funcionario_id, $mes, $ano)
+    public function verificar_documentos_mensais(int $funcionario_id, string $mes, string $ano)
     {
         //Verificando Origem enviada pelo Fetch
         if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
@@ -770,42 +833,6 @@ class FuncionarioController extends Controller
         }
     }
 
-    public function funcionario_acao_1_gerar_pdf_dados($funcionarios_ids)
-    {
-        //Verificando Origem enviada pelo Fetch
-        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registros
-            $this->responseApi(1, 10, 'funcionarios/funcionarioAcao1/funcionario_acao_1_gerar_pdf_dados/' . $funcionarios_ids, '', '', '');
-
-            //Registro recebido com sucesso
-            if ($this->code == 2000) {
-                return json_encode($this->content);
-            } else if ($this->code == 4040) { //Registros não encontrados
-                echo 'Registros não encontrados.';
-            } else {
-                echo 'Erro Interno Documentos Pdf.';
-            }
-        }
-    }
-
-    public function funcionario_acao_1_grade_funcionarios()
-    {
-        //Verificando Origem enviada pelo Fetch
-        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
-            //Buscando dados Api_Data() - Registros
-            $this->responseApi(1, 10, 'funcionarios/funcionarioAcao1/funcionario_acao_1_grade_funcionarios', '', '', '');
-
-            //Registro recebido com sucesso
-            if ($this->code == 2000) {
-                return json_encode($this->content);
-            } else if ($this->code == 4040) { //Registros não encontrados
-                echo 'Registros não encontrados.';
-            } else {
-                echo 'Erro Interno Documentos Pdf.';
-            }
-        }
-    }
-
     public function cartoes_emergenciais_dados($ids)
     {
         //Verificando Origem enviada pelo Fetch
@@ -823,4 +850,151 @@ class FuncionarioController extends Controller
             }
         }
     }
+
+    public function documentos_exigidos(int $funcionario_id)
+    {
+        // Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            // Buscando dados Api_Data() - Registro pelo id
+            $this->responseApi(1, 10, 'funcionarios/modalInfo/documentos_exigidos/' . $funcionario_id, '', '', '');
+
+            // Registro recebido com sucesso
+            if ($this->code == 2000) {
+                return json_encode($this->content);
+            } else {
+                return json_encode([]);
+            }
+        }
+    }
+
+    public function documentos_exigidos_save(Request $request)
+    {
+        // Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            // Buscando dados Api_Data() - Salvar Registros
+            $this->responseApi(1, 12, 'funcionarios/modalInfo/documentos_exigidos_save', '', '', $request->all());
+
+            // Registro criado com sucesso
+            if ($this->code == 2010) {
+                return response()->json(['success' => $this->message]);
+            } else if ($this->code == 2020) { // Falha na validação dos dados
+                return response()->json(['error_validation' => $this->validation]);
+            } else {
+                abort(500, 'Erro Interno Client');
+            }
+        }
+    }
+
+    // Ação 1: Entregas de Uniformes - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    // Ação 1: Entregas de Uniformes - Início'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    public function entregas_uniformes_index()
+    {
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            $this->responseApi(1, 10, 'entregas_uniformes/index', '', '', '');
+
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            } else if ($this->code == 5000) {
+                return response()->json(['error' => $this->message]);
+            } else {
+                abort(500, 'Erro Interno Entrega de Uniforme');
+            }
+        }
+    }
+
+    public function entregas_uniformes_show(int $id)
+    {
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            $this->responseApi(1, 2, 'entregas_uniformes', $id, '', '');
+
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            } else if ($this->code == 4040) {
+                return response()->json(['error_not_found' => $this->message]);
+            } else {
+                abort(500, 'Erro Interno Entrega de Uniforme');
+            }
+        }
+    }
+
+    public function entregas_uniformes_store(Request $request)
+    {
+        // Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            $this->responseApi(1, 12, 'entregas_uniformes/store', '', '', $request->all());
+
+            if ($this->code == 2010) {
+                return response()->json(['success' => $this->message]);
+            } else if ($this->code == 2020) {
+                return response()->json(['error_validation' => $this->validation]);
+            } else {
+                abort(500, 'Erro Interno Entrega de Uniforme');
+            }
+        }
+    }
+
+    public function entregas_uniformes_update(Request $request, $id)
+    {
+        // Verificando Origem enviada pelo Fetch
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            $this->responseApi(1, 11, 'entregas_uniformes/update/'.$id, '', '', $request->all());
+
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->message]);
+            } else if ($this->code == 2020) {
+                return response()->json(['error_validation' => $this->validation]);
+            } else if ($this->code == 4040) {
+                return response()->json(['error_not_found' => $this->message]);
+            } else {
+                abort(500, 'Erro Interno Entrega de Uniforme');
+            }
+        }
+    }
+
+    public function entregas_uniformes_destroy(int $id)
+    {
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            $this->responseApi(1, 13, 'entregas_uniformes/destroy/'.$id, '', '', '');
+
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->message]);
+            } else if ($this->code == 5000) {
+                return response()->json(['error' => $this->message]);
+            } else {
+                abort(500, 'Erro Interno Entrega de Uniforme');
+            }
+        }
+    }
+
+    public function entregas_uniformes_dados_estatisticas()
+    {
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            $this->responseApi(1, 10, 'entregas_uniformes/dados/estatisticas', '', '', '');
+
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            } else if ($this->code == 5000) {
+                return response()->json(['error' => $this->message]);
+            } else {
+                abort(500, 'Erro Interno Entrega de Uniforme');
+            }
+        }
+    }
+
+    public function recibo_funcionario(int $entrega_uniforme_id, int $funcionario_id)
+    {
+        if ($_SERVER['HTTP_REQUEST_ORIGIN'] == 'fetch') {
+            $this->responseApi(1, 10, 'entregas_uniformes/recibo/funcionario/'.$entrega_uniforme_id.'/'.$funcionario_id, '', '', '');
+
+            if ($this->code == 2000) {
+                return response()->json(['success' => $this->content]);
+            } else if ($this->code == 5000) {
+                return response()->json(['error' => $this->message]);
+            } else {
+                abort(500, 'Erro Interno Entrega de Uniforme');
+            }
+        }
+    }
+    // Ação 1: Entregas de Uniformes - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    // Ação 1: Entregas de Uniformes - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 }

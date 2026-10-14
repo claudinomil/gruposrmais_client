@@ -321,7 +321,7 @@ async function clienteExecutivoModalInfoDados(id='') {
     var modalEl = document.getElementById('cliente_executivo_modal_info');
     if (!modalEl.classList.contains('show')) {
         new bootstrap.Modal(document.getElementById('cliente_executivo_modal_info')).show();
-        ajustarMargensModalsInfo({ modalId:'cliente_executivo_modal_info', top:20, right:20, bottom:20, left:20 });
+        ajustarMargensModalsInfo({ modalId: 'cliente_executivo_modal_info', height: 96, width: 96, top: 2, bottom: 2, left: 2, right: 2 });
     }
 
     //Limpando dados

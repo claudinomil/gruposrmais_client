@@ -29,7 +29,7 @@
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    
+
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
@@ -438,6 +438,61 @@
                                 </div>
 
                                 <div class="row pt-4">
+                                    <h5 class="pb-4 text-primary"><i class="fas fa-user-tie"></i> {{ __('Uniforme') }}</h5>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">{{ __('Gandola') }}</label>
+                                        <select class="form-control" name="uniforme_gandola" id="uniforme_gandola">
+                                            <option value="">{{ __('Selecione...') }}</option>
+                                            <option value="P">P</option>
+                                            <option value="M">M</option>
+                                            <option value="G">G</option>
+                                            <option value="GG">GG</option>
+                                            <option value="XG">XG</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">{{ __('Blusa') }}</label>
+                                        <select class="form-control" name="uniforme_blusa" id="uniforme_blusa">
+                                            <option value="">{{ __('Selecione...') }}</option>
+                                            <option value="P">P</option>
+                                            <option value="M">M</option>
+                                            <option value="G">G</option>
+                                            <option value="GG">GG</option>
+                                            <option value="XG">XG</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">{{ __('Calça') }}</label>
+                                        <select class="form-control" name="uniforme_calca" id="uniforme_calca">
+                                            <option value="">{{ __('Selecione...') }}</option>
+                                            <option value="36">36</option>
+                                            <option value="38">38</option>
+                                            <option value="40">40</option>
+                                            <option value="42">42</option>
+                                            <option value="44">44</option>
+                                            <option value="46">46</option>
+                                            <option value="48">48</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-3 pb-3">
+                                        <label class="form-label">{{ __('Gandola') }}</label>
+                                        <select class="form-control" name="uniforme_coturno" id="uniforme_coturno">
+                                            <option value="">{{ __('Selecione...') }}</option>
+                                            <option value="36">36</option>
+                                            <option value="37">37</option>
+                                            <option value="38">38</option>
+                                            <option value="39">39</option>
+                                            <option value="40">40</option>
+                                            <option value="41">41</option>
+                                            <option value="42">42</option>
+                                            <option value="43">43</option>
+                                            <option value="44">44</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row pt-4">
                                     <h5 class="pb-4 text-primary"><i class="fas fa-address-card"></i> {{ __('Cartão Emergencial') }}</h5>
                                     <div class="form-group col-12 col-md-3 pb-3">
                                         <label class="form-label">{{ __('Tipo Sanguíneo') }}</label>
@@ -606,23 +661,23 @@
                                         <select class="form-control" name="fumante" id="fumante">
                                             <option value="">{{ __('Selecione...') }}</option>
                                             <option value="1">{{ __('SIM') }}</option>
-                                            <option value="2">{{ __('NÃO') }}</option>
+                                            <option value="0">{{ __('NÃO') }}</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-3 pb-3">
                                         <label class="form-label">{{ __('Bebida alcóolica') }}</label>
                                         <select class="form-control" name="bebida_alcoolica" id="bebida_alcoolica">
                                             <option value="">{{ __('Selecione...') }}</option>
-                                            <option value="SIM">{{ __('SIM') }}</option>
-                                            <option value="NÃO">{{ __('NÃO') }}</option>
+                                            <option value="1">{{ __('SIM') }}</option>
+                                            <option value="0">{{ __('NÃO') }}</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-12 col-md-3 pb-3">
                                         <label class="form-label">{{ __('Atividade física') }}</label>
                                         <select class="form-control" name="atividade_fisica" id="atividade_fisica">
                                             <option value="">{{ __('Selecione...') }}</option>
-                                            <option value="SIM">{{ __('SIM') }}</option>
-                                            <option value="NÃO">{{ __('NÃO') }}</option>
+                                            <option value="1">{{ __('SIM') }}</option>
+                                            <option value="0">{{ __('NÃO') }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -655,54 +710,6 @@
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Funcionário Ação 1 -->
-<div id="funcionario_acao_1" style="display: none;">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="modal-buttons" id="funcionario_acao_1_botoes">
-                        @if(\App\Facades\Permissoes::permissao(['edit']))
-                            <!-- Botão Gerar PDF's -->
-                            <button type="button" class="btn btn-success text-white waves-effect btn-label waves-light " data-bs-toggle="tooltip" data-bs-placement="top" data-bs-target="" data-id="0" title="" data-bs-original-title="Confirmar Operação" id="funcionario_acao_1_gerar_pdfs"><i class="fa fa-save label-icon"></i>Gerar PDF's</button>
-                        @endif
-
-                        <button type="button" class="btn btn-secondary text-white waves-effect btn-label waves-light " data-bs-toggle="tooltip" data-bs-placement="top" data-bs-target="" data-id="0" title="" data-bs-original-title="Cancelar Operação" id="funcionario_acao_1_cancelar"><i class="fa fa-arrow-left label-icon"></i>{{ __('Cancelar') }}</button>
-                    </div>
-
-                    <!-- Formulário - Form -->
-                    <form id="funcionario_acao_1_formulario" name="funcionario_acao_1_formulario">
-                        <div class="row mt-4">
-                            <div class="row pt-4">
-                                <h5 class="pb-4 text-primary"><i class="fas fa-user"></i> {{ __('Informações Gerais') }}</h5>
-                                <div class="form-group col-12 col-md-4 pb-3">
-                                    <label class="form-label">Local</label>
-                                    <select class="form-control select2" name="funcionario_acao_1_local" id="funcionario_acao_1_local">
-                                        <option value="">{{ __('Selecione...') }}</option>
-                                        <option value="SAMBÓDROMO">SAMBÓDROMO</option>
-                                        <option value="INTENDENTE MAGALHÃES">INTENDENTE MAGALHÃES</option>
-                                        <option value="AVENIDA CHILE">AVENIDA CHILE</option>
-                                        <option value="CINELÂNDIA">CINELÂNDIA</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-12 col-md-4 pb-3">
-                                    <label class="form-label">Dias e Horários</label>
-                                    <input type="text" class="form-control" name="funcionario_acao_1_dias_horarios" id="funcionario_acao_1_dias_horarios">
-                                </div>
-                                <div class="form-group col-12 col-md-4 pb-3">
-                                    <label class="form-label">Valor</label>
-                                    <input type="text" class="form-control mask_money" name="funcionario_acao_1_valor" id="funcionario_acao_1_valor" value="150.00">
-                                </div>
-                                <div class="form-group col-12 col-md-12 pb-3" id="funcionario_acao_1_grade_funcionarios"></div>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>

@@ -90,7 +90,7 @@ async function produtoModalInfoDados(id='') {
     var modalEl = document.getElementById('produto_modal_info');
     if (!modalEl.classList.contains('show')) {
         new bootstrap.Modal(document.getElementById('produto_modal_info')).show();
-        ajustarMargensModalsInfo({ modalId:'produto_modal_info', top:20, right:20, bottom:20, left:20 });
+        ajustarMargensModalsInfo({ modalId: 'produto_modal_info', height: 96, width: 96, top: 2, bottom: 2, left: 2, right: 2 });
     }
 
     //Limpando dados

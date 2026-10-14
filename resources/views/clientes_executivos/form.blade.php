@@ -29,7 +29,7 @@
                         <!-- Botão Cancelar Operação -->
                         <x-button-crud op="4" onclick="crudCancelOperation();" />
                     </div>
-                    
+
                     <!-- Formulário - Form -->
                     <form id="{{$se_nameFormSubmodulo}}" name="{{$se_nameFormSubmodulo}}">
                         <fieldset>
@@ -336,23 +336,23 @@
                                     <select class="form-control" name="fumante" id="fumante">
                                         <option value="">{{ __('Selecione...') }}</option>
                                         <option value="1">{{ __('SIM') }}</option>
-                                        <option value="2">{{ __('NÃO') }}</option>
+                                        <option value="0">{{ __('NÃO') }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-12 col-md-3 pb-3">
                                     <label class="form-label">{{ __('Bebida alcóolica') }}</label>
                                     <select class="form-control" name="bebida_alcoolica" id="bebida_alcoolica">
                                         <option value="">{{ __('Selecione...') }}</option>
-                                        <option value="SIM">{{ __('SIM') }}</option>
-                                        <option value="NÃO">{{ __('NÃO') }}</option>
+                                        <option value="1">{{ __('SIM') }}</option>
+                                        <option value="0">{{ __('NÃO') }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-12 col-md-3 pb-3">
                                     <label class="form-label">{{ __('Atividade física') }}</label>
                                     <select class="form-control" name="atividade_fisica" id="atividade_fisica">
                                         <option value="">{{ __('Selecione...') }}</option>
-                                        <option value="SIM">{{ __('SIM') }}</option>
-                                        <option value="NÃO">{{ __('NÃO') }}</option>
+                                        <option value="1">{{ __('SIM') }}</option>
+                                        <option value="0">{{ __('NÃO') }}</option>
                                     </select>
                                 </div>
                             </div>

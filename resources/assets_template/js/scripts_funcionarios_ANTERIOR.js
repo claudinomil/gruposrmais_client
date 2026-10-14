@@ -1,0 +1,1332 @@
+function validar_frm_funcionarios() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: contratacao_tipo_id (requerido)
+    if (validacao({op:1, value:document.getElementById('contratacao_tipo_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Contratação Tipo requerido.'+'<br>';
+    }
+
+    //Campo: contratacao_tipo_id (select)
+    if (validacao({op:4, value:document.getElementById('contratacao_tipo_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Contratação Tipo deve ser escolhido.'+'<br>';
+    }
+
+    //Campo: cpf (requerido)
+    if (validacao({op:1, value:document.getElementById('cpf').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'CPF requerido.'+'<br>';
+    }
+
+    //Campo: cpf (CPF Válido)
+    if (validacao({op:7, value:document.getElementById('cpf').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'CPF Inválido.'+'<br>';
+    }
+
+    //Campo: name (requerido)
+    if (validacao({op:1, value:document.getElementById('name').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Nome requerido.'+'<br>';
+    }
+
+    //Campo: name (mínimo de 3 caracteres)
+    if (validacao({op:2, value:document.getElementById('name').value, minCaracteres:3}) === false) {
+        validacao_ok = false;
+        mensagem += 'Nome precisa ter no mínimo 3 caracteres.'+'<br>';
+    }
+
+    //Campo: nome_profissional (requerido)
+    if (validacao({op:1, value:document.getElementById('nome_profissional').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Nome Profissional requerido.'+'<br>';
+    }
+
+    //Campo: nome_profissional (mínimo de 3 caracteres)
+    if (validacao({op:2, value:document.getElementById('nome_profissional').value, minCaracteres:3}) === false) {
+        validacao_ok = false;
+        mensagem += 'Nome Profissional precisa ter no mínimo 3 caracteres.'+'<br>';
+    }
+
+    //Campo: data_nascimento (requerido)
+    if (validacao({op:1, value:document.getElementById('data_nascimento').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Data Nascimento requerido.'+'<br>';
+    }
+
+    //Campo: data_nascimento (Data Válida)
+    if (validacao({op:8, value:document.getElementById('data_nascimento').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Data Nascimento Inválida.'+'<br>';
+    }
+
+    //Campo: genero_id (requerido)
+    if (validacao({op:1, value:document.getElementById('genero_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Gênero requerido.'+'<br>';
+    }
+
+    //Campo: telefone_1 (não requerido / Telefone Válido)
+    if (validacao({op:1, value:document.getElementById('telefone_1').value}) === true) {
+        //Campo: telefone_1 (Telefone Válido)
+        if (validacao({op:11, value:document.getElementById('telefone_1').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Telefone 1 Inválido.'+'<br>';
+        }
+    }
+
+    //Campo: telefone_2 (não requerido / Telefone Válido)
+    if (validacao({op:1, value:document.getElementById('telefone_2').value}) === true) {
+        //Campo: telefone_2 (Telefone Válido)
+        if (validacao({op:11, value:document.getElementById('telefone_2').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Telefone 2 Inválido.'+'<br>';
+        }
+    }
+
+    //Campo: celular_1 (não requerido / Celular Válido)
+    if (validacao({op:1, value:document.getElementById('celular_1').value}) === true) {
+        //Campo: celular_1 (Celular Válido)
+        if (validacao({op:12, value:document.getElementById('celular_1').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Celular 1 Inválido.'+'<br>';
+        }
+    }
+
+    //Campo: celular_2 (não requerido / Celular Válido)
+    if (validacao({op:1, value:document.getElementById('celular_2').value}) === true) {
+        //Campo: celular_2 (Celular Válido)
+        if (validacao({op:12, value:document.getElementById('celular_2').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Celular 2 Inválido.'+'<br>';
+        }
+    }
+
+    //Campo: email (não requerido / E-mail Válido)
+    if (validacao({op:1, value:document.getElementById('email').value}) === true) {
+        //Campo: email (E-mail Válido)
+        if (validacao({op:5, value:document.getElementById('email').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'E-mail Inválido.'+'<br>';
+        }
+    }
+
+    //Campo: data_admissao (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('data_admissao').value}) === true) {
+        //Campo: data_admissao (Data Válida)
+        if (validacao({op:8, value:document.getElementById('data_admissao').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Data Admissão Inválida.'+'<br>';
+        }
+    }
+
+    //Campo: data_demissao (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('data_demissao').value}) === true) {
+        //Campo: data_demissao (Data Válida)
+        if (validacao({op:8, value:document.getElementById('data_demissao').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Data Demissão Inválida.'+'<br>';
+        } else {
+            //Campo: data_admissao (requerido)
+            if (validacao({op:1, value:document.getElementById('data_admissao').value}) === false) {
+                validacao_ok = false;
+                mensagem += 'Data Admissão Requerida.'+'<br>';
+            }
+
+            //Campo: motivo_demissao_id (select)
+            if (validacao({op:4, value:document.getElementById('motivo_demissao_id').value}) === false) {
+                validacao_ok = false;
+                mensagem += 'Motivo Demissão deve ser escolhido.'+'<br>';
+            }
+        }
+    }
+
+    //Campo: data_cadastro (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('data_cadastro').value}) === true) {
+        //Campo: data_cadastro (Data Válida)
+        if (validacao({op:8, value:document.getElementById('data_cadastro').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Data Cadastro Inválida.'+'<br>';
+        }
+    }
+
+    //Campo: data_afastamento (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('data_afastamento').value}) === true) {
+        //Campo: data_afastamento (Data Válida)
+        if (validacao({op:8, value:document.getElementById('data_afastamento').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Data Afastamento Inválida.'+'<br>';
+        } else {
+            //Campo: data_cadastro (requerido)
+            if (validacao({op:1, value:document.getElementById('data_cadastro').value}) === false) {
+                validacao_ok = false;
+                mensagem += 'Data Cadastro Requerida.'+'<br>';
+            }
+
+            //Campo: motivo_afastamento_id (select)
+            if (validacao({op:4, value:document.getElementById('motivo_afastamento_id').value}) === false) {
+                validacao_ok = false;
+                mensagem += 'Motivo Afastamento deve ser escolhido.'+'<br>';
+            }
+        }
+    }
+
+    //Campo: carteira_nacional_numero (não requerido / somente números)
+    if (validacao({op:1, value:document.getElementById('carteira_nacional_numero').value}) === true) {
+        //Campo: carteira_nacional_numero (somente números)
+        if (validacao({op:4, value:document.getElementById('carteira_nacional_numero').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Carteira Nacional Número só pode conter dígitos de 0 a 9.'+'<br>';
+        }
+    }
+
+    //Campo: carteira_nacional_data_emissao (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('carteira_nacional_data_emissao').value}) === true) {
+        //Campo: carteira_nacional_data_emissao (Data Válida)
+        if (validacao({op:8, value:document.getElementById('carteira_nacional_data_emissao').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Carteira Nacional Data Emissão Inválida.'+'<br>';
+        }
+    }
+
+    //Campo: personal_identidade_numero (não requerido / somente números)
+    if (validacao({op:1, value:document.getElementById('personal_identidade_numero').value}) === true) {
+        //Campo: personal_identidade_numero (somente números)
+        if (validacao({op:4, value:document.getElementById('personal_identidade_numero').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Identidade Pessoal Número só pode conter dígitos de 0 a 9.'+'<br>';
+        }
+    }
+
+    //Campo: personal_identidade_data_emissao (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('personal_identidade_data_emissao').value}) === true) {
+        //Campo: personal_identidade_data_emissao (Data Válida)
+        if (validacao({op:8, value:document.getElementById('personal_identidade_data_emissao').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Identidade Pessoal Data Emissão Inválida.'+'<br>';
+        }
+    }
+
+    //Campo: professional_identidade_numero (não requerido / somente números)
+    if (validacao({op:1, value:document.getElementById('professional_identidade_numero').value}) === true) {
+        //Campo: professional_identidade_numero (somente números)
+        if (validacao({op:4, value:document.getElementById('professional_identidade_numero').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Identidade Profissional Número só pode conter dígitos de 0 a 9.'+'<br>';
+        }
+    }
+
+    //Campo: professional_identidade_data_emissao (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('professional_identidade_data_emissao').value}) === true) {
+        //Campo: professional_identidade_data_emissao (Data Válida)
+        if (validacao({op:8, value:document.getElementById('professional_identidade_data_emissao').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Identidade Profissional Data Emissão Inválida.'+'<br>';
+        }
+    }
+
+    //Campo: pis (não requerido / PIS Válido)
+    if (validacao({op:1, value:document.getElementById('pis').value}) === true) {
+        //Campo: pis (PIS Válido)
+        if (validacao({op:13, value:document.getElementById('pis').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'PIS Inválido.'+'<br>';
+        }
+    }
+
+    //Campo: pasep (não requerido / PASEP Válido)
+    if (validacao({op:1, value:document.getElementById('pasep').value}) === true) {
+        //Campo: pasep (PASEP Válido)
+        if (validacao({op:14, value:document.getElementById('pasep').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'PASEP Inválido.'+'<br>';
+        }
+    }
+
+    //Campo: carteira_trabalho (não requerido / Carteira Trabalho Válido)
+    if (validacao({op:1, value:document.getElementById('carteira_trabalho').value}) === true) {
+        //Campo: carteira_trabalho (Carteira Trabalho Válido)
+        if (validacao({op:15, value:document.getElementById('carteira_trabalho').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Carteira Trabalho Inválido.'+'<br>';
+        }
+    }
+
+    //Campo: cep (não requerido / CEP Válido)
+    if (validacao({op:1, value:document.getElementById('cep').value}) === true) {
+        //Campo: cep (CEP Válido)
+        if (validacao({op:9, value:document.getElementById('cep').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'CEP Inválido.'+'<br>';
+        }
+    }
+
+    //Campo: numero (não requerido / somente números)
+    if (validacao({op:1, value:document.getElementById('numero').value}) === true) {
+        //Campo: numero (somente números)
+        if (validacao({op:4, value:document.getElementById('numero').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Número só pode conter dígitos de 0 a 9.'+'<br>';
+        }
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+function validar_frm_upload_documentos() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: upload_documentos_funcionario_id (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_documentos_funcionario_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Funcionário requerido.'+'<br>';
+    }
+
+    //Campo: fun_documentos_documento_id (requerido)
+    if (validacao({op:1, value:document.getElementById('fun_documentos_documento_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Documento requerido.'+'<br>';
+    }
+
+    //Campo: fun_documentos_data_emissao (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('fun_documentos_data_emissao').value}) === true) {
+        //Campo: fun_documentos_data_emissao (Data Válida)
+        if (validacao({op:8, value:document.getElementById('fun_documentos_data_emissao').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Data emissão Inválida.'+'<br>';
+        }
+    }
+
+    //Campo: fun_documentos_data_vencimento (não requerido / Data Válida)
+    if (validacao({op:1, value:document.getElementById('fun_documentos_data_vencimento').value}) === true) {
+        //Campo: fun_documentos_data_vencimento (Data Válida)
+        if (validacao({op:8, value:document.getElementById('fun_documentos_data_vencimento').value}) === false) {
+            validacao_ok = false;
+            mensagem += 'Data vencimento Inválida.'+'<br>';
+        }
+    }
+
+    //Campo: fun_documentos_file (arquivo PDF requerido)
+    if (validacao({op:16, id:'fun_documentos_file'}) === false) {
+        validacao_ok = false;
+        mensagem += 'Arquivo PDF requerido.'+'<br>';
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+async function validar_frm_upload_verificar_documentos_mensais() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: upload_documentos_mensais_funcionario_id (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_documentos_mensais_funcionario_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Funcionário requerido.'+'<br>';
+    }
+
+    //Campo: fun_documentos_mensais_mes (requerido)
+    if (validacao({op:1, value:document.getElementById('fun_documentos_mensais_mes').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Mês requerido.'+'<br>';
+    }
+
+    //Campo: fun_documentos_mensais_ano (requerido)
+    if (validacao({op:1, value:document.getElementById('fun_documentos_mensais_ano').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Ano requerido.'+'<br>';
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+function validar_frm_upload_documentos_mensais() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: upload_documentos_mensais_funcionario_id (requerido)
+    if (validacao({op:1, value:document.getElementById('upload_documentos_mensais_funcionario_id').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Funcionário requerido.'+'<br>';
+    }
+
+    //Campo: fun_documentos_mensais_mes (requerido)
+    if (validacao({op:1, value:document.getElementById('fun_documentos_mensais_mes').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Mês requerido.'+'<br>';
+    }
+
+    //Campo: fun_documentos_mensais_ano (requerido)
+    if (validacao({op:1, value:document.getElementById('fun_documentos_mensais_ano').value}) === false) {
+        validacao_ok = false;
+        mensagem += 'Ano requerido.'+'<br>';
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+function validar_frm_upload_fotografia_documento() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: fun_fotografia_documento_file (arquivo requerido)
+    if (validacao({op:18, id:'fun_fotografia_documento_file'}) === false) {
+        validacao_ok = false;
+        mensagem += 'Arquivo requerido.'+'<br>';
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+function validar_frm_upload_fotografia_cartao_emergencial() {
+    var validacao_ok = true;
+    var mensagem = '';
+
+    //Campo: fun_fotografia_cartao_emergencial_file (arquivo requerido)
+    if (validacao({op:18, id:'fun_fotografia_cartao_emergencial_file'}) === false) {
+        validacao_ok = false;
+        mensagem += 'Arquivo requerido.'+'<br>';
+    }
+
+    //Mensagem
+    if (validacao_ok === false) {
+        var texto = '<div class="pt-3">';
+        texto += '<div class="col-12 text-start font-size-12">'+mensagem+'</div>';
+        texto += '</div>';
+
+        alertSwal('warning', 'Validação', texto, 'true', 5000);
+    }
+
+    //Retorno
+    return validacao_ok;
+}
+
+function funcionarioModalInfoControle(op, id = '') {
+    if (id == '') { id = document.getElementById('mi_fun_funcionario_id').value; }
+
+    // Elementos
+    var div_fotografias = document.getElementById('md_fun_div_fotografias');
+    var div_dados = document.getElementById('md_fun_div_dados');
+    var div_documentos = document.getElementById('md_fun_div_documentos');
+    var div_documentos_mensais = document.getElementById('md_fun_div_documentos_mensais');
+    var div_incluir_documentos = document.getElementById('md_fun_div_incluir_documentos');
+    var div_incluir_documentos_mensais = document.getElementById('md_fun_div_incluir_documentos_mensais');
+    var div_cartao_emergencial = document.getElementById('md_fun_div_cartao_emergencial');
+
+    div_fotografias.classList.remove('d-lg-flex');
+    div_fotografias.classList.add('d-none');
+
+    div_dados.classList.remove('d-lg-flex');
+    div_dados.classList.add('d-none');
+
+    div_documentos.classList.remove('d-lg-flex');
+    div_documentos.classList.add('d-none');
+
+    div_documentos_mensais.classList.remove('d-lg-flex');
+    div_documentos_mensais.classList.add('d-none');
+
+    if (div_incluir_documentos) {
+        div_incluir_documentos.classList.remove('d-lg-flex');
+        div_incluir_documentos.classList.add('d-none');
+    }
+
+    if (div_incluir_documentos_mensais) {
+        div_incluir_documentos_mensais.classList.remove('d-lg-flex');
+        div_incluir_documentos_mensais.classList.add('d-none');
+    }
+
+    div_cartao_emergencial.classList.remove('d-lg-flex');
+    div_cartao_emergencial.classList.add('d-none');
+
+    // Fotografias
+    if (op == 1) {
+        div_fotografias.classList.remove('d-none');
+        div_fotografias.classList.add('d-lg-flex');
+    }
+
+    // Dados
+    if (op == 2) {
+        div_dados.classList.remove('d-none');
+        div_dados.classList.add('d-lg-flex');
+
+        funcionarioModalInfoDados(id);
+    }
+
+    //Documentos
+    if (op == 3) {
+        div_documentos.classList.remove('d-none');
+        div_documentos.classList.add('d-lg-flex');
+
+        funcionarioModalInfoDocumentos(id);
+    }
+
+    //Incluir Documentos
+    if (op == 5) {
+        div_incluir_documentos.classList.remove('d-none');
+        div_incluir_documentos.classList.add('d-lg-flex');
+    }
+
+    //Cartão Emergencial
+    if (op == 6) {
+        div_cartao_emergencial.classList.remove('d-none');
+        div_cartao_emergencial.classList.add('d-lg-flex');
+
+        //Colocar imagem do Cartão emergencial
+        if (id == '') {id = document.getElementById('mi_fun_funcionario_id').value;}
+        cartaoEmergencialGerarPDF(2, id, 1, 'pt', 'fun_cartao_emergencial_1');
+        cartaoEmergencialGerarPDF(2, id, 1, 'en', 'fun_cartao_emergencial_2');
+    }
+
+    //Documentos Mensais
+    if (op == 7) {
+        div_documentos_mensais.classList.remove('d-none');
+        div_documentos_mensais.classList.add('d-lg-flex');
+
+        funcionarioModalInfoDocumentosMensais(id);
+    }
+
+    //Incluir Documentos Mensais
+    if (op == 8) {
+        div_incluir_documentos_mensais.classList.remove('d-none');
+        div_incluir_documentos_mensais.classList.add('d-lg-flex');
+
+        // Limpando Campos
+        document.getElementById('div_documentos_mensais_files').innerHTML = '';
+    }
+
+    funcionarioModalInfoEstatisticas(id);
+}
+
+// Modal Funcionários
+// Estatisticas
+function funcionarioModalInfoEstatisticas(id='') {
+    if (id == '') {id = document.getElementById('mi_fun_funcionario_id').value;}
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'funcionarios/modalInfo/estatisticas/'+id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        //Lendo json
+        let json = data;
+
+        //Lendo dados funcionario
+        let estatisticas = json;
+
+        //Header
+        document.getElementById('md_fun_estatisticas_documentos').innerHTML = estatisticas.documentos;
+        document.getElementById('md_fun_estatisticas_documentos_mensais').innerHTML = estatisticas.documentos_mensais;
+    }).catch(error => {
+        alert('Erro funcionarioModalInfoEstatisticas: '+error);
+    });
+}
+
+// Modal Funcionários
+// Dados
+async function funcionarioModalInfoDados(id='') {
+    if (id == '') {id = document.getElementById('mi_fun_funcionario_id').value;}
+
+    //Abrir Modal
+    var modalEl = document.getElementById('funcionario_modal_info');
+    if (!modalEl.classList.contains('show')) {
+        new bootstrap.Modal(document.getElementById('funcionario_modal_info')).show();
+        ajustarMargensModalsInfo({ modalId: 'funcionario_modal_info', height: 96, width: 96, top: 2, bottom: 2, left: 2, right: 2 });
+    }
+
+    //Limpando dados
+    let elementos = document.querySelectorAll('.clearClass');
+    elementos.forEach(elemento => {elemento.src = ''; elemento.innerHTML = '';});
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'funcionarios/modalInfo/modal_info/'+id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        //Lendo json
+        let json = data;
+
+        //Lendo dados funcionario
+        let funcionario = json.funcionario;
+
+        //Passando dados funcionario''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        //Header
+        document.getElementById('mi_fun_header_nome').innerHTML = funcionario.name;
+
+        //Fotografia Documento
+        var fotografia_documento = url_atual+'build/assets/images/funcionarios/funcionario-0.png';
+        if (funcionario.fotografia_documento) {fotografia_documento = funcionario.fotografia_documento;}
+        document.getElementById('mi_fun_fotografia').src = fotografia_documento;
+        document.getElementById('mi_fun_fotografia_documento').src = fotografia_documento;
+
+        //Fotografia Cartão Emergencial
+        var fotografia_cartao_emergencial = url_atual+'build/assets/images/funcionarios/funcionario-0.png';
+        if (funcionario.fotografia_cartao_emergencial) {fotografia_cartao_emergencial = funcionario.fotografia_cartao_emergencial;}
+        document.getElementById('mi_fun_fotografia_cartao_emergencial').src = fotografia_cartao_emergencial;
+
+        //Funcionário id
+        document.getElementById('mi_fun_funcionario_id').value = funcionario.id;
+
+        //Dados
+        document.getElementById('mi_fun_nome').value = funcionario.name;
+        document.getElementById('mi_fun_cpf').value = funcionario.cpf;
+        document.getElementById('mi_fun_empresa').value = funcionario.empresaName;
+        document.getElementById('mi_fun_contratacao_tipo').value = funcionario.contratacaoTipoName;
+        document.getElementById('mi_fun_funcao').value = funcionario.funcaoName;
+        document.getElementById('mi_fun_departamento').value = funcionario.departamentoName;
+        document.getElementById('mi_fun_nome_profissional').value = funcionario.nome_profissional;
+        document.getElementById('mi_fun_data_nascimento').value = formatarData(2, funcionario.data_nascimento);
+        document.getElementById('mi_fun_genero').value = funcionario.generoName;
+        document.getElementById('mi_fun_celular_1').value = formatarTelCel(2, funcionario.celular_1);
+        document.getElementById('mi_fun_celular_2').value = formatarTelCel(2, funcionario.celular_2);
+        document.getElementById('mi_fun_telefone_1').value = formatarTelCel(1, funcionario.telefone_1);
+        document.getElementById('mi_fun_telefone_2').value = formatarTelCel(1, funcionario.telefone_2);
+        document.getElementById('mi_fun_email').value = funcionario.email;
+
+        //Documentos
+        let upload_documentos_funcionario_id = document.getElementById('upload_documentos_funcionario_id');
+        if (upload_documentos_funcionario_id) {upload_documentos_funcionario_id.value = funcionario.id ?? "";}
+
+        // Documentos Mensais
+        let upload_documentos_mensais_funcionario_id = document.getElementById('upload_documentos_mensais_funcionario_id');
+        if (upload_documentos_mensais_funcionario_id) {upload_documentos_mensais_funcionario_id.value = funcionario.id ?? "";}
+
+        //Fotografia Documento
+        let upload_fotografia_documento_funcionario_id = document.getElementById('upload_fotografia_documento_funcionario_id');
+        if (upload_fotografia_documento_funcionario_id) {upload_fotografia_documento_funcionario_id.value = funcionario.id ?? "";}
+
+        //Fotografia Cartão Emergencial
+        let upload_fotografia_cartao_emergencial_funcionario_id = document.getElementById('upload_fotografia_cartao_emergencial_funcionario_id');
+        if (upload_fotografia_cartao_emergencial_funcionario_id) {upload_fotografia_cartao_emergencial_funcionario_id.value = funcionario.id ?? "";}
+        //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    }).catch(error => {
+        alert('Erro funcionarioModalInfo: '+error);
+    });
+}
+
+// Modal Funcionários
+// Documentos
+function funcionarioModalInfoDocumentos(funcionario_id = '') {
+    if (funcionario_id == '') { funcionario_id = document.getElementById('mi_fun_funcionario_id').value; }
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'funcionarios/modalInfo/documentos/'+funcionario_id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        //Lendo json
+        let funcionarios_documentos = data.funcionarios_documentos;
+
+        // Permissões
+        let permissoes = data.permissoes;
+        const permissao_list = permissoes.some(p => p.permissao === 'funcionarios_list');
+        const permissao_destroy = permissoes.some(p => p.permissao === 'funcionarios_destroy');
+
+        //Grade
+        let grade = '';
+
+        //Montar Grade
+        if (funcionarios_documentos.length > 0) {
+            grade += '<table class="table align-middle table-nowrap table-check table-sm class-datatable-3">';
+            grade += '  <thead class="table-light">';
+            grade += '      <tr>';
+            grade += '          <th scope="col">Documento</th>';
+            grade += '          <th scope="col">Emissão</th>';
+            grade += '          <th scope="col">Vencimento</th>';
+            grade += '          <th scope="col">Aviso</th>';
+            grade += '          <th scope="col">Ações</th>';
+            grade += '      </tr>';
+            grade += '  </thead>';
+            grade += '  <tbody>';
+
+            //Varrer
+            funcionarios_documentos.forEach(dado => {
+                //Documento
+                let documentoName = dado.documentoName;
+
+                //Aviso
+                let aviso_texto = '';
+
+                if (dado.aviso == 0) {aviso_texto = '';}
+                if (dado.aviso == 1) {aviso_texto = 'Avisar a cada 1 mês';}
+                if (dado.aviso == 2) {aviso_texto = 'Avisar a cada 3 meses';}
+                if (dado.aviso == 3) {aviso_texto = 'Avisar a cada 6 meses';}
+                if (dado.aviso == 4) {aviso_texto = 'Avisar a cada 1 ano';}
+                if (dado.aviso == 5) {aviso_texto = 'Avisar a cada 3 anos';}
+                if (dado.aviso == 6) {aviso_texto = 'Avisar a cada 6 anos';}
+
+                //Ações
+                let acoes = '';
+
+                acoes += '<div class="row">';
+
+                if (permissao_list) {
+                    acoes += '  <div class="col-6">';
+                    acoes += '      <button type="button" class="btn btn-outline-info text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Documento" onclick="window.open(\'' + dado.caminho + '\', \'_blank\');"><i class="fa fa-file-pdf font-size-18"></i></button>';
+                    acoes += '  </div>';
+                }
+
+                if (permissao_destroy) {
+                    acoes += '  <div class="col-6">';
+                    acoes += '      <button type="button" class="btn btn-outline-danger text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Documento" onclick="funcionarioModalInfoDocumentosDeletar(' + dado.id + ');"><i class="fa fa-trash-alt font-size-18"></i></button>';
+                    acoes += '  </div>';
+                }
+
+                acoes += '</div>';
+
+                //TR
+                grade += '<tr class="documento_fonte_'+dado.documento_fonte_id+'">';
+                grade += '  <td>'+documentoName+'</td>';
+                grade += '  <td>' + formatarData(2, dado.data_emissao) + '</td>';
+                grade += '  <td>'+formatarData(2, dado.data_vencimento)+'</td>';
+                grade += '  <td>'+aviso_texto+'</td>';
+                grade += '  <td>'+acoes+'</td>';
+                grade += '</tr>';
+            });
+
+            grade += '  </tbody>';
+            grade += '</table>';
+        } else {
+            grade = 'Nenhum documento encontrado.';
+        }
+
+        //Retornar Grade
+        document.getElementById('fun_documentos_grade').innerHTML = grade;
+
+        //Colocar Botões para filtro dos documentos quanto a Fonte
+        var documentoFonteFiltro = '';
+        var idPrimeiroFiltro = 0; // Guardar um id para depois que a grade for mostrada executar o primeiro Filtro)
+        if (grade != 'Nenhum documento encontrado.') {
+            //Lendo json
+            let documento_fontes = data.documento_fontes;
+
+            documentoFonteFiltro += '<div class="row my-2 d-flex">';
+
+            //Varrer
+            documento_fontes.forEach(dado => {
+                let documento_fonte_id = dado.id;
+                let documento_fonte_name = dado.name;
+                let qtd_registros = funcionarios_documentos.filter(reg => reg.documento_fonte_id === documento_fonte_id);
+
+                if (qtd_registros.length > 0) {
+                    if (idPrimeiroFiltro == 0) {idPrimeiroFiltro = documento_fonte_id;}
+
+                    documentoFonteFiltro += `   <div class="col-4 col-lg-3">`;
+                    documentoFonteFiltro += `       <button type="button" class="btn btn-warning text-center btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Filtar Documentos" onclick="funcionarioModalInfoDocumentosFiltrar(${documento_fonte_id});">${documento_fonte_name} (${qtd_registros.length})</button>`;
+                    documentoFonteFiltro += `   </div>`;
+                }
+            });
+
+            documentoFonteFiltro += '</div>';
+        }
+
+        //Retornar Documento Filtro (Botões)
+        document.getElementById('fun_documentos_grade_botoes').innerHTML = documentoFonteFiltro;
+
+        //Primeiro Filtro
+        funcionarioModalInfoDocumentosFiltrar(idPrimeiroFiltro);
+    }).catch(error => {
+        alert('Erro funcionarioModalInfoGradeDocumentosPdf: '+error);
+    }).finally(() => {
+        configurarDataTable(3);
+    });
+}
+
+function funcionarioModalInfoDocumentosFiltrar(documento_fonte_id) {
+    const todasLinhas = document.querySelectorAll("#fun_documentos_grade table tbody tr");
+
+    todasLinhas.forEach(linha => {
+        if (linha.classList.contains(`documento_fonte_${documento_fonte_id}`)) {
+            linha.style.display = '';
+        } else {
+            linha.style.display = 'none';
+        }
+    });
+}
+
+//Função para deletar documento da grade
+async function funcionarioModalInfoDocumentosDeletar(funcionario_documento_id) {
+    //Confirmação de Delete
+    const confirmed = await alertSwalConfirmacao();
+    if (confirmed) {
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+        //Acessar rota
+        fetch(url_atual+'funcionarios/modalInfo/deletar_documento/'+funcionario_documento_id, {
+            method: 'DELETE',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            //Lendo dados
+            if (data.success) {
+                alertSwal('success', 'Funcionários', data.success, 'true', 2000);
+
+                //Dados
+                let funcionario_id = document.getElementById('mi_fun_funcionario_id').value;
+
+                //Montar Grade
+                funcionarioModalInfoDocumentos(funcionario_id);
+            } else if (data.error) {
+                alertSwal('error', 'Funcionários', data.error, 'true', 2000);
+            } else if (data.error_permissao) {
+                alertSwal('warning', "Permissão Negada", '', 'true', 2000);
+            } else {
+                alert('Erro interno');
+            }
+        }).catch(error => {
+            alert('Erro funcionarioModalInfoDeletarDocumentoPdf:'+error);
+        });
+    }
+}
+
+// Modal Funcionários
+// Documentos Mensais
+function funcionarioModalInfoDocumentosMensais(funcionario_id='') {
+
+
+
+    // VERIFICAR CODIGO
+    // ACERTAR BOTOES
+    // VERIFICAR SOBRE FILTRO
+    // COLOCAR PARA VISUALIZAR
+    // COLOCAR PARA DELETAR
+
+
+    if (funcionario_id == '') {funcionario_id = document.getElementById('mi_fun_funcionario_id').value;}
+
+    var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+    //Acessar rota
+    fetch(url_atual+'funcionarios/modalInfo/documentos_mensais/'+funcionario_id, {
+        method: 'GET',
+        headers: {'REQUEST-ORIGIN': 'fetch'}
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        // Lendo JSON
+        let funcionarios_documentos_mensais = data.funcionarios_documentos_mensais;
+
+        // Permissões
+        let permissoes = data.permissoes;
+        const permissao_list = permissoes.some(p => p.permissao === 'funcionarios_list');
+        const permissao_destroy = permissoes.some(p => p.permissao === 'funcionarios_destroy');
+
+        // Grade
+        let grade = '';
+
+        if (funcionarios_documentos_mensais.length > 0) {
+            grade += '<table class="table align-middle table-nowrap table-check table-sm class-datatable-3">';
+            grade += '  <thead class="table-light">';
+            grade += '      <tr>';
+            grade += '          <th scope="col">Mês</th>';
+            grade += '          <th scope="col">Ano</th>';
+            grade += '          <th scope="col">Documentos / Ações</th>';
+            grade += '      </tr>';
+            grade += '  </thead>';
+            grade += '  <tbody>';
+
+            // Agrupar documentos por mês/ano (pra ficar organizado)
+            let agrupados = {};
+            funcionarios_documentos_mensais.forEach(dado => {
+                let chave = `${dado.mes}-${dado.ano}`;
+                if (!agrupados[chave]) agrupados[chave] = [];
+                agrupados[chave].push(dado);
+            });
+
+            // Montar as linhas agrupadas
+            for (let chave in agrupados) {
+                let [mes, ano] = chave.split('-');
+                let documentos = agrupados[chave];
+
+                grade += '<tr>';
+                grade += `  <td>${mes}</td>`;
+                grade += `  <td>${ano}</td>`;
+                grade += '  <td>';
+                grade += '      <div class="row">';
+
+                // Para cada documento do mês/ano
+                documentos.forEach(dado => {
+
+                    // Nome do documento
+                    let nomeDoc = primeiraMaiuscula(dado.documentoMensalName) ?? 'Documento';
+
+                    // Bloco de ações
+                    let acoes = '<div class="btn-group btn-group-sm" role="group">';
+
+                    if (permissao_list) {
+                        acoes += `
+                            <button type="button" class="btn btn-outline-info"
+                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="Visualizar Documento"
+                                onclick="window.open('${dado.caminho}', '_blank');">
+                                <i class="fa fa-file-pdf font-size-18"></i>
+                            </button>`;
+                    }
+
+                    if (permissao_destroy) {
+                        acoes += `&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-danger"
+                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="Excluir Documento"
+                                onclick="funcionarioModalInfoDocumentosMensaisDeletar(${dado.id});">
+                                <i class="fa fa-trash-alt font-size-18"></i>
+                            </button>`;
+                    }
+
+                    acoes += '</div>';
+
+                    // Monta bloco do documento com nome + botões
+                    grade += `
+                        <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center mb-1">
+                            <span class="me-2">
+                                <i class="fa fa-file-pdf text-danger"></i> <span class="small">${nomeDoc}</span>
+                            </span>
+                            ${acoes}
+                        </div>
+                    `;
+                });
+
+                grade += '      </div>';
+                grade += '  </td>';
+                grade += '</tr>';
+            }
+
+            grade += '  </tbody>';
+            grade += '</table>';
+        } else {
+            grade = 'Nenhum documento mensal encontrado.';
+        }
+
+        //Retornar Grade
+        document.getElementById('fun_documentos_mensais_grade').innerHTML = grade;
+    }).catch(error => {
+        alert('Erro funcionarioModalInfoGradeDocumentosMensaisPdf: '+error);
+    }).finally(() => {
+        configurarDataTable(3);
+    });
+}
+
+function funcionarioModalInfoDocumentosMensaisFiltrar(documento_fonte_id) {
+    const todasLinhas = document.querySelectorAll("#fun_documentos_mensais_grade table tbody tr");
+
+    todasLinhas.forEach(linha => {
+        if (linha.classList.contains(`documento_fonte_${documento_fonte_id}`)) {
+            linha.style.display = '';
+        } else {
+            linha.style.display = 'none';
+        }
+    });
+}
+
+//Função para deletar documento mensal da grade
+async function funcionarioModalInfoDocumentosMensaisDeletar(funcionario_documento_mensal_id) {
+    //Confirmação de Delete
+    const confirmed = await alertSwalConfirmacao();
+    if (confirmed) {
+        var url_atual = window.location.protocol+'//'+window.location.host+'/';
+
+        //Acessar rota
+        fetch(url_atual+'funcionarios/modalInfo/deletar_documento_mensal/'+funcionario_documento_mensal_id, {
+            method: 'DELETE',
+            headers: {
+                'REQUEST-ORIGIN': 'fetch',
+                'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            //Lendo dados
+            if (data.success) {
+                alertSwal('success', 'Funcionários', data.success, 'true', 2000);
+
+                //Dados
+                let funcionario_id = document.getElementById('mi_fun_funcionario_id').value;
+
+                //Montar Grade
+                funcionarioModalInfoDocumentosMensais(funcionario_id);
+            } else if (data.error) {
+                alertSwal('error', 'Funcionários', data.error, 'true', 2000);
+            } else if (data.error_permissao) {
+                alertSwal('warning', "Permissão Negada", '', 'true', 2000);
+            } else {
+                alert('Erro interno');
+            }
+        }).catch(error => {
+            alert('Erro funcionarioModalInfoDeletarDocumentoMensalPdf:'+error);
+        });
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    //Acertar formulário para entrada de dados de contratacao_tipo''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    if ($('#contratacao_tipo_id').val() == 1) {
+        $('.contratacao_tipo_1').show();
+        $('.contratacao_tipo_2').hide();
+    } else {
+        $('.contratacao_tipo_1').hide();
+        $('.contratacao_tipo_2').show();
+    }
+
+    $('#contratacao_tipo_id').change(function(e) {
+        if ($('#contratacao_tipo_id').val() == 1) {
+            $('.contratacao_tipo_1').show();
+            $('.contratacao_tipo_2').hide();
+        } else {
+            $('.contratacao_tipo_1').hide();
+            $('.contratacao_tipo_2').show();
+        }
+    });
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: frm_upload_documentos_fun_executar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    const frm_upload_documentos_fun_executar = document.getElementById('frm_upload_documentos_fun_executar');
+
+    if (frm_upload_documentos_fun_executar) {
+        frm_upload_documentos_fun_executar.addEventListener('click', function () {
+            //FormData
+            var formulario = document.getElementById('frm_upload_documentos_fun');
+            var formData = new FormData(formulario);
+            var url_atual = window.location.protocol + '//' + window.location.host + '/';
+            var upload_documentos_funcionario_id = document.getElementById('upload_documentos_funcionario_id').value;
+
+            //Criticando campos
+            if (validar_frm_upload_documentos() === false) { return false; }
+
+            //Acessar rota
+            fetch(url_atual + 'funcionarios/uploadDocumento/upload_documento', {
+                method: 'POST',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                //Lendo dados
+                if (data.success) {
+                    //Montando Grade de Documentos PDF
+                    funcionarioModalInfoDocumentos(upload_documentos_funcionario_id);
+
+                    formulario.reset();
+
+                    alertSwal('success', 'Funcionários', data.success, 'true', 20000);
+                } else if (data.error) {
+                    alertSwal('warning', 'Funcionários', data.error, 'true', 20000);
+                } else {
+                    alert('Erro interno');
+                }
+            }).catch(error => {
+                alert('Erro Funcionários Upload Documento PDF: ' + error);
+            });
+        });
+    }
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: fun_documentos_mensais_botao_verificar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    const fun_documentos_mensais_botao_verificar = document.getElementById('fun_documentos_mensais_botao_verificar');
+
+    if (fun_documentos_mensais_botao_verificar) {
+        fun_documentos_mensais_botao_verificar.addEventListener('click', async function () {
+            // Criticando campos
+            const validar = await validar_frm_upload_verificar_documentos_mensais();
+            if (validar === false) { return false; }
+
+            // Dados
+            const frm_upload_documentos_mensais_fun_executar = document.getElementById('frm_upload_documentos_mensais_fun_executar');
+            const upload_documentos_mensais_funcionario_id = document.getElementById('upload_documentos_mensais_funcionario_id').value;
+            const fun_documentos_mensais_mes = document.getElementById('fun_documentos_mensais_mes').value;
+            const fun_documentos_mensais_ano = document.getElementById('fun_documentos_mensais_ano').value;
+
+            // Botão: frm_upload_documentos_mensais_fun_executar
+            frm_upload_documentos_mensais_fun_executar.classList.remove('d-block');
+            frm_upload_documentos_mensais_fun_executar.classList.add('d-none');
+
+            // URL
+            var url_atual = window.location.protocol + '//' + window.location.host + '/';
+
+            //Acessar rota
+            fetch(url_atual + 'funcionarios/modalInfo/verificar_documentos_mensais/' + upload_documentos_mensais_funcionario_id + '/' + fun_documentos_mensais_mes + '/' + fun_documentos_mensais_ano, {
+                method: 'GET',
+                headers: { 'REQUEST-ORIGIN': 'fetch' }
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                // Lendo json
+                const documentos_mensais = data.documentos_mensais;
+                const verificar_documentos_mensais = data.verificar_documentos_mensais;
+
+                // Campos Files
+                let campos_files = '';
+
+                // verifica se existe documento_mensal_funcionario_id
+                documentos_mensais.forEach(documento_mensal => {
+                    const existe = verificar_documentos_mensais.find(f => f.documento_mensal_funcionario_id === documento_mensal.id);
+                    let existe_texto = '';
+
+                    if (existe) {
+                        existe_texto = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript: void(0);" class="text-success small" onclick="window.open(\'' + existe.caminho + '\', \'_blank\');" title="Abrir documento existente"><span class="fa fa-file-pdf text-danger font-size-14"></span> Documento já existe na Base de Dados</a>';
+                    }
+
+                    const div_class = 'col-12 col-md-6 col-lg-6 mb-3';
+
+                    campos_files += `<div class="${div_class}">
+                                    <label class="form-label">${primeiraMaiuscula(documento_mensal.name)} (PDF) ${existe_texto}</label>
+                                    <input type="file" class="form-control form-control-sm" name="fun_documentos_mensais_file_${documento_mensal.id}" id="fun_documentos_mensais_file_${documento_mensal.id}" accept=".pdf">
+                                </div>`;
+                });
+
+                // Retornar Campos
+                document.getElementById('div_documentos_mensais_files').innerHTML = campos_files;
+
+                //Tratar Botões
+                if (campos_files != '') {
+                    frm_upload_documentos_mensais_fun_executar.classList.remove('d-none');
+                    frm_upload_documentos_mensais_fun_executar.classList.add('d-block');
+                }
+            }).catch(error => {
+                alert('Erro fun_documentos_mensais_botao_verificar: ' + error);
+            }).finally(() => { });
+        });
+    }
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: frm_upload_documentos_mensais_fun_executar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    const frm_upload_documentos_mensais_fun_executar = document.getElementById('frm_upload_documentos_mensais_fun_executar');
+
+    if (frm_upload_documentos_mensais_fun_executar) {
+        frm_upload_documentos_mensais_fun_executar.addEventListener('click', function () {
+            //FormData
+            var formulario = document.getElementById('frm_upload_documentos_mensais_fun');
+            var formData = new FormData(formulario);
+            var url_atual = window.location.protocol + '//' + window.location.host + '/';
+            var upload_documentos_mensais_funcionario_id = document.getElementById('upload_documentos_mensais_funcionario_id').value;
+
+            //Criticando campos
+            if (validar_frm_upload_documentos_mensais() === false) { return false; }
+
+            // Acessar rota
+            fetch(url_atual + 'funcionarios/uploadDocumentoMensal/upload_documento_mensal', {
+                method: 'POST',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                // Caso de sucesso total
+                if (data.success) {
+                    // Atualiza grade de documentos
+                    funcionarioModalInfoDocumentosMensais(upload_documentos_mensais_funcionario_id);
+
+                    // Mostra sucesso principal
+                    alertSwal('success', 'Funcionários', data.success, true, 20000);
+                } else if (data.error) {
+                    // Monta uma mensagem de resumo
+                    let msg = `<b>${data.error}</b><br>`;
+
+                    if (data.sucessos && data.sucessos.length > 0) {
+                        msg += `<br><b>Enviados com sucesso:</b><br>`;
+                        msg += data.sucessos.map(s => '✅ ' + s).join('<br>') + '<br>';
+                    }
+
+                    if (data.erros && data.erros.length > 0) {
+                        msg += `<br><b>Falhas:</b><br>`;
+                        msg += data.erros.map(e => '❌ ' + e).join('<br>');
+                    }
+
+                    alertSwal('warning', 'Funcionários', msg, true, 40000);
+                } else {
+                    alert('Erro interno desconhecido.');
+                }
+
+                formulario.reset();
+
+                // Limpando Campos
+                document.getElementById('div_documentos_mensais_files').innerHTML = '';
+            }).catch(error => {
+                alert('Erro Funcionários Upload Documento Mensal PDF: ' + error);
+            });
+        });
+    }
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: frm_upload_fotografia_documento_fun_executar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    const frm_upload_fotografia_documento_fun_executar = document.getElementById('frm_upload_fotografia_documento_fun_executar');
+
+    if (frm_upload_fotografia_documento_fun_executar) {
+        frm_upload_fotografia_documento_fun_executar.addEventListener('click', function () {
+            //FormData
+            var formulario = document.getElementById('frm_upload_fotografia_documento_fun');
+            var formData = new FormData(formulario);
+            var url_atual = window.location.protocol + '//' + window.location.host + '/';
+
+            // Tratar Botões
+            frm_upload_fotografia_documento_fun_executar.style.display = 'block';
+
+            //Criticando campos
+            if (validar_frm_upload_fotografia_documento() === false) { return false; }
+
+            //Acessar rota
+            fetch(url_atual + 'funcionarios/uploadFotografia/upload_fotografia_documento', {
+                method: 'POST',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                //Lendo dados
+                if (data.success) {
+                    //Atualizando Fotografias documento
+                    const fileInput = document.getElementById('fun_fotografia_documento_file');
+                    const file = fileInput.files[0];
+                    if (file) {
+                        var reader = new FileReader();
+                        reader.onload = function () {
+                            document.getElementById('mi_fun_fotografia').src = reader.result;
+                            document.getElementById('mi_fun_fotografia_documento').src = reader.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+
+                    //Reset Form
+                    formulario.reset();
+                } else if (data.error) {
+                    alertSwal('warning', 'Funcionários', data.error, 'true', 20000);
+                } else {
+                    alert('Erro interno');
+                }
+            }).catch(error => {
+                alert('Erro Funcionários Upload Fotografia Documento: ' + error);
+            });
+        });
+    }
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    //Botão: frm_upload_fotografia_cartao_emergencial_fun_executar'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    const frm_upload_fotografia_cartao_emergencial_fun_executar = document.getElementById('frm_upload_fotografia_cartao_emergencial_fun_executar');
+
+    if (frm_upload_fotografia_cartao_emergencial_fun_executar) {
+        frm_upload_fotografia_cartao_emergencial_fun_executar.addEventListener('click', function () {
+            //FormData
+            var formulario = document.getElementById('frm_upload_fotografia_cartao_emergencial_fun');
+            var formData = new FormData(formulario);
+            var url_atual = window.location.protocol + '//' + window.location.host + '/';
+
+            // Tratar Botões
+            frm_upload_fotografia_cartao_emergencial_fun_executar.style.display = 'block';
+
+            //Criticando campos
+            if (validar_frm_upload_fotografia_cartao_emergencial() === false) { return false; }
+
+            //Acessar rota
+            fetch(url_atual + 'funcionarios/uploadFotografia/upload_fotografia_cartao_emergencial', {
+                method: 'POST',
+                headers: {
+                    'REQUEST-ORIGIN': 'fetch',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                //Lendo dados
+                if (data.success) {
+                    //Atualizando Fotografias cartao_emergencial
+                    const fileInput = document.getElementById('fun_fotografia_cartao_emergencial_file');
+                    const file = fileInput.files[0];
+                    if (file) {
+                        var reader = new FileReader();
+                        reader.onload = function () {
+                            document.getElementById('mi_fun_fotografia_cartao_emergencial').src = reader.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+
+                    //Reset Form
+                    formulario.reset();
+                } else if (data.error) {
+                    alertSwal('warning', 'Funcionários', data.error, 'true', 20000);
+                } else {
+                    alert('Erro interno');
+                }
+            }).catch(error => {
+                alert('Erro Funcionários Upload Fotografia Cartão Emergencial: ' + error);
+            });
+        });
+    }
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+});

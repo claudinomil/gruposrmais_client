@@ -276,7 +276,7 @@ async function crudTable(route, fieldsColumns='', pageLength=25) {
         });
     }
 
-    //DataTable configurações
+    // DataTable configurações
     var tabela = document.getElementById('datatable-crud-ajax');
     var dataTable = new DataTable(tabela, {
         language: {
@@ -773,14 +773,12 @@ async function crudView(registro_id) {
                 //mi_fun_funcionario_id
                 document.getElementById('mi_fun_funcionario_id').value = registro_id;
 
-                //Liberar campos frm_upload_documentos_fun
-                document.getElementById('upload_documentos_funcionario_id').disabled = false;
-                document.getElementById('fun_documentos_descricao').disabled = false;
-                document.getElementById('fun_documentos_data_emissao').disabled = false;
-                document.getElementById('fun_documentos_data_vencimento').disabled = false;
-                document.getElementById('fun_documentos_aviso').disabled = false;
-                document.getElementById('fun_documentos_file').disabled = false;
-                document.getElementById('fun_documentos_documento_id').disabled = false;
+                // document.getElementById('fun_documentos_descricao').disabled = false;
+                document.getElementById('fun_editar_documentos_data_emissao').disabled = false;
+                document.getElementById('fun_editar_documentos_data_vencimento').disabled = false;
+                document.getElementById('fun_editar_documentos_aviso').disabled = false;
+                document.getElementById('fun_editar_documentos_file').disabled = false;
+                document.getElementById('fun_editar_documentos_documento_id').disabled = false;
 
                 // Liberar campos frm_upload_documentos_mensais_fun
                 document.getElementById('upload_documentos_mensais_funcionario_id').disabled = false;
@@ -2599,4 +2597,14 @@ function crudFilterExecutar(submodulo='') {
 
     //Table
     crudTable(submodulo+'/filter/'+array_dados);
+}
+
+// Função para montar mensagem de validação
+function montarMensagemValidacao(validations) {
+    let message = '<div class="pt-3">';
+    for (const chave in validations) {
+        message += `<div class="col-12 text-start font-size-12"><b>></b> ${validations[chave]}</div>`;
+    }
+    message += '</div>';
+    return message;
 }

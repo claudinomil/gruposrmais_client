@@ -102,37 +102,74 @@ class LoginController extends Controller
             // Trocar Idioma da Sessao
             SuporteFacade::setUserSessionIdioma();
 
-            // Verificar Aviso para o Usuário''''''''''''''''''''''''''''''''''''''''''
+            // Verificar Aviso para o Usuário - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            // Verificar Aviso para o Usuário - Início''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             $aviso = false;
-            $aviso_titulo = 'Aviso de Documento(s) Vencido(s) para a(s) Unidade(s):';
-            $aviso_mensagem = '';
 
-            // Aviso de Documento(s) Vencido(s)
+            // Aviso sobre Documentos Clientes (advc) - Início'''''''''''''''''''''''''''''''''''''''''''''''''''
+            $aviso_titulo_advc = 'Aviso de Documentos Vencidos de Clientes';
+            $aviso_mensagem_advc = '';
+
+            // Documento(s) Vencido(s)
             $response = ApiData::getData(10, 'clientes/modalInfo/documentos_vencidos', 0, [], []);
             $documentos = $response['content'];
 
             $ln = 0;
 
-            foreach($documentos as $documento) {
+            foreach ($documentos as $documento) {
                 if (getDiferencaDiasHoje($documento['data_vencimento']) < 0) {
                     $aviso = true;
                     $ln++;
 
-                    $aviso_mensagem .= '<div>
-                                            <span class="text-truncate font-size-12">'.$ln.') '.$documento['clienteName'].'</span>
-                                            <br>
-                                            <span class="text-success font-size-11 mb-0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$documento['clienteNomeFantasia'].'</span>
-                                        </div>';
+                    $url = route('clientes.index', ['modalAviso' => 1, 'modalAvisoClienteId' => $documento['clienteId']]);
+
+                    $aviso_mensagem_advc .= '<div class="alert alert-primary p-0" style="cursor: pointer;" onclick="window.location.href=\'' . e($url) . '\'">
+                                                <span class="text-truncate font-size-10">' . $ln . ') ' . e($documento['clienteName']) . '</span>
+                                                <br>
+                                                <span class="text-success font-size-10 mb-0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . e($documento['clienteNomeFantasia']) . '</span>
+                                            </div>';
                 }
             }
-            //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+            // Aviso sobre Documentos Clientes (advc) - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+            // Aviso sobre Documentos Funcionários (advf) - Início'''''''''''''''''''''''''''''''''''''''''''''''
+            $aviso_titulo_advf = 'Aviso de Documentos Vencidos de Funcionários';
+            $aviso_mensagem_advf = '';
+
+            // Documento(s) Vencido(s)
+            $response = ApiData::getData(10, 'funcionarios/modalInfo/documentos_vencidos', 0, [], []);
+            $documentos = $response['content'];
+
+            $ln = 0;
+
+            foreach ($documentos as $documento) {
+                if (getDiferencaDiasHoje($documento['data_vencimento']) < 0) {
+                    $aviso = true;
+                    $ln++;
+
+                    $url = route('funcionarios.index', ['modalAviso' => 1, 'modalAvisoFuncionarioId' => $documento['funcionarioId']]);
+
+                    $aviso_mensagem_advf .= '<div class="alert alert-success p-0" style="cursor: pointer;" onclick="window.location.href=\'' . e($url) . '\'">
+                                                <span class="text-truncate font-size-10">' . $ln . ') ' . e($documento['funcionarioName']) . '</span>
+                                                <br>
+                                                <span class="text-success font-size-10 mb-0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . e(getCpfFormatado(1, $documento['funcionarioCpf'])) . '</span>
+                                            </div>';
+                }
+            }
+            // Aviso sobre Documentos Funcionários (advf) - Fim''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+            // Verificar Aviso para o Usuário - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            // Verificar Aviso para o Usuário - Fim'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             // Redirecionar para Dashboards
             if ($aviso) {
                 return redirect('dashboards')
                     ->with('modalAviso', true)
-                    ->with('aviso_titulo', $aviso_titulo)
-                    ->with('aviso_mensagem', $aviso_mensagem);
+                    ->with('aviso_titulo_advc', $aviso_titulo_advc)
+                    ->with('aviso_mensagem_advc', $aviso_mensagem_advc)
+                    ->with('aviso_titulo_advf', $aviso_titulo_advf)
+                    ->with('aviso_mensagem_advf', $aviso_mensagem_advf);
             } else {
                 return redirect('dashboards');
             }

@@ -1077,7 +1077,7 @@ async function clienteModalInfoDados(id = '', retornoControle = 0) {
     var modalEl = document.getElementById('cliente_modal_info');
     if (!modalEl.classList.contains('show')) {
         new bootstrap.Modal(document.getElementById('cliente_modal_info')).show();
-        ajustarMargensModalsInfo({ modalId:'cliente_modal_info', top:20, right:20, bottom:20, left:20 });
+        ajustarMargensModalsInfo({ modalId: 'cliente_modal_info', height: 96, width: 96, top: 2, bottom: 2, left: 2, right: 2 });
     }
 
     //Limpando dados
@@ -3041,4 +3041,18 @@ document.addEventListener("DOMContentLoaded", () => {
     DOMContentLoadedLogotipoCartaoEmergencial();
     DOMContentLoadedLogotipoMenu();
     DOMContentLoadedFormularioPadrao();
+
+    // Quando a entrada vier do modalAviso''''''''''''''''''''''''''''''''''''
+    const paramsModalAviso = new URLSearchParams(window.location.search);
+
+    if (paramsModalAviso.get('modalAviso') === '1') {
+        const clienteId = paramsModalAviso.get('modalAvisoClienteId');
+
+        // Limpa os parâmetros da URL sem recarregar a página
+        window.history.replaceState({}, '', window.location.pathname);
+
+        // Chamando modal INFO
+        clienteModalInfoControle(2, clienteId);
+    }
+    //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 });

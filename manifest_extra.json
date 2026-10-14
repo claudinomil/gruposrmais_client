@@ -238,6 +238,11 @@
 "isEntry": true,
 "src": "resources/assets_template/js/scripts_funcionarios.js"
 },
+"resources/assets_template/js/scripts_funcionarios2.js": {
+"file": "assets/scripts_funcionarios2.js",
+"isEntry": true,
+"src": "resources/assets_template/js/scripts_funcionarios2.js"
+},
 "resources/assets_template/js/scripts_mapas.js": {
 "file": "assets/scripts_mapas.js",
 "isEntry": true,

@@ -264,433 +264,6 @@
         </div>
     </div>
 
-    @if($se_prefixPermissaoSubmodulo == 'funcionarios')
-    <!-- Funcionario Modal Info -->
-    <div class="modal fade" id="funcionario_modal_info" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content bg-light">
-                <div class="modal-header" style="background-color: #2a3042;">
-                    <!-- Header -->
-                    <div class="row col-12">
-                        <div class="col-8 order-1 order-lg-1 col-lg-4">
-                            <div class="d-flex">
-                                <div class="flex-shrink-0 me-3">
-                                    <img src="build/assets/images/funcionarios/funcionario-0.png" class="avatar-lg rounded-circle img-thumbnail clearClass" style="width: 100px; height: 100px; object-fit: contain; object-position: center; background-color: #f8f9fa;" id="mi_fun_fotografia">
-                                </div>
-                                <div class="flex-grow-1 align-self-center">
-                                    <div>
-                                        <h5 class="mb-2" style="color: #ffac31 !important;">INFORMAÇÕES FUNCIONÁRIOS</h5>
-                                        <h6 class="mb-1" style="color: #ffffff !important;" id="mi_fun_header_nome"></h6>
-                                        <div class="clearfix mt-2">
-                                            <div class="dropdown">
-                                                <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="bx bxs-cog align-middle me-1"></i> Opções
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-start">
-                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(1);">Fotografias</a>
-                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(2);">Dados</a>
-
-                                                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
-                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(5);">Incluir Documentos</a>
-                                                    @endif
-
-                                                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
-                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(8);">Incluir Documentos Mensais</a>
-                                                    @endif
-
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#" data-bs-dismiss="modal">Fechar</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 order-3 order-lg-2 col-lg-8 align-self-center">
-                            <div class="text-lg-center mt-4 mt-lg-0">
-                                <div class="d-flex flex-wrap justify-content-start gap-2">
-                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(1);">
-                                        <h5 class="mb-0 small text-white">&nbsp;</h5>
-                                        <span class="small text-white">Fotografias</span>
-                                    </button>
-                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(2);">
-                                        <h5 class="mb-0 small text-white">&nbsp;</h5>
-                                        <span class="small text-white">Dados</span>
-                                    </button>
-                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(3);">
-                                        <h5 class="mb-0 small text-white" id="md_fun_estatisticas_documentos">0</h5>
-                                        <span class="small text-white">Documentos</span>
-                                    </button>
-                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(7);">
-                                        <h5 class="mb-0 small text-white" id="md_fun_estatisticas_documentos_mensais">0</h5>
-                                        <span class="small text-white">Documentos Mensais</span>
-                                    </button>
-                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(6);">
-                                        <h5 class="mb-0 small text-white">2</h5>
-                                        <span class="small text-white">Cartão Emergencial</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Header END -->
-                </div>
-                <div class="modal-body d-lg-flex flex-lg-column flex-grow-1 px-4">
-                    <!-- Funcionário ID -->
-                    <input type="hidden" id="mi_fun_funcionario_id" name="mi_fun_funcionario_id" value="0">
-
-                    <!-- Fotografias -->
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_fotografias">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="bx bxs-file-plus"></i>&nbsp;&nbsp;Fotografias</h5>
-
-                                <div class="row">
-                                    <div class="col-12 col-lg-6 pe-5">
-                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTOGRAFIA DOCUMENTO</h6>
-                                        <div class="col-12" style="height: 150px;">
-                                            <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_fun_fotografia_documento">
-                                        </div>
-
-                                        @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
-                                        <form enctype="multipart/form-data" id="frm_upload_fotografia_documento_fun">
-                                            <input type="hidden" id="upload_fotografia_documento_funcionario_id" name="upload_fotografia_documento_funcionario_id" value="">
-
-                                            <div class="col-12 mb-2">
-                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_fotografia_documento_fun_executar" name="frm_upload_fotografia_documento_fun_executar">Enviar Fotografia</button>
-                                            </div>
-
-                                            <div class="col-12 mb-3">
-                                                <input type="file" class="form-control form-control-sm" name="fun_fotografia_documento_file" accept=".png, .jpg, .jpeg" id="fun_fotografia_documento_file">
-                                            </div>
-                                        </form>
-                                        @endif
-                                    </div>
-                                    <div class="col-12 col-lg-6 pe-5">
-                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTOGRAFIA CARTÃO EMERGENCIAL</h6>
-                                        <div class="col-12" style="height: 150px;">
-                                            <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_fun_fotografia_cartao_emergencial">
-                                        </div>
-
-                                        @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
-                                        <form enctype="multipart/form-data" id="frm_upload_fotografia_cartao_emergencial_fun">
-                                            <input type="hidden" id="upload_fotografia_cartao_emergencial_funcionario_id" name="upload_fotografia_cartao_emergencial_funcionario_id" value="">
-
-                                            <div class="col-12 mb-2">
-                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_fotografia_cartao_emergencial_fun_executar" name="frm_upload_fotografia_cartao_emergencial_fun_executar">Enviar Fotografia</button>
-                                            </div>
-
-                                            <div class="col-12 mb-3">
-                                                <input type="file" class="form-control form-control-sm" name="fun_fotografia_cartao_emergencial_file" accept=".png, .jpg, .jpeg" id="fun_fotografia_cartao_emergencial_file">
-                                            </div>
-                                        </form>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Fotografias END -->
-
-                    <!-- Dados -->
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_dados">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="fa fa-database"></i>&nbsp;&nbsp;Dados</h5>
-                                <div class="row">
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Nome') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_nome" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('CPF') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_cpf" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Empresa') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_empresa" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">Contratação Tipo</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_contratacao_tipo" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Função') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_funcao" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Departamento') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_departamento" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Nome Profissional') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_nome_profissional" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small" id="div_fun_dados_data">{{ __('Nascimento') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_data_nascimento" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Gênero') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_genero" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Celular 1') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_celular_1" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Celular 2') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_celular_2" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Telefone 1') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_telefone_1" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('Telefone 2') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_telefone_2" readonly>
-                                    </div>
-                                    <div class="col-lg-3 mb-3">
-                                        <label class="form-label small">{{ __('E-mail') }}</label>
-                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_email" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Dados END -->
-
-                    <!-- Incluir Documentos -->
-                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_incluir_documentos">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Incluir Documentos</h5>
-
-                                <div class="row">
-                                    <div class="col-12 col-lg-12 pe-5">
-                                        <div class="row">
-                                            <div class="col-12 col-md-12 col-lg-12">
-                                                <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;INCLUSÃO DE DOCUMENTO</h6>
-                                                <form enctype="multipart/form-data" id="frm_upload_documentos_fun">
-                                                    <input type="hidden" id="upload_documentos_funcionario_id" name="upload_documentos_funcionario_id" value="">
-
-                                                    <div class="col-12 mb-5">
-                                                        <button type="button" class="btn btn-success btn-sm" id="frm_upload_documentos_fun_executar" name="frm_upload_documentos_fun_executar">Incluir Documento</button>
-                                                    </div>
-                                                    <div class="row" id="div_frm_upload_documentos_fun_executar">
-                                                        <div class="col-12 mb-3">
-                                                            <label class="form-label">Documento (Nome)</label>
-                                                            <select class="form-select form-select-sm" name="fun_documentos_documento_id" id="fun_documentos_documento_id">
-                                                                <option value="">{{ __('Selecione...') }}</option>
-                                                                @php
-                                                                $currentFonte = null;
-                                                                @endphp
-
-                                                                @foreach ($documentos as $documento)
-                                                                @php
-                                                                $class = '';
-                                                                if ($documento['documento_fonte_id'] == 1) {$class = 'pessoa_juridica';}
-                                                                if ($documento['documento_fonte_id'] == 2) {$class = 'pessoa_fisica';}
-                                                                if ($documento['documento_fonte_id'] == 3) {$class = 'pessoa_juridica';}
-                                                                @endphp
-
-                                                                {{-- Abre um novo grupo quando mudar de fonte --}}
-                                                                @if ($currentFonte !== $documento['documento_fonte_id'])
-                                                                @if ($currentFonte !== null)
-                                                                </optgroup>
-                                                                @endif
-                                                                <optgroup label="{{ $documento['documentoFonteName'] }}">
-                                                                    @php
-                                                                    $currentFonte = $documento['documento_fonte_id'];
-                                                                    @endphp
-                                                                    @endif
-
-                                                                    <option class="{{ $class }}" value="{{ $documento['id'] }}">{{ $documento['name'] }}</option>
-                                                                    @endforeach
-
-                                                                    @if ($currentFonte !== null)
-                                                                </optgroup>
-                                                                @endif
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-12 mb-3">
-                                                            <label class="form-label">Emissão</label>
-                                                            <input type="text" class="form-control form-control-sm mask_date" name="fun_documentos_data_emissao" id="fun_documentos_data_emissao" placeholder="Data de Emissão do Documento PDF">
-                                                        </div>
-                                                        <div class="col-12 mb-3">
-                                                            <label class="form-label">Vencimento</label>
-                                                            <input type="text" class="form-control form-control-sm mask_date" name="fun_documentos_data_vencimento" id="fun_documentos_data_vencimento" placeholder="Data de Vencimento do Documento PDF">
-                                                        </div>
-                                                        <div class="col-12 mb-3">
-                                                            <label class="form-label">
-                                                                Aviso
-                                                                <i class="fa fa-info-circle text-primary ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Avisar Funcionário por E-mail depois da Data de Emissão."></i>
-                                                            </label>
-                                                            <select class="form-select form-select-sm" name="fun_documentos_aviso" id="fun_documentos_aviso">
-                                                                <option value="0">Nenhum Aviso</option>
-                                                                <option value="1">Avisar a cada 1 mês</option>
-                                                                <option value="2">Avisar a cada 3 meses</option>
-                                                                <option value="3">Avisar a cada 6 meses</option>
-                                                                <option value="4">Avisar a cada 1 ano</option>
-                                                                <option value="5">Avisar a cada 3 anos</option>
-                                                                <option value="6">Avisar a cada 6 anos</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-12 mb-3">
-                                                            <label class="form-label">Documento (Arquivo)</label>
-                                                            <input type="file" class="form-control form-control-sm" name="fun_documentos_file" id="fun_documentos_file" accept=".pdf">
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-                    <!-- Incluir Documentos END -->
-
-                    <!-- Documentos -->
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_documentos">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos</h5>
-
-                                <div class="row">
-                                    <div class="col-12 col-lg-12">
-                                        <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE DOCUMENTOS</h6>
-
-                                        <div class="col-12 mb-5" id="fun_documentos_grade_botoes"></div>
-
-                                        <div id="fun_documentos_grade">Nenhum documento encontrado.</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Documentos END -->
-
-                    <!-- Incluir Documentos Mensais -->
-                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_incluir_documentos_mensais">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Incluir Documentos Mensais</h5>
-
-                                <div class="row">
-                                    <div class="col-12 col-lg-12 pe-5">
-                                        <div class="row">
-                                            <div class="col-12 col-md-12 col-lg-12 mt-5 mt-lg-0 ps-lg-5">
-                                                <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;INCLUSÃO DE DOCUMENTO MENSAIS</h6>
-                                                <form enctype="multipart/form-data" id="frm_upload_documentos_mensais_fun">
-                                                    <input type="hidden" id="upload_documentos_mensais_funcionario_id" name="upload_documentos_mensais_funcionario_id" value="">
-
-                                                    <div class="col-12 mb-5">
-                                                        <button type="button" class="btn btn-success btn-sm d-none" id="frm_upload_documentos_mensais_fun_executar" name="frm_upload_documentos_mensais_fun_executar">Incluir Documentos</button>
-                                                    </div>
-                                                    <div class="row" id="div_frm_upload_documentos_mensais_fun_executar">
-                                                        <div class="col-12 col-md-4 col-lg-2 mb-3">
-                                                            <label class="form-label">Mês</label>
-                                                            <select class="form-select form-select-sm" name="fun_documentos_mensais_mes" id="fun_documentos_mensais_mes">
-                                                                <option value="01">Janeiro</option>
-                                                                <option value="02">Fevereiro</option>
-                                                                <option value="03">Março</option>
-                                                                <option value="04">Abril</option>
-                                                                <option value="05">Maio</option>
-                                                                <option value="06">Junho</option>
-                                                                <option value="07">Julho</option>
-                                                                <option value="08">Agosto</option>
-                                                                <option value="09">Setembro</option>
-                                                                <option value="10">Outubro</option>
-                                                                <option value="11">Novembro</option>
-                                                                <option value="12">Dezembro</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 col-lg-2 mb-3">
-                                                            <label class="form-label">Ano</label>
-                                                            <select class="form-select form-select-sm" name="fun_documentos_mensais_ano" id="fun_documentos_mensais_ano">
-                                                                <option value="2025">2025</option>
-                                                                <option value="2026">2026</option>
-                                                                <option value="2027">2027</option>
-                                                                <option value="2028">2028</option>
-                                                                <option value="2029">2029</option>
-                                                                <option value="2030">2030</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 col-lg-2 mb-3">
-                                                            <label class="form-label">&nbsp;</label>
-                                                            <div class="col-12">
-                                                                <button type="button" class="btn btn-primary btn-sm" id="fun_documentos_mensais_botao_verificar" name="fun_documentos_mensais_botao_verificar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-target="" data-bs-original-title="Verificar na Base de Dados se existe Documentos para essa referência.">Verificar</button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row mt-3" id="div_documentos_mensais_files"></div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-                    <!-- Incluir Documentos Mensais END -->
-
-                    <!-- Documentos Mensais -->
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_documentos_mensais">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos Mensais</h5>
-
-                                <div class="row">
-                                    <div class="col-12 col-lg-12">
-                                        <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE DOCUMENTOS MENSAIS</h6>
-
-                                        <div class="col-12 mb-5" id="fun_documentos_mensais_grade_botoes"></div>
-
-                                        <div id="fun_documentos_mensais_grade">Nenhum documento mensal encontrado.</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Documentos Mensais END -->
-
-                    <!-- Cartão Emergencial -->
-                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_cartao_emergencial">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4"><i class="fa fa-address-card"></i>&nbsp;&nbsp;Cartão Emergencial</h5>
-
-                                <div class="row">
-                                    <div class="col-12 col-lg-4">
-                                        <h6 class="col-12 mb-4"><i class="bx bx-card font-size-16"></i>&nbsp;&nbsp;PORTUGUÊS</h6>
-
-                                        <div id="fun_cartao_emergencial_1">Cartão 1</div>
-                                    </div>
-                                    <div class="col-12 col-lg-2">&nbsp;</div>
-                                    <div class="col-12 col-lg-4">
-                                        <h6 class="col-12 mb-4"><i class="bx bx-card font-size-16"></i>&nbsp;&nbsp;INGLÊS</h6>
-
-                                        <div id="fun_cartao_emergencial_2">Cartão 2</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Cartão Emergencial END -->
-
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-
     @if($se_prefixPermissaoSubmodulo == 'clientes')
     <!-- Cliente Modal Info -->
     <div class="modal fade" id="cliente_modal_info" tabindex="-1" aria-hidden="true">
@@ -982,6 +555,7 @@
                                                         if ($documento['documento_fonte_id'] == 7) {$class = 'pessoa_juridica';}
                                                         if ($documento['documento_fonte_id'] == 8) {$class = 'pessoa_juridica';}
                                                         if ($documento['documento_fonte_id'] == 9) {$class = 'pessoa_juridica';}
+                                                        if ($documento['documento_fonte_id'] == 10) {$class = 'pessoa_juridica';}
                                                         @endphp
 
                                                         {{-- Abre um novo grupo quando mudar de fonte --}}
@@ -2093,4 +1667,982 @@
         </div>
     </div>
     @endif
+
+
+
+    @if(session('se_userLoggedData.email') == 'APAGAR DEPOIS DE 01/10/2026')
+
+    @if($se_prefixPermissaoSubmodulo == 'funcionarios')
+    <!-- Funcionario Modal Info -->
+    <div class="modal fade" id="funcionario_modal_info" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-light">
+                <div class="modal-header" style="background-color: #2a3042;">
+                    <!-- Header -->
+                    <div class="row col-12">
+                        <div class="col-8 order-1 order-lg-1 col-lg-4">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 me-3">
+                                    <img src="build/assets/images/funcionarios/funcionario-0.png" class="avatar-lg rounded-circle img-thumbnail clearClass" style="width: 100px; height: 100px; object-fit: contain; object-position: center; background-color: #f8f9fa;" id="mi_fun_fotografia">
+                                </div>
+                                <div class="flex-grow-1 align-self-center">
+                                    <div>
+                                        <h5 class="mb-2" style="color: #ffac31 !important;">INFORMAÇÕES FUNCIONÁRIOS</h5>
+                                        <h6 class="mb-1" style="color: #ffffff !important;" id="mi_fun_header_nome"></h6>
+                                        <div class="clearfix mt-2">
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="bx bxs-cog align-middle me-1"></i> Opções
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-start">
+                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(1);">Fotografias</a>
+                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(2);">Dados</a>
+
+                                                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(5);">Incluir Documentos</a>
+                                                    @endif
+
+                                                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(8);">Incluir Documentos Mensais</a>
+                                                    @endif
+
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#" data-bs-dismiss="modal">Fechar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 order-3 order-lg-2 col-lg-8 align-self-center">
+                            <div class="text-lg-center mt-4 mt-lg-0">
+                                <div class="d-flex flex-wrap justify-content-start gap-2">
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(1);">
+                                        <h5 class="mb-0 small text-white">&nbsp;</h5>
+                                        <span class="small text-white">Fotografias</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(2);">
+                                        <h5 class="mb-0 small text-white">&nbsp;</h5>
+                                        <span class="small text-white">Dados</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(3);">
+                                        <h5 class="mb-0 small text-white" id="md_fun_estatisticas_documentos">0</h5>
+                                        <span class="small text-white">Documentos</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(7);">
+                                        <h5 class="mb-0 small text-white" id="md_fun_estatisticas_documentos_mensais">0</h5>
+                                        <span class="small text-white">Documentos Mensais</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(6);">
+                                        <h5 class="mb-0 small text-white">2</h5>
+                                        <span class="small text-white">Cartão Emergencial</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Header END -->
+                </div>
+                <div class="modal-body d-lg-flex flex-lg-column flex-grow-1 px-4">
+                    <!-- Funcionário ID -->
+                    <input type="hidden" id="mi_fun_funcionario_id" name="mi_fun_funcionario_id" value="0">
+
+                    <!-- Fotografias -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_fotografias">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="bx bxs-file-plus"></i>&nbsp;&nbsp;Fotografias</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-6 pe-5">
+                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTOGRAFIA DOCUMENTO</h6>
+                                        <div class="col-12" style="height: 150px;">
+                                            <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_fun_fotografia_documento">
+                                        </div>
+
+                                        @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                        <form enctype="multipart/form-data" id="frm_upload_fotografia_documento_fun">
+                                            <input type="hidden" id="upload_fotografia_documento_funcionario_id" name="upload_fotografia_documento_funcionario_id" value="">
+
+                                            <div class="col-12 mb-2">
+                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_fotografia_documento_fun_executar" name="frm_upload_fotografia_documento_fun_executar">Enviar Fotografia</button>
+                                            </div>
+
+                                            <div class="col-12 mb-3">
+                                                <input type="file" class="form-control form-control-sm" name="fun_fotografia_documento_file" accept=".png, .jpg, .jpeg" id="fun_fotografia_documento_file">
+                                            </div>
+                                        </form>
+                                        @endif
+                                    </div>
+                                    <div class="col-12 col-lg-6 pe-5">
+                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTOGRAFIA CARTÃO EMERGENCIAL</h6>
+                                        <div class="col-12" style="height: 150px;">
+                                            <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_fun_fotografia_cartao_emergencial">
+                                        </div>
+
+                                        @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                        <form enctype="multipart/form-data" id="frm_upload_fotografia_cartao_emergencial_fun">
+                                            <input type="hidden" id="upload_fotografia_cartao_emergencial_funcionario_id" name="upload_fotografia_cartao_emergencial_funcionario_id" value="">
+
+                                            <div class="col-12 mb-2">
+                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_fotografia_cartao_emergencial_fun_executar" name="frm_upload_fotografia_cartao_emergencial_fun_executar">Enviar Fotografia</button>
+                                            </div>
+
+                                            <div class="col-12 mb-3">
+                                                <input type="file" class="form-control form-control-sm" name="fun_fotografia_cartao_emergencial_file" accept=".png, .jpg, .jpeg" id="fun_fotografia_cartao_emergencial_file">
+                                            </div>
+                                        </form>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fotografias END -->
+
+                    <!-- Dados -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_dados">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-database"></i>&nbsp;&nbsp;Dados</h5>
+                                <div class="row">
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Nome') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_nome" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('CPF') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_cpf" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Empresa') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_empresa" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">Contratação Tipo</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_contratacao_tipo" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Função') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_funcao" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Departamento') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_departamento" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Nome Profissional') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_nome_profissional" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small" id="div_fun_dados_data">{{ __('Nascimento') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_data_nascimento" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Gênero') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_genero" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Celular 1') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_celular_1" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Celular 2') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_celular_2" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Telefone 1') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_telefone_1" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Telefone 2') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_telefone_2" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('E-mail') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_email" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Dados END -->
+
+                    <!-- Incluir Documentos -->
+                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_incluir_documentos">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Incluir Documentos</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12 pe-5">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12">
+                                                <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;INCLUSÃO DE DOCUMENTO</h6>
+                                                <form enctype="multipart/form-data" id="frm_upload_documentos_fun">
+                                                    <input type="hidden" id="upload_documentos_funcionario_id" name="upload_documentos_funcionario_id" value="">
+
+                                                    <div class="col-12 mb-5">
+                                                        <button type="button" class="btn btn-success btn-sm" id="frm_upload_documentos_fun_executar" name="frm_upload_documentos_fun_executar">Incluir Documento</button>
+                                                    </div>
+                                                    <div class="row" id="div_frm_upload_documentos_fun_executar">
+                                                        <div class="col-12 mb-3">
+                                                            <label class="form-label">Documento (Nome)</label>
+                                                            <select class="form-select form-select-sm" name="fun_documentos_documento_id" id="fun_documentos_documento_id">
+                                                                <option value="">{{ __('Selecione...') }}</option>
+                                                                @php
+                                                                $currentFonte = null;
+                                                                @endphp
+
+                                                                @foreach ($documentos as $documento)
+                                                                @php
+                                                                $class = '';
+                                                                if ($documento['documento_fonte_id'] == 1) {$class = 'pessoa_juridica';}
+                                                                if ($documento['documento_fonte_id'] == 2) {$class = 'pessoa_fisica';}
+                                                                if ($documento['documento_fonte_id'] == 3) {$class = 'pessoa_juridica';}
+                                                                @endphp
+
+                                                                {{-- Abre um novo grupo quando mudar de fonte --}}
+                                                                @if ($currentFonte !== $documento['documento_fonte_id'])
+                                                                @if ($currentFonte !== null)
+                                                                </optgroup>
+                                                                @endif
+                                                                <optgroup label="{{ $documento['documentoFonteName'] }}">
+                                                                    @php
+                                                                    $currentFonte = $documento['documento_fonte_id'];
+                                                                    @endphp
+                                                                    @endif
+
+                                                                    <option class="{{ $class }}" value="{{ $documento['id'] }}">{{ $documento['name'] }}</option>
+                                                                    @endforeach
+
+                                                                    @if ($currentFonte !== null)
+                                                                </optgroup>
+                                                                @endif
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-12 mb-3">
+                                                            <label class="form-label">Emissão</label>
+                                                            <input type="text" class="form-control form-control-sm mask_date" name="fun_documentos_data_emissao" id="fun_documentos_data_emissao" placeholder="Data de Emissão do Documento PDF">
+                                                        </div>
+                                                        <div class="col-12 mb-3">
+                                                            <label class="form-label">Vencimento</label>
+                                                            <input type="text" class="form-control form-control-sm mask_date" name="fun_documentos_data_vencimento" id="fun_documentos_data_vencimento" placeholder="Data de Vencimento do Documento PDF">
+                                                        </div>
+                                                        <div class="col-12 mb-3">
+                                                            <label class="form-label">
+                                                                Aviso
+                                                                <i class="fa fa-info-circle text-primary ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Avisar Funcionário por E-mail depois da Data de Emissão."></i>
+                                                            </label>
+                                                            <select class="form-select form-select-sm" name="fun_documentos_aviso" id="fun_documentos_aviso">
+                                                                <option value="0">Nenhum Aviso</option>
+                                                                <option value="1">Avisar a cada 1 mês</option>
+                                                                <option value="2">Avisar a cada 3 meses</option>
+                                                                <option value="3">Avisar a cada 6 meses</option>
+                                                                <option value="4">Avisar a cada 1 ano</option>
+                                                                <option value="5">Avisar a cada 3 anos</option>
+                                                                <option value="6">Avisar a cada 6 anos</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-12 mb-3">
+                                                            <label class="form-label">Documento (Arquivo)</label>
+                                                            <input type="file" class="form-control form-control-sm" name="fun_documentos_file" id="fun_documentos_file" accept=".pdf">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    <!-- Incluir Documentos END -->
+
+                    <!-- Documentos -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_documentos">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12">
+                                        <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE DOCUMENTOS</h6>
+
+                                        <div class="col-12 mb-5" id="fun_documentos_grade_botoes"></div>
+
+                                        <div id="fun_documentos_grade">Nenhum documento encontrado.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Documentos END -->
+
+                    <!-- Incluir Documentos Mensais -->
+                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_incluir_documentos_mensais">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Incluir Documentos Mensais</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12 pe-5">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 mt-5 mt-lg-0 ps-lg-5">
+                                                <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;INCLUSÃO DE DOCUMENTO MENSAIS</h6>
+                                                <form enctype="multipart/form-data" id="frm_upload_documentos_mensais_fun">
+                                                    <input type="hidden" id="upload_documentos_mensais_funcionario_id" name="upload_documentos_mensais_funcionario_id" value="">
+
+                                                    <div class="col-12 mb-5">
+                                                        <button type="button" class="btn btn-success btn-sm d-none" id="frm_upload_documentos_mensais_fun_executar" name="frm_upload_documentos_mensais_fun_executar">Incluir Documentos</button>
+                                                    </div>
+                                                    <div class="row" id="div_frm_upload_documentos_mensais_fun_executar">
+                                                        <div class="col-12 col-md-4 col-lg-2 mb-3">
+                                                            <label class="form-label">Mês</label>
+                                                            <select class="form-select form-select-sm" name="fun_documentos_mensais_mes" id="fun_documentos_mensais_mes">
+                                                                <option value="01">Janeiro</option>
+                                                                <option value="02">Fevereiro</option>
+                                                                <option value="03">Março</option>
+                                                                <option value="04">Abril</option>
+                                                                <option value="05">Maio</option>
+                                                                <option value="06">Junho</option>
+                                                                <option value="07">Julho</option>
+                                                                <option value="08">Agosto</option>
+                                                                <option value="09">Setembro</option>
+                                                                <option value="10">Outubro</option>
+                                                                <option value="11">Novembro</option>
+                                                                <option value="12">Dezembro</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-12 col-md-4 col-lg-2 mb-3">
+                                                            <label class="form-label">Ano</label>
+                                                            <select class="form-select form-select-sm" name="fun_documentos_mensais_ano" id="fun_documentos_mensais_ano">
+                                                                <option value="2025">2025</option>
+                                                                <option value="2026">2026</option>
+                                                                <option value="2027">2027</option>
+                                                                <option value="2028">2028</option>
+                                                                <option value="2029">2029</option>
+                                                                <option value="2030">2030</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-12 col-md-4 col-lg-2 mb-3">
+                                                            <label class="form-label">&nbsp;</label>
+                                                            <div class="col-12">
+                                                                <button type="button" class="btn btn-primary btn-sm" id="fun_documentos_mensais_botao_verificar" name="fun_documentos_mensais_botao_verificar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-target="" data-bs-original-title="Verificar na Base de Dados se existe Documentos para essa referência.">Verificar</button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-3" id="div_documentos_mensais_files"></div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    <!-- Incluir Documentos Mensais END -->
+
+                    <!-- Documentos Mensais -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_documentos_mensais">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos Mensais</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12">
+                                        <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE DOCUMENTOS MENSAIS</h6>
+
+                                        <div class="col-12 mb-5" id="fun_documentos_mensais_grade_botoes"></div>
+
+                                        <div id="fun_documentos_mensais_grade">Nenhum documento mensal encontrado.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Documentos Mensais END -->
+
+                    <!-- Cartão Emergencial -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_cartao_emergencial">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-address-card"></i>&nbsp;&nbsp;Cartão Emergencial</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-4">
+                                        <h6 class="col-12 mb-4"><i class="bx bx-card font-size-16"></i>&nbsp;&nbsp;PORTUGUÊS</h6>
+
+                                        <div id="fun_cartao_emergencial_1">Cartão 1</div>
+                                    </div>
+                                    <div class="col-12 col-lg-2">&nbsp;</div>
+                                    <div class="col-12 col-lg-4">
+                                        <h6 class="col-12 mb-4"><i class="bx bx-card font-size-16"></i>&nbsp;&nbsp;INGLÊS</h6>
+
+                                        <div id="fun_cartao_emergencial_2">Cartão 2</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Cartão Emergencial END -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    @endif
+
+
+
+
+    @if($se_prefixPermissaoSubmodulo == 'funcionarios')
+    <!-- Funcionario Modal Info -->
+    <div class="modal fade" id="funcionario_modal_info" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-light">
+                <div class="modal-header" style="background-color: #2a3042;">
+                    <!-- Header -->
+                    <div class="row col-12">
+                        <div class="col-8 order-1 order-lg-1 col-lg-4">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 me-3">
+                                    <img src="build/assets/images/funcionarios/funcionario-0.png" style="max-height: 80px; max-width: 170px;" id="mi_fun_fotografia">
+                                </div>
+                                <div class="flex-grow-1 align-self-center">
+                                    <div>
+                                        <h5 class="mb-2" style="color: #ffac31 !important;">INFORMAÇÕES FUNCIONÁRIOS</h5>
+                                        <h6 class="mb-1" style="color: #ffffff !important;" id="mi_fun_header_nome"></h6>
+                                        <div class="clearfix mt-2">
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="bx bxs-cog align-middle me-1"></i> Opções
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-start">
+                                                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(1);">Editar Fotografias</a>
+                                                    @endif
+
+                                                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoEditarDocumentosCreate();">Editar Documentos</a>
+                                                    @endif
+
+                                                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(8);">Editar Documentos Mensais</a>
+                                                    @endif
+
+                                                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                                    <a class="dropdown-item" href="#" onclick="funcionarioModalInfoControle(13);">Editar Documentos Exigidos</a>
+                                                    @endif
+
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#" data-bs-dismiss="modal">Fechar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 order-3 order-lg-2 col-lg-8 align-self-center">
+                            <div class="text-lg-center mt-4 mt-lg-0">
+                                <div class="d-flex flex-wrap justify-content-start gap-2">
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(2);">
+                                        <h5 class="mb-0 small text-white">&nbsp;</h5>
+                                        <span class="small text-white">Dados</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(1);">
+                                        <h5 class="mb-0 small text-white">&nbsp;</h5>
+                                        <span class="small text-white">Fotografias</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(3);">
+                                        <h5 class="mb-0 small text-white" id="md_fun_estatisticas_documentos">0</h5>
+                                        <span class="small text-white">Documentos</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(7);">
+                                        <h5 class="mb-0 small text-white" id="md_fun_estatisticas_documentos_mensais">0</h5>
+                                        <span class="small text-white">Documentos Mensais</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(14);">
+                                        <h5 class="mb-0 small text-white" id="md_fun_estatisticas_documentos_exigidos">0</h5>
+                                        <span class="small text-white">Documentos Exigidos</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(16);">
+                                        <h5 class="mb-0 small text-white" id="md_fun_estatisticas_entregas_uniformes">0</h5>
+                                        <span class="small text-white">Entregas de Uniformes</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning flex-fill text-center py-2" onclick="funcionarioModalInfoControle(15);">
+                                        <h5 class="mb-0 small text-white">2</h5>
+                                        <span class="small text-white">Cartão Emergencial</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Header END -->
+                </div>
+                <div class="modal-body d-lg-flex flex-lg-column flex-grow-1 px-4">
+                    <!-- Funcionario ID -->
+                    <input type="hidden" id="mi_fun_funcionario_id" name="mi_fun_funcionario_id" value="0">
+
+                    <!-- Fotografias -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_fotografias">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="bx bxs-file-plus"></i>&nbsp;&nbsp;Fotografias</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-3 pe-5">
+                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTOGRAFIA DOCUMENTO</h6>
+                                        <div class="col-12" style="height: 150px;">
+                                            <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_fun_fotografia_documento">
+                                        </div>
+                                        @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                        <form enctype="multipart/form-data" id="frm_upload_fotografia_documento_fun">
+                                            <input type="hidden" id="upload_fotografia_documento_funcionario_id" name="upload_fotografia_documento_funcionario_id" value="">
+
+                                            <div class="col-12 mb-2">
+                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_fotografia_documento_fun_executar" name="frm_upload_fotografia_documento_fun_executar">Enviar Fotografia</button>
+                                            </div>
+
+                                            <div class="col-12 mb-3">
+                                                <input type="file" class="form-control form-control-sm" name="fun_fotografia_documento_file" accept=".png, .jpg, .jpeg" id="fun_fotografia_documento_file">
+                                            </div>
+                                        </form>
+                                        @endif
+                                    </div>
+                                    <div class="col-12 col-lg-3 pe-5">
+                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;FOTOGRAFIA CARTÃO EMERGENCIAL</h6>
+                                        <div class="col-12" style="height: 150px;">
+                                            <img src="" alt="" class="img-fluid clearClass" style="max-height: 140px !important;" id="mi_fun_fotografia_cartao_emergencial">
+                                        </div>
+                                        @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                                        <form enctype="multipart/form-data" id="frm_upload_fotografia_cartao_emergencial_fun">
+                                            <input type="hidden" id="upload_fotografia_cartao_emergencial_funcionario_id" name="upload_fotografia_cartao_emergencial_funcionario_id" value="">
+
+                                            <div class="col-12 mb-2">
+                                                <button type="button" class="btn btn-success btn-sm" id="frm_upload_fotografia_cartao_emergencial_fun_executar" name="frm_upload_fotografia_cartao_emergencial_fun_executar">Enviar Fotografia</button>
+                                            </div>
+
+                                            <div class="col-12 mb-3">
+                                                <input type="file" class="form-control form-control-sm" name="fun_fotografia_cartao_emergencial_file" accept=".png, .jpg, .jpeg" id="fun_fotografia_cartao_emergencial_file">
+                                            </div>
+                                        </form>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fotografias END -->
+
+                    <!-- Dados -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_dados">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-database"></i>&nbsp;&nbsp;Dados</h5>
+                                <div class="row">
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Nome') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_nome" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('CPF') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_cpf" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Empresa') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_empresa" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">Contratação Tipo</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_contratacao_tipo" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Função') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_funcao" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Departamento') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_departamento" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Nome Profissional') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_nome_profissional" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small" id="div_fun_dados_data">{{ __('Nascimento') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_data_nascimento" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Gênero') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_genero" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Celular 1') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_celular_1" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Celular 2') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_celular_2" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Telefone 1') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_telefone_1" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('Telefone 2') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_telefone_2" readonly>
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="form-label small">{{ __('E-mail') }}</label>
+                                        <input type="text" class="form-control form-control-sm clearClass" id="mi_fun_email" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Dados END -->
+
+                    <!-- Editar Documentos -->
+                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_editar_documentos">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Editar Documentos</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12 pe-5">
+                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;EDIÇÃO DE DOCUMENTO</h6>
+                                        <form enctype="multipart/form-data" id="frm_editar_documentos_fun">
+                                            <input type="hidden" id="editar_documentos_funcionario_id" name="editar_documentos_funcionario_id" value="">
+                                            <input type="hidden" id="fun_editar_documentos_funcionario_documento_id" name="fun_editar_documentos_funcionario_documento_id" value="0">
+                                            <input type="hidden" id="fun_editar_documentos_operacao" name="fun_editar_documentos_operacao" value="create">
+
+                                            <div class="col-12 mb-5">
+                                                <button type="button" class="btn btn-success btn-sm" id="frm_editar_documentos_fun_botao_salvar_operacao" name="frm_editar_documentos_fun_botao_salvar_operacao">Salvar Operação</button>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Documento (Nome)</label>
+                                                    <select class="form-select form-select-sm" name="fun_editar_documentos_documento_id" id="fun_editar_documentos_documento_id">
+                                                        <option value="">{{ __('Selecione...') }}</option>
+
+                                                        @php
+                                                        $currentFonte = null;
+                                                        @endphp
+
+                                                        @foreach ($documentos as $documento)
+                                                        @php
+                                                        $class = '';
+                                                        if ($documento['documento_fonte_id'] == 1) {$class = 'pessoa_juridica';}
+                                                        if ($documento['documento_fonte_id'] == 2) {$class = 'pessoa_fisica';}
+                                                        if ($documento['documento_fonte_id'] == 3) {$class = 'pessoa_juridica';}
+                                                        if ($documento['documento_fonte_id'] == 6) {$class = 'pessoa_juridica';}
+                                                        if ($documento['documento_fonte_id'] == 7) {$class = 'pessoa_juridica';}
+                                                        if ($documento['documento_fonte_id'] == 8) {$class = 'pessoa_juridica';}
+                                                        if ($documento['documento_fonte_id'] == 9) {$class = 'pessoa_juridica';}
+                                                        @endphp
+
+                                                        {{-- Abre um novo grupo quando mudar de fonte --}}
+                                                        @if ($currentFonte !== $documento['documento_fonte_id'])
+                                                        @if ($currentFonte !== null)
+                                                        </optgroup>
+                                                        @endif
+                                                        <optgroup label="{{ $documento['documentoFonteName'] }}">
+                                                            @php
+                                                            $currentFonte = $documento['documento_fonte_id'];
+                                                            @endphp
+                                                            @endif
+
+                                                            <option class="{{ $class }}" value="{{ $documento['id'] }}">{{ $documento['name'] }}</option>
+                                                            @endforeach
+
+                                                            @if ($currentFonte !== null)
+                                                        </optgroup>
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Documento (Descrição)</label>
+                                                    <input type="text" class="form-control form-control-sm" name="fun_editar_documentos_descricao" id="fun_editar_documentos_descricao" placeholder="Descrição do Documento">
+                                                </div>
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">
+                                                        Aviso
+                                                        <i class="fa fa-info-circle text-primary ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Avisar Funcionario por E-mail depois da Data de Emissão."></i>
+                                                    </label>
+                                                    <select class="form-select form-select-sm" name="fun_editar_documentos_aviso" id="fun_editar_documentos_aviso">
+                                                        <option value="0">Nenhum Aviso</option>
+                                                        <option value="1">Avisar a cada 1 mês</option>
+                                                        <option value="2">Avisar a cada 3 meses</option>
+                                                        <option value="3">Avisar a cada 6 meses</option>
+                                                        <option value="4">Avisar a cada 1 ano</option>
+                                                        <option value="5">Avisar a cada 3 anos</option>
+                                                        <option value="6">Avisar a cada 6 anos</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Documento (Emissão)</label>
+                                                    <input type="text" class="form-control form-control-sm mask_date" name="fun_editar_documentos_data_emissao" id="fun_editar_documentos_data_emissao" placeholder="Data de Emissão do Documento PDF">
+                                                </div>
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Documento (Vencimento)</label>
+                                                    <input type="text" class="form-control form-control-sm mask_date" name="fun_editar_documentos_data_vencimento" id="fun_editar_documentos_data_vencimento" placeholder="Data de Vencimento do Documento PDF">
+                                                </div>
+                                                <div class="col-12 col-lg-4 mb-3">
+                                                    <label class="form-label">Documento (Arquivo)</label>
+                                                    <input type="file" class="form-control form-control-sm" name="fun_editar_documentos_file" id="fun_editar_documentos_file" accept=".pdf">
+                                                    <div id="div_editar_documentos_pdf_atual">
+                                                        <a href="" class="text-primary small" target="_blank" id="a_editar_documentos_pdf_atual">atual.pdf</a>
+                                                        <small class="text-success">&nbsp;&nbsp;&nbsp;Envie um novo arquivo se quiser substituir o atual.</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    <!-- Editar Documentos END -->
+
+                    <!-- Editar Documentos Exigidos -->
+                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_editar_documentos_exigidos">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Editar Documentos Exigidos</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12 pe-5">
+                                        <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;EDITAR DOCUMENTOS EXIGIDOS</h6>
+
+                                        <form id="frm_editar_documentos_exigidos_fun">
+                                            <input type="hidden" id="editar_documentos_exigidos_funcionario_id" name="editar_documentos_exigidos_funcionario_id" value="">
+
+                                            <div class="col-12 mb-5">
+                                                <button type="button" class="btn btn-success btn-sm" id="frm_editar_documentos_exigidos_fun_executar" name="frm_editar_documentos_exigidos_fun_executar">Salvar Documentos Exigidos</button>
+                                            </div>
+
+                                            <div class="row" id="div_frm_editar_documentos_exigidos_fun_executar">
+                                                @php
+                                                // Agrupa os documentos por documentoFonteName
+                                                $documentosExigidosAgrupados = collect($documentos)->groupBy('documentoFonteName');
+                                                @endphp
+
+                                                @foreach ($documentosExigidosAgrupados as $fonteName => $documentosExigidos)
+                                                <div class="col-12 mb-3">
+                                                    <h5 class="text-primary fw-bold small">{{ $fonteName }}</h5>
+
+                                                    <div class="row">
+                                                        @foreach ($documentosExigidos as $documentoExigido)
+                                                        <div class="col-12 col-lg-3 mb-2">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" name="editar_documentos_exigidos_documentos_exigidos[]" id="editar_documentos_exigidos_documento_exigido_id_{{ $documentoExigido['id'] }}" value="{{ $documentoExigido['id'] }}">
+                                                                <label class="form-check-label small" for="editar_documentos_exigidos_documento_exigido_id_{{ $documentoExigido['id'] }}">{{ strtoupper($documentoExigido['name']) }}</label>
+                                                            </div>
+                                                        </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    <!-- Editar Documentos Exigidos END -->
+
+                    <!-- Editar Documentos Mensais -->
+                    @if(\App\Facades\Permissoes::permissao(['funcionarios_edit']))
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_editar_documentos_mensais">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Editar Documentos Mensais</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12 pe-5">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 mt-5 mt-lg-0 ps-lg-5">
+                                                <h6 class="col-12 mb-4"><i class="bx bxs-file-plus font-size-16"></i>&nbsp;&nbsp;INCLUSÃO DE DOCUMENTO MENSAIS</h6>
+                                                <form enctype="multipart/form-data" id="frm_upload_documentos_mensais_fun">
+                                                    <input type="hidden" id="upload_documentos_mensais_funcionario_id" name="upload_documentos_mensais_funcionario_id" value="">
+
+                                                    <div class="col-12 mb-5">
+                                                        <button type="button" class="btn btn-success btn-sm d-none" id="frm_upload_documentos_mensais_fun_executar" name="frm_upload_documentos_mensais_fun_executar">Editar Documentos</button>
+                                                    </div>
+                                                    <div class="row" id="div_frm_upload_documentos_mensais_fun_executar">
+                                                        <div class="col-12 col-md-4 col-lg-2 mb-3">
+                                                            <label class="form-label">Mês</label>
+                                                            <select class="form-select form-select-sm" name="fun_documentos_mensais_mes" id="fun_documentos_mensais_mes">
+                                                                <option value="01">Janeiro</option>
+                                                                <option value="02">Fevereiro</option>
+                                                                <option value="03">Março</option>
+                                                                <option value="04">Abril</option>
+                                                                <option value="05">Maio</option>
+                                                                <option value="06">Junho</option>
+                                                                <option value="07">Julho</option>
+                                                                <option value="08">Agosto</option>
+                                                                <option value="09">Setembro</option>
+                                                                <option value="10">Outubro</option>
+                                                                <option value="11">Novembro</option>
+                                                                <option value="12">Dezembro</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-12 col-md-4 col-lg-2 mb-3">
+                                                            <label class="form-label">Ano</label>
+                                                            <select class="form-select form-select-sm" name="fun_documentos_mensais_ano" id="fun_documentos_mensais_ano">
+                                                                <option value="2025">2025</option>
+                                                                <option value="2026">2026</option>
+                                                                <option value="2027">2027</option>
+                                                                <option value="2028">2028</option>
+                                                                <option value="2029">2029</option>
+                                                                <option value="2030">2030</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-12 col-md-4 col-lg-2 mb-3">
+                                                            <label class="form-label">&nbsp;</label>
+                                                            <div class="col-12">
+                                                                <button type="button" class="btn btn-primary btn-sm" id="fun_documentos_mensais_botao_verificar" name="fun_documentos_mensais_botao_verificar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-target="" data-bs-original-title="Verificar na Base de Dados se existe Documentos para essa referência.">Verificar</button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-3" id="div_documentos_mensais_files"></div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    <!-- Editar Documentos Mensais END -->
+
+                    <!-- Documentos -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_documentos">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12">
+                                        <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE DOCUMENTOS</h6>
+
+                                        <div class="col-12 mb-5" id="fun_documentos_grade_botoes"></div>
+
+                                        <div id="fun_documentos_grade">Nenhum documento encontrado.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Documentos END -->
+
+                    <!-- Documentos Mensais -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_documentos_mensais">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos Mensais</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12">
+                                        <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE DOCUMENTOS MENSAIS</h6>
+
+                                        <div class="col-12 mb-5" id="fun_documentos_mensais_grade_botoes"></div>
+
+                                        <div id="fun_documentos_mensais_grade">Nenhum documento mensal encontrado.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Documentos Mensais END -->
+
+                    <!-- Documentos Exigidos -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_documentos_exigidos">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Documentos Exigidos</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12">
+                                        <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE DOCUMENTOS EXIGIDOS</h6>
+
+                                        <div class="col-12 mb-5" id="fun_documentos_exigidos_grade_botoes"></div>
+
+                                        <div id="fun_documentos_exigidos_grade">Nenhum documento exigido encontrado.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Documentos Exigidos END -->
+
+                    <!-- Entregas de Uniformes -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_entregas_uniformes">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-file"></i>&nbsp;&nbsp;Entregas de Uniformes</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-12">
+                                        <h6 class="col-12 mb-4"><i class="bx bx-table font-size-16"></i>&nbsp;&nbsp;GRADE DE ENTREGAS DE UNIFORMES</h6>
+
+                                        <div id="fun_entregas_uniformes_grade">Nenhuma entrega de uniforme encontrada.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Entregas de Uniformes END -->
+
+                    <!-- Cartão Emergencial -->
+                    <div class="row d-lg-flex flex-lg-grow-1" id="md_fun_div_cartao_emergencial">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><i class="fa fa-address-card"></i>&nbsp;&nbsp;Cartão Emergencial</h5>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-4">
+                                        <h6 class="col-12 mb-4"><i class="bx bx-card font-size-16"></i>&nbsp;&nbsp;PORTUGUÊS</h6>
+
+                                        <div id="fun_cartao_emergencial_1">Cartão 1</div>
+                                    </div>
+                                    <div class="col-12 col-lg-2">&nbsp;</div>
+                                    <div class="col-12 col-lg-4">
+                                        <h6 class="col-12 mb-4"><i class="bx bx-card font-size-16"></i>&nbsp;&nbsp;INGLÊS</h6>
+
+                                        <div id="fun_cartao_emergencial_2">Cartão 2</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Cartão Emergencial END -->
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
+
+
+
+
 </div>

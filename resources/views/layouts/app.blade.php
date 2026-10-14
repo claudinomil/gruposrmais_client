@@ -100,20 +100,27 @@
         <!-- Área escondida para aviso na tela temporariamente -->
         <div id="loading-aviso-tmp" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); color: white; font-size: 20px; text-align: center; padding-top: 20%; z-index: 9999;">&nbsp;</div>
 
-        <!-- Aviso para Usuário do Grupo DOMÍNIO CLIENTES -->
+        <!-- Aviso para Usuário -->
         @if (session('modalAviso'))
         <div class="modal fade" id="modalAviso" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered" id="modalAvisoDialog">
                 <div class="modal-content border-0 shadow-lg">
                     <div class="modal-body text-center p-3">
-                        <div class="mb-3">
-                            <i id="modalAvisoIcone" class="fas fa-info-circle text-warning" style="font-size: 60px;"></i>
-                        </div>
-                        <h6 id="modalAvisoTitulo" class="mb-5"></h6>
-                        <div class="text-start" id="modalAvisoMensagem"></div>
-                        <div class="d-flex justify-content-center gap-3 mt-4">
-                            <button type="button" class="btn btn-success px-4 font-size-12" onclick="window.location.href='{{ route('clientes.index') }}'">Ir para Clientes</button>
-                            <button type="button" class="btn btn-secondary px-4 font-size-12" data-bs-dismiss="modal">Fechar</button>
+                        <div class="row">
+                            <div class="" id="divAdvc">
+                                <div>
+                                    <i class="fas fa-info-circle text-warning font-size-30"></i>
+                                </div>
+                                <div class="font-size-14 mb-3" id="modalAvisoTitulo_advc"></div>
+                                <div class="text-center" id="modalAvisoMensagem_advc"></div>
+                            </div>
+                            <div class="" id="divAdvf">
+                                <div>
+                                    <i class="fas fa-info-circle text-warning font-size-30"></i>
+                                </div>
+                                <div class="font-size-14 mb-3" id="modalAvisoTitulo_advf"></div>
+                                <div class="text-center" id="modalAvisoMensagem_advf"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -121,8 +128,26 @@
         </div>
 
         <script>
-            document.getElementById('modalAvisoTitulo').innerHTML = @json(session('aviso_titulo'));
-            document.getElementById('modalAvisoMensagem').innerHTML = @json(session('aviso_mensagem'));
+            document.getElementById('modalAvisoTitulo_advc').innerHTML = @json(session('aviso_titulo_advc'));
+            document.getElementById('modalAvisoMensagem_advc').innerHTML = @json(session('aviso_mensagem_advc'));
+
+            document.getElementById('modalAvisoTitulo_advf').innerHTML = @json(session('aviso_titulo_advf'));
+            document.getElementById('modalAvisoMensagem_advf').innerHTML = @json(session('aviso_mensagem_advf'));
+
+            if (@json(session('aviso_mensagem_advc')) != '' && @json(session('aviso_mensagem_advf')) != '') {
+                document.getElementById('modalAvisoDialog').classList.replace('modal-md', 'modal-lg');
+                document.getElementById('divAdvc').className = 'col-6';
+                document.getElementById('divAdvf').className = 'col-6';
+            } else if (@json(session('aviso_mensagem_advc')) != '' && @json(session('aviso_mensagem_advf')) == '') {
+                document.getElementById('modalAvisoDialog').classList.replace('modal-lg', 'modal-md');
+                document.getElementById('divAdvc').className = 'col-12';
+                document.getElementById('divAdvf').className = 'd-none';
+            } else if (@json(session('aviso_mensagem_advc')) == '' && @json(session('aviso_mensagem_advf')) != '') {
+                document.getElementById('modalAvisoDialog').classList.replace('modal-lg', 'modal-md');
+                document.getElementById('divAdvc').className = 'd-none';
+                document.getElementById('divAdvf').className = 'col-12';
+            }
+
             const modal = new bootstrap.Modal(document.getElementById('modalAviso'));
             modal.show();
         </script>
